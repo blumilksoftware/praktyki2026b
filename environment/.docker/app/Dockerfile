@@ -12,6 +12,9 @@ COPY --from=pie-bin /pie /usr/bin/pie
 # renovate: datasource=github-tags depName=nginx/nginx extractVersion=^release-(?<version>.*)$
 ARG NGINX_VERSION="1.29.4"
 
+# renovate: datasource=github-tags depName=phpredis/phpredis
+ARG PHPREDIS_VERSION=6.3.0
+
 RUN apt-get update \
     && apt-get install --assume-yes gpg \
     && curl https://nginx.org/keys/nginx_signing.key | gpg --dearmour --output /etc/apt/trusted.gpg.d/apt.nginx.org.gpg > /dev/null \
@@ -22,6 +25,7 @@ RUN apt-get update \
         libzip-dev \
         supervisor \
         libpq-dev \
+    && pie install phpredis/phpredis:${PHPREDIS_VERSION} \
     && docker-php-ext-install \
         pdo_pgsql 
 
@@ -62,7 +66,7 @@ RUN ln --symbolic /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/
     && chown --no-dereference ${USER_NAME}:root /usr/local/bin/npx
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.4.7
+ARG XDEBUG_VERSION=3.5.1
 ARG INSTALL_XDEBUG=false
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
