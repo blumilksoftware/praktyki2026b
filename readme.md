@@ -1,4 +1,4 @@
-## @blumilksoftware/AppLikuj
+## @blumilksoftware/Applikuj
 ### About application
 > placeholder
 
@@ -8,7 +8,7 @@ cp .env.example .env
 task init
 task vite
 ```
-Application will be running under [localhost:63851](localhost:63851) and [http://AppLikuj.blumilk.localhost/](http://AppLikuj.blumilk.localhost/) in Blumilk traefik environment. If you don't have a Blumilk traefik environment set up yet, follow the instructions from this [repository](https://github.com/blumilksoftware/environment).
+Application will be running under [localhost:63851](localhost:63851) and [http://Applikuj.blumilk.localhost/](http://Applikuj.blumilk.localhost/) in Blumilk traefik environment. If you don't have a Blumilk traefik environment set up yet, follow the instructions from this [repository](https://github.com/blumilksoftware/environment).
 
 #### Commands
 Before running any of the commands below, you must run shell:
@@ -35,7 +35,7 @@ task shell
 
 | service    | container name            | default host port               |
 |:-----------|:--------------------------|:--------------------------------|
-| `app`      | `AppLikuj-app-dev`     | [63851](http://localhost:63851) |
-| `database` | `AppLikuj-db-dev`      | 63853                           |
-| `redis`    | `AppLikuj-redis-dev`   | 63852                           |
-| `mailpit`  | `AppLikuj-mailpit-dev` | 63854                           |
+| `app`      | `Applikuj-app-dev`     | [63851](http://localhost:63851) |
+| `database` | `Applikuj-db-dev`      | 63853                           |
+| `redis`    | `Applikuj-redis-dev`   | 63852                           |
+| `mailpit`  | `Applikuj-mailpit-dev` | 63854                           |

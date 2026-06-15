@@ -1,14 +1,14 @@
 networks:
-    AppLikuj-dev:
+    Applikuj-dev:
         driver: bridge
     traefik-proxy-blumilk-local-environment:
       external: true
 
 volumes:
-    AppLikuj-postgres-data:
-        name: AppLikuj-postgres-data
-    AppLikuj-redis-data:
-        name: AppLikuj-redis-data
+    Applikuj-postgres-data:
+        name: Applikuj-postgres-data
+    Applikuj-redis-data:
+        name: Applikuj-redis-data
 
 services:
     app:
@@ -23,25 +23,25 @@ services:
             - "traefik.enable=true"
             - "traefik.blumilk.local.environment=true"
             # HTTP
-            - "traefik.http.routers.AppLikuj-http-router.rule=Host(`${APP_DOMAIN}`)"
-            - "traefik.http.routers.AppLikuj-http-router.entrypoints=web"
-            - "traefik.http.routers.AppLikuj-http-router.service=AppLikuj"
+            - "traefik.http.routers.Applikuj-http-router.rule=Host(`${APP_DOMAIN}`)"
+            - "traefik.http.routers.Applikuj-http-router.entrypoints=web"
+            - "traefik.http.routers.Applikuj-http-router.service=Applikuj"
           # HTTP to HTTPS redirect
-            #      - "traefik.http.routers.AppLikuj-http-router.middlewares=https-redirect@file"
+            #      - "traefik.http.routers.Applikuj-http-router.middlewares=https-redirect@file"
             # HTTPS
-            - "traefik.http.routers.AppLikuj-https-router.rule=Host(`${APP_DOMAIN}`)"
-            - "traefik.http.routers.AppLikuj-https-router.entrypoints=websecure"
-            - "traefik.http.routers.AppLikuj-https-router.tls=true"
-            - "traefik.http.routers.AppLikuj-https-router.service=AppLikuj"
+            - "traefik.http.routers.Applikuj-https-router.rule=Host(`${APP_DOMAIN}`)"
+            - "traefik.http.routers.Applikuj-https-router.entrypoints=websecure"
+            - "traefik.http.routers.Applikuj-https-router.tls=true"
+            - "traefik.http.routers.Applikuj-https-router.service=Applikuj"
             # APP LOADBALANCER
-            - "traefik.http.services.AppLikuj.loadbalancer.server.port=80"
+            - "traefik.http.services.Applikuj.loadbalancer.server.port=80"
             # VITE DEV SERVER
-            - "traefik.http.routers.AppLikuj-vite-dev-server-https-router.rule=Host(`${VITE_DEV_SERVER_DOCKER_HOST_NAME}`)"
-            - "traefik.http.routers.AppLikuj-vite-dev-server-https-router.entrypoints=websecure"
-            - "traefik.http.routers.AppLikuj-vite-dev-server-https-router.tls=true"
-            - "traefik.http.routers.AppLikuj-vite-dev-server-https-router.service=AppLikuj-vite-dev-server"
-            - "traefik.http.services.AppLikuj-vite-dev-server.loadbalancer.server.port=5173"
-        container_name: AppLikuj-app-dev
+            - "traefik.http.routers.Applikuj-vite-dev-server-https-router.rule=Host(`${VITE_DEV_SERVER_DOCKER_HOST_NAME}`)"
+            - "traefik.http.routers.Applikuj-vite-dev-server-https-router.entrypoints=websecure"
+            - "traefik.http.routers.Applikuj-vite-dev-server-https-router.tls=true"
+            - "traefik.http.routers.Applikuj-vite-dev-server-https-router.service=Applikuj-vite-dev-server"
+            - "traefik.http.services.Applikuj-vite-dev-server.loadbalancer.server.port=5173"
+        container_name: Applikuj-app-dev
         working_dir: /application
         volumes:
           - ./environment/local/app/php.ini:/usr/local/etc/php/conf.d/zzz-overrides.ini:ro
@@ -51,7 +51,7 @@ services:
         ports:
             - ${DOCKER_APP_HOST_PORT:-63851}:80
         networks:
-            - AppLikuj-dev
+            - Applikuj-dev
             - traefik-proxy-blumilk-local-environment
         restart: unless-stopped
         depends_on:
@@ -60,7 +60,7 @@ services:
 
     database:
         image: postgres:16.3-alpine3.18@sha256:64e18e8fb3e9c9aac89ac590c5dd8306b862478404f76cd9b5f7720d012b4c47
-        container_name: AppLikuj-db-dev
+        container_name: Applikuj-db-dev
         environment:
             - POSTGRES_USER=${DB_USERNAME}
             - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -74,30 +74,30 @@ services:
         ports:
             - ${DOCKER_DATABASE_HOST_PORT:-63853}:5432
         volumes:
-            - AppLikuj-postgres-data:/var/lib/postgresql/data
+            - Applikuj-postgres-data:/var/lib/postgresql/data
         networks:
-            - AppLikuj-dev
+            - Applikuj-dev
         restart: unless-stopped
 
     mailpit:
       image: axllent/mailpit:v1.27.11@sha256:e22dce5b36f93c77082e204a3942fb6b283b7896e057458400a4c88344c3df68
-      container_name: AppLikuj-mailpit-dev
+      container_name: Applikuj-mailpit-dev
       labels:
         - "traefik.enable=true"
         - "traefik.blumilk.environment=true"
         # HTTP
-        - "traefik.http.routers.AppLikuj-mailpit-http-router.rule=Host(`AppLikuj-mailpit.blumilk.localhost`)"
-        - "traefik.http.routers.AppLikuj-mailpit-http-router.entrypoints=web"
+        - "traefik.http.routers.Applikuj-mailpit-http-router.rule=Host(`Applikuj-mailpit.blumilk.localhost`)"
+        - "traefik.http.routers.Applikuj-mailpit-http-router.entrypoints=web"
         # HTTP to HTTPS redirect
         #      - "traefik.http.routers.erasmus-mailpit-http-router.middlewares=https-redirect@file"
         # HTTPS
-        - "traefik.http.routers.AppLikuj-mailpit-https-router.rule=Host(`AppLikuj-mailpit.blumilk.localhost`)"
-        - "traefik.http.routers.AppLikuj-mailpit-https-router.entrypoints=websecure"
-        - "traefik.http.routers.AppLikuj-mailpit-https-router.tls=true"
+        - "traefik.http.routers.Applikuj-mailpit-https-router.rule=Host(`Applikuj-mailpit.blumilk.localhost`)"
+        - "traefik.http.routers.Applikuj-mailpit-https-router.entrypoints=websecure"
+        - "traefik.http.routers.Applikuj-mailpit-https-router.tls=true"
         # LOADBALANCER MAILPIT PORT
-        - "traefik.http.services.AppLikuj-mailpit.loadbalancer.server.port=8025"
+        - "traefik.http.services.Applikuj-mailpit.loadbalancer.server.port=8025"
       networks:
-        - AppLikuj-dev
+        - Applikuj-dev
         - traefik-proxy-blumilk-local-environment
       ports:
         - ${DOCKER_MAILPIT_DASHBOARD_HOST_PORT:-63854}:8025
@@ -105,11 +105,11 @@ services:
 
     redis:
         image: redis:7.2.5-alpine3.19@sha256:8f157725f8eee31e65a8d4765f1f986d76aedc1a0503345dfb63a2b1b5a441ee
-        container_name: AppLikuj-redis-dev
+        container_name: Applikuj-redis-dev
         ports:
             - ${DOCKER_REDIS_HOST_PORT:-63852}:6379
         volumes:
-            - AppLikuj-redis-data:/data
+            - Applikuj-redis-data:/data
         networks:
-            - AppLikuj-dev
+            - Applikuj-dev
         restart: unless-stopped
