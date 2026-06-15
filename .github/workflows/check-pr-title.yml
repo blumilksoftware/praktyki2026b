@@ -16,4 +16,5 @@ jobs:
     steps:
       - uses: blumilksoftware/action-pr-title@e05fc76a1cc45b33644f1de51218be43ac121dd0 # v1.2.0 # https://github.com/blumilksoftware/action-pr-title
         with:
-          regex: '^(App\-\d+ )?- .+'
+          regex: '^((App\-\d+|#\d+) )?- .+'
+
