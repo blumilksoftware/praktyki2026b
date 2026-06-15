@@ -1,0 +1,74 @@
+{
+    "name": "blumilksoftware/AppLikuj",
+    "type": "project",
+    "description": "AppLikuj project.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.4",
+        "ext-pdo": "*",
+        "guzzlehttp/guzzle": "^7.10.0",
+        "inertiajs/inertia-laravel": "^2.0.18",
+        "laravel/framework": "^12.44.0",
+        "laravel/sanctum": "^4.2.1",
+        "laravel/tinker": "^2.10.2"
+    },
+    "require-dev": {
+        "blumilksoftware/codestyle": "^v5.1.1",
+        "fakerphp/faker": "^1.24.1",
+        "larastan/larastan": "^3.8.1",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^8.8.3",
+        "phpunit/phpunit": "^12.5.4",
+        "spatie/laravel-ignition": "^2.9.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ],
+        "test": [
+            "@putenv XDEBUG_MODE=off",
+            "@php artisan test"
+        ],
+        "analyse": "./vendor/bin/phpstan analyse",
+        "cs": "./vendor/bin/php-cs-fixer fix --dry-run --diff --config codestyle.php",
+        "csf": "./vendor/bin/php-cs-fixer fix --diff --config codestyle.php"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

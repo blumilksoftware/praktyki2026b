@@ -1,0 +1,121 @@
+# https://taskfile.dev
+version: "3"
+
+env:
+  COMPOSE_DOCKER_CLI_BUILD: 1
+  DOCKER_BUILDKIT: 1
+  CURRENT_USER_ID:
+    sh: id --user
+  DOCKER_COMPOSE_APP_CONTAINER: app
+
+vars:
+  DOCKER_EXEC_USER: docker compose exec --user $CURRENT_USER_ID $DOCKER_COMPOSE_APP_CONTAINER
+  DOCKER_EXEC_ROOT: docker compose exec --user root $DOCKER_COMPOSE_APP_CONTAINER
+
+dotenv:
+  - .env
+
+tasks:
+  default:
+    desc: "List all available tasks"
+    cmds:
+      - task --list-all
+
+  init-project:
+    desc: "Initialize the project"
+    aliases: [init]
+    deps: [run]
+    cmds:
+      - cmd: "{{.DOCKER_EXEC_USER}} composer install"
+      - task: _set-app-key
+      - cmd: "{{.DOCKER_EXEC_USER}} npm install"
+      - cmd: "{{.DOCKER_EXEC_USER}} php artisan migrate"
+
+  vite:
+    desc: "Run Vite dev server"
+    cmds:
+      - cmd: "{{.DOCKER_EXEC_USER}} npm run dev"
+
+  docker:run:
+    desc: "Run docker containers"
+    aliases: [run, start, up]
+    deps: [build]
+    preconditions:
+      - sh: test -f .env
+        msg: "Please create .env file"
+    cmds:
+      - cmd: docker compose up --detach
+
+  docker:stop:
+    desc: "Stop docker containers"
+    aliases: [stop]
+    cmds:
+      - cmd: docker compose stop
+
+  docker:status:
+    desc: "Check docker containers' status"
+    aliases: [status]
+    cmds:
+      - cmd: docker compose ps
+
+  docker:restart:
+    desc: "Restart docker containers"
+    aliases: [restart]
+    cmds:
+      - task: docker:stop
+      - task: docker:run
+
+  docker:build:
+    desc: "Build docker containers"
+    aliases: [build]
+    cmds:
+      - cmd: docker compose build --pull
+
+  shell-app:
+    desc: "Enter app shell"
+    aliases: [shell]
+    cmds:
+      - cmd: "{{.DOCKER_EXEC_USER}} bash"
+
+  shell-app-root:
+    desc: "Enter app shell as root"
+    aliases: [shell-root]
+    cmds:
+      - cmd: "{{.DOCKER_EXEC_ROOT}} bash"
+
+  composer:
+    desc: "Run composer command"
+    cmds:
+      - cmd: "{{.DOCKER_EXEC_USER}} composer {{.CLI_ARGS}}"
+
+  artisan:
+    desc: "Run artisan command"
+    cmds:
+      - cmd: "{{.DOCKER_EXEC_USER}} php artisan {{.CLI_ARGS}}"
+
+  test:
+    desc: "Run pest tests"
+    cmds:
+      - cmd: "{{.DOCKER_EXEC_USER}} vendor/bin/pest {{.CLI_ARGS}}"
+
+  fix:
+    desc: "Run fixers"
+    cmds:
+      - cmd: "{{.DOCKER_EXEC_USER}} composer csf"
+      - cmd: "{{.DOCKER_EXEC_USER}} npm run lint"
+
+  queue:
+    desc: "Run queue:work"
+    cmds:
+      - cmd: "{{.DOCKER_EXEC_USER}} php artisan queue:work"
+
+  _set-app-key:
+    desc: "Create APP_KEY if not set"
+    internal: true
+    cmds:
+      - |
+        APP_KEY_VALUE=$(grep '^APP_KEY' .env | cut --delimiter '=' --fields 2-)
+        if [ -z "${APP_KEY_VALUE}" ]; then
+          echo "APP_KEY is not set. Creating:"
+          docker compose exec {{.DOCKER_COMPOSE_APP_CONTAINER}} php artisan key:generate
+        fi
