@@ -26,6 +26,7 @@ RUN apt-get update \
         pdo_pgsql 
 
 COPY ./environment/.docker/app/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 COPY ./environment/.docker/app/nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /application
