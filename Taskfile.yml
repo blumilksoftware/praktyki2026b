@@ -94,9 +94,9 @@ tasks:
       - cmd: "{{.DOCKER_EXEC_USER}} php artisan {{.CLI_ARGS}}"
 
   test:
-    desc: "Run pest tests"
+    desc: "Run phpunit tests"
     cmds:
-      - cmd: "{{.DOCKER_EXEC_USER}} vendor/bin/pest {{.CLI_ARGS}}"
+      - cmd: "{{.DOCKER_EXEC_USER}} vendor/bin/phpunit {{.CLI_ARGS}}"
 
   fix:
     desc: "Run fixers"
