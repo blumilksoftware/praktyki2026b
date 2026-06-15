@@ -13,7 +13,7 @@ Application will be running under [localhost:63851](localhost:63851) and [http:/
 #### Commands
 Before running any of the commands below, you must run shell:
 ```
-make shell
+task shell
 ```
 
 | Command                 | Task                                        |
