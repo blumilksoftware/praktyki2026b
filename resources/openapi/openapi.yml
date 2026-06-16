@@ -56,3 +56,65 @@ paths:
                 $ref: "#/components/schemas/User"
         "401":
           description: Unauthenticated
+
+  /email/verify/{id}/{token}:
+    get:
+      summary: Verify user email address
+      operationId: verifyEmail
+      tags:
+        - Auth
+      servers:
+        - url: /
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: User ID
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 4a2b8e3f9c...
+          description: Verification token
+      responses:
+        "302":
+          description: Redirects to /login (with optional session errors if token is invalid or expired)
+
+  /email/resend:
+    post:
+      summary: Resend email verification link
+      operationId: resendVerificationEmail
+      tags:
+        - Auth
+      servers:
+        - url: /
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: jan@example.com
+      responses:
+        "200":
+          description: Verification link sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Verification link sent.
+        "422":
+          description: Validation errors
