@@ -28,8 +28,8 @@ jobs:
       pgsql:
         image: postgres:16.3-alpine3.18@sha256:64e18e8fb3e9c9aac89ac590c5dd8306b862478404f76cd9b5f7720d012b4c47 # https://hub.docker.com/_/postgres
         env:
-          POSTGRES_DB: AppLikuj
-          POSTGRES_USER: AppLikuj
+          POSTGRES_DB: applikuj
+          POSTGRES_USER: applikuj
           POSTGRES_PASSWORD: password
         # Set health checks to wait until postgres has started
         options: >-
