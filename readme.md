@@ -33,7 +33,7 @@ task shell
 
 #### API Documentation
 
-Interactive API documentation is available via [Stoplight Elements](https://stoplight.io/open-source/elements) at:
+Interactive API documentation is available at:
 
 - **UI:** `GET /documentation` — browse and test endpoints interactively
 - **Raw spec:** `GET /documentation/raw` — OpenAPI 3.0 JSON spec
