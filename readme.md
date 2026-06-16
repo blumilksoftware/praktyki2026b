@@ -31,6 +31,18 @@ task shell
 | `npm run tsc`           | Runs TypeScript checker                     |
 
 
+#### API Documentation
+
+Interactive API documentation is available via [Stoplight Elements](https://stoplight.io/open-source/elements) at:
+
+- **UI:** `GET /documentation` — browse and test endpoints interactively
+- **Raw spec:** `GET /documentation/raw` — OpenAPI 3.0 JSON spec
+
+The specification source lives in `resources/openapi/openapi.yml`. To validate it locally, run:
+```
+php artisan openapi:validate openapi
+```
+
 #### Containers
 
 | service    | container name            | default host port               |
