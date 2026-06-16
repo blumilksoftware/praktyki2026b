@@ -93,7 +93,7 @@
             <h1 class="title">{{ __('emails.verification.title') }}</h1>
             
             <p class="status-message">{{ __('emails.verification.status_message', ['email' => $user->email]) }}</p>
-            <p class="expiration-message">{{ __('emails.verification.expiration_message') }}</p>
+            <p class="expiration-message">{{ __('emails.verification.expiration_message', ['count' => config('auth.verification.expire', 1440) / 60]) }}</p>
             
             <hr class="divider">
             

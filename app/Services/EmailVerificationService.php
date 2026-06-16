@@ -43,7 +43,7 @@ class EmailVerificationService
         EmailVerificationToken::create([
             "user_id" => $user->id,
             "token" => hash("sha256", $plainToken),
-            "expires_at" => now()->addHours(24),
+            "expires_at" => now()->addMinutes(config("auth.verification.expire", 1440)),
         ]);
 
         return $plainToken;
