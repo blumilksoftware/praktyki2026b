@@ -9,9 +9,6 @@ properties:
   errors:
     type: object
     additionalProperties:
-      type: array
-      items:
-        type: string
+      type: string
     example:
-      email:
-        - "The email field is required."
+      email: "The email field is required."
