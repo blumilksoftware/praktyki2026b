@@ -1,0 +1,19 @@
+{
+  "welcome": {
+    "documentation_title": "Dokumentacja",
+    "documentation_description": "Laravel posiada doskonałą dokumentację obejmującą każdy aspekt frameworka. Niezależnie od tego, czy jesteś nowicjuszem, czy masz już doświadczenie z Laravel, zalecamy przeczytanie dokumentacji od początku do końca.",
+    "laracasts_title": "Laracasts",
+    "laracasts_description": "Laracasts oferuje tysiące samouczków wideo dotyczących Laravel, PHP i JavaScriptu. Sprawdź je, przekonaj się sam i znacznie podnieś swoje umiejętności programistyczne.",
+    "news_title": "Laravel News",
+    "news_description": "Laravel News to portal i newsletter tworzony przez społeczność, agregujący najnowsze i najważniejsze wiadomości z ekosystemu Laravel, w tym nowe wydania pakietów i samouczki.",
+    "ecosystem_title": "Rozbudowany ekosystem",
+    "ecosystem_description": "Bogata biblioteka narzędzi i bibliotek Laravel, takich jak Forge, Vapor, Nova i Envoyer, pomaga przenieść projekty na wyższy poziom.",
+    "sponsor": "Sponsoruj"
+  },
+  "auth": {
+    "verification": {
+      "invalid_link": "Nieprawidłowy lub wygasły link weryfikacyjny.",
+      "resend_message": "Jeśli Twój adres e-mail jest zarejestrowany i niezweryfikowany, nowy link weryfikacyjny został wysłany."
+    }
+  }
+}
