@@ -1,0 +1,16 @@
+get:
+  summary: Get authenticated user
+  operationId: getAuthenticatedUser
+  tags:
+    - Auth
+  security:
+    - sanctum: []
+  responses:
+    "200":
+      description: Authenticated user data
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/User.yml"
+    "401":
+      description: Unauthenticated

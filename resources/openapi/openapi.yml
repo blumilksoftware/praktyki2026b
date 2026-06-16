@@ -15,106 +15,14 @@ components:
 
   schemas:
     User:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
-        name:
-          type: string
-          example: John Doe
-        email:
-          type: string
-          format: email
-          example: user@example.com
-        email_verified_at:
-          type: string
-          format: date-time
-          nullable: true
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
+      $ref: "./components/schemas/User.yml"
+    ValidationError:
+      $ref: "./components/schemas/ValidationError.yml"
 
 paths:
   /user:
-    get:
-      summary: Get authenticated user
-      operationId: getAuthenticatedUser
-      tags:
-        - Auth
-      security:
-        - sanctum: []
-      responses:
-        "200":
-          description: Authenticated user data
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        "401":
-          description: Unauthenticated
-
+    $ref: "./paths/user.yml"
   /email/verify/{id}/{token}:
-    get:
-      summary: Verify user email address
-      operationId: verifyEmail
-      tags:
-        - Auth
-      servers:
-        - url: /
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 1
-          description: User ID
-        - name: token
-          in: path
-          required: true
-          schema:
-            type: string
-            example: a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a1b2c3d4e5f6
-          description: Verification token
-      responses:
-        "302":
-          description: Redirects to /login (with optional session errors if token is invalid or expired)
-
+    $ref: "./paths/email_verify.yml"
   /email/resend:
-    post:
-      summary: Resend email verification link
-      operationId: resendVerificationEmail
-      tags:
-        - Auth
-      servers:
-        - url: /
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - email
-              properties:
-                email:
-                  type: string
-                  format: email
-                  example: user@example.com
-      responses:
-        "200":
-          description: Verification link sent
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Verification link sent.
-        "422":
-          description: Validation errors
+    $ref: "./paths/email_resend.yml"
