@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Potwierdzenie adresu e-mail</title>
+    <title>{{ __('emails.verification.title') }}</title>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -90,19 +90,19 @@
             Applikuj
         </div>
         <div class="content">
-            <h1 class="title">Potwierdź swój adres e-mail</h1>
+            <h1 class="title">{{ __('emails.verification.title') }}</h1>
             
-            <p class="status-message">Wysłaliśmy link aktywacyjny na adres: {{ $user->email }}</p>
-            <p class="expiration-message">Pamiętaj, że link wygasa po 24 godzinach.</p>
+            <p class="status-message">{{ __('emails.verification.status_message', ['email' => $user->email]) }}</p>
+            <p class="expiration-message">{{ __('emails.verification.expiration_message') }}</p>
             
             <hr class="divider">
             
-            <p class="action-text">Aby aktywować swoje konto w serwisie Applikuj, kliknij w poniższy przycisk:</p>
+            <p class="action-text">{{ __('emails.verification.action_text') }}</p>
             
-            <a href="{{ url('/email/verify/' . $user->id . '/' . $token) }}" class="button">Potwierdź e-mail</a>
+            <a href="{{ url('/email/verify/' . $user->id . '/' . $token) }}" class="button">{{ __('emails.verification.button') }}</a>
         </div>
         <div class="footer">
-            &copy; {{ date('Y') }} Applikuj. Wszelkie prawa zastrzeżone.
+            &copy; {{ date('Y') }} Applikuj. {{ __('emails.verification.all_rights_reserved') }}
         </div>
     </div>
 </body>
