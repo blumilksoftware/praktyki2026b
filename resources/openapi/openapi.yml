@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: Applikuj API
+  version: 1.0.0
+  description: Applikuj REST API
+
+servers:
+  - url: /api
+
+components:
+  securitySchemes:
+    sanctum:
+      type: http
+      scheme: bearer
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Jan Kowalski
+        email:
+          type: string
+          format: email
+          example: jan@example.com
+        email_verified_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+paths:
+  /user:
+    get:
+      summary: Get authenticated user
+      operationId: getAuthenticatedUser
+      tags:
+        - Auth
+      security:
+        - sanctum: []
+      responses:
+        "200":
+          description: Authenticated user data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthenticated
