@@ -31,6 +31,10 @@ task shell
 | `npm run tsc`           | Runs TypeScript checker                     |
 
 
+#### Project decisions
+
+Architectural and design decisions regarding Internationalisation (i18n) are documented in the [projects-decisions.md](projects-decisions.md) file.
+
 #### API Documentation
 
 Interactive API documentation is available at:
