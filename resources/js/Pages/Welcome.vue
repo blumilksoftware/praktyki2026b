@@ -1,12 +1,9 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
 </script>
 
 <template>
-  <Head :title="t('welcome.documentation_title')" />
+  <Head title="Welcome" />
 
   <div
     class="bg-dots-darker dark:bg-dots-lighter relative min-h-screen bg-gray-100 bg-center selection:bg-red-500 selection:text-white dark:bg-gray-900 sm:flex sm:items-center sm:justify-center"
@@ -46,15 +43,17 @@ const { t } = useI18n()
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+                    d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
                   />
                 </svg>
               </div>
 
-              <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">{{ t('welcome.documentation_title') }}</h2>
+              <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Documentation</h2>
 
               <p class="mt-4 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
-                {{ t('welcome.documentation_description') }}
+                Laravel has wonderful documentation covering every aspect of the framework. Whether you
+                are a newcomer or have prior experience with Laravel, we recommend reading our
+                documentation from beginning to end.
               </p>
             </div>
 
@@ -95,10 +94,12 @@ const { t } = useI18n()
                 </svg>
               </div>
 
-              <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">{{ t('welcome.laracasts_title') }}</h2>
+              <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laracasts</h2>
 
               <p class="mt-4 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
-                {{ t('welcome.laracasts_description') }}
+                Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript
+                development. Check them out, see for yourself, and massively level up your development
+                skills in the process.
               </p>
             </div>
 
@@ -140,10 +141,12 @@ const { t } = useI18n()
                 </svg>
               </div>
 
-              <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">{{ t('welcome.news_title') }}</h2>
+              <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laravel News</h2>
 
               <p class="mt-4 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
-                {{ t('welcome.news_description') }}
+                Laravel News is a community driven portal and newsletter aggregating all of the latest
+                and most important news in the Laravel ecosystem, including new package releases and
+                tutorials.
               </p>
             </div>
 
@@ -185,11 +188,53 @@ const { t } = useI18n()
               </div>
 
               <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">
-                {{ t('welcome.ecosystem_title') }}
+                Vibrant Ecosystem
               </h2>
 
               <p class="mt-4 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
-                {{ t('welcome.ecosystem_description') }}
+                Laravel's robust library of first-party tools and libraries, such as
+                <a
+                  href="https://forge.laravel.com"
+                  class="underline hover:text-gray-700 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:hover:text-white"
+                >Forge</a>,
+                <a
+                  href="https://vapor.laravel.com"
+                  class="underline hover:text-gray-700 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:hover:text-white"
+                >Vapor</a>,
+                <a
+                  href="https://nova.laravel.com"
+                  class="underline hover:text-gray-700 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:hover:text-white"
+                >Nova</a>, and
+                <a
+                  href="https://envoyer.io"
+                  class="underline hover:text-gray-700 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:hover:text-white"
+                >Envoyer</a>
+                help you take your projects to the next level. Pair them with powerful open source
+                libraries like
+                <a
+                  href="https://laravel.com/docs/billing"
+                  class="underline hover:text-gray-700 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:hover:text-white"
+                >Cashier</a>,
+                <a
+                  href="https://laravel.com/docs/dusk"
+                  class="underline hover:text-gray-700 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:hover:text-white"
+                >Dusk</a>,
+                <a
+                  href="https://laravel.com/docs/broadcasting"
+                  class="underline hover:text-gray-700 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:hover:text-white"
+                >Echo</a>,
+                <a
+                  href="https://laravel.com/docs/horizon"
+                  class="underline hover:text-gray-700 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:hover:text-white"
+                >Horizon</a>,
+                <a
+                  href="https://laravel.com/docs/sanctum"
+                  class="underline hover:text-gray-700 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:hover:text-white"
+                >Sanctum</a>,
+                <a
+                  href="https://laravel.com/docs/telescope"
+                  class="underline hover:text-gray-700 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:hover:text-white"
+                >Telescope</a>, and more.
               </p>
             </div>
           </div>
@@ -216,7 +261,7 @@ const { t } = useI18n()
                   d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
                 />
               </svg>
-              {{ t('welcome.sponsor') }}
+              Sponsor
             </a>
           </div>
         </div>
