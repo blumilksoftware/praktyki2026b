@@ -1,4 +1,6 @@
 <script setup>
+import { HomeIcon, ClipboardDocumentListIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon } from '@heroicons/vue/24/outline'
+
 const props = defineProps({
   activePage: {
     type: String,
@@ -11,19 +13,19 @@ const navItems = [
     key: 'dashboard',
     label: 'Dashboard',
     href: '/admin',
-    icon: 'M3 7h18M3 12h18M3 17h18',
+    icon: HomeIcon,
   },
   {
     key: 'applications',
     label: 'Zgloszenia',
     href: '/admin/zgloszenia',
-    icon: 'M12 8v4l3 3',
+    icon: ClipboardDocumentListIcon,
   },
   {
     key: 'settings',
     label: 'Ustawienia',
     href: '#',
-    icon: 'M12 6v6l4 2',
+    icon: Cog6ToothIcon,
   },
 ]
 </script>
@@ -46,7 +48,7 @@ const navItems = [
         </div>
         <div>
           <div class="text-lg font-semibold text-text">Admin</div>
-          <div class="text-xs text-slate-700">Panel zarzadzania</div>
+          <div class="text-xs text-addicional">Panel zarzadzania</div>
         </div>
       </div>
 
@@ -61,15 +63,12 @@ const navItems = [
                 ? 'bg-primary/10 text-primary font-medium hover:bg-primary/15'
                 : 'text-slate-600 hover:bg-white/40 hover:text-primary'"
             >
-              <svg
+              <component
+                :is="item.icon"
                 class="h-5 w-5"
                 :class="item.key === props.activePage ? 'text-primary' : 'text-slate-400'"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="item.icon" />
-              </svg>
+                aria-hidden="true"
+              />
               {{ item.label }}
             </a>
           </li>
@@ -78,9 +77,7 @@ const navItems = [
               class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-red-600 transition hover:bg-red-50/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300"
               href="#"
             >
-              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7" />
-              </svg>
+              <ArrowRightOnRectangleIcon class="h-5 w-5 text-red-600" aria-hidden="true" />
               Wyloguj
             </a>
           </li>
@@ -95,7 +92,7 @@ const navItems = [
         >
         <div>
           <p class="text-sm font-medium text-text">Admin Name</p>
-          <p class="text-xs text-slate-700">Administrator</p>
+          <p class="text-xs text-addicional">Administrator</p>
         </div>
       </div>
     </aside>
@@ -112,7 +109,17 @@ const navItems = [
                 ? 'bg-primary text-white'
                 : 'bg-white/70 text-slate-700 hover:bg-white'"
             >
+              <component :is="item.icon" class="h-4 w-4 mr-2" aria-hidden="true" />
               {{ item.label }}
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300 bg-white/70 text-red-600 hover:bg-red-50/60"
+            >
+              <ArrowRightOnRectangleIcon class="h-4 w-4 mr-2 text-red-600" aria-hidden="true" />
+              Wyloguj
             </a>
           </li>
         </ul>
