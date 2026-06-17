@@ -55,7 +55,7 @@ const props = defineProps({
             <td class="px-4 py-3 text-slate-700">{{ application.student }}</td>
             <td class="px-4 py-3 text-slate-700">{{ application.company }}</td>
             <td class="px-4 py-3 text-right">
-              <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium"">
+              <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium">
                 {{ application.status }}
               </span>
             </td>
