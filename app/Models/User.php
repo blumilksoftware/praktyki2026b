@@ -21,7 +21,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property UserRole $role
  * @property ?string $university
  * @property ?Carbon $terms_accepted_at
- * @property ?Carbon|$email_verified_at
+ * @property ?Carbon $email_verified_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
