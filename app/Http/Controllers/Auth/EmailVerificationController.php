@@ -17,7 +17,7 @@ class EmailVerificationController extends Controller
         private readonly EmailVerificationService $verificationService,
     ) {}
 
-    public function verify(int $id, string $token): RedirectResponse
+    public function verify(string $id, string $token): RedirectResponse
     {
         $user = User::findOrFail($id);
 

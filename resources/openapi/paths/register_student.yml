@@ -1,0 +1,47 @@
+post:
+  summary: Register a new student account
+  operationId: registerStudent
+  tags:
+    - Auth
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [first_name, last_name, email, password, password_confirmation, terms]
+          properties:
+            first_name:
+              type: string
+              example: User
+            last_name:
+              type: string
+              example: Example
+            email:
+              type: string
+              format: email
+              example: user@example.com
+            password:
+              type: string
+              format: password
+              example: Password123!
+            password_confirmation:
+              type: string
+              format: password
+              example: Password123!
+            university:
+              type: string
+              nullable: true
+              example: Warsaw University
+            terms:
+              type: boolean
+              example: true
+  responses:
+    "201":
+      description: Student registered successfully
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/User.yml"
+    "422":
+      description: Validation error

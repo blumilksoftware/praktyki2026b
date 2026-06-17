@@ -1,15 +1,27 @@
 type: object
 properties:
   id:
-    type: integer
-    example: 1
-  name:
     type: string
-    example: John Doe
+    format: uuid
+    example: 550e8400-e29b-41d4-a716-446655440000
+  first_name:
+    type: string
+    example: User
+  last_name:
+    type: string
+    example: Example
   email:
     type: string
     format: email
     example: user@example.com
+  role:
+    type: string
+    enum: [student, superAdmin, universityAdmin, companyAdmin]
+    example: student
+  university:
+    type: string
+    nullable: true
+    example: Warsaw University
   email_verified_at:
     type: string
     format: date-time

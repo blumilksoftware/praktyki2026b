@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Applikuj API
-  version: 1.0.0
+  version: 1.0.1
   description: Applikuj REST API
 
 servers:
@@ -22,6 +22,8 @@ components:
 paths:
   /user:
     $ref: "./paths/user.yml"
+  /register/student:
+    $ref: "./paths/register_student.yml"
   /email/verify/{id}/{token}:
     $ref: "./paths/email_verify.yml"
   /email/resend:
