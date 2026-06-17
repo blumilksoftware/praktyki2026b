@@ -7,7 +7,7 @@ namespace App\Enums;
 enum UserRole: string
 {
     case Student = "student";
-    case SuperAdmin = "super_admin";
-    case UniversityAdmin = "university_admin";
-    case CompanyAdmin = "company_admin";
+    case SuperAdmin = "superAdmin";
+    case UniversityAdmin = "universityAdmin";
+    case CompanyAdmin = "companyAdmin";
 }

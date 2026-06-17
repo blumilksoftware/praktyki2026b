@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Applikuj API
-  version: 1.0.0
+  version: 1.0.1
   description: Applikuj REST API
 
 servers:
@@ -33,7 +33,7 @@ components:
           example: user@example.com
         role:
           type: string
-          enum: [student, super_admin, university_admin, company_admin]
+          enum: [student, superAdmin, universityAdmin, companyAdmin]
           example: student
         university:
           type: string

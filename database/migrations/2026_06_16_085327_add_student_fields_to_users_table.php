@@ -13,7 +13,7 @@ return new class() extends Migration {
             $table->string("first_name")->after("id");
             $table->string("last_name")->after("first_name");
             $table->dropColumn("name");
-            $table->enum("role", ["student", "super_admin", "university_admin", "company_admin"])->after("email");
+            $table->enum("role", ["student", "superAdmin", "universityAdmin", "companyAdmin"])->after("email");
             $table->timestamp("terms_accepted_at")->nullable()->after("role");
             $table->string("university")->nullable()->after("terms_accepted_at");
         });
