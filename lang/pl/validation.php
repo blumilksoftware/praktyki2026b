@@ -146,6 +146,7 @@ return [
     "url" => "Pole :attribute musi być prawidłowym adresem URL.",
     "ulid" => "Pole :attribute musi być prawidłowym identyfikatorem ULID.",
     "uuid" => "Pole :attribute musi być prawidłowym identyfikatorem UUID.",
+    "nip" => "Pole :attribute musi być prawidłowym numerem NIP.",
 
     "attributes" => [
         "email" => "adres e-mail",
@@ -153,5 +154,14 @@ return [
         "first_name" => "imię",
         "last_name" => "nazwisko",
         "university" => "uczelnia",
+        "company_name" => "nazwa firmy",
+        "nip" => "NIP",
+        "street" => "ulica",
+        "building_number" => "numer budynku",
+        "postal_code" => "kod pocztowy",
+        "city" => "miasto",
+        "phone" => "telefon",
+        "website" => "strona WWW",
+        "terms" => "regulamin",
     ],
 ];

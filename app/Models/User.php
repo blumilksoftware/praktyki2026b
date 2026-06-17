@@ -5,21 +5,25 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @property string $id
- * @property string $first_name
- * @property string $last_name
+ * @property ?string $first_name
+ * @property ?string $last_name
  * @property string $email
  * @property string $password
  * @property UserRole $role
+ * @property UserStatus $status
  * @property ?string $university
+ * @property ?string $organization_id
  * @property ?Carbon $terms_accepted_at
  * @property ?Carbon $email_verified_at
  * @property Carbon $created_at
@@ -38,7 +42,9 @@ class User extends Authenticatable
         "email",
         "password",
         "role",
+        "status",
         "university",
+        "organization_id",
         "terms_accepted_at",
     ];
     protected $hidden = [
@@ -46,10 +52,16 @@ class User extends Authenticatable
         "remember_token",
     ];
 
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, "organization_id");
+    }
+
     protected function casts(): array
     {
         return [
             "role" => UserRole::class,
+            "status" => UserStatus::class,
             "email_verified_at" => "datetime",
             "terms_accepted_at" => "datetime",
             "password" => "hashed",
