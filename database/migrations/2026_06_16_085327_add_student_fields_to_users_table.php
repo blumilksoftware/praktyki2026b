@@ -10,12 +10,12 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::table("users", function (Blueprint $table): void {
-            $table->string("first_name")->after("id");
-            $table->string("last_name")->after("first_name");
+            $table->string("first_name");
+            $table->string("last_name");
             $table->dropColumn("name");
-            $table->enum("role", ["student", "superAdmin", "universityAdmin", "companyAdmin"])->after("email");
-            $table->timestamp("terms_accepted_at")->nullable()->after("role");
-            $table->string("university")->nullable()->after("terms_accepted_at");
+            $table->enum("role", ["student", "superAdmin", "universityAdmin", "companyAdmin"]);
+            $table->timestamp("terms_accepted_at")->nullable();
+            $table->string("university")->nullable();
         });
     }
 
@@ -23,7 +23,7 @@ return new class() extends Migration {
     {
         Schema::table("users", function (Blueprint $table): void {
             $table->dropColumn(["first_name", "last_name", "role", "terms_accepted_at", "university"]);
-            $table->string("name")->after("id");
+            $table->string("name");
         });
     }
 };

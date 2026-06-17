@@ -23,7 +23,7 @@ class StudentRegistrationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "Welcome to Applikuj",
+            subject: __("emails.registration.subject"),
         );
     }
 

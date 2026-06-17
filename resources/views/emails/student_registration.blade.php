@@ -1,12 +1,20 @@
 <x-mail::message>
-# Introduction
+# {{ __("emails.registration.greeting", ["name" => $user->first_name]) }}
 
-The body of your message.
+{{ __("emails.registration.body") }}
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+## {{ __("emails.registration.details_heading") }}
 
-Thanks,<br>
-{{ config('app.name') }}
+| | |
+|---|---|
+| **{{ __("emails.registration.field_name") }}** | {{ $user->first_name }} {{ $user->last_name }} |
+| **{{ __("emails.registration.field_email") }}** | {{ $user->email }} |
+@if ($user->university)
+| **{{ __("emails.registration.field_university") }}** | {{ $user->university }} |
+@endif
+
+{{ __("emails.registration.ignore_notice") }}
+
+{{ __("emails.registration.all_rights_reserved") }}<br>
+{{ config("app.name") }}
 </x-mail::message>
