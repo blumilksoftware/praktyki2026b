@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
-const pawPrints = ref([])
+const backgroundNotes = ref([])
 
-function generateRandomPaw() {
+function generateRandomNote() {
   return {
     x: Math.random() * 100,
     y: Math.random() * 100,
@@ -20,47 +20,47 @@ function squaredDistance(pointA, pointB) {
   return deltaX * deltaX + deltaY * deltaY
 }
 
-function getEffectiveRadiusPercent(pawPrint) {
+function getEffectiveRadiusPercent(note) {
   const baseRadiusPercent = 4.5
-  return baseRadiusPercent * pawPrint.size
+  return baseRadiusPercent * note.size
 }
 
-function generateNonOverlappingPawPrints(
-  desiredPawCount,
-  maxPlacementAttemptsPerPaw = 200,
+function generateNonOverlappingNotes(
+  desiredNoteCount,
+  maxPlacementAttemptsPerNote = 200,
 ) {
-  const pawPrintList = []
+  const noteList = []
 
-  for (let pawIndex = 0; pawIndex < desiredPawCount; pawIndex++) {
+  for (let noteIndex = 0; noteIndex < desiredNoteCount; noteIndex++) {
     let isPlaced = false
     let attemptCount = 0
 
-    while (!isPlaced && attemptCount < maxPlacementAttemptsPerPaw) {
+    while (!isPlaced && attemptCount < maxPlacementAttemptsPerNote) {
       attemptCount++
-      const candidatePaw = generateRandomPaw()
+      const candidateNote = generateRandomNote()
 
       if (
-        candidatePaw.x < 4 ||
-        candidatePaw.x > 96 ||
-        candidatePaw.y < 4 ||
-        candidatePaw.y > 96
+        candidateNote.x < 4 ||
+        candidateNote.x > 96 ||
+        candidateNote.y < 4 ||
+        candidateNote.y > 96
       ) {
         continue
       }
 
-      const candidateRadius = getEffectiveRadiusPercent(candidatePaw)
+      const candidateRadius = getEffectiveRadiusPercent(candidateNote)
 
       let isPositionValid = true
       for (
         let existingIndex = 0;
-        existingIndex < pawPrintList.length;
+        existingIndex < noteList.length;
         existingIndex++
       ) {
-        const existingPaw = pawPrintList[existingIndex]
+        const existingNote = noteList[existingIndex]
         const combinedRadius =
-          candidateRadius + getEffectiveRadiusPercent(existingPaw)
+          candidateRadius + getEffectiveRadiusPercent(existingNote)
         if (
-          squaredDistance(candidatePaw, existingPaw) <
+          squaredDistance(candidateNote, existingNote) <
           combinedRadius * combinedRadius
         ) {
           isPositionValid = false
@@ -69,7 +69,7 @@ function generateNonOverlappingPawPrints(
       }
 
       if (isPositionValid) {
-        pawPrintList.push(candidatePaw)
+        noteList.push(candidateNote)
         isPlaced = true
       }
     }
@@ -79,23 +79,23 @@ function generateNonOverlappingPawPrints(
     }
   }
 
-  return pawPrintList
+  return noteList
 }
 
 onMounted(() => {
-  const pawPrintCount = Math.floor(Math.random() * 10) + 70
-  pawPrints.value = generateNonOverlappingPawPrints(pawPrintCount)
+  const noteCount = Math.floor(Math.random() * 10) + 70
+  backgroundNotes.value = generateNonOverlappingNotes(noteCount)
 })
 </script>
 
 <template>
   <div class="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-    <div v-for="(paw, index) in pawPrints" :key="index" class="absolute paw-print" :style="{
-      left: paw.x + '%',
-      top: paw.y + '%',
-      transform: `translate(-50%, -50%) rotate(${paw.rotation}deg) scale(${paw.size})`,
-      opacity: paw.opacity,
-      animationDelay: paw.delay + 's',
+    <div v-for="(note, index) in backgroundNotes" :key="index" class="absolute background-note" :style="{
+      left: note.x + '%',
+      top: note.y + '%',
+      transform: `translate(-50%, -50%) rotate(${note.rotation}deg) scale(${note.size})`,
+      opacity: note.opacity,
+      animationDelay: note.delay + 's',
     }"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
@@ -121,7 +121,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.paw-print {
+.background-note {
   animation: fadeIn 0.5s ease-in-out forwards;
   opacity: 0;
   filter: drop-shadow(0 1px 2px rgba(2, 6, 23, 0.08));

@@ -5,13 +5,6 @@ const props = defineProps({
     required: true,
   },
 })
-
-function statusClass(status) {
-  if (status === 'Nowe') return 'bg-sky-100 text-sky-700'
-  if (status === 'W trakcie') return 'bg-amber-100 text-amber-700'
-  if (status === 'Do poprawy') return 'bg-rose-100 text-rose-700'
-  return 'bg-primary/10 text-primary'
-}
 </script>
 
 <template>
@@ -62,7 +55,7 @@ function statusClass(status) {
             <td class="px-4 py-3 text-slate-700">{{ application.student }}</td>
             <td class="px-4 py-3 text-slate-700">{{ application.company }}</td>
             <td class="px-4 py-3 text-right">
-              <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium" :class="statusClass(application.status)">
+              <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium"">
                 {{ application.status }}
               </span>
             </td>
