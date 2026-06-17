@@ -1,168 +1,75 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import AdminLayout from '../Components/Admin/AdminLayout.vue'
+import AdminGlassSection from '../Components/Admin/AdminGlassSection.vue'
+import AdminStatCard from '../Components/Admin/AdminStatCard.vue'
 
 const students = ref(1245)
 const approvedCompanies = ref(86)
 const approvedUniversities = ref(12)
 const activeOffers = ref(42)
 const pendingVerifications = ref(7)
+
+const stats = computed(() => [
+  { label: 'Aktywni studenci', value: students.value, accent: 'border-t-primary' },
+  { label: 'Zatwierdzone firmy', value: approvedCompanies.value, accent: 'border-t-primary' },
+  { label: 'Zatwierdzone uczelnie', value: approvedUniversities.value, accent: 'border-t-primary' },
+  { label: 'Aktywne oferty', value: activeOffers.value, accent: 'border-t-primary' },
+])
 </script>
 
 <template>
-  <div class="min-h-screen relative flex flex-col bg-white/85 text-slate-900">
-    <div class="flex flex-1 min-h-0">
-      <aside
-        class="hidden md:flex w-72 flex-col isolate bg-linear-to-b from-sky-100/40 to-sky-50/10 shadow-md ring-1 ring-sky-200 p-6 rounded-2xl"
+  <AdminLayout active-page="dashboard">
+    <AdminGlassSection class="px-4 py-5 md:px-8 md:py-6 text-center">
+      <h1 class="text-2xl font-semibold text-text">
+        Witaj w panelu administratora!
+      </h1>
+      <p class="text-sm text-slate-600 mt-3 max-w-2xl mx-auto leading-relaxed">
+        Tutaj możesz zarządzać zgłoszeniami, przeglądać statystyki i
+        konfigurować ustawienia systemu. Użyj menu po lewej stronie, aby
+        nawigować do różnych sekcji panelu.
+      </p>
+      <a
+        href="/admin/zgloszenia"
+        class="inline-flex mt-5 items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
       >
-        <div class="mb-6 flex items-center gap-3">
-          <div class="h-10 w-10 bg-sky-600 text-white rounded-md flex items-center justify-center font-semibold">
-            A
-          </div>
-          <div>
-            <div class="text-2xl text-slate-900 font-semibold">Admin</div>
-            <div class="text-xs text-slate-400">Panel zarządzania</div>
-          </div>
-        </div>
-        <nav class="flex-1">
-          <ul class="space-y-2">
-            <li>
-              <a class="flex items-center gap-3 rounded-xl bg-sky-100 px-4 py-3 text-text font-semibold transition hover:bg-sky-200"
-                 href="#"
-              >
-                <svg class="h-5 w-5 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18" />
-                </svg>
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a class="flex items-center gap-3 rounded-xl px-4 py-3 text-text transition hover:bg-sky-50 hover:text-sky-700"
-                 href="#"
-              >
-                <svg class="h-5 w-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
-                </svg>
-                Zgłoszenia
-              </a>
-            </li>
-            <li>
-              <a class="flex items-center gap-3 rounded-xl px-4 py-3 text-text transition hover:bg-sky-50 hover:text-sky-700"
-                 href="#"
-              >
-                <svg class="h-5 w-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" />
-                </svg>
-                Ustawienia
-              </a>
-            </li>
-            <li>
-              <a class="flex items-center gap-3 rounded-xl px-4 py-3 text-red-600 transition hover:bg-red-50" href="#">
-                <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7" />
-                </svg>
-                Wyloguj
-              </a>
-            </li>
-          </ul>
-        </nav>
+        Przejdź do zgłoszeń
+      </a>
+    </AdminGlassSection>
 
-        <div class="mt-6 pt-6 border-t border-slate-100 flex items-center gap-3">
-          <img class="h-12 w-12 rounded-full ring-1 ring-slate-100" src="https://www.gravatar.com/avatar?d=mp&s=48"
-               alt="admin"
-          >
-          <div>
-            <p class="font-medium text-slate-900">Admin Name</p>
-            <p class="text-sm text-slate-500">Administrator</p>
-          </div>
-        </div>
-      </aside>
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <AdminStatCard
+        v-for="stat in stats"
+        :key="stat.label"
+        :label="stat.label"
+        :value="stat.value"
+        :accent="stat.accent"
+      />
+    </section>
 
-      <main
-        class="flex-1 overflow-y-auto text-center align-text-center bg-linear-to-b from-slate-100 to-slate-200 p-6 relative"
-      >
-        <div class="max-w-7xl h-full mx-auto">
-          <div class="h-full grid grid-cols-2 grid-rows-4">
-            <div
-              class="isolate rounded-xl bg-white/20 shadow-lg ring-1 ring-black/5 col-span-2 h-auto col-start-1 p-6 mb-2 flex flex-col"
-            >
-              <h2 class="text-2xl font-semibold text-slate-900">
-                Witaj w panelu administratora!
-              </h2>
-              <p class="text-sm text-slate-500 mt-2">
-                Tutaj możesz zarządzać zgłoszeniami, przeglądać statystyki i
-                konfigurować ustawienia systemu. Użyj menu po lewej stronie, aby
-                nawigować do różnych sekcji panelu.
-              </p>
-            </div>
-            <div
-              class="isolate rounded-xl bg-white/20 shadow-lg ring-1 ring-black/5 col-start-1 row-start-2 p-4 m-2 flex items-center justify-between"
-            >
-              <div>
-                <div class="text-lg text-slate-500">Aktywni studenci</div>
-                <div class="text-xl font-bold text-slate-900 mt-1">
-                  {{ students }}
-                </div>
-              </div>
-            </div>
-            <div
-              class="isolate rounded-xl bg-white/20 shadow-lg ring-1 ring-black/5 col-start-2 row-start-2 p-4 m-2 flex items-center justify-between"
-            >
-              <div>
-                <div class="text-lg text-slate-500">Zatwierdzone firmy</div>
-                <div class="text-xl font-bold text-slate-900 mt-1">
-                  {{ approvedCompanies }}
-                </div>
-              </div>
-            </div>
-            <div
-              class="isolate rounded-xl bg-white/20 shadow-lg ring-1 ring-black/5 col-start-1 m-2 row-start-3 p-4 flex items-center justify-between"
-            >
-              <div>
-                <div class="text-lg text-slate-500">Zatwierdzone uczelnie</div>
-                <div class="text-xl font-bold text-slate-900 mt-1">
-                  {{ approvedUniversities }}
-                </div>
-              </div>
-            </div>
-            <div
-              class="isolate rounded-xl bg-white/20 shadow-lg ring-1 ring-black/5 col-start-2 row-start-3 p-4 m-2 flex items-center justify-between"
-            >
-              <div>
-                <div class="text-lg text-slate-500">Aktywne oferty</div>
-                <div class="text-xl font-bold text-slate-900 mt-1">
-                  {{ activeOffers }}
-                </div>
-              </div>
-            </div>
-            <div
-              class="isolate rounded-xl bg-white/20 shadow-lg ring-1 ring-black/5 col-span-2 h-36 m-2 row-start-4 p-4 flex flex-col justify-between"
-            >
-              <div class="flex items-center justify-between">
-                <div>
-                  <div class="text-lg text-slate-500">
-                    Oczekujące weryfikacje
-                  </div>
-                  <div class="text-lg font-semibold text-slate-900 mt-1">
-                    {{ pendingVerifications }}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mt-2">
-                  <div class="h-2 bg-amber-400 rounded-full" :style="{
-                    width:
-                      Math.min((pendingVerifications / 20) * 100, 100) + '%',
-                  }"
-                  />
-                </div>
-                <div class="text-xs text-slate-400 mt-2">
-                  Progres weryfikacji
-                </div>
-              </div>
-            </div>
-          </div>
+    <AdminGlassSection class="px-4 py-5 md:px-8 md:py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="text-center md:text-left">
+        <h2 class="text-sm font-medium text-slate-700">Oczekujące weryfikacje</h2>
+        <p class="text-3xl font-bold text-primary mt-1">
+          {{ pendingVerifications }}
+        </p>
+      </div>
+      <div class="w-full md:max-w-sm">
+        <div
+          class="w-full bg-white/40 h-2.5 rounded-full overflow-hidden"
+          role="progressbar"
+          aria-label="Postęp weryfikacji"
+          :aria-valuenow="Math.min((pendingVerifications / 20) * 100, 100)"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div
+            class="h-2.5 bg-primary rounded-full transition-all duration-500"
+            :style="{ width: Math.min((pendingVerifications / 20) * 100, 100) + '%' }"
+          />
         </div>
-      </main>
-    </div>
-  </div>
+        <p class="text-xs text-slate-500 mt-2 text-center md:text-right">Progres weryfikacji</p>
+      </div>
+    </AdminGlassSection>
+  </AdminLayout>
 </template>
