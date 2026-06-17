@@ -1,8 +1,11 @@
 <script setup>
 import { ref, computed } from 'vue'
-import AdminLayout from '../Components/Admin/AdminLayout.vue'
-import AdminGlassSection from '../Components/Admin/AdminGlassSection.vue'
-import AdminStatCard from '../Components/Admin/AdminStatCard.vue'
+import { useI18n } from 'vue-i18n'
+import AdminLayout from '@/Components/Admin/AdminLayout.vue'
+import AdminGlassSection from '@/Components/Admin/AdminGlassSection.vue'
+import AdminStatCard from '@/Components/Admin/AdminStatCard.vue'
+
+const { t } = useI18n()
 
 const students = ref(1245)
 const approvedCompanies = ref(86)
@@ -11,32 +14,31 @@ const activeOffers = ref(42)
 const pendingVerifications = ref(7)
 
 const stats = computed(() => [
-  { label: 'Aktywni studenci', value: students.value, accent: 'border-t-primary' },
-  { label: 'Zatwierdzone firmy', value: approvedCompanies.value, accent: 'border-t-primary' },
-  { label: 'Zatwierdzone uczelnie', value: approvedUniversities.value, accent: 'border-t-primary' },
-  { label: 'Aktywne oferty', value: activeOffers.value, accent: 'border-t-primary' },
+  { label: t('admin.panel.stats.activeStudents'), value: students.value, accent: 'border-t-primary' },
+  { label: t('admin.panel.stats.approvedCompanies'), value: approvedCompanies.value, accent: 'border-t-primary' },
+  { label: t('admin.panel.stats.approvedUniversities'), value: approvedUniversities.value, accent: 'border-t-primary' },
+  { label: t('admin.panel.stats.activeOffers'), value: activeOffers.value, accent: 'border-t-primary' },
 ])
 </script>
 
 <template>
   <AdminLayout active-page="dashboard">
-    <AdminGlassSection class="px-4 py-5 md:px-8 md:py-6 text-center">
-      <h1 class="text-2xl font-semibold text-text">
-        Witaj w panelu administratora!
+    <AdminGlassSection class="px-4 md:px-8 py-5 md:py-6 text-center">
+      <h1 class="font-semibold text-text text-2xl">
+        {{ t('admin.panel.greeting') }}
       </h1>
-      <p class="text-sm text-slate-600 mt-3 max-w-2xl mx-auto leading-relaxed">
-        Tutaj możesz zarządzać zgłoszeniami i przeglądać statystyki. Użyj menu po lewej stronie, aby
-        nawigować do różnych sekcji panelu.
+      <p class="mx-auto mt-3 max-w-2xl text-slate-800 text-sm leading-relaxed">
+        {{ t('admin.panel.description') }}
       </p>
       <a
-        href="/admin/zgloszenia"
-        class="inline-flex mt-5 items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
+        href="/admin/applications"
+        class="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 mt-5 px-4 py-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 font-medium text-white text-sm transition"
       >
-        Przejdź do zgłoszeń
+        {{ t('admin.panel.goToApplications') }}
       </a>
     </AdminGlassSection>
 
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <section class="gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
       <AdminStatCard
         v-for="stat in stats"
         :key="stat.label"
@@ -46,28 +48,28 @@ const stats = computed(() => [
       />
     </section>
 
-    <AdminGlassSection class="px-4 py-5 md:px-8 md:py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="text-center md:text-left">
-        <h2 class="text-sm font-medium text-slate-700">Oczekujące weryfikacje</h2>
-        <p class="text-3xl font-bold text-primary mt-1">
+    <AdminGlassSection class="flex md:flex-row flex-col justify-between items-center gap-4 px-4 md:px-8 py-5 md:py-6">
+      <div class="md:text-left text-center">
+        <h2 class="font-medium text-slate-700 text-sm">{{ t('admin.panel.pendingVerifications') }}</h2>
+        <p class="mt-1 font-bold text-primary text-3xl">
           {{ pendingVerifications }}
         </p>
       </div>
       <div class="w-full md:max-w-sm">
         <div
-          class="w-full bg-white/40 h-2.5 rounded-full overflow-hidden"
+          class="bg-white/40 rounded-full w-full h-2.5 overflow-hidden"
           role="progressbar"
-          aria-label="Postęp weryfikacji"
+          :aria-label="t('admin.panel.verificationProgressAriaLabel')"
           :aria-valuenow="Math.min((pendingVerifications / 20) * 100, 100)"
           aria-valuemin="0"
           aria-valuemax="100"
         >
           <div
-            class="h-2.5 bg-primary rounded-full transition-all duration-500"
+            class="bg-primary rounded-full h-2.5 transition-all duration-500"
             :style="{ width: Math.min((pendingVerifications / 20) * 100, 100) + '%' }"
           />
         </div>
-        <p class="text-xs text-slate-500 mt-2 text-center md:text-right">Progres weryfikacji</p>
+        <p class="mt-2 text-slate-700 text-xs text-center md:text-right">{{ t('admin.panel.verificationProgress') }}</p>
       </div>
     </AdminGlassSection>
   </AdminLayout>

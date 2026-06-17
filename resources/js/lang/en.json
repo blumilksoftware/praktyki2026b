@@ -1,0 +1,56 @@
+{
+  "auth": {
+    "verification": {
+      "invalidLink": "Invalid or expired verification link.",
+      "resendMessage": "If your email address is registered and unverified, a new verification link has been sent."
+    }
+  },
+  "table": {
+    "id": "ID",
+    "student": "Student",
+    "company": "Company",
+    "status": "Status"
+  },
+  "admin": {
+    "applications": {
+      "caption": "List of candidate applications",
+      "title": "Applications Panel",
+      "description": "Review and verify the latest applications.",
+      "heading": "Applications List",
+      "backToDashboard": "Back to dashboard",
+      "placeholder": "Page under construction"
+    },
+    "panel": {
+      "greeting": "Welcome to the admin panel!",
+      "description": "Here you can manage applications and view statistics. Use the menu on the left to navigate to different sections of the panel.",
+      "goToApplications": "Go to applications",
+      "stats": {
+        "activeStudents": "Active students",
+        "approvedCompanies": "Approved companies",
+        "approvedUniversities": "Approved universities",
+        "activeOffers": "Active offers"
+      },
+      "pendingVerifications": "Pending verifications",
+      "verificationProgress": "Verification progress",
+      "verificationProgressAriaLabel": "Verification progress"
+    },
+    "layout": {
+      "skipToContent": "Skip to content",
+      "title": "Admin",
+      "subtitle": "Management Panel",
+      "nav": {
+        "ariaLabel": "Administrator navigation",
+        "dashboard": "Dashboard",
+        "applications": "Applications",
+        "settings": "Settings",
+        "mobileAriaLabel": "Mobile navigation"
+      },
+      "logout": "Logout",
+      "userRole": "Administrator",
+      "languageSwitch": {
+        "toEnglish": "Switch to English",
+        "toPolish": "Przełącz na polski"
+      }
+    }
+  }
+}

@@ -17,10 +17,10 @@ defineProps({
 
 <template>
   <article
-    class="rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg ring-1 ring-black/5 border-t-4 p-5 flex flex-col items-center text-center"
+    class="flex flex-col items-center bg-white/20 shadow-lg backdrop-blur-sm p-5 border-t-4 rounded-2xl ring-1 ring-black/5 text-center"
     :class="accent"
   >
-    <div class="text-xs uppercase tracking-wide text-slate-500">{{ label }}</div>
-    <div class="text-3xl font-bold text-text mt-2">{{ value }}</div>
+    <div class="text-slate-700 text-xs uppercase tracking-wide">{{ label }}</div>
+    <div class="mt-2 font-bold text-text text-3xl">{{ value }}</div>
   </article>
 </template>

@@ -4,6 +4,7 @@ import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { createI18n } from 'vue-i18n'
 import pl from './lang/pl.json'
+import en from './lang/en.json'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Applikuj'
 
@@ -11,7 +12,7 @@ const i18n = createI18n({
   legacy: false,
   locale: 'pl',
   fallbackLocale: 'pl',
-  messages: { pl },
+  messages: { pl, en },
 })
 
 createInertiaApp({

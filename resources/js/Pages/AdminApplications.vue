@@ -1,28 +1,29 @@
 <script setup>
-import { ref } from 'vue'
-import AdminLayout from '../Components/Admin/AdminLayout.vue'
-import AdminGlassSection from '../Components/Admin/AdminGlassSection.vue'
-import AdminApplicationsTable from '../Components/Admin/AdminApplicationsTable.vue'
+import { useI18n } from 'vue-i18n'
+import AdminLayout from '@/Components/Admin/AdminLayout.vue'
+import AdminGlassSection from '@/Components/Admin/AdminGlassSection.vue'
+
+const { t } = useI18n()
 </script>
 
 <template>
   <AdminLayout active-page="applications">
-    <AdminGlassSection class="px-4 py-5 md:px-8 md:py-6 text-center">
-      <h1 class="text-2xl font-semibold text-text">Panel zgłoszeń</h1>
-      <p class="text-sm text-slate-600 mt-2">Przeglądaj i weryfikuj najnowsze zgłoszenia.</p>
+    <AdminGlassSection class="px-4 md:px-8 py-5 md:py-6 text-center">
+      <h1 class="font-semibold text-text text-2xl">{{ t('admin.applications.title') }}</h1>
+      <p class="mt-2 text-slate-800 text-sm">{{ t('admin.applications.description') }}</p>
     </AdminGlassSection>
 
-    <AdminGlassSection class="px-4 py-5 md:px-6 md:py-6">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-        <h2 class="text-xl font-semibold text-text">Lista zgłoszeń</h2>
+    <AdminGlassSection class="px-4 md:px-6 py-5 md:py-6">
+      <div class="flex sm:flex-row flex-col sm:justify-between sm:items-center gap-3 mb-4">
+        <h2 class="font-semibold text-text text-xl">{{ t('admin.applications.heading') }}</h2>
         <a
           href="/admin"
-          class="inline-flex items-center justify-center rounded-xl border border-primary/20 bg-white/40 px-4 py-2 text-sm font-medium text-primary transition hover:bg-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
+          class="inline-flex justify-center items-center bg-white/40 hover:bg-white/70 px-4 py-2 border border-primary/20 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 font-medium text-primary text-sm transition"
         >
-          Powrót do dashboardu
+          {{ t('admin.applications.backToDashboard') }}
         </a>
       </div>
     </AdminGlassSection>
-    <p>Work In Progres</p>
+    <p>{{ t('admin.applications.placeholder') }}</p>
   </AdminLayout>
 </template>

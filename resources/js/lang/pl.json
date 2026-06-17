@@ -4,5 +4,53 @@
       "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
       "resendMessage": "Jeśli Twój adres e-mail jest zarejestrowany i niezweryfikowany, nowy link weryfikacyjny został wysłany."
     }
+  },
+  "table": {
+    "id": "ID",
+    "student": "Student",
+    "company": "Firma",
+    "status": "Status"
+  },
+  "admin": {
+    "applications": {
+      "caption": "Lista zgłoszeń kandydatów",
+      "title": "Panel zgłoszeń",
+      "description": "Przeglądaj i weryfikuj najnowsze zgłoszenia.",
+      "heading": "Lista zgłoszeń",
+      "backToDashboard": "Powrót do dashboardu",
+      "placeholder": "Strona w budowie"
+    },
+    "panel": {
+      "greeting": "Witaj w panelu administratora!",
+      "description": "Tutaj możesz zarządzać zgłoszeniami i przeglądać statystyki. Użyj menu po lewej stronie, aby nawigować do różnych sekcji panelu.",
+      "goToApplications": "Przejdź do zgłoszeń",
+      "stats": {
+        "activeStudents": "Aktywni studenci",
+        "approvedCompanies": "Zatwierdzone firmy",
+        "approvedUniversities": "Zatwierdzone uczelnie",
+        "activeOffers": "Aktywne oferty"
+      },
+      "pendingVerifications": "Oczekujące weryfikacje",
+      "verificationProgress": "Progres weryfikacji",
+      "verificationProgressAriaLabel": "Postęp weryfikacji"
+    },
+    "layout": {
+      "skipToContent": "Przejdź do treści",
+      "title": "Admin",
+      "subtitle": "Panel zarządzania",
+      "nav": {
+        "ariaLabel": "Nawigacja administratora",
+        "dashboard": "Dashboard",
+        "applications": "Zgłoszenia",
+        "settings": "Ustawienia",
+        "mobileAriaLabel": "Nawigacja mobilna"
+      },
+      "logout": "Wyloguj",
+      "userRole": "Administrator",
+      "languageSwitch": {
+        "toEnglish": "Przełącz na angielski",
+        "toPolish": "Switch to Polish"
+      }
+    }
   }
 }
