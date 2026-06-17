@@ -18,7 +18,7 @@ class StudentRegistrationTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson("/register/student", $this->validPayload());
+        $response = $this->postJson("/api/register/student", $this->validPayload());
 
         $response->assertCreated();
         $this->assertDatabaseHas("users", ["email" => "user@example.com"]);
@@ -28,7 +28,7 @@ class StudentRegistrationTest extends TestCase
     {
         User::factory()->create(["email" => "user@example.com"]);
 
-        $response = $this->postJson("/register/student", $this->validPayload());
+        $response = $this->postJson("/api/register/student", $this->validPayload());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors("email");
@@ -36,7 +36,7 @@ class StudentRegistrationTest extends TestCase
 
     public function testRegistrationRequiresTermsAcceptance(): void
     {
-        $response = $this->postJson("/register/student", $this->validPayload(["terms" => false]));
+        $response = $this->postJson("/api/register/student", $this->validPayload(["terms" => false]));
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors("terms");
@@ -44,7 +44,7 @@ class StudentRegistrationTest extends TestCase
 
     public function testRegistrationRequiresPasswordConfirmation(): void
     {
-        $response = $this->postJson("/register/student", $this->validPayload(["password_confirmation" => "different"]));
+        $response = $this->postJson("/api/register/student", $this->validPayload(["password_confirmation" => "different"]));
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors("password");
@@ -54,7 +54,7 @@ class StudentRegistrationTest extends TestCase
     {
         Mail::fake();
 
-        $this->postJson("/register/student", $this->validPayload());
+        $this->postJson("/api/register/student", $this->validPayload());
 
         Mail::assertQueued(StudentRegistrationMail::class, fn($mail): bool => $mail->hasTo("user@example.com"));
     }
