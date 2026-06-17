@@ -46,7 +46,7 @@ const navItems = [
         </div>
         <div>
           <div class="text-lg font-semibold text-text">Admin</div>
-          <div class="text-xs text-slate-400">Panel zarzadzania</div>
+          <div class="text-xs text-slate-700">Panel zarzadzania</div>
         </div>
       </div>
 
@@ -95,7 +95,7 @@ const navItems = [
         >
         <div>
           <p class="text-sm font-medium text-text">Admin Name</p>
-          <p class="text-xs text-slate-400">Administrator</p>
+          <p class="text-xs text-slate-700">Administrator</p>
         </div>
       </div>
     </aside>

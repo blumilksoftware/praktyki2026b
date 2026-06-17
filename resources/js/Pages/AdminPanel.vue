@@ -25,8 +25,7 @@ const stats = computed(() => [
         Witaj w panelu administratora!
       </h1>
       <p class="text-sm text-slate-600 mt-3 max-w-2xl mx-auto leading-relaxed">
-        Tutaj możesz zarządzać zgłoszeniami, przeglądać statystyki i
-        konfigurować ustawienia systemu. Użyj menu po lewej stronie, aby
+        Tutaj możesz zarządzać zgłoszeniami i przeglądać statystyki. Użyj menu po lewej stronie, aby
         nawigować do różnych sekcji panelu.
       </p>
       <a

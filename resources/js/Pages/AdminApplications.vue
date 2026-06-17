@@ -3,13 +3,6 @@ import { ref } from 'vue'
 import AdminLayout from '../Components/Admin/AdminLayout.vue'
 import AdminGlassSection from '../Components/Admin/AdminGlassSection.vue'
 import AdminApplicationsTable from '../Components/Admin/AdminApplicationsTable.vue'
-
-const applications = ref([
-  { id: 'ZG-2026-014', student: 'Anna Kowalska', company: 'TechNova', status: 'Nowe' },
-  { id: 'ZG-2026-015', student: 'Michał Nowak', company: 'DataSphere', status: 'W trakcie' },
-  { id: 'ZG-2026-016', student: 'Julia Wiśniewska', company: 'CloudNest', status: 'Do poprawy' },
-  { id: 'ZG-2026-017', student: 'Kacper Zieliński', company: 'BlueBrick', status: 'Nowe' },
-])
 </script>
 
 <template>
@@ -29,8 +22,7 @@ const applications = ref([
           Powrót do dashboardu
         </a>
       </div>
-
-      <AdminApplicationsTable :applications="applications" />
     </AdminGlassSection>
+    <p>Work In Progres</p>
   </AdminLayout>
 </template>
