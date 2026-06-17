@@ -38,7 +38,7 @@ const props = defineProps({
 
     <div class="hidden sm:block overflow-x-auto rounded-xl ring-1 ring-black/5 bg-white/35">
       <table class="min-w-full text-sm">
-      <caption class="sr-only">{{ props.caption || 'Data table' }}</caption>
+        <caption class="sr-only">{{ props.caption || 'Data table' }}</caption>
         <thead class="bg-white/50 text-xs font-semibold uppercase tracking-wide text-slate-600">
           <tr>
             <th
