@@ -20,3 +20,6 @@ google-credentials.json
 /public/build/
 supervisord.pid
 .php-cs-fixer.cache
+.prettierrc
+.prettierrc.*
+eslint.config.js

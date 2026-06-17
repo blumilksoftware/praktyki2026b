@@ -3,3 +3,10 @@
 @plugin '@tailwindcss/typography';
 
 @source '../**/*.{vue,js,ts}';
+
+@theme {
+  --color-primary: #044389;
+  --color-secondary: #F8FAFC;
+  --color-accent: #FFFACC;
+  --color-text: #0B1A30;
+}
