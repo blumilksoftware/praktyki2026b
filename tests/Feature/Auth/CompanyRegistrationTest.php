@@ -19,8 +19,8 @@ class CompanyRegistrationTest extends TestCase
 
     public function testCompanyCanRegisterWithValidData(): void
     {
-        $this->postJson("/api/register/company", $this->validPayload())
-            ->assertStatus(201);
+        $this->post("/register/company", $this->validPayload())
+            ->assertRedirect("/login");
 
         $this->assertDatabaseHas("companies", [
             "nip" => "1234563218",
@@ -39,8 +39,8 @@ class CompanyRegistrationTest extends TestCase
     {
         $payload = $this->validPayload(["website" => "https://acme.com"]);
 
-        $this->postJson("/api/register/company", $payload)
-            ->assertStatus(201);
+        $this->post("/register/company", $payload)
+            ->assertRedirect("/login");
 
         $this->assertDatabaseHas("companies", [
             "nip" => "1234563218",
@@ -51,27 +51,27 @@ class CompanyRegistrationTest extends TestCase
 
     public function testRegistrationFailsWithInvalidNipChecksum(): void
     {
-        $this->postJson("/api/register/company", $this->validPayload(["nip" => "1234563219"]))
-            ->assertStatus(422)
-            ->assertJsonValidationErrors("nip");
+        $this->post("/register/company", $this->validPayload(["nip" => "1234563219"]))
+            ->assertRedirect()
+            ->assertSessionHasErrors("nip");
     }
 
     public function testRegistrationFailsWithDuplicateNip(): void
     {
         Company::factory()->create(["nip" => "1234563218"]);
 
-        $this->postJson("/api/register/company", $this->validPayload())
-            ->assertStatus(422)
-            ->assertJsonValidationErrors("nip");
+        $this->post("/register/company", $this->validPayload())
+            ->assertRedirect()
+            ->assertSessionHasErrors("nip");
     }
 
     public function testRegistrationFailsWithDuplicateEmail(): void
     {
         User::factory()->create(["email" => "firma@example.com"]);
 
-        $this->postJson("/api/register/company", $this->validPayload())
-            ->assertStatus(422)
-            ->assertJsonValidationErrors("email");
+        $this->post("/register/company", $this->validPayload())
+            ->assertRedirect()
+            ->assertSessionHasErrors("email");
     }
 
     public function testPendingCompanyAdminCannotAccessDashboard(): void
@@ -104,7 +104,7 @@ class CompanyRegistrationTest extends TestCase
 
     public function testPasswordIsNotStoredAsPlaintext(): void
     {
-        $this->postJson("/api/register/company", $this->validPayload());
+        $this->post("/register/company", $this->validPayload());
 
         $user = User::query()->firstWhere("email", "firma@example.com");
 

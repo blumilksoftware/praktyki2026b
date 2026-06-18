@@ -16,7 +16,6 @@
     },
     "require-dev": {
         "blumilksoftware/codestyle": "^v5.1.1",
-        "blumilksoftware/openapi-toolbox": "^3.0",
         "fakerphp/faker": "^1.24.1",
         "larastan/larastan": "^3.8.1",
         "mockery/mockery": "^1.6.12",
