@@ -6,6 +6,7 @@ return [
     "verification" => [
         "invalid_link" => "Nieprawidłowy lub wygasły link weryfikacyjny.",
         "resend_message" => "Jeśli Twój adres e-mail jest zarejestrowany i niezweryfikowany, nowy link weryfikacyjny został wysłany.",
+        "not_verified" => "Twój adres e-mail nie został zweryfikowany.",
     ],
     "failed" => "Podane dane logowania są nieprawidłowe.",
     "password" => "Podane hasło jest nieprawidłowe.",
