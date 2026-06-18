@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import AdminLayout from '@/Components/Admin/AdminLayout.vue'
+import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import AdminGlassSection from '@/Components/Admin/AdminGlassSection.vue'
 import AdminStatCard from '@/Components/Admin/AdminStatCard.vue'
 
@@ -22,7 +22,7 @@ const stats = computed(() => [
 </script>
 
 <template>
-  <AdminLayout active-page="dashboard">
+  <BaseLayout active-page="dashboard">
     <AdminGlassSection class="px-4 md:px-8 py-5 md:py-6 text-center">
       <h1 class="font-semibold text-text text-2xl">
         {{ t('admin.panel.greeting') }}
@@ -72,5 +72,5 @@ const stats = computed(() => [
         <p class="mt-2 text-slate-700 text-xs text-center md:text-right">{{ t('admin.panel.verificationProgress') }}</p>
       </div>
     </AdminGlassSection>
-  </AdminLayout>
+  </BaseLayout>
 </template>

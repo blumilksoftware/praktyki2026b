@@ -1,15 +1,24 @@
-<script setup>
-const props = defineProps({
-  items: { type: Array, required: true },
-  columns: { type: Array, required: true },
-  rowKey: { type: String, default: 'id' },
-  caption: { type: String, default: '' },
-})
+<script setup lang="ts">
+interface Column {
+  key: string
+  label: string
+  align?: 'left' | 'right'
+}
+
+const props = defineProps<{
+  items: Array<Record<string, unknown>>
+  columns: Column[]
+  rowKey?: string
+  caption?: string
+}>()
 </script>
 
 <template>
   <div class="space-y-3">
-    <div class="sm:hidden space-y-3">
+    <div v-if="props.items.length === 0" class="text-center py-8 text-slate-500">
+      Brak danych do wyświetlenia
+    </div>
+    <div v-else class="sm:hidden space-y-3">
       <article
         v-for="item in props.items"
         :key="`mobile-${item[props.rowKey]}`"
@@ -36,7 +45,7 @@ const props = defineProps({
       </article>
     </div>
 
-    <div class="hidden sm:block overflow-x-auto rounded-xl ring-1 ring-black/5 bg-white/35">
+    <div v-if="props.items.length > 0" class="hidden sm:block overflow-x-auto rounded-xl ring-1 ring-black/5 bg-white/35">
       <table class="min-w-full text-sm">
         <caption class="sr-only">{{ props.caption || 'Data table' }}</caption>
         <thead class="bg-white/50 text-xs font-semibold uppercase tracking-wide text-slate-600">

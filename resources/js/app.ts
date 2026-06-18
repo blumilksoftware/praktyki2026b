@@ -8,9 +8,11 @@ import en from './lang/en.json'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Applikuj'
 
+const savedLocale = localStorage.getItem('locale') || 'pl'
+
 const i18n = createI18n({
   legacy: false,
-  locale: 'pl',
+  locale: savedLocale,
   fallbackLocale: 'pl',
   messages: { pl, en },
 })
