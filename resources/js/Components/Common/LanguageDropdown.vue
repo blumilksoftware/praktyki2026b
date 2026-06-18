@@ -1,18 +1,18 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref } from 'vue'
 import { IconLanguage, IconChevronDown } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
 
-const props = defineProps<{
-  mobile?: boolean
-}>()
+const props = defineProps({
+  mobile: { type: Boolean, default: false },
+})
 
 const { t, locale } = useI18n()
 
 const isOpen = ref(false)
 const currentLanguage = computed(() => (locale.value || 'pl').toUpperCase())
 
-function setLanguage(lang: string) {
+function setLanguage(lang) {
   locale.value = lang
   localStorage.setItem('locale', lang)
   isOpen.value = false

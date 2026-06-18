@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref } from 'vue'
 import { IconHome, IconClipboard, IconSettings, IconLogout } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
@@ -17,6 +17,7 @@ const isLanguageDropdownOpen = ref(false)
 
 const currentLanguage = computed(() => (locale.value || 'pl').toUpperCase())
 
+/** @param {string} lang */
 function setLanguage(lang) {
   locale.value = lang
   localStorage.setItem('locale', lang)
@@ -55,14 +56,14 @@ const navItems = computed(() => [
     </a>
 
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
-      <div class="flex justify-between items-center px-4 md:px-6 py-4">
+      <div class="flex justify-between items-center px-4 min-[900px]:px-6 py-4">
         <div class="flex items-center gap-3">
           <div class="flex-shrink-0">
             <img
               src="/logo_final.png"
               alt="Applikuj logo"
-              class="h-10 w-auto rounded-lg"
-            />
+              class="rounded-lg w-auto h-10"
+            >
           </div>
           <div>
             <div class="font-semibold text-white text-lg">{{ t('admin.layout.title') }}</div>
@@ -70,7 +71,7 @@ const navItems = computed(() => [
           </div>
         </div>
 
-        <nav :aria-label="t('admin.layout.nav.ariaLabel')" class="hidden md:flex items-center gap-1">
+        <nav :aria-label="t('admin.layout.nav.ariaLabel')" class="hidden min-[900px]:flex items-center gap-1">
           <a
             v-for="item in navItems"
             :key="item.key"
@@ -97,7 +98,7 @@ const navItems = computed(() => [
             src="https://www.gravatar.com/avatar?d=mp&s=48"
             alt="admin"
           >
-          <div class="hidden md:block">
+          <div class="hidden min-[900px]:block">
             <p class="font-medium text-white text-sm">TestAdmin</p>
             <p class="text-white/70 text-xs">{{ t('admin.layout.userRole') }}</p>
           </div>
@@ -112,8 +113,8 @@ const navItems = computed(() => [
         </div>
       </div>
 
-      <nav class="md:hidden px-4 pb-4" :aria-label="t('admin.layout.nav.mobileAriaLabel')">
-        <ul class="flex gap-2 overflow-x-auto">
+      <nav class="min-[900px]:hidden max-[899px]:block px-4 pb-4" :aria-label="t('admin.layout.nav.mobileAriaLabel')">
+        <ul class="flex justify-center gap-2 overflow-x-auto">
           <li v-for="item in navItems" :key="`mobile-${item.key}`">
             <a
               :href="item.href"
@@ -127,14 +128,11 @@ const navItems = computed(() => [
               {{ item.label }}
             </a>
           </li>
-          <li>
-            <LanguageDropdown mobile />
-          </li>
         </ul>
       </nav>
     </header>
 
-    <main id="main-content" class="relative flex flex-col flex-1 justify-start items-stretch p-4 md:p-6 overflow-y-auto">
+    <main id="main-content" class="relative flex flex-col flex-1 justify-start items-stretch p-4 min-[900px]:p-6 overflow-y-auto">
       <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div class="absolute inset-0 bg-gradient-to-br from-secondary via-slate-100/90 to-primary/12" />
         <div class="absolute inset-0 admin-panel-dots" />

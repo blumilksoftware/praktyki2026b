@@ -9,7 +9,8 @@
     "id": "ID",
     "student": "Student",
     "company": "Company",
-    "status": "Status"
+    "status": "Status",
+    "noData": "No data to display"
   },
   "admin": {
     "applications": {
@@ -49,7 +50,7 @@
       "userRole": "Administrator",
       "languageSwitch": {
         "toEnglish": "Switch to English",
-        "toPolish": "Przełącz na polski"
+        "toPolish": "Switch to Polish"
       }
     }
   }
