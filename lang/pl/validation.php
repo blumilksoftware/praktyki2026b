@@ -147,6 +147,7 @@ return [
     "ulid" => "Pole :attribute musi być prawidłowym identyfikatorem ULID.",
     "uuid" => "Pole :attribute musi być prawidłowym identyfikatorem UUID.",
     "nip" => "Pole :attribute musi być prawidłowym numerem NIP.",
+    "phone" => "Pole :attribute musi być prawidłowym numerem telefonu.",
 
     "attributes" => [
         "email" => "adres e-mail",

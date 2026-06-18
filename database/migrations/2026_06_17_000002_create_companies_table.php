@@ -24,10 +24,18 @@ return new class() extends Migration {
             $table->string("verification_status")->default(CompanyVerificationStatus::Pending->value);
             $table->timestamps();
         });
+
+        Schema::table("users", function (Blueprint $table): void {
+            $table->foreign("organization_id")->references("id")->on("companies")->cascadeOnDelete();
+        });
     }
 
     public function down(): void
     {
+        Schema::table("users", function (Blueprint $table): void {
+            $table->dropForeign(["organization_id"]);
+        });
+
         Schema::dropIfExists("companies");
     }
 };

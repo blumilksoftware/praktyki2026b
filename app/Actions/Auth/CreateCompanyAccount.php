@@ -30,17 +30,17 @@ class CreateCompanyAccount
                 "verification_status" => CompanyVerificationStatus::Pending,
             ]);
 
-              $user = User::create([
-                  "email" => $data->email,
-                  "password" => $data->password,
-                  "role" => UserRole::CompanyAdmin,
-                  "status" => UserStatus::Pending,
-                  "organization_id" => $company->id,
-                  "terms_accepted_at" => now(),
-              ]);
-              $user->sendEmailVerificationNotification();
+            $user = User::create([
+                "email" => $data->email,
+                "password" => $data->password,
+                "role" => UserRole::CompanyAdmin,
+                "status" => UserStatus::Pending,
+                "organization_id" => $company->id,
+                "terms_accepted_at" => now(),
+            ]);
+            $user->sendEmailVerificationNotification();
 
-              return $user;
+            return $user;
         });
     }
 }

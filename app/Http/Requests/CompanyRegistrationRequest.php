@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Rules\NipRule;
+use App\Rules\PhoneRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -27,7 +28,7 @@ class CompanyRegistrationRequest extends FormRequest
             "building_number" => ["required", "string", "max:50"],
             "postal_code" => ["required", "string", "max:10"],
             "city" => ["required", "string", "max:255"],
-            "phone" => ["required", "string", "max:20", "regex:/^(?:\+?48)? ?[1-9]\d{2}(?:[ -]?\d{3}){2}$/"],
+            "phone" => ["required", "string", "max:20", new PhoneRule()],
             "website" => ["nullable", "string", "url", "max:255"],
             "terms" => ["required", "accepted"],
         ];
