@@ -10,8 +10,8 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::table("users", function (Blueprint $table): void {
-            $table->string("first_name");
-            $table->string("last_name");
+            $table->string("first_name")->nullable();
+            $table->string("last_name")->nullable();
             $table->dropColumn("name");
             $table->enum("role", ["student", "superAdmin", "universityAdmin", "companyAdmin"]);
             $table->timestamp("terms_accepted_at")->nullable();
