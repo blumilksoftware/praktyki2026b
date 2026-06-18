@@ -19,5 +19,12 @@ class DemoSeeder extends Seeder
             "role" => UserRole::SuperAdmin,
             "email_verified_at" => now(),
         ]);
+
+        User::factory()->create([
+            "first_name" => "Test",
+            "last_name" => "User",
+            "email" => "user@example.com",
+            "role" => UserRole::Student,
+        ]);
     }
 }
