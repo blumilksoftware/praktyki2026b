@@ -8,6 +8,7 @@ use App\Mail\StudentRegistrationMail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class StudentRegistrationTest extends TestCase
@@ -17,10 +18,11 @@ class StudentRegistrationTest extends TestCase
     public function testStudentCanRegisterWithValidData(): void
     {
         Mail::fake();
+        Notification::fake();
 
         $response = $this->post("/register/student", $this->validPayload());
 
-        $response->assertRedirect("/login");
+        $response->assertRedirect(route("login"));
         $this->assertDatabaseHas("users", ["email" => "user@example.com"]);
     }
 
@@ -30,29 +32,27 @@ class StudentRegistrationTest extends TestCase
 
         $response = $this->post("/register/student", $this->validPayload());
 
-        $response->assertRedirect();
-        $response->assertSessionHasErrors("email");
+        $response->assertInvalid("email");
     }
 
     public function testRegistrationRequiresTermsAcceptance(): void
     {
         $response = $this->post("/register/student", $this->validPayload(["terms" => false]));
 
-        $response->assertRedirect();
-        $response->assertSessionHasErrors("terms");
+        $response->assertInvalid("terms");
     }
 
     public function testRegistrationRequiresPasswordConfirmation(): void
     {
         $response = $this->post("/register/student", $this->validPayload(["password_confirmation" => "different"]));
 
-        $response->assertRedirect();
-        $response->assertSessionHasErrors("password");
+        $response->assertInvalid("password");
     }
 
     public function testRegistrationSendsConfirmationEmail(): void
     {
         Mail::fake();
+        Notification::fake();
 
         $this->post("/register/student", $this->validPayload());
 
