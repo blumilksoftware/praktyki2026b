@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Auth\CompanyRegistrationController;
 use App\Http\Controllers\Company\CompanyDashboardController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
+use App\Http\Controllers\Auth\EmailVerificationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
@@ -19,3 +20,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->group(function (): void {
         Route::get("/dashboard", CompanyDashboardController::class)->name("company.dashboard");
     });
+Route::get("/email/verify/{id}/{token}", [EmailVerificationController::class, "verify"])
+    ->name("verification.verify");
+Route::post("/email/resend", [EmailVerificationController::class, "resend"])
+    ->name("verification.resend");

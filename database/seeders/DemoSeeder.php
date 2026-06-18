@@ -45,5 +45,12 @@ class DemoSeeder extends Seeder
             "email" => "company-pending@example.com",
             "organization_id" => $pendingCompany->id,
         ]);
+
+        User::factory()->create([
+            "first_name" => "Test",
+            "last_name" => "User",
+            "email" => "user@example.com",
+            "role" => UserRole::Student,
+        ]);
     }
 }

@@ -13,7 +13,7 @@ return [
             "specification" => [
                 "path" => resource_path("openapi"),
                 "index" => "openapi.yml",
-                "allow_multiple_files" => false,
+                "allow_multiple_files" => true,
             ],
             "cache" => [
                 "enabled" => false,
