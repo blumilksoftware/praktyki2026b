@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -23,6 +24,7 @@ class UserFactory extends Factory
             "email_verified_at" => now(),
             "password" => "password",
             "role" => UserRole::Student,
+            "status" => UserStatus::Active,
             "remember_token" => Str::random(10),
         ];
     }
@@ -31,6 +33,16 @@ class UserFactory extends Factory
     {
         return $this->state(fn(array $attributes): array => [
             "email_verified_at" => null,
+        ]);
+    }
+
+    public function pendingUniversityAdmin(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "first_name" => null,
+            "last_name" => null,
+            "role" => UserRole::UniversityAdmin,
+            "status" => UserStatus::Pending,
         ]);
     }
 }

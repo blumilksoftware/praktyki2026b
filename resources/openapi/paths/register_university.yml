@@ -1,0 +1,64 @@
+post:
+  summary: Register a new university account
+  operationId: registerUniversity
+  tags:
+    - Auth
+  servers:
+    - url: /
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [university_name, email, domain, password, password_confirmation, street, building_number, postal_code, city, phone, terms]
+          properties:
+            university_name:
+              type: string
+              example: Politechnika Przykładowa
+            email:
+              type: string
+              format: email
+              example: uczelnia@example.com
+            domain:
+              type: string
+              example: example.com
+            password:
+              type: string
+              format: password
+              example: Password123!
+            password_confirmation:
+              type: string
+              format: password
+              example: Password123!
+            street:
+              type: string
+              example: ul. Akademicka
+            building_number:
+              type: string
+              example: "1"
+            postal_code:
+              type: string
+              example: 00-001
+            city:
+              type: string
+              example: Warszawa
+            phone:
+              type: string
+              example: "123456789"
+            website:
+              type: string
+              nullable: true
+              example: https://uczelnia.edu.pl
+            terms:
+              type: boolean
+              example: true
+  responses:
+    "201":
+      description: University registered successfully
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/User.yml"
+    "422":
+      description: Validation error

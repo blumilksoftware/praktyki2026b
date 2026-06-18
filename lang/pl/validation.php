@@ -149,9 +149,18 @@ return [
 
     "attributes" => [
         "email" => "adres e-mail",
+        "domain" => "domena",
         "password" => "hasło",
         "first_name" => "imię",
         "last_name" => "nazwisko",
         "university" => "uczelnia",
+        "university_name" => "nazwa uczelni",
+        "street" => "ulica",
+        "building_number" => "numer budynku",
+        "postal_code" => "kod pocztowy",
+        "city" => "miasto",
+        "phone" => "telefon",
+        "website" => "strona WWW",
+        "terms" => "regulamin",
     ],
 ];
