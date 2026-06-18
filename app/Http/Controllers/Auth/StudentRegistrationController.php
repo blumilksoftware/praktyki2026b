@@ -8,9 +8,8 @@ use App\Actions\Auth\CreateStudentAccount;
 use App\DTO\Auth\StudentRegistrationData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRegistrationRequest;
-use App\Http\Resources\UserResource;
 use App\Mail\StudentRegistrationMail;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
 
 class StudentRegistrationController extends Controller
@@ -19,13 +18,13 @@ class StudentRegistrationController extends Controller
         private readonly CreateStudentAccount $createStudentAccount,
     ) {}
 
-    public function __invoke(StudentRegistrationRequest $request): JsonResponse
+    public function __invoke(StudentRegistrationRequest $request): RedirectResponse
     {
         $data = StudentRegistrationData::fromArray($request->validated());
         $user = $this->createStudentAccount->execute($data);
 
         Mail::to($user->email)->queue(new StudentRegistrationMail($user));
 
-        return (new UserResource($user))->response()->setStatusCode(201);
+        return redirect("/login");
     }
 }

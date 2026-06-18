@@ -18,9 +18,9 @@ class StudentRegistrationTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson("/api/register/student", $this->validPayload());
+        $response = $this->post("/register/student", $this->validPayload());
 
-        $response->assertCreated();
+        $response->assertRedirect("/login");
         $this->assertDatabaseHas("users", ["email" => "user@example.com"]);
     }
 
@@ -28,33 +28,33 @@ class StudentRegistrationTest extends TestCase
     {
         User::factory()->create(["email" => "user@example.com"]);
 
-        $response = $this->postJson("/api/register/student", $this->validPayload());
+        $response = $this->post("/register/student", $this->validPayload());
 
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors("email");
+        $response->assertRedirect();
+        $response->assertSessionHasErrors("email");
     }
 
     public function testRegistrationRequiresTermsAcceptance(): void
     {
-        $response = $this->postJson("/api/register/student", $this->validPayload(["terms" => false]));
+        $response = $this->post("/register/student", $this->validPayload(["terms" => false]));
 
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors("terms");
+        $response->assertRedirect();
+        $response->assertSessionHasErrors("terms");
     }
 
     public function testRegistrationRequiresPasswordConfirmation(): void
     {
-        $response = $this->postJson("/api/register/student", $this->validPayload(["password_confirmation" => "different"]));
+        $response = $this->post("/register/student", $this->validPayload(["password_confirmation" => "different"]));
 
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors("password");
+        $response->assertRedirect();
+        $response->assertSessionHasErrors("password");
     }
 
     public function testRegistrationSendsConfirmationEmail(): void
     {
         Mail::fake();
 
-        $this->postJson("/api/register/student", $this->validPayload());
+        $this->post("/register/student", $this->validPayload());
 
         Mail::assertQueued(StudentRegistrationMail::class, fn($mail): bool => $mail->hasTo("user@example.com"));
     }
