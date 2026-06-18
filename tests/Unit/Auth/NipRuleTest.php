@@ -6,67 +6,32 @@ namespace Tests\Unit\Auth;
 
 use App\Rules\NipRule;
 use Illuminate\Support\Facades\Validator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class NipRuleTest extends TestCase
 {
-    public function testValidNipPasses(): void
+    public static function nipProvider(): array
     {
-        $validator = Validator::make(
-            ["nip" => "1234563218"],
-            ["nip" => [new NipRule()]],
-        );
-
-        $this->assertFalse($validator->fails());
+        return [
+            "valid NIP" => ["1234563218", true],
+            "valid NIP with dashes" => ["123-456-32-18", true],
+            "valid NIP with leading zeros" => ["0123456789", true],
+            "invalid checksum" => ["1234563219", false],
+            "too short" => ["123456321", false],
+            "too long" => ["12345632181", false],
+            "all zeros" => ["0000000000", false],
+        ];
     }
 
-    public function testInvalidChecksumFails(): void
+    #[DataProvider("nipProvider")]
+    public function testNipValidation(string $nip, bool $expectedPasses): void
     {
         $validator = Validator::make(
-            ["nip" => "1234563219"],
+            ["nip" => $nip],
             ["nip" => [new NipRule()]],
         );
 
-        $this->assertTrue($validator->fails());
-    }
-
-    public function testNipWithNineDigitsFails(): void
-    {
-        $validator = Validator::make(
-            ["nip" => "123456321"],
-            ["nip" => [new NipRule()]],
-        );
-
-        $this->assertTrue($validator->fails());
-    }
-
-    public function testNipWithElevenDigitsFails(): void
-    {
-        $validator = Validator::make(
-            ["nip" => "12345632181"],
-            ["nip" => [new NipRule()]],
-        );
-
-        $this->assertTrue($validator->fails());
-    }
-
-    public function testNipWithDashesPasses(): void
-    {
-        $validator = Validator::make(
-            ["nip" => "123-456-32-18"],
-            ["nip" => [new NipRule()]],
-        );
-
-        $this->assertFalse($validator->fails());
-    }
-
-    public function testNipWithLeadingZerosPasses(): void
-    {
-        $validator = Validator::make(
-            ["nip" => "0123456789"],
-            ["nip" => [new NipRule()]],
-        );
-
-        $this->assertFalse($validator->fails());
+        $this->assertEquals($expectedPasses, !$validator->fails());
     }
 }

@@ -27,7 +27,7 @@ class CompanyRegistrationRequest extends FormRequest
             "building_number" => ["required", "string", "max:50"],
             "postal_code" => ["required", "string", "max:10"],
             "city" => ["required", "string", "max:255"],
-            "phone" => ["required", "string", "max:20"],
+            "phone" => ["required", "string", "max:20", "regex:/^(?:\+?48)? ?[1-9]\d{2}(?:[ -]?\d{3}){2}$/"],
             "website" => ["nullable", "string", "url", "max:255"],
             "terms" => ["required", "accepted"],
         ];

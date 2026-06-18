@@ -13,7 +13,7 @@ class NipRule implements ValidationRule
     {
         $nip = preg_replace("/\D/", "", (string)$value);
 
-        if (!preg_match("/^\d{10}$/", $nip)) {
+        if (!preg_match("/^\d{10}$/", $nip) || $nip === "0000000000") {
             $fail("validation.nip")->translate();
 
             return;

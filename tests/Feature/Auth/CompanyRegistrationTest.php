@@ -24,12 +24,12 @@ class CompanyRegistrationTest extends TestCase
 
         $this->assertDatabaseHas("companies", [
             "nip" => "1234563218",
-            "email" => "firma@example.com",
+            "email" => "company@example.com",
             "verification_status" => CompanyVerificationStatus::Pending->value,
         ]);
 
         $this->assertDatabaseHas("users", [
-            "email" => "firma@example.com",
+            "email" => "company@example.com",
             "role" => UserRole::CompanyAdmin->value,
             "status" => UserStatus::Pending->value,
         ]);
@@ -44,7 +44,7 @@ class CompanyRegistrationTest extends TestCase
 
         $this->assertDatabaseHas("companies", [
             "nip" => "1234563218",
-            "email" => "firma@example.com",
+            "email" => "company@example.com",
             "website" => "https://acme.com",
         ]);
     }
@@ -67,11 +67,18 @@ class CompanyRegistrationTest extends TestCase
 
     public function testRegistrationFailsWithDuplicateEmail(): void
     {
-        User::factory()->create(["email" => "firma@example.com"]);
+        User::factory()->create(["email" => "company@example.com"]);
 
         $this->post("/register/company", $this->validPayload())
             ->assertRedirect()
             ->assertSessionHasErrors("email");
+    }
+
+    public function testRegistrationFailsWithInvalidPhone(): void
+    {
+        $this->post("/register/company", $this->validPayload(["phone" => "aaaaaa"]))
+            ->assertRedirect()
+            ->assertSessionHasErrors("phone");
     }
 
     public function testPendingCompanyAdminCannotAccessDashboard(): void
@@ -106,7 +113,7 @@ class CompanyRegistrationTest extends TestCase
     {
         $this->post("/register/company", $this->validPayload());
 
-        $user = User::query()->firstWhere("email", "firma@example.com");
+        $user = User::query()->firstWhere("email", "company@example.com");
 
         $this->assertNotNull($user);
         $this->assertTrue(Hash::check("Password123!", $user->password));
@@ -118,7 +125,7 @@ class CompanyRegistrationTest extends TestCase
         return array_merge([
             "company_name" => "Acme Sp. z o.o.",
             "nip" => "1234563218",
-            "email" => "firma@example.com",
+            "email" => "company@example.com",
             "password" => "Password123!",
             "password_confirmation" => "Password123!",
             "street" => "ul. Kwiatowa",
