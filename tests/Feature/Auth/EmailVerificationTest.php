@@ -98,9 +98,9 @@ class EmailVerificationTest extends TestCase
 
         $user = User::factory()->unverified()->create();
 
-        $response = $this->postJson("/email/resend", ["email" => $user->email]);
+        $response = $this->post("/email/resend", ["email" => $user->email]);
 
-        $response->assertOk();
+        $response->assertRedirect();
         Mail::assertSent(EmailVerificationMail::class, fn($mail): bool => $mail->hasTo($user->email));
     }
 
@@ -117,7 +117,7 @@ class EmailVerificationTest extends TestCase
             "expires_at" => now()->addHours(24),
         ]);
 
-        $this->postJson("/email/resend", ["email" => $user->email]);
+        $this->post("/email/resend", ["email" => $user->email]);
 
         $this->assertDatabaseMissing("email_verification_tokens", [
             "user_id" => $user->id,
@@ -133,9 +133,9 @@ class EmailVerificationTest extends TestCase
 
         $user = User::factory()->create();
 
-        $response = $this->postJson("/email/resend", ["email" => $user->email]);
+        $response = $this->post("/email/resend", ["email" => $user->email]);
 
-        $response->assertOk();
+        $response->assertRedirect();
         Mail::assertNotSent(EmailVerificationMail::class);
     }
 
@@ -143,18 +143,18 @@ class EmailVerificationTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson("/email/resend", ["email" => "nonexistent@example.com"]);
+        $response = $this->post("/email/resend", ["email" => "nonexistent@example.com"]);
 
-        $response->assertOk();
+        $response->assertRedirect();
         Mail::assertNotSent(EmailVerificationMail::class);
     }
 
     public function testResendRequiresEmailField(): void
     {
-        $response = $this->postJson("/email/resend", []);
+        $response = $this->post("/email/resend", []);
 
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors("email");
+        $response->assertRedirect();
+        $response->assertSessionHasErrors("email");
     }
 
     public function testTokenExpiresAfter24Hours(): void
