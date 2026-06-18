@@ -8,8 +8,6 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\StudentRegistrationController;
 use App\Http\Controllers\Company\CompanyDashboardController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
