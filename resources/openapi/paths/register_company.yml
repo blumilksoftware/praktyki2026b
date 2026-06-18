@@ -3,8 +3,6 @@ post:
   operationId: registerCompany
   tags:
     - Auth
-  servers:
-    - url: /
   requestBody:
     required: true
     content:
