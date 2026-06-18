@@ -35,6 +35,20 @@ class CompanyRegistrationTest extends TestCase
         ]);
     }
 
+    public function testCompanyCanRegisterWithWebsite(): void
+    {
+        $payload = $this->validPayload(["website" => "https://acme.com"]);
+
+        $this->postJson("/register/company", $payload)
+            ->assertStatus(201);
+
+        $this->assertDatabaseHas("companies", [
+            "nip" => "1234563218",
+            "email" => "firma@example.com",
+            "website" => "https://acme.com",
+        ]);
+    }
+
     public function testRegistrationFailsWithInvalidNipChecksum(): void
     {
         $this->postJson("/register/company", $this->validPayload(["nip" => "1234563219"]))
