@@ -26,6 +26,6 @@ class StudentRegistrationController extends Controller
         Mail::to($user->email)->queue(new StudentRegistrationMail($user));
         $user->sendEmailVerificationNotification();
 
-        return redirect()->route("login")->with("status", "Please verify your email before logging in.");
+        return redirect()->route("login");
     }
 }
