@@ -19,7 +19,7 @@ class CompanyRegistrationTest extends TestCase
 
     public function testCompanyCanRegisterWithValidData(): void
     {
-        $this->postJson("/register/company", $this->validPayload())
+        $this->postJson("/api/register/company", $this->validPayload())
             ->assertStatus(201);
 
         $this->assertDatabaseHas("companies", [
@@ -39,7 +39,7 @@ class CompanyRegistrationTest extends TestCase
     {
         $payload = $this->validPayload(["website" => "https://acme.com"]);
 
-        $this->postJson("/register/company", $payload)
+        $this->postJson("/api/register/company", $payload)
             ->assertStatus(201);
 
         $this->assertDatabaseHas("companies", [
@@ -51,7 +51,7 @@ class CompanyRegistrationTest extends TestCase
 
     public function testRegistrationFailsWithInvalidNipChecksum(): void
     {
-        $this->postJson("/register/company", $this->validPayload(["nip" => "1234563219"]))
+        $this->postJson("/api/register/company", $this->validPayload(["nip" => "1234563219"]))
             ->assertStatus(422)
             ->assertJsonValidationErrors("nip");
     }
@@ -60,7 +60,7 @@ class CompanyRegistrationTest extends TestCase
     {
         Company::factory()->create(["nip" => "1234563218"]);
 
-        $this->postJson("/register/company", $this->validPayload())
+        $this->postJson("/api/register/company", $this->validPayload())
             ->assertStatus(422)
             ->assertJsonValidationErrors("nip");
     }
@@ -69,7 +69,7 @@ class CompanyRegistrationTest extends TestCase
     {
         User::factory()->create(["email" => "firma@example.com"]);
 
-        $this->postJson("/register/company", $this->validPayload())
+        $this->postJson("/api/register/company", $this->validPayload())
             ->assertStatus(422)
             ->assertJsonValidationErrors("email");
     }
@@ -104,7 +104,7 @@ class CompanyRegistrationTest extends TestCase
 
     public function testPasswordIsNotStoredAsPlaintext(): void
     {
-        $this->postJson("/register/company", $this->validPayload());
+        $this->postJson("/api/register/company", $this->validPayload());
 
         $user = User::query()->firstWhere("email", "firma@example.com");
 
