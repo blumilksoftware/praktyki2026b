@@ -8,6 +8,7 @@ use App\Mail\StudentRegistrationMail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class StudentRegistrationTest extends TestCase
@@ -17,10 +18,11 @@ class StudentRegistrationTest extends TestCase
     public function testStudentCanRegisterWithValidData(): void
     {
         Mail::fake();
+        Notification::fake();
 
-        $response = $this->postJson("/api/register/student", $this->validPayload());
+        $response = $this->post("/register/student", $this->validPayload());
 
-        $response->assertCreated();
+        $response->assertRedirect(route("login"));
         $this->assertDatabaseHas("users", ["email" => "user@example.com"]);
     }
 
@@ -28,33 +30,31 @@ class StudentRegistrationTest extends TestCase
     {
         User::factory()->create(["email" => "user@example.com"]);
 
-        $response = $this->postJson("/api/register/student", $this->validPayload());
+        $response = $this->post("/register/student", $this->validPayload());
 
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors("email");
+        $response->assertInvalid("email");
     }
 
     public function testRegistrationRequiresTermsAcceptance(): void
     {
-        $response = $this->postJson("/api/register/student", $this->validPayload(["terms" => false]));
+        $response = $this->post("/register/student", $this->validPayload(["terms" => false]));
 
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors("terms");
+        $response->assertInvalid("terms");
     }
 
     public function testRegistrationRequiresPasswordConfirmation(): void
     {
-        $response = $this->postJson("/api/register/student", $this->validPayload(["password_confirmation" => "different"]));
+        $response = $this->post("/register/student", $this->validPayload(["password_confirmation" => "different"]));
 
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors("password");
+        $response->assertInvalid("password");
     }
 
     public function testRegistrationSendsConfirmationEmail(): void
     {
         Mail::fake();
+        Notification::fake();
 
-        $this->postJson("/api/register/student", $this->validPayload());
+        $this->post("/register/student", $this->validPayload());
 
         Mail::assertQueued(StudentRegistrationMail::class, fn($mail): bool => $mail->hasTo("user@example.com"));
     }
