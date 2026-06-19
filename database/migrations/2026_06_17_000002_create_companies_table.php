@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\CompanyVerificationStatus;
+use App\Enums\VerificationStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +21,7 @@ return new class() extends Migration {
             $table->string("city");
             $table->string("phone");
             $table->string("website")->nullable();
-            $table->string("verification_status")->default(CompanyVerificationStatus::Pending->value);
+            $table->string("verification_status")->default(VerificationStatus::Pending->value);
             $table->timestamps();
         });
     }

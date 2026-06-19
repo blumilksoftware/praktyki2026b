@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use App\Enums\CompanyVerificationStatus;
 use App\Enums\UserStatus;
+use App\Enums\VerificationStatus;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +20,7 @@ class EnsureCompanyIsVerified
             $user === null
             || $user->status !== UserStatus::Active
             || $user->company === null
-            || $user->company->verification_status !== CompanyVerificationStatus::Verified
+            || $user->company->verification_status !== VerificationStatus::Verified
         ) {
             abort(403);
         }

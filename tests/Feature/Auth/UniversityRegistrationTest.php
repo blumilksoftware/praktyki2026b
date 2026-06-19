@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
-use App\Enums\UniversityVerificationStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Enums\VerificationStatus;
 use App\Mail\EmailVerificationMail;
 use App\Models\University;
 use App\Models\User;
@@ -29,7 +29,7 @@ class UniversityRegistrationTest extends TestCase
         $this->assertDatabaseHas("universities", [
             "email" => "university@example.com",
             "domain" => "example.com",
-            "verification_status" => UniversityVerificationStatus::Pending->value,
+            "verification_status" => VerificationStatus::Pending->value,
         ]);
 
         $this->assertDatabaseHas("users", [
