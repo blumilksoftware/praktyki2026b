@@ -27,6 +27,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property UserStatus $status
  * @property ?string $university
  * @property ?string $organization_id
+ * @property ?string $google_id
  * @property ?Carbon $terms_accepted_at
  * @property ?Carbon $email_verified_at
  * @property Carbon $created_at
@@ -48,6 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
         "status",
         "university",
         "organization_id",
+        "google_id",
         "terms_accepted_at",
     ];
     protected $hidden = [

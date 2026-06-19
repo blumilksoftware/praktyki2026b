@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Auth\CompanyRegistrationController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\Auth\GoogleOAuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\StudentRegistrationController;
 use App\Http\Controllers\Company\CompanyDashboardController;
@@ -22,6 +23,9 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->group(function (): void {
         Route::get("/dashboard", CompanyDashboardController::class)->name("company.dashboard");
     });
+Route::get("/auth/google/redirect", [GoogleOAuthController::class, "redirect"])->name("auth.google.redirect");
+Route::get("/auth/google/callback", [GoogleOAuthController::class, "callback"])->name("auth.google.callback");
+
 Route::get("/login", [LoginController::class, "show"])->name("login");
 Route::post("/login", [LoginController::class, "store"])->name("login.store");
 
