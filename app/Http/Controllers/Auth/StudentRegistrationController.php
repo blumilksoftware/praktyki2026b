@@ -24,8 +24,7 @@ class StudentRegistrationController extends Controller
         $user = $this->createStudentAccount->execute($data);
 
         Mail::to($user->email)->queue(new StudentRegistrationMail($user));
-        $user->sendEmailVerificationNotification();
 
-        return redirect()->route("login");
+        return redirect()->route("login")->with("status", __("auth.register.student"));
     }
 }

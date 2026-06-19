@@ -36,6 +36,16 @@ class UserFactory extends Factory
         ]);
     }
 
+    public function pendingUniversityAdmin(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "first_name" => null,
+            "last_name" => null,
+            "role" => UserRole::UniversityAdmin,
+            "status" => UserStatus::Pending,
+        ]);
+    }
+
     public function pendingCompanyAdmin(): static
     {
         return $this->state(fn(array $attributes): array => [

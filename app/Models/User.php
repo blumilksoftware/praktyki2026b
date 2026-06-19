@@ -55,6 +55,11 @@ class User extends Authenticatable implements MustVerifyEmail
         "remember_token",
     ];
 
+    public function universityOrganization(): BelongsTo
+    {
+        return $this->belongsTo(University::class, "organization_id");
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, "organization_id");
