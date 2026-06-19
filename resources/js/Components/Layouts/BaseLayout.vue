@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { IconHome, IconClipboard, IconSettings, IconLogout } from '@tabler/icons-vue'
+import { IconHome, IconClipboard, IconSettings, IconLogout, IconMenu, IconX } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
 import LanguageDropdown from '../Common/LanguageDropdown.vue'
 
@@ -14,6 +14,7 @@ const props = defineProps({
 const { t, locale } = useI18n()
 
 const isLanguageDropdownOpen = ref(false)
+const isMobileMenuOpen = ref(false)
 
 const currentLanguage = computed(() => (locale.value || 'pl').toUpperCase())
 
@@ -58,11 +59,11 @@ const navItems = computed(() => [
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
       <div class="flex justify-between items-center px-4 min-[900px]:px-6 py-4">
         <div class="flex items-center gap-3">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <img
-              src="/logo_final.png"
+              src="/logo.svg"
               alt="Applikuj logo"
-              class="rounded-lg w-auto h-10"
+              class="brightness-0 invert rounded-lg w-auto h-10"
             >
           </div>
           <div>
@@ -92,7 +93,16 @@ const navItems = computed(() => [
           </a>
         </nav>
 
-        <div class="flex items-center gap-3">
+        <div class="flex max-[899px]:justify-end items-center gap-3 max-[899px]:w-full">
+          <button
+            class="min-[900px]:hidden flex justify-center items-center hover:bg-white/10 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 w-8 h-8 text-white/90 hover:text-white transition"
+            :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
+            :aria-expanded="isMobileMenuOpen"
+            @click="isMobileMenuOpen = !isMobileMenuOpen"
+          >
+            <IconMenu v-if="!isMobileMenuOpen" class="w-5 h-5" aria-hidden="true" />
+            <IconX v-else class="w-5 h-5" aria-hidden="true" />
+          </button>
           <img
             class="rounded-full ring-2 ring-primary/10 w-10 h-10"
             src="https://www.gravatar.com/avatar?d=mp&s=48"
@@ -113,16 +123,21 @@ const navItems = computed(() => [
         </div>
       </div>
 
-      <nav class="min-[900px]:hidden max-[899px]:block px-4 pb-4" :aria-label="t('admin.layout.nav.mobileAriaLabel')">
-        <ul class="flex justify-center gap-2 overflow-x-auto">
+      <nav
+        v-if="isMobileMenuOpen"
+        class="min-[900px]:hidden max-[899px]:block px-4 pb-4"
+        :aria-label="t('admin.layout.nav.mobileAriaLabel')"
+      >
+        <ul class="flex flex-col gap-2">
           <li v-for="item in navItems" :key="`mobile-${item.key}`">
             <a
               :href="item.href"
               :aria-current="item.key === props.activePage ? 'page' : undefined"
-              class="inline-flex items-center px-3 py-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 font-medium text-sm whitespace-nowrap transition"
+              class="inline-flex items-center px-3 py-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 w-full font-medium text-sm whitespace-nowrap transition"
               :class="item.key === props.activePage
-                ? 'bg-primary/20 text-white'
-                : 'bg-white/10 text-white/70 hover:bg-white/20 hover:text-white'"
+                ? 'bg-primary/40 text-white'
+                : 'bg-white/20 text-white hover:bg-white/30'"
+              @click="isMobileMenuOpen = false"
             >
               <component :is="item.icon" class="mr-2 w-4 h-4" aria-hidden="true" />
               {{ item.label }}

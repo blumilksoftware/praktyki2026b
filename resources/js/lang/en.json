@@ -17,13 +17,13 @@
       "caption": "List of candidate applications",
       "title": "Applications Panel",
       "description": "Review and verify the latest applications.",
-      "heading": "Applications List",
+      "heading": "Applications list",
       "backToDashboard": "Back to dashboard",
       "placeholder": "Page under construction"
     },
     "panel": {
       "greeting": "Welcome to the admin panel!",
-      "description": "Here you can manage applications and view statistics. Use the menu on the left to navigate to different sections of the panel.",
+      "description": "Here you can manage applications and view statistics.",
       "goToApplications": "Go to applications",
       "stats": {
         "activeStudents": "Active students",

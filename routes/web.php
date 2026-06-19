@@ -12,8 +12,16 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
 Route::get("/", fn(): Response => inertia("Welcome"));
-Route::get("/admin", fn(): Response => inertia("AdminPanel"));
-Route::get("/admin/applications", fn(): Response => inertia("AdminApplications"));
+Route::get("/admin", fn(): Response => inertia("AdminPanel", [
+    "meta" => [
+        "title" => "Admin Panel",
+    ],
+]))->name("admin.panel");
+Route::get("/admin/applications", fn(): Response => inertia("AdminApplications", [
+    "meta" => [
+        "title" => "Admin Applications",
+    ],
+]))->name("admin.applications");
 
 Route::post("/register/company", CompanyRegistrationController::class)
     ->middleware("throttle:10,15")

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import AdminGlassSection from '@/Components/Admin/AdminGlassSection.vue'
@@ -22,6 +23,7 @@ const stats = computed(() => [
 </script>
 
 <template>
+  <Head :title="t('admin.layout.title')" />
   <BaseLayout active-page="dashboard">
     <AdminGlassSection class="px-4 md:px-8 py-5 md:py-6 text-center">
       <h1 class="font-semibold text-text text-2xl">

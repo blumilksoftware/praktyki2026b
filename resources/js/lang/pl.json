@@ -23,7 +23,7 @@
     },
     "panel": {
       "greeting": "Witaj w panelu administratora!",
-      "description": "Tutaj możesz zarządzać zgłoszeniami i przeglądać statystyki. Użyj menu po lewej stronie, aby nawigować do różnych sekcji panelu.",
+      "description": "Tutaj możesz zarządzać zgłoszeniami i przeglądać statystyki.",
       "goToApplications": "Przejdź do zgłoszeń",
       "stats": {
         "activeStudents": "Aktywni studenci",
