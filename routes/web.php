@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\CompanyDashboardController;
 use App\Http\Controllers\University\UniversityDashboardController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
@@ -21,6 +22,12 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
     ->prefix("university")
     ->group(function (): void {
         Route::get("/dashboard", UniversityDashboardController::class)->name("university.dashboard");
+    });
+
+Route::middleware(["auth"])
+    ->prefix("admin")
+    ->group(function (): void {
+        Route::get("/dashboard", AdminController::class)->name("admin.dashboard");
     });
 
 require __DIR__ . "/auth.php";

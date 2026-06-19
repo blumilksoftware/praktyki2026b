@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
-use App\Enums\CompanyVerificationStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Enums\VerificationStatus;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,7 +25,7 @@ class CompanyRegistrationTest extends TestCase
         $this->assertDatabaseHas("companies", [
             "nip" => "1234563218",
             "email" => "company@example.com",
-            "verification_status" => CompanyVerificationStatus::Pending->value,
+            "verification_status" => VerificationStatus::Pending->value,
         ]);
 
         $this->assertDatabaseHas("users", [
