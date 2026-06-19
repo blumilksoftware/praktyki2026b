@@ -15,10 +15,7 @@ return new class() extends Migration {
             $table->string("name");
             $table->string("email");
             $table->string("domain")->unique();
-            $table->string("street");
-            $table->string("building_number");
-            $table->string("postal_code");
-            $table->string("city");
+            $table->string("address");
             $table->string("phone");
             $table->string("website")->nullable();
             $table->string("verification_status")->default(UniversityVerificationStatus::Pending->value);

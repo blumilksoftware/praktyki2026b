@@ -19,8 +19,8 @@ class UniversityRegistrationTest extends TestCase
 
     public function testUniversityCanRegisterWithValidData(): void
     {
-        $this->postJson("/register/university", $this->validPayload())
-            ->assertStatus(201);
+        $this->post("/register/university", $this->validPayload())
+            ->assertRedirect(route("login"));
 
         $this->assertDatabaseHas("universities", [
             "email" => "uczelnia@example.com",
@@ -37,8 +37,8 @@ class UniversityRegistrationTest extends TestCase
 
     public function testRegistrationCreatesUserAndUniversityTogether(): void
     {
-        $this->postJson("/register/university", $this->validPayload())
-            ->assertStatus(201);
+        $this->post("/register/university", $this->validPayload())
+            ->assertRedirect(route("login"));
 
         $user = User::query()->firstWhere("email", "uczelnia@example.com");
 
@@ -51,30 +51,26 @@ class UniversityRegistrationTest extends TestCase
     {
         User::factory()->create(["email" => "uczelnia@example.com"]);
 
-        $this->postJson("/register/university", $this->validPayload())
-            ->assertStatus(422)
-            ->assertJsonValidationErrors("email");
+        $this->post("/register/university", $this->validPayload())
+            ->assertInvalid("email");
     }
 
     public function testRegistrationFailsWithMissingRequiredFields(): void
     {
-        $this->postJson("/register/university", [])
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(["university_name", "email", "password", "street", "building_number", "postal_code", "city", "phone", "terms"]);
+        $this->post("/register/university", [])
+            ->assertInvalid(["university_name", "email", "password", "address", "phone", "terms"]);
     }
 
     public function testRegistrationRequiresTermsAcceptance(): void
     {
-        $this->postJson("/register/university", $this->validPayload(["terms" => false]))
-            ->assertStatus(422)
-            ->assertJsonValidationErrors("terms");
+        $this->post("/register/university", $this->validPayload(["terms" => false]))
+            ->assertInvalid("terms");
     }
 
     public function testRegistrationRequiresPasswordConfirmation(): void
     {
-        $this->postJson("/register/university", $this->validPayload(["password_confirmation" => "different"]))
-            ->assertStatus(422)
-            ->assertJsonValidationErrors("password");
+        $this->post("/register/university", $this->validPayload(["password_confirmation" => "different"]))
+            ->assertInvalid("password");
     }
 
     public function testPendingUniversityAdminCannotAccessDashboard(): void
@@ -107,7 +103,7 @@ class UniversityRegistrationTest extends TestCase
 
     public function testPasswordIsNotStoredAsPlaintext(): void
     {
-        $this->postJson("/register/university", $this->validPayload());
+        $this->post("/register/university", $this->validPayload());
 
         $user = User::query()->firstWhere("email", "uczelnia@example.com");
 
@@ -118,18 +114,16 @@ class UniversityRegistrationTest extends TestCase
 
     public function testRegistrationFailsWithInvalidDomainFormat(): void
     {
-        $this->postJson("/register/university", $this->validPayload(["domain" => "invalid_domain"]))
-            ->assertStatus(422)
-            ->assertJsonValidationErrors("domain");
+        $this->post("/register/university", $this->validPayload(["domain" => "invalid_domain"]))
+            ->assertInvalid("domain");
     }
 
     public function testRegistrationFailsWithDuplicateDomain(): void
     {
         University::factory()->create(["domain" => "example.com"]);
 
-        $this->postJson("/register/university", $this->validPayload())
-            ->assertStatus(422)
-            ->assertJsonValidationErrors("domain");
+        $this->post("/register/university", $this->validPayload())
+            ->assertInvalid("domain");
     }
 
     private function validPayload(array $overrides = []): array
@@ -140,10 +134,7 @@ class UniversityRegistrationTest extends TestCase
             "domain" => "example.com",
             "password" => "Password123!",
             "password_confirmation" => "Password123!",
-            "street" => "ul. Akademicka",
-            "building_number" => "1",
-            "postal_code" => "00-001",
-            "city" => "Warszawa",
+            "address" => "ul. Akademicka 1, 00-001 Warszawa",
             "phone" => "123456789",
             "terms" => true,
         ], $overrides);

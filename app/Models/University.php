@@ -16,10 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property string $email
  * @property string $domain
- * @property string $street
- * @property string $building_number
- * @property string $postal_code
- * @property string $city
+ * @property string $address
  * @property string $phone
  * @property ?string $website
  * @property UniversityVerificationStatus $verification_status
@@ -35,10 +32,7 @@ class University extends Model
         "name",
         "email",
         "domain",
-        "street",
-        "building_number",
-        "postal_code",
-        "city",
+        "address",
         "phone",
         "website",
         "verification_status",

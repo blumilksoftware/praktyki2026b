@@ -8,15 +8,19 @@ use App\Actions\Auth\CreateUniversityAccount;
 use App\DTO\Auth\UniversityRegistrationData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UniversityRegistrationRequest;
-use App\Http\Resources\UserResource;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 class UniversityRegistrationController extends Controller
 {
-    public function __invoke(UniversityRegistrationRequest $request, CreateUniversityAccount $action): JsonResponse
-    {
-        $user = $action->execute(UniversityRegistrationData::fromArray($request->getData()));
+    public function __construct(
+        private readonly CreateUniversityAccount $createUniversityAccount,
+    ) {}
 
-        return (new UserResource($user))->response()->setStatusCode(201);
+    public function __invoke(UniversityRegistrationRequest $request): RedirectResponse
+    {
+        $data = UniversityRegistrationData::fromArray($request->validated());
+        $this->createUniversityAccount->execute($data);
+
+        return redirect()->route("login")->with("status", __("auth.register.university"));
     }
 }

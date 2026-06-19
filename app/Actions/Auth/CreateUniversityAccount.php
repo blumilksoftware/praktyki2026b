@@ -16,15 +16,12 @@ class CreateUniversityAccount
 {
     public function execute(UniversityRegistrationData $data): User
     {
-        return DB::transaction(function () use ($data): User {
+        $user = DB::transaction(function () use ($data): User {
             $university = University::create([
                 "name" => $data->universityName,
                 "email" => $data->email,
                 "domain" => $data->domain,
-                "street" => $data->street,
-                "building_number" => $data->buildingNumber,
-                "postal_code" => $data->postalCode,
-                "city" => $data->city,
+                "address" => $data->address,
                 "phone" => $data->phone,
                 "website" => $data->website,
                 "verification_status" => UniversityVerificationStatus::Pending,
@@ -39,5 +36,9 @@ class CreateUniversityAccount
                 "terms_accepted_at" => now(),
             ]);
         });
+
+        $user->sendEmailVerificationNotification();
+
+        return $user;
     }
 }

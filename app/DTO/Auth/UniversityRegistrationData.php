@@ -11,10 +11,7 @@ readonly class UniversityRegistrationData
         public string $email,
         public string $domain,
         public string $password,
-        public string $street,
-        public string $buildingNumber,
-        public string $postalCode,
-        public string $city,
+        public string $address,
         public string $phone,
         public ?string $website = null,
     ) {}
@@ -26,10 +23,7 @@ readonly class UniversityRegistrationData
             email: $data["email"],
             domain: $data["domain"],
             password: $data["password"],
-            street: $data["street"],
-            buildingNumber: $data["building_number"],
-            postalCode: $data["postal_code"],
-            city: $data["city"],
+            address: $data["address"],
             phone: $data["phone"],
             website: $data["website"] ?? null,
         );

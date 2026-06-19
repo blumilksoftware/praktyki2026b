@@ -12,10 +12,15 @@ use Illuminate\Http\RedirectResponse;
 
 class CompanyRegistrationController extends Controller
 {
-    public function __invoke(CompanyRegistrationRequest $request, CreateCompanyAccount $action): RedirectResponse
-    {
-        $user = $action->execute(CompanyRegistrationData::fromArray($request->getData()));
+    public function __construct(
+        private readonly CreateCompanyAccount $createCompanyAccount,
+    ) {}
 
-        return redirect("/login");
+    public function __invoke(CompanyRegistrationRequest $request): RedirectResponse
+    {
+        $data = CompanyRegistrationData::fromArray($request->getData());
+        $this->createCompanyAccount->execute($data);
+
+        return redirect()->route("login")->with("status", __("auth.register.company"));
     }
 }
