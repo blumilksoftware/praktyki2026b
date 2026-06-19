@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Auth\GoogleOAuthController;
 use App\Http\Controllers\Company\CompanyDashboardController;
 use App\Http\Controllers\University\UniversityDashboardController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
@@ -23,8 +22,5 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
     ->group(function (): void {
         Route::get("/dashboard", UniversityDashboardController::class)->name("university.dashboard");
     });
-
-Route::get("/auth/google/redirect", [GoogleOAuthController::class, "redirect"])->name("auth.google.redirect");
-Route::get("/auth/google/callback", [GoogleOAuthController::class, "callback"])->name("auth.google.callback");
 
 require __DIR__ . "/auth.php";
