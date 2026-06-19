@@ -45,4 +45,14 @@ class UserFactory extends Factory
             "status" => UserStatus::Pending,
         ]);
     }
+
+    public function pendingCompanyAdmin(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "first_name" => null,
+            "last_name" => null,
+            "role" => UserRole::CompanyAdmin,
+            "status" => UserStatus::Pending,
+        ]);
+    }
 }
