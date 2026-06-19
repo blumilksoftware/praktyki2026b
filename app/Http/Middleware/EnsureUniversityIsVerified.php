@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use App\Enums\UniversityVerificationStatus;
 use App\Enums\UserStatus;
+use App\Enums\VerificationStatus;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +20,7 @@ class EnsureUniversityIsVerified
             $user === null
             || $user->status !== UserStatus::Active
             || $user->universityOrganization === null
-            || $user->universityOrganization->verification_status !== UniversityVerificationStatus::Verified
+            || $user->universityOrganization->verification_status !== VerificationStatus::Verified
         ) {
             abort(403);
         }

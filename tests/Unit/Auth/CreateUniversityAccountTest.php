@@ -6,9 +6,9 @@ namespace Tests\Unit\Auth;
 
 use App\Actions\Auth\CreateUniversityAccount;
 use App\DTO\Auth\UniversityRegistrationData;
-use App\Enums\UniversityVerificationStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Enums\VerificationStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -48,6 +48,6 @@ class CreateUniversityAccountTest extends TestCase
         $this->assertEquals("123 Academic Street, City", $university->address);
         $this->assertEquals("123456789", $university->phone);
         $this->assertEquals("https://example.com", $university->website);
-        $this->assertEquals(UniversityVerificationStatus::Pending, $university->verification_status);
+        $this->assertEquals(VerificationStatus::Pending, $university->verification_status);
     }
 }
