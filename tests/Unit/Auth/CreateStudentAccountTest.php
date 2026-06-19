@@ -20,8 +20,8 @@ class CreateStudentAccountTest extends TestCase
     {
         $action = new CreateStudentAccount();
         $data = new StudentRegistrationData(
-            firstName: "Jan",
-            lastName: "Kowalski",
+            firstName: "John",
+            lastName: "Doe",
             email: "user@example.com",
             password: "Password123!",
             university: "Warsaw University",
@@ -29,8 +29,8 @@ class CreateStudentAccountTest extends TestCase
 
         $user = $action->execute($data);
 
-        $this->assertEquals("Jan", $user->first_name);
-        $this->assertEquals("Kowalski", $user->last_name);
+        $this->assertEquals("John", $user->first_name);
+        $this->assertEquals("Doe", $user->last_name);
         $this->assertEquals("user@example.com", $user->email);
         $this->assertEquals("Warsaw University", $user->university);
         $this->assertEquals(UserRole::Student, $user->role);
@@ -48,8 +48,8 @@ class CreateStudentAccountTest extends TestCase
 
         $action = new CreateStudentAccount();
         $data = new StudentRegistrationData(
-            firstName: "Jan",
-            lastName: "Kowalski",
+            firstName: "John",
+            lastName: "Doe",
             email: "user@example.com",
             password: "Password123!",
             university: "Warsaw University",
@@ -66,16 +66,16 @@ class CreateStudentAccountTest extends TestCase
         Notification::fake();
 
         $university = University::factory()->create([
-            "domain" => "collegiumwitelona.pl",
+            "domain" => "example.com",
         ]);
 
         $action = new CreateStudentAccount();
         $data = new StudentRegistrationData(
-            firstName: "Jan",
-            lastName: "Kowalski",
-            email: "student@studenci.collegiumwitelona.pl",
+            firstName: "John",
+            lastName: "Doe",
+            email: "student@sub.example.com",
             password: "Password123!",
-            university: "Collegium Witelona",
+            university: "Example University",
         );
 
         $user = $action->execute($data);

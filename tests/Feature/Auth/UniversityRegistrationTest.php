@@ -7,10 +7,12 @@ namespace Tests\Feature\Auth;
 use App\Enums\UniversityVerificationStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Mail\EmailVerificationMail;
 use App\Models\University;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class UniversityRegistrationTest extends TestCase
@@ -19,6 +21,8 @@ class UniversityRegistrationTest extends TestCase
 
     public function testUniversityCanRegisterWithValidData(): void
     {
+        Mail::fake();
+
         $this->post("/register/university", $this->validPayload())
             ->assertRedirect(route("login"));
 
@@ -33,10 +37,14 @@ class UniversityRegistrationTest extends TestCase
             "role" => UserRole::UniversityAdmin->value,
             "status" => UserStatus::Pending->value,
         ]);
+
+        Mail::assertSent(EmailVerificationMail::class, fn(EmailVerificationMail $mail) => $mail->hasTo("university@example.com"));
     }
 
     public function testRegistrationCreatesUserAndUniversityTogether(): void
     {
+        Mail::fake();
+
         $this->post("/register/university", $this->validPayload())
             ->assertRedirect(route("login"));
 
@@ -103,6 +111,8 @@ class UniversityRegistrationTest extends TestCase
 
     public function testPasswordIsNotStoredAsPlaintext(): void
     {
+        Mail::fake();
+
         $this->post("/register/university", $this->validPayload());
 
         $user = User::query()->firstWhere("email", "university@example.com");
