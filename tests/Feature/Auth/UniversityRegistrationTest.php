@@ -23,13 +23,13 @@ class UniversityRegistrationTest extends TestCase
             ->assertRedirect(route("login"));
 
         $this->assertDatabaseHas("universities", [
-            "email" => "uczelnia@example.com",
+            "email" => "university@example.com",
             "domain" => "example.com",
             "verification_status" => UniversityVerificationStatus::Pending->value,
         ]);
 
         $this->assertDatabaseHas("users", [
-            "email" => "uczelnia@example.com",
+            "email" => "university@example.com",
             "role" => UserRole::UniversityAdmin->value,
             "status" => UserStatus::Pending->value,
         ]);
@@ -40,7 +40,7 @@ class UniversityRegistrationTest extends TestCase
         $this->post("/register/university", $this->validPayload())
             ->assertRedirect(route("login"));
 
-        $user = User::query()->firstWhere("email", "uczelnia@example.com");
+        $user = User::query()->firstWhere("email", "university@example.com");
 
         $this->assertNotNull($user);
         $this->assertNotNull($user->organization_id);
@@ -49,7 +49,7 @@ class UniversityRegistrationTest extends TestCase
 
     public function testRegistrationFailsWithDuplicateEmail(): void
     {
-        User::factory()->create(["email" => "uczelnia@example.com"]);
+        User::factory()->create(["email" => "university@example.com"]);
 
         $this->post("/register/university", $this->validPayload())
             ->assertInvalid("email");
@@ -105,7 +105,7 @@ class UniversityRegistrationTest extends TestCase
     {
         $this->post("/register/university", $this->validPayload());
 
-        $user = User::query()->firstWhere("email", "uczelnia@example.com");
+        $user = User::query()->firstWhere("email", "university@example.com");
 
         $this->assertNotNull($user);
         $this->assertTrue(Hash::check("Password123!", $user->password));
@@ -129,12 +129,12 @@ class UniversityRegistrationTest extends TestCase
     private function validPayload(array $overrides = []): array
     {
         return array_merge([
-            "university_name" => "Politechnika Przykładowa",
-            "email" => "uczelnia@example.com",
+            "university_name" => "Example University",
+            "email" => "university@example.com",
             "domain" => "example.com",
             "password" => "Password123!",
             "password_confirmation" => "Password123!",
-            "address" => "ul. Akademicka 1, 00-001 Warszawa",
+            "address" => "123 Academic Street, City",
             "phone" => "123456789",
             "terms" => true,
         ], $overrides);
