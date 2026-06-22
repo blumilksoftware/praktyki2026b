@@ -36,6 +36,7 @@
       "verificationProgressAriaLabel": "Verification progress"
     },
     "layout": {
+      "language": "Language",
       "skipToContent": "Skip to content",
       "title": "Admin",
       "subtitle": "Management Panel",

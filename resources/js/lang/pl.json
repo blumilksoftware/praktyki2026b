@@ -18,7 +18,7 @@
       "title": "Panel zgłoszeń",
       "description": "Przeglądaj i weryfikuj najnowsze zgłoszenia.",
       "heading": "Lista zgłoszeń",
-      "backToDashboard": "Powrót do dashboardu",
+      "backToDashboard": "Powrót do strony głównej",
       "placeholder": "Strona w budowie"
     },
     "panel": {
@@ -32,19 +32,21 @@
         "activeOffers": "Aktywne oferty"
       },
       "pendingVerifications": "Oczekujące weryfikacje",
-      "verificationProgress": "Progres weryfikacji",
+      "verificationProgress": "Postęp weryfikacji",
       "verificationProgressAriaLabel": "Postęp weryfikacji"
     },
     "layout": {
+      "language": "Język",
       "skipToContent": "Przejdź do treści",
       "title": "Admin",
       "subtitle": "Panel zarządzania",
       "nav": {
         "ariaLabel": "Nawigacja administratora",
-        "dashboard": "Dashboard",
+        "dashboard": "Strona główna",
         "applications": "Zgłoszenia",
         "settings": "Ustawienia",
-        "mobileAriaLabel": "Nawigacja mobilna"
+        "mobileAriaLabel": "Nawigacja mobilna",
+        "profile": "Profil"
       },
       "logout": "Wyloguj",
       "userRole": "Administrator",

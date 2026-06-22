@@ -35,6 +35,8 @@ const stats = computed(() => [
       <a
         href="/admin/applications"
         class="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 mt-5 px-4 py-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 font-medium text-white text-sm transition"
+        aria-hidden="true"
+        tabindex="-1"
       >
         {{ t('admin.panel.goToApplications') }}
       </a>
@@ -53,9 +55,9 @@ const stats = computed(() => [
     <AdminGlassSection class="flex md:flex-row flex-col justify-between items-center gap-4 px-4 md:px-8 py-5 md:py-6">
       <div class="md:text-left text-center">
         <h2 class="font-medium text-slate-700 text-sm">{{ t('admin.panel.pendingVerifications') }}</h2>
-        <p class="mt-1 font-bold text-primary text-3xl">
+        <h3 class="mt-1 font-bold text-primary text-3xl">
           {{ pendingVerifications }}
-        </p>
+        </h3>
       </div>
       <div class="w-full md:max-w-sm">
         <div
