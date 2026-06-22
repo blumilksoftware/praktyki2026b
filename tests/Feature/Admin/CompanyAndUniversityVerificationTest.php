@@ -135,9 +135,7 @@ class CompanyAndUniversityVerificationTest extends TestCase
         $admin = User::factory()->create([
             "role" => UserRole::SuperAdmin,
         ]);
-        $university = University::factory()->create([
-            "verification_status" => VerificationStatus::Pending,
-        ]);
+        $university = University::factory()->pending()->create();
 
         $this->actingAs($admin)->post(route("admin.university.verify.accept", $university));
 
@@ -156,7 +154,7 @@ class CompanyAndUniversityVerificationTest extends TestCase
         $admin = User::factory()->create([
             "role" => UserRole::SuperAdmin,
         ]);
-        $university = University::factory()->create();
+        $university = University::factory()->pending()->create();
 
         $rejectionReason = "Rejection Reason";
 
@@ -177,9 +175,7 @@ class CompanyAndUniversityVerificationTest extends TestCase
         $admin = User::factory()->create([
             "role" => UserRole::SuperAdmin,
         ]);
-        $company = Company::factory([
-            "verification_status" => VerificationStatus::Verified,
-        ])->create();
+        $company = Company::factory()->pending()->create();
 
         $this->actingAs($admin)->post(route("admin.company.verify.accept", $company));
 
@@ -193,9 +189,8 @@ class CompanyAndUniversityVerificationTest extends TestCase
         $admin = User::factory()->create([
             "role" => UserRole::SuperAdmin,
         ]);
-        $company = Company::factory()->create([
-            "verification_status" => VerificationStatus::Rejected,
-        ]);
+
+        $company = Company::factory()->pending()->create();
 
         $this->actingAs($admin)->post(route("admin.company.verify.reject", $company));
 
