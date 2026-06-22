@@ -11,16 +11,6 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
 Route::get("/", fn(): Response => inertia("Welcome"));
-Route::get("/admin", fn(): Response => inertia("AdminPanel", [
-    "meta" => [
-        "title" => "Admin Panel",
-    ],
-]))->name("admin.panel");
-Route::get("/admin/applications", fn(): Response => inertia("AdminApplications", [
-    "meta" => [
-        "title" => "Admin Applications",
-    ],
-]))->name("admin.applications");
 
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
@@ -38,6 +28,7 @@ Route::middleware(["auth"])
     ->prefix("admin")
     ->group(function (): void {
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.dashboard");
+        Route::get("/applications", [AdminController::class, "applications"])->name("admin.applications");
         Route::post("/verify/company/{company}/accept", [AdminController::class, "acceptCompanyVerification"])->name("admin.company.verify.accept");
         Route::post("/verify/company/{company}/reject", [AdminController::class, "rejectCompanyVerification"])->name("admin.company.verify.reject");
         Route::post("/verify/university/{university}/accept", [AdminController::class, "acceptUniversityVerification"])->name("admin.university.verify.accept");

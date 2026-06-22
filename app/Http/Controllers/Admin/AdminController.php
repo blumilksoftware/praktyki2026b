@@ -27,6 +27,18 @@ class AdminController extends Controller
         return inertia("Admin/Dashboard", [
             "companiesNeedingVerification" => $companiesNeedingVerification,
             "universitiesNeedingVerification" => $universitiesNeedingVerification,
+            "meta" => [
+                "title" => "Admin Dashboard",
+            ],
+        ]);
+    }
+
+    public function applications(): Response
+    {
+        return inertia("Admin/Applications", [
+            "meta" => [
+                "title" => "Admin Applications",
+            ],
         ]);
     }
 
