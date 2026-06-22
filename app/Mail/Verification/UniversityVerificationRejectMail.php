@@ -24,7 +24,7 @@ class UniversityVerificationRejectMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "University Verification Reject Mail",
+            subject: __("emails.verification.reject_mail_subject"),
         );
     }
 

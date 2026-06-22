@@ -32,7 +32,7 @@ class AdminController extends Controller
 
     public function acceptCompanyVerification(Company $company): RedirectResponse
     {
-        $redirect = $this->checkIfVerifiedWithRedirect($company, "Company is already accepted.", "admin.dashboard");
+        $redirect = $this->checkIfVerifiedWithRedirect($company, __("emails.verification.already_verified_company"), "admin.dashboard");
 
         if ($redirect !== null) {
             return $redirect;
@@ -45,7 +45,7 @@ class AdminController extends Controller
 
     public function rejectCompanyVerification(Company $company, Request $request): RedirectResponse
     {
-        $redirect = $this->checkIfVerifiedWithRedirect($company, "Company is already rejected.", "admin.dashboard");
+        $redirect = $this->checkIfVerifiedWithRedirect($company, __("emails.verification.already_rejected_company"), "admin.dashboard");
 
         if ($redirect !== null) {
             return $redirect;
@@ -59,7 +59,7 @@ class AdminController extends Controller
 
     public function acceptUniversityVerification(University $university): RedirectResponse
     {
-        $redirect = $this->checkIfVerifiedWithRedirect($university, "University is already accepted.", "admin.dashboard");
+        $redirect = $this->checkIfVerifiedWithRedirect($university, __("emails.verification.already_verified_university"), "admin.dashboard");
 
         if ($redirect !== null) {
             return $redirect;
@@ -72,7 +72,7 @@ class AdminController extends Controller
 
     public function rejectUniversityVerification(University $university, Request $request): RedirectResponse
     {
-        $redirect = $this->checkIfVerifiedWithRedirect($university, "University is already rejected.", "admin.dashboard");
+        $redirect = $this->checkIfVerifiedWithRedirect($university, __("emails.verification.already_rejected_university"), "admin.dashboard");
 
         if ($redirect !== null) {
             return $redirect;

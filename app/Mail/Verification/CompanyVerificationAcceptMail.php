@@ -23,7 +23,7 @@ class CompanyVerificationAcceptMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "Company Verification Accept Mail",
+            subject: __("emails.verification.accept_mail_subject"),
         );
     }
 

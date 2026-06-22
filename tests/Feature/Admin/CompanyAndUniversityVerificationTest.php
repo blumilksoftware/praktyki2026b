@@ -22,6 +22,13 @@ class CompanyAndUniversityVerificationTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Mail::fake();
+    }
+
     public function testAdminDashboardShowCompaniesAndUniversitiesNeedingVerification(): void
     {
         $user = User::factory()->create([
@@ -91,8 +98,6 @@ class CompanyAndUniversityVerificationTest extends TestCase
 
     public function testAdminCanAcceptCompanyVerification(): void
     {
-        Mail::fake();
-
         $admin = User::factory()->create([
             "role" => UserRole::SuperAdmin,
         ]);
@@ -110,8 +115,6 @@ class CompanyAndUniversityVerificationTest extends TestCase
 
     public function testAdminCanRejectCompanyVerification(): void
     {
-        Mail::fake();
-
         $admin = User::factory()->create([
             "role" => UserRole::SuperAdmin,
         ]);
@@ -130,8 +133,6 @@ class CompanyAndUniversityVerificationTest extends TestCase
 
     public function testAdminCanAcceptUniversityVerification(): void
     {
-        Mail::fake();
-
         $admin = User::factory()->create([
             "role" => UserRole::SuperAdmin,
         ]);
@@ -149,8 +150,6 @@ class CompanyAndUniversityVerificationTest extends TestCase
 
     public function testAdminCanRejectUniversityVerification(): void
     {
-        Mail::fake();
-
         $admin = User::factory()->create([
             "role" => UserRole::SuperAdmin,
         ]);
@@ -170,8 +169,6 @@ class CompanyAndUniversityVerificationTest extends TestCase
 
     public function testThatVerificationOnAlreadyVerifiedEntityFails(): void
     {
-        Mail::fake();
-
         $admin = User::factory()->create([
             "role" => UserRole::SuperAdmin,
         ]);
@@ -184,8 +181,6 @@ class CompanyAndUniversityVerificationTest extends TestCase
 
     public function testThatRejectionOnAlreadyRejectedEntityFails(): void
     {
-        Mail::fake();
-
         $admin = User::factory()->create([
             "role" => UserRole::SuperAdmin,
         ]);
