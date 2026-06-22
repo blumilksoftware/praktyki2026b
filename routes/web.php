@@ -27,7 +27,11 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
 Route::middleware(["auth"])
     ->prefix("admin")
     ->group(function (): void {
-        Route::get("/dashboard", AdminController::class)->name("admin.dashboard");
+        Route::get("/dashboard", [AdminController::class, "index"])->name("admin.dashboard");
+        Route::post("/verify/company/{company}/accept", [AdminController::class, "acceptCompanyVerification"])->name("admin.company.verify.accept");
+        Route::post("/verify/company/{company}/reject", [AdminController::class, "rejectCompanyVerification"])->name("admin.company.verify.reject");
+        Route::post("/verify/university/{university}/accept", [AdminController::class, "acceptUniversityVerification"])->name("admin.university.verify.accept");
+        Route::post("/verify/university/{university}/reject", [AdminController::class, "rejectUniversityVerification"])->name("admin.university.verify.reject");
     });
 
 require __DIR__ . "/auth.php";
