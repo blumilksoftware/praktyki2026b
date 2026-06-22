@@ -41,12 +41,14 @@
       "title": "Admin",
       "subtitle": "Panel zarządzania",
       "nav": {
+        "openMenu": "Otwórz menu",
+        "closeMenu": "Zamknij menu",
+        "profile": "Profil",
         "ariaLabel": "Nawigacja administratora",
         "dashboard": "Strona główna",
         "applications": "Zgłoszenia",
         "settings": "Ustawienia",
-        "mobileAriaLabel": "Nawigacja mobilna",
-        "profile": "Profil"
+        "mobileAriaLabel": "Nawigacja mobilna"
       },
       "logout": "Wyloguj",
       "userRole": "Administrator",

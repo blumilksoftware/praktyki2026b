@@ -1,14 +1,12 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { IconHome, IconClipboard, IconSettings, IconLogout, IconMenu, IconX, IconUser, IconLanguage, IconChevronDown } from '@tabler/icons-vue'
+import { IconSettings, IconLogout, IconMenu, IconX, IconUser, IconLanguage, IconChevronDown } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
 import LanguageDropdown from '../Common/LanguageDropdown.vue'
 
 const props = defineProps({
-  activePage: {
-    type: String,
-    default: 'dashboard',
-  },
+  activePage: { type: String, default: '' },
+  navItems: { type: Array, default: () => [] },
 })
 
 const { t, locale } = useI18n()
@@ -25,20 +23,9 @@ function setLanguage(lang) {
   localStorage.setItem('locale', lang)
 }
 
-const navItems = computed(() => [
-  {
-    key: 'dashboard',
-    label: t('admin.layout.nav.dashboard'),
-    href: '/admin',
-    icon: IconHome,
-  },
-  {
-    key: 'applications',
-    label: t('admin.layout.nav.applications'),
-    href: '/admin/applications',
-    icon: IconClipboard,
-  },
-])
+const navItems = computed(() => props.navItems.length > 0 
+  ? props.navItems 
+  : [])
 </script>
 
 <template>

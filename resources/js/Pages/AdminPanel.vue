@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
 import AdminGlassSection from '@/Components/Admin/AdminGlassSection.vue'
 import AdminStatCard from '@/Components/Admin/AdminStatCard.vue'
 
@@ -24,7 +24,7 @@ const stats = computed(() => [
 
 <template>
   <Head :title="t('admin.layout.title')" />
-  <BaseLayout active-page="dashboard">
+  <AdminLayout active-page="dashboard">
     <AdminGlassSection class="px-4 md:px-8 py-5 md:py-6 text-center">
       <h1 class="font-semibold text-text text-2xl">
         {{ t('admin.panel.greeting') }}
@@ -61,20 +61,22 @@ const stats = computed(() => [
       </div>
       <div class="w-full md:max-w-sm">
         <div
-          class="bg-white/40 rounded-full w-full h-2.5 overflow-hidden"
-          role="progressbar"
-          :aria-label="t('admin.panel.verificationProgressAriaLabel')"
-          :aria-valuenow="Math.min((pendingVerifications / 20) * 100, 100)"
-          aria-valuemin="0"
-          aria-valuemax="100"
-        >
-          <div
-            class="bg-primary rounded-full h-2.5 transition-all duration-500"
-            :style="{ width: Math.min((pendingVerifications / 20) * 100, 100) + '%' }"
-          />
-        </div>
-        <p class="mt-2 text-slate-700 text-xs text-center md:text-right">{{ t('admin.panel.verificationProgress') }}</p>
+  class="bg-white/40 rounded-full ring-1 w-full h-2.5 overflow-hidden"
+  role="progressbar"
+  :aria-valuenow="Math.min((pendingVerifications / 20) * 100, 100)"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-describedby="verification-progress-label"
+>
+  <div
+    class="bg-primary rounded-full h-2.5 transition-all duration-500"
+    :style="{ width: Math.min((pendingVerifications / 20) * 100, 100) + '%' }"
+  />
+</div>
+<p id="verification-progress-label" class="mt-2 text-slate-700 text-xs text-center md:text-right">
+  {{ t('admin.panel.verificationProgress') }}
+</p>
       </div>
     </AdminGlassSection>
-  </BaseLayout>
+  </AdminLayout>
 </template>

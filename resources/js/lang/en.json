@@ -15,7 +15,7 @@
   "admin": {
     "applications": {
       "caption": "List of candidate applications",
-      "title": "Applications Panel",
+      "title": "Applications panel",
       "description": "Review and verify the latest applications.",
       "heading": "Applications list",
       "backToDashboard": "Back to dashboard",
@@ -39,8 +39,11 @@
       "language": "Language",
       "skipToContent": "Skip to content",
       "title": "Admin",
-      "subtitle": "Management Panel",
+      "subtitle": "Management panel",
       "nav": {
+        "openMenu": "Open menu",
+        "closeMenu": "Close menu",
+        "profile": "Profile",
         "ariaLabel": "Administrator navigation",
         "dashboard": "Dashboard",
         "applications": "Applications",
@@ -50,8 +53,8 @@
       "logout": "Logout",
       "userRole": "Administrator",
       "languageSwitch": {
-        "toEnglish": "Switch to English",
-        "toPolish": "Switch to Polish"
+        "toEnglish": "Switch to english",
+        "toPolish": "Switch to polish"
       }
     }
   }
