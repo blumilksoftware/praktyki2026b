@@ -39,7 +39,6 @@ const navItems = computed(() => props.navItems.length > 0
 
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
       <div class="flex justify-between items-center px-4 md:px-6 py-4">
-
         <div class="flex-1">
           <img
             src="/logo.svg"
@@ -107,7 +106,6 @@ const navItems = computed(() => props.navItems.length > 0
               v-if="isDesktopMenuOpen"
               class="absolute right-0 top-full mt-2 bg-white rounded-lg shadow-lg ring-1 ring-black/5 py-1 min-w-[160px] z-50"
             >
-              
               <a
                 class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 text-gray-700 hover:text-gray-900 transition text-sm"
                 href="#"
@@ -143,12 +141,16 @@ const navItems = computed(() => props.navItems.length > 0
                     class="flex items-center px-3 py-2 hover:bg-gray-100 text-gray-700 transition text-sm w-full text-left"
                     :class="locale === 'pl' ? 'text-primary font-medium' : ''"
                     @click="setLanguage('pl'); isDesktopLanguageOpen = false; isDesktopMenuOpen = false"
-                  >PL</button>
+                  >
+                    PL
+                  </button>
                   <button
                     class="flex items-center px-3 py-2 hover:bg-gray-100 text-gray-700 transition text-sm w-full text-left"
                     :class="locale === 'en' ? 'text-primary font-medium' : ''"
                     @click="setLanguage('en'); isDesktopLanguageOpen = false; isDesktopMenuOpen = false"
-                  >EN</button>
+                  >
+                    EN
+                  </button>
                 </div>
               </div>
 
@@ -163,7 +165,6 @@ const navItems = computed(() => props.navItems.length > 0
               </a>
             </div>
           </div>
-
         </div>
       </div>
     </header>

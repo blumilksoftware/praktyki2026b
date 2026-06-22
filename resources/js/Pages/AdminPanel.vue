@@ -61,21 +61,21 @@ const stats = computed(() => [
       </div>
       <div class="w-full md:max-w-sm">
         <div
-  class="bg-white/40 rounded-full ring-1 w-full h-2.5 overflow-hidden"
-  role="progressbar"
-  :aria-valuenow="Math.min((pendingVerifications / 20) * 100, 100)"
-  aria-valuemin="0"
-  aria-valuemax="100"
-  aria-describedby="verification-progress-label"
->
-  <div
-    class="bg-primary rounded-full h-2.5 transition-all duration-500"
-    :style="{ width: Math.min((pendingVerifications / 20) * 100, 100) + '%' }"
-  />
-</div>
-<p id="verification-progress-label" class="mt-2 text-slate-700 text-xs text-center md:text-right">
-  {{ t('admin.panel.verificationProgress') }}
-</p>
+          class="bg-white/40 rounded-full ring-1 w-full h-2.5 overflow-hidden"
+          role="progressbar"
+          :aria-valuenow="Math.min((pendingVerifications / 20) * 100, 100)"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-describedby="verification-progress-label"
+        >
+          <div
+            class="bg-primary rounded-full h-2.5 transition-all duration-500"
+            :style="{ width: Math.min((pendingVerifications / 20) * 100, 100) + '%' }"
+          />
+        </div>
+        <p id="verification-progress-label" class="mt-2 text-slate-700 text-xs text-center md:text-right">
+          {{ t('admin.panel.verificationProgress') }}
+        </p>
       </div>
     </AdminGlassSection>
   </AdminLayout>
