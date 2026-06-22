@@ -95,7 +95,7 @@ const navItems = computed(() => props.navItems.length > 0
           <div class="relative hidden md:block">
             <button
               class="flex justify-center items-center hover:bg-white/10 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 w-9 h-9 text-white/90 hover:text-white transition"
-              :aria-label="isDesktopMenuOpen ? 'Close menu' : 'Open menu'"
+              :aria-label="isDesktopMenuOpen ? t('admin.layout.nav.closeMenu') : t('admin.layout.nav.openMenu')"
               :aria-expanded="isDesktopMenuOpen"
               @click="isDesktopMenuOpen = !isDesktopMenuOpen"
             >
