@@ -6,20 +6,36 @@ namespace App\Mail\Verification;
 
 use App\Models\Company;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Throwable;
 
-class CompanyVerificationRejectMail extends Mailable
+class CompanyVerificationRejectMail extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
+
+    public int $tries = 3;
+    public int $backoff = 60;
 
     public function __construct(
         public readonly Company $company,
         public readonly string $rejectionReason,
     ) {}
+
+    public function failed(Throwable $exception): void
+    {
+        activity()->causedByAnonymous()
+            ->withProperties([
+                "action" => "send_company_verification_reject_mail",
+                "company_id" => $this->company->id,
+                "exception_message" => $exception->getMessage(),
+            ])
+            ->log("failed_to_send_company_verification_reject_mail");
+    }
 
     public function envelope(): Envelope
     {
