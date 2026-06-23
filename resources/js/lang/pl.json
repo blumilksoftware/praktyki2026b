@@ -3,6 +3,14 @@
     "verification": {
       "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
       "resendMessage": "Jeśli Twój adres e-mail jest zarejestrowany i niezweryfikowany, nowy link weryfikacyjny został wysłany."
+    },
+    "fields": {
+      "showPassword": "Pokaż hasło",
+      "hidePassword": "Ukryj hasło"
+
+    },
+    "layout": {
+      "skipToContent": "Przejdź do treści"
     }
   },
   "table": {

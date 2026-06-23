@@ -3,6 +3,13 @@
     "verification": {
       "invalidLink": "Invalid or expired verification link.",
       "resendMessage": "If your email address is registered and unverified, a new verification link has been sent."
+    },
+    "fields": {
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
+    },
+    "layout": {
+      "skipToContent": "Skip to content"
     }
   },
   "table": {
