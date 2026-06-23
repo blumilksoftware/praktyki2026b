@@ -32,6 +32,10 @@ class EmailVerificationMail extends Mailable
     {
         return new Content(
             markdown: "emails.email_verification",
+            with: [
+                "user" => $this->user,
+                "token" => $this->token,
+            ],
         );
     }
 }

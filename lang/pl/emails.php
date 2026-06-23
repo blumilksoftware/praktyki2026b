@@ -15,7 +15,7 @@ return [
         "accept_mail_title" => "Weryfikacja potwierdzona",
         "accept_mail_greeting" => "Cześć :name,",
         "accept_mail_body" => "Świetne wiadomości! Twoja organizacja została pomyślnie zweryfikowana przez nasz zespół administracyjny. Twoje konto jest teraz w pełni aktywne i możesz korzystać ze wszystkich funkcji platformy Applikuj.",
-        "accept_mail_cta_text" => "Przejdź do panelu",
+        "accept_mail_cta_text" => "Przejdź do profilu",
         "reject_mail_subject" => "Status Twojej prośby o weryfikację",
         "reject_mail_title" => "Aktualizacja statusu weryfikacji",
         "reject_mail_greeting" => "Cześć :name,",
@@ -28,6 +28,7 @@ return [
         "already_verified_university" => "Uczelnia została już zweryfikowana.",
         "already_rejected_university" => "Uczelnia została już odrzucona.",
     ],
+
     "registration" => [
         "subject" => "Witaj w Applikuj! Potwierdź rejestrację",
         "greeting" => "Witaj :name,",
@@ -38,5 +39,16 @@ return [
         "field_university" => "Uczelnia",
         "ignore_notice" => "Jeśli nie zakładałeś konta, możesz zignorować tę wiadomość.",
         "all_rights_reserved" => "Wszelkie prawa zastrzeżone.",
+    ],
+
+    "job_application" => [
+        "new_subject" => "Nowa aplikacja na stanowisko :job_title",
+        "new_title" => "Nowa aplikacja",
+        "new_body" => "Student :student_name zaaplikował na Twoją ofertę pracy: :job_title.",
+        "new_cta" => "Zobacz kandydaturę",
+        "status_changed_subject" => "Zmiana statusu Twojej aplikacji na stanowisko :job_title",
+        "status_changed_title" => "Aktualizacja statusu aplikacji",
+        "status_changed_body" => "Firma :company_name zmieniła status Twojej aplikacji na stanowisko :job_title na: :status.",
+        "status_changed_cta" => "Przejdź do profilu",
     ],
 ];

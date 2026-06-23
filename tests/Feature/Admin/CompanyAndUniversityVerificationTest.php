@@ -102,6 +102,9 @@ class CompanyAndUniversityVerificationTest extends TestCase
             "role" => UserRole::SuperAdmin,
         ]);
         $company = Company::factory()->pending()->create();
+        $companyUser = User::factory()->pendingCompanyAdmin()->create([
+            "organization_id" => $company->id,
+        ]);
 
         $this->actingAs($admin)->post(route("admin.company.verify.accept", $company));
 
@@ -137,6 +140,9 @@ class CompanyAndUniversityVerificationTest extends TestCase
             "role" => UserRole::SuperAdmin,
         ]);
         $university = University::factory()->pending()->create();
+        $universityUser = User::factory()->pendingUniversityAdmin()->create([
+            "organization_id" => $university->id,
+        ]);
 
         $this->actingAs($admin)->post(route("admin.university.verify.accept", $university));
 
