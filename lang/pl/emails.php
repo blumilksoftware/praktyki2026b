@@ -44,7 +44,7 @@ return [
     "job_application" => [
         "new_subject" => "Nowa aplikacja na stanowisko :job_title",
         "new_title" => "Nowa aplikacja",
-        "new_body" => "Student :student_name zaaplikował na Twoją ofertę pracy: :job_title.",
+        "new_body" => "Student :student_name odpowiedział na Twoją ofertę pracy: :job_title.",
         "new_cta" => "Zobacz kandydaturę",
         "status_changed_subject" => "Zmiana statusu Twojej aplikacji na stanowisko :job_title",
         "status_changed_title" => "Aktualizacja statusu aplikacji",
