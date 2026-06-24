@@ -252,7 +252,7 @@ class EmailVerificationTest extends TestCase
         $response->assertRedirect(route("company.profile"));
     }
 
-    public function testCanSeeRejectionReason(): void
+    public function testCompanyRejectionSendsMailToCompany(): void
     {
         Mail::fake();
 
@@ -268,12 +268,7 @@ class EmailVerificationTest extends TestCase
             "rejection_reason" => $rejectionReason,
         ]);
 
-        Mail::assertSent(CompanyVerificationRejectMail::class, function ($mail) {
-            $html = $mail->render();
-
-            $this->assertStringContainsString("Rejection message", $html);
-
-            return true;
-        });
+        Mail::assertSent(CompanyVerificationRejectMail::class, 1);
+        Mail::assertSent(CompanyVerificationRejectMail::class, fn(CompanyVerificationRejectMail $mail): bool => $mail->hasTo($company->email) && $mail->rejectionReason === $rejectionReason);
     }
 }

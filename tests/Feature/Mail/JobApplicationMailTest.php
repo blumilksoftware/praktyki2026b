@@ -18,11 +18,9 @@ class JobApplicationMailTest extends TestCase
             applicationUrl: "http://localhost/company/applications/123",
         );
 
-        $html = $mail->render();
-
-        $this->assertStringContainsString("John Doe", $html);
-        $this->assertStringContainsString("Junior PHP Developer", $html);
-        $this->assertStringContainsString("http://localhost/company/applications/123", $html);
+        $mail->assertSeeInHtml("John Doe");
+        $mail->assertSeeInHtml("Junior PHP Developer");
+        $mail->assertSeeInHtml("http://localhost/company/applications/123");
     }
 
     public function testJobApplicationStatusChangedMailRendersCorrectly(): void
@@ -34,11 +32,9 @@ class JobApplicationMailTest extends TestCase
             dashboardUrl: "http://localhost/student/dashboard",
         );
 
-        $html = $mail->render();
-
-        $this->assertStringContainsString("Junior PHP Developer", $html);
-        $this->assertStringContainsString("Acme Corp", $html);
-        $this->assertStringContainsString("Accepted", $html);
-        $this->assertStringContainsString("http://localhost/student/dashboard", $html);
+        $mail->assertSeeInHtml("Junior PHP Developer");
+        $mail->assertSeeInHtml("Acme Corp");
+        $mail->assertSeeInHtml("Accepted");
+        $mail->assertSeeInHtml("http://localhost/student/dashboard");
     }
 }
