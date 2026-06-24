@@ -200,7 +200,7 @@ class EmailVerificationTest extends TestCase
             "terms" => "1",
         ]);
         $university = University::where("email", "uni@example.com")->firstOrFail();
-        Mail::assertSent(EmailVerificationMail::class);
+        Mail::assertQueued(EmailVerificationMail::class);
 
         $this->actingAs($superAdmin)->post(route("admin.university.verify.accept", $university));
         Auth::logout();
@@ -237,7 +237,7 @@ class EmailVerificationTest extends TestCase
         ]);
 
         $company = Company::where("email", "company@example.com")->firstOrFail();
-        Mail::assertSent(EmailVerificationMail::class);
+        Mail::assertQueued(EmailVerificationMail::class);
 
         $this->actingAs($superAdmin)->post(route("admin.company.verify.accept", $company));
         Auth::logout();
@@ -268,7 +268,7 @@ class EmailVerificationTest extends TestCase
             "rejection_reason" => $rejectionReason,
         ]);
 
-        Mail::assertSent(CompanyVerificationRejectMail::class, 1);
-        Mail::assertSent(CompanyVerificationRejectMail::class, fn(CompanyVerificationRejectMail $mail): bool => $mail->hasTo($company->email) && $mail->rejectionReason === $rejectionReason);
+        Mail::assertQueued(CompanyVerificationRejectMail::class, 1);
+        Mail::assertQueued(CompanyVerificationRejectMail::class, fn(CompanyVerificationRejectMail $mail): bool => $mail->hasTo($company->email) && $mail->rejectionReason === $rejectionReason);
     }
 }
