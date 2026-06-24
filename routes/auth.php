@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\StudentRegistrationController;
 use App\Http\Controllers\Auth\UniversityRegistrationController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
@@ -23,6 +24,10 @@ Route::post("/register/student", StudentRegistrationController::class)->name("re
 
 Route::get("/login", [LoginController::class, "show"])->name("login");
 Route::post("/login", [LoginController::class, "store"])->name("login.store");
+
+Route::get("/email/verification", fn(Request $request): Response => inertia("Auth/EmailVerificationWaiting", [
+    "email" => $request->string("email")->toString(),
+]))->name("verification.waiting");
 
 Route::get("/email/verify/{id}/{token}", [EmailVerificationController::class, "verify"])
     ->name("verification.verify");

@@ -7,7 +7,9 @@
         "build": "vite build",
         "lint": "eslint .",
         "lintf": "eslint . --fix",
-        "tsc": "vue-tsc"
+        "tsc": "vue-tsc",
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "dependencies": {
         "@inertiajs/vue3": "^2.3.6",
@@ -32,6 +34,9 @@
         "eslint-plugin-vue": "^10.6.2",
         "postcss": "^8.5.6",
         "vite": "^7.0.8",
+        "vitest": "^3.2.4",
+        "@vue/test-utils": "^2.4.6",
+        "jsdom": "^26.1.0",
         "vue-tsc": "^3.0.10"
     }
 }
