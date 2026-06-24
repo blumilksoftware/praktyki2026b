@@ -22,7 +22,9 @@ class StudentRegistrationTest extends TestCase
 
         $response = $this->post("/register/student", $this->validPayload());
 
-        $response->assertRedirect(route("login"));
+        $response->assertRedirect(route("verification.waiting", [
+            "email" => "user@example.com",
+        ]));
         $this->assertDatabaseHas("users", ["email" => "user@example.com"]);
     }
 

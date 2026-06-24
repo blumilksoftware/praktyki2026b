@@ -1,19 +1,21 @@
-<script setup lang = "ts">
-defineProps < { id: string } > ()
+<script setup>
+defineProps({
+  id: { type: String, required: true },
+})
 
-const model = defineModel<boolean>({ required: true })
+const model = defineModel({ type: Boolean, required: true })
 </script>
 
 <template>
-  <label :for="id"
-         class="flex items-start gap-2 cursor-pointer text-sm text-text"
+  <label
+    :for="id"
+    class="flex items-start gap-2 cursor-pointer text-sm text-text"
   >
     <input
       :id="id"
       v-model="model"
       type="checkbox"
-      class="mt-0.5 rounded border-border text-primary
-                    focus:ring-primary/40"
+      class="mt-0.5 rounded border-border text-primary focus:ring-primary/40"
     >
     <span class="leading-snug">
       <slot />

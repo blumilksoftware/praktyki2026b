@@ -1,32 +1,24 @@
-<script setup lang = "ts">
-import { useI18n } from 'vue-i18n'
+<script setup>
 import { computed } from 'vue'
 import { IconEye, IconEyeOff } from '@tabler/icons-vue'
+import { useI18n } from 'vue-i18n'
 import { useTogglePassword } from '@/composables/useTogglePassword'
+
+const props = defineProps({
+  id: { type: String, required: true },
+  label: { type: String, required: true },
+  type: { type: String, default: 'text' },
+  error: { type: String, default: undefined },
+  autocomplete: { type: String, default: undefined },
+  required: { type: Boolean, default: false },
+})
+
+const model = defineModel({ type: String, required: true })
 
 const { t } = useI18n()
 
-const props = withDefaults(
-  defineProps<{
-        id: string
-        label: string
-        type?: 'text' | 'email' | 'password'
-        error?: string
-        autocomplete?: string
-        required?: boolean
-    }>(),
-  {
-    type: 'text',
-    error: undefined,
-    autocomplete: undefined,
-    required: false,
-  },
-)
-
-const model = defineModel<string>({ required: true })
-
 const isPassword = computed(() => props.type === 'password')
-const { showPassword, TogglePassword  } = useTogglePassword()
+const { showPassword, togglePassword } = useTogglePassword()
 
 const inputType = computed(() => {
   if (!isPassword.value) {
@@ -50,37 +42,32 @@ const inputType = computed(() => {
         :autocomplete="autocomplete"
         :required="required"
         :aria-invalid="error ? true : undefined"
-        :aria-describedby="error ? '${id}-error' : undefined"
-        class="w-full rounded-lg border border-border bg-white px-4 py-3
-                        text-base text-text placeholder:text-additional
-                        focus:border-text focus:outline-none focus:ring-2
-                        focus:ring-primary/30 transition"
+        :aria-describedby="error ? `${id}-error` : undefined"
+        class="w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text placeholder:text-additional focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
         :class="{ 'border-red-500 focus:border-red-500 focus:ring-red-200': error }"
       >
 
       <button
         v-if="isPassword"
         type="button"
-        class="absolute right-3 top-1/2 -translate-y-1/2
-                    text-additonal hover:text-textt
-                    focus-visible:outline-none focus-visible:ring-2
-                    focus-visible:ring-primary/40 rounded p-0.5"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-additional hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded p-0.5"
         :aria-label="showPassword
           ? t('auth.fields.hidePassword')
           : t('auth.fields.showPassword')"
-        @click="TogglePassword"
+        @click="togglePassword"
       >
         <IconEyeOff v-if="showPassword" class="w-5 h-5" aria-hidden="true" />
         <IconEye v-else class="w-5 h-5" aria-hidden="true" />
       </button>
     </div>
 
-    <p v-if="error" id="'${id}-error'" :
-       class="text-sm text-red-600" role="alert"
+    <p
+      v-if="error"
+      :id="`${id}-error`"
+      class="text-sm text-red-600"
+      role="alert"
     >
       {{ error }}
     </p>
   </div>
 </template>
-
-
