@@ -12,7 +12,9 @@
         "laravel/fortify": "^1.37",
         "laravel/framework": "^12.44.0",
         "laravel/sanctum": "^4.2.1",
-        "laravel/tinker": "^2.10.2"
+        "laravel/socialite": "^5.28",
+        "laravel/tinker": "^2.10.2",
+        "spatie/laravel-activitylog": "^5.0"
     },
     "require-dev": {
         "blumilksoftware/codestyle": "^v5.1.1",
