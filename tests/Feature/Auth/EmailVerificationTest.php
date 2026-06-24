@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
+use App\Enums\UserRole;
 use App\Mail\EmailVerificationMail;
+use App\Mail\Verification\CompanyVerificationRejectMail;
+use App\Models\Company;
 use App\Models\EmailVerificationToken;
+use App\Models\University;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -175,5 +180,95 @@ class EmailVerificationTest extends TestCase
         $response->assertRedirect("/login");
         $response->assertSessionHasErrors("email");
         $this->assertNull($user->fresh()->email_verified_at);
+    }
+
+    public function testUniversityAfterApprovalAndLoginIsRedirectedToProfile(): void
+    {
+        Mail::fake();
+        $superAdmin = User::factory()->create([
+            "role" => UserRole::SuperAdmin,
+        ]);
+        $this->post(route("register.university"), [
+            "university_name" => "Test University",
+            "email" => "uni@example.com",
+            "domain" => "example.edu",
+            "password" => "password",
+            "password_confirmation" => "password",
+            "address" => "Some address",
+            "phone" => "+48123456789",
+            "website" => "https://example.edu",
+            "terms" => "1",
+        ]);
+        $university = University::where("email", "uni@example.com")->firstOrFail();
+        Mail::assertQueued(EmailVerificationMail::class);
+
+        $this->actingAs($superAdmin)->post(route("admin.university.verify.accept", $university));
+        Auth::logout();
+        $response = $this->get(route("university.profile"));
+
+        $response->assertRedirect("/login");
+        $user = User::where("organization_id", $university->id)->firstOrFail();
+        $response = $this->post(route("login"), [
+            "email" => $user->email,
+            "password" => "password",
+        ]);
+        $response->assertRedirect(route("university.profile"));
+    }
+
+    public function testCompanyAfterApprovalAndLogisIsRedirectedToProfile(): void
+    {
+        Mail::fake();
+        $superAdmin = User::factory()->create([
+            "role" => UserRole::SuperAdmin,
+        ]);
+        $this->post(route("register.company"), [
+            "company_name" => "Company",
+            "password" => "password",
+            "password_confirmation" => "password",
+            "nip" => "6412502926",
+            "email" => "company@example.com",
+            "street" => "Street",
+            "building_number" => "1A",
+            "postal_code" => "00-111",
+            "city" => "City",
+            "phone" => "123456789",
+            "website" => "https://mycompany.com",
+            "terms" => "1",
+        ]);
+
+        $company = Company::where("email", "company@example.com")->firstOrFail();
+        Mail::assertQueued(EmailVerificationMail::class);
+
+        $this->actingAs($superAdmin)->post(route("admin.company.verify.accept", $company));
+        Auth::logout();
+        $response = $this->get(route("company.profile"));
+
+        $response->assertRedirect("/login");
+        $user = User::where("organization_id", $company->id)->firstOrFail();
+        $response = $this->post(route("login"), [
+            "email" => $user->email,
+            "password" => "password",
+        ]);
+        $response->assertRedirect(route("company.profile"));
+    }
+
+    public function testCompanyRejectionSendsMailToCompany(): void
+    {
+        Mail::fake();
+
+        $superAdmin = User::factory()->create([
+            "role" => UserRole::SuperAdmin,
+        ]);
+
+        $rejectionReason = "Rejection message";
+
+        $company = Company::factory()->pending()->create();
+
+        $this->actingAs($superAdmin)->post(route("admin.company.verify.reject", $company), [
+            "rejection_reason" => $rejectionReason,
+        ]);
+
+        Mail::assertQueued(CompanyVerificationRejectMail::class, 1);
+        Mail::assertQueued(CompanyVerificationRejectMail::class, fn(CompanyVerificationRejectMail $mail): bool => $mail->hasTo($company->email) && $mail->rejectionReason === $rejectionReason);
     }
 }
