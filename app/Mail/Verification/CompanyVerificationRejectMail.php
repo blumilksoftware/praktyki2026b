@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace App\Mail\Verification;
 
+use App\Mail\QueueableMailable;
 use App\Models\Company;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class CompanyVerificationRejectMail extends Mailable
+class CompanyVerificationRejectMail extends QueueableMailable
 {
-    use Queueable;
-    use SerializesModels;
-
     public function __construct(
         public readonly Company $company,
         public readonly string $rejectionReason,
@@ -37,5 +32,17 @@ class CompanyVerificationRejectMail extends Mailable
                 "rejectionReason" => $this->rejectionReason,
             ],
         );
+    }
+
+    protected function getLogAction(): string
+    {
+        return "send_company_verification_reject_mail";
+    }
+
+    protected function getLogProperties(): array
+    {
+        return [
+            "company_id" => $this->company->id,
+        ];
     }
 }
