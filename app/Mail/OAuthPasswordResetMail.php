@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace App\Mail;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
+use App\Models\User;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class OAuthPasswordResetMail extends Mailable
+class OAuthPasswordResetMail extends QueueableMailable
 {
-    use Queueable;
-    use SerializesModels;
+    public function __construct(
+        public readonly User $user,
+    ) {}
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "Password reset",
+            subject: __("emails.password_reset.oauth_subject"),
         );
     }
 
@@ -26,6 +25,21 @@ class OAuthPasswordResetMail extends Mailable
     {
         return new Content(
             markdown: "emails.oauth_password_reset",
+            with: [
+                "user" => $this->user,
+            ],
         );
+    }
+
+    protected function getLogAction(): string
+    {
+        return "send_oauth_password_reset_mail";
+    }
+
+    protected function getLogProperties(): array
+    {
+        return [
+            "user_id" => $this->user->id,
+        ];
     }
 }

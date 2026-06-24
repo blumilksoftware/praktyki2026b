@@ -1,9 +1,15 @@
 <x-mail::message>
-# Password reset
+# {{ __('emails.password_reset.oauth_title') }}
 
-It looks like you're trying to reset your password, but your account is linked to Google.
+{{ __('emails.password_reset.oauth_greeting', ['name' => $user->first_name ?? $user->email]) }}
 
-To access your account, please use the **Sign in with Google** button on the login page.
+{{ __('emails.password_reset.oauth_body') }}
 
-If you didn't request this, you can safely ignore this email.
+<x-mail::button :url="route('login')">
+{{ __('emails.password_reset.oauth_cta') }}
+</x-mail::button>
+
+{{ __('emails.password_reset.oauth_ignore') }}
+
+{{ __('emails.verification.all_rights_reserved') }}
 </x-mail::message>

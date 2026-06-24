@@ -20,7 +20,7 @@ class SendPasswordResetLink
         }
 
         if ($user->google_id !== null) {
-            Mail::to($email)->queue(new OAuthPasswordResetMail());
+            Mail::to($email)->queue(new OAuthPasswordResetMail($user));
 
             return;
         }
