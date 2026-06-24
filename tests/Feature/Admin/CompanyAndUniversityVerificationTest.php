@@ -108,7 +108,7 @@ class CompanyAndUniversityVerificationTest extends TestCase
 
         $this->actingAs($admin)->post(route("admin.company.verify.accept", $company));
 
-        Mail::assertSent(CompanyVerificationAcceptMail::class);
+        Mail::assertQueued(CompanyVerificationAcceptMail::class);
 
         $this->assertDatabaseHas("companies", [
             "id" => $company->id,
@@ -126,7 +126,7 @@ class CompanyAndUniversityVerificationTest extends TestCase
         $rejectionReason = "Rejection Reason";
         $this->actingAs($admin)->post(route("admin.company.verify.reject", $company), ["rejection_reason" => $rejectionReason]);
 
-        Mail::assertSent(CompanyVerificationRejectMail::class, fn($mail) => $mail->rejectionReason === $rejectionReason);
+        Mail::assertQueued(CompanyVerificationRejectMail::class, fn($mail) => $mail->rejectionReason === $rejectionReason);
 
         $this->assertDatabaseHas("companies", [
             "id" => $company->id,
@@ -146,7 +146,7 @@ class CompanyAndUniversityVerificationTest extends TestCase
 
         $this->actingAs($admin)->post(route("admin.university.verify.accept", $university));
 
-        Mail::assertSent(UniversityVerificationAcceptMail::class);
+        Mail::assertQueued(UniversityVerificationAcceptMail::class);
 
         $this->assertDatabaseHas("universities", [
             "id" => $university->id,
@@ -165,7 +165,7 @@ class CompanyAndUniversityVerificationTest extends TestCase
 
         $this->actingAs($admin)->post(route("admin.university.verify.reject", $university), ["rejection_reason" => $rejectionReason]);
 
-        Mail::assertSent(UniversityVerificationRejectMail::class, fn($mail) => $mail->rejectionReason === $rejectionReason);
+        Mail::assertQueued(UniversityVerificationRejectMail::class, fn($mail) => $mail->rejectionReason === $rejectionReason);
 
         $this->assertDatabaseHas("universities", [
             "id" => $university->id,

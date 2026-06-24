@@ -5,17 +5,11 @@ declare(strict_types=1);
 namespace App\Mail;
 
 use App\Models\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class EmailVerificationMail extends Mailable
+class EmailVerificationMail extends QueueableMailable
 {
-    use Queueable;
-    use SerializesModels;
-
     public function __construct(
         public readonly User $user,
         public readonly string $token,
@@ -37,5 +31,17 @@ class EmailVerificationMail extends Mailable
                 "token" => $this->token,
             ],
         );
+    }
+
+    protected function getLogAction(): string
+    {
+        return "send_email_verification_mail";
+    }
+
+    protected function getLogProperties(): array
+    {
+        return [
+            "user_id" => $this->user->id,
+        ];
     }
 }

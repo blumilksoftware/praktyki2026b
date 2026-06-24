@@ -106,7 +106,7 @@ class EmailVerificationTest extends TestCase
         $response = $this->post("/email/resend", ["email" => $user->email]);
 
         $response->assertRedirect();
-        Mail::assertSent(EmailVerificationMail::class, fn($mail): bool => $mail->hasTo($user->email));
+        Mail::assertQueued(EmailVerificationMail::class, fn($mail): bool => $mail->hasTo($user->email));
     }
 
     public function testResendInvalidatesPreviousToken(): void

@@ -38,7 +38,7 @@ class UniversityRegistrationTest extends TestCase
             "status" => UserStatus::Pending->value,
         ]);
 
-        Mail::assertSent(EmailVerificationMail::class, fn(EmailVerificationMail $mail) => $mail->hasTo("university@example.com"));
+        Mail::assertQueued(EmailVerificationMail::class, fn(EmailVerificationMail $mail) => $mail->hasTo("university@example.com"));
     }
 
     public function testRegistrationCreatesUserAndUniversityTogether(): void

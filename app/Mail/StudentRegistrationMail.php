@@ -5,17 +5,11 @@ declare(strict_types=1);
 namespace App\Mail;
 
 use App\Models\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class StudentRegistrationMail extends Mailable
+class StudentRegistrationMail extends QueueableMailable
 {
-    use Queueable;
-    use SerializesModels;
-
     public function __construct(
         public readonly User $user,
     ) {}
@@ -32,5 +26,17 @@ class StudentRegistrationMail extends Mailable
         return new Content(
             view: "emails.student_registration",
         );
+    }
+
+    protected function getLogAction(): string
+    {
+        return "send_student_registration_mail";
+    }
+
+    protected function getLogProperties(): array
+    {
+        return [
+            "user_id" => $this->user->id,
+        ];
     }
 }

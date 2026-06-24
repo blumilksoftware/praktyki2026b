@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace App\Mail\Verification;
 
+use App\Mail\QueueableMailable;
 use App\Models\Company;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class CompanyVerificationAcceptMail extends Mailable
+class CompanyVerificationAcceptMail extends QueueableMailable
 {
-    use Queueable;
-    use SerializesModels;
-
     public function __construct(
         public readonly Company $company,
     ) {}
@@ -35,5 +30,17 @@ class CompanyVerificationAcceptMail extends Mailable
                 "company" => $this->company,
             ],
         );
+    }
+
+    protected function getLogAction(): string
+    {
+        return "send_company_verification_accept_mail";
+    }
+
+    protected function getLogProperties(): array
+    {
+        return [
+            "company_id" => $this->company->id,
+        ];
     }
 }
