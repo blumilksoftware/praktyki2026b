@@ -149,6 +149,7 @@ return [
     "nip" => "Pole :attribute musi być prawidłowym numerem NIP.",
     "phone" => "Pole :attribute musi być prawidłowym numerem telefonu.",
     "domain" => "Pole :attribute musi być prawidłową domeną.",
+    "mime_type_by_content" => "Pole :attribute musi być plikiem typu: :values.",
 
     "attributes" => [
         "email" => "adres e-mail",
