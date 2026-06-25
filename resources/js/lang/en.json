@@ -1,8 +1,24 @@
 {
-  "auth": {
+"auth": {
     "verification": {
       "invalidLink": "Invalid or expired verification link.",
-      "resendMessage": "If your email address is registered and unverified, a new verification link has been sent."
+      "resend_message": "A new verification link has been sent.",
+      "notVerified": "Your email address has not been verified.",
+      "resendVerification": "Resend verification link"
+    },
+    "login": {
+      "title": "Log in",
+      "heading": "Welcome back!",
+      "email": "Email",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "submit": "Log in",      
+      "forgotPassword": "Forgot password?",
+      "or": "or",
+      "google": "Log in with Google",
+      "noAccount": "Don't have an account yet? Sign up.",
+      "forgotPasswordLink": "click here",
+      "resendVerification": "Resend verification link"
     }
   },
   "table": {
