@@ -37,4 +37,7 @@ Route::middleware(["auth"])
         Route::post("/verify/university/{university}/reject", [AdminController::class, "rejectUniversityVerification"])->name("admin.university.verify.reject");
     });
 
+Route::get('/dev/components', fn (): Response => inertia('Dev/ComponentShowcase'))
+->name('dev.components');
+
 require __DIR__ . "/auth.php";
