@@ -2,7 +2,18 @@
   "auth": {
     "verification": {
       "invalidLink": "Invalid or expired verification link.",
-      "resendMessage": "If your email address is registered and unverified, a new verification link has been sent."
+      "resendMessage": "If your email address is registered and unverified, a new verification link has been sent.",
+      "notVerified": "Your email address has not been verified.",
+      "waiting": {
+        "title": "Confirm your email",
+        "heading": "Check your inbox",
+        "sentTo": "We sent a verification link to:",
+        "expiresInfo": "The link is valid for 24 hours.",
+        "resend": "Resend verification link",
+        "resendCooldown": "Resend in {seconds} s",
+        "resendSuccess": "If the address is registered and unverified, we sent a new link.",
+        "backToLogin": "Back to sign in"
+      }
     },
     "fields": {
       "showPassword": "Show password",
@@ -10,6 +21,36 @@
     },
     "layout": {
       "skipToContent": "Skip to content"
+    },
+    "login": {
+      "title": "Login",
+      "heading": "Sign in",
+      "email": "E-mail",
+      "password": "Password",
+      "submit": "Sign in",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account yet?",
+      "registerLink": "Register",
+      "google": "Sign in with Google",
+      "or": "or",
+      "resendVerification": "Resend verification link"
+    },
+    "register": {
+      "title": "Registration",
+      "heading": "Register",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "E-mail",
+      "password": "Password",
+      "passwordConfirmation": "Confirm password",
+      "university": "University (optional)",
+      "termsPrefix": "I accept the",
+      "termsLink": "terms and conditions",
+      "submit": "Register",
+      "google": "Sign up with Google",
+      "or": "or",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in"
     }
   },
   "table": {
