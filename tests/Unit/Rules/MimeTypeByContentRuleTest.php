@@ -57,6 +57,8 @@ class MimeTypeByContentRuleTest extends TestCase
 
     public function testRuleFailsForInvalidMimeType(): void
     {
+        app()->setLocale("pl");
+
         $filePath = $this->createTempFile("%PDF-1.4 ...");
         $file = new UploadedFile($filePath, "document.pdf", "application/pdf", null, true);
 
