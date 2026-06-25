@@ -1,4 +1,4 @@
-import blumilkDefault from '@blumilksoftware/eslint-config/typescript-config.js'
+import blumilkDefault from '@blumilksoftware/eslint-config'
 
 export default [
   ...blumilkDefault,
