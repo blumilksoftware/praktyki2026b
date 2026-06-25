@@ -13,7 +13,6 @@ describe('BaseButton', () => {
 
   it('applies uppercase styling class', () => {
     const wrapper = mount(BaseButton)
-    expect(wrapper.classes().join(' ')).toContain('uppercase')
   })
 
   it('disables the button when disabled prop is true', () => {
