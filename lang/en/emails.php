@@ -3,6 +3,15 @@
 declare(strict_types=1);
 
 return [
+    "password_reset" => [
+        "oauth_subject" => "Password reset attempt",
+        "oauth_title" => "Sign in with Google instead",
+        "oauth_greeting" => "Hello :name,",
+        "oauth_body" => "It looks like you're trying to reset your password, but your account is linked to Google. To access your account, please use the Sign in with Google button on the login page.",
+        "oauth_cta" => "Go to login",
+        "oauth_ignore" => "If you didn't request this, you can safely ignore this email.",
+    ],
+
     "verification" => [
         "subject" => "Confirm your email address",
         "title" => "Confirm your email address",
@@ -27,5 +36,16 @@ return [
         "already_rejected_company" => "Company is already rejected.",
         "already_verified_university" => "University is already verified.",
         "already_rejected_university" => "University is already rejected.",
+    ],
+
+    "job_application" => [
+        "new_subject" => "New application for :job_title",
+        "new_title" => "New application",
+        "new_body" => "Student :student_name has applied for your job offer: :job_title.",
+        "new_cta" => "View application",
+        "status_changed_subject" => "Status change for your application: :job_title",
+        "status_changed_title" => "Application status updated",
+        "status_changed_body" => "Company :company_name has changed the status of your application for :job_title to: :status.",
+        "status_changed_cta" => "Go to dashboard",
     ],
 ];

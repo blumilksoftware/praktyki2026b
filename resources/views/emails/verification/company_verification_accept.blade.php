@@ -5,7 +5,7 @@
 
 {{ __('emails.verification.accept_mail_body') }}
 
-<x-mail::button :url="route('company.dashboard')">
+<x-mail::button :url="route('company.profile')">
 {{ __('emails.verification.accept_mail_cta_text') }}
 </x-mail::button>
 

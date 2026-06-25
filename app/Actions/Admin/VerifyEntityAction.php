@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Admin;
 
+use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use App\Mail\Verification\CompanyVerificationAcceptMail;
 use App\Mail\Verification\CompanyVerificationRejectMail;
@@ -19,6 +20,10 @@ class VerifyEntityAction
     public function verify(Company|University $entity, User $admin): void
     {
         $entity->update(["verification_status" => VerificationStatus::Verified]);
+
+        $user = User::where("organization_id", $entity->id)->first();
+        $user->markEmailAsVerified();
+        $user->update(["status" => UserStatus::Active]);
 
         $this->sendAcceptMail($entity);
 

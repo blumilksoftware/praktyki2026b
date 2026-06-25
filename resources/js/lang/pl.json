@@ -13,12 +13,36 @@
       "password": "Hasło",
       "rememberMe": "Zapamiętaj mnie",
       "submit": "Zaloguj się",      
-      "forgotPassword": "Zapomniałeś hasła?",
+      "forgotPassword": "Nie pamiętasz hasła?",
       "or": "lub",
       "google": "Zaloguj się przy pomocy Google",
       "noAccount": "Nie masz jeszcze konta? Zarejestruj się.",
       "forgotPasswordLink": "kliknij tutaj",
       "resendVerification": "Wyślij ponownie link weryfikacyjny"
+    },
+    "fields": {
+      "showPassword": "Pokaż hasło",
+      "hidePassword": "Ukryj hasło"
+    },
+    "layout": {
+      "skipToContent": "Przejdź do treści"
+    },
+    "register": {
+      "title": "Rejestracja",
+      "heading": "Zarejestruj się",
+      "firstName": "Imię",
+      "lastName": "Nazwisko",
+      "email": "E-mail",
+      "password": "Hasło",
+      "passwordConfirmation": "Powtórz hasło",
+      "university": "Uczelnia (opcjonalnie)",
+      "termsPrefix": "Akceptuję",
+      "termsLink": "regulamin",
+      "submit": "Zarejestruj się",
+      "google": "Zarejestruj się przy pomocy Google",
+      "or": "lub",
+      "hasAccount": "Masz już konto?",
+      "loginLink": "Zaloguj się"
     }
   },
   "table": {

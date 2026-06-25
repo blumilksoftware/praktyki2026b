@@ -7,7 +7,9 @@
         "build": "vite build",
         "lint": "eslint .",
         "lintf": "eslint . --fix",
-        "tsc": "vue-tsc"
+        "tsc": "vue-tsc",
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "dependencies": {
         "@inertiajs/vue3": "^2.3.6",
@@ -24,14 +26,18 @@
     },
     "devDependencies": {
         "@blumilksoftware/eslint-config": "^3.0.2",
+        "@types/node": "^26.0.0",
         "@typescript-eslint/eslint-plugin": "^8.46.4",
-        "@vitejs/plugin-vue": "^6.0.3",
+        "@vitejs/plugin-vue": "^6.0.7",
+        "@vue/test-utils": "^2.4.11",
         "autoprefixer": "^10.4.23",
         "eslint": "^9.39.2",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-vue": "^10.6.2",
+        "jsdom": "^29.1.1",
         "postcss": "^8.5.6",
         "vite": "^7.0.8",
+        "vitest": "^3.2.4",
         "vue-tsc": "^3.0.10"
     }
 }

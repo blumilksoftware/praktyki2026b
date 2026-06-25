@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
-class StudentRegistrationMail extends QueueableMailable
+class OAuthPasswordResetMail extends QueueableMailable
 {
     public function __construct(
         public readonly User $user,
@@ -17,20 +17,23 @@ class StudentRegistrationMail extends QueueableMailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: __("emails.registration.subject"),
+            subject: __("emails.password_reset.oauth_subject"),
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            view: "emails.student_registration",
+            markdown: "emails.oauth_password_reset",
+            with: [
+                "user" => $this->user,
+            ],
         );
     }
 
     protected function getLogAction(): string
     {
-        return "send_student_registration_mail";
+        return "send_oauth_password_reset_mail";
     }
 
     protected function getLogProperties(): array

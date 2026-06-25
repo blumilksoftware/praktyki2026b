@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Company\CompanyDashboardController;
-use App\Http\Controllers\University\UniversityDashboardController;
+use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
 use Illuminate\Support\Facades\Route;
@@ -15,13 +15,15 @@ Route::get("/", fn(): Response => inertia("Welcome"));
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
     ->group(function (): void {
-        Route::get("/dashboard", CompanyDashboardController::class)->name("company.dashboard");
+        Route::get("/dashboard", [CompanyController::class, "index"])->name("company.dashboard");
+        Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
     ->prefix("university")
     ->group(function (): void {
-        Route::get("/dashboard", UniversityDashboardController::class)->name("university.dashboard");
+        Route::get("/dashboard", [UniversityController::class, "index"])->name("university.dashboard");
+        Route::get("/profile", [UniversityController::class, "profile"])->name("university.profile");
     });
 
 Route::middleware(["auth"])
@@ -34,5 +36,8 @@ Route::middleware(["auth"])
         Route::post("/verify/university/{university}/accept", [AdminController::class, "acceptUniversityVerification"])->name("admin.university.verify.accept");
         Route::post("/verify/university/{university}/reject", [AdminController::class, "rejectUniversityVerification"])->name("admin.university.verify.reject");
     });
+
+Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
+    ->name("dev.components");
 
 require __DIR__ . "/auth.php";
