@@ -28,4 +28,15 @@ return [
         "already_verified_university" => "University is already verified.",
         "already_rejected_university" => "University is already rejected.",
     ],
+
+    "job_application" => [
+        "new_subject" => "New application for :job_title",
+        "new_title" => "New application",
+        "new_body" => "Student :student_name has applied for your job offer: :job_title.",
+        "new_cta" => "View application",
+        "status_changed_subject" => "Status change for your application: :job_title",
+        "status_changed_title" => "Application status updated",
+        "status_changed_body" => "Company :company_name has changed the status of your application for :job_title to: :status.",
+        "status_changed_cta" => "Go to dashboard",
+    ],
 ];
