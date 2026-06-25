@@ -57,8 +57,6 @@ class MimeTypeByContentRuleTest extends TestCase
 
     public function testRuleFailsForInvalidMimeType(): void
     {
-        app()->setLocale("pl");
-
         $filePath = $this->createTempFile("%PDF-1.4 ...");
         $file = new UploadedFile($filePath, "document.pdf", "application/pdf", null, true);
 
@@ -72,7 +70,7 @@ class MimeTypeByContentRuleTest extends TestCase
         $this->assertFalse($validator->passes());
         $this->assertArrayHasKey("file", $validator->errors()->toArray());
         $this->assertEquals(
-            "Pole file musi być plikiem typu: image/png.",
+            __("validation.mime_type_by_content", ["attribute" => "file", "values" => "image/png"]),
             $validator->errors()->first("file"),
         );
     }
