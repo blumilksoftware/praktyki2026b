@@ -3,6 +3,15 @@
 declare(strict_types=1);
 
 return [
+    "password_reset" => [
+        "oauth_subject" => "Próba resetowania hasła",
+        "oauth_title" => "Zaloguj się przez Google",
+        "oauth_greeting" => "Cześć :name,",
+        "oauth_body" => "Wygląda na to, że próbujesz zresetować hasło, ale Twoje konto jest powiązane z Google. Aby uzyskać dostęp do konta, użyj przycisku Zaloguj się przez Google na stronie logowania.",
+        "oauth_cta" => "Przejdź do logowania",
+        "oauth_ignore" => "Jeśli nie wysyłałeś tej prośby, możesz zignorować tę wiadomość.",
+    ],
+
     "verification" => [
         "subject" => "Potwierdź swój adres e-mail",
         "title" => "Potwierdź adres e-mail",

@@ -3,6 +3,15 @@
 declare(strict_types=1);
 
 return [
+    "password_reset" => [
+        "oauth_subject" => "Password reset attempt",
+        "oauth_title" => "Sign in with Google instead",
+        "oauth_greeting" => "Hello :name,",
+        "oauth_body" => "It looks like you're trying to reset your password, but your account is linked to Google. To access your account, please use the Sign in with Google button on the login page.",
+        "oauth_cta" => "Go to login",
+        "oauth_ignore" => "If you didn't request this, you can safely ignore this email.",
+    ],
+
     "verification" => [
         "subject" => "Confirm your email address",
         "title" => "Confirm your email address",

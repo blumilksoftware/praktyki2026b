@@ -2,13 +2,6 @@
 import DataTable from '@/Components/Common/DataTable.vue'
 import { useI18n } from 'vue-i18n'
 
-const props = defineProps({
-  applications: {
-    type: Array,
-    required: true,
-  },
-})
-
 const { t } = useI18n()
 
 function statusClass(status) {
