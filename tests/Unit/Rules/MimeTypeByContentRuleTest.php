@@ -41,7 +41,6 @@ class MimeTypeByContentRuleTest extends TestCase
 
     public function testRulePassesForValidPng(): void
     {
-        // 1x1 pixel PNG image encoded in base64
         $pngBase64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==";
         $filePath = $this->createTempFile(base64_decode($pngBase64, true));
         $file = new UploadedFile($filePath, "image.png", "image/png", null, true);
@@ -61,7 +60,6 @@ class MimeTypeByContentRuleTest extends TestCase
         $filePath = $this->createTempFile("%PDF-1.4 ...");
         $file = new UploadedFile($filePath, "document.pdf", "application/pdf", null, true);
 
-        // Expecting PNG, but got PDF
         $rule = new MimeTypeByContentRule(["image/png"]);
 
         $validator = Validator::make(
@@ -79,7 +77,6 @@ class MimeTypeByContentRuleTest extends TestCase
 
     public function testRuleFailsForSpoofedExtension(): void
     {
-        // A plain text file with a .png extension
         $filePath = $this->createTempFile("Just some plain text content, not an image.");
         $file = new UploadedFile($filePath, "exploit.png", "image/png", null, true);
 
@@ -90,7 +87,6 @@ class MimeTypeByContentRuleTest extends TestCase
             ["file" => [$rule]],
         );
 
-        // Should fail because the content is plain text, not a PNG image.
         $this->assertFalse($validator->passes());
     }
 

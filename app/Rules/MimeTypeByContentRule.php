@@ -10,9 +10,6 @@ use Illuminate\Http\UploadedFile;
 
 class MimeTypeByContentRule implements ValidationRule
 {
-    /**
-     * @param array<string> $allowedMimes
-     */
     public function __construct(
         protected array $allowedMimes,
     ) {}

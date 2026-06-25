@@ -26,7 +26,6 @@ class FileUploadServiceIntegrationTest extends TestCase
 
     public function testUploadUsesConfiguredDiskDynamically(): void
     {
-        // 1. Fake both 'local' and 'public' disks
         Storage::fake("local");
         Storage::fake("public");
 
@@ -35,15 +34,13 @@ class FileUploadServiceIntegrationTest extends TestCase
 
         $service = new FileUploadService();
 
-        // 2. Set config to 'local' and upload
-        config(["uploads.disk" => "local"]);
+        config(["filesystems.default" => "local"]);
         $path1 = $service->upload($file, "integrations");
 
         Storage::disk("local")->assertExists($path1);
         Storage::disk("public")->assertMissing($path1);
 
-        // 3. Set config to 'public' and upload (using a new file instance since the temp file might have been moved/deleted)
-        config(["uploads.disk" => "public"]);
+        config(["filesystems.default" => "public"]);
         $filePath2 = $this->createTempFile("integration test content 2");
         $file2 = new UploadedFile($filePath2, "integration2.txt", "text/plain", null, true);
         $path2 = $service->upload($file2, "integrations");

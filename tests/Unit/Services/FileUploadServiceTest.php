@@ -26,7 +26,7 @@ class FileUploadServiceTest extends TestCase
 
     public function testUploadStoresFileOnConfiguredDisk(): void
     {
-        $disk = config("uploads.disk", "local");
+        $disk = config("filesystems.default", "local");
         Storage::fake($disk);
 
         $filePath = $this->createTempFile("file content");
@@ -41,31 +41,28 @@ class FileUploadServiceTest extends TestCase
 
     public function testUploadDeletesPreviousFileWhenReplacementIsUploaded(): void
     {
-        $disk = config("uploads.disk", "local");
+        $disk = config("filesystems.default", "local");
         Storage::fake($disk);
 
         $service = new FileUploadService();
 
-        // 1. Upload the first file
         $filePath1 = $this->createTempFile("first file content");
         $file1 = new UploadedFile($filePath1, "document1.txt", "text/plain", null, true);
         $path1 = $service->upload($file1, "documents");
 
         Storage::disk($disk)->assertExists($path1);
 
-        // 2. Upload the replacement file
         $filePath2 = $this->createTempFile("second file content");
         $file2 = new UploadedFile($filePath2, "document2.txt", "text/plain", null, true);
         $path2 = $service->upload($file2, "documents", $path1);
 
-        // The replacement file should exist, and the first file should be deleted from storage
         Storage::disk($disk)->assertExists($path2);
         Storage::disk($disk)->assertMissing($path1);
     }
 
     public function testDeleteRemovesFileFromDisk(): void
     {
-        $disk = config("uploads.disk", "local");
+        $disk = config("filesystems.default", "local");
         Storage::fake($disk);
 
         $filePath = $this->createTempFile("file content");
@@ -84,7 +81,7 @@ class FileUploadServiceTest extends TestCase
 
     public function testDeleteReturnsFalseIfFileDoesNotExist(): void
     {
-        $disk = config("uploads.disk", "local");
+        $disk = config("filesystems.default", "local");
         Storage::fake($disk);
 
         $service = new FileUploadService();
