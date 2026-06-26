@@ -7,7 +7,7 @@ const props = defineProps({
   rowKey: { type: String, default: '' },
   caption: { type: String, default: '' },
   sortKey: { type: String, default: '' },
-  sortDir: { type: String, default: 'asc' }, // 'asc' | 'desc'
+  sortDir: { type: String, default: 'asc' },
 })
 
 const emit = defineEmits(['sort'])
