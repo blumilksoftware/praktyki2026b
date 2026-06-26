@@ -108,7 +108,7 @@ class AdminController extends Controller
                     ->orWhere("email", "like", "%{$searchQuery}%");
             });
         }
-        $universitiesQuery->orderBy($universitySortKey, $sortDir); // <-- dodane
+        $universitiesQuery->orderBy($universitySortKey, $sortDir);
         $universities = $universitiesQuery->paginate(20, ["*"], "universities_page")->appends([
             "status" => $statusFilter,
             "search" => $searchQuery,

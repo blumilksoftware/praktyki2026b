@@ -5,8 +5,6 @@ import { useI18n } from 'vue-i18n'
 import LanguageDropdown from '../Common/LanguageDropdown.vue'
 import { ROUTES } from '@/Helpers/routes'
 
-// POPRAWKA: usunięto "const router = useRouter()" — nieużywane i niezaimportowane
-
 const props = defineProps({
   activePage: { type: String, default: '' },
   navItems: { type: Array, default: () => [] },
@@ -42,7 +40,6 @@ const navItems = computed(() => props.navItems.length > 0
 
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
       <div class="flex justify-between items-center px-4 md:px-6 py-4">
-        <!-- POPRAWKA: :href zamiast href={...} (to był zapis JSX, nie Vue) -->
         <a
           :href="ROUTES.ADMIN_DASHBOARD"
           class="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-lg transition"
@@ -115,7 +112,6 @@ const navItems = computed(() => props.navItems.length > 0
               v-if="isDesktopMenuOpen"
               class="absolute right-0 top-full mt-2 bg-white rounded-lg shadow-lg ring-1 ring-black/5 py-1 min-w-[160px] z-50"
             >
-              <!-- POPRAWKA: :href zamiast href="#" -->
               <a
                 class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 text-gray-700 hover:text-gray-900 transition text-sm"
                 :href="ROUTES.ADMIN_PROFILE"
@@ -125,7 +121,6 @@ const navItems = computed(() => props.navItems.length > 0
                 {{ t('admin.layout.nav.profile') }}
               </a>
               
-              <!-- POPRAWKA: :href zamiast href="#" -->
               <a
                 class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 text-gray-700 hover:text-gray-900 transition text-sm"
                 :href="ROUTES.ADMIN_SETTINGS"
@@ -165,7 +160,6 @@ const navItems = computed(() => props.navItems.length > 0
                 </div>
               </div>
 
-              <!-- POPRAWKA: :href zamiast href="#" -->
               <a
                 class="flex items-center gap-2 px-3 py-2 hover:bg-red-50 text-red-600 hover:text-red-700 transition text-sm"
                 :href="ROUTES.ADMIN_LOGOUT"
@@ -269,7 +263,6 @@ const navItems = computed(() => props.navItems.length > 0
                 </div>
               </div>
 
-              <!-- POPRAWKA: :href zamiast href="#" -->
               <a
                 class="flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition text-sm font-medium"
                 :href="ROUTES.ADMIN_PROFILE"
@@ -279,7 +272,6 @@ const navItems = computed(() => props.navItems.length > 0
                 {{ t('admin.layout.nav.profile') }}
               </a>
               
-              <!-- POPRAWKA: :href zamiast href="#" -->
               <a
                 class="flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition text-sm font-medium"
                 :href="ROUTES.ADMIN_SETTINGS"
@@ -289,7 +281,6 @@ const navItems = computed(() => props.navItems.length > 0
                 {{ t('admin.layout.nav.settings') }}
               </a>
               
-              <!-- POPRAWKA: :href zamiast href="#" -->
               <a
                 class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/20 hover:text-red-300 transition text-sm font-medium"
                 :href="ROUTES.ADMIN_LOGOUT"
