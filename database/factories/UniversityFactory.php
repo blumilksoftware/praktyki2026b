@@ -39,4 +39,11 @@ class UniversityFactory extends Factory
             "verification_status" => VerificationStatus::Verified,
         ]);
     }
+
+    public function rejected(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "verification_status" => VerificationStatus::Rejected,
+        ]);
+    }
 }

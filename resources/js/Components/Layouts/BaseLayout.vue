@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { IconSettings, IconLogout, IconMenu, IconX, IconUser, IconLanguage, IconChevronDown } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
 import LanguageDropdown from '../Common/LanguageDropdown.vue'
+import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   activePage: { type: String, default: '' },
@@ -39,13 +40,18 @@ const navItems = computed(() => props.navItems.length > 0
 
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
       <div class="flex justify-between items-center px-4 md:px-6 py-4">
-        <div class="flex-1">
-          <img
-            src="/logo.svg"
-            alt="Applikuj logo"
-            class="brightness-0 invert rounded-lg w-auto h-10"
-          >
-        </div>
+        <a
+          :href="ROUTES.ADMIN_DASHBOARD"
+          class="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-lg transition"
+        >
+          <div class="flex-1">
+            <img
+              src="/logo.svg"
+              alt="Applikuj logo"
+              class="brightness-0 invert rounded-lg w-auto h-10"
+            >
+          </div>
+        </a>
 
         <nav
           :aria-label="t('admin.layout.nav.ariaLabel')"
@@ -108,7 +114,7 @@ const navItems = computed(() => props.navItems.length > 0
             >
               <a
                 class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 text-gray-700 hover:text-gray-900 transition text-sm"
-                href="#"
+                :href="ROUTES.ADMIN_PROFILE"
                 @click="isDesktopMenuOpen = false"
               >
                 <IconUser class="w-4 h-4" aria-hidden="true" />
@@ -117,7 +123,7 @@ const navItems = computed(() => props.navItems.length > 0
               
               <a
                 class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 text-gray-700 hover:text-gray-900 transition text-sm"
-                href="#"
+                :href="ROUTES.ADMIN_SETTINGS"
                 @click="isDesktopMenuOpen = false"
               >
                 <IconSettings class="w-4 h-4" aria-hidden="true" />
@@ -154,10 +160,9 @@ const navItems = computed(() => props.navItems.length > 0
                 </div>
               </div>
 
-              
               <a
                 class="flex items-center gap-2 px-3 py-2 hover:bg-red-50 text-red-600 hover:text-red-700 transition text-sm"
-                href="#"
+                :href="ROUTES.ADMIN_LOGOUT"
                 @click="isDesktopMenuOpen = false"
               >
                 <IconLogout class="w-4 h-4" aria-hidden="true" />
@@ -258,10 +263,9 @@ const navItems = computed(() => props.navItems.length > 0
                 </div>
               </div>
 
-              
               <a
                 class="flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition text-sm font-medium"
-                href="#"
+                :href="ROUTES.ADMIN_PROFILE"
                 @click="isMobileMenuOpen = false"
               >
                 <IconUser class="w-5 h-5 shrink-0 text-white/40" aria-hidden="true" />
@@ -270,7 +274,7 @@ const navItems = computed(() => props.navItems.length > 0
               
               <a
                 class="flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:bg-white/10 hover:text-white transition text-sm font-medium"
-                href="#"
+                :href="ROUTES.ADMIN_SETTINGS"
                 @click="isMobileMenuOpen = false"
               >
                 <IconSettings class="w-5 h-5 shrink-0 text-white/40" aria-hidden="true" />
@@ -279,7 +283,7 @@ const navItems = computed(() => props.navItems.length > 0
               
               <a
                 class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/20 hover:text-red-300 transition text-sm font-medium"
-                href="#"
+                :href="ROUTES.ADMIN_LOGOUT"
                 @click="isMobileMenuOpen = false"
               >
                 <IconLogout class="w-5 h-5 shrink-0" aria-hidden="true" />

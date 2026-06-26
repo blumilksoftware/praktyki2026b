@@ -79,5 +79,25 @@ class DemoSeeder extends Seeder
             "email" => "university-pending@example.com",
             "organization_id" => $pendingUniversity->id,
         ]);
+
+        Company::factory()->count(30)->create()->each(function ($company): void {
+            User::factory()->create([
+                "role" => UserRole::CompanyAdmin,
+                "status" => UserStatus::Pending,
+                "organization_id" => $company->id,
+                "first_name" => null,
+                "last_name" => null,
+            ]);
+        });
+
+        University::factory()->count(60)->create()->each(function ($university): void {
+            User::factory()->create([
+                "role" => UserRole::UniversityAdmin,
+                "status" => UserStatus::Pending,
+                "organization_id" => $university->id,
+                "first_name" => null,
+                "last_name" => null,
+            ]);
+        });
     }
 }
