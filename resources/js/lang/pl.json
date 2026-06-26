@@ -50,7 +50,23 @@
       "google": "Zarejestruj się przy pomocy Google",
       "or": "lub",
       "hasAccount": "Masz już konto?",
-      "loginLink": "Zaloguj się"
+      "loginLink": "Zaloguj się",
+      "accountTypeTabs": {
+        "ariaLabel": "Wybór typu konta",
+        "university": "Uczelnia",
+        "company": "Firma",
+        "student": "Student"
+      },
+      "validation": {
+        "firstNameRequired": "Imię jest wymagane.",
+        "lastNameRequired": "Nazwisko jest wymagane.",
+        "emailRequired": "Adres e-mail jest wymagany.",
+        "emailInvalid": "Podaj prawidłowy adres e-mail.",
+        "passwordRequired": "Hasło jest wymagane.",
+        "passwordConfirmationRequired": "Potwierdzenie hasła jest wymagane.",
+        "passwordConfirmationMismatch": "Hasła muszą być takie same.",
+        "termsRequired": "Musisz zaakceptować regulamin."
+      }
     }
   },
   "table": {
