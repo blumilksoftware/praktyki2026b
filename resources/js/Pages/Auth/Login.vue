@@ -31,7 +31,7 @@ const authError = computed(() => form.errors.email)
     <Head :title="t('auth.login.title')" />
 
     <div class="flex flex-col items-center justify-center w-full px-8 sm:px-10 md:px-12 lg:px-16 xl:px-20 2xl:px-24">
-      <h1 class="text-3xl md:text-4xl font-normal mb-8 md:mb-10 text-center text-text w-full">
+      <h1 class="text-3xl md:text-4xl font-normal mb-8 md:mb-10 text-center text-text">
         {{ t('auth.login.heading') }}
       </h1>
 
@@ -49,7 +49,7 @@ const authError = computed(() => form.errors.email)
             />
           </div>
 
-          <div class="w-full flex flex-col">
+          <div class="w-full">
             <div class="relative w-full">
               <BaseInput
                 id="password"
@@ -85,10 +85,10 @@ const authError = computed(() => form.errors.email)
             </Link>
           </div>
 
-          <AuthErrorDisplay class="w-full justify-content justify-center" :error="authError" :email="form.email" />
+          <AuthErrorDisplay class="w-full justify-center" :error="authError" :email="form.email" />
 
           <BaseButton
-            class="w-fit px-8 md:px-20 sm:px-10 py-3 sm:py-3.5 text-sm sm:text-base mt-2 sm:mt-4"
+            class="w-fit px-8 sm:px-10 md:px-20 py-3 sm:py-3.5 text-sm sm:text-base mt-2 sm:mt-4"
             type="submit"
             :disabled="form.processing"
           >
@@ -107,7 +107,7 @@ const authError = computed(() => form.errors.email)
         <div class="flex flex-col items-center gap-4 sm:gap-5 w-full">
           <a
             href="/auth/google"
-            class="flex items-center justify-center gap-2 w-fit rounded-full border border-text/20 bg-white px-4 py-3 sm:py-2.5 text-sm sm:text-base text-xs sm:text-sm font-medium font-medium text-text hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 shadow-sm"
+            class="flex gap-2 w-fit rounded-full border border-text/20 bg-white px-4 py-3 sm:py-2.5 text-xs font-medium text-text hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 shadow-sm"
           >
             <GoogleSvg />
 
@@ -115,9 +115,9 @@ const authError = computed(() => form.errors.email)
           </a>
         </div>
 
-        <div class="w-full h-[1px] bg-text/20 my-6 sm:my-8" />
+        <div class="h-[1px] bg-text/20 my-6 sm:my-8" />
 
-        <div class="w-full text-center md:text-left text-xs sm:text-sm font-medium">
+        <div class="w-full text-center md:text-left">
           <Link
             href="/register/student"
             class="inline-block text-xs sm:text-sm font-medium text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded whitespace-nowrap"
