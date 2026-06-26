@@ -13,7 +13,14 @@ Route::get("/dev-login", function () {
     $user = User::where("email", "admin@example.com")->first();
 
     if ($user) {
+        if (method_exists($user, 'markEmailAsVerified') && !$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+            $user->save();
+        }
+
         Auth::login($user);
+
+        session()->regenerate();
 
         return redirect()->route("admin.dashboard");
     }
@@ -30,7 +37,7 @@ Route::middleware(["auth"])
         Route::post("/verify/university/{university}/reject", [AdminController::class, "rejectUniversityVerification"])->name("admin.university.verify.reject");
     });
 
-Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
+Route::get("/dev/components", fn() => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");
 
 require __DIR__ . "/auth.php";

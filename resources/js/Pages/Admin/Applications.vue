@@ -42,10 +42,8 @@ const stats = computed(() => [
 <template>
   <Head :title="t('admin.applications.title')" />
   <AdminLayout active-page="applications">
-    <AdminGlassSection class="px-4 md:px-8 py-5 md:py-6 text-center">
-      <h1 class="font-semibold text-text text-2xl">{{ t('admin.applications.title') }}</h1>
-      <p class="mt-2 text-slate-600 text-sm">{{ t('admin.applications.description') }}</p>
-    </AdminGlassSection>
+    <h1 class="font-semibold text-text text-2xl">{{ t('admin.applications.title') }}</h1>
+    <p class="mt-2 text-slate-600 text-sm">{{ t('admin.applications.description') }}</p>
     <AdminGlassSection class="px-4 md:px-8 py-5 md:py-6 text-center">
       <p class="mt-2 text-slate-600 text-sm m-4">{{ t('admin.applications.stats') }}</p>
       <section class="gap-4 grid grid-cols-1 sm:grid-cols-3">

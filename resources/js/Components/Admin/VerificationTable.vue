@@ -18,16 +18,18 @@ const props = defineProps({
   },
   filters: {
     type: Object,
-    default: () => ({ status: 'all', search: '' }),
+    default: () => ({ status: 'all', search: '', sort_key: 'created_at', sort_dir: 'asc' }),
   },
 })
 
 const { t } = useI18n()
-const { statusClass, statusTranslate } = useVerificationStatus()
+const { statusClass } = useVerificationStatus()
 
 const entityType = ref('university')
 const statusFilter = ref(props.filters.status || 'all')
 const searchQuery = ref(props.filters.search || '')
+const sortKey = ref(props.filters.sort_key || 'created_at')
+const sortDir = ref(props.filters.sort_dir || 'asc')
 
 const acceptCompanyForm = useForm({ rejection_reason: '' })
 const rejectCompanyForm = useForm({ rejection_reason: '' })
@@ -43,10 +45,31 @@ const currentItems = computed(() => {
   return entityType.value === 'company' ? props.companies.data : props.universities.data
 })
 
+function handleSort({ key, dir }) {
+  sortKey.value = key
+  sortDir.value = dir
+  router.get('/admin/applications', {
+    status: statusFilter.value,
+    search: searchQuery.value,
+    sort_key: key,
+    sort_dir: dir,
+  }, {
+    preserveState: true,
+    replace: true,
+  })
+}
+
+watch(entityType, () => {
+  sortKey.value = 'created_at'
+  sortDir.value = 'asc'
+})
+
 watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
   router.get('/admin/applications', {
     status: newStatus,
     search: newSearch,
+    sort_key: sortKey.value,
+    sort_dir: sortDir.value,
   }, {
     preserveState: true,
     replace: true,
@@ -54,33 +77,33 @@ watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
 }, { debounce: 300 })
 
 const companyColumns = [
-  { key: 'name', label: t('admin.verification.name') },
+  { key: 'name', label: t('admin.verification.name'), sortable: true },
   { key: 'nip', label: t('admin.verification.nip') },
-  { key: 'email', label: t('admin.verification.email') },
-  { key: 'city', label: t('admin.verification.city') },
-  { key: 'created_at', label: t('admin.verification.submittedAt') },
-  { key: 'verification_status', label: t('table.status') },
+  { key: 'email', label: t('admin.verification.email'), sortable: true },
+  { key: 'city', label: t('admin.verification.city'), sortable: true },
+  { key: 'created_at', label: t('admin.verification.submittedAt'), sortable: true },
+  { key: 'verification_status', label: t('table.status'), sortable: true },
   { key: 'actions', label: '', srLabel: t('admin.verification.actions'), align: 'right' },
 ]
 
 const universityColumns = [
-  { key: 'name', label: t('admin.verification.name') },
-  { key: 'domain', label: t('admin.verification.domain') },
-  { key: 'email', label: t('admin.verification.email') },
+  { key: 'name', label: t('admin.verification.name'), sortable: true },
+  { key: 'domain', label: t('admin.verification.domain'), sortable: true },
+  { key: 'email', label: t('admin.verification.email'), sortable: true },
   { key: 'phone', label: t('admin.verification.phone') },
-  { key: 'created_at', label: t('admin.verification.submittedAt') },
-  { key: 'verification_status', label: t('table.status') },
+  { key: 'created_at', label: t('admin.verification.submittedAt'), sortable: true },
+  { key: 'verification_status', label: t('table.status'), sortable: true },
   { key: 'actions', label: '', srLabel: t('admin.verification.actions'), align: 'right' },
 ]
 
 function acceptCompany(company) {
-  console.log('current page:', props.companies.current_page)
-  
   acceptCompanyForm
     .transform(data => ({
       ...data,
       companies_page: props.companies.current_page,
       universities_page: props.universities.current_page,
+      sort_key: sortKey.value,
+      sort_dir: sortDir.value,
     }))
     .post(`/admin/verify/company/${company.id}/accept`, {
       preserveState: true,
@@ -89,13 +112,13 @@ function acceptCompany(company) {
 }
 
 function acceptUniversity(university) {
-
-
   acceptUniversityForm
     .transform(data => ({
       ...data,
       companies_page: props.companies.current_page,
       universities_page: props.universities.current_page,
+      sort_key: sortKey.value,
+      sort_dir: sortDir.value,
     }))
     .post(`/admin/verify/university/${university.id}/accept`, {
       preserveState: true,
@@ -120,15 +143,19 @@ function submitReject() {
     rejectError.value = t('admin.verification.rejectReasonRequired')
     return
   }
-  
+
+  const sharedTransform = data => ({
+    ...data,
+    companies_page: props.companies.current_page,
+    universities_page: props.universities.current_page,
+    sort_key: sortKey.value,
+    sort_dir: sortDir.value,
+  })
+
   if (entityType.value === 'company') {
     rejectCompanyForm.rejection_reason = rejectReason.value.trim()
     rejectCompanyForm
-      .transform(data => ({
-        ...data,
-        companies_page: props.companies.current_page,
-        universities_page: props.universities.current_page,
-      }))
+      .transform(sharedTransform)
       .post(`/admin/verify/company/${itemToReject.value.id}/reject`, {
         preserveState: true,
         preserveScroll: true,
@@ -137,11 +164,7 @@ function submitReject() {
   } else {
     rejectUniversityForm.rejection_reason = rejectReason.value.trim()
     rejectUniversityForm
-      .transform(data => ({
-        ...data,
-        companies_page: props.companies.current_page,
-        universities_page: props.universities.current_page,
-      }))
+      .transform(sharedTransform)
       .post(`/admin/verify/university/${itemToReject.value.id}/reject`, {
         preserveState: true,
         preserveScroll: true,
@@ -160,7 +183,6 @@ function formatDate(dateString) {
     minute: '2-digit',
   })
 }
-
 </script>
 
 <template>
@@ -180,7 +202,7 @@ function formatDate(dateString) {
         </button>
         <button
           :class="[
-            'px-4 py-2 rounded-lg cursor-pointer hover:bg-white/90 font-medium text-sm transition',
+            'px-4 py-2 rounded-lg cursor-pointer font-medium text-sm transition',
             entityType === 'company' 
               ? 'bg-primary text-white hover:bg-primary/80 shadow-md shadow-primary/80 shadow-lg' 
               : 'bg-white/40 text-slate-700 hover:bg-white/60'
@@ -227,12 +249,21 @@ function formatDate(dateString) {
       :columns="entityType === 'company' ? companyColumns : universityColumns"
       row-key="id"
       :caption="entityType === 'company' ? t('admin.verification.companies') : t('admin.verification.universities')"
+      :sort-key="sortKey"
+      :sort-dir="sortDir"
+      @sort="handleSort"
     >
+      <template #cell-email="{ item }">
+        <a :href="`mailto:${item.email}`" class="hover:underline text-primary">{{ item.email }}</a>
+      </template>
+      <template #cell-phone="{ item }">
+        <a :href="`tel:${item.phone}`" class="hover:underline text-primary">{{ item.phone }}</a>
+      </template>
       <template #cell-city="{ item }">
         {{ item.city }}
       </template>
       <template #cell-created_at="{ item }">
-        {{ formatDate(item.created_at) }}
+        <span class="whitespace-nowrap">{{ formatDate(item.created_at) }}</span>
       </template>
       <template #cell-verification_status="{ item }">
         <span :class="['inline-flex rounded-full px-2.5 py-1 text-xs font-medium', statusClass(item.verification_status)]">
@@ -244,7 +275,7 @@ function formatDate(dateString) {
           <button
             v-if="item.verification_status === 'pending'"
             :disabled="entityType === 'company' ? acceptCompanyForm.processing : acceptUniversityForm.processing"
-            class="bg-green-600 hover:bg-green-700 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-white text-sm transition disabled:cursor-not-allowed"
+            class="bg-green-600 cursor-pointer hover:bg-green-700 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-white text-sm transition disabled:cursor-not-allowed"
             :aria-label="t('admin.verification.acceptAriaLabel', { name: item.name })"
             @click="entityType === 'company' ? acceptCompany(item) : acceptUniversity(item)"
           >
@@ -253,7 +284,7 @@ function formatDate(dateString) {
           <button
             v-if="item.verification_status === 'pending'"
             :disabled="entityType === 'company' ? rejectCompanyForm.processing : rejectUniversityForm.processing"
-            class="bg-red-500 hover:bg-red-600 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-sm transition disabled:cursor-not-allowed"
+            class="bg-red-500 cursor-pointer hover:bg-red-600 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-sm transition disabled:cursor-not-allowed"
             :aria-label="t('admin.verification.rejectAriaLabel', { name: item.name })"
             @click="openRejectModal(item)"
           >
@@ -306,7 +337,10 @@ function formatDate(dateString) {
               id="rejectReasonInput"
               v-model="rejectReason"
               rows="4"
-              class="bg-slate-50 p-3 border border-slate-300 focus:border-primary rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 w-full transition-all resize-none"
+              class="bg-slate-50 p-3 border rounded-xl focus:outline-none focus:ring-2 w-full transition-all resize-none"
+              :class="rejectError 
+                ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
+                : 'border-slate-300 focus:border-primary focus:ring-primary/20' "
               :placeholder="t('admin.verification.rejectReasonPlaceholder')"
               :aria-invalid="!!rejectError"
               :aria-describedby="rejectError ? 'rejectErrorMsg' : undefined"

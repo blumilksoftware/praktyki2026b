@@ -1,16 +1,24 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 
-/** @typedef {{key: string, label: string, align?: 'left' | 'right'}} Column */
-
 const props = defineProps({
   items: { type: Array, default: () => [] },
   columns: { type: Array, default: () => [] },
   rowKey: { type: String, default: '' },
   caption: { type: String, default: '' },
+  sortKey: { type: String, default: '' },
+  sortDir: { type: String, default: 'asc' }, // 'asc' | 'desc'
 })
 
+const emit = defineEmits(['sort'])
+
 const { t } = useI18n()
+
+function handleSort(col) {
+  if (!col.sortable) return
+  const newDir = props.sortKey === col.key && props.sortDir === 'asc' ? 'desc' : 'asc'
+  emit('sort', { key: col.key, dir: newDir })
+}
 </script>
 
 <template>
@@ -53,10 +61,28 @@ const { t } = useI18n()
             <th
               v-for="col in props.columns"
               :key="col.key"
-              :class="['px-4 py-3', col.align === 'right' ? 'text-right' : 'text-left']"
+              :class="[
+                'px-4 py-3',
+                col.align === 'right' ? 'text-right' : 'text-left',
+                col.sortable ? 'cursor-pointer select-none hover:bg-white/60 transition-colors' : '',
+              ]"
+              :aria-sort="col.sortable && sortKey === col.key
+                ? (sortDir === 'asc' ? 'ascending' : 'descending')
+                : (col.sortable ? 'none' : undefined)"
+              @click="handleSort(col)"
             >
               <span v-if="col.srLabel" class="sr-only">{{ col.srLabel }}</span>
-              {{ col.label }}
+              <span class="inline-flex items-center gap-1">
+                {{ col.label }}
+                <span
+                  v-if="col.sortable"
+                  class="inline-flex flex-col leading-none text-[10px]"
+                  aria-hidden="true"
+                >
+                  <span :class="sortKey === col.key && sortDir === 'asc' ? 'text-primary' : 'text-slate-300'">▲</span>
+                  <span :class="sortKey === col.key && sortDir === 'desc' ? 'text-primary' : 'text-slate-300'">▼</span>
+                </span>
+              </span>
             </th>
           </tr>
         </thead>

@@ -40,7 +40,7 @@ function navigate(url) {
         link.active
           ? 'bg-primary text-white'
           : 'bg-white/40 text-slate-700 hover:bg-white/60',
-        !link.url ? 'opacity-50 cursor-not-allowed' : ''
+        !link.url ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
       ]"
       @click="navigate(link.url)"
     >

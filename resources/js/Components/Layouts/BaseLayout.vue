@@ -39,13 +39,18 @@ const navItems = computed(() => props.navItems.length > 0
 
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
       <div class="flex justify-between items-center px-4 md:px-6 py-4">
-        <div class="flex-1">
-          <img
-            src="/logo.svg"
-            alt="Applikuj logo"
-            class="brightness-0 invert rounded-lg w-auto h-10"
-          >
-        </div>
+        <a
+          href="/admin/dashboard"
+          class="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-lg transition"
+        >
+          <div class="flex-1">
+            <img
+              src="/logo.svg"
+              alt="Applikuj logo"
+              class="brightness-0 invert rounded-lg w-auto h-10"
+            >
+          </div>
+        </a>
 
         <nav
           :aria-label="t('admin.layout.nav.ariaLabel')"
