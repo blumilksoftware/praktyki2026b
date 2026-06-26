@@ -25,6 +25,9 @@ class CompanyFactory extends Factory
             "city" => fake()->city(),
             "phone" => fake()->phoneNumber(),
             "website" => fake()->optional()->url(),
+            "logo_path" => null,
+            "description" => fake()->optional()->paragraph(),
+            "tags" => fake()->optional()->randomElements(["PHP", "Laravel", "Vue", "React", "IT", "Software"], 3),
             "verification_status" => VerificationStatus::Pending,
         ];
     }
