@@ -79,5 +79,9 @@ class DemoSeeder extends Seeder
             "email" => "university-pending@example.com",
             "organization_id" => $pendingUniversity->id,
         ]);
+
+        Company::factory()->count(30)->create();
+
+        University::factory()->count(60)->create();
     }
 }

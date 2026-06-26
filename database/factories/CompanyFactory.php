@@ -43,6 +43,13 @@ class CompanyFactory extends Factory
         ]);
     }
 
+    public function rejected(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "verification_status" => VerificationStatus::Rejected,
+        ]);
+    }
+
     private function generateValidNip(): string
     {
         $weights = [6, 5, 7, 2, 3, 4, 5, 6, 7];

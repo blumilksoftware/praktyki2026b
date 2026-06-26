@@ -8,7 +8,7 @@ defineProps({ activePage: { type: String, default: 'dashboard' } })
 const { t } = useI18n()
 
 const navItems = computed(() => [
-  { key: 'dashboard',    label: t('admin.layout.nav.dashboard'),    href: '/admin',              icon: IconHome      },
+  { key: 'dashboard', label: t('admin.layout.nav.dashboard'), href: '/admin/dashboard', icon: IconHome },
   { key: 'applications', label: t('admin.layout.nav.applications'), href: '/admin/applications', icon: IconClipboard },
 ])
 </script>
