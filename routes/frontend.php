@@ -19,7 +19,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
     });
 
-    Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
+Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])

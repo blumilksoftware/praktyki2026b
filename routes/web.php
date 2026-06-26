@@ -13,7 +13,7 @@ Route::get("/dev-login", function () {
     $user = User::where("email", "admin@example.com")->first();
 
     if ($user) {
-        if (method_exists($user, 'markEmailAsVerified') && !$user->hasVerifiedEmail()) {
+        if (method_exists($user, "markEmailAsVerified") && !$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
             $user->save();
         }
