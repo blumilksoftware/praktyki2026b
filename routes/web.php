@@ -26,7 +26,7 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
         Route::get("/profile", [UniversityController::class, "profile"])->name("university.profile");
     });
 
-Route::middleware(["auth"])
+Route::middleware(["role:superAdmin"])
     ->prefix("admin")
     ->group(function (): void {
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.dashboard");
