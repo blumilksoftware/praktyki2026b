@@ -30,6 +30,7 @@ tasks:
       - task: _set-app-key
       - cmd: "{{.DOCKER_EXEC_USER}} npm install"
       - cmd: "{{.DOCKER_EXEC_USER}} php artisan migrate"
+      - cmd: "{{.DOCKER_EXEC_USER}} php artisan storage:link"
 
   vite:
     desc: "Run Vite dev server"
