@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $address
  * @property string $phone
  * @property ?string $website
+ * @property ?string $logo_path
+ * @property ?string $external_form_url
  * @property VerificationStatus $verification_status
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -35,12 +37,19 @@ class University extends Model
         "address",
         "phone",
         "website",
+        "logo_path",
+        "external_form_url",
         "verification_status",
     ];
 
     public function users(): HasMany
     {
         return $this->hasMany(User::class, "organization_id");
+    }
+
+    public function faculties(): HasMany
+    {
+        return $this->hasMany(Faculty::class);
     }
 
     public function scopeNeedingVerification($query)

@@ -150,6 +150,7 @@ return [
     "phone" => "Pole :attribute musi być prawidłowym numerem telefonu.",
     "domain" => "Pole :attribute musi być prawidłową domeną.",
     "mime_type_by_content" => "Pole :attribute musi być plikiem typu: :values.",
+    "university_domain_locked" => "Nie można zmienić domeny po jej ustawieniu.",
 
     "attributes" => [
         "email" => "adres e-mail",
