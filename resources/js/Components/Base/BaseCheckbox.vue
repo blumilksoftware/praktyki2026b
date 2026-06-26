@@ -15,7 +15,7 @@ const model = defineModel({ type: Boolean, required: true })
       :id="id"
       v-model="model"
       type="checkbox"
-      class="mt-0.5 rounded border-border text-primary focus:ring-primary/40"
+      class="mt-0.5 rounded border-border cursor-pointer text-primary focus:ring-primary/40"
     >
     <span class="leading-snug">
       <slot />

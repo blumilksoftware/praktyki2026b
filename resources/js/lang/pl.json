@@ -2,18 +2,23 @@
   "auth": {
     "verification": {
       "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
-      "resendMessage": "Jeśli Twój adres e-mail jest zarejestrowany i niezweryfikowany, nowy link weryfikacyjny został wysłany.",
+      "resendMessage": "Nowy link weryfikacyjny został wysłany.",
       "notVerified": "Twój adres e-mail nie został zweryfikowany.",
-      "waiting": {
-        "title": "Potwierdź e-mail",
-        "heading": "Sprawdź swoją skrzynkę",
-        "sentTo": "Wysłaliśmy link weryfikacyjny na adres:",
-        "expiresInfo": "Link jest ważny przez 24 godziny.",
-        "resend": "Wyślij link ponownie",
-        "resendCooldown": "Wyślij ponownie za {seconds} s",
-        "resendSuccess": "Jeśli adres jest zarejestrowany i niezweryfikowany, wysłaliśmy nowy link.",
-        "backToLogin": "Wróć do logowania"
-      }
+      "resendVerification": "Wyślij ponownie link weryfikacyjny"
+    },
+    "login": {
+      "title": "Logowanie",
+      "heading": "Witaj ponownie!",
+      "email": "E-mail",
+      "password": "Hasło",
+      "rememberMe": "Zapamiętaj mnie",
+      "submit": "Zaloguj się",      
+      "forgotPassword": "Nie pamiętasz hasła?",
+      "or": "lub",
+      "google": "Zaloguj się przy pomocy Google",
+      "noAccount": "Nie masz jeszcze konta? Zarejestruj się.",
+      "forgotPasswordLink": "kliknij tutaj",
+      "resendVerification": "Wyślij ponownie link weryfikacyjny"
     },
     "fields": {
       "showPassword": "Pokaż hasło",
@@ -21,19 +26,6 @@
     },
     "layout": {
       "skipToContent": "Przejdź do treści"
-    },
-    "login": {
-      "title": "Logowanie",
-      "heading": "Zaloguj się",
-      "email": "E-mail",
-      "password": "Hasło",
-      "submit": "Zaloguj się",
-      "forgotPassword": "Nie pamiętasz hasła?",
-      "noAccount": "Nie masz jeszcze konta?",
-      "registerLink": "Zarejestruj się",
-      "google": "Zaloguj się przy pomocy Google",
-      "or": "lub",
-      "resendVerification": "Wyślij ponownie link weryfikacyjny"
     },
     "register": {
       "title": "Rejestracja",

@@ -5,10 +5,13 @@
 @source '../**/*.{vue,js,ts}';
 
 @theme {
-  --color-primary: #044389;
-  --color-secondary: #F8FAFC;
+  --color-primary: #0B1A30;
+  --color-secondary: #044389;
   --color-accent: #FFFACC;
   --color-text: #0B1A30;
   --color-additional: #6B7280;
+  --color-background: #F8FAFC;
+  --color-link: #024EBF;
+  --color-error: #DC2626;
   --color-border: #D9D9D9;
 }

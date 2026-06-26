@@ -5,7 +5,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="min-h-screen bg-secondary flex justify-center px-4 py-10 md:py-16">
+  <div class="min-h-screen bg-background flex justify-center px-4 py-10 md:py-16">
     <div
       class="w-full max-w-4xl bg-white border border-border shadow-md rounded-sm px-6 py-12 md:px-12 md:pt-16 md:pb-14"
     >

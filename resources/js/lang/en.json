@@ -1,9 +1,24 @@
 {
-  "auth": {
+"auth": {
     "verification": {
       "invalidLink": "Invalid or expired verification link.",
-      "resendMessage": "If your email address is registered and unverified, a new verification link has been sent.",
+      "resend_message": "A new verification link has been sent.",
       "notVerified": "Your email address has not been verified.",
+      "resendVerification": "Resend verification link"
+    },
+    "login": {
+      "title": "Log in",
+      "heading": "Welcome back!",
+      "email": "E-mail",
+      "password": "Password",
+      "submit": "Sign in",
+      "forgotPassword": "Forgot your password?",
+      "registerLink": "Register",
+      "google": "Sign in with Google",
+      "or": "or",
+      "resendVerification": "Resend verification link",
+      "rememberMe": "Remember me",
+      "noAccount": "Don't have an account yet? Sign up.",
       "waiting": {
         "title": "Confirm your email",
         "heading": "Check your inbox",
@@ -22,19 +37,7 @@
     "layout": {
       "skipToContent": "Skip to content"
     },
-    "login": {
-      "title": "Login",
-      "heading": "Sign in",
-      "email": "E-mail",
-      "password": "Password",
-      "submit": "Sign in",
-      "forgotPassword": "Forgot your password?",
-      "noAccount": "Don't have an account yet?",
-      "registerLink": "Register",
-      "google": "Sign in with Google",
-      "or": "or",
-      "resendVerification": "Resend verification link"
-    },
+    
     "register": {
       "title": "Registration",
       "heading": "Register",
