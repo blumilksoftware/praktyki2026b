@@ -10,9 +10,9 @@ use Illuminate\Validation\ValidationException;
 
 class AuthenticateUser
 {
-    public function execute(Request $request, string $email, string $password): void
+    public function execute(Request $request, string $email, string $password, bool $remember = false): void
     {
-        if (!Auth::attempt(["email" => $email, "password" => $password])) {
+        if (!Auth::attempt(["email" => $email, "password" => $password], $remember)) {
             throw ValidationException::withMessages([
                 "email" => __("auth.failed"),
             ]);
