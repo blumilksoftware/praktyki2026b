@@ -99,12 +99,14 @@
       "rejectAriaLabel": "Odrzuć zgłoszenie: {name}",
       "detailsAriaLabel": "Szczegóły zgłoszenia: {name}",
       "rejectTitle": "Odrzuć zgłoszenie",
-      "rejectDescription": "Zamierzasz odrzucić zgłoszenie {name}. Podaj powód odrzucenia.",
+      "rejectDescription": "Zamierzasz odrzucić zgłoszenie {name}. Ta operacja jest nieodwracalna.",
       "rejectReasonPlaceholder": "Wpisz powód tutaj...",
       "cancel": "Anuluj",
       "confirmReject": "Odrzuć zgłoszenie",
       "closeModal": "Zamknij okno",
-      "rejectReasonRequired": "Powód odrzucenia jest wymagany."
+      "rejectReasonRequired": "Powód odrzucenia jest wymagany.",
+      "rejectionReason": "Powód odrzucenia"
+
     },
     "panel": {
       "greeting": "Witaj w panelu administratora!",

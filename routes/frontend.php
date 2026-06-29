@@ -12,15 +12,15 @@ use Inertia\Response;
 
 Route::get("/", fn(): Response => inertia("Welcome"));
 
+Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
+    ->name("dev.components");
+
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
     ->group(function (): void {
         Route::get("/dashboard", [CompanyController::class, "index"])->name("company.dashboard");
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
     });
-
-Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
-    ->name("dev.components");
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
     ->prefix("university")

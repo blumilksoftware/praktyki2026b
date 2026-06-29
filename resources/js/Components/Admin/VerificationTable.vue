@@ -2,6 +2,7 @@
 import { ref, computed, watch } from 'vue'
 import { useForm, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
+import { IconSearch } from '@tabler/icons-vue'
 import DataTable from '@/Components/Common/DataTable.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
 import { Teleport } from 'vue'
@@ -191,10 +192,10 @@ function formatDate(dateString) {
       <div class="flex gap-2">
         <button
           :class="[
-            'px-4 py-2 rounded-lg cursor-pointer font-medium text-sm transition',
+            'px-4 py-2 mx-2 rounded-lg cursor-pointer font-medium text-sm transition',
             entityType === 'university' 
-              ? 'bg-primary text-white hover:bg-primary/80 shadow-md shadow-primary/80 shadow-lg' 
-              : 'bg-white/40 text-slate-700 hover:bg-white/60'
+              ? 'bg-primary text-white hover:bg-primary/80 border border-primary shadow-md shadow-primary/80' 
+              : 'bg-white/40 text-slate-700 border border-black/20 hover:bg-white hover:shadow-lg hover:text-slate-900'
           ]"
           @click="entityType = 'university'"
         >
@@ -204,8 +205,8 @@ function formatDate(dateString) {
           :class="[
             'px-4 py-2 rounded-lg cursor-pointer font-medium text-sm transition',
             entityType === 'company' 
-              ? 'bg-primary text-white hover:bg-primary/80 shadow-md shadow-primary/80 shadow-lg' 
-              : 'bg-white/40 text-slate-700 hover:bg-white/60'
+              ? 'bg-primary text-white hover:bg-primary/80 border border-primary shadow-md shadow-primary/80' 
+              : 'bg-white/40 text-slate-700 border border-black/20 hover:bg-white hover:shadow-lg hover:text-slate-900'
           ]"
           @click="entityType = 'company'"
         >
@@ -225,12 +226,15 @@ function formatDate(dateString) {
           <option value="rejected">{{ t('admin.verification.rejected') }}</option>
         </select>
         <div class="relative">
+          <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
+            <IconSearch class="w-4 h-4 text-slate-400" />
+          </div>
           <input
             v-model="searchQuery"
             type="text"
             :placeholder="t('admin.verification.search')"
             :aria-label="t('admin.verification.searchAriaLabel')"
-            class="bg-white/40 px-4 py-2 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 w-full text-slate-700 text-sm"
+            class="bg-white/40 px-4 py-2 pr-10 pl-9 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 w-full text-slate-700 text-sm"
           >
           <button
             v-if="searchQuery"
@@ -254,10 +258,10 @@ function formatDate(dateString) {
       @sort="handleSort"
     >
       <template #cell-email="{ item }">
-        <a :href="`mailto:${item.email}`" class="hover:underline text-primary">{{ item.email }}</a>
+        <a :href="`mailto:${item.email}`" class="text-primary hover:underline">{{ item.email }}</a>
       </template>
       <template #cell-phone="{ item }">
-        <a :href="`tel:${item.phone}`" class="hover:underline text-primary">{{ item.phone }}</a>
+        <a :href="`tel:${item.phone}`" class="text-primary hover:underline">{{ item.phone }}</a>
       </template>
       <template #cell-city="{ item }">
         {{ item.city }}
@@ -266,16 +270,30 @@ function formatDate(dateString) {
         <span class="whitespace-nowrap">{{ formatDate(item.created_at) }}</span>
       </template>
       <template #cell-verification_status="{ item }">
-        <span :class="['inline-flex rounded-full px-2.5 py-1 text-xs font-medium', statusClass(item.verification_status)]">
-          {{ t(`admin.verification.${item.verification_status}`) }}
-        </span>
+        <pre>{{ companies.data[0] }}</pre>
+        <div class="flex items-center gap-2">
+          <span :class="['inline-flex rounded-full px-2.5 py-1 text-xs font-medium', statusClass(item.verification_status)]">
+            {{ t(`admin.verification.${item.verification_status}`) }}
+          </span>
+          <span
+            v-if="item.verification_status === 'rejected' && item.rejection_reason"
+            class="group relative cursor-help"
+            :title="item.rejection_reason"
+          >
+            <span class="inline-flex justify-center items-center bg-red-100 rounded-full w-4 h-4 font-bold text-red-500 text-xs">?</span>
+            <div class="bottom-full left-1/2 z-10 absolute bg-slate-800 opacity-0 group-hover:opacity-100 shadow-lg mb-2 px-3 py-2 rounded-lg w-56 text-white text-xs transition-opacity -translate-x-1/2 pointer-events-none">
+              <p class="mb-1 font-medium">{{ t('admin.verification.rejectionReason') }}</p>
+              <p class="text-slate-300">{{ item.rejection_reason }}</p>
+            </div>
+          </span>
+        </div>
       </template>
       <template #cell-actions="{ item }">
         <div class="flex justify-end gap-2">
           <button
             v-if="item.verification_status === 'pending'"
             :disabled="entityType === 'company' ? acceptCompanyForm.processing : acceptUniversityForm.processing"
-            class="bg-green-600 cursor-pointer hover:bg-green-700 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-white text-sm transition disabled:cursor-not-allowed"
+            class="bg-green-600 hover:bg-green-700 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-white text-sm transition cursor-pointer disabled:cursor-not-allowed"
             :aria-label="t('admin.verification.acceptAriaLabel', { name: item.name })"
             @click="entityType === 'company' ? acceptCompany(item) : acceptUniversity(item)"
           >
@@ -284,7 +302,7 @@ function formatDate(dateString) {
           <button
             v-if="item.verification_status === 'pending'"
             :disabled="entityType === 'company' ? rejectCompanyForm.processing : rejectUniversityForm.processing"
-            class="bg-red-500 cursor-pointer hover:bg-red-600 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-sm transition disabled:cursor-not-allowed"
+            class="bg-red-500 hover:bg-red-600 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-sm transition cursor-pointer disabled:cursor-not-allowed"
             :aria-label="t('admin.verification.rejectAriaLabel', { name: item.name })"
             @click="openRejectModal(item)"
           >
@@ -341,7 +359,6 @@ function formatDate(dateString) {
               :class="rejectError 
                 ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
                 : 'border-slate-300 focus:border-primary focus:ring-primary/20' "
-              :placeholder="t('admin.verification.rejectReasonPlaceholder')"
               :aria-invalid="!!rejectError"
               :aria-describedby="rejectError ? 'rejectErrorMsg' : undefined"
             />
@@ -356,7 +373,7 @@ function formatDate(dateString) {
               {{ t('admin.verification.cancel') }}
             </button>
             <button
-              class="flex-1 bg-red-500 hover:bg-red-600 disabled:opacity-50 px-5 py-2.5 rounded-xl font-medium text-white transition disabled:cursor-not-allowed"
+              class="flex-1 bg-red-500 hover:bg-red-600 disabled:opacity-50 px-5 py-2.5 rounded-xl font-medium text-white transition cursor-pointer disabled:cursor-not-allowed"
               :disabled="entityType === 'company' ? rejectCompanyForm.processing : rejectUniversityForm.processing"
               @click="submitReject"
             >

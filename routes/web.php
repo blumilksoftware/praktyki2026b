@@ -17,6 +17,7 @@ require __DIR__ . "/frontend.php";
 
 Route::get("/dev-login", function () {
     $user = User::where("email", "admin@example.com")->first();
+
     if ($user) {
         if (method_exists($user, "markEmailAsVerified") && !$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
@@ -24,8 +25,10 @@ Route::get("/dev-login", function () {
         }
         Auth::login($user);
         session()->regenerate();
+
         return redirect()->route("admin.dashboard");
     }
+
     return "Admin user not found";
 });
 

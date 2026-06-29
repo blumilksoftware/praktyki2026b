@@ -99,7 +99,7 @@
       "rejectAriaLabel": "Reject application: {name}",
       "detailsAriaLabel": "Application details: {name}",
       "rejectTitle": "Reject application",
-      "rejectDescription": "You are about to reject the application for {name}. Please provide a reason.",
+      "rejectDescription": "You are about to reject the application for {name}. This action is irreversible.",
       "rejectReasonPlaceholder": "Enter reason here...",
       "cancel": "Cancel",
       "confirmReject": "Reject application",

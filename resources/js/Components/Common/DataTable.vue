@@ -76,7 +76,7 @@ function handleSort(col) {
                 {{ col.label }}
                 <span
                   v-if="col.sortable"
-                  class="inline-flex flex-col leading-none text-[10px]"
+                  class="inline-flex flex-col text-[10px] leading-none"
                   aria-hidden="true"
                 >
                   <span :class="sortKey === col.key && sortDir === 'asc' ? 'text-primary' : 'text-slate-300'">▲</span>
