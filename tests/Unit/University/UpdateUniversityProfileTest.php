@@ -143,6 +143,28 @@ class UpdateUniversityProfileTest extends TestCase
         ]);
     }
 
+    public function testItDoesNotDeleteFacultiesWhenFacultiesArrayIsEmpty(): void
+    {
+        $university = University::factory()->approved()->create();
+
+        $oldFaculty = $university->faculties()->create(["name" => "Old Faculty"]);
+        $oldFaculty->studyFields()->create(["name" => "Old Study Field"]);
+
+        $data = new UpdateUniversityProfileData(
+            domain: $university->domain,
+            logo: null,
+            externalFormUrl: null,
+            faculties: [],
+        );
+
+        $action = new UpdateUniversityProfile(new FileUploadService());
+        $updated = $action->execute($university, $data);
+
+        $this->assertCount(1, $updated->faculties);
+        $this->assertDatabaseHas("faculties", ["name" => "Old Faculty"]);
+        $this->assertDatabaseHas("study_fields", ["name" => "Old Study Field"]);
+    }
+
     private function fakePng(): string
     {
         return base64_decode(

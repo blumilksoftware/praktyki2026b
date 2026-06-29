@@ -36,7 +36,7 @@ class UpdateUniversityProfile
                 "external_form_url" => $data->externalFormUrl,
             ]);
 
-            if ($data->faculties !== null) {
+            if ($data->faculties !== null && count($data->faculties) > 0) {
                 $university->faculties()->delete();
 
                 foreach ($data->faculties as $facultyData) {
