@@ -96,6 +96,25 @@ class CvUploadTest extends TestCase
         $this->assertNull($user->cv_path);
     }
 
+    public function testUploadFailsWhenCvFileSizeExceedsLimit(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $file = UploadedFile::fake()->createWithContent(
+            "cv.pdf",
+            "%PDF-1.4 " . str_repeat("A", 5121 * 1024),
+        );
+
+        $response = $this->actingAs($user)->post(route("student.cv.upload"), ["cv" => $file]);
+
+        $response->assertInvalid("cv");
+        $user->refresh();
+        $this->assertNull($user->cv_path);
+    }
+
     public function testUploadingReplacementDeletesPreviousCvFromStorage(): void
     {
         $user = User::factory()->create([

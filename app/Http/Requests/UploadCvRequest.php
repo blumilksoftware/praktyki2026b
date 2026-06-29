@@ -20,6 +20,7 @@ class UploadCvRequest extends FormRequest
             "cv" => [
                 "required",
                 "file",
+                "max:5120",
                 new MimeTypeByContentRule(["application/pdf"]),
             ],
         ];
