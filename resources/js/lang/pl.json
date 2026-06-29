@@ -2,7 +2,7 @@
   "auth": {
     "verification": {
       "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
-      "resendMessage": "Nowy link weryfikacyjny został wysłany.",
+      "resendMessage": "Nowy link weryfikacyjny został wysłany. Sprawdź swoją skrzynkę odbiorczą.",
       "notVerified": "Twój adres e-mail nie został zweryfikowany.",
       "resendVerification": "Wyślij ponownie link weryfikacyjny"
     },
@@ -14,9 +14,9 @@
       "rememberMe": "Zapamiętaj mnie",
       "submit": "Zaloguj się",      
       "forgotPassword": "Nie pamiętasz hasła?",
-      "or": "lub",
-      "google": "Zaloguj się przy pomocy Google",
-      "noAccount": "Nie masz jeszcze konta? Zarejestruj się.",
+      "or": "lub kontynuuj z",
+      "google": "Google",
+      "noAccount": "Nie masz jeszcze konta? Zarejestruj się",
       "forgotPasswordLink": "kliknij tutaj",
       "resendVerification": "Wyślij ponownie link weryfikacyjny"
     },

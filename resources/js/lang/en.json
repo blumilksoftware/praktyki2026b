@@ -2,7 +2,7 @@
 "auth": {
     "verification": {
       "invalidLink": "Invalid or expired verification link.",
-      "resend_message": "A new verification link has been sent.",
+      "resend_message": "A new verification link has been sent. Check your inbox.",
       "notVerified": "Your email address has not been verified.",
       "resendVerification": "Resend verification link"
     },
@@ -14,11 +14,11 @@
       "submit": "Sign in",
       "forgotPassword": "Forgot your password?",
       "registerLink": "Register",
-      "google": "Sign in with Google",
-      "or": "or",
+      "google": "Google",
+      "or": "or continue with",
       "resendVerification": "Resend verification link",
       "rememberMe": "Remember me",
-      "noAccount": "Don't have an account yet? Sign up.",
+      "noAccount": "Don't have an account yet? Sign up",
       "waiting": {
         "title": "Confirm your email",
         "heading": "Check your inbox",

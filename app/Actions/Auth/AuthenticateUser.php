@@ -21,6 +21,8 @@ class AuthenticateUser
         if (!Auth::user()->hasVerifiedEmail()) {
             Auth::logout();
 
+            session()->flash("requires_verification", true);
+
             throw ValidationException::withMessages([
                 "email" => __("auth.verification.not_verified"),
             ]);
