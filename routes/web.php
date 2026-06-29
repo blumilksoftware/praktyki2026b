@@ -35,7 +35,7 @@ Route::middleware(["auth", EnsureStudent::class])
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
     });
 
-Route::middleware(["auth"])
+Route::middleware(["role:superAdmin"])
     ->prefix("admin")
     ->group(function (): void {
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.dashboard");
