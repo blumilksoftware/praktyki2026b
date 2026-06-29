@@ -16,13 +16,14 @@ return new class() extends Migration {
             $table->enum("role", ["student", "superAdmin", "universityAdmin", "companyAdmin"]);
             $table->timestamp("terms_accepted_at")->nullable();
             $table->string("university")->nullable();
+            $table->string("cv_path")->nullable();
         });
     }
 
     public function down(): void
     {
         Schema::table("users", function (Blueprint $table): void {
-            $table->dropColumn(["first_name", "last_name", "role", "terms_accepted_at", "university"]);
+            $table->dropColumn(["first_name", "last_name", "role", "terms_accepted_at", "university", "cv_path"]);
             $table->string("name");
         });
     }

@@ -28,6 +28,7 @@ class LoginController extends Controller
             $request,
             $request->string("email")->toString(),
             $request->string("password")->toString(),
+            $request->boolean("remember"),
         );
 
         return redirect()->intended("/home");
