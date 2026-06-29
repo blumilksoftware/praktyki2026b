@@ -40,4 +40,6 @@ Route::middleware(["auth"])
 Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");
 
+Route::fallback(fn(): never => abort(404));
+
 require __DIR__ . "/auth.php";
