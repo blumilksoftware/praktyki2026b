@@ -170,5 +170,6 @@ return [
         "phone" => "telefon",
         "website" => "strona WWW",
         "terms" => "regulamin",
+        "cv" => "CV",
     ],
 ];

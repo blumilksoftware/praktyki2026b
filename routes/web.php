@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
+use App\Http\Middleware\EnsureStudent;
 use App\Http\Middleware\EnsureUniversityIsVerified;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
@@ -26,6 +28,13 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
         Route::get("/dashboard", [UniversityController::class, "index"])->name("university.dashboard");
         Route::get("/profile", [UniversityController::class, "profile"])->name("university.profile");
         Route::patch("/profile", [UniversityController::class, "update"])->name("university.profile.update");
+    });
+
+Route::middleware(["auth", EnsureStudent::class])
+    ->prefix("student")
+    ->group(function (): void {
+        Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
+        Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
     });
 
 Route::middleware(["role:superAdmin"])
