@@ -17,6 +17,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->group(function (): void {
         Route::get("/dashboard", [CompanyController::class, "index"])->name("company.dashboard");
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
+        Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
