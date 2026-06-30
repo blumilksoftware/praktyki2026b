@@ -7,6 +7,7 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
+import RegisterAccountTypeTabs from '@/Components/Auth/RegisterAccountTypeTabs.vue'
 import { validateNip } from '@/utils/validateNip'
 
 const { t } = useI18n()
@@ -107,40 +108,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
       <Head :title="t('auth.register.company.title')" />
 
       <div class="mx-auto flex w-full max-w-3xl flex-col gap-6 px-2 sm:px-4">
-        <!-- Taby — aktywna: Firma -->
-        <div class="space-y-3">
-          <p
-            id="account-type-label"
-            class="text-center text-sm font-medium text-additional"
-          >
-            {{ t('auth.register.accountTypeTabs.label') }}
-          </p>
-          <nav
-            class="grid grid-cols-3 overflow-hidden rounded-lg border border-border text-center text-sm sm:text-base"
-            :aria-label="t('auth.register.accountTypeTabs.ariaLabel')"
-          >
-            <button
-              type="button"
-              class="bg-background px-2 py-3 text-text"
-              aria-disabled="true"
-            >
-              {{ t('auth.register.accountTypeTabs.university') }}
-            </button>
-            <button
-              type="button"
-              class="border-x border-border bg-white px-2 py-3 font-semibold text-secondary ring-1 ring-inset ring-secondary"
-              aria-current="page"
-            >
-              {{ t('auth.register.accountTypeTabs.company') }}
-            </button>
-            <Link
-              href="/register/student"
-              class="bg-background px-2 py-3 text-text transition hover:bg-background/80"
-            >
-              {{ t('auth.register.accountTypeTabs.student') }}
-            </Link>
-          </nav>
-        </div>
+        <RegisterAccountTypeTabs active-tab="company" />
 
         <div class="text-center">
           <h1 class="text-3xl font-normal text-text sm:text-4xl">
@@ -161,7 +129,6 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             id="nip"
             v-model="form.nip"
             :label="t('auth.register.company.nip')"
-            inputmode="numeric"
             autocomplete="off"
             required
             :error="fieldError('nip')"
@@ -276,7 +243,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
 
           <BaseButton
             type="submit"
-            class="mx-auto mt-1 w-full max-w-sm px-8 py-3 text-sm sm:text-base"
+            class="mx-auto mt-1 w-fit px-12 py-3 text-sm sm:text-base"
             :disabled="form.processing"
           >
             {{ t('auth.register.submit') }}
