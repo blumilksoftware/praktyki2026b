@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\UniversityRegistrationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
+Route::get("/register/company", fn(): Response => inertia("Auth/RegisterCompany"))->name("register.company.show");
 Route::post("/register/company", CompanyRegistrationController::class)
     ->middleware("throttle:10,15")
     ->name("register.company");

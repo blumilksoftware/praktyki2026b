@@ -90,12 +90,20 @@ describe('RegisterStudent', () => {
   })
 
   it('renders the shortened Google sign-up button text', () => {
-const wrapper = mount(RegisterStudent, {
-global: { plugins: [i18n] },
-})
-const googleLink = wrapper.find('a[href="/auth/google/redirect"]')
-expect(googleLink.exists()).toBe(true)
-expect(googleLink.text()).toContain('Google')
-expect(googleLink.text()).not.toContain('Sign up with Google')
+    const wrapper = mount(RegisterStudent, {
+    global: { plugins: [i18n] },
+    })
+    const googleLink = wrapper.find('a[href="/auth/google/redirect"]')
+    expect(googleLink.exists()).toBe(true)
+    expect(googleLink.text()).toContain('Google')
+    expect(googleLink.text()).not.toContain('Sign up with Google')
+  })
+
+  it('links company tab to company registration', () => {
+    const wrapper = mount(RegisterStudent, {
+      global: { plugins: [i18n] },
+  })
+
+  expect(wrapper.find('a[href="/register/company"]').exists()).toBe(true)
 })
 })

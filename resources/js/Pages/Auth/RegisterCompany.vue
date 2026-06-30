@@ -6,29 +6,40 @@ import AuthLayout from '@/Components/Layouts/AuthLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
-import GoogleSvg from '@/Components/Common/GoogleSvg.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
+import { validateNip } from '@/utils/validateNip'
 
 const { t } = useI18n()
 
 const form = useForm({
-  first_name: '',
-  last_name: '',
+  company_name: '',
+  nip: '',
   email: '',
   password: '',
   password_confirmation: '',
-  university: '',
+  street: '',
+  building_number: '',
+  postal_code: '',
+  city: '',
+  phone: '',
+  website: '',
   terms: false,
 })
+
 const clientErrors = ref({})
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const urlPattern = /^https?:\/\/.+/i
+
 const validate = () => {
   const errors = {}
-  if (!form.first_name.trim()) {
-    errors.first_name = t('auth.register.validation.firstNameRequired')
+
+  if (!form.company_name.trim()) {
+    errors.company_name = t('auth.register.validation.companyNameRequired')
   }
-  if (!form.last_name.trim()) {
-    errors.last_name = t('auth.register.validation.lastNameRequired')
+  if (!form.nip.trim()) {
+    errors.nip = t('auth.register.validation.nipRequired')
+  } else if (!validateNip(form.nip)) {
+    errors.nip = t('auth.register.validation.nipInvalid')
   }
   if (!form.email.trim()) {
     errors.email = t('auth.register.validation.emailRequired')
@@ -43,24 +54,49 @@ const validate = () => {
   } else if (form.password !== form.password_confirmation) {
     errors.password_confirmation = t('auth.register.validation.passwordConfirmationMismatch')
   }
+  if (!form.street.trim()) {
+    errors.street = t('auth.register.validation.streetRequired')
+  }
+  if (!form.building_number.trim()) {
+    errors.building_number = t('auth.register.validation.buildingNumberRequired')
+  }
+  if (!form.postal_code.trim()) {
+    errors.postal_code = t('auth.register.validation.postalCodeRequired')
+  }
+  if (!form.city.trim()) {
+    errors.city = t('auth.register.validation.cityRequired')
+  }
+  if (!form.phone.trim()) {
+    errors.phone = t('auth.register.validation.phoneRequired')
+  }
+  if (form.website.trim() && !urlPattern.test(form.website.trim())) {
+    errors.website = t('auth.register.validation.websiteInvalid')
+  }
   if (!form.terms) {
     errors.terms = t('auth.register.validation.termsRequired')
   }
+
   clientErrors.value = errors
   return Object.keys(errors).length === 0
 }
+
 const fieldError = (field) => {
   return clientErrors.value[field] ?? form.errors[field]
 }
+
 const submit = () => {
   form.clearErrors()
+  clientErrors.value = {}
+
   if (!validate()) {
     return
   }
-  form.post('/register/student', {
+
+  form.post('/register/company', {
     preserveScroll: true,
   })
 }
+
 const hasTermsError = computed(() => Boolean(fieldError('terms')))
 </script>
 
@@ -68,9 +104,10 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
   <div class="min-h-screen flex flex-col bg-background">
     <BaseNavbar class="shrink-0" />
     <AuthLayout class="flex-1 min-h-0">
-      <Head :title="t('auth.register.title')" />
+      <Head :title="t('auth.register.company.title')" />
 
       <div class="mx-auto flex w-full max-w-3xl flex-col gap-6 px-2 sm:px-4">
+        <!-- Taby — aktywna: Firma -->
         <div class="space-y-3">
           <p
             id="account-type-label"
@@ -89,19 +126,19 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             >
               {{ t('auth.register.accountTypeTabs.university') }}
             </button>
-            <Link
-              href="/register/company"
-              class="border-x border-border bg-background px-2 py-3 text-text transition hover:bg-background/80"
-            >
-              {{ t('auth.register.accountTypeTabs.company') }}
-            </Link>
             <button
               type="button"
-              class="rounded-r-lg bg-white px-2 py-3 font-semibold text-secondary ring-1 ring-inset ring-secondary"
+              class="border-x border-border bg-white px-2 py-3 font-semibold text-secondary ring-1 ring-inset ring-secondary"
               aria-current="page"
             >
-              {{ t('auth.register.accountTypeTabs.student') }}
+              {{ t('auth.register.accountTypeTabs.company') }}
             </button>
+            <Link
+              href="/register/student"
+              class="bg-background px-2 py-3 text-text transition hover:bg-background/80"
+            >
+              {{ t('auth.register.accountTypeTabs.student') }}
+            </Link>
           </nav>
         </div>
 
@@ -112,24 +149,23 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
         </div>
 
         <form class="flex flex-col gap-4" novalidate @submit.prevent="submit">
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <BaseInput
-              id="first_name"
-              v-model="form.first_name"
-              :label="t('auth.register.firstName')"
-              autocomplete="given-name"
-              required
-              :error="fieldError('first_name')"
-            />
-            <BaseInput
-              id="last_name"
-              v-model="form.last_name"
-              :label="t('auth.register.lastName')"
-              autocomplete="family-name"
-              required
-              :error="fieldError('last_name')"
-            />
-          </div>
+          <BaseInput
+            id="company_name"
+            v-model="form.company_name"
+            :label="t('auth.register.company.companyName')"
+            autocomplete="organization"
+            required
+            :error="fieldError('company_name')"
+          />
+          <BaseInput
+            id="nip"
+            v-model="form.nip"
+            :label="t('auth.register.company.nip')"
+            inputmode="numeric"
+            autocomplete="off"
+            required
+            :error="fieldError('nip')"
+          />
           <BaseInput
             id="email"
             v-model="form.email"
@@ -157,12 +193,63 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             required
             :error="fieldError('password_confirmation')"
           />
+
+          <!-- Figma: kod pocztowy + miejscowość w jednym rzędzie -->
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-[1fr_2fr]">
+            <BaseInput
+              id="postal_code"
+              v-model="form.postal_code"
+              :label="t('auth.register.company.postalCode')"
+              autocomplete="postal-code"
+              required
+              :error="fieldError('postal_code')"
+            />
+            <BaseInput
+              id="city"
+              v-model="form.city"
+              :label="t('auth.register.company.city')"
+              autocomplete="address-level2"
+              required
+              :error="fieldError('city')"
+            />
+          </div>
+
+          <!-- Figma: ulica + numer budynku (backend wymaga obu) -->
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-[2fr_1fr]">
+            <BaseInput
+              id="street"
+              v-model="form.street"
+              :label="t('auth.register.company.street')"
+              autocomplete="street-address"
+              required
+              :error="fieldError('street')"
+            />
+            <BaseInput
+              id="building_number"
+              v-model="form.building_number"
+              :label="t('auth.register.company.buildingNumber')"
+              autocomplete="off"
+              required
+              :error="fieldError('building_number')"
+            />
+          </div>
+
           <BaseInput
-            id="university"
-            v-model="form.university"
-            :label="t('auth.register.university')"
-            autocomplete="organization"
-            :error="fieldError('university')"
+            id="phone"
+            v-model="form.phone"
+            :label="t('auth.register.company.phone')"
+            type="tel"
+            autocomplete="tel"
+            required
+            :error="fieldError('phone')"
+          />
+          <BaseInput
+            id="website"
+            v-model="form.website"
+            :label="t('auth.register.company.website')"
+            type="url"
+            autocomplete="url"
+            :error="fieldError('website')"
           />
 
           <div>
@@ -195,22 +282,6 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             {{ t('auth.register.submit') }}
           </BaseButton>
         </form>
-
-        <div class="flex items-center gap-4">
-          <div class="h-px flex-1 bg-text/20" />
-          <span class="text-sm text-additional">
-            {{ t('auth.register.or') }}
-          </span>
-          <div class="h-px flex-1 bg-text/20" />
-        </div>
-
-        <a
-          href="/auth/google/redirect"
-          class="mx-auto inline-flex items-center justify-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-medium text-text shadow-sm transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-        >
-          <GoogleSvg />
-          {{ t('auth.register.google') }}
-        </a>
 
         <div class="h-px bg-text/20" />
 
