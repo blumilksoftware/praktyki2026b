@@ -43,6 +43,8 @@ class EmailVerificationController extends Controller
             $this->verificationService->sendVerificationEmail($user);
         }
 
-        return back();
+        return back()
+            ->with("status", "verification-resend")
+            ->with("requires_verification", true);
     }
 }
