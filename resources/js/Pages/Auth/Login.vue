@@ -44,19 +44,19 @@ const authError = computed(() => form.errors.email)
 </script>
 
 <template>
-  <div class="h-screen flex flex-col overflow-hidden">
+  <div class="min-h-screen flex flex-col bg-background">
     <BaseNavbar class="shrink-0" />
   
     <AuthLayout class="flex-1 min-h-0">
       <Head :title="t('auth.login.title')" />
 
-      <div class="flex flex-col items-center justify-center w-full px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-20">
+      <div class="flex flex-col items-center justify-center w-full sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-20">
         <h1 class="text-5xl md:text-6xl font-normal mb-8 md:mb-10 text-center text-text">
           {{ t('auth.login.heading') }}
         </h1>
 
         <div class="flex flex-col w-full">
-          <form class="flex flex-col items-center space-y-4 sm:space-y-5 w-full" @submit.prevent="submit">
+          <form class="flex flex-col items-center space-y-6 sm:space-y-5 w-full" @submit.prevent="submit">
             <div class="w-full">
               <BaseInput
                 id="email"
@@ -86,18 +86,11 @@ const authError = computed(() => form.errors.email)
             <AuthErrorDisplay class="w-full" :error="authError" :email="form.email" />
 
             <div class="flex items-center justify-between mt-2 sm:mt-4 w-full">
-              <div class="flex items-center">
-                <BaseCheckbox
-                  id="remember"
-                  v-model="form.remember"
-                />
-                <label 
-                  for="remember" 
-                  class="text-sm sm:text-base font-medium text-text cursor-pointer select-none whitespace-nowrap"
-                >
-                  {{ t('auth.login.rememberMe') }}
-                </label>
-              </div>
+              <BaseCheckbox
+                id="remember"
+                v-model="form.remember"
+                :label="t('auth.login.rememberMe')"
+              />
 
               <Link
                 href="/forgot-password"
@@ -147,3 +140,4 @@ const authError = computed(() => form.errors.email)
     </AuthLayout>
   </div>
 </template>
+
