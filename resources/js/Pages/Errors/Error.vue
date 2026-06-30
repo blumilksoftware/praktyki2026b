@@ -20,7 +20,7 @@ const homeUrl = computed(() => {
 
 <template>
   <Head :title="t(`errors.${status}.title`)" />
-  <div class="flex flex-col min-h-screen bg-secondary text-text">
+  <div class="flex flex-col min-h-screen bg-white text-text">
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
       <div class="flex items-center px-4 md:px-6 py-4">
         <img

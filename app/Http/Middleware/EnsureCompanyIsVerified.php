@@ -16,13 +16,16 @@ class EnsureCompanyIsVerified
     {
         $user = $request->user();
 
-        if (
-            $user === null
-            || $user->status !== UserStatus::Active
-            || $user->company === null
-            || $user->company->verification_status !== VerificationStatus::Verified
-        ) {
+        if ($user === null || $user->status !== UserStatus::Active) {
             abort(403);
+        }
+
+        if ($user->company === null) {
+            abort(403);
+        }
+
+        if ($user->company->verification_status !== VerificationStatus::Verified) {
+            return redirect()->route('company.verification.pending');
         }
 
         return $next($request);

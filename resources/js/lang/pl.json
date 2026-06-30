@@ -162,5 +162,12 @@
         "toPolish": "Przełącz na polski"
       }
     }
+  },
+  "pending": {
+    "title": "Konta w trakcie weryfikacji",
+    "description": "Dziękujemy za rejestrację. Aby dbać o bezpieczeństwo studentów, każde konto uczelni lub firmy musi zostać ręcznie zatwierdzone przez naszego administratora.",
+    "status": "Zazwyczaj trwa to {time} godzin. Gdy weryfikacja przebiegnie pomyślnie, odblokujemy Twój dostęp do panelu i poinformujemy Cię o tym meilowo.",
+    "contact": "Jeśli masz jakiekolwiek pytania, skontaktuj się z nami pod adresem {email}",
+    "log_out": "Wyloguj się"
   }
 }

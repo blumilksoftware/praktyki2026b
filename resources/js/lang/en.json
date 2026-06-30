@@ -171,5 +171,12 @@
         "toPolish": "Switch to polish"
       }
     }
+  },
+  "pending": {
+    "title": "Accounts under verification",
+    "description": "Thank you for registering. To ensure student safety, every university or company account must be manually approved by our administrator.",
+    "status": "This usually takes {time} hours. When verification is successful, we will unlock your access to the panel and notify you by email.",
+    "contact": "If you have any questions, please contact us at {email}",
+    "log_out": "Log out"
   }
 }
