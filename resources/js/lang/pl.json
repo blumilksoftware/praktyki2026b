@@ -1,4 +1,23 @@
 {
+  "errors": {
+    "401": {
+      "title": "Wymagane logowanie",
+      "description": "Musisz się zalogować, aby uzyskać dostęp do tej strony."
+    },
+    "403": {
+      "title": "Brak dostępu",
+      "description": "Nie masz uprawnień do wyświetlenia tej strony."
+    },
+    "404": {
+      "title": "Nie znaleziono strony",
+      "description": "Strona, której szukasz, nie istnieje lub została przeniesiona."
+    },
+    "500": {
+      "title": "Błąd serwera",
+      "description": "Coś poszło nie tak. Spróbuj ponownie później."
+    },
+    "backToHome": "Wróć do strony głównej"
+  },
   "auth": {
     "verification": {
       "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
