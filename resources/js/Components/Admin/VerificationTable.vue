@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { useForm, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconSearch } from '@tabler/icons-vue'
@@ -41,10 +41,71 @@ const showRejectModal = ref(false)
 const itemToReject = ref(null)
 const rejectReason = ref('')
 const rejectError = ref('')
+const rejectModalRef = ref(null)
+const rejectTriggerRef = ref(null)
+
+const showDetailsModal = ref(false)
+const detailsItem = ref(null)
+const detailsModalRef = ref(null)
+const detailsTriggerRef = ref(null)
 
 const currentItems = computed(() => {
   return entityType.value === 'company' ? props.companies.data : props.universities.data
 })
+
+const companyDetailFields = [
+  { key: 'name', label: t('admin.verification.name') },
+  { key: 'nip', label: t('admin.verification.nip') },
+  { key: 'email', label: t('admin.verification.email'), type: 'email' },
+  { key: 'phone', label: t('admin.verification.phone'), type: 'tel' },
+  { key: 'street', label: t('admin.verification.street') },
+  { key: 'building_number', label: t('admin.verification.buildingNumber') },
+  { key: 'postal_code', label: t('admin.verification.postalCode') },
+  { key: 'city', label: t('admin.verification.city') },
+  { key: 'website', label: t('admin.verification.website'), type: 'url' },
+  { key: 'description', label: t('admin.verification.description') },
+  { key: 'tags', label: t('admin.verification.tags'), type: 'tags' },
+]
+
+const universityDetailFields = [
+  { key: 'name', label: t('admin.verification.name') },
+  { key: 'domain', label: t('admin.verification.domain') },
+  { key: 'email', label: t('admin.verification.email'), type: 'email' },
+  { key: 'phone', label: t('admin.verification.phone'), type: 'tel' },
+  { key: 'address', label: t('admin.verification.address') },
+  { key: 'website', label: t('admin.verification.website'), type: 'url' },
+  { key: 'external_form_url', label: t('admin.verification.externalFormUrl'), type: 'url' },
+]
+const detailFields = computed(() =>
+  entityType.value === 'company' ? companyDetailFields : universityDetailFields,
+)
+
+function openDetailsModal(item, event) {
+  detailsTriggerRef.value = event?.target || document.activeElement
+  detailsItem.value = item
+  showDetailsModal.value = true
+  nextTick(() => {
+    const modal = detailsModalRef.value
+    if (modal) {
+      const focusableElements = modal.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      )
+      if (focusableElements.length > 0) {
+        focusableElements[0].focus()
+      }
+    }
+  })
+}
+
+function closeDetailsModal() {
+  showDetailsModal.value = false
+  detailsItem.value = null
+  nextTick(() => {
+    if (detailsTriggerRef.value) {
+      detailsTriggerRef.value.focus()
+    }
+  })
+}
 
 function handleSort({ key, dir }) {
   sortKey.value = key
@@ -127,16 +188,68 @@ function acceptUniversity(university) {
     })
 }
 
-function openRejectModal(item) {
+function openRejectModal(item, event) {
+  rejectTriggerRef.value = event?.target || document.activeElement
   itemToReject.value = item
   rejectReason.value = ''
   rejectError.value = ''
   showRejectModal.value = true
+  nextTick(() => {
+    const modal = rejectModalRef.value
+    if (modal) {
+      const focusableElements = modal.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      )
+      if (focusableElements.length > 0) {
+        focusableElements[0].focus()
+      }
+    }
+  })
 }
 
 function closeRejectModal() {
   showRejectModal.value = false
   itemToReject.value = null
+  nextTick(() => {
+    if (rejectTriggerRef.value) {
+      rejectTriggerRef.value.focus()
+    }
+  })
+}
+
+function handleEscapeKey(event) {
+  if (event.key === 'Escape') {
+    if (showRejectModal.value) {
+      closeRejectModal()
+    } else if (showDetailsModal.value) {
+      closeDetailsModal()
+    }
+  }
+}
+
+function handleTabKey(event) {
+  const modalRef = showRejectModal.value ? rejectModalRef.value : detailsModalRef.value
+  if (!modalRef) return
+
+  const focusableElements = modalRef.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+  )
+  const firstElement = focusableElements[0]
+  const lastElement = focusableElements[focusableElements.length - 1]
+
+  if (event.key === 'Tab') {
+    if (event.shiftKey) {
+      if (document.activeElement === firstElement) {
+        event.preventDefault()
+        lastElement.focus()
+      }
+    } else {
+      if (document.activeElement === lastElement) {
+        event.preventDefault()
+        firstElement.focus()
+      }
+    }
+  }
 }
 
 function submitReject() {
@@ -184,6 +297,16 @@ function formatDate(dateString) {
     minute: '2-digit',
   })
 }
+
+onMounted(() => {
+  window.addEventListener('keydown', handleEscapeKey)
+  window.addEventListener('keydown', handleTabKey)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleEscapeKey)
+  window.removeEventListener('keydown', handleTabKey)
+})
 </script>
 
 <template>
@@ -218,7 +341,7 @@ function formatDate(dateString) {
         <select
           v-model="statusFilter"
           :aria-label="t('admin.verification.filterByStatusAriaLabel')"
-          class="bg-white/40 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 text-slate-700 text-sm"
+          class="bg-white/40 px-4 py-2 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 text-slate-700 text-sm"
         >
           <option value="all">{{ t('admin.verification.all') }}</option>
           <option value="pending">{{ t('admin.verification.pending') }}</option>
@@ -270,7 +393,6 @@ function formatDate(dateString) {
         <span class="whitespace-nowrap">{{ formatDate(item.created_at) }}</span>
       </template>
       <template #cell-verification_status="{ item }">
-        <pre>{{ companies.data[0] }}</pre>
         <div class="flex items-center gap-2">
           <span :class="['inline-flex rounded-full px-2.5 py-1 text-xs font-medium', statusClass(item.verification_status)]">
             {{ t(`admin.verification.${item.verification_status}`) }}
@@ -282,18 +404,25 @@ function formatDate(dateString) {
           >
             <span class="inline-flex justify-center items-center bg-red-100 rounded-full w-4 h-4 font-bold text-red-500 text-xs">?</span>
             <div class="bottom-full left-1/2 z-10 absolute bg-slate-800 opacity-0 group-hover:opacity-100 shadow-lg mb-2 px-3 py-2 rounded-lg w-56 text-white text-xs transition-opacity -translate-x-1/2 pointer-events-none">
-              <p class="mb-1 font-medium">{{ t('admin.verification.rejectionReason') }}</p>
+              <p class="mb-1 font-medium">{{ t('admin.verification.rejectReason') }}</p>
               <p class="text-slate-300">{{ item.rejection_reason }}</p>
             </div>
           </span>
         </div>
       </template>
       <template #cell-actions="{ item }">
-        <div class="flex justify-end gap-2">
+        <div class="flex sm:flex-row flex-col xl:flex-col gap-2">
+          <button
+            class="flex-1 bg-slate-300 hover:bg-slate-200 px-3 py-1.5 rounded-lg font-medium text-slate-900 text-sm transition cursor-pointer"
+            :aria-label="t('admin.verification.detailsAriaLabel', { name: item.name })"
+            @click="openDetailsModal(item, $event)"
+          >
+            {{ t('admin.verification.details') }}
+          </button>
           <button
             v-if="item.verification_status === 'pending'"
             :disabled="entityType === 'company' ? acceptCompanyForm.processing : acceptUniversityForm.processing"
-            class="bg-green-600 hover:bg-green-700 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-white text-sm transition cursor-pointer disabled:cursor-not-allowed"
+            class="flex-1 bg-green-600 hover:bg-green-700 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-sm transition cursor-pointer disabled:cursor-not-allowed"
             :aria-label="t('admin.verification.acceptAriaLabel', { name: item.name })"
             @click="entityType === 'company' ? acceptCompany(item) : acceptUniversity(item)"
           >
@@ -302,9 +431,9 @@ function formatDate(dateString) {
           <button
             v-if="item.verification_status === 'pending'"
             :disabled="entityType === 'company' ? rejectCompanyForm.processing : rejectUniversityForm.processing"
-            class="bg-red-500 hover:bg-red-600 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-sm transition cursor-pointer disabled:cursor-not-allowed"
+            class="flex-1 bg-red-500 hover:bg-red-600 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-sm transition cursor-pointer disabled:cursor-not-allowed"
             :aria-label="t('admin.verification.rejectAriaLabel', { name: item.name })"
-            @click="openRejectModal(item)"
+            @click="openRejectModal(item, $event)"
           >
             {{ t('admin.verification.reject') }}
           </button>
@@ -329,19 +458,10 @@ function formatDate(dateString) {
         :aria-labelledby="'reject-modal-title'"
         @click.self="closeRejectModal"
       >
-        <div class="bg-white shadow-2xl p-6 rounded-2xl w-full max-w-lg">
-          <div class="flex justify-between items-center mb-4">
-            <h3 id="reject-modal-title" class="font-semibold text-text text-xl">
-              {{ t('admin.verification.rejectTitle') }}
-            </h3>
-            <button
-              class="text-slate-400 hover:text-slate-600 text-3xl leading-none transition-colors"
-              :aria-label="t('admin.verification.closeModal')"
-              @click="closeRejectModal"
-            >
-              &times;
-            </button>
-          </div>
+        <div ref="rejectModalRef" class="bg-white shadow-2xl p-6 rounded-2xl w-full max-w-lg">
+          <h3 id="reject-modal-title" class="mb-4 font-semibold text-text text-xl">
+            {{ t('admin.verification.rejectTitle') }}
+          </h3>
           
           <p class="mb-4 text-slate-600 text-sm">
             {{ t('admin.verification.rejectDescription', { name: itemToReject.name }) }}
@@ -378,6 +498,58 @@ function formatDate(dateString) {
               @click="submitReject"
             >
               {{ t('admin.verification.confirmReject') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </Teleport>
+
+    <Teleport to="body">
+      <div
+        v-if="showDetailsModal && detailsItem"
+        class="z-[9999] fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-sm p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="details-modal-title"
+        @click.self="closeDetailsModal"
+      >
+        <div ref="detailsModalRef" class="bg-white shadow-2xl p-6 rounded-2xl w-full max-w-lg">
+          <h3 id="details-modal-title" class="mb-4 font-semibold text-text text-xl">
+            {{ detailsItem.name }}
+          </h3>
+
+          <dl class="space-y-3">
+            <div
+              v-for="field in detailFields"
+              :key="field.key"
+              class="gap-2 grid grid-cols-3"
+            >
+              <dt class="font-medium text-slate-500 text-sm">{{ field.label }}</dt>
+              <dd class="col-span-2 text-slate-800 text-sm break-words">
+                <a v-if="field.type === 'email' && detailsItem[field.key]" :href="`mailto:${detailsItem[field.key]}`" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>
+                <a v-else-if="field.type === 'tel' && detailsItem[field.key]" :href="`tel:${detailsItem[field.key]}`" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>
+                <a v-else-if="field.type === 'url' && detailsItem[field.key]" :href="detailsItem[field.key]" target="_blank" rel="noopener" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>
+                <div v-else-if="field.type === 'tags'" class="flex flex-wrap gap-1">
+                  <span
+                    v-for="tag in detailsItem[field.key] || []"
+                    :key="tag"
+                    class="bg-slate-100 px-2 py-0.5 rounded-full text-slate-700 text-xs"
+                  >
+                    {{ tag }}
+                  </span>
+                  <span v-if="!detailsItem[field.key]?.length" class="text-slate-400 text-sm">-</span>
+                </div>
+                <span v-else>{{ detailsItem[field.key] || '-' }}</span>
+              </dd>
+            </div>
+          </dl>
+
+          <div class="flex justify-end mt-6">
+            <button
+              class="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 rounded-xl font-medium text-slate-700 transition cursor-pointer"
+              @click="closeDetailsModal"
+            >
+              {{ t('admin.verification.close') }}
             </button>
           </div>
         </div>
