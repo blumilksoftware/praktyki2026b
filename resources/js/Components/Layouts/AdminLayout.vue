@@ -15,7 +15,7 @@ const navItems = computed(() => [
 </script>
 
 <template>
-  <BaseLayout :active-page="activePage" :nav-items="navItems">
+  <BaseLayout :active-page="activePage" :nav-items="navItems" :show-background="false">
     <slot />
   </BaseLayout>
 </template>
