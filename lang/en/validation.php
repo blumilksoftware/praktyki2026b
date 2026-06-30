@@ -7,6 +7,10 @@ return [
     "phone" => "The :attribute field must be a valid phone number.",
     "domain" => "The :attribute field must be a valid domain.",
     "mime_type_by_content" => "The :attribute field must be a file of type: :values.",
+    "student_no_cv" => "You must upload your CV before applying.",
+    "already_applied" => "You have already applied for this offer.",
+    "offer_inactive" => "This offer is no longer active.",
+    "no_spots_available" => "No spots available for this offer.",
 
     "attributes" => [
         "email" => "email address",
