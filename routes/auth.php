@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\CompanyRegistrationController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -26,6 +27,8 @@ Route::post("/register/student", StudentRegistrationController::class)->name("re
 
 Route::get("/login", [LoginController::class, "show"])->name("login");
 Route::post("/login", [LoginController::class, "store"])->name("login.store");
+Route::get("/admin/login", [AdminLoginController::class, "show"])->name("admin.login");
+Route::post("/admin/login", [AdminLoginController::class, "store"])->name("admin.login.store");
 
 Route::get("/email/verify/{id}/{token}", [EmailVerificationController::class, "verify"])
     ->name("verification.verify");
