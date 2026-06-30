@@ -13,7 +13,7 @@ const terms = ref(false)
 
 <template>
   <Head title="Components" />
-  <div class="min-h-screen bg-secondary px-4 py-10">
+  <div class="min-h-screen bg-background px-4 py-10">
     <div class="mx-auto w-full max-w-4xl flex flex-col gap-10">
       <header class="text-center">
         <h1 class="text-3xl md:text-4xl font-normal text-text">

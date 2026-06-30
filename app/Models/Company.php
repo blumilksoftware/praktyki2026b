@@ -22,9 +22,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $city
  * @property string $phone
  * @property ?string $website
+ * @property ?string $logo_path
+ * @property ?string $description
+ * @property ?array $tags
  * @property VerificationStatus $verification_status
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property ?string $rejection_reason
  */
 class Company extends Model
 {
@@ -41,7 +45,11 @@ class Company extends Model
         "city",
         "phone",
         "website",
+        "logo_path",
+        "description",
+        "tags",
         "verification_status",
+        "rejection_reason",
     ];
 
     public function users(): HasMany
@@ -58,6 +66,7 @@ class Company extends Model
     {
         return [
             "verification_status" => VerificationStatus::class,
+            "tags" => "array",
         ];
     }
 }

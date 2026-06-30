@@ -22,6 +22,8 @@ class UniversityFactory extends Factory
             "address" => fake()->address(),
             "phone" => fake()->phoneNumber(),
             "website" => fake()->optional()->url(),
+            "logo_path" => null,
+            "external_form_url" => null,
             "verification_status" => VerificationStatus::Pending,
         ];
     }
@@ -37,6 +39,13 @@ class UniversityFactory extends Factory
     {
         return $this->state(fn(array $attributes): array => [
             "verification_status" => VerificationStatus::Verified,
+        ]);
+    }
+
+    public function rejected(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "verification_status" => VerificationStatus::Rejected,
         ]);
     }
 }
