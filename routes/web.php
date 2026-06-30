@@ -51,4 +51,10 @@ Route::middleware(["role:superAdmin"])
 Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");
 
+Route::get("/dev/errors/{status}", function (int $status): never {
+    abort(in_array($status, [403, 404, 500], true) ? $status : 404);
+})->name("dev.errors");
+
+Route::fallback(fn(): never => abort(404));
+
 require __DIR__ . "/auth.php";
