@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property VerificationStatus $verification_status
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property ?string $rejection_reason
  */
 class Company extends Model
 {
@@ -48,6 +49,7 @@ class Company extends Model
         "description",
         "tags",
         "verification_status",
+        "rejection_reason",
     ];
 
     public function users(): HasMany
