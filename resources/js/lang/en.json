@@ -20,11 +20,45 @@
       "externalFormUrl": "Application form URL"
     }
   },
+  "errors": {
+    "401": {
+      "title": "Login required",
+      "description": "You must log in to access this page."
+    },
+    "403": {
+      "title": "Access denied",
+      "description": "You do not have permission to view this page."
+    },
+    "404": {
+      "title": "Page not found",
+      "description": "The page you are looking for does not exist or has been moved."
+    },
+    "500": {
+      "title": "Server error",
+      "description": "Something went wrong. Please try again later."
+    },
+    "backToHome": "Back to home"
+  },
   "auth": {
     "verification": {
       "invalidLink": "Invalid or expired verification link.",
-      "resendMessage": "If your email address is registered and unverified, a new verification link has been sent.",
+      "resend_message": "A new verification link has been sent. Check your inbox.",
       "notVerified": "Your email address has not been verified.",
+      "resendVerification": "Resend verification link"
+    },
+    "login": {
+      "title": "Log in",
+      "heading": "Welcome back!",
+      "email": "E-mail",
+      "password": "Password",
+      "submit": "Sign in",
+      "forgotPassword": "Forgot your password?",
+      "registerLink": "Register",
+      "google": "Google",
+      "or": "or continue with",
+      "resendVerification": "Resend verification link",
+      "rememberMe": "Remember me",
+      "noAccount": "Don't have an account yet? Sign up",
       "waiting": {
         "title": "Confirm your email",
         "heading": "Check your inbox",
@@ -43,19 +77,7 @@
     "layout": {
       "skipToContent": "Skip to content"
     },
-    "login": {
-      "title": "Login",
-      "heading": "Sign in",
-      "email": "E-mail",
-      "password": "Password",
-      "submit": "Sign in",
-      "forgotPassword": "Forgot your password?",
-      "noAccount": "Don't have an account yet?",
-      "registerLink": "Register",
-      "google": "Sign in with Google",
-      "or": "or",
-      "resendVerification": "Resend verification link"
-    },
+    
     "register": {
       "title": "Registration",
       "heading": "Register",
@@ -86,9 +108,53 @@
       "caption": "List of candidate applications",
       "title": "Applications panel",
       "description": "Review and verify the latest applications.",
+      "stats": "All applications statistics",
       "heading": "Applications list",
       "backToDashboard": "Back to dashboard",
       "placeholder": "Page under construction"
+    },
+    "verification": {
+      "name": "Name",
+      "pending": "Pending",
+      "verified": "Verified",
+      "rejected": "Rejected",
+      "companies": "Companies",
+      "universities": "Universities",
+      "city": "City",
+      "nip": "NIP",
+      "email": "Email",
+      "domain": "Domain",
+      "address": "Address",
+      "phone": "Phone",
+      "website": "Website",
+      "accept": "Accept",
+      "reject": "Reject",
+      "rejectReason": "Enter rejection reason:",
+      "street": "Street",
+      "close": "Close",
+      "buildingNumber": "Building number",
+      "postalCode": "Postal code",
+      "description": "Description",
+      "tags": "Tags",
+      "externalFormUrl": "External form URL",
+      "noPending": "No pending verifications",
+      "submittedAt": "Submitted at",
+      "details": "Details",
+      "all": "All",
+      "search": "Search...",
+      "actions": "Actions",
+      "filterByStatusAriaLabel": "Filter applications by status",
+      "searchAriaLabel": "Search applications",
+      "acceptAriaLabel": "Accept application: {name}",
+      "rejectAriaLabel": "Reject application: {name}",
+      "detailsAriaLabel": "Application details: {name}",
+      "rejectTitle": "Reject application",
+      "rejectDescription": "You are about to reject the application for {name}. This action is irreversible.",
+      "rejectReasonPlaceholder": "Enter reason here...",
+      "cancel": "Cancel",
+      "confirmReject": "Reject application",
+      "closeModal": "Close modal",
+      "rejectReasonRequired": "Rejection reason is required."
     },
     "panel": {
       "greeting": "Welcome to the admin panel!",

@@ -29,6 +29,10 @@ class HandleInertiaRequests extends Middleware
                 "user" => $request->user(),
             ] : null,
             "onboarding" => fn() => $request->user() ? $this->onboardingData($request) : null,
+            "flash" => [
+                "requires_verification" => $request->session()->get("requires_verification"),
+                "status" => $request->session()->get("status"),
+            ],
         ];
     }
 

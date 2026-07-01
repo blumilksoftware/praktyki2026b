@@ -151,6 +151,10 @@ return [
     "domain" => "Pole :attribute musi być prawidłową domeną.",
     "mime_type_by_content" => "Pole :attribute musi być plikiem typu: :values.",
     "university_domain_locked" => "Nie można zmienić domeny po jej ustawieniu.",
+    "student_no_cv" => "Musisz przesłać swoje CV przed złożeniem aplikacji.",
+    "already_applied" => "Już aplikowałeś na tę ofertę.",
+    "offer_inactive" => "Ta oferta nie jest już aktywna.",
+    "no_spots_available" => "Brak wolnych miejsc na tę ofertę.",
 
     "attributes" => [
         "email" => "adres e-mail",
