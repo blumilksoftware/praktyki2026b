@@ -109,10 +109,8 @@ class ApplyToOfferTest extends TestCase
             "spots" => 5,
         ]);
 
-        // First application
         $this->actingAs($user)->post(route("student.offers.apply", $offer))->assertRedirect();
 
-        // Second application
         $response = $this->actingAs($user)->post(route("student.offers.apply", $offer));
 
         $response->assertInvalid("offer");

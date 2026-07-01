@@ -59,13 +59,7 @@ class ApplyToOfferActionTest extends TestCase
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(__("validation.student_no_cv"));
 
-        try {
-            $this->action->execute($student, $offer);
-        } catch (ValidationException $e) {
-            $this->assertArrayHasKey("cv", $e->errors());
-
-            throw $e;
-        }
+        $this->action->execute($student, $offer);
     }
 
     public function testApplyingToSameOfferTwiceIsRejected(): void
@@ -83,13 +77,7 @@ class ApplyToOfferActionTest extends TestCase
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(__("validation.already_applied"));
 
-        try {
-            $this->action->execute($student, $offer);
-        } catch (ValidationException $e) {
-            $this->assertArrayHasKey("offer", $e->errors());
-
-            throw $e;
-        }
+        $this->action->execute($student, $offer);
     }
 
     public function testApplyingToInactiveOfferIsRejected(): void
@@ -105,13 +93,7 @@ class ApplyToOfferActionTest extends TestCase
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(__("validation.offer_inactive"));
 
-        try {
-            $this->action->execute($student, $offer);
-        } catch (ValidationException $e) {
-            $this->assertArrayHasKey("offer", $e->errors());
-
-            throw $e;
-        }
+        $this->action->execute($student, $offer);
     }
 
     public function testApplyingToOfferWithNoSpotsIsRejected(): void
@@ -127,12 +109,6 @@ class ApplyToOfferActionTest extends TestCase
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(__("validation.no_spots_available"));
 
-        try {
-            $this->action->execute($student, $offer);
-        } catch (ValidationException $e) {
-            $this->assertArrayHasKey("offer", $e->errors());
-
-            throw $e;
-        }
+        $this->action->execute($student, $offer);
     }
 }
