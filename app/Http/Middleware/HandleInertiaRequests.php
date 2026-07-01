@@ -24,15 +24,6 @@ class HandleInertiaRequests extends Middleware
                 "requires_verification" => $request->session()->get("requires_verification"),
                 "status" => $request->session()->get("status"),
             ],
-            "validation" => [
-                "messages" => [
-                    "required" => __("validation.required"),
-                    "email" => __("validation.email"),
-                    "confirmed" => __("validation.confirmed"),
-                    "accepted" => __("validation.accepted"),
-                ],
-                "attributes" => __("validation.attributes"),
-            ],
         ];
     }
 }
