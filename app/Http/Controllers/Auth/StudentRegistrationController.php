@@ -25,6 +25,6 @@ class StudentRegistrationController extends Controller
 
         Mail::to($user->email)->queue(new StudentRegistrationMail($user));
 
-        return redirect()->route("login");
+        return redirect()->route("verification.waiting")->with("email", $user->email);
     }
 }

@@ -24,6 +24,8 @@ Route::post("/register/university", UniversityRegistrationController::class)
 Route::get("/register/student", fn(): Response => inertia("Auth/RegisterStudent"))->name("register.student.show");
 Route::post("/register/student", StudentRegistrationController::class)->name("register.student");
 
+Route::get("/email/verify/waiting", fn(): Response => inertia("Auth/EmailVerificationWaiting"))->name("verification.waiting");
+
 Route::get("/login", [LoginController::class, "show"])->name("login");
 Route::post("/login", [LoginController::class, "store"])->name("login.store");
 
