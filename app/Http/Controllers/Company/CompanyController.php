@@ -25,7 +25,7 @@ class CompanyController extends Controller
 
     public function verificationPending(): Response
     {
-        return inertia("Company/VerificationPending", [
+        return inertia("Auth/VerificationPending", [
             "user" => Auth::user(),
         ]);
     }

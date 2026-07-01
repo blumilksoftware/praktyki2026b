@@ -14,6 +14,11 @@ function logout() {
 <template>
   <Head :title="t('pending.title')" />
 
+  <header
+    class="top-4 left-4 z-10 absolute bg-radial from-slate-600/45 to-slate-600/25 shadow-slate-900/40 shadow-xl px-10 py-4 rounded-full"
+  >
+    <img src="/logo_text.svg" alt="Applikuj" class="w-auto h-8 md:h-10">
+  </header>
   <header class="top-4 right-4 z-10 absolute shadow p-2 rounded-lg" aria-label="Language selection">
     <LanguageDropdown :mobile="true" variant="light" />
   </header>
@@ -36,7 +41,7 @@ function logout() {
         </p>
 
         <p class="text-slate-500 text-base text-center leading-7">
-          {{ t('pending.contact', { email: 'support@example.com' }) }}
+          {{ t('pending.contact', { email: $page.props.support_email }) }}
         </p>
 
         <button
@@ -51,3 +56,5 @@ function logout() {
     </section>
   </main>
 </template>
+
+
