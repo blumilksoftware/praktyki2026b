@@ -9,6 +9,8 @@ use App\Models\Application;
 use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class ApplyToOfferAction
@@ -55,10 +57,21 @@ class ApplyToOfferAction
                 ]);
             }
 
+            $disk = config("filesystems.default", "local");
+            $extension = pathinfo($student->cv_path, PATHINFO_EXTENSION) ?: "pdf";
+            $newPath = "applications/cvs/" . Str::random(40) . "." . $extension;
+
+            $copied = false;
+
+            if (Storage::disk($disk)->exists($student->cv_path)) {
+                $copied = Storage::disk($disk)->copy($student->cv_path, $newPath);
+            }
+
             return Application::create([
                 "offer_id" => $offer->id,
                 "student_id" => $student->id,
                 "status" => ApplicationStatus::Pending,
+                "cv_path" => $copied ? $newPath : null,
             ]);
         });
     }

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
@@ -20,6 +21,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->group(function (): void {
         Route::get("/dashboard", [CompanyController::class, "index"])->name("company.dashboard");
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
+        Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
