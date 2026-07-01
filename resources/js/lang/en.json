@@ -79,17 +79,7 @@
         "university": "University",
         "company": "Company",
         "student": "Student"
-      },
-      "validation": {
-        "firstNameRequired": "First name is required.",
-        "lastNameRequired": "Last name is required.",
-        "emailRequired": "E-mail address is required.",
-        "emailInvalid": "Enter a valid e-mail address.",
-        "passwordRequired": "Password is required.",
-        "passwordConfirmationRequired": "Password confirmation is required.",
-        "passwordConfirmationMismatch": "Passwords must match.",
-        "termsRequired": "You must accept the terms and conditions."
-      } 
+      }
     }
   },
   "table": {

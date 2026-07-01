@@ -48,7 +48,7 @@
     },
     "register": {
       "title": "Rejestracja",
-      "heading": "Dołacz do nas!",
+      "heading": "Dołącz do nas!",
       "firstName": "Imię",
       "lastName": "Nazwisko",
       "email": "E-mail",
@@ -68,16 +68,6 @@
         "university": "Uczelnia",
         "company": "Firma",
         "student": "Student"
-      },
-      "validation": {
-        "firstNameRequired": "Imię jest wymagane.",
-        "lastNameRequired": "Nazwisko jest wymagane.",
-        "emailRequired": "Adres e-mail jest wymagany.",
-        "emailInvalid": "Podaj prawidłowy adres e-mail.",
-        "passwordRequired": "Hasło jest wymagane.",
-        "passwordConfirmationRequired": "Potwierdzenie hasła jest wymagane.",
-        "passwordConfirmationMismatch": "Hasła muszą być takie same.",
-        "termsRequired": "Musisz zaakceptować regulamin."
       }
     }
   },
