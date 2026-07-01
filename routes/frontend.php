@@ -21,6 +21,12 @@ Route::middleware(["auth"])
         Route::get("/verification/pending", [CompanyController::class, "verificationPending"])->name("company.verification.pending");
     });
 
+Route::middleware(["auth"])
+    ->prefix("university")
+    ->group(function (): void {
+        Route::get("/verification/pending", [UniversityController::class, "verificationPending"])->name("university.verification.pending");
+    });
+
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
     ->group(function (): void {
