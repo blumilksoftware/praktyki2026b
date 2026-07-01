@@ -5,31 +5,6 @@ import RegisterCompany from '@/Pages/Auth/RegisterCompany.vue'
 import { ROUTES } from '@/Helpers/routes'
 import en from '@/lang/en.json'
 
-const validation = {
-  messages: {
-    required: 'The :attribute field is required.',
-    email: 'The :attribute field must be a valid email address.',
-    confirmed: 'The :attribute field confirmation does not match.',
-    accepted: 'The :attribute field must be accepted.',
-    nip: 'The :attribute field must be a valid NIP number.',
-    url: 'The :attribute field must be a valid URL.',
-  },
-  attributes: {
-    company_name: 'company name',
-    nip: 'NIP',
-    email: 'email address',
-    password: 'password',
-    password_confirmation: 'password confirmation',
-    street: 'street',
-    building_number: 'building number',
-    postal_code: 'postal code',
-    city: 'city',
-    phone: 'phone number',
-    website: 'website',
-    terms: 'terms',
-  },
-}
-
 const i18n = createI18n({
   legacy: false,
   locale: 'en',
@@ -51,9 +26,6 @@ vi.mock('@inertiajs/vue3', async () => {
       props: ['href'],
       template: '<a :href="href"><slot /></a>',
     },
-    usePage: () => ({
-      props: { validation },
-    }),
     useForm: () => ({
       company_name: '',
       nip: '',
@@ -71,7 +43,6 @@ vi.mock('@inertiajs/vue3', async () => {
         return mockFormState.errors
       },
       processing: false,
-      clearErrors: vi.fn(),
       post,
     }),
   }
@@ -117,7 +88,7 @@ describe('RegisterCompany', () => {
       global: { plugins: [i18n] },
     })
 
-    expect(wrapper.find(`a[href="${ROUTES.REGISTER_STUDENT}"]`).exists()).toBe(true)
+    expect(wrapper.find(`a[href="${ROUTES.registerStudent}"]`).exists()).toBe(true)
   })
 
   it('does not render Google sign-up', () => {
@@ -125,48 +96,34 @@ describe('RegisterCompany', () => {
       global: { plugins: [i18n] },
     })
 
-    expect(wrapper.find(`a[href="${ROUTES.GOOGLE_REDIRECT}"]`).exists()).toBe(false)
+    expect(wrapper.find(`a[href="${ROUTES.googleRedirect}"]`).exists()).toBe(false)
   })
 
-  it('shows client-side validation errors for empty required fields', async () => {
+  it('submits the registration form to the backend', async () => {
     const wrapper = mount(RegisterCompany, {
       global: { plugins: [i18n] },
     })
 
     await wrapper.find('form').trigger('submit')
 
-    expect(wrapper.text()).toContain('The company name field is required.')
-    expect(wrapper.text()).toContain('The NIP field is required.')
-    expect(wrapper.text()).toContain('The email address field is required.')
-    expect(wrapper.text()).toContain('The password field is required.')
-    expect(wrapper.text()).toContain('The terms field must be accepted.')
-    expect(post).not.toHaveBeenCalled()
+    expect(post).toHaveBeenCalledWith(ROUTES.registerCompany, {
+      preserveScroll: true,
+    })
   })
 
-  it('shows inline NIP validation error for invalid checksum', async () => {
+  it('shows server-side NIP validation error next to the field', () => {
+    mockFormState.errors = { nip: 'The NIP field must be a valid NIP number.' }
+
     const wrapper = mount(RegisterCompany, {
       global: { plugins: [i18n] },
     })
 
-    await wrapper.find('#company_name').setValue('Acme Sp. z o.o.')
-    await wrapper.find('#nip').setValue('1234563219')
-    await wrapper.find('#email').setValue('company@example.com')
-    await wrapper.find('#password').setValue('Password123!')
-    await wrapper.find('#password_confirmation').setValue('Password123!')
-    await wrapper.find('#street').setValue('Flower Street')
-    await wrapper.find('#building_number').setValue('1')
-    await wrapper.find('#postal_code').setValue('00-001')
-    await wrapper.find('#city').setValue('Warsaw')
-    await wrapper.find('#phone').setValue('123456789')
-    await wrapper.find('#terms').setValue(true)
-
-    await wrapper.find('form').trigger('submit')
-
-    expect(wrapper.text()).toContain('The NIP field must be a valid NIP number.')
-    expect(post).not.toHaveBeenCalled()
+    const nipError = wrapper.find('#nip-error')
+    expect(nipError.exists()).toBe(true)
+    expect(nipError.text()).toBe('The NIP field must be a valid NIP number.')
   })
 
-  it('shows server-side NIP error next to the field', () => {
+  it('shows server-side duplicate NIP error next to the field', () => {
     mockFormState.errors = { nip: 'The NIP has already been taken.' }
 
     const wrapper = mount(RegisterCompany, {

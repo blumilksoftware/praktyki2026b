@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import AuthLayout from '@/Components/Layouts/AuthLayout.vue'
@@ -8,13 +8,9 @@ import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import RegisterAccountTypeTabs from '@/Components/Auth/RegisterAccountTypeTabs.vue'
-import { useValidationMessages } from '@/Composables/useValidationMessages'
 import { ROUTES } from '@/Helpers/routes'
-import { URL_PATTERN, validateForm } from '@/Helpers/validation'
-import { validateNip } from '@/utils/validateNip'
 
 const { t } = useI18n()
-const { message: validationMessage } = useValidationMessages()
 
 const form = useForm({
   company_name: '',
@@ -31,61 +27,10 @@ const form = useForm({
   terms: false,
 })
 
-const clientErrors = ref({})
-
-const fieldRules = {
-  company_name: [{ type: 'required' }],
-  nip: [
-    { type: 'required' },
-    {
-      type: 'custom',
-      rule: 'nip',
-      validate: (value) => typeof value === 'string' && validateNip(value),
-    },
-  ],
-  email: [{ type: 'required' }, { type: 'email' }],
-  password: [{ type: 'required' }],
-  password_confirmation: [{ type: 'required' }, { type: 'confirmed', field: 'password' }],
-  street: [{ type: 'required' }],
-  building_number: [{ type: 'required' }],
-  postal_code: [{ type: 'required' }],
-  city: [{ type: 'required' }],
-  phone: [{ type: 'required' }],
-  website: [
-    {
-      type: 'custom',
-      rule: 'url',
-      validate: (value) => {
-        if (typeof value !== 'string' || !value.trim()) {
-          return true
-        }
-
-        return URL_PATTERN.test(value.trim())
-      },
-    },
-  ],
-  terms: [{ type: 'accepted' }],
-}
-
-const validate = () => {
-  const errors = validateForm(form, fieldRules, validationMessage)
-  clientErrors.value = errors
-  return Object.keys(errors).length === 0
-}
-
-const fieldError = (field) => {
-  return clientErrors.value[field] ?? form.errors[field]
-}
+const fieldError = (field) => form.errors[field]
 
 const submit = () => {
-  form.clearErrors()
-  clientErrors.value = {}
-
-  if (!validate()) {
-    return
-  }
-
-  form.post(ROUTES.REGISTER_COMPANY, {
+  form.post(ROUTES.registerCompany, {
     preserveScroll: true,
   })
 }
@@ -245,7 +190,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
         <p class="text-center text-sm font-medium">
           {{ t('auth.register.hasAccount') }}
           <Link
-            :href="ROUTES.LOGIN"
+            :href="ROUTES.login"
             class="text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
             {{ t('auth.register.loginLink') }}

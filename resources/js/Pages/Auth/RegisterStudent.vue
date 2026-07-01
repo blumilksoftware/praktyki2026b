@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import AuthLayout from '@/Components/Layouts/AuthLayout.vue'
@@ -9,12 +9,9 @@ import BaseInput from '@/Components/Base/BaseInput.vue'
 import GoogleSvg from '@/Components/Common/GoogleSvg.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import RegisterAccountTypeTabs from '@/Components/Auth/RegisterAccountTypeTabs.vue'
-import { useValidationMessages } from '@/Composables/useValidationMessages'
 import { ROUTES } from '@/Helpers/routes'
-import { validateForm } from '@/Helpers/validation'
 
 const { t } = useI18n()
-const { message: validationMessage } = useValidationMessages()
 
 const form = useForm({
   first_name: '',
@@ -25,34 +22,15 @@ const form = useForm({
   university: '',
   terms: false,
 })
-const clientErrors = ref({})
 
-const fieldRules = {
-  first_name: [{ type: 'required' }],
-  last_name: [{ type: 'required' }],
-  email: [{ type: 'required' }, { type: 'email' }],
-  password: [{ type: 'required' }],
-  password_confirmation: [{ type: 'required' }, { type: 'confirmed', field: 'password' }],
-  terms: [{ type: 'accepted' }],
-}
+const fieldError = (field) => form.errors[field]
 
-const validate = () => {
-  const errors = validateForm(form, fieldRules, validationMessage)
-  clientErrors.value = errors
-  return Object.keys(errors).length === 0
-}
-const fieldError = (field) => {
-  return clientErrors.value[field] ?? form.errors[field]
-}
 const submit = () => {
-  form.clearErrors()
-  if (!validate()) {
-    return
-  }
-  form.post(ROUTES.REGISTER_STUDENT, {
+  form.post(ROUTES.registerStudent, {
     preserveScroll: true,
   })
 }
+
 const hasTermsError = computed(() => Boolean(fieldError('terms')))
 </script>
 
@@ -165,7 +143,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
         </div>
 
         <a
-          :href="ROUTES.GOOGLE_REDIRECT"
+          :href="ROUTES.googleRedirect"
           class="mx-auto inline-flex items-center justify-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-medium text-text shadow-sm transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         >
           <GoogleSvg />
@@ -177,7 +155,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
         <p class="text-center text-sm font-medium">
           {{ t('auth.register.hasAccount') }}
           <Link
-            :href="ROUTES.LOGIN"
+            :href="ROUTES.login"
             class="text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
             {{ t('auth.register.loginLink') }}
