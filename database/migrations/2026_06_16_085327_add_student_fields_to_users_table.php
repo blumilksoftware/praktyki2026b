@@ -17,13 +17,14 @@ return new class() extends Migration {
             $table->timestamp("terms_accepted_at")->nullable();
             $table->string("university")->nullable();
             $table->string("cv_path")->nullable();
+            $table->timestamp("onboarding_dismissed_at")->nullable();
         });
     }
 
     public function down(): void
     {
         Schema::table("users", function (Blueprint $table): void {
-            $table->dropColumn(["first_name", "last_name", "role", "terms_accepted_at", "university", "cv_path"]);
+            $table->dropColumn(["first_name", "last_name", "role", "terms_accepted_at", "university", "cv_path", "onboarding_dismissed_at"]);
             $table->string("name");
         });
     }

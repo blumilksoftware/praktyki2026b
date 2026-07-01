@@ -1,4 +1,25 @@
 {
+  "onboarding": {
+    "banner": {
+      "title": "Uzupełnij swój profil",
+      "description": "Wypełnij dane profilu, aby w pełni korzystać z Applikuj.",
+      "action": "Przejdź do profilu",
+      "dismiss": "Zamknij"
+    },
+    "progress": {
+      "title": "Uzupełnienie profilu",
+      "complete": "Twój profil jest kompletny!",
+      "nextStep": "Kolejny krok: {step}"
+    },
+    "steps": {
+      "university": "Uczelnia",
+      "cv": "CV",
+      "logo": "Logo",
+      "description": "Opis",
+      "tags": "Tagi",
+      "externalFormUrl": "URL formularza rekrutacyjnego"
+    }
+  },
   "auth": {
     "verification": {
       "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
