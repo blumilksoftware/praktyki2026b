@@ -149,7 +149,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             </BaseCheckbox>
             <p
               v-if="hasTermsError"
-              class="mt-1 text-sm text-red-600"
+              class="mt-1 text-sm text-error"
               role="alert"
             >
               {{ fieldError('terms') }}

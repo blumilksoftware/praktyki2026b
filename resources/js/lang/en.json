@@ -56,7 +56,6 @@
     "layout": {
       "skipToContent": "Skip to content"
     },
-    
     "register": {
       "title": "Registration",
       "heading": "Join us!",
@@ -81,35 +80,35 @@
         "student": "Student"
       },
       "company": {
-    "title": "Company registration",
-    "companyName": "Company name",
-    "nip": "NIP",
-    "postalCode": "Postal code",
-    "city": "City",
-    "street": "Street",
-    "buildingNumber": "Building number",
-    "phone": "Phone number",
-    "website": "Company website (optional)"
-  },
+        "title": "Company registration",
+        "companyName": "Company name",
+        "nip": "NIP",
+        "postalCode": "Postal code",
+        "city": "City",
+        "street": "Street",
+        "buildingNumber": "Building number",
+        "phone": "Phone number",
+        "website": "Company website (optional)"
+      },
       "validation": {
         "firstNameRequired": "First name is required.",
-    "lastNameRequired": "Last name is required.",
-    "emailRequired": "E-mail address is required.",
-    "emailInvalid": "Enter a valid e-mail address.",
-    "passwordRequired": "Password is required.",
-    "passwordConfirmationRequired": "Password confirmation is required.",
-    "passwordConfirmationMismatch": "Passwords must match.",
-    "termsRequired": "You must accept the terms and conditions.",
-    "companyNameRequired": "Company name is required.",
-    "nipRequired": "NIP is required.",
-    "nipInvalid": "Enter a valid NIP number.",
-    "streetRequired": "Street is required.",
-    "buildingNumberRequired": "Building number is required.",
-    "postalCodeRequired": "Postal code is required.",
-    "cityRequired": "City is required.",
-    "phoneRequired": "Phone number is required.",
-    "websiteInvalid": "Enter a valid URL (e.g. https://company.com)."
-      } 
+        "lastNameRequired": "Last name is required.",
+        "emailRequired": "E-mail address is required.",
+        "emailInvalid": "Enter a valid e-mail address.",
+        "passwordRequired": "Password is required.",
+        "passwordConfirmationRequired": "Password confirmation is required.",
+        "passwordConfirmationMismatch": "Passwords must match.",
+        "termsRequired": "You must accept the terms and conditions.",
+        "companyNameRequired": "Company name is required.",
+        "nipRequired": "NIP is required.",
+        "nipInvalid": "Enter a valid NIP number.",
+        "streetRequired": "Street is required.",
+        "buildingNumberRequired": "Building number is required.",
+        "postalCodeRequired": "Postal code is required.",
+        "cityRequired": "City is required.",
+        "phoneRequired": "Phone number is required.",
+        "websiteInvalid": "Enter a valid URL (e.g. https://company.com)."
+      }
     }
   },
   "table": {

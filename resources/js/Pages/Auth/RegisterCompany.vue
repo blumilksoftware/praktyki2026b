@@ -161,7 +161,6 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             :error="fieldError('password_confirmation')"
           />
 
-          <!-- Figma: kod pocztowy + miejscowość w jednym rzędzie -->
           <div class="grid grid-cols-1 gap-4 md:grid-cols-[1fr_2fr]">
             <BaseInput
               id="postal_code"
@@ -181,7 +180,6 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             />
           </div>
 
-          <!-- Figma: ulica + numer budynku (backend wymaga obu) -->
           <div class="grid grid-cols-1 gap-4 md:grid-cols-[2fr_1fr]">
             <BaseInput
               id="street"
@@ -234,7 +232,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             </BaseCheckbox>
             <p
               v-if="hasTermsError"
-              class="mt-1 text-sm text-red-600"
+              class="mt-1 text-sm text-error"
               role="alert"
             >
               {{ fieldError('terms') }}
