@@ -14,17 +14,15 @@ function logout() {
 <template>
   <Head :title="t('pending.title')" />
 
-  <header
-    class="top-4 left-4 z-10 absolute bg-radial from-slate-600/45 to-slate-600/25 shadow-slate-900/40 shadow-xl px-10 py-4 rounded-full"
-  >
-    <img src="/logo_text.svg" alt="Applikuj" class="w-auto h-8 md:h-10">
-  </header>
   <header class="top-4 right-4 z-10 absolute shadow p-2 rounded-lg" aria-label="Language selection">
     <LanguageDropdown :mobile="true" variant="light" />
   </header>
 
-  <main class="flex justify-center items-center bg-slate-50 px-6 min-h-screen" role="main">
+  <main class="flex flex-col justify-center items-center bg-slate-50 px-6 py-16 min-h-screen" role="main">
     <section class="bg-white shadow-sm p-8 md:p-12 rounded-2xl w-full max-w-3xl" aria-labelledby="pending-title">
+      <div class="flex justify-center items-centerp-4 rounded-lg w-full">
+        <img src="/logo.svg" alt="Applikuj" class="mb-8 w-auto h-10 md:h-12">
+      </div>
       <div class="space-y-8">
         <h1 id="pending-title" class="font-semibold text-slate-900 text-4xl text-center">
           {{ t('pending.title') }}
