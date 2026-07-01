@@ -2,7 +2,33 @@ import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createI18n } from 'vue-i18n'
 import RegisterCompany from '@/Pages/Auth/RegisterCompany.vue'
+import { ROUTES } from '@/Helpers/routes'
 import en from '@/lang/en.json'
+
+const validation = {
+  messages: {
+    required: 'The :attribute field is required.',
+    email: 'The :attribute field must be a valid email address.',
+    confirmed: 'The :attribute field confirmation does not match.',
+    accepted: 'The :attribute field must be accepted.',
+    nip: 'The :attribute field must be a valid NIP number.',
+    url: 'The :attribute field must be a valid URL.',
+  },
+  attributes: {
+    company_name: 'company name',
+    nip: 'NIP',
+    email: 'email address',
+    password: 'password',
+    password_confirmation: 'password confirmation',
+    street: 'street',
+    building_number: 'building number',
+    postal_code: 'postal code',
+    city: 'city',
+    phone: 'phone number',
+    website: 'website',
+    terms: 'terms',
+  },
+}
 
 const i18n = createI18n({
   legacy: false,
@@ -25,6 +51,9 @@ vi.mock('@inertiajs/vue3', async () => {
       props: ['href'],
       template: '<a :href="href"><slot /></a>',
     },
+    usePage: () => ({
+      props: { validation },
+    }),
     useForm: () => ({
       company_name: '',
       nip: '',
@@ -88,7 +117,7 @@ describe('RegisterCompany', () => {
       global: { plugins: [i18n] },
     })
 
-    expect(wrapper.find('a[href="/register/student"]').exists()).toBe(true)
+    expect(wrapper.find(`a[href="${ROUTES.REGISTER_STUDENT}"]`).exists()).toBe(true)
   })
 
   it('does not render Google sign-up', () => {
@@ -96,7 +125,7 @@ describe('RegisterCompany', () => {
       global: { plugins: [i18n] },
     })
 
-    expect(wrapper.find('a[href="/auth/google/redirect"]').exists()).toBe(false)
+    expect(wrapper.find(`a[href="${ROUTES.GOOGLE_REDIRECT}"]`).exists()).toBe(false)
   })
 
   it('shows client-side validation errors for empty required fields', async () => {
@@ -106,11 +135,11 @@ describe('RegisterCompany', () => {
 
     await wrapper.find('form').trigger('submit')
 
-    expect(wrapper.text()).toContain('Company name is required.')
-    expect(wrapper.text()).toContain('NIP is required.')
-    expect(wrapper.text()).toContain('E-mail address is required.')
-    expect(wrapper.text()).toContain('Password is required.')
-    expect(wrapper.text()).toContain('You must accept the terms and conditions.')
+    expect(wrapper.text()).toContain('The company name field is required.')
+    expect(wrapper.text()).toContain('The NIP field is required.')
+    expect(wrapper.text()).toContain('The email address field is required.')
+    expect(wrapper.text()).toContain('The password field is required.')
+    expect(wrapper.text()).toContain('The terms field must be accepted.')
     expect(post).not.toHaveBeenCalled()
   })
 
@@ -133,7 +162,7 @@ describe('RegisterCompany', () => {
 
     await wrapper.find('form').trigger('submit')
 
-    expect(wrapper.text()).toContain('Enter a valid NIP number.')
+    expect(wrapper.text()).toContain('The NIP field must be a valid NIP number.')
     expect(post).not.toHaveBeenCalled()
   })
 

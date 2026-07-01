@@ -8,9 +8,13 @@ import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import RegisterAccountTypeTabs from '@/Components/Auth/RegisterAccountTypeTabs.vue'
+import { useValidationMessages } from '@/Composables/useValidationMessages'
+import { ROUTES } from '@/Helpers/routes'
+import { URL_PATTERN, validateForm } from '@/Helpers/validation'
 import { validateNip } from '@/utils/validateNip'
 
 const { t } = useI18n()
+const { message: validationMessage } = useValidationMessages()
 
 const form = useForm({
   company_name: '',
@@ -28,55 +32,43 @@ const form = useForm({
 })
 
 const clientErrors = ref({})
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const urlPattern = /^https?:\/\/.+/i
+
+const fieldRules = {
+  company_name: [{ type: 'required' }],
+  nip: [
+    { type: 'required' },
+    {
+      type: 'custom',
+      rule: 'nip',
+      validate: (value) => typeof value === 'string' && validateNip(value),
+    },
+  ],
+  email: [{ type: 'required' }, { type: 'email' }],
+  password: [{ type: 'required' }],
+  password_confirmation: [{ type: 'required' }, { type: 'confirmed', field: 'password' }],
+  street: [{ type: 'required' }],
+  building_number: [{ type: 'required' }],
+  postal_code: [{ type: 'required' }],
+  city: [{ type: 'required' }],
+  phone: [{ type: 'required' }],
+  website: [
+    {
+      type: 'custom',
+      rule: 'url',
+      validate: (value) => {
+        if (typeof value !== 'string' || !value.trim()) {
+          return true
+        }
+
+        return URL_PATTERN.test(value.trim())
+      },
+    },
+  ],
+  terms: [{ type: 'accepted' }],
+}
 
 const validate = () => {
-  const errors = {}
-
-  if (!form.company_name.trim()) {
-    errors.company_name = t('auth.register.validation.companyNameRequired')
-  }
-  if (!form.nip.trim()) {
-    errors.nip = t('auth.register.validation.nipRequired')
-  } else if (!validateNip(form.nip)) {
-    errors.nip = t('auth.register.validation.nipInvalid')
-  }
-  if (!form.email.trim()) {
-    errors.email = t('auth.register.validation.emailRequired')
-  } else if (!emailPattern.test(form.email)) {
-    errors.email = t('auth.register.validation.emailInvalid')
-  }
-  if (!form.password) {
-    errors.password = t('auth.register.validation.passwordRequired')
-  }
-  if (!form.password_confirmation) {
-    errors.password_confirmation = t('auth.register.validation.passwordConfirmationRequired')
-  } else if (form.password !== form.password_confirmation) {
-    errors.password_confirmation = t('auth.register.validation.passwordConfirmationMismatch')
-  }
-  if (!form.street.trim()) {
-    errors.street = t('auth.register.validation.streetRequired')
-  }
-  if (!form.building_number.trim()) {
-    errors.building_number = t('auth.register.validation.buildingNumberRequired')
-  }
-  if (!form.postal_code.trim()) {
-    errors.postal_code = t('auth.register.validation.postalCodeRequired')
-  }
-  if (!form.city.trim()) {
-    errors.city = t('auth.register.validation.cityRequired')
-  }
-  if (!form.phone.trim()) {
-    errors.phone = t('auth.register.validation.phoneRequired')
-  }
-  if (form.website.trim() && !urlPattern.test(form.website.trim())) {
-    errors.website = t('auth.register.validation.websiteInvalid')
-  }
-  if (!form.terms) {
-    errors.terms = t('auth.register.validation.termsRequired')
-  }
-
+  const errors = validateForm(form, fieldRules, validationMessage)
   clientErrors.value = errors
   return Object.keys(errors).length === 0
 }
@@ -93,7 +85,7 @@ const submit = () => {
     return
   }
 
-  form.post('/register/company', {
+  form.post(ROUTES.REGISTER_COMPANY, {
     preserveScroll: true,
   })
 }
@@ -241,7 +233,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
 
           <BaseButton
             type="submit"
-            class="mx-auto mt-1 w-fit px-12 py-3 text-sm sm:text-base"
+            class="mx-auto mt-1 w-fit px-12 py-3 text-base sm:text-lg font-medium"
             :disabled="form.processing"
           >
             {{ t('auth.register.submit') }}
@@ -253,7 +245,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
         <p class="text-center text-sm font-medium">
           {{ t('auth.register.hasAccount') }}
           <Link
-            href="/login"
+            :href="ROUTES.LOGIN"
             class="text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
             {{ t('auth.register.loginLink') }}

@@ -12,6 +12,7 @@ return [
         "email" => "email address",
         "domain" => "domain",
         "password" => "password",
+        "password_confirmation" => "password confirmation",
         "first_name" => "first name",
         "last_name" => "last name",
         "university" => "university",

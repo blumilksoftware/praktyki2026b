@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
+import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   activeTab: {
@@ -23,38 +24,29 @@ const tabs = computed(() => [
   {
     key: 'company',
     label: t('auth.register.accountTypeTabs.company'),
-    href: '/register/company',
+    href: ROUTES.REGISTER_COMPANY,
   },
   {
     key: 'student',
     label: t('auth.register.accountTypeTabs.student'),
-    href: '/register/student',
+    href: ROUTES.REGISTER_STUDENT,
   },
 ])
 
-function tabClass(key, index) {
+function tabClass(key, disabled = false) {
   const isActive = props.activeTab === key
-  const isFirst = index === 0
-  const isLast = index === tabs.value.length - 1
-  const isMiddle = !isFirst && !isLast
+  const base =
+    'block flex-1 px-2 py-3 text-center text-sm sm:text-base border-b-2 -mb-px transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40'
 
-  const base = 'block w-full px-2 py-3 text-center'
-
-  if (isActive) {
-    return [
-      base,
-      'bg-white font-semibold text-secondary ring-1 ring-inset ring-secondary',
-      isFirst && 'rounded-l-lg',
-      isLast && 'rounded-r-lg',
-      isMiddle && 'border-x border-border',
-    ].filter(Boolean)
+  if (disabled) {
+    return [base, 'cursor-not-allowed border-transparent text-additional/50']
   }
 
-  return [
-    base,
-    'bg-background text-text transition hover:bg-background/80',
-    isMiddle && 'border-x border-border',
-  ].filter(Boolean)
+  if (isActive) {
+    return [base, 'border-secondary font-semibold text-secondary']
+  }
+
+  return [base, 'border-transparent text-additional hover:border-border hover:text-text']
 }
 </script>
 
@@ -62,23 +54,23 @@ function tabClass(key, index) {
   <div class="space-y-3">
     <p
       id="account-type-label"
-      class="text-center text-sm font-medium text-additional"
+      class="text-center text-base font-medium text-text sm:text-lg"
     >
       {{ t('auth.register.accountTypeTabs.label') }}
     </p>
 
     <div
       role="tablist"
-      class="grid grid-cols-3 overflow-hidden rounded-lg border border-border text-sm sm:text-base"
+      class="flex border-b border-border"
       :aria-label="t('auth.register.accountTypeTabs.ariaLabel')"
       aria-labelledby="account-type-label"
     >
-      <template v-for="(tab, index) in tabs" :key="tab.key">
+      <template v-for="tab in tabs" :key="tab.key">
         <button
           v-if="tab.disabled"
           type="button"
           role="tab"
-          :class="tabClass(tab.key, index)"
+          :class="tabClass(tab.key, true)"
           aria-disabled="true"
         >
           {{ tab.label }}
@@ -88,7 +80,7 @@ function tabClass(key, index) {
           v-else-if="activeTab === tab.key"
           type="button"
           role="tab"
-          :class="tabClass(tab.key, index)"
+          :class="tabClass(tab.key)"
           aria-selected="true"
           aria-current="page"
         >
@@ -99,7 +91,7 @@ function tabClass(key, index) {
           v-else
           role="tab"
           :href="tab.href"
-          :class="tabClass(tab.key, index)"
+          :class="tabClass(tab.key)"
           aria-selected="false"
         >
           {{ tab.label }}

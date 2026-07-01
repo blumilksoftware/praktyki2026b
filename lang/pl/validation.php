@@ -156,6 +156,7 @@ return [
         "email" => "adres e-mail",
         "domain" => "domena",
         "password" => "hasło",
+        "password_confirmation" => "potwierdzenie hasła",
         "first_name" => "imię",
         "last_name" => "nazwisko",
         "university" => "uczelnia",

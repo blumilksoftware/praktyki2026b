@@ -79,25 +79,6 @@
         "buildingNumber": "Numer budynku",
         "phone": "Numer telefonu",
         "website": "Link do strony firmy (opcjonalnie)"
-      },
-      "validation": {
-        "firstNameRequired": "Imię jest wymagane.",
-        "lastNameRequired": "Nazwisko jest wymagane.",
-        "emailRequired": "Adres e-mail jest wymagany.",
-        "emailInvalid": "Podaj prawidłowy adres e-mail.",
-        "passwordRequired": "Hasło jest wymagane.",
-        "passwordConfirmationRequired": "Potwierdzenie hasła jest wymagane.",
-        "passwordConfirmationMismatch": "Hasła muszą być takie same.",
-        "termsRequired": "Musisz zaakceptować regulamin.",
-        "companyNameRequired": "Nazwa firmy jest wymagana.",
-        "nipRequired": "NIP jest wymagany.",
-        "nipInvalid": "Podaj prawidłowy numer NIP.",
-        "streetRequired": "Ulica jest wymagana.",
-        "buildingNumberRequired": "Numer budynku jest wymagany.",
-        "postalCodeRequired": "Kod pocztowy jest wymagany.",
-        "cityRequired": "Miejscowość jest wymagana.",
-        "phoneRequired": "Numer telefonu jest wymagany.",
-        "websiteInvalid": "Podaj prawidłowy adres URL (np. https://firma.pl)."
       }
     }
   },
