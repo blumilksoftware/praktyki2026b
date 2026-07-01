@@ -35,11 +35,11 @@ class LoginController extends Controller
 
         $user = Auth::user();
         $redirectUrl = match ($user->role) {
-            UserRole::CompanyAdmin => route('company.dashboard'),
-            UserRole::UniversityAdmin => route('university.dashboard'),
-            UserRole::SuperAdmin => route('admin.dashboard'),
-            UserRole::Student => '/home',
-            default => '/home',
+            UserRole::CompanyAdmin => route("company.dashboard"),
+            UserRole::UniversityAdmin => route("university.dashboard"),
+            UserRole::SuperAdmin => route("admin.dashboard"),
+            UserRole::Student => "/home",
+            default => "/home",
         };
 
         return redirect()->intended($redirectUrl);

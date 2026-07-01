@@ -25,7 +25,7 @@ class EnsureCompanyIsVerified
         }
 
         if ($user->company->verification_status !== VerificationStatus::Verified) {
-            return redirect()->route('company.verification.pending');
+            return redirect()->route("company.verification.pending");
         }
 
         return $next($request);

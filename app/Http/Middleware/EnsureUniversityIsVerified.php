@@ -25,7 +25,7 @@ class EnsureUniversityIsVerified
         }
 
         if ($user->universityOrganization->verification_status !== VerificationStatus::Verified) {
-            return redirect()->route('university.verification.pending');
+            return redirect()->route("university.verification.pending");
         }
 
         return $next($request);

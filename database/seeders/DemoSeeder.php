@@ -42,9 +42,13 @@ class DemoSeeder extends Seeder
             "email" => "pending@example.com",
         ]);
 
-        User::factory()->pendingCompanyAdmin()->create([
+        User::factory()->create([
             "email" => "company-pending@example.com",
+            "role" => UserRole::CompanyAdmin,
+            "status" => UserStatus::Active,
             "organization_id" => $pendingCompany->id,
+            "first_name" => null,
+            "last_name" => null,
         ]);
 
         User::factory()->create([
@@ -75,9 +79,13 @@ class DemoSeeder extends Seeder
             "domain" => "pending-university.example.com",
         ]);
 
-        User::factory()->pendingUniversityAdmin()->create([
+        User::factory()->create([
             "email" => "university-pending@example.com",
+            "role" => UserRole::UniversityAdmin,
+            "status" => UserStatus::Active,
             "organization_id" => $pendingUniversity->id,
+            "first_name" => null,
+            "last_name" => null,
         ]);
 
         Company::factory()->count(30)->create()->each(function ($company): void {
