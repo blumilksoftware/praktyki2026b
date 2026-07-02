@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import LanguageDropdown from '@/Components/Common/LanguageDropdown.vue'
-import { router } from '@inertiajs/vue3'
-
+import { ROUTES } from '@/Helpers/routes'
 const { t } = useI18n()
 
 function logout() {
@@ -21,7 +20,9 @@ function logout() {
   <main class="flex flex-col justify-center items-center bg-slate-50 px-6 py-16 min-h-screen" role="main">
     <section class="bg-white shadow-sm p-8 md:p-12 rounded-2xl w-full max-w-3xl" aria-labelledby="pending-title">
       <div class="flex justify-center items-centerp-4 rounded-lg w-full">
-        <img src="/logo.svg" alt="Applikuj" class="mb-8 w-auto h-10 md:h-12">
+        <Link :href="ROUTES.DASHBOARD" aria-label="Go to dashboard">
+          <img src="/logo.svg" alt="Applikuj" class="mb-8 w-auto h-10 md:h-12 cursor-pointer">
+        </Link>
       </div>
       <div class="space-y-8">
         <h1 id="pending-title" class="font-semibold text-slate-900 text-4xl text-center">
