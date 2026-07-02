@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $offer_id
  * @property string $student_id
  * @property ApplicationStatus $status
+ * @property ?string $cv_path
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -28,6 +29,7 @@ class Application extends Model
         "offer_id",
         "student_id",
         "status",
+        "cv_path",
     ];
 
     public function offer(): BelongsTo

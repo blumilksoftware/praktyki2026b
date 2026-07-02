@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
@@ -36,6 +37,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
     ->group(function (): void {
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
+        Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
