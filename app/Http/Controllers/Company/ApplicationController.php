@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Application;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -22,8 +23,8 @@ class ApplicationController extends Controller
         $status = $request->query("status");
 
         $applications = $company->applications()
-            ->when($offerId, fn($query) => $query->where("offer_id", $offerId))
-            ->when($status, fn($query) => $query->where("status", $status))
+            ->when($offerId, fn(Builder $query) => $query->where("offer_id", $offerId))
+            ->when($status, fn(Builder $query) => $query->where("status", $status))
             ->with(["student", "offer"])
             ->orderBy("created_at", "desc")
             ->paginate(15)
@@ -56,6 +57,8 @@ class ApplicationController extends Controller
     public function downloadCv(Application $application): StreamedResponse
     {
         $company = Auth::user()->company;
+
+        $application->load(["offer", "student"]);
 
         if ($application->offer->company_id !== $company->id) {
             abort(403);
