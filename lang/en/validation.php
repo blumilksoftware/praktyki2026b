@@ -8,6 +8,10 @@ return [
     "domain" => "The :attribute field must be a valid domain.",
     "mime_type_by_content" => "The :attribute field must be a file of type: :values.",
     "email_taken" => "This e-mail address is already in use. Sign in or use a different address.",
+    "student_no_cv" => "You must upload your CV before applying.",
+    "already_applied" => "You have already applied for this offer.",
+    "offer_inactive" => "This offer is no longer active.",
+    "no_spots_available" => "No spots available for this offer.",
 
     "attributes" => [
         "email" => "email address",
