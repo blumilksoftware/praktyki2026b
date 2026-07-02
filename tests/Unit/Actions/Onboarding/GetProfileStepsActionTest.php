@@ -132,7 +132,7 @@ class GetProfileStepsActionTest extends TestCase
     {
         $user = User::factory()->create([
             "role" => UserRole::Student,
-            "university" => "AGH",
+            "university" => "Example university",
             "cv_path" => "cvs/test.pdf",
         ]);
 
