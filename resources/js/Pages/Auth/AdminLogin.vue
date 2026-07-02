@@ -9,6 +9,7 @@ import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
 import AuthErrorDisplay from '@/Components/Auth/AuthErrorDisplay.vue'
 import GoogleSvg from '@/Components/Common/GoogleSvg.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
+import { ROUTES } from '@/Helpers/routes'
 
 const { t } = useI18n()
 
@@ -35,9 +36,10 @@ const submit = () => {
   if (document.activeElement instanceof HTMLElement) {
     document.activeElement.blur()
   }
-  form.post('/admin/login', {
-    preserveScroll: true,
-  })
+  form.post(ROUTES.LOGIN_ADMIN,
+    {
+      preserveScroll: true,
+    })
 }
 
 const authError = computed(() => form.errors.email)
@@ -93,7 +95,7 @@ const authError = computed(() => form.errors.email)
               />
 
               <Link
-                href="/forgot-password"
+                :href="ROUTES.FORGOT_PASSWORD"
                 class="text-link hover:underline text-sm sm:text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-base whitespace-nowrap"
               >
                 {{ t('auth.login.forgotPassword') }}
@@ -118,7 +120,7 @@ const authError = computed(() => form.errors.email)
           </div>
         
           <a
-            href="/auth/google"
+            :href="ROUTES.GOOGLE_AUTH"
             class="mx-auto flex justify-center items-center gap-2 w-fit rounded-lg border border-text/20 bg-white px-12 py-3 sm:py-2.5 text-base sm:text-lg font-medium text-text hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 shadow-sm"
           >
             <GoogleSvg />

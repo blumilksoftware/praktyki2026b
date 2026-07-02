@@ -9,6 +9,7 @@ use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -19,8 +20,16 @@ class AdminLoginController extends Controller
         private readonly AuthenticateUser $authenticateUser,
     ) {}
 
-    public function show(): Response
+    public function show(): Response|RedirectResponse
     {
+        if (Auth::check()) {
+            if (Auth::user()->role === UserRole::SuperAdmin) {
+                return redirect()->route("admin.dashboard");
+            }
+
+            return redirect("/");
+        }
+
         return Inertia::render("Auth/AdminLogin");
     }
 
