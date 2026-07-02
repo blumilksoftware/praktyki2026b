@@ -26,4 +26,12 @@ class StudentRegistrationRequest extends FormRequest
             "terms" => ["required", "accepted"],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            "email.unique" => __("validation.email_taken"),
+            "email.email" => __("validation.email_invalid_friendly"),
+        ];
+    }
 }
