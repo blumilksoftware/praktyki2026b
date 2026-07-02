@@ -9,6 +9,7 @@ use App\Models\Application;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -31,7 +32,7 @@ class ApplicationController extends Controller
             ->withQueryString()
             ->through(fn(Application $app) => [
                 "id" => $app->id,
-                "student_name" => trim(($app->student->first_name ?? "") . " " . ($app->student->last_name ?? "")) ?: $app->student->email,
+                "student_name" => $app->student->fullName(),
                 "university" => $app->student->university,
                 "application_date" => $app->created_at->toIso8601String(),
                 "status" => $app->status->value,
@@ -56,13 +57,7 @@ class ApplicationController extends Controller
 
     public function downloadCv(Application $application): StreamedResponse
     {
-        $company = Auth::user()->company;
-
-        $application->load(["offer", "student"]);
-
-        if ($application->offer->company_id !== $company->id) {
-            abort(403);
-        }
+        Gate::authorize("downloadCv", $application);
 
         if (!$application->cv_path) {
             abort(404);
@@ -75,7 +70,7 @@ class ApplicationController extends Controller
         }
 
         $extension = pathinfo($application->cv_path, PATHINFO_EXTENSION) ?: "pdf";
-        $name = trim(($application->student->first_name ?? "") . "_" . ($application->student->last_name ?? ""));
+        $name = str_replace(" ", "_", $application->student->fullName());
         $filename = ($name ?: "student") . "_CV." . $extension;
 
         return Storage::disk($disk)->download($application->cv_path, $filename);
