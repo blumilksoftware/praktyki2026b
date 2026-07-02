@@ -16,6 +16,10 @@ use Inertia\Response;
 
 class LoginController extends Controller
 {
+    public function __construct(
+        private readonly AuthenticateUser $authenticateUser,
+    ) {}
+
     public function show(): Response
     {
         return Inertia::render("Auth/Login");
@@ -40,6 +44,10 @@ class LoginController extends Controller
             throw ValidationException::withMessages([
                 "email" => __("auth.verification.admin_restricted"),
             ]);
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            return redirect()->route("verification.queue");
         }
 
         $redirectUrl = match ($user->role) {
