@@ -28,7 +28,19 @@ class LoginController extends Controller
             ]);
         }
 
-        if (Auth::user()->role === UserRole::SuperAdmin) {
+        $user = Auth::user();
+
+        if (!$user->hasVerifiedEmail()) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            throw ValidationException::withMessages([
+                "email" => __("auth.verification.notVerified"),
+            ]);
+        }
+
+        if ($user->role === UserRole::SuperAdmin) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
