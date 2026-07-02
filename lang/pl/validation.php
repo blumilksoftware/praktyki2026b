@@ -151,6 +151,8 @@ return [
     "domain" => "Pole :attribute musi być prawidłową domeną.",
     "mime_type_by_content" => "Pole :attribute musi być plikiem typu: :values.",
     "university_domain_locked" => "Nie można zmienić domeny po jej ustawieniu.",
+    "email_taken" => "Ten adres e-mail jest już używany. Zaloguj się lub użyj innego adresu.",
+    "email_invalid_friendly" => "Proszę wpisać prawidłowy adres e-mail.",
 
     "attributes" => [
         "email" => "adres e-mail",

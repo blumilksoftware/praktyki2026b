@@ -7,6 +7,7 @@ return [
     "phone" => "The :attribute field must be a valid phone number.",
     "domain" => "The :attribute field must be a valid domain.",
     "mime_type_by_content" => "The :attribute field must be a file of type: :values.",
+    "email_taken" => "This e-mail address is already in use. Sign in or use a different address.",
 
     "attributes" => [
         "email" => "email address",
