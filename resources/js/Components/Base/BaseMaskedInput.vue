@@ -60,8 +60,8 @@ function handleUpdate(value) {
   <div class="flex flex-col gap-1.5 w-full pt-6">
     <div class="relative">
       <MaskInput
-        ref="maskInputRef"
         :id="id"
+        ref="maskInputRef"
         :mask="mask"
         :type="type"
         :inputmode="inputmode"
