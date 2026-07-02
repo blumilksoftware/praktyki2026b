@@ -9,6 +9,7 @@ import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
 import AuthErrorDisplay from '@/Components/Auth/AuthErrorDisplay.vue'
 import GoogleSvg from '@/Components/Common/GoogleSvg.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
+import { ROUTES } from '@/Helpers/routes'
 
 const { t } = useI18n()
 
@@ -35,7 +36,7 @@ const submit = () => {
   if (document.activeElement instanceof HTMLElement) {
     document.activeElement.blur()
   }
-  form.post('/login', {
+  form.post(ROUTES.login, {
     preserveScroll: true,
   })
 }
@@ -118,7 +119,7 @@ const authError = computed(() => form.errors.email)
           </div>
         
           <a
-            href="/auth/google"
+            :href="ROUTES.googleRedirect"
             class="mx-auto flex justify-center items-center gap-2 w-fit rounded-lg border border-text/20 bg-white px-12 py-3 sm:py-2.5 text-base sm:text-lg font-medium text-text hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 shadow-sm"
           >
             <GoogleSvg />
@@ -129,7 +130,7 @@ const authError = computed(() => form.errors.email)
 
           <div class="w-full text-center">
             <Link
-              href="/register/student"
+              :href="ROUTES.registerStudent"
               class="inline-block text-base sm:text-lg font-medium text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded whitespace-nowrap"
             >
               {{ t('auth.login.noAccount') }}
