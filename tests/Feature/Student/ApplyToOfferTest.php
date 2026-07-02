@@ -84,6 +84,11 @@ class ApplyToOfferTest extends TestCase
         $this->assertStringStartsWith("applications/cvs/", $application->cv_path);
         Storage::disk($disk)->assertExists($application->cv_path);
         $this->assertEquals("CV PDF Content", Storage::disk($disk)->get($application->cv_path));
+        $this->assertDatabaseHas("applications", [
+            "offer_id" => $offer->id,
+            "student_id" => $user->id,
+            "status" => "pending",
+        ]);
     }
 
     public function testApplyingWithoutUploadedCvIsRejected(): void
