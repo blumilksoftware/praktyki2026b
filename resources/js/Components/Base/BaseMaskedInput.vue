@@ -61,7 +61,7 @@ function handleUpdate(value) {
     <div class="relative">
       <MaskInput
         :id="id""
-        :id="id"
+        ref="maskInputRef""
         :mask="mask"
         :type="type"
         :inputmode="inputmode"
