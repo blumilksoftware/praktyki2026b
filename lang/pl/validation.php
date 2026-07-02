@@ -155,7 +155,7 @@ return [
     "email_invalid_friendly" => "Proszę wpisać prawidłowy adres e-mail.",
     "postal_code_format" => "Wpisz kod pocztowy w formacie XX-XXX.",
     "website_invalid_friendly" => "Wpisz poprawny adres strony, np. example.pl lub https://example.pl.",
-    "building_number_digits" => "Wpisz numer budynku używając samych cyfr.",
+    "building_number_format" => "Wpisz poprawny numer budynku, np. 12, 12A lub 12/4.",
     "student_no_cv" => "Musisz przesłać swoje CV przed złożeniem aplikacji.",
     "already_applied" => "Już aplikowałeś na tę ofertę.",
     "offer_inactive" => "Ta oferta nie jest już aktywna.",

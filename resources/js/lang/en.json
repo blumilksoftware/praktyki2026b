@@ -1,5 +1,5 @@
 {
- "errors": {
+  "errors": {
     "401": {
       "title": "Login required",
       "description": "You must log in to access this page."
@@ -83,13 +83,12 @@
         "title": "Company registration",
         "companyName": "Company name",
         "nip": "NIP",
-        "postalCode": "Postal code (XX-XXX)",
+        "postalCode": "Postal code",
         "city": "City",
         "street": "Street",
         "buildingNumber": "Building number",
-        "phone": "Phone number (+48 XXX XXX XXX)",
+        "phone": "Phone number",
         "website": "Company website (optional)",
-        "phoneHint": "Enter a number in the 123456789 or +48123456789 format.",
         "websiteHint": "You can enter just a domain, e.g. example.com."
       }
     }

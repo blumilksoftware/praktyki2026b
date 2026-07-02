@@ -73,13 +73,12 @@
         "title": "Rejestracja firmy",
         "companyName": "Nazwa firmy",
         "nip": "NIP",
-        "postalCode": "Kod pocztowy (XX-XXX)",
+        "postalCode": "Kod pocztowy",
         "city": "Miejscowość",
         "street": "Ulica",
         "buildingNumber": "Numer budynku",
-        "phone": "Numer telefonu (+48 XXX XXX XXX)",
+        "phone": "Numer telefonu",
         "website": "Link do strony firmy (opcjonalnie)",
-        "phoneHint": "Wpisz numer w formacie 123456789 lub +48123456789.",
         "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
       }
     }
@@ -113,7 +112,7 @@
       "buildingNumber": "Numer budynku",
       "postalCode": "Kod pocztowy",
       "description": "Opis",
-      "close" : "Zamknij",
+      "close": "Zamknij",
       "externalFormUrl": "Zewnętrzny formularz",
       "tags": "Tagi",
       "nip": "NIP",
@@ -144,7 +143,6 @@
       "closeModal": "Zamknij okno",
       "rejectReasonRequired": "Powód odrzucenia jest wymagany.",
       "rejectionReason": "Powód odrzucenia"
-
     },
     "panel": {
       "greeting": "Witaj w panelu administratora!",

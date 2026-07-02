@@ -11,7 +11,7 @@ return [
     "email_invalid_friendly" => "Please enter a valid e-mail address.",
     "postal_code_format" => "Enter a postal code in the XX-XXX format.",
     "website_invalid_friendly" => "Enter a valid website address, e.g. example.com or https://example.com.",
-    "building_number_digits" => "Enter the building number using digits only.",
+    "building_number_format" => "Enter a valid building number, e.g. 12, 12A or 12/4.",
     "student_no_cv" => "You must upload your CV before applying.",
     "already_applied" => "You have already applied for this offer.",
     "offer_inactive" => "This offer is no longer active.",

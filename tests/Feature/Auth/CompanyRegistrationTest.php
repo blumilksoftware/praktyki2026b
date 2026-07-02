@@ -116,10 +116,21 @@ class CompanyRegistrationTest extends TestCase
             ->assertSessionHasErrors("postal_code");
     }
 
-    public function testRegistrationFailsWithBuildingNumberContainingLetters(): void
+    public function testCompanyCanRegisterWithAlphanumericBuildingNumber(): void
     {
         $this->post("/register/company", $this->validPayload([
             "building_number" => "12A",
+        ]))->assertRedirect("/login");
+
+        $this->assertDatabaseHas("companies", [
+            "building_number" => "12A",
+        ]);
+    }
+
+    public function testRegistrationFailsWithInvalidBuildingNumber(): void
+    {
+        $this->post("/register/company", $this->validPayload([
+            "building_number" => "abc!!!",
         ]))->assertRedirect()
             ->assertSessionHasErrors("building_number");
     }

@@ -1,11 +1,12 @@
 <script setup>
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import AuthLayout from '@/Components/Layouts/AuthLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
+import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import RegisterAccountTypeTabs from '@/Components/Auth/RegisterAccountTypeTabs.vue'
 import { ROUTES } from '@/Helpers/routes'
@@ -29,26 +30,7 @@ const form = useForm({
 
 const fieldError = (field) => form.errors[field]
 
-watch(
-  () => form.building_number,
-  (value) => {
-    const normalized = value.replace(/\D+/g, '')
-    if (value !== normalized) {
-      form.building_number = normalized
-    }
-  },
-)
-
 const submit = () => {
-  const rawPhone = form.phone.trim().replace(/[\s-]+/g, '')
-  if (/^48\d{9}$/.test(rawPhone)) {
-    form.phone = `+${rawPhone}`
-  } else if (/^[1-9]\d{8}$/.test(rawPhone)) {
-    form.phone = `+48${rawPhone}`
-  } else {
-    form.phone = rawPhone
-  }
-
   form.post(ROUTES.registerCompany, {
     preserveScroll: true,
   })
@@ -118,11 +100,13 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           />
 
           <div class="grid grid-cols-1 gap-4 md:grid-cols-[1fr_2fr]">
-            <BaseInput
+            <BaseMaskedInput
               id="postal_code"
               v-model="form.postal_code"
-              :label="t('auth.register.company.postalCode')"
+              mask="##-###"
+              inputmode="numeric"
               autocomplete="postal-code"
+              :label="t('auth.register.company.postalCode')"
               required
               :error="fieldError('postal_code')"
             />
@@ -150,23 +134,23 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
               v-model="form.building_number"
               :label="t('auth.register.company.buildingNumber')"
               autocomplete="off"
+              :maxlength="10"
               required
               :error="fieldError('building_number')"
             />
           </div>
 
-          <BaseInput
+          <BaseMaskedInput
             id="phone"
             v-model="form.phone"
-            :label="t('auth.register.company.phone')"
+            mask="+48 ### ### ###"
             type="tel"
+            inputmode="numeric"
             autocomplete="tel"
+            :label="t('auth.register.company.phone')"
             required
             :error="fieldError('phone')"
           />
-          <p class="-mt-2 text-sm text-additional">
-            {{ t('auth.register.company.phoneHint') }}
-          </p>
           <BaseInput
             id="website"
             v-model="form.website"
