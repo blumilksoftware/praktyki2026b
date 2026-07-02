@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApplicationController extends Controller
 {
@@ -24,13 +25,13 @@ class ApplicationController extends Controller
         $status = $request->query("status");
 
         $applications = $company->applications()
-            ->when($offerId, fn(Builder $query) => $query->where("offer_id", $offerId))
-            ->when($status, fn(Builder $query) => $query->where("status", $status))
+            ->when($offerId, fn(Builder $query): Builder => $query->where("offer_id", $offerId))
+            ->when($status, fn(Builder $query): Builder => $query->where("status", $status))
             ->with(["student", "offer"])
             ->orderBy("created_at", "desc")
             ->paginate(15)
             ->withQueryString()
-            ->through(fn(Application $app) => [
+            ->through(fn(Application $app): array => [
                 "id" => $app->id,
                 "student_name" => $app->student->fullName(),
                 "university" => $app->student->university,
@@ -60,13 +61,13 @@ class ApplicationController extends Controller
         Gate::authorize("downloadCv", $application);
 
         if (!$application->cv_path) {
-            abort(404);
+            throw new NotFoundHttpException();
         }
 
         $disk = config("filesystems.default", "local");
 
         if (!Storage::disk($disk)->exists($application->cv_path)) {
-            abort(404);
+            throw new NotFoundHttpException();
         }
 
         $extension = pathinfo($application->cv_path, PATHINFO_EXTENSION) ?: "pdf";
