@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\UserRole;
 use App\Http\Middleware\EnsureUserHasRole;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -25,6 +26,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             "role" => EnsureUserHasRole::class,
         ]);
+
+        $middleware->redirectUsersTo(
+            fn(): string => auth()->user()?->role === UserRole::SuperAdmin 
+                ? route("admin.dashboard") 
+                : "/",
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->respond(function (Response $response, Throwable $_, Request $request): Response {

@@ -151,11 +151,18 @@ return [
     "domain" => "Pole :attribute musi być prawidłową domeną.",
     "mime_type_by_content" => "Pole :attribute musi być plikiem typu: :values.",
     "university_domain_locked" => "Nie można zmienić domeny po jej ustawieniu.",
+    "email_taken" => "Ten adres e-mail jest już używany. Zaloguj się lub użyj innego adresu.",
+    "email_invalid_friendly" => "Proszę wpisać prawidłowy adres e-mail.",
+    "student_no_cv" => "Musisz przesłać swoje CV przed złożeniem aplikacji.",
+    "already_applied" => "Już aplikowałeś na tę ofertę.",
+    "offer_inactive" => "Ta oferta nie jest już aktywna.",
+    "no_spots_available" => "Brak wolnych miejsc na tę ofertę.",
 
     "attributes" => [
         "email" => "adres e-mail",
         "domain" => "domena",
         "password" => "hasło",
+        "password_confirmation" => "potwierdzenie hasła",
         "first_name" => "imię",
         "last_name" => "nazwisko",
         "university" => "uczelnia",

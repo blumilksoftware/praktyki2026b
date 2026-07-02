@@ -57,6 +57,11 @@ class Company extends Model
         return $this->hasMany(User::class, "organization_id");
     }
 
+    public function offers(): HasMany
+    {
+        return $this->hasMany(Offer::class);
+    }
+
     public function scopeNeedingVerification($query)
     {
         return $query->where("verification_status", VerificationStatus::Pending);

@@ -6,5 +6,7 @@ return [
     "failed" => "The provided credentials are incorrect.",
     "verification" => [
         "not_verified" => "Your email address has not been verified.",
+        "not_admin" => "This account does not have administrator privileges.",
+        "admin_restricted" => "Please use the admin login page.",
     ],
 ];

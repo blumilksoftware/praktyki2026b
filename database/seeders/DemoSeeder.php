@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\ApplicationStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Models\Application;
 use App\Models\Company;
+use App\Models\Offer;
 use App\Models\University;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -107,5 +110,31 @@ class DemoSeeder extends Seeder
                 "last_name" => null,
             ]);
         });
+
+        $offers = Offer::factory()->count(4)->create([
+            "company_id" => $approvedCompany->id,
+            "spots" => 5,
+        ]);
+
+        $statuses = [
+            ApplicationStatus::Pending,
+            ApplicationStatus::Reviewed,
+            ApplicationStatus::Accepted,
+            ApplicationStatus::Rejected,
+        ];
+
+        foreach ($statuses as $index => $status) {
+            $student = User::factory()->create([
+                "role" => UserRole::Student,
+                "status" => UserStatus::Active,
+                "cv_path" => "cvs/demo_cv_" . $index . ".pdf",
+            ]);
+
+            Application::factory()->create([
+                "offer_id" => $offers[$index]->id,
+                "student_id" => $student->id,
+                "status" => $status,
+            ]);
+        }
     }
 }

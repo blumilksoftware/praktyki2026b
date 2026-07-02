@@ -27,6 +27,7 @@
     },
     "login": {
       "title": "Logowanie",
+      "adminTitle": "Logowanie do panelu administratora",
       "heading": "Witaj ponownie!",
       "email": "E-mail",
       "password": "Hasło",
@@ -48,20 +49,27 @@
     },
     "register": {
       "title": "Rejestracja",
-      "heading": "Zarejestruj się",
+      "heading": "Dołącz do nas!",
       "firstName": "Imię",
       "lastName": "Nazwisko",
       "email": "E-mail",
       "password": "Hasło",
       "passwordConfirmation": "Powtórz hasło",
       "university": "Uczelnia (opcjonalnie)",
-      "termsPrefix": "Akceptuję",
-      "termsLink": "regulamin",
+      "termsPrefix": "Oświadczam, że zapoznałem się z",
+      "termsLink": "warunkami regulaminu",
       "submit": "Zarejestruj się",
-      "google": "Zarejestruj się przy pomocy Google",
-      "or": "lub",
+      "google": "Google",
+      "or": "lub kontynuuj z",
       "hasAccount": "Masz już konto?",
-      "loginLink": "Zaloguj się"
+      "loginLink": "Zaloguj się",
+      "accountTypeTabs": {
+        "label": "Zarejestruj się jako",
+        "ariaLabel": "Wybór typu konta",
+        "university": "Uczelnia",
+        "company": "Firma",
+        "student": "Student"
+      }
     }
   },
   "table": {
