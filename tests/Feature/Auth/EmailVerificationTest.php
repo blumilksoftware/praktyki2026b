@@ -228,7 +228,7 @@ class EmailVerificationTest extends TestCase
             "nip" => "6412502926",
             "email" => "company@example.com",
             "street" => "Street",
-            "building_number" => "1A",
+            "building_number" => "1",
             "postal_code" => "00-111",
             "city" => "City",
             "phone" => "123456789",

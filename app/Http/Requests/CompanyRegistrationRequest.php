@@ -45,36 +45,6 @@ class CompanyRegistrationRequest extends FormRequest
         ];
     }
 
-    protected function prepareForValidation(): void
-    {
-        $postalCode = preg_replace("/\s+/", "", (string)$this->input("postal_code"));
-        if (preg_match("/^\d{5}$/", $postalCode) === 1) {
-            $postalCode = substr($postalCode, 0, 2) . "-" . substr($postalCode, 2);
-        }
-
-        $phone = preg_replace("/[\s-]+/", "", (string)$this->input("phone"));
-        if (str_starts_with($phone, "0048")) {
-            $phone = "+" . substr($phone, 2);
-        }
-        if (preg_match("/^48\d{9}$/", $phone) === 1) {
-            $phone = "+" . $phone;
-        }
-        if (preg_match("/^[1-9]\d{8}$/", $phone) === 1) {
-            $phone = "+48" . $phone;
-        }
-
-        $website = trim((string)$this->input("website"));
-        if ($website !== "" && preg_match("/^https?:\/\//i", $website) !== 1) {
-            $website = "https://" . $website;
-        }
-
-        $this->merge([
-            "postal_code" => $postalCode,
-            "phone" => $phone,
-            "website" => $website,
-        ]);
-    }
-
     public function getData(): array
     {
         return [
@@ -89,5 +59,40 @@ class CompanyRegistrationRequest extends FormRequest
             "phone" => $this->string("phone")->toString(),
             "website" => $this->string("website")->toString() ?: null,
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $postalCode = preg_replace("/\s+/", "", (string)$this->input("postal_code"));
+
+        if (preg_match("/^\d{5}$/", $postalCode) === 1) {
+            $postalCode = substr($postalCode, 0, 2) . "-" . substr($postalCode, 2);
+        }
+
+        $phone = preg_replace("/[\s-]+/", "", (string)$this->input("phone"));
+
+        if (str_starts_with($phone, "0048")) {
+            $phone = "+" . substr($phone, 2);
+        }
+
+        if (preg_match("/^48\d{9}$/", $phone) === 1) {
+            $phone = "+" . $phone;
+        }
+
+        if (preg_match("/^[1-9]\d{8}$/", $phone) === 1) {
+            $phone = "+48" . $phone;
+        }
+
+        $website = trim((string)$this->input("website"));
+
+        if ($website !== "" && preg_match("/^https?:\/\//i", $website) !== 1) {
+            $website = "https://" . $website;
+        }
+
+        $this->merge([
+            "postal_code" => $postalCode,
+            "phone" => $phone,
+            "website" => $website,
+        ]);
     }
 }
