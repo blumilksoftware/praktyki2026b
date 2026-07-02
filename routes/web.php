@@ -37,7 +37,7 @@ Route::get("/dev-login", function () {
 
 Route::get("/dev-send-verification-email", function (EmailVerificationService $service) {
     $user = User::factory()->unverified()->create([
-        "email" => "test2@example.com",
+        "email" => "test5@example.com",
     ]);
 
     $service->sendVerificationEmail($user);
