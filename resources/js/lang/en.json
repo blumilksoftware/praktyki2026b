@@ -60,20 +60,27 @@
     
     "register": {
       "title": "Registration",
-      "heading": "Register",
+      "heading": "Join us!",
       "firstName": "First name",
       "lastName": "Last name",
       "email": "E-mail",
       "password": "Password",
       "passwordConfirmation": "Confirm password",
       "university": "University (optional)",
-      "termsPrefix": "I accept the",
+      "termsPrefix": "I confirm that I have read the",
       "termsLink": "terms and conditions",
       "submit": "Register",
-      "google": "Sign up with Google",
-      "or": "or",
+      "google": "Google",
+      "or": "or continue with",
       "hasAccount": "Already have an account?",
-      "loginLink": "Sign in"
+      "loginLink": "Sign in",
+      "accountTypeTabs": {
+        "label": "Register as",
+        "ariaLabel": "Account type selection",
+        "university": "University",
+        "company": "Company",
+        "student": "Student"
+      }
     }
   },
   "table": {
