@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
+import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   error: { type: String, default: undefined },
@@ -24,7 +25,7 @@ const status = computed(() => {
 const isSending = ref(false)
 
 const resendEmail = () => {
-  router.post('/email/resend', { email: props.email }, {
+  router.post(ROUTES.EMAIL_VERIFICATION_RESEND, { email: props.email }, {
     preserveScroll: true,
     onStart: () => { isSending.value = true },
     onFinish: () => { isSending.value = false },

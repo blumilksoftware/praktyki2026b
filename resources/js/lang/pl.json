@@ -27,6 +27,7 @@
     },
     "login": {
       "title": "Logowanie",
+      "adminTitle": "Logowanie do panelu administratora",
       "heading": "Witaj ponownie!",
       "email": "E-mail",
       "password": "Hasło",

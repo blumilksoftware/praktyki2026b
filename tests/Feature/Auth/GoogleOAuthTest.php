@@ -23,7 +23,7 @@ class GoogleOAuthTest extends TestCase
 
         $response = $this->get("/auth/google/callback");
 
-        $response->assertRedirect("/home");
+        $response->assertRedirect("/");
         $this->assertAuthenticated();
         $this->assertDatabaseHas("users", [
             "email" => "google@example.com",
@@ -53,7 +53,7 @@ class GoogleOAuthTest extends TestCase
 
         $response = $this->get("/auth/google/callback");
 
-        $response->assertRedirect("/home");
+        $response->assertRedirect("/");
         $this->assertAuthenticatedAs($user);
     }
 
@@ -68,7 +68,7 @@ class GoogleOAuthTest extends TestCase
 
         $response = $this->get("/auth/google/callback");
 
-        $response->assertRedirect("/home");
+        $response->assertRedirect("/");
         $this->assertAuthenticatedAs($user);
         $user->refresh();
         $this->assertNotNull($user->google_id);
