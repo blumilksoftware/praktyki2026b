@@ -35,7 +35,7 @@ class GetProfileStepsActionTest extends TestCase
     {
         $user = User::factory()->create(["role" => UserRole::Student]);
 
-        $keys = array_map(fn($s) => $s->key, $this->action->execute($user));
+        $keys = array_map(fn($step) => $step->key, $this->action->execute($user));
 
         $this->assertEquals(["university", "cv"], $keys);
     }

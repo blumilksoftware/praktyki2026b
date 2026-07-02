@@ -192,5 +192,21 @@
         "toPolish": "Switch to polish"
       }
     }
+  },
+  "university": {
+    "layout": {
+      "title": "University"
+    },
+    "profile": {
+      "title": "Profile"
+    }
+  },
+  "company": {
+    "layout": {
+      "title": "Company"
+    },
+    "profile": {
+      "title": "Profile"
+    }
   }
 }

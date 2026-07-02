@@ -1,8 +1,11 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
 import { IconHome, IconUser } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
+
+const { t } = useI18n()
 
 const navItems = [
   { key: 'dashboard', label: 'Dashboard', href: '/university/dashboard', icon: IconHome },
@@ -11,7 +14,7 @@ const navItems = [
 </script>
 
 <template>
-  <Head title="University" />
+  <Head :title="t('university.layout.title')" />
   <BaseLayout active-page="dashboard" :nav-items="navItems">
     <OnboardingBanner />
   </BaseLayout>

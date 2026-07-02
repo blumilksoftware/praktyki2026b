@@ -183,5 +183,21 @@
         "toPolish": "Przełącz na polski"
       }
     }
+  },
+  "university": {
+    "layout": {
+      "title": "Uczelnia"
+    },
+    "profile": {
+      "title": "Profil"
+    }
+  },
+  "company": {
+    "layout": {
+      "title": "Firma"
+    },
+    "profile": {
+      "title": "Profil"
+    }
   }
 }
