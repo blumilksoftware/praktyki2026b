@@ -73,12 +73,14 @@
         "title": "Rejestracja firmy",
         "companyName": "Nazwa firmy",
         "nip": "NIP",
-        "postalCode": "Kod pocztowy",
+        "postalCode": "Kod pocztowy (XX-XXX)",
         "city": "Miejscowość",
         "street": "Ulica",
         "buildingNumber": "Numer budynku",
-        "phone": "Numer telefonu",
-        "website": "Link do strony firmy (opcjonalnie)"
+        "phone": "Numer telefonu (+48 XXX XXX XXX)",
+        "website": "Link do strony firmy (opcjonalnie)",
+        "phoneHint": "Wpisz numer w formacie 123456789 lub +48123456789.",
+        "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
       }
     }
   },

@@ -136,7 +136,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
 
         <div class="flex items-center gap-4">
           <div class="h-px flex-1 bg-text/20" />
-          <span class="text-sm text-additional">
+          <span class="text-base sm:text-lg text-additional tracking-wide">
             {{ t('auth.register.or') }}
           </span>
           <div class="h-px flex-1 bg-text/20" />
@@ -144,7 +144,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
 
         <a
           :href="ROUTES.googleRedirect"
-          class="mx-auto inline-flex items-center justify-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-medium text-text shadow-sm transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          class="mx-auto flex justify-center items-center gap-2 w-fit rounded-lg border border-text/20 bg-white px-12 py-3 sm:py-2.5 text-base sm:text-lg font-medium text-text hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 shadow-sm"
         >
           <GoogleSvg />
           {{ t('auth.register.google') }}
@@ -152,11 +152,11 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
 
         <div class="h-px bg-text/20" />
 
-        <p class="text-center text-sm font-medium">
+        <p class="w-full text-center text-base sm:text-lg font-medium">
           {{ t('auth.register.hasAccount') }}
           <Link
             :href="ROUTES.login"
-            class="text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            class="inline-block text-base sm:text-lg font-medium text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded whitespace-nowrap"
           >
             {{ t('auth.register.loginLink') }}
           </Link>

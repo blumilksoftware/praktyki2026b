@@ -83,12 +83,14 @@
         "title": "Company registration",
         "companyName": "Company name",
         "nip": "NIP",
-        "postalCode": "Postal code",
+        "postalCode": "Postal code (XX-XXX)",
         "city": "City",
         "street": "Street",
         "buildingNumber": "Building number",
-        "phone": "Phone number",
-        "website": "Company website (optional)"
+        "phone": "Phone number (+48 XXX XXX XXX)",
+        "website": "Company website (optional)",
+        "phoneHint": "Enter a number in the 123456789 or +48123456789 format.",
+        "websiteHint": "You can enter just a domain, e.g. example.com."
       }
     }
   },

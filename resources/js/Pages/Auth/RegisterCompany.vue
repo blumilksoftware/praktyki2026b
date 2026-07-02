@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import AuthLayout from '@/Components/Layouts/AuthLayout.vue'
@@ -29,7 +29,26 @@ const form = useForm({
 
 const fieldError = (field) => form.errors[field]
 
+watch(
+  () => form.building_number,
+  (value) => {
+    const normalized = value.replace(/\D+/g, '')
+    if (value !== normalized) {
+      form.building_number = normalized
+    }
+  },
+)
+
 const submit = () => {
+  const rawPhone = form.phone.trim().replace(/[\s-]+/g, '')
+  if (/^48\d{9}$/.test(rawPhone)) {
+    form.phone = `+${rawPhone}`
+  } else if (/^[1-9]\d{8}$/.test(rawPhone)) {
+    form.phone = `+48${rawPhone}`
+  } else {
+    form.phone = rawPhone
+  }
+
   form.post(ROUTES.registerCompany, {
     preserveScroll: true,
   })
@@ -145,6 +164,9 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             required
             :error="fieldError('phone')"
           />
+          <p class="-mt-2 text-sm text-additional">
+            {{ t('auth.register.company.phoneHint') }}
+          </p>
           <BaseInput
             id="website"
             v-model="form.website"
@@ -153,6 +175,9 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             autocomplete="url"
             :error="fieldError('website')"
           />
+          <p class="-mt-2 text-sm text-additional">
+            {{ t('auth.register.company.websiteHint') }}
+          </p>
 
           <div>
             <BaseCheckbox id="terms" v-model="form.terms">
@@ -187,11 +212,11 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
 
         <div class="h-px bg-text/20" />
 
-        <p class="text-center text-sm font-medium">
+        <p class="w-full text-center text-base sm:text-lg font-medium">
           {{ t('auth.register.hasAccount') }}
           <Link
             :href="ROUTES.login"
-            class="text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            class="inline-block text-base sm:text-lg font-medium text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded whitespace-nowrap"
           >
             {{ t('auth.register.loginLink') }}
           </Link>
