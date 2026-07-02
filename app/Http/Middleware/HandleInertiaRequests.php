@@ -33,6 +33,7 @@ class HandleInertiaRequests extends Middleware
                 "requires_verification" => $request->session()->get("requires_verification"),
                 "status" => $request->session()->get("status"),
             ],
+            "support_email" => config("mail.support_email"),
         ];
     }
 

@@ -36,24 +36,25 @@ const submit = () => {
   if (document.activeElement instanceof HTMLElement) {
     document.activeElement.blur()
   }
-  form.post(ROUTES.LOGIN, {
-    preserveScroll: true,
-  })
+  form.post(ROUTES.LOGIN_ADMIN,
+    {
+      preserveScroll: true,
+    })
 }
 
 const authError = computed(() => form.errors.email)
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-background">
+  <div class="min-h-screen flex flex-col">
     <BaseNavbar class="shrink-0" />
   
     <AuthLayout class="flex-1 min-h-0">
       <Head :title="t('auth.login.title')" />
 
-      <div class="flex flex-col items-center justify-center w-full sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-20">
-        <h1 class="text-5xl md:text-6xl font-normal mb-8 md:mb-10 text-center text-text">
-          {{ t('auth.login.heading') }}
+      <div class="flex flex-col items-center justify-center w-full sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-20 ">
+        <h1 class="text-3xl md:text-5xl font-normal mb-8 md:mb-10 text-center text-text">
+          {{ t('auth.login.adminTitle') }}
         </h1>
 
         <div class="flex flex-col w-full">
@@ -127,18 +128,8 @@ const authError = computed(() => form.errors.email)
           </a>
 
           <div class="h-px bg-text/20 my-6 sm:my-8" />
-
-          <div class="w-full text-center">
-            <Link
-              :href="ROUTES.REGISTER_STUDENT"
-              class="inline-block text-base sm:text-lg font-medium text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded whitespace-nowrap"
-            >
-              {{ t('auth.login.noAccount') }}
-            </Link>
-          </div>
         </div>
       </div>
     </AuthLayout>
   </div>
 </template>
-

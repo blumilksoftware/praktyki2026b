@@ -14,15 +14,23 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class LoginController extends Controller
+class AdminLoginController extends Controller
 {
     public function __construct(
         private readonly AuthenticateUser $authenticateUser,
     ) {}
 
-    public function show(): Response
+    public function show(): Response|RedirectResponse
     {
-        return Inertia::render("Auth/Login");
+        if (Auth::check()) {
+            if (Auth::user()->role === UserRole::SuperAdmin) {
+                return redirect()->route("admin.dashboard");
+            }
+
+            return redirect("/");
+        }
+
+        return Inertia::render("Auth/AdminLogin");
     }
 
     public function store(LoginRequest $request): RedirectResponse
@@ -34,29 +42,17 @@ class LoginController extends Controller
             $request->boolean("remember"),
         );
 
-        $user = Auth::user();
-
-        if ($user->role === UserRole::SuperAdmin) {
-            Auth::logout();
+        if (auth()->user()->role !== UserRole::SuperAdmin) {
+            auth()->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            throw ValidationException::withMessages([
-                "email" => __("auth.verification.admin_restricted"),
-            ]);
+            throw ValidationException::withMessages(
+                [
+                    "email" => __("auth.verification.not_admin")],
+            );
         }
 
-        if (!$user->hasVerifiedEmail()) {
-            return redirect()->route("verification.queue");
-        }
-
-        $redirectUrl = match ($user->role) {
-            UserRole::CompanyAdmin => route("company.dashboard"),
-            UserRole::UniversityAdmin => route("university.dashboard"),
-            UserRole::Student => "/",
-            default => "/",
-        };
-
-        return redirect()->intended($redirectUrl);
+        return redirect()->intended(route("admin.dashboard"));
     }
 }
