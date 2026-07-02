@@ -136,7 +136,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
 
         <div class="flex items-center gap-4">
           <div class="h-px flex-1 bg-text/20" />
-          <span class="text-sm text-additional">
+          <span class="text-base sm:text-lg text-additional tracking-wide">
             {{ t('auth.register.or') }}
           </span>
           <div class="h-px flex-1 bg-text/20" />
