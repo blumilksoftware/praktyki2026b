@@ -2,7 +2,7 @@ networks:
   traefik-proxy:
     external: true
   praktyki2026b-aplikuj-dev:
-    name: jetwashclub-dev
+    name: praktyki2026b-aplikuj-dev
     driver: bridge
 
 volumes:
