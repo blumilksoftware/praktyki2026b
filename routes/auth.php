@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
 Route::middleware("guest")->group(function (): void {
+    Route::get("/register/company", fn(): Response => inertia("Auth/RegisterCompany"))->name("register.company.show");
     Route::post("/register/company", CompanyRegistrationController::class)->middleware("throttle:10,15")->name("register.company");
     Route::get("/register/company", fn(): Response => inertia("Auth/RegisterCompany"))->name("register.company.show");
 
