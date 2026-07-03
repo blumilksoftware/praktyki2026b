@@ -5,7 +5,7 @@ silent: true
 
 tasks:
   deploy:
-    deps: [create-deployment-file, decrypt-secrets, decrypt-json-files]
+    deps: [create-deployment-file, decrypt-secrets]
     vars:
       DOCKER_COMPOSE_FILE: docker-compose.{{ .ENVIRONMENT }}.yml
       DOCKER_COMPOSE_APP_SERVICE: praktyki2026b-applikuj-{{ .ENVIRONMENT }}-app
@@ -28,19 +28,6 @@ tasks:
       - cmd: mv {{ .DOTENV_FILE }} .env
       - cmd: echo "Decrypting secrets from {{ .SECRETS_FILE }}"
       - cmd: sops --decrypt --input-type=dotenv --output-type=dotenv {{ .SECRETS_FILE }} >> .env
-      - cmd: echo "Done"
-
-  decrypt-json-files:
-    requires:
-      vars: [SOPS_AGE_KEY]
-    vars:
-      FILES: [firebase-credentials.json]
-    cmds:
-      - cmd: echo "Decrypting json files"
-      - for: { var: FILES, as: FILE }
-        cmd: |
-          echo "Decrypting {{ .FILE }}.encrypted file"
-          sops --decrypt --input-type=json --output-type=json --output={{ .FILE }} {{ .FILE }}.encrypted
       - cmd: echo "Done"
 
   create-deployment-file:
