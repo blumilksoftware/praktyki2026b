@@ -18,18 +18,17 @@ const tabs = computed(() => [
   {
     key: 'university',
     label: t('auth.register.accountTypeTabs.university'),
-    href: null,
-    disabled: true,
+    href: ROUTES.REGISTER_UNIVERSITY,
   },
   {
     key: 'company',
     label: t('auth.register.accountTypeTabs.company'),
-    href: ROUTES.registerCompany,
+    href: ROUTES.REGISTER_COMPANY,
   },
   {
     key: 'student',
     label: t('auth.register.accountTypeTabs.student'),
-    href: ROUTES.registerStudent,
+    href: ROUTES.REGISTER_STUDENT,
   },
 ])
 

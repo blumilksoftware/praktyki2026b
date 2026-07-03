@@ -31,7 +31,7 @@ const form = useForm({
 const fieldError = (field) => form.errors[field]
 
 const submit = () => {
-  form.post(ROUTES.registerCompany, {
+  form.post(ROUTES.REGISTER_COMPANY, {
     preserveScroll: true,
   })
 }
@@ -199,7 +199,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
         <p class="w-full text-center text-base sm:text-lg font-medium">
           {{ t('auth.register.hasAccount') }}
           <Link
-            :href="ROUTES.login"
+            :href="ROUTES.LOGIN"
             class="inline-block text-base sm:text-lg font-medium text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded whitespace-nowrap"
           >
             {{ t('auth.register.loginLink') }}

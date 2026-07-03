@@ -42,6 +42,8 @@ class CompanyRegistrationRequest extends FormRequest
             "email.unique" => __("validation.email_taken"),
             "email.email" => __("validation.email_invalid_friendly"),
             "website.url" => __("validation.website_invalid_friendly"),
+            "password.confirmed" => __("validation.password_confirmed_friendly"),
+            "terms.accepted" => __("validation.terms_accepted_friendly"),
         ];
     }
 

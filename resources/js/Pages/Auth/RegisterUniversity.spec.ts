@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createI18n } from 'vue-i18n'
-import RegisterCompany from '@/Pages/Auth/RegisterCompany.vue'
+import RegisterUniversity from '@/Pages/Auth/RegisterUniversity.vue'
 import { ROUTES } from '@/Helpers/routes'
 import en from '@/lang/en.json'
 
@@ -27,15 +27,11 @@ vi.mock('@inertiajs/vue3', async () => {
       template: '<a :href="href"><slot /></a>',
     },
     useForm: () => ({
-      company_name: '',
-      nip: '',
+      university_name: '',
       email: '',
       password: '',
       password_confirmation: '',
-      street: '',
-      building_number: '',
-      postal_code: '',
-      city: '',
+      address: '',
       phone: '',
       website: '',
       terms: false,
@@ -48,43 +44,55 @@ vi.mock('@inertiajs/vue3', async () => {
   }
 })
 
-describe('RegisterCompany', () => {
+describe('RegisterUniversity', () => {
   beforeEach(() => {
     mockFormState.errors = {}
     post.mockClear()
   })
 
   it('renders all required registration fields', () => {
-    const wrapper = mount(RegisterCompany, {
+    const wrapper = mount(RegisterUniversity, {
       global: { plugins: [i18n] },
     })
 
-    expect(wrapper.find('#company_name').exists()).toBe(true)
-    expect(wrapper.find('#nip').exists()).toBe(true)
+    expect(wrapper.find('#university_name').exists()).toBe(true)
     expect(wrapper.find('#email').exists()).toBe(true)
     expect(wrapper.find('#password').exists()).toBe(true)
     expect(wrapper.find('#password_confirmation').exists()).toBe(true)
-    expect(wrapper.find('#street').exists()).toBe(true)
-    expect(wrapper.find('#building_number').exists()).toBe(true)
-    expect(wrapper.find('#postal_code').exists()).toBe(true)
-    expect(wrapper.find('#city').exists()).toBe(true)
+    expect(wrapper.find('#address').exists()).toBe(true)
     expect(wrapper.find('#phone').exists()).toBe(true)
     expect(wrapper.find('#website').exists()).toBe(true)
     expect(wrapper.find('#terms').exists()).toBe(true)
   })
 
-  it('marks company tab as active', () => {
-    const wrapper = mount(RegisterCompany, {
+  it('does not render domain field', () => {
+    const wrapper = mount(RegisterUniversity, {
+      global: { plugins: [i18n] },
+    })
+
+    expect(wrapper.find('#domain').exists()).toBe(false)
+  })
+
+  it('marks university tab as active', () => {
+    const wrapper = mount(RegisterUniversity, {
       global: { plugins: [i18n] },
     })
 
     const activeTab = wrapper.find('[aria-current="page"]')
     expect(activeTab.exists()).toBe(true)
-    expect(activeTab.text()).toContain('Company')
+    expect(activeTab.text()).toContain('University')
+  })
+
+  it('links company tab to company registration', () => {
+    const wrapper = mount(RegisterUniversity, {
+      global: { plugins: [i18n] },
+    })
+
+    expect(wrapper.find(`a[href="${ROUTES.REGISTER_COMPANY}"]`).exists()).toBe(true)
   })
 
   it('links student tab to student registration', () => {
-    const wrapper = mount(RegisterCompany, {
+    const wrapper = mount(RegisterUniversity, {
       global: { plugins: [i18n] },
     })
 
@@ -92,7 +100,7 @@ describe('RegisterCompany', () => {
   })
 
   it('does not render Google sign-up', () => {
-    const wrapper = mount(RegisterCompany, {
+    const wrapper = mount(RegisterUniversity, {
       global: { plugins: [i18n] },
     })
 
@@ -100,38 +108,30 @@ describe('RegisterCompany', () => {
   })
 
   it('submits the registration form to the backend', async () => {
-    const wrapper = mount(RegisterCompany, {
+    const wrapper = mount(RegisterUniversity, {
       global: { plugins: [i18n] },
     })
 
     await wrapper.find('form').trigger('submit')
 
-    expect(post).toHaveBeenCalledWith(ROUTES.REGISTER_COMPANY, {
+    expect(post).toHaveBeenCalledWith(ROUTES.REGISTER_UNIVERSITY, {
       preserveScroll: true,
     })
   })
 
-  it('shows server-side NIP validation error next to the field', () => {
-    mockFormState.errors = { nip: 'The NIP field must be a valid NIP number.' }
+  it('shows server-side errors next to the relevant fields', () => {
+    mockFormState.errors = {
+      university_name: 'The university name field is required.',
+      email: 'The email address field must be a valid email address.',
+      terms: 'The terms field must be accepted.',
+    }
 
-    const wrapper = mount(RegisterCompany, {
+    const wrapper = mount(RegisterUniversity, {
       global: { plugins: [i18n] },
     })
 
-    const nipError = wrapper.find('#nip-error')
-    expect(nipError.exists()).toBe(true)
-    expect(nipError.text()).toBe('The NIP field must be a valid NIP number.')
-  })
-
-  it('shows server-side duplicate NIP error next to the field', () => {
-    mockFormState.errors = { nip: 'The NIP has already been taken.' }
-
-    const wrapper = mount(RegisterCompany, {
-      global: { plugins: [i18n] },
-    })
-
-    const nipError = wrapper.find('#nip-error')
-    expect(nipError.exists()).toBe(true)
-    expect(nipError.text()).toBe('The NIP has already been taken.')
+    expect(wrapper.text()).toContain('The university name field is required.')
+    expect(wrapper.text()).toContain('The email address field must be a valid email address.')
+    expect(wrapper.text()).toContain('The terms field must be accepted.')
   })
 })
