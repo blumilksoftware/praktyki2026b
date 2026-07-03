@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
@@ -15,11 +16,24 @@ Route::get("/", fn(): Response => inertia("Welcome"));
 Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");
 
+Route::middleware(["auth"])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::get("/verification/pending", [CompanyController::class, "verificationPending"])->name("company.verification.pending");
+    });
+
+Route::middleware(["auth"])
+    ->prefix("university")
+    ->group(function (): void {
+        Route::get("/verification/pending", [UniversityController::class, "verificationPending"])->name("university.verification.pending");
+    });
+
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
     ->group(function (): void {
         Route::get("/dashboard", [CompanyController::class, "index"])->name("company.dashboard");
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
+        Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])

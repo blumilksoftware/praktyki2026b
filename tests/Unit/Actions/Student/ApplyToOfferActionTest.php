@@ -10,6 +10,7 @@ use App\Models\Application;
 use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
@@ -110,5 +111,31 @@ class ApplyToOfferActionTest extends TestCase
         $this->expectExceptionMessage(__("validation.no_spots_available"));
 
         $this->action->execute($student, $offer);
+    }
+
+    public function testStudentApplicationStoresCvSnapshot(): void
+    {
+        $disk = config("filesystems.default", "local");
+        Storage::fake($disk);
+        Storage::disk($disk)->put("cvs/test_cv.pdf", "CV PDF Content");
+
+        $student = User::factory()->create([
+            "cv_path" => "cvs/test_cv.pdf",
+        ]);
+        $offer = Offer::factory()->create([
+            "is_active" => true,
+            "spots" => 3,
+        ]);
+
+        $application = $this->action->execute($student, $offer);
+
+        $this->assertNotNull($application->cv_path);
+        $this->assertNotEquals("cvs/test_cv.pdf", $application->cv_path);
+        $this->assertStringStartsWith("applications/cvs/", $application->cv_path);
+        $this->assertStringEndsWith(".pdf", $application->cv_path);
+
+        Storage::disk($disk)->assertExists($student->cv_path);
+        Storage::disk($disk)->assertExists($application->cv_path);
+        $this->assertEquals("CV PDF Content", Storage::disk($disk)->get($application->cv_path));
     }
 }
