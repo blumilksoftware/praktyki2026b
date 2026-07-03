@@ -1,5 +1,5 @@
 {
- "errors": {
+  "errors": {
     "401": {
       "title": "Login required",
       "description": "You must log in to access this page."
@@ -57,7 +57,6 @@
     "layout": {
       "skipToContent": "Skip to content"
     },
-    
     "register": {
       "title": "Registration",
       "heading": "Join us!",
@@ -80,6 +79,18 @@
         "university": "University",
         "company": "Company",
         "student": "Student"
+      },
+      "company": {
+        "title": "Company registration",
+        "companyName": "Company name",
+        "nip": "NIP",
+        "postalCode": "Postal code",
+        "city": "City",
+        "street": "Street",
+        "buildingNumber": "Building number",
+        "phone": "Phone number",
+        "website": "Company website (optional)",
+        "websiteHint": "You can enter just a domain, e.g. example.com."
       }
     }
   },

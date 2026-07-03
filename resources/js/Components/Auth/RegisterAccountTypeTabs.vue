@@ -24,12 +24,12 @@ const tabs = computed(() => [
   {
     key: 'company',
     label: t('auth.register.accountTypeTabs.company'),
-    href: ROUTES.registerCompany,
+    href: ROUTES.REGISTER_COMPANY,
   },
   {
     key: 'student',
     label: t('auth.register.accountTypeTabs.student'),
-    href: ROUTES.registerStudent,
+    href: ROUTES.REGISTER_STUDENT,
   },
 ])
 
