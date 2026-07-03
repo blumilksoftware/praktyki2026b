@@ -88,7 +88,7 @@ describe('RegisterCompany', () => {
       global: { plugins: [i18n] },
     })
 
-    expect(wrapper.find(`a[href="${ROUTES.registerStudent}"]`).exists()).toBe(true)
+    expect(wrapper.find(`a[href="${ROUTES.REGISTER_STUDENT}"]`).exists()).toBe(true)
   })
 
   it('does not render Google sign-up', () => {
@@ -96,7 +96,7 @@ describe('RegisterCompany', () => {
       global: { plugins: [i18n] },
     })
 
-    expect(wrapper.find(`a[href="${ROUTES.googleRedirect}"]`).exists()).toBe(false)
+    expect(wrapper.find(`a[href="${ROUTES.GOOGLE_AUTH}"]`).exists()).toBe(false)
   })
 
   it('submits the registration form to the backend', async () => {
@@ -106,7 +106,7 @@ describe('RegisterCompany', () => {
 
     await wrapper.find('form').trigger('submit')
 
-    expect(post).toHaveBeenCalledWith(ROUTES.registerCompany, {
+    expect(post).toHaveBeenCalledWith(ROUTES.REGISTER_COMPANY, {
       preserveScroll: true,
     })
   })
