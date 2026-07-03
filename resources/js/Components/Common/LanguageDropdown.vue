@@ -5,10 +5,10 @@ import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   mobile: { type: Boolean, default: false },
+  variant: { type: String, default: 'dark' },
 })
 
 const { t, locale } = useI18n()
-
 const isOpen = ref(false)
 const currentLanguage = computed(() => (locale.value || 'pl').toUpperCase())
 
@@ -23,10 +23,11 @@ function setLanguage(lang) {
   <div class="relative">
     <button
       :class="[
-        'flex items-center gap-1 rounded-lg focus-visible:outline-none focus-visible:ring-2 transition',
-        props.mobile 
-          ? 'bg-white/10 hover:bg-white/20 px-3 py-2 text-white/70 hover:text-white focus-visible:ring-white/30 font-medium text-sm whitespace-nowrap'
-          : 'hover:bg-white/10 px-2 py-1.5 text-white/90 hover:text-white focus-visible:ring-white/30'
+        'flex items-center gap-1 rounded-lg focus-visible:outline-none focus-visible:ring-2 transition font-medium text-sm whitespace-nowrap',
+        props.mobile ? 'px-3 py-2' : 'px-2 py-1.5',
+        props.variant === 'light'
+          ? 'bg-black/5 hover:bg-black/10 text-slate-700 hover:text-slate-900 focus-visible:ring-slate-300'
+          : 'bg-white/10 hover:bg-white/20 text-white/70 hover:text-white focus-visible:ring-white/30',
       ]"
       @click="isOpen = !isOpen"
     >
@@ -34,6 +35,7 @@ function setLanguage(lang) {
       <span class="font-medium text-sm">{{ currentLanguage }}</span>
       <IconChevronDown class="w-3 h-3" aria-hidden="true" />
     </button>
+
     <div
       v-if="isOpen"
       class="top-full right-0 z-50 absolute bg-white shadow-lg mt-1 py-1 rounded-lg ring-1 ring-black/5 min-w-20"

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * @property string $id
@@ -28,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property VerificationStatus $verification_status
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property ?string $rejection_reason
  */
 class Company extends Model
 {
@@ -48,11 +50,22 @@ class Company extends Model
         "description",
         "tags",
         "verification_status",
+        "rejection_reason",
     ];
 
     public function users(): HasMany
     {
         return $this->hasMany(User::class, "organization_id");
+    }
+
+    public function offers(): HasMany
+    {
+        return $this->hasMany(Offer::class);
+    }
+
+    public function applications(): HasManyThrough
+    {
+        return $this->hasManyThrough(Application::class, Offer::class);
     }
 
     public function scopeNeedingVerification($query)

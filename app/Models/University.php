@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property VerificationStatus $verification_status
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property ?string $rejection_reason
  */
 class University extends Model
 {
@@ -40,6 +41,7 @@ class University extends Model
         "logo_path",
         "external_form_url",
         "verification_status",
+        "rejection_reason",
     ];
 
     public function users(): HasMany

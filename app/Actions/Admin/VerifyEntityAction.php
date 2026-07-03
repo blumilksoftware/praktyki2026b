@@ -35,7 +35,10 @@ class VerifyEntityAction
 
     public function reject(Company|University $entity, string $rejectionReason, User $admin): void
     {
-        $entity->update(["verification_status" => VerificationStatus::Rejected]);
+        $entity->update([
+            "verification_status" => VerificationStatus::Rejected,
+            "rejection_reason" => $rejectionReason,
+        ]);
 
         $this->sendRejectMail($entity, $rejectionReason);
 

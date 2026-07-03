@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\UserStatus;
 use App\Mail\EmailVerificationMail;
 use App\Models\EmailVerificationToken;
 use App\Models\User;
@@ -30,6 +31,8 @@ class EmailVerificationService
 
         $record->delete();
         $user->markEmailAsVerified();
+        $user->status = UserStatus::Active;
+        $user->save();
 
         return true;
     }
