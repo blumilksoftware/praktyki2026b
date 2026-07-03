@@ -66,8 +66,8 @@ class CompanyApplicationsTest extends TestCase
         $offer = Offer::factory()->create(["company_id" => $company->id]);
         $application = Application::factory()->create(["offer_id" => $offer->id]);
 
-        $this->actingAs($user)->get(route("company.applications"))->assertStatus(403);
-        $this->actingAs($user)->get(route("company.applications.cv", $application))->assertStatus(403);
+        $this->actingAs($user)->get(route("company.applications"))->assertRedirect(route("company.verification.pending"));
+        $this->actingAs($user)->get(route("company.applications.cv", $application))->assertRedirect(route("company.verification.pending"));
     }
 
     public function testCompanyAdminCanAccessApplicationsList(): void
