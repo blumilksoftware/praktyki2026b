@@ -1,4 +1,25 @@
 {
+  "onboarding": {
+    "banner": {
+      "title": "Complete your profile",
+      "description": "Fill in your profile details to get the most out of Applikuj.",
+      "action": "Go to profile",
+      "dismiss": "Dismiss"
+    },
+    "progress": {
+      "title": "Profile completion",
+      "complete": "Your profile is complete!",
+      "nextStep": "Next step: {step}"
+    },
+    "steps": {
+      "university": "University",
+      "cv": "CV",
+      "logo": "Logo",
+      "description": "Description",
+      "tags": "Tags",
+      "externalFormUrl": "Application form URL"
+    }
+  },
   "errors": {
     "401": {
       "title": "Login required",
@@ -189,6 +210,22 @@
         "toEnglish": "Switch to english",
         "toPolish": "Switch to polish"
       }
+    }
+  },
+  "university": {
+    "layout": {
+      "title": "University"
+    },
+    "profile": {
+      "title": "Profile"
+    }
+  },
+  "company": {
+    "layout": {
+      "title": "Company"
+    },
+    "profile": {
+      "title": "Profile"
     }
   },
   "pending": {

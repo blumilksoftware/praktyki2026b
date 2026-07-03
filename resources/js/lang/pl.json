@@ -1,4 +1,25 @@
 {
+  "onboarding": {
+    "banner": {
+      "title": "Uzupełnij swój profil",
+      "description": "Wypełnij dane profilu, aby w pełni korzystać z Applikuj.",
+      "action": "Przejdź do profilu",
+      "dismiss": "Zamknij"
+    },
+    "progress": {
+      "title": "Uzupełnienie profilu",
+      "complete": "Twój profil jest kompletny!",
+      "nextStep": "Kolejny krok: {step}"
+    },
+    "steps": {
+      "university": "Uczelnia",
+      "cv": "CV",
+      "logo": "Logo",
+      "description": "Opis",
+      "tags": "Tagi",
+      "externalFormUrl": "URL formularza rekrutacyjnego"
+    }
+  },
   "errors": {
     "401": {
       "title": "Wymagane logowanie",
@@ -180,6 +201,22 @@
         "toEnglish": "Przełącz na angielski",
         "toPolish": "Przełącz na polski"
       }
+    }
+  },
+  "university": {
+    "layout": {
+      "title": "Uczelnia"
+    },
+    "profile": {
+      "title": "Profil"
+    }
+  },
+  "company": {
+    "layout": {
+      "title": "Firma"
+    },
+    "profile": {
+      "title": "Profil"
     }
   },
   "pending": {
