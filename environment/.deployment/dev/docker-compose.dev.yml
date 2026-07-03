@@ -1,22 +1,22 @@
 networks:
   traefik-proxy:
     external: true
-  praktyki2026b-aplikuj-dev:
-    name: praktyki2026b-aplikuj-dev
+  praktyki2026b-applikuj-dev:
+    name: praktyki2026b-applikuj-dev
     driver: bridge
 
 volumes:
-  praktyki2026b-aplikuj-dev-postgres-data:
-    name: praktyki2026b-aplikuj-dev-postgres-data
-  praktyki2026b-aplikuj-dev-redis-data:
-    name: praktyki2026b-aplikuj-dev-redis-data
-  praktyki2026b-aplikuj-dev-app-storage:
-    name: praktyki2026b-aplikuj-dev-app-storage
+  praktyki2026b-applikuj-dev-postgres-data:
+    name: praktyki2026b-applikuj-dev-postgres-data
+  praktyki2026b-applikuj-dev-redis-data:
+    name: praktyki2026b-applikuj-dev-redis-data
+  praktyki2026b-applikuj-dev-app-storage:
+    name: praktyki2026b-applikuj-dev-app-storage
 
 services:
-  praktyki2026b-aplikuj-dev-app:
+  praktyki2026b-applikuj-dev-app:
     image: registry.blumilk.pl/praktyki/2026b:dev
-    container_name: praktyki2026b-aplikuj-dev-app-container
+    container_name: praktyki2026b-applikuj-dev-app-container
     pull_policy: always
     logging:
       driver: "json-file"
@@ -30,32 +30,32 @@ services:
         limits:
           memory: 1GB
     labels:
-      - "io.portainer.accesscontrol.teams=praktyki2026b-aplikuj"
+      - "io.portainer.accesscontrol.teams=praktyki2026b-applikuj"
       - "traefik.enable=true"
-      - "traefik.http.routers.praktyki2026b-aplikuj-dev-app.rule=Host(`${PRAKTYKI2026B_APLIKUJ_HOST_NAME}`)"
-      - "traefik.http.routers.praktyki2026b-aplikuj-dev-app.entrypoints=websecure"
-      - "traefik.http.routers.praktyki2026b-aplikuj-dev-app.tls=true"
-      - "traefik.http.routers.praktyki2026b-aplikuj-dev-app.tls.certresolver=lets-encrypt-resolver"
-      - "traefik.http.routers.praktyki2026b-aplikuj-dev-app.middlewares=no-index-robots-response-header@file,security-headers@file"
+      - "traefik.http.routers.praktyki2026b-applikuj-dev-app.rule=Host(`${PRAKTYKI2026B_APPLIKUJ_HOST_NAME}`)"
+      - "traefik.http.routers.praktyki2026b-applikuj-dev-app.entrypoints=websecure"
+      - "traefik.http.routers.praktyki2026b-applikuj-dev-app.tls=true"
+      - "traefik.http.routers.praktyki2026b-applikuj-dev-app.tls.certresolver=lets-encrypt-resolver"
+      - "traefik.http.routers.praktyki2026b-applikuj-dev-app.middlewares=no-index-robots-response-header@file,security-headers@file"
     depends_on:
-      praktyki2026b-aplikuj-dev-database:
+      praktyki2026b-applikuj-dev-database:
         condition: service_healthy
-      praktyki2026b-aplikuj-dev-redis:
+      praktyki2026b-applikuj-dev-redis:
         condition: service_healthy
     working_dir: /application
     volumes:
       - ./.env:/application/.env:ro
-      - praktyki2026b-aplikuj-dev-app-storage:/application/storage
+      - praktyki2026b-applikuj-dev-app-storage:/application/storage
     networks:
-      - praktyki2026b-aplikuj-dev
+      - praktyki2026b-applikuj-dev
       - traefik-proxy
     restart: unless-stopped
     env_file:
       - .deployment
 
-  praktyki2026b-aplikuj-dev-database:
+  praktyki2026b-applikuj-dev-database:
     image: postgres:16.3-alpine3.18@sha256:64e18e8fb3e9c9aac89ac590c5dd8306b862478404f76cd9b5f7720d012b4c47
-    container_name: praktyki2026b-aplikuj-dev-database-container
+    container_name: praktyki2026b-applikuj-dev-database-container
     logging:
       driver: "json-file"
       options:
@@ -68,7 +68,7 @@ services:
         limits:
           memory: 1GB
     labels:
-      - "io.portainer.accesscontrol.teams=praktyki2026b-aplikuj"
+      - "io.portainer.accesscontrol.teams=praktyki2026b-applikuj"
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -79,14 +79,14 @@ services:
       timeout: 3s
       retries: 5
     volumes:
-      - praktyki2026b-aplikuj-dev-postgres-data:/var/lib/postgresql
+      - praktyki2026b-applikuj-dev-postgres-data:/var/lib/postgresql
     networks:
-      - praktyki2026b-aplikuj-dev
+      - praktyki2026b-applikuj-dev
     restart: unless-stopped
 
-  praktyki2026b-aplikuj-dev-redis:
+  praktyki2026b-applikuj-dev-redis:
     image: redis:7.2.5-alpine3.19@sha256:8f157725f8eee31e65a8d4765f1f986d76aedc1a0503345dfb63a2b1b5a441ee
-    container_name: praktyki2026b-aplikuj-dev-redis-container
+    container_name: praktyki2026b-applikuj-dev-redis-container
     logging:
       driver: "json-file"
       options:
@@ -99,14 +99,14 @@ services:
         limits:
           memory: 512M
     labels:
-      - "io.portainer.accesscontrol.teams=praktyki2026b-aplikuj"
+      - "io.portainer.accesscontrol.teams=praktyki2026b-applikuj"
     healthcheck:
       test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
       interval: 3s
       timeout: 3s
       retries: 5
     volumes:
-      - praktyki2026b-aplikuj-dev-redis-data:/data
+      - praktyki2026b-applikuj-dev-redis-data:/data
     networks:
-      - praktyki2026b-aplikuj-dev
+      - praktyki2026b-applikuj-dev
     restart: unless-stopped
