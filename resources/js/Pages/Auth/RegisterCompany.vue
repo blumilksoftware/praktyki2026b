@@ -6,7 +6,7 @@ import AuthLayout from '@/Components/Layouts/AuthLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
-import GoogleSvg from '@/Components/Common/GoogleSvg.vue'
+import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import RegisterAccountTypeTabs from '@/Components/Auth/RegisterAccountTypeTabs.vue'
 import { ROUTES } from '@/Helpers/routes'
@@ -14,19 +14,24 @@ import { ROUTES } from '@/Helpers/routes'
 const { t } = useI18n()
 
 const form = useForm({
-  first_name: '',
-  last_name: '',
+  company_name: '',
+  nip: '',
   email: '',
   password: '',
   password_confirmation: '',
-  university: '',
+  street: '',
+  building_number: '',
+  postal_code: '',
+  city: '',
+  phone: '',
+  website: '',
   terms: false,
 })
 
 const fieldError = (field) => form.errors[field]
 
 const submit = () => {
-  form.post(ROUTES.REGISTER_STUDENT, {
+  form.post(ROUTES.REGISTER_COMPANY, {
     preserveScroll: true,
   })
 }
@@ -38,10 +43,10 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
   <div class="min-h-screen flex flex-col bg-background">
     <BaseNavbar class="shrink-0" />
     <AuthLayout class="flex-1 min-h-0">
-      <Head :title="t('auth.register.title')" />
+      <Head :title="t('auth.register.company.title')" />
 
       <div class="mx-auto flex w-full max-w-3xl flex-col gap-6 px-2 sm:px-4">
-        <RegisterAccountTypeTabs active-tab="student" />
+        <RegisterAccountTypeTabs active-tab="company" />
 
         <div class="text-center">
           <h1 class="text-3xl font-normal text-text sm:text-4xl">
@@ -50,24 +55,22 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
         </div>
 
         <form class="flex flex-col gap-4" novalidate @submit.prevent="submit">
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <BaseInput
-              id="first_name"
-              v-model="form.first_name"
-              :label="t('auth.register.firstName')"
-              autocomplete="given-name"
-              required
-              :error="fieldError('first_name')"
-            />
-            <BaseInput
-              id="last_name"
-              v-model="form.last_name"
-              :label="t('auth.register.lastName')"
-              autocomplete="family-name"
-              required
-              :error="fieldError('last_name')"
-            />
-          </div>
+          <BaseInput
+            id="company_name"
+            v-model="form.company_name"
+            :label="t('auth.register.company.companyName')"
+            autocomplete="organization"
+            required
+            :error="fieldError('company_name')"
+          />
+          <BaseInput
+            id="nip"
+            v-model="form.nip"
+            :label="t('auth.register.company.nip')"
+            autocomplete="off"
+            required
+            :error="fieldError('nip')"
+          />
           <BaseInput
             id="email"
             v-model="form.email"
@@ -95,13 +98,70 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             required
             :error="fieldError('password_confirmation')"
           />
-          <BaseInput
-            id="university"
-            v-model="form.university"
-            :label="t('auth.register.university')"
-            autocomplete="organization"
-            :error="fieldError('university')"
+
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-[1fr_2fr]">
+            <BaseMaskedInput
+              id="postal_code"
+              v-model="form.postal_code"
+              mask="##-###"
+              inputmode="numeric"
+              autocomplete="postal-code"
+              :label="t('auth.register.company.postalCode')"
+              required
+              :error="fieldError('postal_code')"
+            />
+            <BaseInput
+              id="city"
+              v-model="form.city"
+              :label="t('auth.register.company.city')"
+              autocomplete="address-level2"
+              required
+              :error="fieldError('city')"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-[2fr_1fr]">
+            <BaseInput
+              id="street"
+              v-model="form.street"
+              :label="t('auth.register.company.street')"
+              autocomplete="street-address"
+              required
+              :error="fieldError('street')"
+            />
+            <BaseInput
+              id="building_number"
+              v-model="form.building_number"
+              :label="t('auth.register.company.buildingNumber')"
+              autocomplete="off"
+              :maxlength="10"
+              required
+              :error="fieldError('building_number')"
+            />
+          </div>
+
+          <BaseMaskedInput
+            id="phone"
+            v-model="form.phone"
+            mask="+48 ### ### ###"
+            type="tel"
+            inputmode="numeric"
+            autocomplete="tel"
+            :label="t('auth.register.company.phone')"
+            required
+            :error="fieldError('phone')"
           />
+          <BaseInput
+            id="website"
+            v-model="form.website"
+            :label="t('auth.register.company.website')"
+            type="url"
+            autocomplete="url"
+            :error="fieldError('website')"
+          />
+          <p class="-mt-2 text-sm text-additional">
+            {{ t('auth.register.company.websiteHint') }}
+          </p>
 
           <div>
             <BaseCheckbox id="terms" v-model="form.terms">
@@ -133,22 +193,6 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             {{ t('auth.register.submit') }}
           </BaseButton>
         </form>
-
-        <div class="flex items-center gap-4">
-          <div class="h-px flex-1 bg-text/20" />
-          <span class="text-base sm:text-lg text-additional tracking-wide">
-            {{ t('auth.register.or') }}
-          </span>
-          <div class="h-px flex-1 bg-text/20" />
-        </div>
-
-        <a
-          :href="ROUTES.GOOGLE_AUTH"
-          class="mx-auto flex justify-center items-center gap-2 w-fit rounded-lg border border-text/20 bg-white px-12 py-3 sm:py-2.5 text-base sm:text-lg font-medium text-text hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 shadow-sm"
-        >
-          <GoogleSvg />
-          {{ t('auth.register.google') }}
-        </a>
 
         <div class="h-px bg-text/20" />
 

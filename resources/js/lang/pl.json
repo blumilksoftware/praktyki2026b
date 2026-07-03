@@ -53,7 +53,7 @@
       "email": "E-mail",
       "password": "Hasło",
       "rememberMe": "Zapamiętaj mnie",
-      "submit": "Zaloguj się",      
+      "submit": "Zaloguj się",
       "forgotPassword": "Nie pamiętasz hasła?",
       "or": "lub kontynuuj z",
       "google": "Google",
@@ -90,6 +90,18 @@
         "university": "Uczelnia",
         "company": "Firma",
         "student": "Student"
+      },
+      "company": {
+        "title": "Rejestracja firmy",
+        "companyName": "Nazwa firmy",
+        "nip": "NIP",
+        "postalCode": "Kod pocztowy",
+        "city": "Miejscowość",
+        "street": "Ulica",
+        "buildingNumber": "Numer budynku",
+        "phone": "Numer telefonu",
+        "website": "Link do strony firmy (opcjonalnie)",
+        "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
       }
     }
   },
@@ -122,7 +134,7 @@
       "buildingNumber": "Numer budynku",
       "postalCode": "Kod pocztowy",
       "description": "Opis",
-      "close" : "Zamknij",
+      "close": "Zamknij",
       "externalFormUrl": "Zewnętrzny formularz",
       "tags": "Tagi",
       "nip": "NIP",
@@ -153,7 +165,6 @@
       "closeModal": "Zamknij okno",
       "rejectReasonRequired": "Powód odrzucenia jest wymagany.",
       "rejectionReason": "Powód odrzucenia"
-
     },
     "panel": {
       "greeting": "Witaj w panelu administratora!",

@@ -14,6 +14,7 @@ return new class() extends Migration {
             $table->foreignUuid("offer_id")->constrained()->cascadeOnDelete();
             $table->foreignUuid("student_id")->constrained("users")->cascadeOnDelete();
             $table->string("status")->default("pending");
+            $table->string("cv_path")->nullable();
             $table->timestamps();
 
             $table->unique(["offer_id", "student_id"]);
