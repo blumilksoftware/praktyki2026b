@@ -26,7 +26,7 @@ const form = useForm({
 const fieldError = (field) => form.errors[field]
 
 const submit = () => {
-  form.post(ROUTES.registerStudent, {
+  form.post(ROUTES.REGISTER_STUDENT, {
     preserveScroll: true,
   })
 }
@@ -143,7 +143,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
         </div>
 
         <a
-          :href="ROUTES.googleRedirect"
+          :href="ROUTES.GOOGLE_AUTH"
           class="mx-auto flex justify-center items-center gap-2 w-fit rounded-lg border border-text/20 bg-white px-12 py-3 sm:py-2.5 text-base sm:text-lg font-medium text-text hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 shadow-sm"
         >
           <GoogleSvg />
@@ -155,7 +155,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
         <p class="w-full text-center text-base sm:text-lg font-medium">
           {{ t('auth.register.hasAccount') }}
           <Link
-            :href="ROUTES.login"
+            :href="ROUTES.LOGIN"
             class="inline-block text-base sm:text-lg font-medium text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded whitespace-nowrap"
           >
             {{ t('auth.register.loginLink') }}

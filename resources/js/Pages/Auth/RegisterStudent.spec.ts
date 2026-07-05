@@ -68,7 +68,7 @@ describe('RegisterStudent', () => {
     const wrapper = mount(RegisterStudent, {
       global: { plugins: [i18n] },
     })
-    expect(wrapper.find(`a[href="${ROUTES.googleRedirect}"]`).exists()).toBe(true)
+    expect(wrapper.find(`a[href="${ROUTES.GOOGLE_AUTH}"]`).exists()).toBe(true)
   })
 
   it('submits the registration form to the backend', async () => {
@@ -78,7 +78,7 @@ describe('RegisterStudent', () => {
 
     await wrapper.find('form').trigger('submit')
 
-    expect(post).toHaveBeenCalledWith(ROUTES.registerStudent, {
+    expect(post).toHaveBeenCalledWith(ROUTES.REGISTER_STUDENT, {
       preserveScroll: true,
     })
   })
@@ -103,7 +103,7 @@ describe('RegisterStudent', () => {
     const wrapper = mount(RegisterStudent, {
       global: { plugins: [i18n] },
     })
-    const googleLink = wrapper.find(`a[href="${ROUTES.googleRedirect}"]`)
+    const googleLink = wrapper.find(`a[href="${ROUTES.GOOGLE_AUTH}"]`)
     expect(googleLink.exists()).toBe(true)
     expect(googleLink.text()).toContain('Google')
     expect(googleLink.text()).not.toContain('Sign up with Google')
@@ -114,7 +114,7 @@ describe('RegisterStudent', () => {
       global: { plugins: [i18n] },
     })
 
-    expect(wrapper.find(`a[href="${ROUTES.registerCompany}"]`).exists()).toBe(true)
+    expect(wrapper.find(`a[href="${ROUTES.REGISTER_COMPANY}"]`).exists()).toBe(true)
   })
 
   it('marks student tab as active', () => {

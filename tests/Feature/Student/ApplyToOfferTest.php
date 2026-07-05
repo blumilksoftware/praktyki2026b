@@ -6,9 +6,11 @@ namespace Tests\Feature\Student;
 
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Models\Application;
 use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ApplyToOfferTest extends TestCase
@@ -52,6 +54,10 @@ class ApplyToOfferTest extends TestCase
 
     public function testActiveStudentWithCvCanApplyToActiveOfferWithSpots(): void
     {
+        $disk = config("filesystems.default", "local");
+        Storage::fake($disk);
+        Storage::disk($disk)->put("cvs/test_cv.pdf", "CV PDF Content");
+
         $user = User::factory()->create([
             "role" => UserRole::Student,
             "status" => UserStatus::Active,
@@ -67,6 +73,17 @@ class ApplyToOfferTest extends TestCase
         $response->assertRedirect();
         $offer->refresh();
         $this->assertEquals(4, $offer->spots);
+
+        $application = Application::where("offer_id", $offer->id)
+            ->where("student_id", $user->id)
+            ->first();
+
+        $this->assertNotNull($application);
+        $this->assertEquals("pending", $application->status->value);
+        $this->assertNotNull($application->cv_path);
+        $this->assertStringStartsWith("applications/cvs/", $application->cv_path);
+        Storage::disk($disk)->assertExists($application->cv_path);
+        $this->assertEquals("CV PDF Content", Storage::disk($disk)->get($application->cv_path));
         $this->assertDatabaseHas("applications", [
             "offer_id" => $offer->id,
             "student_id" => $user->id,

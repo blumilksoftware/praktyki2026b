@@ -1,0 +1,6 @@
+creation_rules:
+
+  - name: dev
+    path_regex: environment/.deployment/dev/.*$
+    age: >-
+      age1k0swrhngyjhhauzpe3570ekra0rw7n8vuyk4hlcdrruy2704zessmkrpqq
