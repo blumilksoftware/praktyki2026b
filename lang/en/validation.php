@@ -12,6 +12,8 @@ return [
     "already_applied" => "You have already applied for this offer.",
     "offer_inactive" => "This offer is no longer active.",
     "no_spots_available" => "No spots available for this offer.",
+    "city_geocoding_failed" => "We could not find the location for this city. Please check the spelling and try again.",
+    "offer_publish_requires_verification" => "Your company must be verified before you can publish offers. Save it as a draft instead.",
 
     "attributes" => [
         "email" => "email address",
@@ -33,5 +35,14 @@ return [
         "website" => "website",
         "terms" => "terms",
         "cv" => "CV",
+        "title" => "title",
+        "description" => "description",
+        "spots" => "number of spots",
+        "start_date" => "start date",
+        "end_date" => "end date",
+        "work_mode" => "work mode",
+        "status" => "status",
+        "study_field_ids" => "fields of study",
+        "university_ids" => "universities",
     ],
 ];

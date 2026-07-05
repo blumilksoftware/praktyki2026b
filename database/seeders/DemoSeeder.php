@@ -7,9 +7,12 @@ namespace Database\Seeders;
 use App\Enums\ApplicationStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Enums\WorkMode;
 use App\Models\Application;
 use App\Models\Company;
+use App\Models\Faculty;
 use App\Models\Offer;
+use App\Models\StudyField;
 use App\Models\University;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -135,6 +138,27 @@ class DemoSeeder extends Seeder
                 "student_id" => $student->id,
                 "status" => $status,
             ]);
+        }
+
+        $faculty = Faculty::factory()->for($approvedUniversity)->create([
+            "name" => "Wydział Informatyki",
+        ]);
+
+        $studyFields = StudyField::factory()->for($faculty)->count(5)->create();
+
+        $cities = ["Warszawa", "Kraków", "Wrocław", "Poznań", "Gdańsk", "Łódź"];
+        $workModes = WorkMode::cases();
+
+        foreach ($cities as $index => $city) {
+            $offer = Offer::factory()->create([
+                "company_id" => $approvedCompany->id,
+                "city" => $city,
+                "work_mode" => $workModes[$index % count($workModes)],
+            ]);
+
+            $offer->studyFields()->attach(
+                $studyFields->random(random_int(1, 2))->pluck("id"),
+            );
         }
     }
 }

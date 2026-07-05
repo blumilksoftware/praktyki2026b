@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\Company\OfferController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
+use App\Http\Middleware\EnsureCompanyUser;
 use App\Http\Middleware\EnsureStudent;
 use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\User;
@@ -36,6 +38,12 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
     ->group(function (): void {
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
+    });
+
+Route::middleware(["auth", EnsureCompanyUser::class])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::post("/offers", [OfferController::class, "store"])->name("company.offers.store");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
