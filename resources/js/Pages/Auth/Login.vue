@@ -57,6 +57,8 @@ const authError = computed(() => form.errors.email)
         </h1>
 
         <div class="flex flex-col w-full">
+          <AuthErrorDisplay class="w-full mb-6 sm:mb-5" :error="authError" :email="form.email" />
+
           <form class="flex flex-col items-center space-y-6 sm:space-y-5 w-full" @submit.prevent="submit">
             <div class="w-full">
               <BaseInput

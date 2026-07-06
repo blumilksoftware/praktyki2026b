@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\Auth\AuthenticateUser;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
@@ -15,6 +16,10 @@ use Inertia\Response;
 
 class LoginController extends Controller
 {
+    public function __construct(
+        private readonly AuthenticateUser $authenticateUser,
+    ) {}
+
     public function show(): Response
     {
         return Inertia::render("Auth/Login");
@@ -22,11 +27,12 @@ class LoginController extends Controller
 
     public function store(LoginRequest $request): RedirectResponse
     {
-        if (!Auth::attempt($request->only("email", "password"), $request->boolean("remember"))) {
-            throw ValidationException::withMessages([
-                "email" => trans("auth.failed"),
-            ]);
-        }
+        $this->authenticateUser->execute(
+            $request,
+            $request->string("email")->toString(),
+            $request->string("password")->toString(),
+            $request->boolean("remember"),
+        );
 
         $user = Auth::user();
 
@@ -52,8 +58,17 @@ class LoginController extends Controller
             ]);
         }
 
-        $request->session()->regenerate();
+        if (!$user->hasVerifiedEmail()) {
+            return redirect()->route("verification.queue");
+        }
 
-        return redirect()->intended("/");
+        $redirectUrl = match ($user->role) {
+            UserRole::CompanyAdmin => route("company.dashboard"),
+            UserRole::UniversityAdmin => route("university.dashboard"),
+            UserRole::Student => "/",
+            default => "/",
+        };
+
+        return redirect()->intended($redirectUrl);
     }
 }

@@ -1,7 +1,7 @@
 export const ROUTES = {
   ADMIN_DASHBOARD: "/admin/dashboard",
   ADMIN_APPLICATIONS: "/admin/applications",
-
+  DASHBOARD: "/dashboard",
   LOGIN: "/login",
   LOGIN_ADMIN: "/admin/login",
   FORGOT_PASSWORD: "/forgot-password",

@@ -22,3 +22,4 @@ supervisord.pid
 .php-cs-fixer.cache
 .prettierrc
 .prettierrc.*
+*.decrypted
