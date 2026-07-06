@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Services\EmailVerificationService;
 use App\Actions\Auth\AuthenticateUser;
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -27,14 +29,18 @@ class LoginController extends Controller
 
     public function store(LoginRequest $request): RedirectResponse
     {
-        $this->authenticateUser->execute(
+        $user = $this->authenticateUser->execute(
             $request,
             $request->string("email")->toString(),
             $request->string("password")->toString(),
             $request->boolean("remember"),
         );
 
-        $user = Auth::user();
+        if ($user === null) {
+            throw ValidationException::withMessages([
+                "email" => __("auth.failed"),
+            ]);
+        }
 
         if ($user->role === UserRole::SuperAdmin) {
             Auth::logout();
@@ -46,9 +52,17 @@ class LoginController extends Controller
             ]);
         }
 
-        if (!$user->hasVerifiedEmail()) {
-            return redirect()->route("verification.queue");
-        }
+if (!$user->hasVerifiedEmail() || $user->status === UserStatus::Pending) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    app(EmailVerificationService::class)->sendVerificationEmail($user);
+
+    return redirect()->route("verification.waiting")
+        ->with("email", $user->email)
+        ->with("requires_verification", true);
+}
 
         $redirectUrl = match ($user->role) {
             UserRole::CompanyAdmin => route("company.dashboard"),

@@ -38,7 +38,7 @@ class CreateCompanyAccount
                 "organization_id" => $company->id,
                 "terms_accepted_at" => now(),
             ]);
-            $user->sendEmailVerificationNotification();
+app(EmailVerificationService::class)->sendVerificationEmail($user);
 
             return $user;
         });

@@ -20,7 +20,7 @@ class CompanyRegistrationTest extends TestCase
     public function testCompanyCanRegisterWithValidData(): void
     {
         $this->post("/register/company", $this->validPayload())
-            ->assertRedirect("/login");
+            ->assertRedirect(route("verification.waiting"));
 
         $this->assertDatabaseHas("companies", [
             "nip" => "1234563218",
@@ -40,7 +40,7 @@ class CompanyRegistrationTest extends TestCase
         $payload = $this->validPayload(["website" => "https://acme.com"]);
 
         $this->post("/register/company", $payload)
-            ->assertRedirect("/login");
+            ->assertRedirect(route("verification.waiting"));
 
         $this->assertDatabaseHas("companies", [
             "nip" => "1234563218",

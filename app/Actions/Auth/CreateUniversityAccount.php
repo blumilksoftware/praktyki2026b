@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Auth;
 
+use App\Services\EmailVerificationService;
 use App\DTO\Auth\UniversityRegistrationData;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
@@ -37,8 +38,7 @@ class CreateUniversityAccount
             ]);
         });
 
-        $user->sendEmailVerificationNotification();
-
+app(EmailVerificationService::class)->sendVerificationEmail($user);
         return $user;
     }
 }

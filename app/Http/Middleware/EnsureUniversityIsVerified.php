@@ -16,7 +16,15 @@ class EnsureUniversityIsVerified
     {
         $user = $request->user();
 
-        if ($user === null || $user->status !== UserStatus::Active) {
+        if ($user === null) {
+            abort(403);
+        }
+
+        if ($user->status === UserStatus::Pending) {
+            return redirect()->route("university.verification.pending");
+        }
+
+        if ($user->status !== UserStatus::Active) {
             abort(403);
         }
 
