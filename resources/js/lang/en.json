@@ -86,7 +86,7 @@
       "email": "E-mail",
       "password": "Password",
       "passwordConfirmation": "Confirm password",
-      "university": "University (optional)",
+      "optionalUniversity": "University (optional)",
       "termsPrefix": "I confirm that I have read the",
       "termsLink": "terms and conditions",
       "submit": "Register",
@@ -112,6 +112,16 @@
         "phone": "Phone number",
         "website": "Company website (optional)",
         "websiteHint": "You can enter just a domain, e.g. example.com."
+      },
+      "university": {
+        "title": "University registration",
+        "institutionName": "Institution name",
+        "domain": "University domain",
+        "domainHint": "Student email domain, e.g. edu.pl (without https://).",
+        "address": "Address",
+        "phone": "Phone number",
+        "website": "University website link (optional)",
+        "websiteHint": "You can enter just the domain, e.g. example.pl."
       }
     }
   },
