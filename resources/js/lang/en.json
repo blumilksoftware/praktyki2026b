@@ -116,6 +116,8 @@
       "university": {
         "title": "University registration",
         "institutionName": "Institution name",
+        "domain": "University domain",
+        "domainHint": "Student email domain, e.g. edu.pl (without https://).",
         "address": "Address",
         "phone": "Phone number",
         "website": "University website link (optional)",

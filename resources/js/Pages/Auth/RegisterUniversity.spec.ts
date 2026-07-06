@@ -29,6 +29,7 @@ vi.mock('@inertiajs/vue3', async () => {
     useForm: () => ({
       university_name: '',
       email: '',
+      domain: '',
       password: '',
       password_confirmation: '',
       address: '',
@@ -57,20 +58,13 @@ describe('RegisterUniversity', () => {
 
     expect(wrapper.find('#university_name').exists()).toBe(true)
     expect(wrapper.find('#email').exists()).toBe(true)
+    expect(wrapper.find('#domain').exists()).toBe(true)
     expect(wrapper.find('#password').exists()).toBe(true)
     expect(wrapper.find('#password_confirmation').exists()).toBe(true)
     expect(wrapper.find('#address').exists()).toBe(true)
     expect(wrapper.find('#phone').exists()).toBe(true)
     expect(wrapper.find('#website').exists()).toBe(true)
     expect(wrapper.find('#terms').exists()).toBe(true)
-  })
-
-  it('does not render domain field', () => {
-    const wrapper = mount(RegisterUniversity, {
-      global: { plugins: [i18n] },
-    })
-
-    expect(wrapper.find('#domain').exists()).toBe(false)
   })
 
   it('marks university tab as active', () => {
@@ -123,6 +117,7 @@ describe('RegisterUniversity', () => {
     mockFormState.errors = {
       university_name: 'The university name field is required.',
       email: 'The email address field must be a valid email address.',
+      domain: 'The domain field must be a valid domain.',
       terms: 'The terms field must be accepted.',
     }
 
@@ -132,6 +127,7 @@ describe('RegisterUniversity', () => {
 
     expect(wrapper.text()).toContain('The university name field is required.')
     expect(wrapper.text()).toContain('The email address field must be a valid email address.')
+    expect(wrapper.text()).toContain('The domain field must be a valid domain.')
     expect(wrapper.text()).toContain('The terms field must be accepted.')
   })
 })

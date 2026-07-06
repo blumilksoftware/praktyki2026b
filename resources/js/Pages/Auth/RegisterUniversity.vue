@@ -16,6 +16,7 @@ const { t } = useI18n()
 const form = useForm({
   university_name: '',
   email: '',
+  domain: '',
   password: '',
   password_confirmation: '',
   address: '',
@@ -68,6 +69,17 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             required
             :error="fieldError('email')"
           />
+          <BaseInput
+            id="domain"
+            v-model="form.domain"
+            :label="t('auth.register.university.domain')"
+            autocomplete="off"
+            required
+            :error="fieldError('domain')"
+          />
+          <p class="-mt-2 text-sm text-additional">
+            {{ t('auth.register.university.domainHint') }}
+          </p>
           <BaseInput
             id="password"
             v-model="form.password"

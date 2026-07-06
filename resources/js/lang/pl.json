@@ -106,6 +106,8 @@
       "university": {
         "title": "Rejestracja uczelni",
         "institutionName": "Nazwa uczelni",
+        "domain": "Domena uczelni",
+        "domainHint": "Domena e-mail studentów, np. edu.pl (bez https://).",
         "address": "Adres",
         "phone": "Numer telefonu",
         "website": "Link do strony uczelni (opcjonalnie)",
