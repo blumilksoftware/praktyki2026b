@@ -23,6 +23,13 @@ class CompanyController extends Controller
         return inertia("Company/Dashboard");
     }
 
+    public function verificationPending(): Response
+    {
+        return inertia("Auth/VerificationPending", [
+            "user" => Auth::user(),
+        ]);
+    }
+
     public function profile(): Response
     {
         return inertia("Company/Profile", [

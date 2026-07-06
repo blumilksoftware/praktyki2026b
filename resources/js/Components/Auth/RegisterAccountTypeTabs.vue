@@ -30,6 +30,7 @@ const tabs = computed(() => [
     key: 'student',
     label: t('auth.register.accountTypeTabs.student'),
     href: ROUTES.registerStudent,
+
   },
 ])
 

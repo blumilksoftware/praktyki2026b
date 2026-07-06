@@ -1,5 +1,26 @@
 {
- "errors": {
+  "onboarding": {
+    "banner": {
+      "title": "Complete your profile",
+      "description": "Fill in your profile details to get the most out of Applikuj.",
+      "action": "Go to profile",
+      "dismiss": "Dismiss"
+    },
+    "progress": {
+      "title": "Profile completion",
+      "complete": "Your profile is complete!",
+      "nextStep": "Next step: {step}"
+    },
+    "steps": {
+      "university": "University",
+      "cv": "CV",
+      "logo": "Logo",
+      "description": "Description",
+      "tags": "Tags",
+      "externalFormUrl": "Application form URL"
+    }
+  },
+  "errors": {
     "401": {
       "title": "Login required",
       "description": "You must log in to access this page."
@@ -27,6 +48,7 @@
     },
     "login": {
       "title": "Log in",
+      "adminTitle": "Admin Panel Login",
       "heading": "Welcome back!",
       "email": "E-mail",
       "password": "Password",
@@ -56,23 +78,41 @@
     "layout": {
       "skipToContent": "Skip to content"
     },
-    
     "register": {
       "title": "Registration",
-      "heading": "Register",
+      "heading": "Join us!",
       "firstName": "First name",
       "lastName": "Last name",
       "email": "E-mail",
       "password": "Password",
       "passwordConfirmation": "Confirm password",
       "university": "University (optional)",
-      "termsPrefix": "I accept the",
+      "termsPrefix": "I confirm that I have read the",
       "termsLink": "terms and conditions",
       "submit": "Register",
-      "google": "Sign up with Google",
-      "or": "or",
+      "google": "Google",
+      "or": "or continue with",
       "hasAccount": "Already have an account?",
-      "loginLink": "Sign in"
+      "loginLink": "Sign in",
+      "accountTypeTabs": {
+        "label": "Register as",
+        "ariaLabel": "Account type selection",
+        "university": "University",
+        "company": "Company",
+        "student": "Student"
+      },
+      "company": {
+        "title": "Company registration",
+        "companyName": "Company name",
+        "nip": "NIP",
+        "postalCode": "Postal code",
+        "city": "City",
+        "street": "Street",
+        "buildingNumber": "Building number",
+        "phone": "Phone number",
+        "website": "Company website (optional)",
+        "websiteHint": "You can enter just a domain, e.g. example.com."
+      }
     }
   },
   "table": {
@@ -171,5 +211,28 @@
         "toPolish": "Switch to polish"
       }
     }
+  },
+  "university": {
+    "layout": {
+      "title": "University"
+    },
+    "profile": {
+      "title": "Profile"
+    }
+  },
+  "company": {
+    "layout": {
+      "title": "Company"
+    },
+    "profile": {
+      "title": "Profile"
+    }
+  },
+  "pending": {
+    "title": "Accounts under verification",
+    "description": "Thank you for registering. To ensure student safety, every university or company account must be manually approved by our administrator.",
+    "status": "This usually takes {time} hours. When verification is successful, we will unlock your access to the panel and notify you by email.",
+    "contact": "If you have any questions, please contact us at {email}",
+    "log_out": "Log out"
   }
 }

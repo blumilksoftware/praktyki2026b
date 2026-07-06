@@ -100,7 +100,7 @@ class PasswordResetTest extends TestCase
         $this->post("/login", [
             "email" => $user->email,
             "password" => "NewPassword1!",
-        ])->assertRedirect("/home");
+        ])->assertRedirect("/");
 
         $this->assertAuthenticated();
     }

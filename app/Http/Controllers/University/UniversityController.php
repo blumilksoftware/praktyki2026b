@@ -23,6 +23,13 @@ class UniversityController extends Controller
         return inertia("University/Dashboard");
     }
 
+    public function verificationPending(): Response
+    {
+        return inertia("Auth/VerificationPending", [
+            "user" => Auth::user(),
+        ]);
+    }
+
     public function profile(): Response
     {
         return inertia("University/Profile", [

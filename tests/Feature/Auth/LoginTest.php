@@ -25,7 +25,7 @@ class LoginTest extends TestCase
             "password" => "Password123!",
         ]);
 
-        $response->assertRedirect("/home");
+        $response->assertRedirect("/");
         $this->assertAuthenticatedAs($user);
     }
 

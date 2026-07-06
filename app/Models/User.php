@@ -31,6 +31,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property ?Carbon $terms_accepted_at
  * @property ?Carbon $email_verified_at
  * @property ?string $cv_path
+ * @property ?Carbon $onboarding_dismissed_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -53,6 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
         "google_id",
         "terms_accepted_at",
         "cv_path",
+        "onboarding_dismissed_at",
     ];
     protected $hidden = [
         "password",
@@ -74,6 +76,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(EmailVerificationToken::class);
     }
 
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class, "student_id");
+    }
+
+    public function fullName(): string
+    {
+        return trim(($this->first_name ?? "") . " " . ($this->last_name ?? "")) ?: $this->email;
+    }
+
     public function sendEmailVerificationNotification(): void
     {
         app(EmailVerificationService::class)->sendVerificationEmail($this);
@@ -86,6 +98,7 @@ class User extends Authenticatable implements MustVerifyEmail
             "status" => UserStatus::class,
             "email_verified_at" => "datetime",
             "terms_accepted_at" => "datetime",
+            "onboarding_dismissed_at" => "datetime",
             "password" => "hashed",
         ];
     }

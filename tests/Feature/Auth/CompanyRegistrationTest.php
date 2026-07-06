@@ -49,6 +49,20 @@ class CompanyRegistrationTest extends TestCase
         ]);
     }
 
+    public function testCompanyCanRegisterWithWebsiteWithoutProtocol(): void
+    {
+        $payload = $this->validPayload(["website" => "acme.com"]);
+
+        $this->post("/register/company", $payload)
+            ->assertRedirect("/login");
+
+        $this->assertDatabaseHas("companies", [
+            "nip" => "1234563218",
+            "email" => "company@example.com",
+            "website" => "https://acme.com",
+        ]);
+    }
+
     public function testRegistrationFailsWithInvalidNipChecksum(): void
     {
         $this->post("/register/company", $this->validPayload(["nip" => "1234563219"]))
@@ -79,6 +93,46 @@ class CompanyRegistrationTest extends TestCase
         $this->post("/register/company", $this->validPayload(["phone" => "aaaaaa"]))
             ->assertRedirect()
             ->assertSessionHasErrors("phone");
+    }
+
+    public function testCompanyCanRegisterWithFormattedPostalCodeAndPhone(): void
+    {
+        $this->post("/register/company", $this->validPayload([
+            "postal_code" => "00001",
+            "phone" => "123 456 789",
+        ]))->assertRedirect("/login");
+
+        $this->assertDatabaseHas("companies", [
+            "postal_code" => "00-001",
+            "phone" => "+48123456789",
+        ]);
+    }
+
+    public function testRegistrationFailsWithInvalidPostalCodeFormat(): void
+    {
+        $this->post("/register/company", $this->validPayload([
+            "postal_code" => "abcde",
+        ]))->assertRedirect()
+            ->assertSessionHasErrors("postal_code");
+    }
+
+    public function testCompanyCanRegisterWithAlphanumericBuildingNumber(): void
+    {
+        $this->post("/register/company", $this->validPayload([
+            "building_number" => "12A",
+        ]))->assertRedirect("/login");
+
+        $this->assertDatabaseHas("companies", [
+            "building_number" => "12A",
+        ]);
+    }
+
+    public function testRegistrationFailsWithInvalidBuildingNumber(): void
+    {
+        $this->post("/register/company", $this->validPayload([
+            "building_number" => "abc!!!",
+        ]))->assertRedirect()
+            ->assertSessionHasErrors("building_number");
     }
 
     public function testPendingCompanyAdminCannotAccessDashboard(): void
