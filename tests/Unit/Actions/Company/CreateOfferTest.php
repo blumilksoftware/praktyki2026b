@@ -36,6 +36,9 @@ class CreateOfferTest extends TestCase
             "end_date" => "2026-09-30",
             "work_mode" => WorkMode::Hybrid,
             "status" => OfferStatus::Published,
+            "is_paid" => true,
+            "salary_min" => 3000,
+            "salary_max" => 5000,
             "study_field_ids" => [],
             "university_ids" => [],
         ]);
@@ -48,10 +51,41 @@ class CreateOfferTest extends TestCase
         $this->assertEqualsWithDelta(52.2297, $offer->latitude, 0.0001);
         $this->assertEqualsWithDelta(21.0122, $offer->longitude, 0.0001);
         $this->assertEquals(OfferStatus::Published, $offer->status);
+        $this->assertTrue($offer->is_paid);
+        $this->assertEquals(3000, $offer->salary_min);
+        $this->assertEquals(5000, $offer->salary_max);
         $this->assertDatabaseHas("offers", [
             "id" => $offer->id,
             "company_id" => $company->id,
         ]);
+    }
+
+    public function testItCreatesUnpaidOfferWithoutSalaryRange(): void
+    {
+        $this->fakeSuccessfulGeocoding();
+
+        $company = Company::factory()->approved()->create();
+
+        $data = CreateOfferData::fromArray([
+            "title" => "Backend Developer Intern",
+            "description" => "Work on our backend systems.",
+            "spots" => 3,
+            "city" => "Warszawa",
+            "start_date" => "2026-08-01",
+            "end_date" => "2026-09-30",
+            "work_mode" => WorkMode::Hybrid,
+            "status" => OfferStatus::Published,
+            "is_paid" => false,
+            "study_field_ids" => [],
+            "university_ids" => [],
+        ]);
+
+        $action = new CreateOffer(new MapboxGeocodingService());
+        $offer = $action->execute($company, $data);
+
+        $this->assertFalse($offer->is_paid);
+        $this->assertNull($offer->salary_min);
+        $this->assertNull($offer->salary_max);
     }
 
     public function testItAttachesStudyFieldsAndUniversities(): void
@@ -71,6 +105,7 @@ class CreateOfferTest extends TestCase
             "end_date" => "2026-09-30",
             "work_mode" => WorkMode::Remote,
             "status" => OfferStatus::Draft,
+            "is_paid" => false,
             "study_field_ids" => [$studyField->id],
             "university_ids" => [$university->id],
         ]);
@@ -97,6 +132,7 @@ class CreateOfferTest extends TestCase
             "end_date" => "2026-09-30",
             "work_mode" => WorkMode::Hybrid,
             "status" => OfferStatus::Draft,
+            "is_paid" => false,
             "study_field_ids" => [],
             "university_ids" => [],
         ]);
@@ -122,6 +158,9 @@ class CreateOfferTest extends TestCase
             "end_date" => "2026-09-30",
             "work_mode" => WorkMode::Hybrid,
             "status" => OfferStatus::Published,
+            "is_paid" => true,
+            "salary_min" => 3000,
+            "salary_max" => 5000,
             "study_field_ids" => [],
             "university_ids" => [],
         ]);
@@ -151,6 +190,9 @@ class CreateOfferTest extends TestCase
             "end_date" => "2026-09-30",
             "work_mode" => WorkMode::OnSite,
             "status" => OfferStatus::Published,
+            "is_paid" => true,
+            "salary_min" => 3000,
+            "salary_max" => 5000,
             "study_field_ids" => [],
             "university_ids" => [],
         ]);

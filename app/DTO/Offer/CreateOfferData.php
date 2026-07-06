@@ -18,6 +18,9 @@ readonly class CreateOfferData
         public string $endDate,
         public WorkMode $workMode,
         public OfferStatus $status,
+        public bool $isPaid,
+        public ?int $salaryMin,
+        public ?int $salaryMax,
         public array $studyFieldIds,
         public array $universityIds,
     ) {}
@@ -33,6 +36,9 @@ readonly class CreateOfferData
             endDate: $data["end_date"],
             workMode: $data["work_mode"],
             status: $data["status"],
+            isPaid: $data["is_paid"],
+            salaryMin: $data["salary_min"] ?? null,
+            salaryMax: $data["salary_max"] ?? null,
             studyFieldIds: $data["study_field_ids"] ?? [],
             universityIds: $data["university_ids"] ?? [],
         );

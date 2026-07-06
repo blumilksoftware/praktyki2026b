@@ -96,6 +96,9 @@ class CreateOfferTest extends TestCase
             "city" => "Warszawa",
             "work_mode" => "hybrid",
             "status" => "published",
+            "is_paid" => true,
+            "salary_min" => 3000,
+            "salary_max" => 5000,
         ]);
 
         $offer = Offer::where("company_id", $company->id)->firstOrFail();
@@ -142,6 +145,7 @@ class CreateOfferTest extends TestCase
             "end_date",
             "work_mode",
             "status",
+            "is_paid",
         ]);
     }
 
@@ -170,6 +174,57 @@ class CreateOfferTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors("end_date");
+    }
+
+    public function testValidationFailsWhenPaidOfferMissingSalaryRange(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+
+        $response = $this->actingAs($user)->post("/company/offers", [
+            ...$this->validPayload(),
+            "salary_min" => null,
+            "salary_max" => null,
+        ]);
+
+        $response->assertSessionHasErrors(["salary_min", "salary_max"]);
+    }
+
+    public function testValidationFailsWhenSalaryMaxIsLessThanSalaryMin(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+
+        $response = $this->actingAs($user)->post("/company/offers", [
+            ...$this->validPayload(),
+            "salary_min" => 5000,
+            "salary_max" => 3000,
+        ]);
+
+        $response->assertSessionHasErrors("salary_max");
+    }
+
+    public function testUnpaidOfferDoesNotRequireSalaryRange(): void
+    {
+        $this->fakeSuccessfulGeocoding();
+
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+
+        $response = $this->actingAs($user)->post("/company/offers", [
+            ...$this->validPayload(),
+            "is_paid" => false,
+            "salary_min" => null,
+            "salary_max" => null,
+        ]);
+
+        $response->assertRedirect("/company/dashboard");
+        $this->assertDatabaseHas("offers", [
+            "company_id" => $company->id,
+            "is_paid" => false,
+            "salary_min" => null,
+            "salary_max" => null,
+        ]);
     }
 
     public function testOfferCreationFailsWhenCityCannotBeGeocoded(): void
@@ -236,6 +291,9 @@ class CreateOfferTest extends TestCase
             "end_date" => "2026-09-30",
             "work_mode" => "hybrid",
             "status" => "published",
+            "is_paid" => true,
+            "salary_min" => 3000,
+            "salary_max" => 5000,
         ];
     }
 

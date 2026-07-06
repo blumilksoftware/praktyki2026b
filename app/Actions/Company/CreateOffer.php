@@ -49,6 +49,9 @@ class CreateOffer
                 "end_date" => $data->endDate,
                 "work_mode" => $data->workMode,
                 "status" => $data->status,
+                "is_paid" => $data->isPaid,
+                "salary_min" => $data->salaryMin,
+                "salary_max" => $data->salaryMax,
             ]);
 
             $offer->studyFields()->sync($data->studyFieldIds);

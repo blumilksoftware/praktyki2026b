@@ -28,6 +28,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon $end_date
  * @property WorkMode $work_mode
  * @property OfferStatus $status
+ * @property bool $is_paid
+ * @property int|null $salary_min
+ * @property int|null $salary_max
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -49,6 +52,9 @@ class Offer extends Model
         "end_date",
         "work_mode",
         "status",
+        "is_paid",
+        "salary_min",
+        "salary_max",
     ];
 
     public function company(): BelongsTo
@@ -87,6 +93,9 @@ class Offer extends Model
             "end_date" => "date",
             "work_mode" => WorkMode::class,
             "status" => OfferStatus::class,
+            "is_paid" => "boolean",
+            "salary_min" => "integer",
+            "salary_max" => "integer",
         ];
     }
 }

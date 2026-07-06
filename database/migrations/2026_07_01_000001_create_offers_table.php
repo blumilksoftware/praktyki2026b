@@ -23,6 +23,9 @@ return new class() extends Migration {
             $table->date("end_date");
             $table->string("work_mode");
             $table->string("status")->default("draft");
+            $table->boolean("is_paid")->default(false);
+            $table->unsignedInteger("salary_min")->nullable();
+            $table->unsignedInteger("salary_max")->nullable();
             $table->timestamps();
         });
     }
