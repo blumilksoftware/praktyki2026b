@@ -19,6 +19,8 @@ export const ROUTES = {
   GOOGLE_AUTH: "/auth/google/redirect",
   GOOGLE_AUTH_CALLBACK: "/auth/google/callback",
 
+  LANGUAGE_SWITCH: "/language/{locale}",
+  
   HOME: "/",
 } as const
 

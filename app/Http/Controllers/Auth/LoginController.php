@@ -30,13 +30,15 @@ class LoginController extends Controller
 
         $user = Auth::user();
 
-        if (!$user->hasVerifiedEmail()) {
+        if ($user && !$user->hasVerifiedEmail()) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
+            $request->session()->flash("requires_verification", true);
+
             throw ValidationException::withMessages([
-                "email" => __("auth.verification.notVerified"),
+                "email" => __("auth.verification.not_verified"),
             ]);
         }
 

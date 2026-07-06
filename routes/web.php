@@ -12,8 +12,17 @@ use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 require __DIR__ . "/frontend.php";
+
+Route::post("/language/{locale}", function (string $locale) {
+    if (in_array($locale, ["pl", "en"], true)) {
+        Session::put("locale", $locale);
+    }
+
+    return redirect()->back();
+})->name("language.switch");
 
 Route::get("/dev-login", function () {
     $user = User::where("email", "admin@example.com")->first();

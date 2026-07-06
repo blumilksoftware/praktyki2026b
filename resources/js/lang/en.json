@@ -21,8 +21,7 @@
   "auth": {
     "verification": {
       "invalidLink": "Invalid or expired verification link.",
-      "resend_message": "A new verification link has been sent. Check your inbox.",
-      "notVerified": "Your email address has not been verified.",
+      "resendMessage": "A new verification link has been sent. Check your inbox.",
       "resendVerification": "Resend verification link"
     },
     "login": {
@@ -36,7 +35,6 @@
       "registerLink": "Register",
       "google": "Google",
       "or": "or continue with",
-      "resendVerification": "Resend verification link",
       "rememberMe": "Remember me",
       "noAccount": "Don't have an account yet? Sign up",
       "waiting": {

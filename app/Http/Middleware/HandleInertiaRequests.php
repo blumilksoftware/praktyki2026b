@@ -20,6 +20,7 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
+            "locale" => app()->getLocale(),
             "flash" => [
                 "requires_verification" => $request->session()->get("requires_verification"),
                 "status" => $request->session()->get("status"),

@@ -84,7 +84,7 @@ const authError = computed(() => form.errors.email)
               />
             </div>
 
-            <AuthErrorDisplay class="w-full" :error="authError" :email="form.email" />
+            <AuthErrorDisplay class="w-full" :error="authError" :email="form.email" @reset-form="form.reset('password')" />
 
             <div class="flex items-center justify-between mt-2 sm:mt-4 w-full">
               <BaseCheckbox

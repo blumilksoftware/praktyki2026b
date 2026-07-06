@@ -4,6 +4,9 @@ import { Head } from '@inertiajs/vue3'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
+import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
+import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
+import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
 
 const email = ref('student@example.com')
 const password = ref('secret')
@@ -23,6 +26,16 @@ const terms = ref(false)
           Developer page for previewing reusable components.
         </p>
       </header>
+      <section class="flex flex-col gap-4">
+        <h2 class="text-xl font-medium text-text">
+          BaseNavbar
+        </h2>
+        <div class="rounded-lg border border-border bg-white p-6 flex flex-col gap-6">
+          <BaseNavbar />
+          <BaseLogo />
+          <div><LanguageSwitcher current-locale="pl" /></div>
+        </div>
+      </section>
       <section class="flex flex-col gap-4">
         <h2 class="text-xl font-medium text-text">
           BaseInput
