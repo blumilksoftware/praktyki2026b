@@ -1,0 +1,19 @@
+# https://taskfile.dev
+version: "3"
+
+silent: true
+
+tasks:
+  generate-age-keys:
+    desc: "Generate age keys"
+    silent: true
+    cmds:
+      - cmd: docker run --rm registry.blumilk.pl/internal-public/secops-tools-bin:v1.2.0 age-keygen
+
+  generate-laravel-app-key:
+    desc: "Generate Laravel app key"
+    silent: true
+    cmds:
+      - cmd: |
+          NEW_KEY=$(docker run --rm registry.blumilk.pl/internal-public/secops-tools-bin:v1.2.0 sh -c "echo 'base64:'$(openssl rand -base64 32)")
+          echo "Generated key: $NEW_KEY"
