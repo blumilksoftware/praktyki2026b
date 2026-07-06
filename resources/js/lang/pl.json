@@ -86,7 +86,7 @@
       "email": "E-mail",
       "password": "Hasło",
       "passwordConfirmation": "Powtórz hasło",
-      "university": "Uczelnia (opcjonalnie)",
+      "optionalUniversity": "Uczelnia (opcjonalnie)",
       "termsPrefix": "Oświadczam, że zapoznałem się z",
       "termsLink": "warunkami regulaminu",
       "submit": "Zarejestruj się",
@@ -111,6 +111,16 @@
         "buildingNumber": "Numer budynku",
         "phone": "Numer telefonu",
         "website": "Link do strony firmy (opcjonalnie)",
+        "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
+      },
+      "university": {
+        "title": "Rejestracja uczelni",
+        "institutionName": "Nazwa uczelni",
+        "domain": "Domena uczelni",
+        "domainHint": "Domena e-mail studentów, np. edu.pl (bez https://).",
+        "address": "Adres",
+        "phone": "Numer telefonu",
+        "website": "Link do strony uczelni (opcjonalnie)",
         "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
       }
     }
