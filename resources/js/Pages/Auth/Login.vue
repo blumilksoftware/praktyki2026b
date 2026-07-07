@@ -36,7 +36,7 @@ const submit = () => {
   if (document.activeElement instanceof HTMLElement) {
     document.activeElement.blur()
   }
-  form.post(ROUTES.login, {
+  form.post(ROUTES.LOGIN, {
     preserveScroll: true,
   })
 }
@@ -57,6 +57,8 @@ const authError = computed(() => form.errors.email)
         </h1>
 
         <div class="flex flex-col w-full">
+          <AuthErrorDisplay class="w-full mb-6 sm:mb-5" :error="authError" :email="form.email" />
+
           <form class="flex flex-col items-center space-y-6 sm:space-y-5 w-full" @submit.prevent="submit">
             <div class="w-full">
               <BaseInput
@@ -84,8 +86,6 @@ const authError = computed(() => form.errors.email)
               />
             </div>
 
-            <AuthErrorDisplay class="w-full" :error="authError" :email="form.email" />
-
             <div class="flex items-center justify-between mt-2 sm:mt-4 w-full">
               <BaseCheckbox
                 id="remember"
@@ -94,7 +94,7 @@ const authError = computed(() => form.errors.email)
               />
 
               <Link
-                href="/forgot-password"
+                :href="ROUTES.FORGOT_PASSWORD"
                 class="text-link hover:underline text-sm sm:text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-base whitespace-nowrap"
               >
                 {{ t('auth.login.forgotPassword') }}
@@ -119,7 +119,7 @@ const authError = computed(() => form.errors.email)
           </div>
         
           <a
-            :href="ROUTES.googleRedirect"
+            :href="ROUTES.GOOGLE_AUTH"
             class="mx-auto flex justify-center items-center gap-2 w-fit rounded-lg border border-text/20 bg-white px-12 py-3 sm:py-2.5 text-base sm:text-lg font-medium text-text hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 shadow-sm"
           >
             <GoogleSvg />
@@ -130,7 +130,7 @@ const authError = computed(() => form.errors.email)
 
           <div class="w-full text-center">
             <Link
-              :href="ROUTES.registerStudent"
+              :href="ROUTES.REGISTER_STUDENT"
               class="inline-block text-base sm:text-lg font-medium text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded whitespace-nowrap"
             >
               {{ t('auth.login.noAccount') }}

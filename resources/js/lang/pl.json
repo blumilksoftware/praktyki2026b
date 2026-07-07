@@ -1,4 +1,25 @@
 {
+  "onboarding": {
+    "banner": {
+      "title": "Uzupełnij swój profil",
+      "description": "Wypełnij dane profilu, aby w pełni korzystać z Applikuj.",
+      "action": "Przejdź do profilu",
+      "dismiss": "Zamknij"
+    },
+    "progress": {
+      "title": "Uzupełnienie profilu",
+      "complete": "Twój profil jest kompletny!",
+      "nextStep": "Kolejny krok: {step}"
+    },
+    "steps": {
+      "university": "Uczelnia",
+      "cv": "CV",
+      "logo": "Logo",
+      "description": "Opis",
+      "tags": "Tagi",
+      "externalFormUrl": "URL formularza rekrutacyjnego"
+    }
+  },
   "errors": {
     "401": {
       "title": "Wymagane logowanie",
@@ -27,11 +48,12 @@
     },
     "login": {
       "title": "Logowanie",
+      "adminTitle": "Logowanie do panelu administratora",
       "heading": "Witaj ponownie!",
       "email": "E-mail",
       "password": "Hasło",
       "rememberMe": "Zapamiętaj mnie",
-      "submit": "Zaloguj się",      
+      "submit": "Zaloguj się",
       "forgotPassword": "Nie pamiętasz hasła?",
       "or": "lub kontynuuj z",
       "google": "Google",
@@ -54,7 +76,7 @@
       "email": "E-mail",
       "password": "Hasło",
       "passwordConfirmation": "Powtórz hasło",
-      "university": "Uczelnia (opcjonalnie)",
+      "optionalUniversity": "Uczelnia (opcjonalnie)",
       "termsPrefix": "Oświadczam, że zapoznałem się z",
       "termsLink": "warunkami regulaminu",
       "submit": "Zarejestruj się",
@@ -68,6 +90,28 @@
         "university": "Uczelnia",
         "company": "Firma",
         "student": "Student"
+      },
+      "company": {
+        "title": "Rejestracja firmy",
+        "companyName": "Nazwa firmy",
+        "nip": "NIP",
+        "postalCode": "Kod pocztowy",
+        "city": "Miejscowość",
+        "street": "Ulica",
+        "buildingNumber": "Numer budynku",
+        "phone": "Numer telefonu",
+        "website": "Link do strony firmy (opcjonalnie)",
+        "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
+      },
+      "university": {
+        "title": "Rejestracja uczelni",
+        "institutionName": "Nazwa uczelni",
+        "domain": "Domena uczelni",
+        "domainHint": "Domena e-mail studentów, np. edu.pl (bez https://).",
+        "address": "Adres",
+        "phone": "Numer telefonu",
+        "website": "Link do strony uczelni (opcjonalnie)",
+        "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
       }
     }
   },
@@ -100,7 +144,7 @@
       "buildingNumber": "Numer budynku",
       "postalCode": "Kod pocztowy",
       "description": "Opis",
-      "close" : "Zamknij",
+      "close": "Zamknij",
       "externalFormUrl": "Zewnętrzny formularz",
       "tags": "Tagi",
       "nip": "NIP",
@@ -131,7 +175,6 @@
       "closeModal": "Zamknij okno",
       "rejectReasonRequired": "Powód odrzucenia jest wymagany.",
       "rejectionReason": "Powód odrzucenia"
-
     },
     "panel": {
       "greeting": "Witaj w panelu administratora!",
@@ -169,5 +212,28 @@
         "toPolish": "Przełącz na polski"
       }
     }
+  },
+  "university": {
+    "layout": {
+      "title": "Uczelnia"
+    },
+    "profile": {
+      "title": "Profil"
+    }
+  },
+  "company": {
+    "layout": {
+      "title": "Firma"
+    },
+    "profile": {
+      "title": "Profil"
+    }
+  },
+  "pending": {
+    "title": "Konto w trakcie weryfikacji",
+    "description": "Dziękujemy za rejestrację. Aby dbać o bezpieczeństwo studentów, każde konto uczelni lub firmy musi zostać ręcznie zatwierdzone przez naszego administratora.",
+    "status": "Zazwyczaj trwa to {time} godzin. Gdy weryfikacja przebiegnie pomyślnie, odblokujemy Twój dostęp do panelu i wyślemy Ci wiadomość e-mail z potwierdzeniem.",
+    "contact": "Jeśli masz jakiekolwiek pytania, skontaktuj się z nami pod adresem {email}",
+    "log_out": "Wyloguj się"
   }
 }

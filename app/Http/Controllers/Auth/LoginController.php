@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Actions\Auth\AuthenticateUser;
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -31,6 +34,29 @@ class LoginController extends Controller
             $request->boolean("remember"),
         );
 
-        return redirect()->intended("/home");
+        $user = Auth::user();
+
+        if ($user->role === UserRole::SuperAdmin) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            throw ValidationException::withMessages([
+                "email" => __("auth.verification.admin_restricted"),
+            ]);
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            return redirect()->route("verification.queue");
+        }
+
+        $redirectUrl = match ($user->role) {
+            UserRole::CompanyAdmin => route("company.dashboard"),
+            UserRole::UniversityAdmin => route("university.dashboard"),
+            UserRole::Student => "/",
+            default => "/",
+        };
+
+        return redirect()->intended($redirectUrl);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
@@ -52,6 +53,12 @@ Route::middleware(["auth", EnsureStudent::class])
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
+    });
+
+Route::middleware(["auth"])
+    ->prefix("onboarding")
+    ->group(function (): void {
+        Route::post("/dismiss", [OnboardingController::class, "dismiss"])->name("onboarding.dismiss");
     });
 
 Route::middleware(["role:superAdmin"])
