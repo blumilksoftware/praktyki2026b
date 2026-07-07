@@ -237,6 +237,129 @@ class CompanyApplicationsTest extends TestCase
             ->assertStatus(404);
     }
 
+    public function testCompanyAdminCanSetStatusToReviewedAcceptedOrRejected(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+        $offer = Offer::factory()->create(["company_id" => $company->id]);
+        $application = Application::factory()->create(["offer_id" => $offer->id]);
+
+        foreach ([ApplicationStatus::Reviewed, ApplicationStatus::Accepted, ApplicationStatus::Rejected] as $status) {
+            $response = $this->actingAs($user)
+                ->patch(route("company.applications.status.update", $application), [
+                    "status" => $status->value,
+                ]);
+
+            $response->assertRedirect();
+            $this->assertEquals($status, $application->fresh()->status);
+        }
+    }
+
+    public function testCompanyAdminCannotSetStatusToPending(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+        $offer = Offer::factory()->create(["company_id" => $company->id]);
+        $application = Application::factory()->create(["offer_id" => $offer->id, "status" => ApplicationStatus::Accepted]);
+
+        $response = $this->actingAs($user)
+            ->patch(route("company.applications.status.update", $application), [
+                "status" => ApplicationStatus::Pending->value,
+            ]);
+
+        $response->assertSessionHasErrors("status");
+        $this->assertEquals(ApplicationStatus::Accepted, $application->fresh()->status);
+    }
+
+    public function testCompanyAdminCannotSetInvalidStatus(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+        $offer = Offer::factory()->create(["company_id" => $company->id]);
+        $application = Application::factory()->create(["offer_id" => $offer->id, "status" => ApplicationStatus::Accepted]);
+
+        $response = $this->actingAs($user)
+            ->patch(route("company.applications.status.update", $application), [
+                "status" => "invalid_status",
+            ]);
+
+        $response->assertSessionHasErrors("status");
+        $this->assertEquals(ApplicationStatus::Accepted, $application->fresh()->status);
+    }
+
+    public function testCompanyAdminCannotUpdateStatusOfAnotherCompanysApplication(): void
+    {
+        $company1 = Company::factory()->approved()->create();
+        $user1 = $this->makeCompanyAdmin($company1);
+
+        $company2 = Company::factory()->approved()->create();
+        $offer2 = Offer::factory()->create(["company_id" => $company2->id]);
+        $application = Application::factory()->create(["offer_id" => $offer2->id, "status" => ApplicationStatus::Pending]);
+
+        $response = $this->actingAs($user1)
+            ->patch(route("company.applications.status.update", $application), [
+                "status" => ApplicationStatus::Accepted->value,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertEquals(ApplicationStatus::Pending, $application->fresh()->status);
+    }
+
+    public function testNonCompanyAdminRoleCannotUpdateStatus(): void
+    {
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $company = Company::factory()->approved()->create();
+        $offer = Offer::factory()->create(["company_id" => $company->id]);
+        $application = Application::factory()->create(["offer_id" => $offer->id, "status" => ApplicationStatus::Pending]);
+
+        $response = $this->actingAs($student)
+            ->patch(route("company.applications.status.update", $application), [
+                "status" => ApplicationStatus::Accepted->value,
+            ]);
+
+        $response->assertStatus(403);
+        $this->assertEquals(ApplicationStatus::Pending, $application->fresh()->status);
+    }
+
+    public function testGuestCannotUpdateStatus(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $offer = Offer::factory()->create(["company_id" => $company->id]);
+        $application = Application::factory()->create(["offer_id" => $offer->id, "status" => ApplicationStatus::Pending]);
+
+        $response = $this->patch(route("company.applications.status.update", $application), [
+            "status" => ApplicationStatus::Accepted->value,
+        ]);
+
+        $response->assertRedirect(route("login"));
+        $this->assertEquals(ApplicationStatus::Pending, $application->fresh()->status);
+    }
+
+    public function testUnverifiedCompanyCannotUpdateStatus(): void
+    {
+        $company = Company::factory()->pending()->create();
+        $user = User::factory()->create([
+            "role" => UserRole::CompanyAdmin,
+            "status" => UserStatus::Active,
+            "organization_id" => $company->id,
+        ]);
+
+        $offer = Offer::factory()->create(["company_id" => $company->id]);
+        $application = Application::factory()->create(["offer_id" => $offer->id, "status" => ApplicationStatus::Pending]);
+
+        $response = $this->actingAs($user)
+            ->patch(route("company.applications.status.update", $application), [
+                "status" => ApplicationStatus::Accepted->value,
+            ]);
+
+        $response->assertRedirect(route("company.verification.pending"));
+        $this->assertEquals(ApplicationStatus::Pending, $application->fresh()->status);
+    }
+
     private function makeCompanyAdmin(Company $company): User
     {
         return User::factory()->create([

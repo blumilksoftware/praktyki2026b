@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Company;
 
+use App\Actions\Company\UpdateApplicationStatusAction;
+use App\Enums\ApplicationStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateApplicationStatusRequest;
 use App\Models\Application;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -18,6 +22,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApplicationController extends Controller
 {
+    public function __construct(
+        private readonly UpdateApplicationStatusAction $updateApplicationStatusAction,
+    ) {}
+
     public function index(Request $request): Response
     {
         $company = Auth::user()->company;
@@ -75,5 +83,17 @@ class ApplicationController extends Controller
         $filename = ($name ?: "student") . "_CV." . $extension;
 
         return Storage::disk($disk)->download($application->cv_path, $filename);
+    }
+
+    public function updateStatus(UpdateApplicationStatusRequest $request, Application $application): RedirectResponse
+    {
+        Gate::authorize("updateStatus", $application);
+
+        $this->updateApplicationStatusAction->execute(
+            $application,
+            ApplicationStatus::from($request->validated("status")),
+        );
+
+        return back();
     }
 }

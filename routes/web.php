@@ -39,6 +39,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->group(function (): void {
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
+        Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])

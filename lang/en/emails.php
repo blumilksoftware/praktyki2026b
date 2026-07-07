@@ -47,5 +47,10 @@ return [
         "status_changed_title" => "Application status updated",
         "status_changed_body" => "Company :company_name has changed the status of your application for :job_title to: :status.",
         "status_changed_cta" => "Go to dashboard",
+        "status" => [
+            "reviewed" => "reviewed",
+            "accepted" => "accepted",
+            "rejected" => "rejected",
+        ],
     ],
 ];

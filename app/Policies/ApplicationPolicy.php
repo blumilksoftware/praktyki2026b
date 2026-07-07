@@ -15,4 +15,11 @@ class ApplicationPolicy
 
         return $application->offer->company_id === $user->company?->id;
     }
+
+    public function updateStatus(User $user, Application $application): bool
+    {
+        $application->loadMissing("offer");
+
+        return $application->offer->company_id === $user->company?->id;
+    }
 }
