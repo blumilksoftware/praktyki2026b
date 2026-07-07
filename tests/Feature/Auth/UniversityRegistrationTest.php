@@ -90,7 +90,7 @@ class UniversityRegistrationTest extends TestCase
 
         $this->actingAs($user)
             ->get("/university/dashboard")
-            ->assertForbidden();
+            ->assertRedirect("/university/verification/pending");
     }
 
     public function testApprovedUniversityAdminCanAccessDashboard(): void
