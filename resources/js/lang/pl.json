@@ -9,7 +9,10 @@
     "progress": {
       "title": "Uzupełnienie profilu",
       "complete": "Twój profil jest kompletny!",
-      "nextStep": "Kolejny krok: {step}"
+      "nextStep": "Kolejny krok: {step}",
+      "expand": "Pokaż brakujące pola",
+      "collapse": "Ukryj brakujące pola",
+      "missingFields": "Brakujące pola"
     },
     "steps": {
       "university": "Uczelnia",

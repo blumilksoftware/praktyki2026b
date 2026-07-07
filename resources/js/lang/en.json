@@ -9,7 +9,10 @@
     "progress": {
       "title": "Profile completion",
       "complete": "Your profile is complete!",
-      "nextStep": "Next step: {step}"
+      "nextStep": "Next step: {step}",
+      "expand": "Show missing fields",
+      "collapse": "Hide missing fields",
+      "missingFields": "Missing fields"
     },
     "steps": {
       "university": "University",
