@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Actions\Auth;
 
-use App\Services\EmailVerificationService;
 use App\DTO\Auth\StudentRegistrationData;
 use App\Enums\UserRole;
 use App\Models\University;
 use App\Models\User;
+use App\Services\EmailVerificationService;
 use Illuminate\Support\Facades\DB;
 
 class CreateStudentAccount
@@ -29,7 +29,8 @@ class CreateStudentAccount
             "terms_accepted_at" => now(),
         ]));
 
-app(EmailVerificationService::class)->sendVerificationEmail($user);
+        app(EmailVerificationService::class)->sendVerificationEmail($user);
+
         return $user;
     }
 

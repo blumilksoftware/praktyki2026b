@@ -10,7 +10,15 @@ const { t } = useI18n()
 
 const page = usePage()
 
-const email = computed(() => (page.props.flash as any)?.email as string)
+const email = computed(() => {
+  const flash = page.props.flash
+
+  if (flash && typeof flash === 'object' && 'email' in flash) {
+    return String(flash.email)
+  }
+
+  return ''
+})
 
 const cooldown = ref(0)
 const isCooldownActive = computed(() => cooldown.value > 0)
@@ -72,27 +80,17 @@ onMounted(() => {
           </div>
 
           <div class="flex sm:flex-row flex-col justify-center items-center gap-4 sm:gap-6 w-full">
-            <BaseButton
-              v-if="!isCooldownActive"
-              type="button"
-              variant="primary"
-              :disabled="form.processing"
-              @click="resend"
+            <BaseButton v-if="!isCooldownActive" type="button" variant="primary" :disabled="form.processing"
+                        @click="resend"
             >
               {{ t('auth.login.waiting.resend') }}
             </BaseButton>
-            <BaseButton
-              v-else
-              type="button"
-              variant="primary"
-              disabled
-            >
+            <BaseButton v-else type="button" variant="primary" disabled>
               {{ t('auth.login.waiting.resendCooldown', { seconds: cooldown }) }}
             </BaseButton>
 
-            <Link
-              href="/login"
-              class="rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 font-medium text-link text-base sm:text-lg hover:underline whitespace-nowrap"
+            <Link href="/login"
+                  class="rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 font-medium text-link text-base sm:text-lg hover:underline whitespace-nowrap"
             >
               {{ t('auth.login.waiting.backToLogin') }}
             </Link>

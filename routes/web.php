@@ -11,41 +11,9 @@ use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureStudent;
 use App\Http\Middleware\EnsureUniversityIsVerified;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Services\EmailVerificationService;
-
 
 require __DIR__ . "/frontend.php";
-
-Route::get("/dev-login", function () {
-    $user = User::where("email", "admin@example.com")->first();
-
-    if ($user) {
-        if (method_exists($user, "markEmailAsVerified") && !$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified();
-            $user->save();
-        }
-        Auth::login($user);
-        session()->regenerate();
-
-        return redirect()->route("admin.dashboard");
-    }
-
-    return "Admin user not found";
-});
-
-
-Route::get("/dev-send-verification-email", function (EmailVerificationService $service) {
-    $user = User::factory()->unverified()->create([
-        "email" => "test5@example.com",
-    ]);
-
-    $service->sendVerificationEmail($user);
-
-    return "Wysłano maila weryfikacyjnego do {$user->email}. Sprawdź Mailpit.";
-});
 
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")

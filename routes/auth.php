@@ -28,10 +28,8 @@ Route::middleware("guest")->group(function (): void {
     Route::get("/login", [LoginController::class, "show"])->name("login");
     Route::post("/login", [LoginController::class, "store"])->name("login.store");
 
-Route::get("/email/verify/waiting", fn(): Response => inertia("Auth/EmailVerificationWaiting"))->name("verification.waiting");
+    Route::get("/email/verify/waiting", fn(): Response => inertia("Auth/EmailVerificationWaiting"))->name("verification.waiting");
 
-Route::get("/login", [LoginController::class, "show"])->name("login");
-Route::post("/login", [LoginController::class, "store"])->name("login.store");
     Route::get("/forgot-password", [ForgotPasswordController::class, "show"])->name("password.request");
     Route::post("/forgot-password", [ForgotPasswordController::class, "store"])->name("password.email");
 
