@@ -2,9 +2,8 @@
 import { computed, onMounted, ref } from 'vue'
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import AuthLayout from '@/Components/Layouts/AuthLayout.vue'
+import LanguageDropdown from '@/Components/Common/LanguageDropdown.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
-import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 
 const { t } = useI18n()
 
@@ -29,8 +28,10 @@ const form = useForm({
 
 const startCooldown = () => {
   cooldown.value = 60
+
   const interval = setInterval(() => {
     cooldown.value--
+
     if (cooldown.value <= 0) {
       clearInterval(interval)
     }
@@ -52,57 +53,59 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col bg-background min-h-screen">
-    <BaseNavbar class="shrink-0" />
+  <Head :title="t('auth.login.waiting.title')" />
 
-    <AuthLayout class="flex-1 min-h-0">
-      <Head :title="t('auth.login.waiting.title')" />
+  <header class="top-4 right-4 z-10 absolute shadow p-2 rounded-lg">
+    <LanguageDropdown :mobile="true" variant="light" />
+  </header>
 
-      <div class="flex flex-col justify-center items-center sm:px-8 md:px-10 lg:px-12 2xl:px-20 xl:px-16 w-full">
-        <h1 class="mb-8 md:mb-10 font-normal text-text text-5xl md:text-6xl text-center">
+  <main class="flex flex-col justify-center items-center bg-slate-50 px-6 py-16 min-h-screen">
+    <section class="bg-white shadow-sm p-8 md:p-12 rounded-2xl w-full max-w-3xl">
+      <div class="flex justify-center items-center p-4 rounded-lg w-full">
+        <img src="/logo.svg" alt="Applikuj" class="mb-8 w-auto h-10 md:h-12">
+      </div>
+
+      <div class="space-y-8">
+        <h1 class="font-semibold text-slate-900 text-4xl text-center">
           {{ t('auth.login.waiting.heading') }}
         </h1>
 
-        <div class="flex flex-col items-center space-y-6 sm:space-y-5 w-full max-w-2xl">
-          <div class="space-y-4 w-full text-center">
-            <p class="text-text text-lg md:text-xl">
-              {{ t('auth.login.waiting.sentTo') }}
-            </p>
-            <p class="font-semibold text-primary text-xl md:text-2xl">
-              {{ email }}
-            </p>
-          </div>
+        <div class="space-y-4">
+          <p class="text-slate-700 text-base text-center leading-7">
+            {{ t('auth.login.waiting.sentTo') }}
+          </p>
 
-          <div class="w-full text-center">
-            <p class="text-additional text-base md:text-lg">
-              {{ t('auth.login.waiting.expiresInfo') }}
-            </p>
-          </div>
-
-          <div class="flex sm:flex-row flex-col justify-center items-center gap-4 sm:gap-6 w-full">
-            <BaseButton v-if="!isCooldownActive" type="button" variant="primary" :disabled="form.processing"
-                        @click="resend"
-            >
-              {{ t('auth.login.waiting.resend') }}
-            </BaseButton>
-            <BaseButton v-else type="button" variant="primary" disabled>
-              {{ t('auth.login.waiting.resendCooldown', { seconds: cooldown }) }}
-            </BaseButton>
-
-            <Link href="/login"
-                  class="rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 font-medium text-link text-base sm:text-lg hover:underline whitespace-nowrap"
-            >
-              {{ t('auth.login.waiting.backToLogin') }}
-            </Link>
-          </div>
-
-          <div v-if="form.recentlySuccessful" class="w-full text-center">
-            <p class="text-green-600 text-base md:text-lg">
-              {{ t('auth.login.waiting.resendSuccess') }}
-            </p>
-          </div>
+          <p class="font-semibold text-primary text-xl text-center">
+            {{ email }}
+          </p>
         </div>
+
+        <hr class="border-slate-200">
+
+        <p class="text-slate-500 text-base text-center leading-7">
+          {{ t('auth.login.waiting.expiresInfo') }}
+        </p>
+
+        <div class="flex sm:flex-row flex-col justify-center items-center gap-4">
+          <BaseButton v-if="!isCooldownActive" type="button" variant="primary" :disabled="form.processing"
+                      @click="resend"
+          >
+            {{ t('auth.login.waiting.resend') }}
+          </BaseButton>
+
+          <BaseButton v-else type="button" variant="primary" disabled>
+            {{ t('auth.login.waiting.resendCooldown', { seconds: cooldown }) }}
+          </BaseButton>
+
+          <Link href="/login" class="font-medium text-link text-base hover:underline">
+            {{ t('auth.login.waiting.backToLogin') }}
+          </Link>
+        </div>
+
+        <p v-if="form.recentlySuccessful" class="text-green-600 text-base text-center">
+          {{ t('auth.login.waiting.resendSuccess') }}
+        </p>
       </div>
-    </AuthLayout>
-  </div>
+    </section>
+  </main>
 </template>
