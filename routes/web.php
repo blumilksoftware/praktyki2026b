@@ -10,9 +10,8 @@ use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
-use App\Http\Middleware\EnsureCompanyUser;
-use App\Http\Middleware\EnsureStudent;
 use App\Http\Middleware\EnsureUniversityIsVerified;
+use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +42,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
     });
 
-Route::middleware(["auth", EnsureCompanyUser::class])
+Route::middleware(["auth", "can:create," . Offer::class])
     ->prefix("company")
     ->group(function (): void {
         Route::post("/offers", [OfferController::class, "store"])->name("company.offers.store");
@@ -55,7 +54,7 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
         Route::patch("/profile", [UniversityController::class, "update"])->name("university.profile.update");
     });
 
-Route::middleware(["auth", EnsureStudent::class])
+Route::middleware(["auth", "can:access-student-panel"])
     ->prefix("student")
     ->group(function (): void {
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
