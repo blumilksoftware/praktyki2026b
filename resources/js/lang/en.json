@@ -238,6 +238,26 @@
         "profile": "Profile"
       }
     },
+    "cv": {
+      "title": "Your CV (PDF only)",
+      "hint": "Accepted format: PDF. Maximum size: 5 MB.",
+      "selectFile": "Choose PDF file",
+      "dropzone": "or drag and drop it here",
+      "change": "Change",
+      "replace": "Replace",
+      "delete": "Delete file",
+      "preview": "Preview",
+      "previewTitle": "CV preview",
+      "openInNewTab": "Open in a new tab",
+      "previewUnavailable": "CV preview is temporarily unavailable.",
+      "uploading": "Uploading... {progress}%",
+      "defaultFileName": "CV.pdf",
+      "uploaded": "CV uploaded",
+      "errors": {
+        "invalidType": "The file must be a PDF.",
+        "tooLarge": "The file must not be larger than 5 MB."
+      }
+    },
     "profile": {
       "title": "Profile",
       "modal": {

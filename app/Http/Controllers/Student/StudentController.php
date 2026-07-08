@@ -12,6 +12,9 @@ use App\Http\Requests\UploadCvRequest;
 use App\Models\Offer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StudentController extends Controller
 {
@@ -37,6 +40,26 @@ class StudentController extends Controller
         $this->deleteCvAction->execute($user);
 
         return back();
+    }
+
+    public function previewCv(): StreamedResponse
+    {
+        $user = Auth::user();
+
+        if (!$user->cv_path) {
+            throw new NotFoundHttpException();
+        }
+
+        $disk = config("filesystems.default", "local");
+
+        if (!Storage::disk($disk)->exists($user->cv_path)) {
+            throw new NotFoundHttpException();
+        }
+
+        return Storage::disk($disk)->response($user->cv_path, "CV.pdf", [
+            "Content-Type" => "application/pdf",
+            "Content-Disposition" => 'inline; filename="CV.pdf"',
+        ]);
     }
 
     public function apply(Offer $offer): RedirectResponse

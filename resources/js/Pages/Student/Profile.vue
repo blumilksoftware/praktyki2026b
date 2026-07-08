@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconHome, IconUser } from '@tabler/icons-vue'
@@ -43,11 +43,18 @@ const workModeOptions = computed(() => [
   t('student.profile.workMode.options.remote'),
   t('student.profile.workMode.options.hybrid'),
 ])
+const initialSection = computed(() => new URLSearchParams(window.location.search).get('section'))
 
 watch(() => props.user, () => {
   skills.value = [...(props.user.skills ?? [])]
   workModes.value = [...(props.user.work_modes ?? [])]
 }, { immediate: true })
+
+onMounted(() => {
+  if (initialSection.value === 'cv') {
+    isEditOpen.value = true
+  }
+})
 
 function openSkillsModal() {
   skillsDraft.value = [...skills.value]
@@ -104,6 +111,7 @@ function saveWorkModes() {
     <StudentProfileEditModal
       :open="isEditOpen"
       :user="profileUser"
+      :initial-section="initialSection"
       @close="isEditOpen = false"
     />
 

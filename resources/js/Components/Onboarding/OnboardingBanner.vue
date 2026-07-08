@@ -10,11 +10,14 @@ const page = usePage()
 
 const onboarding = computed(() => page.props.onboarding)
 const role = computed(() => page.props.auth?.user?.role)
+const nextStep = computed(() => onboarding.value?.steps?.find(step => !step.completed)?.key ?? null)
 
 const profileUrl = computed(() => {
   if (role.value === 'companyAdmin') return ROUTES.COMPANY_PROFILE
   if (role.value === 'universityAdmin') return ROUTES.UNIVERSITY_PROFILE
-  if (role.value === 'student') return ROUTES.STUDENT_PROFILE
+  if (role.value === 'student') {
+    return nextStep.value === 'cv' ? `${ROUTES.STUDENT_PROFILE}?section=cv` : ROUTES.STUDENT_PROFILE
+  }
   return null
 })
 

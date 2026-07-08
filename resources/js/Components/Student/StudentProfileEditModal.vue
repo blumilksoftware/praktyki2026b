@@ -1,17 +1,19 @@
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import BaseModal from '@/Components/Common/BaseModal.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
+import CvUploadSection from '@/Components/Student/CvUploadSection.vue'
 import ProfileTagInput from '@/Components/Profile/ProfileTagInput.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   open: { type: Boolean, required: true },
   user: { type: Object, required: true },
+  initialSection: { type: String, default: null },
 })
 
 const emit = defineEmits(['close'])
@@ -61,6 +63,8 @@ watch(() => props.open, (isOpen) => {
       preferred_cities: [...(props.user.preferred_cities ?? [])],
     }).reset()
     cancelPhotoPending()
+
+    nextTick(scrollToInitialSection)
   }
 })
 
@@ -68,6 +72,16 @@ const displayPhotoUrl = computed(() => previewUrl.value ?? props.user.photo_url)
 const hasPhotoPending = computed(() => Boolean(pendingFile.value))
 const photoError = computed(() => localError.value || photoForm.errors.photo)
 const fieldError = (field) => profileForm.errors[field]
+
+function scrollToInitialSection() {
+  const targetId = {
+    cv: 'student-cv-section',
+  }[props.initialSection]
+
+  if (targetId) {
+    document.getElementById(targetId)?.scrollIntoView({ block: 'center' })
+  }
+}
 
 function revokePreview() {
   if (previewUrl.value) {
@@ -315,9 +329,7 @@ onBeforeUnmount(revokePreview)
       />
     </form>
 
-    <div class="mt-6 rounded-xl border border-border bg-background px-4 py-3 text-additional text-sm">
-      {{ t('student.profile.edit.cvPlaceholder') }}
-    </div>
+    <CvUploadSection :cv-path="user.cv_path" />
 
     <div class="sticky bottom-0 z-30 -mx-6 mt-8 flex gap-3 border-t border-slate-300 bg-slate-200 px-6 pt-4 pb-4 shadow-[0_-8px_20px_rgba(15,23,42,0.1)]">
       <BaseButton

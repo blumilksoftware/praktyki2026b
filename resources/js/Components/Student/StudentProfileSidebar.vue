@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconMapPin, IconSchool, IconMail, IconFile } from '@tabler/icons-vue'
+import { IconMapPin, IconSchool, IconMail, IconFile, IconCircleCheckFilled } from '@tabler/icons-vue'
 import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
 import ProfileTag from '@/Components/Profile/ProfileTag.vue'
 import ProfileProgress from '@/Components/Onboarding/ProfileProgress.vue'
@@ -75,7 +75,13 @@ const ageLabel = computed(() => {
       class="mt-4 flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm"
     >
       <IconFile class="h-4 w-4 text-primary" aria-hidden="true" />
-      <span class="truncate">{{ t('student.profile.sidebar.cvUploaded') }}</span>
+      <span class="min-w-0 flex-1 truncate font-medium text-text">
+        {{ t('student.cv.defaultFileName') }}
+      </span>
+      <IconCircleCheckFilled
+        class="h-4 w-4 shrink-0 text-green-500"
+        :aria-label="t('student.cv.uploaded')"
+      />
     </div>
 
     <div class="mt-5">
