@@ -4,27 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureCompanyIsVerified
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $user = $request->user();
+        Gate::forUser($request->user())->authorize("access-company-panel");
 
-        if ($user === null || $user->status !== UserStatus::Active) {
-            abort(403);
-        }
-
-        if ($user->company === null) {
-            abort(403);
-        }
-
-        if ($user->company->verification_status !== VerificationStatus::Verified) {
+        if ($request->user()->company->verification_status !== VerificationStatus::Verified) {
             return redirect()->route("company.verification.pending");
         }
 

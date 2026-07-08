@@ -22,4 +22,7 @@ return [
         "client_secret" => env("GOOGLE_CLIENT_SECRET"),
         "redirect" => env("GOOGLE_REDIRECT_URI", "/auth/google/callback"),
     ],
+    "mapbox" => [
+        "access_token" => env("MAPBOX_ACCESS_TOKEN"),
+    ],
 ];
