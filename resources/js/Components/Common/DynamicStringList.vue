@@ -122,11 +122,7 @@ const addItem = () => {
   nextTick(() => inputRef.value?.focus())
 }
 
-// Zapisz po utracie focusu (np. przy odkliknięciu w trakcie edycji)
 const handleBlur = () => {
-  // Używamy małego opóźnienia, aby uniknąć konfliktu (race condition),
-  // jeśli użytkownik opuścił input klikając w przycisk "Dodaj".
-  // (Kliknięcie przycisku powoduje blur na inpucie PRZED odpaleniem funkcji click)
   setTimeout(() => {
     const value = newItem.value.trim()
     if (value && !props.modelValue.includes(value)) {
