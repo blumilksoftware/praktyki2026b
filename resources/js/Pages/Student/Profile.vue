@@ -72,11 +72,25 @@ function openWorkModeModal() {
 }
 
 function toggleWorkMode(mode) {
-  if (workModesDraft.value.includes(mode)) {
-    workModesDraft.value = workModesDraft.value.filter((item) => item !== mode)
+  const [onsite, remote, hybrid] = workModeOptions.value
+
+  if (mode === hybrid) {
+    workModesDraft.value = workModesDraft.value.includes(hybrid) ? [] : [hybrid]
     return
   }
-  workModesDraft.value = [...workModesDraft.value, mode]
+
+  const withoutHybrid = workModesDraft.value.filter(item => item !== hybrid)
+
+  if (workModesDraft.value.includes(mode)) {
+    workModesDraft.value = withoutHybrid.filter((item) => item !== mode)
+    return
+  }
+
+  const nextModes = [...withoutHybrid, mode]
+
+  workModesDraft.value = nextModes.includes(onsite) && nextModes.includes(remote)
+    ? [hybrid]
+    : nextModes
 }
 
 function saveWorkModes() {

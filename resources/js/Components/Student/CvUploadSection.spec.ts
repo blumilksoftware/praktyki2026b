@@ -2,11 +2,15 @@ import { mount } from "@vue/test-utils"
 import type { VueWrapper } from "@vue/test-utils"
 import { nextTick } from "vue"
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import CvUploadSection from "@/Components/Student/CvUploadSection.vue"
 
-const post = vi.fn()
-const deleteRequest = vi.fn()
-const reset = vi.fn()
+const mocks = vi.hoisted(() => ({
+  post: vi.fn(),
+  deleteRequest: vi.fn(),
+  reset: vi.fn(),
+  reload: vi.fn(),
+}))
+
+import CvUploadSection from "@/Components/Student/CvUploadSection.vue"
 
 const mockFormState = {
   errors: {} as Record<string, string>,
@@ -26,10 +30,13 @@ vi.mock("@inertiajs/vue3", async () => {
       get processing() {
         return mockFormState.processing
       },
-      post,
-      delete: deleteRequest,
-      reset,
+      post: mocks.post,
+      delete: mocks.deleteRequest,
+      reset: mocks.reset,
     }),
+    router: {
+      reload: mocks.reload,
+    },
   }
 })
 
@@ -66,9 +73,10 @@ describe("CvUploadSection", () => {
     document.body.innerHTML = ""
     mockFormState.errors = {}
     mockFormState.processing = false
-    post.mockReset()
-    deleteRequest.mockReset()
-    reset.mockReset()
+    mocks.post.mockReset()
+    mocks.deleteRequest.mockReset()
+    mocks.reset.mockReset()
+    mocks.reload.mockReset()
   })
 
   it("shows accepted format and size limit before file selection", () => {
@@ -80,21 +88,26 @@ describe("CvUploadSection", () => {
   })
 
   it("shows filename and replace option after upload", async () => {
-    post.mockImplementation((_url: string, options: { onSuccess: () => void }) => options.onSuccess())
+    mocks.post.mockImplementation((_url: string, options: { onSuccess: () => void }) => options.onSuccess())
     const wrapper = mountComponent()
     const file = new File(["cv"], "Jan_Kowalski_CV.pdf", { type: "application/pdf" })
 
     await selectFile(wrapper, file)
     await nextTick()
 
-    expect(post).toHaveBeenCalledOnce()
+    expect(mocks.post).toHaveBeenCalledOnce()
     expect(wrapper.text()).toContain("Jan_Kowalski_CV.pdf")
     expect(wrapper.text()).toContain("Preview")
     expect(wrapper.text()).toContain("Replace")
+    expect(mocks.reload).toHaveBeenCalledWith({
+      only: ["auth", "onboarding", "user"],
+      preserveScroll: true,
+      preserveState: true,
+    })
   })
 
   it("uploads a dropped PDF instead of letting the browser open it", async () => {
-    post.mockImplementation((_url: string, options: { onSuccess: () => void }) => options.onSuccess())
+    mocks.post.mockImplementation((_url: string, options: { onSuccess: () => void }) => options.onSuccess())
     const wrapper = mountComponent()
     const file = new File(["cv"], "Dropped_CV.pdf", { type: "application/pdf" })
 
@@ -103,12 +116,12 @@ describe("CvUploadSection", () => {
     })
     await nextTick()
 
-    expect(post).toHaveBeenCalledOnce()
+    expect(mocks.post).toHaveBeenCalledOnce()
     expect(wrapper.text()).toContain("Dropped_CV.pdf")
   })
 
   it("opens a preview modal for an uploaded CV", async () => {
-    post.mockImplementation((_url: string, options: { onSuccess: () => void }) => options.onSuccess())
+    mocks.post.mockImplementation((_url: string, options: { onSuccess: () => void }) => options.onSuccess())
     const wrapper = mountComponent()
     const file = new File(["cv"], "Jan_Kowalski_CV.pdf", { type: "application/pdf" })
 
@@ -135,7 +148,7 @@ describe("CvUploadSection", () => {
 
     await selectFile(wrapper, file)
 
-    expect(post).not.toHaveBeenCalled()
+    expect(mocks.post).not.toHaveBeenCalled()
     expect(wrapper.text()).toContain("The file must be a PDF.")
   })
 
@@ -145,7 +158,7 @@ describe("CvUploadSection", () => {
 
     await selectFile(wrapper, file)
 
-    expect(post).not.toHaveBeenCalled()
+    expect(mocks.post).not.toHaveBeenCalled()
     expect(wrapper.text()).toContain("The file must not be larger than 5 MB.")
   })
 
@@ -157,14 +170,19 @@ describe("CvUploadSection", () => {
   })
 
   it("sends delete request when delete action is clicked", async () => {
-    deleteRequest.mockImplementation((_url: string, options: { onSuccess: () => void }) => options.onSuccess())
+    mocks.deleteRequest.mockImplementation((_url: string, options: { onSuccess: () => void }) => options.onSuccess())
     const wrapper = mountComponent({ cvPath: "cvs/existing.pdf" })
     const deleteButton = wrapper.findAll("button").find(button => button.text() === "Delete file")
 
     await deleteButton?.trigger("click")
     await nextTick()
 
-    expect(deleteRequest).toHaveBeenCalledOnce()
+    expect(mocks.deleteRequest).toHaveBeenCalledOnce()
+    expect(mocks.reload).toHaveBeenCalledWith({
+      only: ["auth", "onboarding", "user"],
+      preserveScroll: true,
+      preserveState: true,
+    })
     expect(wrapper.text()).not.toContain("CV.pdf")
   })
 })

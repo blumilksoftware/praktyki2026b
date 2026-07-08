@@ -1,4 +1,5 @@
 import { mount } from "@vue/test-utils"
+import { nextTick } from "vue"
 import { describe, expect, it, vi } from "vitest"
 import { createI18n } from "vue-i18n"
 import Profile from "@/Pages/Student/Profile.vue"
@@ -51,8 +52,8 @@ vi.mock("@inertiajs/vue3", async () => {
 })
 
 describe("Student/Profile", () => {
-  const mountProfile = () => mount(Profile, {
-    props: { user },
+  const mountProfile = (props: Record<string, unknown> = {}) => mount(Profile, {
+    props: { user, ...props },
     global: {
       plugins: [i18n],
       stubs: {
@@ -98,5 +99,23 @@ describe("Student/Profile", () => {
     expect(wrapper.text()).toContain("On-site")
     expect(wrapper.text()).toContain("Remote")
     expect(wrapper.text()).toContain("Hybrid")
+  })
+
+  it("converts on-site and remote selection into hybrid work mode", async () => {
+    const wrapper = mountProfile({ user: { ...user, work_modes: [] } })
+
+    const editButton = wrapper.findAll("button").find((button) => button.text() === "Edit")
+    await editButton?.trigger("click")
+
+    const onSiteButton = wrapper.findAll("button").find((button) => button.text() === "On-site")
+    const remoteButton = wrapper.findAll("button").find((button) => button.text() === "Remote")
+
+    await remoteButton?.trigger("click")
+    await onSiteButton?.trigger("click")
+    await nextTick()
+
+    expect(onSiteButton?.attributes("aria-pressed")).toBe("false")
+    expect(remoteButton?.attributes("aria-pressed")).toBe("false")
+    expect(wrapper.findAll("button").find((button) => button.text() === "Hybrid")?.attributes("aria-pressed")).toBe("true")
   })
 })

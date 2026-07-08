@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { useForm } from '@inertiajs/vue3'
+import { router, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconEye, IconFile, IconUpload } from '@tabler/icons-vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
@@ -66,6 +66,14 @@ function openPreview() {
   }
 }
 
+function refreshProfileState() {
+  router.reload({
+    only: ['auth', 'onboarding', 'user'],
+    preserveScroll: true,
+    preserveState: true,
+  })
+}
+
 function validateFile(file) {
   const fileName = file.name.toLowerCase()
   const isPdf = file.type === 'application/pdf' || fileName.endsWith('.pdf')
@@ -111,6 +119,7 @@ function uploadFile(file) {
       isDeletedLocally.value = false
       form.reset()
       uploadProgress.value = 0
+      refreshProfileState()
     },
     onError: () => URL.revokeObjectURL(objectUrl),
   })
@@ -152,6 +161,7 @@ function deleteCv() {
       revokePreviewObjectUrl()
       form.reset()
       uploadProgress.value = 0
+      refreshProfileState()
     },
   })
 }
