@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\EmailVerificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Log;
 
 class EmailVerificationController extends Controller
 {
@@ -31,21 +32,28 @@ class EmailVerificationController extends Controller
         return redirect("/login");
     }
 
-public function resend(Request $request): RedirectResponse
-{
-    $request->validate([
-        "email" => ["required", "email"],
-    ]);
+    public function resend(Request $request): RedirectResponse
+    {
+        $request->validate([
+            "email" => ["required", "email"],
+        ]);
 
-    $user = User::where("email", $request->string("email"))->first();
+        $user = User::where("email", $request->string("email"))->first();
 
-    if ($user !== null && !$user->hasVerifiedEmail()) {
-        $this->verificationService->sendVerificationEmail($user);
+        Log::info("Resend attempt", [
+            "email" => $request->input("email"),
+            "user_found" => $user !== null,
+            "already_verified" => $user?->hasVerifiedEmail(),
+        ]);
+
+        if ($user !== null && !$user->hasVerifiedEmail()) {
+            $this->verificationService->sendVerificationEmail($user);
+            Log::info("Verification email queued for user " . $user->id);
+        }
+
+        return back()
+            ->with("status", "verification-resend")
+            ->with("requires_verification", true)
+            ->with("email", $request->string("email"));
     }
-
-    return back()
-        ->with("status", "verification-resend")
-        ->with("requires_verification", true)
-        ->with("email", $request->string("email"));
-}
 }

@@ -57,14 +57,16 @@ function tabClass(key, disabled = false) {
     </p>
 
     <div role="tablist" class="flex border-b border-border" :aria-label="t('auth.register.accountTypeTabs.ariaLabel')"
-      aria-labelledby="account-type-label">
+         aria-labelledby="account-type-label"
+    >
       <template v-for="tab in tabs" :key="tab.key">
         <button v-if="tab.disabled" type="button" role="tab" :class="tabClass(tab.key, true)" aria-disabled="true">
           {{ tab.label }}
         </button>
 
         <button v-else-if="activeTab === tab.key" type="button" role="tab" :class="tabClass(tab.key)"
-          aria-selected="true" aria-current="page">
+                aria-selected="true" aria-current="page"
+        >
           {{ tab.label }}
         </button>
 
