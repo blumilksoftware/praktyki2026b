@@ -19,8 +19,8 @@ class CompanyRegistrationController extends Controller
     public function __invoke(CompanyRegistrationRequest $request): RedirectResponse
     {
         $data = CompanyRegistrationData::fromArray($request->getData());
-        $this->createCompanyAccount->execute($data);
+        $user = $this->createCompanyAccount->execute($data);
 
-        return redirect()->route("login")->with("status", __("auth.register.company"));
+        return redirect()->route("verification.waiting")->with("email", $user->email);
     }
 }

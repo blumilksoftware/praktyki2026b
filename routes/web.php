@@ -12,28 +12,9 @@ use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\Offer;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . "/frontend.php";
-
-Route::get("/dev-login", function () {
-    $user = User::where("email", "admin@example.com")->first();
-
-    if ($user) {
-        if (method_exists($user, "markEmailAsVerified") && !$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified();
-            $user->save();
-        }
-        Auth::login($user);
-        session()->regenerate();
-
-        return redirect()->route("admin.dashboard");
-    }
-
-    return "Admin user not found";
-});
 
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")

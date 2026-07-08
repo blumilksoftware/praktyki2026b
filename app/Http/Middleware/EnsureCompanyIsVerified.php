@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use Closure;
 use Illuminate\Http\Request;
@@ -14,9 +15,15 @@ class EnsureCompanyIsVerified
 {
     public function handle(Request $request, Closure $next): Response
     {
-        Gate::forUser($request->user())->authorize("access-company-panel");
+        $user = $request->user();
 
-        if ($request->user()->company->verification_status !== VerificationStatus::Verified) {
+        if ($user->status === UserStatus::Pending) {
+            return redirect()->route("company.verification.pending");
+        }
+
+        Gate::forUser($user)->authorize("access-company-panel");
+
+        if ($user->company->verification_status !== VerificationStatus::Verified) {
             return redirect()->route("company.verification.pending");
         }
 
