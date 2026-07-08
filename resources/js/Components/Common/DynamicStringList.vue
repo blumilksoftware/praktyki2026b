@@ -11,8 +11,15 @@ const props = defineProps({
     required: true,
     default: () => [],
   },
+  max: {
+    type: Number,
+    default: null,
+  },
+  maxLength: {
+    type: Number,
+    default: 60,
+  },
 })
-
 const emit = defineEmits(['update:modelValue'])
 const inputRef = ref(null)
 const newItem = ref('')
@@ -22,7 +29,8 @@ const blurTime = ref(150)
 const errorShowTime = ref(3000)
 const isEditing = ref(false)
 
-const isNewItemValid = computed(() => newItem.value.trim().length > 0)
+const isTextTooLong = computed(() => newItem.value.length > props.maxLength)
+const isNewItemValid = computed(() => newItem.value.trim().length > 0 && !isTextTooLong.value)
 
 const triggerError = (msg = '') => {
   clearTimeout(errorTimeout)
@@ -35,6 +43,11 @@ const triggerError = (msg = '') => {
 }
 
 const addItem = () => {
+  if (props.max && props.modelValue.length >= props.max && !isEditing.value) {
+    triggerError(t('dynamicList.errors.maxReached', { max: props.max }))
+    return
+  }
+
   const value = newItem.value.trim()
   
   if (!value) {
@@ -42,12 +55,21 @@ const addItem = () => {
     return
   }
 
-  if (props.modelValue.includes(value)) {
+  if (value.length > props.maxLength) {
+    triggerError(t('dynamicList.errors.tooLong', { max: props.maxLength }))
+    return
+  }
+
+  const rawItems = value.split(/[,\n;\t]+/).map(item => item.trim()).filter(Boolean)
+  
+  const itemsToAdd = rawItems.filter(item => !props.modelValue.includes(item))
+  
+  if (itemsToAdd.length === 0 && rawItems.length > 0) {
     triggerError(t('dynamicList.errors.exists'))
     return
   }
 
-  emit('update:modelValue', [...props.modelValue, value])
+  emit('update:modelValue', [...props.modelValue, ...itemsToAdd])
   newItem.value = ''
   isEditing.value = false
   
@@ -59,33 +81,13 @@ const handleBlur = () => {
     if (!isEditing.value) return
 
     const value = newItem.value.trim()
-    if (value && !props.modelValue.includes(value)) {
+    if (value && value.length <= props.maxLength && !props.modelValue.includes(value)) {
       emit('update:modelValue', [...props.modelValue, value])
       newItem.value = ''
     }
     
     isEditing.value = false
   }, blurTime.value)
-}
-
-const handlePaste = (e) => {
-  const pasteData = e.clipboardData.getData('text')
-  const separator = ','
-
-  if (pasteData.includes(separator)) {
-    e.preventDefault()
-    const rawItems = pasteData.split(separator).map(item => item.trim())
-    const uniquePastedItems = [...new Set(rawItems)]
-    
-    const itemsToAdd = uniquePastedItems.filter(
-      item => item && !props.modelValue.includes(item),
-    )
-    
-    if (itemsToAdd.length > 0) {
-      emit('update:modelValue', [...props.modelValue, ...itemsToAdd])
-    }
-    newItem.value = ''
-  }
 }
 
 const removeItem = (indexToRemove) => {
@@ -124,14 +126,13 @@ onBeforeUnmount(() => {
           ref="inputRef"
           v-model="newItem"
           type="text"
-          :placeholder="$t('dynamicList.placeholder')"
-          :aria-label="$t('dynamicList.placeholder')"
-          :aria-invalid="!!errorMsg"
-          :aria-describedby="errorMsg ? 'dynamic-list-error' : undefined"
-          class="flex-1 px-4 py-2 text-sm transition-shadow border rounded-md text-text bg-background border-border focus:border-text focus:ring-1 focus:ring-text focus:outline-none"
+          :disabled="props.max && modelValue.length >= props.max"
+          :placeholder="props.max && modelValue.length >= props.max 
+            ? $t('dynamicList.maxReachedPlaceholder') 
+            : $t('dynamicList.placeholder')"
+          class="flex-1 px-4 py-2 text-sm ... disabled:opacity-50 disabled:cursor-not-allowed"
           @keydown.enter.prevent="addItem"
           @keydown.backspace="handleBackspace"
-          @paste="handlePaste"
           @blur="handleBlur"
         >
         <button
@@ -144,25 +145,25 @@ onBeforeUnmount(() => {
         </button>
       </div>
 
-<div class="min-h-[20px] px-1">
-  <Transition
-    enter-active-class="transition duration-200 ease-out"
-    enter-from-class="opacity-0 -translate-y-1"
-    enter-to-class="opacity-100 translate-y-0"
-    leave-active-class="transition duration-150 ease-in"
-    leave-from-class="opacity-100 translate-y-0"
-    leave-to-class="opacity-0 -translate-y-1"
-  >
-    <span 
-      v-if="errorMsg" 
-      id="dynamic-list-error"
-      role="alert"
-      class="block text-xs text-red-500 transform transition-all"
-    >
-      {{ errorMsg }}
-    </span>
-  </Transition>
-</div>
+      <div class="min-h-[20px] px-1">
+        <Transition
+          enter-active-class="transition duration-200 ease-out"
+          enter-from-class="opacity-0 -translate-y-1"
+          enter-to-class="opacity-100 translate-y-0"
+          leave-active-class="transition duration-150 ease-in"
+          leave-from-class="opacity-100 translate-y-0"
+          leave-to-class="opacity-0 -translate-y-1"
+        >
+          <span 
+            v-if="errorMsg" 
+            id="dynamic-list-error"
+            role="alert"
+            class="block text-xs text-red-500 transform transition-all"
+          >
+            {{ errorMsg }}
+          </span>
+        </Transition>
+      </div>
     </div>
 
     <TransitionGroup
@@ -178,24 +179,45 @@ onBeforeUnmount(() => {
       leave-to-class="opacity-0 scale-90"
       move-class="transition duration-150 ease-out"
     >
-<li
-  v-for="(item, index) in modelValue"
-  :key="`${item}-${index}`"
-  tabindex="0"
-  class="flex items-center gap-2 pl-3 pr-2 py-1.5 text-sm border rounded-full text-text bg-background border-border cursor-pointer hover:border-text focus:outline-none focus:ring-2 focus:ring-text transition-colors group"
-  :title="`${item} — ${$t('dynamicList.dblClickToEdit')}`"
-  @dblclick="editItem(index)"
-  @keydown.enter.prevent="editItem(index)"
->
-  <span class="truncate max-w-[150px] sm:max-w-[250px] md:max-w-[350px]">
-    {{ item }}
-  </span>
-  
-  </li>
+      <li
+        v-for="(item, index) in modelValue"
+        :key="`${item}-${index}`"
+        tabindex="0"
+        class="flex items-center gap-2 pl-3 pr-2 py-1.5 text-sm border rounded-full text-text bg-background border-border cursor-pointer hover:border-text focus:outline-none focus:ring-2 focus:ring-text transition-colors group"
+        :title="`${item} — ${$t('dynamicList.dblClickToEdit')}`"
+        @dblclick="editItem(index)"
+        @keydown.enter.prevent="editItem(index)"
+      >
+        <span class="break-all max-w-[200px] sm:max-w-[280px]">
+          {{ item }}
+        </span>
+
+
+        <button
+          type="button"
+          class="flex-shrink-0 rounded-full p-0.5 text-additional hover:text-red-500 hover:bg-red-500/10 transition-colors"
+          :aria-label="$t('dynamicList.removeItem', { item })"
+          @click.stop="removeItem(index)"
+          @dblclick.stop
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </li>
     </TransitionGroup>
 
     <div v-else class="text-sm text-additional">
       {{ $t('dynamicList.emptyState') }}
     </div>
   </div>
+  <button
+    v-if="modelValue.length > 1"
+    type="button"
+    class="text-xs text-red-500 hover:underline self-start mt-4"
+    aria-label="$t('dynamicList.clearAll'):"
+    @click="emit('update:modelValue', [])"
+  >
+    {{ $t('dynamicList.clearAll') }}
+  </button>
 </template>

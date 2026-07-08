@@ -244,9 +244,12 @@
     "emptyState": "Brak elementów na liście.",
     "errors": {
       "empty": "Pole nie może być puste!",
-      "exists": "Element już istnieje!"
+      "exists": "Element już istnieje!",
+      "maxReached": "Osiągnięto maksymalną liczbę elementów ({max})",
+      "tooLong": "Wpisana wartość jest za długa (maksymalnie {max} znaków)"
     },
-    "dblClickToEdit": "Kliknij dwukrotnie, aby edytować"
+    "dblClickToEdit": "Kliknij dwukrotnie, aby edytować",
+    "clearAll": "Wyczyść wszystkie"
 
   }
 }

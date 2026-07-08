@@ -253,8 +253,11 @@
     "emptyState": "No items in the list.",
     "errors": {
       "empty": "Field cannot be empty!",
-      "exists": "Item already exists!"
+      "exists": "Item already exists!",
+      "maxReached": "Maximum number of items reached ({max})",
+      "tooLong": "Entered value is too long (maximum {max} characters)"
     },
-    "dblClickToEdit": "Double click to edit"
+    "dblClickToEdit": "Double click to edit",
+    "clearAll": "Clear all"
   }
 }
