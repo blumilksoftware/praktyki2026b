@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconCircle, IconChevronDown, IconChevronUp } from '@tabler/icons-vue'
+import { IconCircle, IconCircleCheckFilled, IconChevronDown } from '@tabler/icons-vue'
 
 const { t } = useI18n()
 const page = usePage()
@@ -15,7 +15,6 @@ const total = computed(() => steps.value.length)
 const percentage = computed(() => total.value === 0 ? 100 : Math.round((completedCount.value / total.value) * 100))
 const isComplete = computed(() => completedCount.value === total.value)
 const nextStep = computed(() => steps.value.find(s => !s.completed) ?? null)
-const missingSteps = computed(() => steps.value.filter(s => !s.completed))
 
 const fillStyle = computed(() => {
   const style = { width: `${percentage.value}%` }
@@ -60,12 +59,15 @@ function toggleExpanded() {
         type="button"
         class="flex items-center justify-center hover:bg-black/5 rounded-lg w-6 h-6 text-slate-400 hover:text-slate-600 transition shrink-0"
         :aria-expanded="isExpanded"
-        aria-controls="profile-progress-missing-fields"
+        aria-controls="profile-progress-steps"
         :aria-label="isExpanded ? t('onboarding.progress.collapse') : t('onboarding.progress.expand')"
         @click="toggleExpanded"
       >
-        <IconChevronUp v-if="isExpanded" class="w-4 h-4" aria-hidden="true" />
-        <IconChevronDown v-else class="w-4 h-4" aria-hidden="true" />
+        <IconChevronDown
+          class="w-4 h-4 transition-transform duration-300"
+          :class="isExpanded ? 'rotate-180' : ''"
+          aria-hidden="true"
+        />
       </button>
     </div>
 
@@ -75,17 +77,28 @@ function toggleExpanded() {
         : t('onboarding.progress.nextStep', { step: t(`onboarding.steps.${nextStep.key}`) }) }}
     </p>
 
-    <div v-if="isExpanded && !isComplete" id="profile-progress-missing-fields" class="mt-2.5">
-      <span class="sr-only">{{ t('onboarding.progress.missingFields') }}</span>
-      <div class="flex flex-wrap gap-2">
-        <span
-          v-for="step in missingSteps"
-          :key="step.key"
-          class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-500 ring-1 ring-slate-200"
-        >
-          <IconCircle class="w-3 h-3 shrink-0" aria-hidden="true" />
-          {{ t(`onboarding.steps.${step.key}`) }}
-        </span>
+    <div
+      v-if="!isComplete"
+      id="profile-progress-steps"
+      class="grid transition-[grid-template-rows] duration-300 ease-out"
+      :style="{ gridTemplateRows: isExpanded ? '1fr' : '0fr' }"
+    >
+      <div class="min-h-0 overflow-hidden">
+        <span class="sr-only">{{ t('onboarding.progress.allSteps') }}</span>
+        <div class="flex flex-wrap gap-2 pt-2.5">
+          <span
+            v-for="step in steps"
+            :key="step.key"
+            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ring-1"
+            :class="step.completed
+              ? 'bg-green-50 text-green-600 ring-green-200'
+              : 'bg-slate-100 text-slate-500 ring-slate-200'"
+          >
+            <IconCircleCheckFilled v-if="step.completed" class="w-3 h-3 shrink-0" aria-hidden="true" />
+            <IconCircle v-else class="w-3 h-3 shrink-0" aria-hidden="true" />
+            {{ t(`onboarding.steps.${step.key}`) }}
+          </span>
+        </div>
       </div>
     </div>
   </div>

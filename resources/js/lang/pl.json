@@ -10,9 +10,9 @@
       "title": "Uzupełnienie profilu",
       "complete": "Twój profil jest kompletny!",
       "nextStep": "Kolejny krok: {step}",
-      "expand": "Pokaż brakujące pola",
-      "collapse": "Ukryj brakujące pola",
-      "missingFields": "Brakujące pola"
+      "expand": "Pokaż pola profilu",
+      "collapse": "Ukryj pola profilu",
+      "allSteps": "Pola profilu"
     },
     "steps": {
       "university": "Uczelnia",
@@ -20,6 +20,7 @@
       "logo": "Logo",
       "description": "Opis",
       "tags": "Tagi",
+      "faculties": "Wydziały",
       "externalFormUrl": "URL formularza rekrutacyjnego"
     }
   },

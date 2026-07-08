@@ -10,9 +10,9 @@
       "title": "Profile completion",
       "complete": "Your profile is complete!",
       "nextStep": "Next step: {step}",
-      "expand": "Show missing fields",
-      "collapse": "Hide missing fields",
-      "missingFields": "Missing fields"
+      "expand": "Show profile fields",
+      "collapse": "Hide profile fields",
+      "allSteps": "Profile steps"
     },
     "steps": {
       "university": "University",
@@ -20,6 +20,7 @@
       "logo": "Logo",
       "description": "Description",
       "tags": "Tags",
+      "faculties": "Faculties",
       "externalFormUrl": "Application form URL"
     }
   },
