@@ -2,7 +2,6 @@
 import { ref, computed, nextTick, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-
 let blurTimeout = null
 let errorTimeout = null
 
@@ -17,23 +16,22 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 const inputRef = ref(null)
 const newItem = ref('')
-const isShaking = ref(false)
 const errorMsg = ref('')
 const t = useI18n().t
 const blurTime = ref(150)
 const errorShowTime = ref(3000)
+const isEditing = ref(false)
 
 const isNewItemValid = computed(() => newItem.value.trim().length > 0)
 
-const triggerError = async (msg = '') => {
-  errorMsg.value = msg
-  isShaking.value = false
-  await nextTick()
-  isShaking.value = true
-  setTimeout(() => { errorMsg.value = '' }, errorShowTime.value)
+const triggerError = (msg = '') => {
   clearTimeout(errorTimeout)
-  errorTimeout = setTimeout(() => { errorMsg.value = '' }, errorShowTime.value)
+  errorMsg.value = ''
 
+  nextTick(() => {
+    errorMsg.value = msg
+    errorTimeout = setTimeout(() => { errorMsg.value = '' }, errorShowTime.value)
+  })
 }
 
 const addItem = () => {
@@ -51,18 +49,22 @@ const addItem = () => {
 
   emit('update:modelValue', [...props.modelValue, value])
   newItem.value = ''
+  isEditing.value = false
   
   nextTick(() => inputRef.value?.focus())
 }
 
 const handleBlur = () => {
-
   blurTimeout = setTimeout(() => {
+    if (!isEditing.value) return
+
     const value = newItem.value.trim()
     if (value && !props.modelValue.includes(value)) {
       emit('update:modelValue', [...props.modelValue, value])
       newItem.value = ''
     }
+    
+    isEditing.value = false
   }, blurTime.value)
 }
 
@@ -87,7 +89,7 @@ const handlePaste = (e) => {
 }
 
 const removeItem = (indexToRemove) => {
-  const updatedList = props.modelValue.filter((_, index) => index !== indexToRemove)
+  const updatedList = props.withProps || props.modelValue.filter((_, index) => index !== indexToRemove)
   emit('update:modelValue', updatedList)
   inputRef.value?.focus()
 }
@@ -96,6 +98,7 @@ const editItem = (indexToEdit) => {
   const itemValue = props.modelValue[indexToEdit]
   removeItem(indexToEdit)
   newItem.value = itemValue
+  isEditing.value = true
   inputRef.value?.focus()
 }
 
@@ -116,8 +119,6 @@ onBeforeUnmount(() => {
     <div class="flex flex-col gap-1">
       <div
         class="flex items-center gap-3"
-        :class="{ 'animate-shake': isShaking }"
-        @animationend="isShaking = false"
       >
         <input
           ref="inputRef"
@@ -143,16 +144,25 @@ onBeforeUnmount(() => {
         </button>
       </div>
 
-      <div class="min-h-[20px] px-1">
-        <span 
-          v-if="errorMsg" 
-          id="dynamic-list-error"
-          role="alert"
-          class="text-xs text-red-500"
-        >
-          {{ errorMsg }}
-        </span>
-      </div>
+<div class="min-h-[20px] px-1">
+  <Transition
+    enter-active-class="transition duration-200 ease-out"
+    enter-from-class="opacity-0 -translate-y-1"
+    enter-to-class="opacity-100 translate-y-0"
+    leave-active-class="transition duration-150 ease-in"
+    leave-from-class="opacity-100 translate-y-0"
+    leave-to-class="opacity-0 -translate-y-1"
+  >
+    <span 
+      v-if="errorMsg" 
+      id="dynamic-list-error"
+      role="alert"
+      class="block text-xs text-red-500 transform transition-all"
+    >
+      {{ errorMsg }}
+    </span>
+  </Transition>
+</div>
     </div>
 
     <TransitionGroup
@@ -168,27 +178,20 @@ onBeforeUnmount(() => {
       leave-to-class="opacity-0 scale-90"
       move-class="transition duration-150 ease-out"
     >
-      <li
-        v-for="(item, index) in modelValue"
-        :key="`${item}-${index}`"
-        tabindex="0"
-        class="flex items-center gap-2 pl-3 pr-2 py-1.5 text-sm border rounded-full text-text bg-background border-border cursor-pointer hover:border-text focus:outline-none focus:ring-2 focus:ring-text transition-colors group"
-        :title="$t('dynamicList.dblClickToEdit')"
-        @dblclick="editItem(index)"
-        @keydown.enter.prevent="editItem(index)"
-      >
-        <span class="truncate max-w-[200px]">{{ item }}</span>
-        <button
-          type="button"
-          class="flex items-center justify-center w-5 h-5 transition-colors rounded-full text-additional hover:bg-border group-hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500"
-          :aria-label="$t('dynamicList.removeAria', { item })"
-          @click.stop="removeItem(index)"
-        >
-          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
-        </button>
-      </li>
+<li
+  v-for="(item, index) in modelValue"
+  :key="`${item}-${index}`"
+  tabindex="0"
+  class="flex items-center gap-2 pl-3 pr-2 py-1.5 text-sm border rounded-full text-text bg-background border-border cursor-pointer hover:border-text focus:outline-none focus:ring-2 focus:ring-text transition-colors group"
+  :title="`${item} — ${$t('dynamicList.dblClickToEdit')}`"
+  @dblclick="editItem(index)"
+  @keydown.enter.prevent="editItem(index)"
+>
+  <span class="truncate max-w-[150px] sm:max-w-[250px] md:max-w-[350px]">
+    {{ item }}
+  </span>
+  
+  </li>
     </TransitionGroup>
 
     <div v-else class="text-sm text-additional">
