@@ -250,6 +250,11 @@
     "addBtn": "Add",
     "removeBtn": "Remove",
     "removeAria": "Remove item {item}",
-    "emptyState": "No items in the list."
+    "emptyState": "No items in the list.",
+    "errors": {
+      "empty": "Field cannot be empty!",
+      "exists": "Item already exists!"
+    },
+    "dblClickToEdit": "Double click to edit"
   }
 }

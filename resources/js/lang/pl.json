@@ -241,6 +241,12 @@
     "addBtn": "Dodaj",
     "removeBtn": "Usuń",
     "removeAria": "Usuń element {item}",
-    "emptyState": "Brak elementów na liście."
+    "emptyState": "Brak elementów na liście.",
+    "errors": {
+      "empty": "Pole nie może być puste!",
+      "exists": "Element już istnieje!"
+    },
+    "dblClickToEdit": "Kliknij dwukrotnie, aby edytować"
+
   }
 }
