@@ -9,15 +9,7 @@ const { t } = useI18n()
 
 const page = usePage()
 
-const email = computed(() => {
-  const flash = page.props.flash
-
-  if (flash && typeof flash === 'object' && 'email' in flash) {
-    return String(flash.email)
-  }
-
-  return ''
-})
+const email = ref('')
 
 const cooldown = ref(0)
 const isCooldownActive = computed(() => cooldown.value > 0)
@@ -48,11 +40,16 @@ const resend = () => {
 }
 
 onMounted(() => {
+  const flash = page.props.flash
+  if (flash && typeof flash === 'object' && 'email' in flash && flash.email) {
+    email.value = String(flash.email)
+  }
   startCooldown()
 })
 </script>
 
 <template>
+
   <Head :title="t('auth.login.waiting.title')" />
 
   <header class="top-4 right-4 z-10 absolute shadow p-2 rounded-lg">
@@ -87,9 +84,13 @@ onMounted(() => {
         </p>
 
         <div class="flex sm:flex-row flex-col justify-center items-center gap-4">
+
+          <Link href="/login" class="font-medium text-link text-base hover:underline">
+            {{ t('auth.login.waiting.backToLogin') }}
+          </Link>
+
           <BaseButton v-if="!isCooldownActive" type="button" variant="primary" :disabled="form.processing"
-                      @click="resend"
-          >
+            @click="resend">
             {{ t('auth.login.waiting.resend') }}
           </BaseButton>
 
@@ -97,9 +98,7 @@ onMounted(() => {
             {{ t('auth.login.waiting.resendCooldown', { seconds: cooldown }) }}
           </BaseButton>
 
-          <Link href="/login" class="font-medium text-link text-base hover:underline">
-            {{ t('auth.login.waiting.backToLogin') }}
-          </Link>
+
         </div>
 
         <p v-if="form.recentlySuccessful" class="text-green-600 text-base text-center">
