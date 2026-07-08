@@ -9,7 +9,10 @@
     "progress": {
       "title": "Profile completion",
       "complete": "Your profile is complete!",
-      "nextStep": "Next step: {step}"
+      "nextStep": "Next step: {step}",
+      "expand": "Show profile fields",
+      "collapse": "Hide profile fields",
+      "allSteps": "Profile steps"
     },
     "steps": {
       "university": "University",
@@ -17,6 +20,7 @@
       "logo": "Logo",
       "description": "Description",
       "tags": "Tags",
+      "faculties": "Faculties",
       "externalFormUrl": "Application form URL"
     }
   },

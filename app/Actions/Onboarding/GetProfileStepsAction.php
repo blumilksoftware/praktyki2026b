@@ -27,6 +27,7 @@ class GetProfileStepsAction
             ],
             UserRole::UniversityAdmin => [
                 new ProfileStep("logo", filled($user->universityOrganization?->logo_path)),
+                new ProfileStep("faculties", (bool)$user->universityOrganization?->faculties()->exists()),
                 new ProfileStep("externalFormUrl", filled($user->universityOrganization?->external_form_url)),
             ],
             default => [],
