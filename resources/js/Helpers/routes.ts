@@ -22,6 +22,16 @@ export const ROUTES = {
   LANGUAGE_SWITCH: "/language/{locale}",
   
   HOME: "/",
+
+  OFFER_SHOW: `/offers/{offer}`,
+  OFFERS: "/offers",
+  APPLICATIONS: "/applications",
+  PROFILE: "/profile",
+  PROFILE_EDIT: "/profile/edit",
+  TEAM: "/team",
+  
+  SETTINGS: "/settings",
+  LOGOUT: "/logout",
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]

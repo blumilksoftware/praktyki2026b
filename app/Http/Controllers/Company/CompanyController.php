@@ -32,8 +32,31 @@ class CompanyController extends Controller
 
     public function profile(): Response
     {
+        $user = Auth::user();
+
+        $company = $user->company; 
+
         return inertia("Company/Profile", [
-            "user" => Auth::user(),
+            "company" => [
+                "id" => $company?->id ?? $user->id,
+                "name" => $company?->name ?? ($user->first_name . " " . $user->last_name),
+                "logoUrl" => $company?->logo_path ?? null,
+                "tags" => $company?->tags ?? [],
+                "description" => $company?->description ?? null,
+                "email" => $company?->email ?? null,
+                "phone" => $company?->phone ?? null,
+                "website" => $company?->website ?? null,
+                "street" => $company?->street ?? null,
+                "buildingNumber" => $company?->building_number ?? null,
+                "postalCode" => $company?->postal_code ?? null,
+                "city" => $company?->city ?? null,
+                "nip" => $company?->nip ?? null,
+                "offers" => $company ? $company->offers()
+                    ->where("is_active", true)
+                    ->select("id", "title", "description", "spots")
+                    ->latest()
+                    ->get() : [],
+            ],
         ]);
     }
 

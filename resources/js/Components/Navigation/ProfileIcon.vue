@@ -1,13 +1,54 @@
+<script setup>
+import { useI18n } from 'vue-i18n'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { Link, usePage } from '@inertiajs/vue3'
+import { ROUTES } from '@/Helpers/routes'
+import { IconUser } from '@tabler/icons-vue'
+
+const { t } = useI18n()
+const page = usePage()
+
+const user = computed(() => page.props.auth?.user)
+const logoPath = computed(() => user.value?.company?.logo_path)
+
+const isOpen = ref(false)
+const dropdownRef = ref(null)
+
+const handleClickOutside = (event) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+    isOpen.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('mousedown', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('mousedown', handleClickOutside)
+})
+</script>
+
 <template>
-  <div class="relative inline-block text-left" ref="dropdownRef">
-    
+  <div ref="dropdownRef" class="relative inline-block text-left">
     <button
-      @click="isOpen = !isOpen"
-      class="flex items-center justify-center w-10 h-10 rounded-full bg-[#004a8f] text-[#fdf1c3] font-bold text-sm tracking-wide hover:cursor-pointer hover:ring-2 hover:ring-blue-400 hover:ring-offset-2 hover:ring-offset-[#0a192f] transition-all focus:outline-none"
+      class="flex items-center justify-center w-10 h-10 p-0 rounded-full bg-secondary text-accent overflow-hidden hover:cursor-pointer hover:ring-2 hover:ring-link hover:ring-offset-2 hover:ring-offset-background transition-all focus:outline-none"
       :aria-expanded="isOpen"
       aria-haspopup="true"
+      @click="isOpen = !isOpen"
     >
-      JK
+      <img 
+        v-if="logoPath" 
+        :src="logoPath.startsWith('/') ? logoPath : '/' + logoPath" 
+        alt="Profil" 
+        class="w-full h-full object-cover"
+      >
+      
+      <IconUser 
+        v-else 
+        stroke="2" 
+        class="w-6 h-6 text-accent" 
+      />
     </button>
 
     <transition
@@ -20,52 +61,35 @@
     >
       <div 
         v-if="isOpen"
-        class="absolute right-0 mt-3 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+        class="absolute right-0 mt-3 w-48 origin-top-right rounded-xl bg-white shadow-md border border-border focus:outline-none z-50 overflow-hidden"
       >
         <div class="py-1">
-          <a 
-            href="#profil" 
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+          <Link 
+            :href="ROUTES.PROFILE" 
+            class="block px-4 py-2.5 text-sm font-medium text-text hover:bg-background transition-colors"
           >
-            Twój profil
-          </a>
-          <a 
-            href="#ustawienia" 
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-          >
-            Ustawienia
-          </a>
+            {{ t('buttons.myProfile') }}
+          </Link>
           
-          <hr class="my-1 border-gray-200" />
-          
-          <button 
-            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+          <Link 
+            :href="ROUTES.SETTINGS" 
+            class="block px-4 py-2.5 text-sm font-medium text-text hover:bg-background transition-colors"
           >
-            Wyloguj się
-          </button>
+            {{ t('buttons.settings') }}
+          </Link>
+          
+          <hr class="my-1 border-border">
+          
+          <Link 
+            :href="ROUTES.LOGOUT" 
+            method="post" 
+            as="button"
+            class="block w-full text-left px-4 py-2.5 text-sm font-medium text-error hover:bg-red-50 hover:text-error-dark transition-colors"
+          >
+            {{ t('buttons.logout') }}
+          </Link>
         </div>
       </div>
     </transition>
   </div>
 </template>
-
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
-
-const isOpen = ref(false);
-const dropdownRef = ref(null);
-
-const handleClickOutside = (event) => {
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
-    isOpen.value = false;
-  }
-};
-
-onMounted(() => {
-  document.addEventListener('mousedown', handleClickOutside);
-});
-
-onUnmounted(() => {
-  document.removeEventListener('mousedown', handleClickOutside);
-});
-</script>

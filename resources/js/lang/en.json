@@ -123,6 +123,42 @@
       }
     }
   },
+  "profiles": {
+    "navMenu": "Navigation menu",
+    "profile": "Profile",
+    "aboutUs": "About us",
+    "contact": "Contact",
+    "currentOffers": "Current offers",
+    "nip": "NIP",
+    "spots": "Spots",
+    "company": {
+      "myOffers": "My offers",
+      "candidateApplications": "Candidate applications",
+      "teamAndPermissions": "Team and permissions",
+      "noOffers": "The company does not have any open job postings.",
+      "noContactInfo": "The company has not provided contact information.",
+      "noDescription": "The company has not provided a description.",
+      "noTags": "The company has not provided any tags."
+    },
+    "university": {
+    }
+  },
+  "buttons": {
+    "view": "View",
+    "save": "Save",
+    "cancel": "Cancel",
+    "editProfile": "Edit profile",
+    "back": "Back",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close",
+    "showAll": "Show all",
+    "collapseTags": "Collapse tags",
+    "myProfile": "My profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+
   "table": {
     "id": "ID",
     "student": "Student",

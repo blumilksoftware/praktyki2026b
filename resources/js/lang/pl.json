@@ -113,6 +113,42 @@
       }
     }
   },
+"profiles": {
+    "navMenu": "Menu nawigacji",
+    "profile": "Profil",
+    "aboutUs": "O nas",
+    "contact": "Kontakt",
+    "currentOffers": "Aktualne oferty",
+    "nip": "NIP",
+    "spots": "Miejsca",
+    "company": {
+      "myOffers": "Moje oferty",
+      "candidateApplications": "Aplikacje kandydatów",
+      "teamAndPermissions": "Zespół i uprawnienia",
+      "noOffers": "Firma nie ma obecnie otwartych rekrutacji.",
+      "noContactInfo": "Firma nie podała danych kontaktowych.",
+      "noDescription": "Firma nie dodała jeszcze opisu.",
+      "noTags": "Firma nie dodała jeszcze tagów."
+    },
+    "university": {
+    }
+  },
+  "buttons": {
+    "view": "Wyświetl",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "editProfile": "Edytuj profil",
+    "back": "Powrót",
+    "delete": "Usuń",
+    "confirm": "Potwierdź",
+    "close": "Zamknij",
+    "showAll": "Pokaż wszystkie",
+    "collapseTags": "Zwiń tagi",
+    "myProfile": "Mój profil",
+    "settings": "Ustawienia",
+    "logout": "Wyloguj się"
+  },
+
   "table": {
     "id": "ID",
     "student": "Student",

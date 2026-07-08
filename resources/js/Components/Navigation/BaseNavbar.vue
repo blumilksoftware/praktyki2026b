@@ -1,23 +1,15 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
 import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
 import ProfileIcon from '@/Components/Navigation/ProfileIcon.vue'
 
-interface InertiaSharedProps {
-  auth?: {
-    user?: Record<string, any>
-  }
-  [key: string]: any
-}
-
 const page = usePage()
 
-const isAuthenticated = computed(() => {
-  const props = page.props as InertiaSharedProps
-  return !!props.auth?.user
-})
+const user = computed(() => page.props.auth?.user)
+
+const isAuthenticated = computed(() => !!user.value)
 
 const isAuthPage = computed(() => {
   const currentComponent = page.component
@@ -33,8 +25,7 @@ const showProfileIcon = computed(() => isAuthenticated.value && !isAuthPage.valu
       <BaseLogo />
       <div class="flex items-center gap-4">
         <LanguageSwitcher />
-        <ProfileIcon v-if="showProfileIcon"/>
-        <ProfileIcon />
+        <ProfileIcon v-if="showProfileIcon" />
       </div>
     </div>
   </nav>
