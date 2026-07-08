@@ -15,6 +15,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class EmailVerificationTest extends TestCase
@@ -34,7 +35,11 @@ class EmailVerificationTest extends TestCase
 
         $response = $this->get("/email/verify/{$user->id}/{$plainToken}");
 
-        $response->assertRedirect("/login");
+        $response->assertOk()->assertInertia(
+            fn(Assert $page) => $page
+                ->component("Auth/EmailVerificationResult")
+                ->where("status", "success"),
+        );
         $this->assertNotNull($user->fresh()->email_verified_at);
         $this->assertDatabaseMissing("email_verification_tokens", ["user_id" => $user->id]);
     }
@@ -71,8 +76,11 @@ class EmailVerificationTest extends TestCase
 
         $response = $this->get("/email/verify/{$user->id}/{$plainToken}");
 
-        $response->assertRedirect("/login");
-        $response->assertSessionHasErrors("email");
+        $response->assertOk()->assertInertia(
+            fn(Assert $page) => $page
+                ->component("Auth/EmailVerificationResult")
+                ->where("status", "invalid"),
+        );
         $this->assertNull($user->fresh()->email_verified_at);
     }
 
@@ -82,8 +90,11 @@ class EmailVerificationTest extends TestCase
 
         $response = $this->get("/email/verify/{$user->id}/invalid-token");
 
-        $response->assertRedirect("/login");
-        $response->assertSessionHasErrors("email");
+        $response->assertOk()->assertInertia(
+            fn(Assert $page) => $page
+                ->component("Auth/EmailVerificationResult")
+                ->where("status", "invalid"),
+        );
         $this->assertNull($user->fresh()->email_verified_at);
     }
 
@@ -93,8 +104,11 @@ class EmailVerificationTest extends TestCase
 
         $response = $this->get("/email/verify/{$user->id}/any-token");
 
-        $response->assertRedirect("/login");
-        $response->assertSessionMissing("errors");
+        $response->assertOk()->assertInertia(
+            fn(Assert $page) => $page
+                ->component("Auth/EmailVerificationResult")
+                ->where("status", "already_verified"),
+        );
     }
 
     public function testResendSendsNewVerificationEmail(): void
@@ -177,8 +191,11 @@ class EmailVerificationTest extends TestCase
 
         $response = $this->get("/email/verify/{$user->id}/{$plainToken}");
 
-        $response->assertRedirect("/login");
-        $response->assertSessionHasErrors("email");
+        $response->assertOk()->assertInertia(
+            fn(Assert $page) => $page
+                ->component("Auth/EmailVerificationResult")
+                ->where("status", "invalid"),
+        );
         $this->assertNull($user->fresh()->email_verified_at);
     }
 

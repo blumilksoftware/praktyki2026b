@@ -94,7 +94,7 @@ class UpdateUniversityProfileTest extends TestCase
             ->patch("/university/profile", [
                 "domain" => $university->domain,
             ])
-            ->assertForbidden();
+            ->assertRedirect("/university/verification/pending");
     }
 
     public function testLogoValidationFailsForInvalidMimeType(): void

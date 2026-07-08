@@ -35,14 +35,20 @@ class AdminLoginController extends Controller
 
     public function store(LoginRequest $request): RedirectResponse
     {
-        $this->authenticateUser->execute(
+        $user = $this->authenticateUser->execute(
             $request,
             $request->string("email")->toString(),
             $request->string("password")->toString(),
             $request->boolean("remember"),
         );
 
-        if (auth()->user()->role !== UserRole::SuperAdmin) {
+        if ($user === null) {
+            throw ValidationException::withMessages([
+                "email" => __("auth.failed"),
+            ]);
+        }
+
+        if ($user->role !== UserRole::SuperAdmin) {
             auth()->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
