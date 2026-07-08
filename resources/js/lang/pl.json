@@ -235,5 +235,12 @@
     "status": "Zazwyczaj trwa to {time} godzin. Gdy weryfikacja przebiegnie pomyślnie, odblokujemy Twój dostęp do panelu i wyślemy Ci wiadomość e-mail z potwierdzeniem.",
     "contact": "Jeśli masz jakiekolwiek pytania, skontaktuj się z nami pod adresem {email}",
     "log_out": "Wyloguj się"
+  },
+  "dynamicList": {
+    "placeholder": "Wpisz nową wartość...",
+    "addBtn": "Dodaj",
+    "removeBtn": "Usuń",
+    "removeAria": "Usuń element {item}",
+    "emptyState": "Brak elementów na liście."
   }
 }

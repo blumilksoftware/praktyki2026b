@@ -4,11 +4,13 @@ import { Head } from '@inertiajs/vue3'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
+import DynamicStringList from '@/Components/Common/DynamicStringList.vue'
 
 const email = ref('student@example.com')
 const password = ref('secret')
 const inputWithError = ref('')
 const terms = ref(false)
+const dynamicListItems = ref(['Informatyka', 'Programowanie'])
 </script>
 
 <template>
@@ -75,6 +77,14 @@ const terms = ref(false)
           <BaseCheckbox id="showcase-terms" v-model="terms">
             I accept the terms
           </BaseCheckbox>
+        </div>
+      </section>
+      <section class="flex flex-col gap-4">
+        <h2 class="text-xl font-medium text-text">
+          DynamicStringList
+        </h2>
+        <div class="rounded-lg border border-border bg-white p-6">
+          <DynamicStringList v-model="dynamicListItems" />
         </div>
       </section>
     </div>

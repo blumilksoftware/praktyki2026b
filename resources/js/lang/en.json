@@ -244,5 +244,12 @@
     "status": "This usually takes {time} hours. When verification is successful, we will unlock your access to the panel and notify you by email.",
     "contact": "If you have any questions, please contact us at {email}",
     "log_out": "Log out"
+  },
+  "dynamicList": {
+    "placeholder": "Enter a new value...",
+    "addBtn": "Add",
+    "removeBtn": "Remove",
+    "removeAria": "Remove item {item}",
+    "emptyState": "No items in the list."
   }
 }
