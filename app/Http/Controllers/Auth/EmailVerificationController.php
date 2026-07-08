@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\EmailVerificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Response;
 use Log;
 
 class EmailVerificationController extends Controller
@@ -17,19 +18,19 @@ class EmailVerificationController extends Controller
         private readonly EmailVerificationService $verificationService,
     ) {}
 
-    public function verify(string $id, string $token): RedirectResponse
+    public function verify(string $id, string $token): Response
     {
         $user = User::findOrFail($id);
 
         if ($user->hasVerifiedEmail()) {
-            return redirect("/login");
+            return inertia("Auth/EmailVerificationResult", ["status" => "already_verified"]);
         }
 
         if (!$this->verificationService->verify($user, $token)) {
-            return redirect("/login")->withErrors(["email" => "Invalid or expired verification link."]);
+            return inertia("Auth/EmailVerificationResult", ["status" => "invalid"]);
         }
 
-        return redirect("/login");
+        return inertia("Auth/EmailVerificationResult", ["status" => "success"]);
     }
 
     public function resend(Request $request): RedirectResponse

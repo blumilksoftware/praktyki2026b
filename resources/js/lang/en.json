@@ -41,11 +41,27 @@
   },
   "auth": {
     "verification": {
-      "invalidLink": "Invalid or expired verification link.",
-      "resend_message": "A new verification link has been sent. Check your inbox.",
-      "notVerified": "Your email address has not been verified.",
-      "resendVerification": "Resend verification link"
+  "invalidLink": "Invalid or expired verification link.",
+  "resend_message": "A new verification link has been sent. Check your inbox.",
+  "notVerified": "Your email address has not been verified.",
+  "resendVerification": "Resend verification link",
+  "result": {
+    "title": "Email verification",
+    "backToLogin": "Go to login",
+    "success": {
+      "heading": "Email verified successfully",
+      "message": "Your account has been activated. You can now log in."
     },
+    "already_verified": {
+      "heading": "Email already verified",
+      "message": "This email address has already been confirmed. You can log in."
+    },
+    "invalid": {
+      "heading": "Invalid link",
+      "message": "This verification link is invalid or has expired. Request a new one from the login page."
+    }
+  }
+},
     "login": {
       "title": "Log in",
       "adminTitle": "Admin Panel Login",

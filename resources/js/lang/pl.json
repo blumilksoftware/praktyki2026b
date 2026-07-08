@@ -41,11 +41,27 @@
   },
   "auth": {
     "verification": {
-      "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
-      "resendMessage": "Nowy link weryfikacyjny został wysłany. Sprawdź swoją skrzynkę odbiorczą.",
-      "notVerified": "Twój adres e-mail nie został zweryfikowany.",
-      "resendVerification": "Wyślij ponownie link weryfikacyjny"
+  "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
+  "resendMessage": "Nowy link weryfikacyjny został wysłany. Sprawdź swoją skrzynkę odbiorczą.",
+  "notVerified": "Twój adres e-mail nie został zweryfikowany.",
+  "resendVerification": "Wyślij ponownie link weryfikacyjny",
+  "result": {
+    "title": "Weryfikacja e-mail",
+    "backToLogin": "Przejdź do logowania",
+    "success": {
+      "heading": "E-mail zweryfikowany pomyślnie",
+      "message": "Twoje konto zostało aktywowane. Możesz się teraz zalogować."
     },
+    "already_verified": {
+      "heading": "E-mail już zweryfikowany",
+      "message": "Ten adres e-mail został już wcześniej potwierdzony. Możesz się zalogować."
+    },
+    "invalid": {
+      "heading": "Nieprawidłowy link",
+      "message": "Ten link weryfikacyjny jest nieprawidłowy lub wygasł. Poproś o nowy link ze strony logowania."
+    }
+  }
+},
     "login": {
       "title": "Logowanie",
       "adminTitle": "Logowanie do panelu administratora",
