@@ -221,6 +221,117 @@
       "title": "Profil"
     }
   },
+  "student": {
+    "layout": {
+      "title": "Panel studenta",
+      "nav": {
+        "dashboard": "Panel",
+        "profile": "Profil"
+      }
+    },
+    "profile": {
+      "title": "Profil",
+      "modal": {
+        "close": "Zamknij"
+      },
+      "actions": {
+        "save": "Zapisz",
+        "cancel": "Anuluj",
+        "add": "Dodaj",
+        "edit": "Edytuj"
+      },
+      "sidebar": {
+        "editProfile": "Edytuj profil",
+        "age": "{count} lat",
+        "yearTag": "rok {year}",
+        "verified": "Zweryfikowana uczelnia",
+        "cvUploaded": "CV przesłane"
+      },
+      "edit": {
+        "title": "Edytuj profil",
+        "basicData": "Dane podstawowe",
+        "searchPreferences": "Preferencje wyszukiwania",
+        "education": "Edukacja",
+        "age": "Wiek (lata)",
+        "location": "Lokalizacja (miasto, kraj)",
+        "university": "Uczelnia",
+        "studyField": "Kierunek studiów",
+        "studyYear": "Rok studiów",
+        "specialization": "Specjalność",
+        "cvPlaceholder": "Sekcja CV — osobny task T-036.",
+        "saveChanges": "Zapisz zmiany",
+        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” na stronie profilu."
+      },
+      "photo": {
+        "change": "Zmień zdjęcie profilowe",
+        "dropzone": "Przeciągnij zdjęcie tutaj lub wybierz plik",
+        "previewHint": "Podgląd — zapisz zmiany, aby wysłać zdjęcie na serwer.",
+        "cancelPreview": "Anuluj podgląd",
+        "errors": {
+          "invalidType": "Dozwolone formaty: JPG, PNG, WebP.",
+          "tooLarge": "Plik jest za duży (maks. 2 MB)."
+        }
+      },
+      "details": {
+        "firstName": "Imię",
+        "lastName": "Nazwisko",
+        "fields": "Branże",
+        "fieldsPlaceholder": "Wpisz branżę i naciśnij Enter",
+        "cities": "Miasta",
+        "citiesPlaceholder": "Wpisz miasto i naciśnij Enter"
+      },
+      "tags": {
+        "remove": "Usuń tag"
+      },
+      "skills": {
+        "title": "Umiejętności techniczne",
+        "description": "Technologie, narzędzia i języki programowania",
+        "modalTitle": "Dodaj umiejętności techniczne",
+        "placeholder": "Wpisz umiejętność i naciśnij Enter"
+      },
+      "workMode": {
+        "title": "Oczekiwany tryb pracy",
+        "modalTitle": "Edytuj oczekiwany tryb pracy",
+        "options": {
+          "onsite": "Stacjonarnie",
+          "remote": "Zdalnie",
+          "hybrid": "Hybrydowo"
+        }
+      },
+      "applications": {
+        "title": "Zapisane i wysłane aplikacje"
+      },
+      "placeholder": {
+        "comingSoon": "Ta sekcja będzie dostępna wkrótce."
+      },
+      "account": {
+        "title": "Konto i bezpieczeństwo",
+        "description": "Hasło, adres e-mail i usuwanie konta."
+      },
+      "password": {
+        "title": "Zmiana hasła",
+        "current": "Obecne hasło",
+        "new": "Nowe hasło",
+        "confirmation": "Potwierdź nowe hasło"
+      },
+      "email": {
+        "title": "Adres e-mail",
+        "label": "Adres e-mail",
+        "unverifiedNotice": "Adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
+        "resend": "Wyślij ponownie link weryfikacyjny"
+      },
+      "delete": {
+        "title": "Usuń konto",
+        "warning": "Tej operacji nie można cofnąć.",
+        "openModal": "Usuń konto",
+        "modalTitle": "Potwierdź usunięcie konta",
+        "confirmationLabel": "Rozumiem, że tej operacji nie można cofnąć",
+        "password": "Hasło",
+        "confirm": "Usuń konto na stałe",
+        "cancel": "Anuluj"
+      }
+    }
+  },
   "company": {
     "layout": {
       "title": "Firma"

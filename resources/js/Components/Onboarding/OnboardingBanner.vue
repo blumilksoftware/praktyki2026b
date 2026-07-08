@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconX, IconUserCheck } from '@tabler/icons-vue'
+import { ROUTES } from '@/Helpers/routes'
 
 const { t } = useI18n()
 const page = usePage()
@@ -11,8 +12,9 @@ const onboarding = computed(() => page.props.onboarding)
 const role = computed(() => page.props.auth?.user?.role)
 
 const profileUrl = computed(() => {
-  if (role.value === 'companyAdmin') return '/company/profile'
-  if (role.value === 'universityAdmin') return '/university/profile'
+  if (role.value === 'companyAdmin') return ROUTES.COMPANY_PROFILE
+  if (role.value === 'universityAdmin') return ROUTES.UNIVERSITY_PROFILE
+  if (role.value === 'student') return ROUTES.STUDENT_PROFILE
   return null
 })
 
@@ -24,7 +26,7 @@ function dismiss() {
 <template>
   <div
     v-if="onboarding?.show"
-    class="flex items-start gap-4 bg-white/60 backdrop-blur-sm rounded-2xl ring-1 ring-primary/20 shadow-sm px-5 py-4"
+    class="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm"
     role="status"
   >
     <div class="flex items-center justify-center bg-primary/10 rounded-xl w-10 h-10 shrink-0">
