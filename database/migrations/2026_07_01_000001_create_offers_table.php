@@ -16,6 +16,16 @@ return new class() extends Migration {
             $table->text("description");
             $table->unsignedInteger("spots");
             $table->boolean("is_active")->default(true);
+            $table->string("city");
+            $table->decimal("latitude", 10, 7);
+            $table->decimal("longitude", 10, 7);
+            $table->date("start_date");
+            $table->date("end_date");
+            $table->string("work_mode");
+            $table->string("status")->default("draft");
+            $table->boolean("is_paid")->default(false);
+            $table->unsignedInteger("salary_min")->nullable();
+            $table->unsignedInteger("salary_max")->nullable();
             $table->timestamps();
         });
     }

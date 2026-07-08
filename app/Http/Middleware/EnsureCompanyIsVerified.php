@@ -8,6 +8,7 @@ use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureCompanyIsVerified
@@ -16,21 +17,11 @@ class EnsureCompanyIsVerified
     {
         $user = $request->user();
 
-        if ($user === null) {
-            abort(403);
-        }
-
         if ($user->status === UserStatus::Pending) {
             return redirect()->route("company.verification.pending");
         }
 
-        if ($user->status !== UserStatus::Active) {
-            abort(403);
-        }
-
-        if ($user->company === null) {
-            abort(403);
-        }
+        Gate::forUser($user)->authorize("access-company-panel");
 
         if ($user->company->verification_status !== VerificationStatus::Verified) {
             return redirect()->route("company.verification.pending");
