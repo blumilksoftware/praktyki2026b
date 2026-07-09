@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\EmailVerificationTokenPurpose;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,6 +13,7 @@ class EmailVerificationToken extends Model
     public $timestamps = false;
     protected $fillable = [
         "user_id",
+        "purpose",
         "token",
         "expires_at",
     ];
@@ -29,6 +31,7 @@ class EmailVerificationToken extends Model
     protected function casts(): array
     {
         return [
+            "purpose" => EmailVerificationTokenPurpose::class,
             "expires_at" => "datetime",
             "created_at" => "datetime",
         ];
