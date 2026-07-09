@@ -237,6 +237,7 @@
     "log_out": "Wyloguj się"
   },
   "dynamicList": {
+    "noResults": "Brak wyników",
     "placeholder": "Wpisz nową wartość...",
     "addBtn": "Dodaj",
     "removeBtn": "Usuń",

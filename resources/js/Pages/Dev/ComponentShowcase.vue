@@ -11,8 +11,59 @@ const password = ref('secret')
 const inputWithError = ref('')
 const terms = ref(false)
 
-const selectedFrameworks = ref(['Vue'])
-const availableFrameworks = ref(['Vue', 'React', 'Angular', 'Svelte', 'Solid', 'Nuxt', 'Next.js'])
+const selectedTags = ref(['Vue'])
+const availableTags = ref([
+  'JavaScript',
+  'TypeScript',
+  'Vue',
+  'React',
+  'Angular',
+  'Svelte',
+  'Node.js',
+  'Laravel',
+  'PHP',
+  'Python',
+  'Django',
+  'Ruby',
+  'Rails',
+  'Java',
+  'Spring Boot',
+  'C#',
+  '.NET',
+  'Go',
+  'Rust',
+  'Kotlin',
+  'Swift',
+  'Flutter',
+  'Dart',
+  'React Native',
+  'Docker',
+  'Kubernetes',
+  'AWS',
+  'Azure',
+  'Google Cloud',
+  'Firebase',
+  'PostgreSQL',
+  'MySQL',
+  'MongoDB',
+  'Redis',
+  'GraphQL',
+  'REST API',
+  'Git',
+  'GitHub',
+  'CI/CD',
+  'DevOps',
+  'Linux',
+  'UI/UX',
+  'Tailwind CSS',
+  'Bootstrap',
+  'Figma',
+  'Testing',
+  'Jest',
+  'Cypress',
+  'Machine Learning',
+  'Artificial Intelligence',
+])
 </script>
 
 <template>
@@ -87,9 +138,9 @@ const availableFrameworks = ref(['Vue', 'React', 'Angular', 'Svelte', 'Solid', '
         </h2>
         <div class="rounded-lg border border-border bg-white p-6">
           <DynamicMultiSelect 
-            v-model="selectedFrameworks" 
-            :options="availableFrameworks"
-            :max="4"
+            v-model="selectedTags" 
+            :options="availableTags"
+            :max="30"
             :allow-custom="false"
           />
         </div>

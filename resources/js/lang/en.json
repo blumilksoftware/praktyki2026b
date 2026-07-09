@@ -246,6 +246,7 @@
     "log_out": "Log out"
   },
   "dynamicList": {
+    "noResults": "No results",
     "placeholder": "Enter a new value...",
     "addBtn": "Add",
     "removeBtn": "Remove",
