@@ -258,6 +258,17 @@
       "tooLong": "Entered value is too long (maximum {max} characters)"
     },
     "dblClickToEdit": "Double click to edit",
-    "clearAll": "Clear all"
+    "clearAll": "Clear all",
+        "accessibility": {
+      "addItem": "Add a new item to the list",
+      "removeItem": "Remove item {item} from the list",
+      "editItem": "Edit item {item} in the list",
+      "openMenu": "Open options menu for item {item}",
+      "label": "Dynamic list with {count} items. Use arrow keys to navigate items. Press Enter to edit the selected item.",
+      "closeMenu": "Close options menu for item {item}",
+      "suggestions": "Suggestions",
+      "clearAll": "Clear all items from the list"
+    }
+
   }
 }
