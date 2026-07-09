@@ -11,7 +11,7 @@ use App\Http\Middleware\EnsureUniversityIsVerified;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
-Route::get("/", fn(): Response => inertia("Welcome"));
+Route::get("/", fn() => redirect()->route("login"));
 
 Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");

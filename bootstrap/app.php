@@ -27,11 +27,15 @@ return Application::configure(basePath: dirname(__DIR__))
             "role" => EnsureUserHasRole::class,
         ]);
 
-        $middleware->redirectUsersTo(
-            fn(): string => auth()->user()?->role === UserRole::SuperAdmin 
-                ? route("admin.dashboard") 
-                : "/",
-        );
+        $middleware->redirectUsersTo(function (): string {
+            return match (auth()->user()?->role) {
+                UserRole::SuperAdmin => route("admin.dashboard"),
+                UserRole::CompanyAdmin => route("company.dashboard"),
+                UserRole::UniversityAdmin => route("university.dashboard"),
+                UserRole::Student => route("dev.components"),
+                default => route("login"),
+            };
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->respond(function (Response $response, Throwable $_, Request $request): Response {
