@@ -76,7 +76,7 @@ class UpdateCompanyProfileTest extends TestCase
             ->patch("/company/profile", [
                 "description" => "Some description",
             ])
-            ->assertForbidden();
+            ->assertRedirect("/company/verification/pending");
     }
 
     public function testLogoValidationFailsForInvalidMimeType(): void

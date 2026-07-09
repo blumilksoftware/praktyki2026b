@@ -19,7 +19,8 @@ class EmailVerificationService
     public function sendVerificationEmail(User $user): void
     {
         $token = $this->createToken($user, EmailVerificationTokenPurpose::Registration);
-        Mail::to($user->email)->send(new EmailVerificationMail($user, $token));
+
+        Mail::to($user->email)->queue(new EmailVerificationMail($user, $token));
     }
 
     public function verify(User $user, string $token): bool

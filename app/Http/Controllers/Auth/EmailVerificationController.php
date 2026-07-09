@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Services\EmailVerificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Response;
+use Log;
 
 class EmailVerificationController extends Controller
 {
@@ -16,19 +18,19 @@ class EmailVerificationController extends Controller
         private readonly EmailVerificationService $verificationService,
     ) {}
 
-    public function verify(string $id, string $token): RedirectResponse
+    public function verify(string $id, string $token): Response
     {
         $user = User::findOrFail($id);
 
         if ($user->hasVerifiedEmail()) {
-            return redirect("/login");
+            return inertia("Auth/EmailVerificationResult", ["status" => "already_verified"]);
         }
 
         if (!$this->verificationService->verify($user, $token)) {
-            return redirect("/login")->withErrors(["email" => __("auth.verification.invalid_link")]);
+            return inertia("Auth/EmailVerificationResult", ["status" => "invalid"]);
         }
 
-        return redirect("/login");
+        return inertia("Auth/EmailVerificationResult", ["status" => "success"]);
     }
 
     public function verifyChange(string $id, string $token): RedirectResponse
@@ -50,12 +52,20 @@ class EmailVerificationController extends Controller
 
         $user = User::where("email", $request->string("email"))->first();
 
+        Log::info("Resend attempt", [
+            "email" => $request->input("email"),
+            "user_found" => $user !== null,
+            "already_verified" => $user?->hasVerifiedEmail(),
+        ]);
+
         if ($user !== null && !$user->hasVerifiedEmail()) {
             $this->verificationService->sendVerificationEmail($user);
+            Log::info("Verification email queued for user " . $user->id);
         }
 
         return back()
             ->with("status", "verification-resend")
-            ->with("requires_verification", true);
+            ->with("requires_verification", true)
+            ->with("email", $request->string("email"));
     }
 }
