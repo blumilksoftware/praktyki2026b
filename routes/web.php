@@ -10,11 +10,11 @@ use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureStudent;
-use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\EnsureCompanyIsVerified;
+use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -85,6 +85,12 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
         Route::get("/profile/edit", [CompanyController::class, "edit"])->name("company.profile.edit");
+    });
+
+Route::middleware(["auth", "can:create," . Offer::class])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::post("/offers", [OfferController::class, "store"])->name("company.offers.store");
     });
 
 Route::middleware(["auth", "can:create," . Offer::class])
