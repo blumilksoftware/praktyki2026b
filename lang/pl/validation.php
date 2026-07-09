@@ -162,6 +162,8 @@ return [
     "already_applied" => "Już aplikowałeś na tę ofertę.",
     "offer_inactive" => "Ta oferta nie jest już aktywna.",
     "no_spots_available" => "Brak wolnych miejsc na tę ofertę.",
+    "city_geocoding_failed" => "Nie udało się znaleźć lokalizacji dla podanego miasta. Sprawdź pisownię i spróbuj ponownie.",
+    "offer_publish_requires_verification" => "Twoja firma musi zostać zweryfikowana, zanim będzie można publikować oferty. Zapisz ją jako szkic.",
 
     "attributes" => [
         "email" => "adres e-mail",
@@ -183,5 +185,17 @@ return [
         "website" => "strona WWW",
         "terms" => "regulamin",
         "cv" => "CV",
+        "title" => "tytuł",
+        "description" => "opis",
+        "spots" => "liczba miejsc",
+        "start_date" => "data rozpoczęcia",
+        "end_date" => "data zakończenia",
+        "work_mode" => "tryb pracy",
+        "status" => "status",
+        "is_paid" => "płatna",
+        "salary_min" => "minimalne wynagrodzenie",
+        "salary_max" => "maksymalne wynagrodzenie",
+        "study_field_ids" => "kierunki studiów",
+        "university_ids" => "uczelnie",
     ],
 ];

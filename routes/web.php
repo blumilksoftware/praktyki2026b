@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\Company\OfferController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
@@ -13,6 +14,8 @@ use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\EnsureCompanyIsVerified;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -75,13 +78,19 @@ Route::get("/profile/edit", function (Request $request) {
     return redirect("/");
 })->name("profile.edit");
 
-Route::middleware(["auth"])
+Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
     ->group(function (): void {
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
         Route::get("/profile/edit", [CompanyController::class, "edit"])->name("company.profile.edit");
+    });
+
+Route::middleware(["auth", "can:create," . Offer::class])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::post("/offers", [OfferController::class, "store"])->name("company.offers.store");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
@@ -91,7 +100,7 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
         Route::get("/profile/edit", [UniversityController::class, "edit"])->name("university.profile.edit");
     });
 
-Route::middleware(["auth", EnsureStudent::class])
+Route::middleware(["auth", "can:access-student-panel"])
     ->prefix("student")
     ->group(function (): void {
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");

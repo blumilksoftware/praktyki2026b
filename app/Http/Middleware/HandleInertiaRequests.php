@@ -33,6 +33,7 @@ class HandleInertiaRequests extends Middleware
             "flash" => [
                 "requires_verification" => $request->session()->get("requires_verification"),
                 "status" => $request->session()->get("status"),
+                "email" => $request->session()->get("email"),
             ],
             "support_email" => config("mail.support_email"),
         ];

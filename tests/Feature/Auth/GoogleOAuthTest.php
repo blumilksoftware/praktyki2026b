@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Auth;
 
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
@@ -73,6 +74,22 @@ class GoogleOAuthTest extends TestCase
         $user->refresh();
         $this->assertNotNull($user->google_id);
         $this->assertNotNull($user->email_verified_at);
+    }
+
+    public function testPendingGoogleUserCannotLoginAndIsRedirectedToVerificationWaiting(): void
+    {
+        $user = User::factory()->create([
+            "email" => "google@example.com",
+            "google_id" => "google-123",
+            "status" => UserStatus::Pending,
+        ]);
+
+        $this->mockSocialiteCallback();
+
+        $response = $this->get("/auth/google/callback");
+
+        $response->assertRedirect(route("verification.waiting"));
+        $this->assertGuest();
     }
 
     private function mockSocialiteCallback(

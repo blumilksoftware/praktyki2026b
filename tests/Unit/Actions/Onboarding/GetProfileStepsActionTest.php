@@ -80,11 +80,11 @@ class GetProfileStepsActionTest extends TestCase
         $this->assertTrue($steps[2]->completed);
     }
 
-    public function testUniversityAdminGets2Steps(): void
+    public function testUniversityAdminGets3Steps(): void
     {
         $user = User::factory()->create(["role" => UserRole::UniversityAdmin]);
 
-        $this->assertCount(2, $this->action->execute($user));
+        $this->assertCount(3, $this->action->execute($user));
     }
 
     public function testUniversityAdminFilledFieldsAreCompleted(): void
@@ -93,6 +93,7 @@ class GetProfileStepsActionTest extends TestCase
             "logo_path" => "logos/uni.png",
             "external_form_url" => null,
         ]);
+        $university->faculties()->create(["name" => "Faculty of Computer Science"]);
         $user = User::factory()->create([
             "role" => UserRole::UniversityAdmin,
             "organization_id" => $university->id,
@@ -101,6 +102,20 @@ class GetProfileStepsActionTest extends TestCase
         $steps = $this->action->execute($user);
 
         $this->assertTrue($steps[0]->completed);
+        $this->assertTrue($steps[1]->completed);
+        $this->assertFalse($steps[2]->completed);
+    }
+
+    public function testUniversityAdminWithoutFacultiesIsIncomplete(): void
+    {
+        $university = University::factory()->create();
+        $user = User::factory()->create([
+            "role" => UserRole::UniversityAdmin,
+            "organization_id" => $university->id,
+        ]);
+
+        $steps = $this->action->execute($user);
+
         $this->assertFalse($steps[1]->completed);
     }
 

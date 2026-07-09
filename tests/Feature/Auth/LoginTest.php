@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
+use App\Enums\UserStatus;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -70,7 +71,25 @@ class LoginTest extends TestCase
             "password" => "Password123!",
         ]);
 
-        $response->assertSessionHasErrors(["email"]);
+        $response->assertRedirect(route("verification.waiting"));
+        $this->assertGuest();
+    }
+
+    public function testPendingUserCannotLogin(): void
+    {
+        User::factory()->create([
+            "email" => "user@example.com",
+            "password" => "Password123!",
+            "email_verified_at" => now(),
+            "status" => UserStatus::Pending,
+        ]);
+
+        $response = $this->post("/login", [
+            "email" => "user@example.com",
+            "password" => "Password123!",
+        ]);
+
+        $response->assertRedirect(route("verification.waiting"));
         $this->assertGuest();
     }
 }
