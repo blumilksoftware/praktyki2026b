@@ -25,6 +25,7 @@ export const ROUTES = {
 
   OFFER_SHOW: `/offers/{offer}`,
   OFFERS: "/offers",
+  COMPANY_OFFERS: "/search?company_id={companyId}",
   APPLICATIONS: "/applications",
   PROFILE: "/profile",
   PROFILE_EDIT: "/profile/edit",

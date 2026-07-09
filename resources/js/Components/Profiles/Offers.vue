@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue'
 import { router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconBriefcase2Filled } from '@tabler/icons-vue'
@@ -15,9 +16,21 @@ const props = defineProps({
   offers: { type: Array, default: () => [] },
 })
 
+const visibleOffers = computed(() => {
+  return props.offers.slice(0, 6)
+})
+
+const hasMoreOffers = computed(() => {
+  return props.offers.length > 6
+})
+
 const viewOffer = (offerId) => {
   const url = ROUTES.OFFER_SHOW.replace('{offer}', String(offerId))
   router.get(url)
+}
+
+const viewAllOffers = () => {
+  router.get(ROUTES.COMPANY_OFFERS, { company_id: props.id })
 }
 </script>
 
@@ -26,8 +39,9 @@ const viewOffer = (offerId) => {
     <h2 class="text-xl font-bold text-text">{{ t('profiles.currentOffers') }}</h2>
 
     <div v-if="offers && offers.length > 0" class="flex flex-col gap-4">
+      
       <div 
-        v-for="offer in offers" 
+        v-for="offer in visibleOffers" 
         :key="offer.id"
         class="border border-border rounded-2xl p-5 hover:border-primary transition-colors bg-white shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 sm:gap-6 group cursor-pointer"
       >
@@ -56,6 +70,17 @@ const viewOffer = (offerId) => {
           </BaseButton>
         </div>
       </div>
+
+      <div v-if="hasMoreOffers" class="flex justify-center mt-2">
+        <BaseButton
+          variant="secondary"
+          class="px-8 py-2.5 text-sm font-medium shadow-sm w-full sm:w-auto bg-gray-50 hover:bg-gray-100 text-secondary border border-gray-200"
+          @click="viewAllOffers"
+        >
+          {{ t('buttons.showAll') }}
+        </BaseButton>
+      </div>
+
     </div>
 
     <div v-else class="text-gray-400 italic text-sm">
