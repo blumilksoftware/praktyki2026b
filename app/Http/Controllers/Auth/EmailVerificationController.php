@@ -25,7 +25,18 @@ class EmailVerificationController extends Controller
         }
 
         if (!$this->verificationService->verify($user, $token)) {
-            return redirect("/login")->withErrors(["email" => "Invalid or expired verification link."]);
+            return redirect("/login")->withErrors(["email" => __("auth.verification.invalid_link")]);
+        }
+
+        return redirect("/login");
+    }
+
+    public function verifyChange(string $id, string $token): RedirectResponse
+    {
+        $user = User::findOrFail($id);
+
+        if (!$this->verificationService->confirmEmailChange($user, $token)) {
+            return redirect("/login")->withErrors(["email" => __("auth.verification.invalid_link")]);
         }
 
         return redirect("/login");
