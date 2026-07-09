@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Mail;
 
 use App\Models\User;
+use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
-class EmailChangeVerificationMail extends QueueableMailable
+class EmailChangeVerificationMail extends QueueableMailable implements ShouldQueueAfterCommit
 {
     public function __construct(
         public readonly User $user,

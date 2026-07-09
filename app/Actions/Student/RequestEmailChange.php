@@ -6,6 +6,7 @@ namespace App\Actions\Student;
 
 use App\Models\User;
 use App\Services\EmailVerificationService;
+use Illuminate\Support\Facades\DB;
 
 class RequestEmailChange
 {
@@ -15,8 +16,10 @@ class RequestEmailChange
 
     public function execute(User $student, string $newEmail): void
     {
-        $student->forceFill(["pending_email" => $newEmail])->save();
+        DB::transaction(function () use ($student, $newEmail): void {
+            $student->forceFill(["pending_email" => $newEmail])->save();
 
-        $this->verificationService->sendEmailChangeVerification($student, $newEmail);
+            $this->verificationService->sendEmailChangeVerification($student, $newEmail);
+        });
     }
 }
