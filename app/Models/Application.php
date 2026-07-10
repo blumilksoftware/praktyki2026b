@@ -34,7 +34,7 @@ class Application extends Model
 
     public function offer(): BelongsTo
     {
-        return $this->belongsTo(Offer::class);
+        return $this->belongsTo(Offer::class)->withTrashed();
     }
 
     public function student(): BelongsTo

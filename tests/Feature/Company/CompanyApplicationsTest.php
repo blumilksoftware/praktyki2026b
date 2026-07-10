@@ -237,6 +237,27 @@ class CompanyApplicationsTest extends TestCase
             ->assertStatus(404);
     }
 
+    public function testApplicationsListDoesNotThrowWhenOfferHasBeenSoftDeleted(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+
+        $offer = Offer::factory()->create(["company_id" => $company->id, "title" => "Deleted Offer"]);
+        $application = Application::factory()->create(["offer_id" => $offer->id]);
+        $offer->delete();
+
+        $this->actingAs($user)
+            ->get(route("company.applications"))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Company/Applications")
+                    ->has("applications.data", 1)
+                    ->where("applications.data.0.id", $application->id)
+                    ->where("applications.data.0.offer_title", "Deleted Offer"),
+            );
+    }
+
     private function makeCompanyAdmin(Company $company): User
     {
         return User::factory()->create([
