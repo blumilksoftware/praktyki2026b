@@ -169,7 +169,7 @@ onBeforeUnmount(() => {
 
     <div class="relative w-full">
       <div
-        class="flex flex-wrap items-center gap-2 px-3 py-2 border rounded-md bg-background border-border transition-colors min-h-[48px] cursor-text"
+        class="flex flex-wrap items-center gap-2 px-4 py-3 min-h-[52px] rounded-xl bg-primary/3 shadow-md ring-1 ring-border/50 transition-all duration-200 hover:shadow-md hover:ring-primary/50 cursor-text"
         @click="inputRef?.focus()"
       >
         <TransitionGroup
@@ -187,7 +187,7 @@ onBeforeUnmount(() => {
           <span
             v-for="item in modelValue"
             :key="item"
-            class="flex items-center gap-2 pl-4 pr-1.5 py-1 text-sm font-medium border rounded-md text-text bg-background border-border"
+            class="flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary transition-colors"
           >
             <span class="break-all max-w-[150px] sm:max-w-[200px]">{{ item }}</span>
             <button
@@ -217,7 +217,7 @@ onBeforeUnmount(() => {
           :aria-describedby="errorMsg ? `${props.id}-error` : undefined"
           :disabled="props.max && modelValue.length >= props.max"
           :placeholder="modelValue.length === 0 ? $t('dynamicList.placeholder') : ''"
-          class="flex-1 min-w-[60px] bg-transparent text-sm focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed py-0.5"
+          class="flex-1 items-center gap-2 rounded-xl border-2 border-border bg-white/50 dark:bg-background/60 px-4 py-3 min-h-[56px] cursor-text transition-all duration-400 hover:border-primary/30 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 shadow-sm"
           @focus="handleFocus"
           @blur="handleBlur"
           @input="isOpen = true"
@@ -263,7 +263,7 @@ onBeforeUnmount(() => {
               :aria-selected="index === activeIndex"
               :class="[
                 'px-4 py-2 text-sm cursor-pointer transition-colors flex justify-between items-center',
-                index === activeIndex ? 'bg-text/10 text-text font-medium' : 'text-text hover:bg-text/5'
+                index === activeIndex ? 'bg-primary/10 text-primary text-text font-medium' : 'text-text hover:bg-primary/5'
               ]"
               @mousedown.prevent="selectOption(option)"
             >
