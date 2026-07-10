@@ -32,11 +32,17 @@ class Application extends Model
         "cv_path",
     ];
 
+    /**
+     * @return BelongsTo<Offer, $this>
+     */
     public function offer(): BelongsTo
     {
         return $this->belongsTo(Offer::class)->withTrashed();
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function student(): BelongsTo
     {
         return $this->belongsTo(User::class, "student_id");

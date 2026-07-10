@@ -14,7 +14,7 @@ class SendOfferUnavailableNotification
     public function handle(OfferBecameUnavailable $event): void
     {
         $event->offer->applications()->with("student")->get()->each(
-            fn(Application $application) => Mail::to($application->student->email)->queue(
+            fn(Application $application): mixed => Mail::to($application->student->email)->queue(
                 new OfferUnavailableMail($event->offer->title, $event->offer->company->name, $event->reason),
             ),
         );

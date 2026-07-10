@@ -12,10 +12,8 @@ class ExpireOffersCommand extends Command
     protected $signature = "offers:expire";
     protected $description = "Mark published offers past their end date as expired";
 
-    public function handle(ExpireOffers $expireOffers): int
+    public function handle(ExpireOffers $expireOffers): void
     {
         $expireOffers->execute();
-
-        return self::SUCCESS;
     }
 }

@@ -13,6 +13,6 @@ class ExpireOffers
     {
         Offer::published()
             ->where("end_date", "<", now())
-            ->each(fn(Offer $offer) => $offer->update(["status" => OfferStatus::Expired]));
+            ->each(fn(Offer $offer): bool => $offer->update(["status" => OfferStatus::Expired]));
     }
 }

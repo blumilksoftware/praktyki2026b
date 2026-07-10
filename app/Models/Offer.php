@@ -58,11 +58,17 @@ class Offer extends Model
         "salary_max",
     ];
 
+    /**
+     * @return BelongsTo<Company, $this>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * @return HasMany<Application, $this>
+     */
     public function applications(): HasMany
     {
         return $this->hasMany(Application::class);
