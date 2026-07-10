@@ -169,7 +169,7 @@ onBeforeUnmount(() => {
 
     <div class="relative w-full">
       <div
-        class="flex flex-wrap items-center gap-2 px-3 py-2 border rounded-md bg-background border-border transition-colors focus-within:ring-2 focus-within:ring-text focus-within:border-text min-h-[48px] cursor-text"
+        class="flex flex-wrap items-center gap-2 px-3 py-2 border rounded-md bg-background border-border transition-colors min-h-[48px] cursor-text"
         @click="inputRef?.focus()"
       >
         <TransitionGroup
