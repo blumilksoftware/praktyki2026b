@@ -50,6 +50,12 @@ Route::middleware(["auth"])
         Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");
     });
 
+Route::middleware(["auth"])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::patch("/offers/{offer}", [OfferController::class, "update"])->name("company.offers.update");
+    });
+
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
     ->prefix("university")
     ->group(function (): void {

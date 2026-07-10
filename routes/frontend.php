@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController as CompanyOfferController;
@@ -12,6 +11,7 @@ use App\Http\Controllers\University\CompanyController as UniversityCompanyContro
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
@@ -41,6 +41,18 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
         Route::get("/offers", [CompanyOfferController::class, "index"])->name("company.offers");
+    });
+
+Route::middleware(["auth", "can:create," . Offer::class])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::get("/offers/create", [OfferController::class, "create"])->name("company.offers.create");
+    });
+
+Route::middleware(["auth"])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::get("/offers/{offer}/edit", [OfferController::class, "edit"])->name("company.offers.edit");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])

@@ -48,27 +48,27 @@
   },
   "auth": {
     "verification": {
-  "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
-  "resendMessage": "Nowy link weryfikacyjny został wysłany. Sprawdź swoją skrzynkę odbiorczą.",
-  "notVerified": "Twój adres e-mail nie został zweryfikowany.",
-  "resendVerification": "Wyślij ponownie link weryfikacyjny",
-  "result": {
-    "title": "Weryfikacja e-mail",
-    "backToLogin": "Przejdź do logowania",
-    "success": {
-      "heading": "E-mail zweryfikowany pomyślnie",
-      "message": "Twoje konto zostało aktywowane. Możesz się teraz zalogować."
+      "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
+      "resendMessage": "Nowy link weryfikacyjny został wysłany. Sprawdź swoją skrzynkę odbiorczą.",
+      "notVerified": "Twój adres e-mail nie został zweryfikowany.",
+      "resendVerification": "Wyślij ponownie link weryfikacyjny",
+      "result": {
+        "title": "Weryfikacja e-mail",
+        "backToLogin": "Przejdź do logowania",
+        "success": {
+          "heading": "E-mail zweryfikowany pomyślnie",
+          "message": "Twoje konto zostało aktywowane. Możesz się teraz zalogować."
+        },
+        "already_verified": {
+          "heading": "E-mail już zweryfikowany",
+          "message": "Ten adres e-mail został już wcześniej potwierdzony. Możesz się zalogować."
+        },
+        "invalid": {
+          "heading": "Nieprawidłowy link",
+          "message": "Ten link weryfikacyjny jest nieprawidłowy lub wygasł. Poproś o nowy link ze strony logowania."
+        }
+      }
     },
-    "already_verified": {
-      "heading": "E-mail już zweryfikowany",
-      "message": "Ten adres e-mail został już wcześniej potwierdzony. Możesz się zalogować."
-    },
-    "invalid": {
-      "heading": "Nieprawidłowy link",
-      "message": "Ten link weryfikacyjny jest nieprawidłowy lub wygasł. Poproś o nowy link ze strony logowania."
-    }
-  }
-},
     "login": {
       "title": "Logowanie",
       "adminTitle": "Logowanie do panelu administratora",
@@ -515,6 +515,44 @@
     },
     "profile": {
       "title": "Profil"
+    },
+    "offers": {
+      "create": {
+        "title": "Utwórz ofertę",
+        "heading": "Utwórz nową ofertę"
+      },
+      "edit": {
+        "title": "Edytuj ofertę",
+        "heading": "Edytuj \"{title}\""
+      },
+      "form": {
+        "title": "Tytuł",
+        "startDate": "Data rozpoczęcia",
+        "endDate": "Data zakończenia",
+        "workMode": "Tryb pracy",
+        "workModePlaceholder": "Wybierz tryb pracy",
+        "workModeOptions": {
+          "onSite": "Stacjonarnie",
+          "hybrid": "Hybrydowo",
+          "remote": "Zdalnie"
+        },
+        "spots": "Liczba miejsc",
+        "city": "Miasto",
+        "preferredFields": "Preferowane kierunki studiów",
+        "preferredFieldsPlaceholder": "Szukaj kierunków studiów",
+        "preferredUniversities": "Preferowane uczelnie",
+        "preferredUniversitiesPlaceholder": "Szukaj uczelni",
+        "noMoreOptions": "Brak kolejnych opcji",
+        "description": "Opis",
+        "isPaid": "To płatny staż",
+        "salaryMin": "Minimalne wynagrodzenie",
+        "salaryMax": "Maksymalne wynagrodzenie",
+        "draft": "Zapisz jako szkic",
+        "published": "Opublikuj od razu",
+        "draftHint": "Szkice są widoczne tylko dla Ciebie. Publikacja wymaga zweryfikowanego konta firmy.",
+        "submitCreate": "Utwórz ofertę",
+        "submitEdit": "Zapisz zmiany"
+      }
     }
   },
   "pending": {

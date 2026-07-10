@@ -48,27 +48,27 @@
   },
   "auth": {
     "verification": {
-  "invalidLink": "Invalid or expired verification link.",
-  "resend_message": "A new verification link has been sent. Check your inbox.",
-  "notVerified": "Your email address has not been verified.",
-  "resendVerification": "Resend verification link",
-  "result": {
-    "title": "Email verification",
-    "backToLogin": "Go to login",
-    "success": {
-      "heading": "Email verified successfully",
-      "message": "Your account has been activated. You can now log in."
+      "invalidLink": "Invalid or expired verification link.",
+      "resend_message": "A new verification link has been sent. Check your inbox.",
+      "notVerified": "Your email address has not been verified.",
+      "resendVerification": "Resend verification link",
+      "result": {
+        "title": "Email verification",
+        "backToLogin": "Go to login",
+        "success": {
+          "heading": "Email verified successfully",
+          "message": "Your account has been activated. You can now log in."
+        },
+        "already_verified": {
+          "heading": "Email already verified",
+          "message": "This email address has already been confirmed. You can log in."
+        },
+        "invalid": {
+          "heading": "Invalid link",
+          "message": "This verification link is invalid or has expired. Request a new one from the login page."
+        }
+      }
     },
-    "already_verified": {
-      "heading": "Email already verified",
-      "message": "This email address has already been confirmed. You can log in."
-    },
-    "invalid": {
-      "heading": "Invalid link",
-      "message": "This verification link is invalid or has expired. Request a new one from the login page."
-    }
-  }
-},
     "login": {
       "title": "Log in",
       "adminTitle": "Admin Panel Login",
@@ -513,6 +513,44 @@
     },
     "profile": {
       "title": "Profile"
+    },
+    "offers": {
+      "create": {
+        "title": "Create offer",
+        "heading": "Create a new offer"
+      },
+      "edit": {
+        "title": "Edit offer",
+        "heading": "Edit \"{title}\""
+      },
+      "form": {
+        "title": "Title",
+        "startDate": "Start date",
+        "endDate": "End date",
+        "workMode": "Work mode",
+        "workModePlaceholder": "Select work mode",
+        "workModeOptions": {
+          "onSite": "On-site",
+          "hybrid": "Hybrid",
+          "remote": "Remote"
+        },
+        "spots": "Number of spots",
+        "city": "City",
+        "preferredFields": "Preferred fields of study",
+        "preferredFieldsPlaceholder": "Search fields of study",
+        "preferredUniversities": "Preferred universities",
+        "preferredUniversitiesPlaceholder": "Search universities",
+        "noMoreOptions": "No more options",
+        "description": "Description",
+        "isPaid": "This is a paid internship",
+        "salaryMin": "Minimum salary",
+        "salaryMax": "Maximum salary",
+        "draft": "Save as draft",
+        "published": "Publish immediately",
+        "draftHint": "Drafts are only visible to you. Publishing requires a verified company account.",
+        "submitCreate": "Create offer",
+        "submitEdit": "Save changes"
+      }
     }
   },
   "pending": {

@@ -15,15 +15,15 @@ class OfferPolicy
         return $user->status === UserStatus::Active && $user->company !== null;
     }
 
-    public function update(User $user, Offer $offer): bool
-    {
-        return $user->status === UserStatus::Active
-            && $user->organization_id === $offer->company_id;
-    }
+public function update(User $user, Offer $offer): bool
+{
+    return $user->status === UserStatus::Active
+        && $user->organization_id === $offer->company_id;
+}
 
-    public function delete(User $user, Offer $offer): bool
-    {
-        return $user->status === UserStatus::Active
-            && $user->organization_id === $offer->company_id;
-    }
+public function delete(User $user, Offer $offer): bool
+{
+    return $user->status === UserStatus::Active
+        && $user->organization_id === $offer->company_id;
+}
 }

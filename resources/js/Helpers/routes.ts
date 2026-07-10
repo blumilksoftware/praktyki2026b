@@ -10,6 +10,9 @@ export const ROUTES = {
   REGISTER_UNIVERSITY: "/register/university",
   REGISTER_COMPANY: "/register/company",
 
+  COMPANY_OFFERS_CREATE: "/company/offers/create",
+  COMPANY_OFFERS_STORE: "/company/offers",
+
   EMAIL_VERIFICATION: "/email/verify/{id}/{token}",
   EMAIL_VERIFICATION_RESEND: "/email/resend",
 

@@ -29,9 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Offer::observe(OfferObserver::class);
 
         Gate::define("access-student-panel", fn(User $user): bool => $user->status === UserStatus::Active && $user->role === UserRole::Student);
-
         Gate::define("access-company-panel", fn(User $user): bool => $user->status === UserStatus::Active && $user->company !== null);
-
         Gate::define("access-university-panel", fn(User $user): bool => $user->status === UserStatus::Active && $user->universityOrganization !== null);
     }
 }
