@@ -3,14 +3,17 @@
 declare(strict_types=1);
 
 return [
+    "current_password" => "The password is incorrect.",
     "nip" => "Please enter a valid NIP number.",
     "phone" => "Enter a valid phone number.",
     "domain" => "The :attribute field must be a valid domain.",
     "mime_type_by_content" => "The :attribute field must be a file of type: :values.",
     "email_taken" => "This e-mail address is already in use. Sign in or use a different address.",
+    "email_same_as_current" => "This is already your current email address.",
     "email_invalid_friendly" => "Please enter a valid e-mail address.",
     "password_confirmed_friendly" => "Passwords must match.",
     "terms_accepted_friendly" => "You must accept the terms and conditions.",
+    "delete_confirmation_required" => "You must confirm this action.",
     "postal_code_format" => "Enter a postal code in the XX-XXX format.",
     "website_invalid_friendly" => "Enter a valid website address, e.g. example.com or https://example.com.",
     "building_number_format" => "Enter a valid building number, e.g. 12, 12A or 12/4.",

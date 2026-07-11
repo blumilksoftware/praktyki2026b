@@ -38,6 +38,16 @@ return [
         "already_rejected_university" => "University is already rejected.",
     ],
 
+    "email_change" => [
+        "subject" => "Confirm your new email address",
+        "title" => "Confirm your new email address",
+        "status_message" => "We received a request to change your account email to: :email",
+        "expiration_message" => "Remember that the link expires after :count hours.",
+        "action_text" => "To confirm this change, click the button below:",
+        "button" => "Confirm email change",
+        "ignore_notice" => "If you didn't request this change, you can safely ignore this email — your current email address remains active.",
+    ],
+
     "job_application" => [
         "new_subject" => "New application for :job_title",
         "new_title" => "New application",

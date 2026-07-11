@@ -42,6 +42,7 @@ Route::post("/admin/login", [AdminLoginController::class, "store"])->name("admin
 
 Route::get("/email/verify/{id}/{token}", [EmailVerificationController::class, "verify"])->name("verification.verify");
 Route::post("/email/resend", [EmailVerificationController::class, "resend"])->name("verification.resend");
+Route::get("/email/change/confirm/{id}/{token}", [EmailVerificationController::class, "verifyChange"])->name("email.change.confirm");
 
 Route::get("/auth/google/redirect", [GoogleOAuthController::class, "redirect"])->name("auth.google.redirect");
 Route::get("/auth/google/callback", [GoogleOAuthController::class, "callback"])->name("auth.google.callback");

@@ -50,6 +50,16 @@ return [
         "all_rights_reserved" => "Wszelkie prawa zastrzeżone.",
     ],
 
+    "email_change" => [
+        "subject" => "Potwierdź swój nowy adres e-mail",
+        "title" => "Potwierdź swój nowy adres e-mail",
+        "status_message" => "Otrzymaliśmy prośbę o zmianę adresu e-mail Twojego konta na: :email",
+        "expiration_message" => "Link weryfikacyjny jest aktywny przez :count godz.",
+        "action_text" => "Aby potwierdzić tę zmianę, kliknij poniższy przycisk:",
+        "button" => "Potwierdź zmianę adresu e-mail",
+        "ignore_notice" => "Jeśli nie prosiłeś o tę zmianę, możesz zignorować tę wiadomość — Twój obecny adres e-mail pozostaje aktywny.",
+    ],
+
     "job_application" => [
         "new_subject" => "Nowa aplikacja na stanowisko :job_title",
         "new_title" => "Nowa aplikacja",
