@@ -1,5 +1,5 @@
 <script setup>
-import { IconBuilding } from '@tabler/icons-vue'
+import { IconUser } from '@tabler/icons-vue'
 
 const props = defineProps({
   name: {
@@ -23,7 +23,7 @@ const props = defineProps({
         class="w-full h-full object-cover" 
       >
       
-      <IconBuilding 
+      <IconUser 
         v-else 
         stroke="1.5" 
         class="w-12 h-12 sm:w-16 sm:h-16 text-additional" 

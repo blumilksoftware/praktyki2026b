@@ -153,21 +153,31 @@
     "nip": "NIP",
     "spots": "Spots",
     "uploadLogo": "Upload logo",
+    "searchTags": "Search tags...",
+    "activeTags": "Active tags",
+    "noActiveTags": "No active tags",
+    "noResults": "No results",
     "company": {
       "myOffers": "My offers",
       "candidateApplications": "Candidate applications",
       "teamAndPermissions": "Team and permissions",
       "noOffers": "The company does not have any open job postings.",
       "noContactInfo": "The company has not provided contact information.",
-      "noDescription": "The company has not provided a description.",
+      "noDescription": "The company has not provided a description yet.",
       "noTags": "The company has not provided any tags."
     },
     "university": {
     }
   },
+  "validation": {
+      "requiredField": "This field is required.",
+      "fillRequiredFields": "Please fill in all required fields."
+  },
   "buttons": {
     "view": "View",
-    "save": "Save",
+    "save": "Save changes",
+    "saving": "Saving...",
+    "saveAndGoToOffers": "Save and go to offers",
     "cancel": "Cancel",
     "editProfile": "Edit profile",
     "back": "Back",

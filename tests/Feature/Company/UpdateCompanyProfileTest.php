@@ -25,10 +25,10 @@ class UpdateCompanyProfileTest extends TestCase
         $user = $this->makeCompanyAdmin($company);
 
         $this->actingAs($user)
-            ->patch("/company/profile", [
+            ->patch("/company/profile", $this->validProfileData([
                 "description" => "We build great software.",
                 "tags" => ["PHP", "Laravel", "Vue"],
-            ])
+            ]))
             ->assertRedirect("/company/profile");
 
         $this->assertDatabaseHas("companies", [
@@ -48,9 +48,9 @@ class UpdateCompanyProfileTest extends TestCase
         $logo = UploadedFile::fake()->createWithContent("logo.png", $this->fakePng());
 
         $this->actingAs($user)
-            ->patch("/company/profile", [
+            ->patch("/company/profile", $this->validProfileData([
                 "logo" => $logo,
-            ])
+            ]))
             ->assertRedirect("/company/profile");
 
         $company->refresh();
@@ -60,9 +60,9 @@ class UpdateCompanyProfileTest extends TestCase
 
     public function testUnauthenticatedUserCannotUpdateProfile(): void
     {
-        $this->patch("/company/profile", [
+        $this->patch("/company/profile", $this->validProfileData([
             "description" => "Some description",
-        ])->assertRedirect("/login");
+        ]))->assertRedirect("/login");
     }
 
     public function testPendingCompanyAdminCannotUpdateProfile(): void
@@ -73,9 +73,9 @@ class UpdateCompanyProfileTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->patch("/company/profile", [
+            ->patch("/company/profile", $this->validProfileData([
                 "description" => "Some description",
-            ])
+            ]))
             ->assertRedirect("/company/verification/pending");
     }
 
@@ -89,9 +89,9 @@ class UpdateCompanyProfileTest extends TestCase
         $fakeFile = UploadedFile::fake()->create("malicious.pdf", 100, "application/pdf");
 
         $this->actingAs($user)
-            ->patch("/company/profile", [
+            ->patch("/company/profile", $this->validProfileData([
                 "logo" => $fakeFile,
-            ])
+            ]))
             ->assertRedirect()
             ->assertSessionHasErrors("logo");
     }
@@ -107,9 +107,9 @@ class UpdateCompanyProfileTest extends TestCase
         $oversizedFile = UploadedFile::fake()->createWithContent("large-logo.png", $oversizedContent);
 
         $this->actingAs($user)
-            ->patch("/company/profile", [
+            ->patch("/company/profile", $this->validProfileData([
                 "logo" => $oversizedFile,
-            ])
+            ]))
             ->assertRedirect()
             ->assertSessionHasErrors("logo");
     }
@@ -122,9 +122,9 @@ class UpdateCompanyProfileTest extends TestCase
         $tooManyTags = array_fill(0, 21, "tag");
 
         $this->actingAs($user)
-            ->patch("/company/profile", [
+            ->patch("/company/profile", $this->validProfileData([
                 "tags" => $tooManyTags,
-            ])
+            ]))
             ->assertRedirect()
             ->assertSessionHasErrors("tags");
     }
@@ -138,10 +138,10 @@ class UpdateCompanyProfileTest extends TestCase
         $user = $this->makeCompanyAdmin($company);
 
         $this->actingAs($user)
-            ->patch("/company/profile", [
+            ->patch("/company/profile", $this->validProfileData([
                 "description" => null,
                 "tags" => null,
-            ])
+            ]))
             ->assertRedirect("/company/profile");
     }
 
@@ -162,5 +162,17 @@ class UpdateCompanyProfileTest extends TestCase
             "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
             true,
         );
+    }
+
+    private function validProfileData(array $overrides = []): array
+    {
+        return array_merge([
+            "phone" => "123456789",
+            "street" => "Ulica Testowa",
+            "buildingNumber" => "12A",
+            "postalCode" => "00-000",
+            "city" => "Warszawa",
+            "nip" => "1234567890",
+        ], $overrides);
     }
 }

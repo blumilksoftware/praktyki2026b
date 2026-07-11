@@ -19,13 +19,21 @@ class UpdateCompanyProfile
         $logoPath = $company->logo_path;
 
         if ($data->logo !== null) {
-            $logoPath = $this->fileUploadService->upload($data->logo, "logos", $company->logo_path);
+            $path = $data->logo->store("logos", "public");
+            $logoPath = "/storage/" . $path;
         }
 
         $company->update([
             "logo_path" => $logoPath,
             "description" => $data->description,
             "tags" => $data->tags,
+            "website" => $data->website,
+            "phone" => $data->phone,
+            "street" => $data->street,
+            "building_number" => $data->building_number,
+            "postal_code" => $data->postal_code,
+            "city" => $data->city,
+            "nip" => $data->nip,
         ]);
 
         return $company->fresh();

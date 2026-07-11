@@ -50,4 +50,8 @@ const hasMore = computed(() => props.tags && props.tags.length > limit)
       {{ t('buttons.collapseTags') }}
     </button>
   </div>
+  
+  <div v-else class="flex justify-center mt-6 text-sm text-gray-500 font-medium">
+    {{ t('profiles.company.noTags') }}
+  </div>
 </template>

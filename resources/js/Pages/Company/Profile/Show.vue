@@ -80,7 +80,6 @@ defineProps({
             <div class="lg:col-span-2">
               <About
                 :description="company.description"
-                :nip="company.nip"
               />
             </div>
 

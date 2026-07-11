@@ -48,6 +48,7 @@ class CompanyController extends Controller
     public function update(UpdateCompanyProfileRequest $request): RedirectResponse
     {
         $company = Auth::user()->company;
+
         $data = UpdateCompanyProfileData::fromArray($request->getData());
 
         $this->updateCompanyProfile->execute($company, $data);

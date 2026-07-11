@@ -9,13 +9,12 @@ use App\Http\Controllers\Company\OfferController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
-use App\Http\Middleware\EnsureStudent;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\Offer;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -77,6 +76,24 @@ Route::get("/profile/edit", function (Request $request) {
 
     return redirect("/");
 })->name("profile.edit");
+
+Route::patch("/profile", function (Request $request) {
+    $user = $request->user();
+
+    if ($user->role->value === "companyAdmin") {
+        return redirect()->route("company.profile.update", [], 307);
+    }
+
+    if ($user->role->value === "student") {
+        return redirect()->route("student.profile.update", [], 307);
+    }
+
+    if ($user->role->value === "universityAdmin") {
+        return redirect()->route("university.profile.update", [], 307);
+    }
+
+    return abort(403, "Unauthorized");
+})->name("profile.update");
 
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")

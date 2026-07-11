@@ -154,6 +154,10 @@
     "nip": "NIP",
     "spots": "Miejsca",
     "uploadLogo": "Prześlij logo",
+    "searchTags": "Szukaj tagów...",
+    "activeTags": "Aktywne tagi",
+    "noActiveTags": "Nie wybrano żadnych tagów",
+    "noResults": "Brak wyników",
     "company": {
       "myOffers": "Moje oferty",
       "candidateApplications": "Aplikacje kandydatów",
@@ -166,9 +170,15 @@
     "university": {
     }
   },
+  "validation": {
+      "requiredField": "To pole jest wymagane.",
+      "fillRequiredFields": "Proszę wypełnić wszystkie wymagane pola."
+  },
   "buttons": {
     "view": "Wyświetl",
-    "save": "Zapisz",
+    "save": "Zapisz zmiany",
+    "saving": "Zapisywanie...",
+    "saveAndGoToOffers": "Zapisz i przejdź do ofert",
     "cancel": "Anuluj",
     "editProfile": "Edytuj profil",
     "back": "Powrót",

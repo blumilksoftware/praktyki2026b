@@ -53,24 +53,23 @@ const triggerFileInput = () => {
 
 <template>
   <div class="relative flex flex-col items-center">
-    
     <div 
-      @click="triggerFileInput"
-      @dragover.prevent="isDragging = true"
-      @dragleave.prevent="isDragging = false"
-      @drop.prevent="onDrop"
       :class="[
         'w-28 h-28 sm:w-32 sm:h-32 border-4 border-white bg-background shadow-md overflow-hidden flex items-center justify-center shrink-0 text-secondary cursor-pointer relative',
         isDragging ? 'border-primary border-dashed' : ''
       ]"
+      @click="triggerFileInput"
+      @dragover.prevent="isDragging = true"
+      @dragleave.prevent="isDragging = false"
+      @drop.prevent="onDrop"
     >
       <input 
-        type="file" 
         ref="fileInput" 
+        type="file" 
         class="hidden" 
         accept="image/*"
         @change="onFileChange"
-      />
+      >
 
       <img 
         v-if="currentImage"
@@ -93,6 +92,5 @@ const triggerFileInput = () => {
     <h1 class="text-2xl sm:text-3xl font-bold text-text mt-4 text-center">
       {{ name }}
     </h1>
-
   </div>
 </template>

@@ -1,14 +1,14 @@
 <script setup>
-import { Head } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { Head, useForm, router } from '@inertiajs/vue3'
+import { computed, ref } from 'vue'
 import { IconArrowLeft } from '@tabler/icons-vue'
-import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
-import Tags from '@/Components/Profiles/Tags.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
-import About from '@/Components/Profiles/About.vue'
-import ContactCard from '@/Components/Profiles/ContactCard.vue'
-import Offers from '@/Components/Profiles/Offers.vue'
+import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
+import TagsEdit from '@/Components/Profiles/Edit/TagsEdit.vue'
+import AboutEdit from '@/Components/Profiles/Edit/AboutEdit.vue'
+import OffersEdit from '@/Components/Profiles/Edit/OffersEdit.vue'
+import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
 import Sidebar from '@/Components/Profiles/Sidebar.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
@@ -27,13 +27,56 @@ const goBack = () => {
   window.history.back()
 }
 
-const goToEdit = () => {
-  window.location.href = ROUTES.PROFILE_EDIT
-}
-
-defineProps({
+const props = defineProps({
   company: { type: Object, default: () => ({}) },
 })
+
+const form = useForm({
+  logo: null,
+  tags: props.company.tags || [],
+  description: props.company.description || '',
+  website: props.company.website || '',
+  phone: props.company.phone || '',
+  street: props.company.street || '',
+  buildingNumber: props.company.buildingNumber || '',
+  postalCode: props.company.postalCode || '',
+  city: props.company.city || '',
+  nip: props.company.nip || '',
+})
+
+const statusMessage = ref(null)
+
+const submit = () => {
+  statusMessage.value = null
+
+  form.transform((data) => ({
+    ...data,
+    _method: 'patch',
+  })).post('/profile', {
+    preserveScroll: true,
+    onSuccess: () => {
+      statusMessage.value = t('profiles.edit.success_message')
+      
+      setTimeout(() => {
+        statusMessage.value = null
+      }, 5000)
+    },
+  })
+}
+
+const saveAndGoToOffers = () => {
+  statusMessage.value = null
+
+  form.transform((data) => ({
+    ...data,
+    _method: 'patch',
+  })).post('/profile', {
+    preserveScroll: true,
+    onSuccess: () => {
+      router.get(ROUTES.OFFERS)
+    },
+  })
+}
 </script>
 
 <template>
@@ -52,15 +95,6 @@ defineProps({
             {{ t('buttons.back') }}
           </BaseButton>
         </div>
-
-        <div>
-          <BaseButton
-            class="bg-secondary hover:bg-secondary/90 text-white px-6 py-2 text-sm font-semibold rounded-xl shadow-sm transition-all"
-            @click="goToEdit"
-          >
-            {{ t('buttons.editProfile') }}
-          </BaseButton>
-        </div>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-8 items-start">
@@ -72,33 +106,88 @@ defineProps({
           <HeaderEdit
             :name="company.name"
             :logo-url="company.logoUrl"
+            @update:logo="form.logo = $event" 
           />
+          <TagsEdit
+            v-model="form.tags"
+            :available-tags-pool="company.availableTagsPool"
+            :max-tags="20"
+          />
+          
+          <div class="flex flex-col gap-10 mt-12">
+            <AboutEdit v-model="form.description" />
 
-            TAGI
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 mt-12">
-            <div class="lg:col-span-2">
-              <About
-                :description="company.description"
-                :nip="company.nip"
-              />
-            </div>
+            <ContactCardEdit
+              v-model:website="form.website"
+              v-model:phone="form.phone"
+              v-model:street="form.street"
+              v-model:building-number="form.buildingNumber"
+              v-model:postal-code="form.postalCode"
+              v-model:city="form.city"
+              :nip="company.nip"    
+              :errors="form.errors" 
+            />
+            
+            <hr class="border-border/60">
+            
+            <OffersEdit :offers="company.offers" />
 
-            <div class="lg:col-span-1 lg:col-start-3 lg:row-span-2">
-              <ContactCard
-                :email="company.email"
-                :phone="company.phone"
-                :website="company.website"
-                :street="company.street"
-                :building-number="company.buildingNumber"
-                :postal-code="company.postalCode"
-                :city="company.city"
-                :nip="company.nip"
-              />
-            </div>
+            <div class="flex flex-col items-center gap-5 pt-4 pb-4 mt-2">
+              <div v-if="form.hasErrors || statusMessage" class="flex flex-col items-center w-full min-h-6">
+                <div
+                  v-if="form.hasErrors"
+                  class="bg-error/10 border border-error w-fit rounded-lg px-6 py-3 flex flex-col items-center justify-center shadow-sm gap-1.5"
+                >
+                  <span class="text-error text-sm sm:text-base font-medium text-center">
+                    {{ t('validation.fillRequiredFields') }}
+                  </span>
+                </div>
 
-            <div class="lg:col-span-2 flex flex-col gap-10">
-              <hr class="border-border/60">
-              <Offers :offers="company.offers" />
+                <div
+                  v-else-if="statusMessage"
+                  class="w-full max-w-md bg-success/10 border border-success/40 rounded-lg px-4 py-3 flex items-center justify-center shadow-sm"
+                >
+                  <span class="text-success text-sm sm:text-base font-medium text-center leading-snug">
+                    {{ statusMessage }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Sekcja przycisków -->
+              <div class="flex flex-col gap-6 w-full mt-4">
+                <!-- Przycisk Górny -->
+                <div class="flex justify-center w-full">
+                  <BaseButton
+                    variant="primary"
+                    class="bg-gray-50 hover:bg-gray-100 text-secondary border border-gray-200 px-6 py-2.5 text-sm font-semibold rounded-xl shadow-sm transition-all"
+                    :class="{ 'opacity-50 cursor-not-allowed': form.processing }"
+                    :disabled="form.processing"
+                    @click="saveAndGoToOffers"
+                  >
+                    {{ t('buttons.saveAndGoToOffers') }}
+                  </BaseButton>
+                </div>
+
+                <hr class="border-border/60 w-full">
+
+                <div class="flex flex-wrap justify-center items-center gap-4 w-full">
+                  <BaseButton
+                    class="bg-primary hover:bg-primary/90 text-white px-10 py-2.5 text-sm font-semibold rounded-xl shadow-sm transition-all"
+                    :class="{ 'opacity-50 cursor-not-allowed': form.processing }"
+                    :disabled="form.processing"
+                    @click="submit"
+                  >
+                    {{ form.processing ? t('buttons.saving') : t('buttons.save') }}
+                  </BaseButton>
+
+                  <BaseButton
+                    variant="secondary"
+                    @click="goBack"
+                  >
+                    {{ t('buttons.cancel') }}
+                  </BaseButton>
+                </div>
+              </div>              
             </div>
           </div>
         </div>

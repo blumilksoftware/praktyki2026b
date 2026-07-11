@@ -17,11 +17,11 @@ const props = defineProps({
 })
 
 const visibleOffers = computed(() => {
-  return props.offers.slice(0, 6)
+  return props.offers.slice(0, 4)
 })
 
 const hasMoreOffers = computed(() => {
-  return props.offers.length > 6
+  return props.offers.length > 4
 })
 
 const viewOffer = (offerId) => {
@@ -39,7 +39,6 @@ const viewAllOffers = () => {
     <h2 class="text-xl font-bold text-text">{{ t('profiles.currentOffers') }}</h2>
 
     <div v-if="offers && offers.length > 0" class="flex flex-col gap-4">
-      
       <div 
         v-for="offer in visibleOffers" 
         :key="offer.id"
@@ -80,7 +79,6 @@ const viewAllOffers = () => {
           {{ t('buttons.showAll') }}
         </BaseButton>
       </div>
-
     </div>
 
     <div v-else class="text-gray-400 italic text-sm">
