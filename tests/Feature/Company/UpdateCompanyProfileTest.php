@@ -39,7 +39,7 @@ class UpdateCompanyProfileTest extends TestCase
 
     public function testVerifiedCompanyAdminCanUploadLogo(): void
     {
-        $disk = config("filesystems.default", "local");
+        $disk = "public";
         Storage::fake($disk);
 
         $company = Company::factory()->approved()->create(["logo_path" => null]);
@@ -55,7 +55,7 @@ class UpdateCompanyProfileTest extends TestCase
 
         $company->refresh();
         $this->assertNotNull($company->logo_path);
-        Storage::disk($disk)->assertExists($company->logo_path);
+        Storage::disk($disk)->assertExists(str_replace("/storage/", "", $company->logo_path));
     }
 
     public function testUnauthenticatedUserCannotUpdateProfile(): void

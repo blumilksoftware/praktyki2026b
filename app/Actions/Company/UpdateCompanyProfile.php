@@ -7,6 +7,7 @@ namespace App\Actions\Company;
 use App\DTO\Company\UpdateCompanyProfileData;
 use App\Models\Company;
 use App\Services\FileUploadService;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateCompanyProfile
 {
@@ -19,6 +20,11 @@ class UpdateCompanyProfile
         $logoPath = $company->logo_path;
 
         if ($data->logo !== null) {
+            if ($logoPath !== null) {
+                $oldPath = str_replace("/storage/", "", $logoPath);
+                Storage::disk("public")->delete($oldPath);
+            }
+
             $path = $data->logo->store("logos", "public");
             $logoPath = "/storage/" . $path;
         }
