@@ -58,4 +58,13 @@ return [
         "status_changed_body" => "Company :company_name has changed the status of your application for :job_title to: :status.",
         "status_changed_cta" => "Go to dashboard",
     ],
+
+    "offer" => [
+        "unavailable_subject" => "Update on your application: :job_title",
+        "unavailable_title" => "This offer is no longer available",
+        "unavailable_body" => "The offer \":job_title\" from :company_name is no longer available (:reason). Your application remains on record.",
+        "reason_closed" => "the company has closed it",
+        "reason_expired" => "it has expired",
+        "reason_deleted" => "it was removed by the company",
+    ],
 ];

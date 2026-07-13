@@ -26,7 +26,6 @@ class OfferFactory extends Factory
             "title" => fake()->jobTitle(),
             "description" => fake()->paragraph(5),
             "spots" => fake()->numberBetween(1, 10),
-            "is_active" => true,
             "city" => fake()->city(),
             "latitude" => fake()->latitude(),
             "longitude" => fake()->longitude(),
@@ -40,20 +39,6 @@ class OfferFactory extends Factory
         ];
     }
 
-    public function active(): static
-    {
-        return $this->state(fn(array $attributes): array => [
-            "is_active" => true,
-        ]);
-    }
-
-    public function inactive(): static
-    {
-        return $this->state(fn(array $attributes): array => [
-            "is_active" => false,
-        ]);
-    }
-
     public function draft(): static
     {
         return $this->state(fn(array $attributes): array => [
@@ -65,6 +50,22 @@ class OfferFactory extends Factory
     {
         return $this->state(fn(array $attributes): array => [
             "status" => OfferStatus::Published,
+        ]);
+    }
+
+    public function closed(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "status" => OfferStatus::Closed,
+        ]);
+    }
+
+    public function expired(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "status" => OfferStatus::Expired,
+            "start_date" => now()->subMonth(),
+            "end_date" => now()->subDay(),
         ]);
     }
 

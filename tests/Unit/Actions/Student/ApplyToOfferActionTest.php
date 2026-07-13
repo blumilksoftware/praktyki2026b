@@ -6,6 +6,7 @@ namespace Tests\Unit\Actions\Student;
 
 use App\Actions\Student\ApplyToOfferAction;
 use App\Enums\ApplicationStatus;
+use App\Enums\OfferStatus;
 use App\Models\Application;
 use App\Models\Offer;
 use App\Models\User;
@@ -32,7 +33,7 @@ class ApplyToOfferActionTest extends TestCase
             "cv_path" => "cvs/test_cv.pdf",
         ]);
         $offer = Offer::factory()->create([
-            "is_active" => true,
+            "status" => OfferStatus::Published,
             "spots" => 3,
         ]);
 
@@ -53,7 +54,7 @@ class ApplyToOfferActionTest extends TestCase
             "cv_path" => null,
         ]);
         $offer = Offer::factory()->create([
-            "is_active" => true,
+            "status" => OfferStatus::Published,
             "spots" => 3,
         ]);
 
@@ -69,7 +70,7 @@ class ApplyToOfferActionTest extends TestCase
             "cv_path" => "cvs/test_cv.pdf",
         ]);
         $offer = Offer::factory()->create([
-            "is_active" => true,
+            "status" => OfferStatus::Published,
             "spots" => 3,
         ]);
 
@@ -87,7 +88,7 @@ class ApplyToOfferActionTest extends TestCase
             "cv_path" => "cvs/test_cv.pdf",
         ]);
         $offer = Offer::factory()->create([
-            "is_active" => false,
+            "status" => OfferStatus::Closed,
             "spots" => 3,
         ]);
 
@@ -103,7 +104,7 @@ class ApplyToOfferActionTest extends TestCase
             "cv_path" => "cvs/test_cv.pdf",
         ]);
         $offer = Offer::factory()->create([
-            "is_active" => true,
+            "status" => OfferStatus::Published,
             "spots" => 0,
         ]);
 
@@ -123,7 +124,7 @@ class ApplyToOfferActionTest extends TestCase
             "cv_path" => "cvs/test_cv.pdf",
         ]);
         $offer = Offer::factory()->create([
-            "is_active" => true,
+            "status" => OfferStatus::Published,
             "spots" => 3,
         ]);
 

@@ -6,10 +6,13 @@ namespace App\Http\Controllers\Company;
 
 use App\Actions\Company\CreateOffer;
 use App\DTO\Offer\CreateOfferData;
+use App\Enums\OfferStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateOfferRequest;
+use App\Models\Offer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class OfferController extends Controller
 {
@@ -23,6 +26,24 @@ class OfferController extends Controller
         $data = CreateOfferData::fromArray($request->getData());
 
         $this->createOffer->execute($company, $data);
+
+        return redirect()->route("company.dashboard");
+    }
+
+    public function deactivate(Offer $offer): RedirectResponse
+    {
+        Gate::authorize("update", $offer);
+
+        $offer->update(["status" => OfferStatus::Closed]);
+
+        return redirect()->route("company.dashboard");
+    }
+
+    public function destroy(Offer $offer): RedirectResponse
+    {
+        Gate::authorize("delete", $offer);
+
+        $offer->delete();
 
         return redirect()->route("company.dashboard");
     }

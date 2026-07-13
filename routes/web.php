@@ -29,6 +29,13 @@ Route::middleware(["auth", "can:create," . Offer::class])
         Route::post("/offers", [OfferController::class, "store"])->name("company.offers.store");
     });
 
+Route::middleware(["auth"])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])->name("company.offers.deactivate");
+        Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");
+    });
+
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
     ->prefix("university")
     ->group(function (): void {

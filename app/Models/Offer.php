@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property string $id
@@ -20,7 +21,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $title
  * @property string $description
  * @property int $spots
- * @property bool $is_active
  * @property string $city
  * @property float $latitude
  * @property float $longitude
@@ -33,18 +33,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $salary_max
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property ?Carbon $deleted_at
  */
 class Offer extends Model
 {
     use HasFactory;
     use HasUuids;
+    use SoftDeletes;
 
     protected $fillable = [
         "company_id",
         "title",
         "description",
         "spots",
-        "is_active",
         "city",
         "latitude",
         "longitude",
@@ -57,11 +58,17 @@ class Offer extends Model
         "salary_max",
     ];
 
+    /**
+     * @return BelongsTo<Company, $this>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * @return HasMany<Application, $this>
+     */
     public function applications(): HasMany
     {
         return $this->hasMany(Application::class);
@@ -86,7 +93,6 @@ class Offer extends Model
     {
         return [
             "spots" => "integer",
-            "is_active" => "boolean",
             "latitude" => "float",
             "longitude" => "float",
             "start_date" => "date",
