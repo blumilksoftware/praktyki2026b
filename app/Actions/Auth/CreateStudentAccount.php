@@ -8,6 +8,7 @@ use App\DTO\Auth\StudentRegistrationData;
 use App\Enums\UserRole;
 use App\Models\University;
 use App\Models\User;
+use App\Services\EmailVerificationService;
 use Illuminate\Support\Facades\DB;
 
 class CreateStudentAccount
@@ -28,7 +29,7 @@ class CreateStudentAccount
             "terms_accepted_at" => now(),
         ]));
 
-        $user->sendEmailVerificationNotification();
+        app(EmailVerificationService::class)->sendVerificationEmail($user);
 
         return $user;
     }

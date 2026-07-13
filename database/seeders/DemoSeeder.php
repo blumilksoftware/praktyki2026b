@@ -27,6 +27,7 @@ class DemoSeeder extends Seeder
             "email" => "admin@example.com",
             "role" => UserRole::SuperAdmin,
             "email_verified_at" => now(),
+            "status" => UserStatus::Active,
         ]);
 
         $approvedCompany = Company::factory()->approved()->create([
@@ -98,6 +99,7 @@ class DemoSeeder extends Seeder
             User::factory()->create([
                 "role" => UserRole::CompanyAdmin,
                 "status" => UserStatus::Pending,
+                "email_verified_at" => null,
                 "organization_id" => $company->id,
                 "first_name" => null,
                 "last_name" => null,
@@ -108,6 +110,7 @@ class DemoSeeder extends Seeder
             User::factory()->create([
                 "role" => UserRole::UniversityAdmin,
                 "status" => UserStatus::Pending,
+                "email_verified_at" => null,
                 "organization_id" => $university->id,
                 "first_name" => null,
                 "last_name" => null,

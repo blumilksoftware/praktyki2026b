@@ -28,6 +28,8 @@ Route::middleware("guest")->group(function (): void {
     Route::get("/login", [LoginController::class, "show"])->name("login");
     Route::post("/login", [LoginController::class, "store"])->name("login.store");
 
+    Route::get("/email/verify/waiting", fn(): Response => inertia("Auth/EmailVerificationWaiting"))->name("verification.waiting");
+
     Route::get("/forgot-password", [ForgotPasswordController::class, "show"])->name("password.request");
     Route::post("/forgot-password", [ForgotPasswordController::class, "store"])->name("password.email");
 
@@ -40,6 +42,7 @@ Route::post("/admin/login", [AdminLoginController::class, "store"])->name("admin
 
 Route::get("/email/verify/{id}/{token}", [EmailVerificationController::class, "verify"])->name("verification.verify");
 Route::post("/email/resend", [EmailVerificationController::class, "resend"])->name("verification.resend");
+Route::get("/email/change/confirm/{id}/{token}", [EmailVerificationController::class, "verifyChange"])->name("email.change.confirm");
 
 Route::get("/auth/google/redirect", [GoogleOAuthController::class, "redirect"])->name("auth.google.redirect");
 Route::get("/auth/google/callback", [GoogleOAuthController::class, "callback"])->name("auth.google.callback");

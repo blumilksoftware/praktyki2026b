@@ -9,7 +9,10 @@
     "progress": {
       "title": "Profile completion",
       "complete": "Your profile is complete!",
-      "nextStep": "Next step: {step}"
+      "nextStep": "Next step: {step}",
+      "expand": "Show profile fields",
+      "collapse": "Hide profile fields",
+      "allSteps": "Profile steps"
     },
     "steps": {
       "university": "University",
@@ -17,6 +20,7 @@
       "logo": "Logo",
       "description": "Description",
       "tags": "Tags",
+      "faculties": "Faculties",
       "externalFormUrl": "Application form URL"
     }
   },
@@ -41,11 +45,27 @@
   },
   "auth": {
     "verification": {
-      "invalidLink": "Invalid or expired verification link.",
-      "resend_message": "A new verification link has been sent. Check your inbox.",
-      "notVerified": "Your email address has not been verified.",
-      "resendVerification": "Resend verification link"
+  "invalidLink": "Invalid or expired verification link.",
+  "resend_message": "A new verification link has been sent. Check your inbox.",
+  "notVerified": "Your email address has not been verified.",
+  "resendVerification": "Resend verification link",
+  "result": {
+    "title": "Email verification",
+    "backToLogin": "Go to login",
+    "success": {
+      "heading": "Email verified successfully",
+      "message": "Your account has been activated. You can now log in."
     },
+    "already_verified": {
+      "heading": "Email already verified",
+      "message": "This email address has already been confirmed. You can log in."
+    },
+    "invalid": {
+      "heading": "Invalid link",
+      "message": "This verification link is invalid or has expired. Request a new one from the login page."
+    }
+  }
+},
     "login": {
       "title": "Log in",
       "adminTitle": "Admin Panel Login",
@@ -355,5 +375,32 @@
     "status": "This usually takes {time} hours. When verification is successful, we will unlock your access to the panel and notify you by email.",
     "contact": "If you have any questions, please contact us at {email}",
     "log_out": "Log out"
+  },
+  "dynamicList": {
+    "noResults": "No results",
+    "placeholder": "Enter a new value...",
+    "addBtn": "Add",
+    "removeBtn": "Remove",
+    "removeAria": "Remove item {item}",
+    "emptyState": "No items in the list.",
+    "errors": {
+      "empty": "Field cannot be empty!",
+      "exists": "Item already exists!",
+      "maxReached": "Maximum number of items reached ({max})",
+      "tooLong": "Entered value is too long (maximum {max} characters)"
+    },
+    "dblClickToEdit": "Double click to edit",
+    "clearAll": "Clear all",
+        "accessibility": {
+      "addItem": "Add a new item to the list",
+      "removeItem": "Remove item {item} from the list",
+      "editItem": "Edit item {item} in the list",
+      "openMenu": "Open options menu for item {item}",
+      "label": "Dynamic list with {count} items. Use arrow keys to navigate items. Press Enter to edit the selected item.",
+      "closeMenu": "Close options menu for item {item}",
+      "suggestions": "Suggestions",
+      "clearAll": "Clear all items from the list"
+    }
+
   }
 }

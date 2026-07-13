@@ -9,7 +9,10 @@
     "progress": {
       "title": "Uzupełnienie profilu",
       "complete": "Twój profil jest kompletny!",
-      "nextStep": "Kolejny krok: {step}"
+      "nextStep": "Kolejny krok: {step}",
+      "expand": "Pokaż pola profilu",
+      "collapse": "Ukryj pola profilu",
+      "allSteps": "Pola profilu"
     },
     "steps": {
       "university": "Uczelnia",
@@ -17,6 +20,7 @@
       "logo": "Logo",
       "description": "Opis",
       "tags": "Tagi",
+      "faculties": "Wydziały",
       "externalFormUrl": "URL formularza rekrutacyjnego"
     }
   },
@@ -41,11 +45,27 @@
   },
   "auth": {
     "verification": {
-      "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
-      "resendMessage": "Nowy link weryfikacyjny został wysłany. Sprawdź swoją skrzynkę odbiorczą.",
-      "notVerified": "Twój adres e-mail nie został zweryfikowany.",
-      "resendVerification": "Wyślij ponownie link weryfikacyjny"
+  "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
+  "resendMessage": "Nowy link weryfikacyjny został wysłany. Sprawdź swoją skrzynkę odbiorczą.",
+  "notVerified": "Twój adres e-mail nie został zweryfikowany.",
+  "resendVerification": "Wyślij ponownie link weryfikacyjny",
+  "result": {
+    "title": "Weryfikacja e-mail",
+    "backToLogin": "Przejdź do logowania",
+    "success": {
+      "heading": "E-mail zweryfikowany pomyślnie",
+      "message": "Twoje konto zostało aktywowane. Możesz się teraz zalogować."
     },
+    "already_verified": {
+      "heading": "E-mail już zweryfikowany",
+      "message": "Ten adres e-mail został już wcześniej potwierdzony. Możesz się zalogować."
+    },
+    "invalid": {
+      "heading": "Nieprawidłowy link",
+      "message": "Ten link weryfikacyjny jest nieprawidłowy lub wygasł. Poproś o nowy link ze strony logowania."
+    }
+  }
+},
     "login": {
       "title": "Logowanie",
       "adminTitle": "Logowanie do panelu administratora",
@@ -59,7 +79,17 @@
       "google": "Google",
       "noAccount": "Nie masz jeszcze konta? Zarejestruj się",
       "forgotPasswordLink": "kliknij tutaj",
-      "resendVerification": "Wyślij ponownie link weryfikacyjny"
+      "resendVerification": "Wyślij ponownie link weryfikacyjny",
+      "waiting": {
+        "title": "Potwierdź swój e-mail",
+        "heading": "Sprawdź swoją skrzynkę odbiorczą",
+        "sentTo": "Wysłaliśmy link weryfikacyjny na adres:",
+        "expiresInfo": "Link jest ważny przez 24 godziny.",
+        "resend": "Wyślij ponownie link weryfikacyjny",
+        "resendCooldown": "Wyślij ponownie za {seconds} s",
+        "resendSuccess": "Jeśli adres jest zarejestrowany i niezweryfikowany, wysłaliśmy nowy link.",
+        "backToLogin": "Powrót do logowania"
+      }
     },
     "fields": {
       "showPassword": "Pokaż hasło",
@@ -346,5 +376,32 @@
     "status": "Zazwyczaj trwa to {time} godzin. Gdy weryfikacja przebiegnie pomyślnie, odblokujemy Twój dostęp do panelu i wyślemy Ci wiadomość e-mail z potwierdzeniem.",
     "contact": "Jeśli masz jakiekolwiek pytania, skontaktuj się z nami pod adresem {email}",
     "log_out": "Wyloguj się"
+  },
+  "dynamicList": {
+    "noResults": "Brak wyników",
+    "placeholder": "Wpisz nową wartość...",
+    "addBtn": "Dodaj",
+    "removeBtn": "Usuń",
+    "removeAria": "Usuń element {item}",
+    "emptyState": "Brak elementów na liście.",
+    "errors": {
+      "empty": "Pole nie może być puste!",
+      "exists": "Element już istnieje!",
+      "maxReached": "Osiągnięto maksymalną liczbę elementów ({max})",
+      "tooLong": "Wpisana wartość jest za długa (maksymalnie {max} znaków)"
+    },
+    "dblClickToEdit": "Kliknij dwukrotnie, aby edytować",
+    "clearAll": "Wyczyść wszystkie",
+    "accessibility": {
+      "addItem": "Dodaj nowy element do listy",
+      "removeItem": "Usuń element {item} z listy",
+      "editItem": "Edytuj element {item} na liście",
+      "openMenu": "Otwórz menu opcji dla elementu {item}",
+      "label": "Lista dynamiczna z {count} elementami. Użyj strzałek w górę i w dół, aby poruszać się po elementach. Naciśnij Enter, aby edytować wybrany element.",
+      "closeMenu": "Zamknij menu opcji dla elementu {item}",
+      "suggestions": "Sugestie",
+      "clearAll": "Wyczyść wszystkie elementy z listy"
+    }
+
   }
 }

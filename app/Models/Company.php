@@ -65,7 +65,7 @@ class Company extends Model
 
     public function applications(): HasManyThrough
     {
-        return $this->hasManyThrough(Application::class, Offer::class);
+        return $this->hasManyThrough(Application::class, Offer::class)->withTrashedParents();
     }
 
     public function scopeNeedingVerification($query)

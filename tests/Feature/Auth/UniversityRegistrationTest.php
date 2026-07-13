@@ -24,7 +24,7 @@ class UniversityRegistrationTest extends TestCase
         Mail::fake();
 
         $this->post("/register/university", $this->validPayload())
-            ->assertRedirect(route("login"));
+            ->assertRedirect(route("verification.waiting"));
 
         $this->assertDatabaseHas("universities", [
             "email" => "university@example.com",
@@ -46,7 +46,7 @@ class UniversityRegistrationTest extends TestCase
         Mail::fake();
 
         $this->post("/register/university", $this->validPayload())
-            ->assertRedirect(route("login"));
+            ->assertRedirect(route("verification.waiting"));
 
         $user = User::query()->firstWhere("email", "university@example.com");
 
@@ -90,7 +90,7 @@ class UniversityRegistrationTest extends TestCase
 
         $this->actingAs($user)
             ->get("/university/dashboard")
-            ->assertForbidden();
+            ->assertRedirect("/university/verification/pending");
     }
 
     public function testApprovedUniversityAdminCanAccessDashboard(): void
