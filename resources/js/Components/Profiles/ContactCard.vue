@@ -51,19 +51,19 @@ const googleMapsUrl = computed(() => {
           :href="website" 
           target="_blank" 
           rel="noopener noreferrer" 
-          class="border border-gray-200 rounded-2xl px-5 py-2.5 text-sm font-medium text-gray-800 hover:border-primary hover:text-primary transition-colors wrap-break-word w-full max-w-65"
+          class="text-link hover:text-link/80 font-medium underline underline-offset-4 transition-colors wrap-break-word"
         >
           {{ website.replace(/^https?:\/\//, '') }}
         </a>
       </div>
       
       <div v-if="fullAddress" class="flex items-center gap-4 sm:gap-6">
-        <IconMapPin stroke="2.5" class="w-7 h-7 text-black shrink-0" />
+        <IconMapPin stroke="2.5" class="w-7 h-7 text-primary shrink-0" />
         <a 
           :href="googleMapsUrl"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center border border-gray-200 rounded-2xl px-5 py-2.5 text-sm font-medium text-gray-600 hover:border-primary hover:text-primary transition-colors wrap-break-word w-full max-w-65"
+          class="text-link hover:text-link/80 font-medium transition-colors wrap-break-word"
         >
           <span>{{ fullAddress }}</span>
         </a>
@@ -73,7 +73,7 @@ const googleMapsUrl = computed(() => {
         <IconPhone stroke="2.5" class="w-7 h-7 text-black shrink-0" />
         <a 
           :href="`tel:${phone}`" 
-          class="border border-gray-200 rounded-2xl px-5 py-2.5 text-sm font-medium text-gray-600 hover:border-primary hover:text-primary transition-colors wrap-break-word w-full max-w-65"
+          class="text-link hover:text-link/80 font-medium transition-colors wrap-break-word"
         >
           {{ phone }}
         </a>
@@ -83,7 +83,7 @@ const googleMapsUrl = computed(() => {
         <span class="font-bold text-text text-sm shrink-0 w-7 flex justify-center">
           {{ t('profiles.nip') }}:
         </span>
-        <div class="px-5 py-2.5 text-sm font-medium text-gray-600 wrap-break-word w-full max-w-65">
+        <div class="text-gray-700 font-medium wrap-break-word">
           {{ nip }}
         </div>
       </div>

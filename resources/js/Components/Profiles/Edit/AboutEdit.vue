@@ -47,6 +47,7 @@ watch(description, () => {
       <textarea
         ref="textareaRef"
         v-model="description"
+        :aria-label="t('profiles.aboutUs')"
         :maxlength="maxLength"
         rows="6"
         class="w-full p-4 text-sm sm:text-base text-gray-700 bg-transparent border-none focus:ring-0 resize-none overflow-hidden min-h-37.5 outline-none"

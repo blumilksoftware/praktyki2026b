@@ -64,7 +64,8 @@ const triggerFileInput = () => {
       @drop.prevent="onDrop"
     >
       <input 
-        ref="fileInput" 
+        ref="fileInput"
+        aria-label="t('profiles.uploadLogo')" 
         type="file" 
         class="hidden" 
         accept="image/*"

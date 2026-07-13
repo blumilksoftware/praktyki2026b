@@ -7,7 +7,6 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
 import TagsEdit from '@/Components/Profiles/Edit/TagsEdit.vue'
 import AboutEdit from '@/Components/Profiles/Edit/AboutEdit.vue'
-import OffersEdit from '@/Components/Profiles/Edit/OffersEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
 import Sidebar from '@/Components/Profiles/Sidebar.vue'
 import { ROUTES } from '@/Helpers/routes'
@@ -130,8 +129,6 @@ const saveAndGoToOffers = () => {
             
             <hr class="border-border/60">
             
-            <OffersEdit :offers="company.offers" />
-
             <div class="flex flex-col items-center gap-5 pt-4 pb-4 mt-2">
               <div v-if="form.hasErrors || statusMessage" class="flex flex-col items-center w-full min-h-6">
                 <div
@@ -153,42 +150,24 @@ const saveAndGoToOffers = () => {
                 </div>
               </div>
 
-              <!-- Sekcja przycisków -->
-              <div class="flex flex-col gap-6 w-full mt-4">
-                <!-- Przycisk Górny -->
-                <div class="flex justify-center w-full">
-                  <BaseButton
-                    variant="primary"
-                    class="bg-gray-50 hover:bg-gray-100 text-secondary border border-gray-200 px-6 py-2.5 text-sm font-semibold rounded-xl shadow-sm transition-all"
-                    :class="{ 'opacity-50 cursor-not-allowed': form.processing }"
-                    :disabled="form.processing"
-                    @click="saveAndGoToOffers"
-                  >
-                    {{ t('buttons.saveAndGoToOffers') }}
-                  </BaseButton>
-                </div>
-
-                <hr class="border-border/60 w-full">
-
-                <div class="flex flex-wrap justify-center items-center gap-4 w-full">
-                  <BaseButton
-                    class="bg-primary hover:bg-primary/90 text-white px-10 py-2.5 text-sm font-semibold rounded-xl shadow-sm transition-all"
-                    :class="{ 'opacity-50 cursor-not-allowed': form.processing }"
-                    :disabled="form.processing"
-                    @click="submit"
-                  >
-                    {{ form.processing ? t('buttons.saving') : t('buttons.save') }}
-                  </BaseButton>
-
-                  <BaseButton
-                    variant="secondary"
-                    @click="goBack"
-                  >
-                    {{ t('buttons.cancel') }}
-                  </BaseButton>
-                </div>
-              </div>              
-            </div>
+              <div class="flex flex-wrap justify-center items-center gap-4 w-full">
+                <BaseButton
+                  variant="secondary"
+                  @click="goBack"
+                >
+                  {{ t('buttons.cancel') }}
+                </BaseButton>
+                  
+                <BaseButton
+                  class="bg-primary hover:bg-primary/90 text-white px-10 py-2.5 text-sm font-semibold rounded-xl shadow-sm transition-all"
+                  :class="{ 'opacity-50 cursor-not-allowed': form.processing }"
+                  :disabled="form.processing"
+                  @click="submit"
+                >
+                  {{ form.processing ? t('buttons.saving') : t('buttons.save') }}
+                </BaseButton>
+              </div>
+            </div>              
           </div>
         </div>
       </div>

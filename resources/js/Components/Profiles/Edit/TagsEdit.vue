@@ -45,12 +45,12 @@ const removeTag = (tagToRemove) => {
 
 <template>
   <div class="grid grid-cols-1 lg:grid-cols-2 mt-10 gap-4 sm:gap-6 w-full">
-    <!-- Lewy panel: Dostępne tagi -->
     <div class="border border-border rounded-xl overflow-hidden flex flex-col h-80 bg-white">
       <div class="p-3 border-b border-border">
         <div class="relative">
           <input
             v-model="searchQuery"
+            :aria-label="t('profiles.searchTags')"
             type="text"
             :placeholder="t('profiles.searchTags')"
             class="w-full pl-4 pr-10 py-2 border border-border rounded-full text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-shadow"
