@@ -150,7 +150,9 @@
     "profile": "Profile",
     "aboutUs": "About us",
     "contact": "Contact",
+    "noContactInfo": "No contact information",
     "currentOffers": "Current offers",
+    "noOffers": "No current offers",
     "nip": "NIP",
     "spots": "Spots",
     "uploadLogo": "Upload logo",
@@ -175,6 +177,7 @@
       "noTags": "The company has not provided any tags."
     },
     "university": {
+      "noFaculties": "The university has not added any faculties yet."
     }
   },
   "validation": {

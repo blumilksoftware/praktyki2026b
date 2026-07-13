@@ -151,7 +151,9 @@
     "profile": "Profil",
     "aboutUs": "O nas",
     "contact": "Kontakt",
+    "noContactInfo": "Brak danych kontaktowych",
     "currentOffers": "Aktualne oferty",
+    "noOffers": "Brak aktualnych ofert",
     "nip": "NIP",
     "spots": "Miejsca",
     "uploadLogo": "Prześlij logo",
@@ -173,6 +175,7 @@
       "noTags": "Firma nie dodała jeszcze tagów."
     },
     "university": {
+      "noFaculties": "Uczelnia nie dodała jeszcze żadnych wydziałów."
     }
   },
   "validation": {

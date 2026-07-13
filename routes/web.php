@@ -57,6 +57,7 @@ Route::middleware(["auth"])
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
     ->prefix("university")
     ->group(function (): void {
+        Route::get("/profile", [UniversityController::class, "profile"])->name("university.profile");
         Route::patch("/profile", [UniversityController::class, "update"])->name("university.profile.update");
         Route::get("/profile/edit", [UniversityController::class, "edit"])->name("university.profile.edit");
     });

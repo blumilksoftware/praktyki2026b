@@ -9,7 +9,9 @@ const { t } = useI18n()
 const page = usePage()
 
 const user = computed(() => page.props.auth?.user)
-const logoPath = computed(() => user.value?.company?.logo_path)
+const logoPath = computed(() => {
+  return user.value?.company?.logo_path || user.value?.university_organization?.logo_path
+})
 
 const isOpen = ref(false)
 const dropdownRef = ref(null)

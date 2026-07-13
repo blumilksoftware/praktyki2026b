@@ -32,8 +32,16 @@ class UniversityController extends Controller
 
     public function profile(): Response
     {
-        return inertia("University/Profile", [
-            "user" => Auth::user(),
+        return inertia("University/Profile/Show", [
+            "university" => $this->getUniversityProfileData(),
+            "canEdit" => true,
+        ]);
+    }
+
+    public function edit(): Response
+    {
+        return inertia("University/Profile/Edit", [
+            "university" => $this->getUniversityProfileData(),
         ]);
     }
 
@@ -45,5 +53,24 @@ class UniversityController extends Controller
         $this->updateUniversityProfile->execute($university, $data);
 
         return redirect()->route("university.profile");
+    }
+
+    private function getUniversityProfileData(): array
+    {
+        $user = Auth::user();
+        $university = $user->universityOrganization;
+
+        return [
+            "id" => $university?->id ?? $user->id,
+            "name" => $university?->name ?? ($user->first_name . " " . $user->last_name),
+            "logoUrl" => $university?->logo_path ?? null,
+            "email" => $university?->email ?? null,
+            "domain" => $university?->domain ?? null,
+            "address" => $university?->address ?? null,
+            "phone" => $university?->phone ?? null,
+            "website" => $university?->website ?? null,
+            "externalFormUrl" => $university?->external_form_url ?? null,
+            "faculties" => $university ? $university->faculties()->with('studyFields')->get() : [],
+            ];
     }
 }

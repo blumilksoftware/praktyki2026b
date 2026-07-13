@@ -22,26 +22,18 @@ const localError = ref(null)
 const MAX_SIZE_MB = 2
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024
 
-const displayLogoUrl = computed(() => {
+const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
+
+const currentImage = computed(() => {
   if (previewUrl.value) return previewUrl.value
   if (props.logoUrl) return props.logoUrl.startsWith('/') ? props.logoUrl : '/' + props.logoUrl
   return null
 })
 
-const hasLogoPending = computed(() => Boolean(pendingFile.value))
-const logoError = computed(() => localError.value || props.serverError)
-
-function revokePreview() {
-  if (previewUrl.value) {
-    URL.revokeObjectURL(previewUrl.value)
-    previewUrl.value = null
+const handleFile = (file) => {
+  if (!file || !allowedTypes.includes(file.type)) {
+    return
   }
-}
-
-function validateLogo(file) {
-  const name = file.name.toLowerCase()
-  const ok = ['image/jpeg', 'image/png', 'image/webp'].includes(file.type)
-    || name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png') || name.endsWith('.webp')
   
   if (!ok) {
     localError.value = t('student.profile.photo.errors.invalidType')
@@ -89,17 +81,31 @@ defineExpose({ clearPending })
 </script>
 
 <template>
-  <div class="w-full flex flex-col items-start text-left">
-    <div class="flex items-center gap-4">
-      <div class="w-20 h-20 sm:w-24 sm:h-24 border border-border bg-background shadow-sm rounded-xl overflow-hidden flex items-center justify-center shrink-0 text-secondary">
-        <img
-          v-if="displayLogoUrl"
-          :src="displayLogoUrl"
-          alt="Logo"
-          class="w-full h-full object-cover"
-        >
-        <IconPhoto v-else stroke="1.5" class="w-8 h-8" />
-      </div>
+  <div class="relative flex flex-col items-center">
+    <div 
+      :class="[
+        'w-28 h-28 sm:w-32 sm:h-32 border-4 border-white bg-background shadow-md overflow-hidden flex items-center justify-center shrink-0 text-secondary cursor-pointer relative',
+        isDragging ? 'border-primary border-dashed' : ''
+      ]"
+      @click="triggerFileInput"
+      @dragover.prevent="isDragging = true"
+      @dragleave.prevent="isDragging = false"
+      @drop.prevent="onDrop"
+    >
+      <input 
+        ref="fileInput" 
+        type="file" 
+        class="hidden" 
+        accept="image/jpeg, image/png, image/webp"
+        @change="onFileChange"
+      >
+
+      <img 
+        v-if="currentImage"
+        :src="currentImage" 
+        alt="Logo" 
+        class="w-full h-full object-cover" 
+      >
       
       <div class="flex flex-col items-start">
         <p class="font-medium text-text text-sm">
