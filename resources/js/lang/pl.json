@@ -265,5 +265,32 @@
     "status": "Zazwyczaj trwa to {time} godzin. Gdy weryfikacja przebiegnie pomyślnie, odblokujemy Twój dostęp do panelu i wyślemy Ci wiadomość e-mail z potwierdzeniem.",
     "contact": "Jeśli masz jakiekolwiek pytania, skontaktuj się z nami pod adresem {email}",
     "log_out": "Wyloguj się"
+  },
+  "dynamicList": {
+    "noResults": "Brak wyników",
+    "placeholder": "Wpisz nową wartość...",
+    "addBtn": "Dodaj",
+    "removeBtn": "Usuń",
+    "removeAria": "Usuń element {item}",
+    "emptyState": "Brak elementów na liście.",
+    "errors": {
+      "empty": "Pole nie może być puste!",
+      "exists": "Element już istnieje!",
+      "maxReached": "Osiągnięto maksymalną liczbę elementów ({max})",
+      "tooLong": "Wpisana wartość jest za długa (maksymalnie {max} znaków)"
+    },
+    "dblClickToEdit": "Kliknij dwukrotnie, aby edytować",
+    "clearAll": "Wyczyść wszystkie",
+    "accessibility": {
+      "addItem": "Dodaj nowy element do listy",
+      "removeItem": "Usuń element {item} z listy",
+      "editItem": "Edytuj element {item} na liście",
+      "openMenu": "Otwórz menu opcji dla elementu {item}",
+      "label": "Lista dynamiczna z {count} elementami. Użyj strzałek w górę i w dół, aby poruszać się po elementach. Naciśnij Enter, aby edytować wybrany element.",
+      "closeMenu": "Zamknij menu opcji dla elementu {item}",
+      "suggestions": "Sugestie",
+      "clearAll": "Wyczyść wszystkie elementy z listy"
+    }
+
   }
 }
