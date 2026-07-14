@@ -7,11 +7,66 @@ import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
 import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
+import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 
 const email = ref('student@example.com')
 const password = ref('secret')
 const inputWithError = ref('')
 const terms = ref(false)
+
+const selectedTags = ref(['Vue'])
+const availableTags = ref([
+  'JavaScript',
+  'TypeScript',
+  'Vue',
+  'React',
+  'Angular',
+  'Svelte',
+  'Node.js',
+  'Laravel',
+  'PHP',
+  'Python',
+  'Django',
+  'Ruby',
+  'Rails',
+  'Java',
+  'Spring Boot',
+  'C#',
+  '.NET',
+  'Go',
+  'Rust',
+  'Kotlin',
+  'Swift',
+  'Flutter',
+  'Dart',
+  'React Native',
+  'Docker',
+  'Kubernetes',
+  'AWS',
+  'Azure',
+  'Google Cloud',
+  'Firebase',
+  'PostgreSQL',
+  'MySQL',
+  'MongoDB',
+  'Redis',
+  'GraphQL',
+  'REST API',
+  'Git',
+  'GitHub',
+  'CI/CD',
+  'DevOps',
+  'Linux',
+  'UI/UX',
+  'Tailwind CSS',
+  'Bootstrap',
+  'Figma',
+  'Testing',
+  'Jest',
+  'Cypress',
+  'Machine Learning',
+  'Artificial Intelligence',
+])
 </script>
 
 <template>
@@ -88,6 +143,19 @@ const terms = ref(false)
           <BaseCheckbox id="showcase-terms" v-model="terms">
             I accept the terms
           </BaseCheckbox>
+        </div>
+      </section>
+      <section class="flex flex-col gap-4">
+        <h2 class="text-xl font-medium text-text">
+          DynamicMultiSelect
+        </h2>
+        <div class="rounded-lg border border-border bg-white p-6">
+          <DynamicMultiSelect 
+            v-model="selectedTags" 
+            :options="availableTags"
+            :max="30"
+            :allow-custom="false"
+          />
         </div>
       </section>
     </div>

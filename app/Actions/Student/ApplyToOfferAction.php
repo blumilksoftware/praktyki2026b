@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Student;
 
 use App\Enums\ApplicationStatus;
+use App\Enums\OfferStatus;
 use App\Models\Application;
 use App\Models\Offer;
 use App\Models\User;
@@ -34,7 +35,7 @@ class ApplyToOfferAction
             ]);
         }
 
-        if (!$offer->is_active) {
+        if ($offer->status !== OfferStatus::Published) {
             throw ValidationException::withMessages([
                 "offer" => __("validation.offer_inactive"),
             ]);
