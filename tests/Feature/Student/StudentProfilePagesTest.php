@@ -93,4 +93,3 @@ class StudentProfilePagesTest extends TestCase
             );
     }
 }
-
