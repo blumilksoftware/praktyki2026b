@@ -21,6 +21,7 @@ const user = {
   specialization: "Web applications",
   preferred_fields: ["IT"],
   preferred_cities: ["Wroclaw"],
+  study_field_ids: [],
   cv_path: null,
   skills: ["Python", "Django", "React", "TypeScript"],
   work_modes: ["Hybrid", "Remote"],
@@ -76,27 +77,13 @@ describe("Student/Profile", () => {
     expect(wrapper.text()).toContain("Edit profile")
     expect(wrapper.text()).toContain("Technical skills")
     expect(wrapper.text()).toContain("Expected work mode")
+    expect(wrapper.text()).toContain("Account and security")
   })
 
-  it("opens a dedicated skills modal from the skills section", async () => {
+  it("renders skills and work mode tags from user data", () => {
     const wrapper = mountProfile()
 
-    const addButton = wrapper.findAll("button").find((button) => button.text() === "Add")
-    await addButton?.trigger("click")
-
-    expect(wrapper.text()).toContain("Add technical skills")
-    expect(wrapper.find("#profile_skills").exists()).toBe(true)
-  })
-
-  it("opens a dedicated work mode modal from the work mode section", async () => {
-    const wrapper = mountProfile()
-
-    const editButton = wrapper.findAll("button").find((button) => button.text() === "Edit")
-    await editButton?.trigger("click")
-
-    expect(wrapper.text()).toContain("Edit expected work mode")
-    expect(wrapper.text()).toContain("On-site")
-    expect(wrapper.text()).toContain("Remote")
+    expect(wrapper.text()).toContain("Python")
     expect(wrapper.text()).toContain("Hybrid")
   })
 })

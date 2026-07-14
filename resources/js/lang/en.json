@@ -280,9 +280,14 @@
         "title": "Edit profile",
         "basicData": "Basic information",
         "searchPreferences": "Search preferences",
+        "searchPreferencesHint": "Choose industries and cities you are interested in — we will use them to match internship offers.",
         "education": "Education",
         "age": "Age (years)",
+        "ageLabel": "Age",
+        "agePlaceholder": "years",
         "location": "Location (city, country)",
+        "locationLabel": "Location",
+        "locationPlaceholder": "city, country",
         "university": "University",
         "studyField": "Field of study",
         "studyYear": "Year of study",
@@ -305,7 +310,7 @@
         "firstName": "First name",
         "lastName": "Last name",
         "fields": "Industries",
-        "fieldsPlaceholder": "Type an industry and press Enter",
+        "fieldsPlaceholder": "Select an industry from the list",
         "cities": "Cities",
         "citiesPlaceholder": "Type a city and press Enter"
       },
@@ -316,11 +321,13 @@
         "title": "Technical skills",
         "description": "Technologies, tools and programming languages",
         "modalTitle": "Add technical skills",
-        "placeholder": "Type a skill and press Enter"
+        "placeholder": "Type a skill and press Enter",
+        "empty": "No skills added yet. Click \"Add\" to fill in."
       },
       "workMode": {
         "title": "Expected work mode",
         "modalTitle": "Edit expected work mode",
+        "empty": "No work mode selected. Click \"Edit\" to fill in.",
         "options": {
           "onsite": "On-site",
           "remote": "Remote",
@@ -331,11 +338,13 @@
         "title": "Saved and submitted applications"
       },
       "placeholder": {
-        "comingSoon": "This section will be available soon."
+        "comingSoon": "This section will be available soon.",
+        "mockDataNotice": "Data is temporary (mock) and is not saved to the server. It will be connected to the backend once it is ready."
       },
       "account": {
         "title": "Account and security",
-        "description": "Password, email and account deletion."
+        "description": "Password, email and account deletion.",
+        "navbarNotice": "Once the navigation bar is complete, this section will move to profile settings in the menu."
       },
       "password": {
         "title": "Change password",
@@ -344,9 +353,12 @@
         "confirmation": "Confirm new password"
       },
       "email": {
-        "title": "Email address",
+        "title": "Change email address",
         "label": "Email address",
+        "newAddress": "New email address",
         "unverifiedNotice": "The address {email} is inactive until you confirm it via the email link.",
+        "pendingNotice": "The new address {email} is inactive until you confirm it via the email link.",
+        "currentPassword": "Current password",
         "resend": "Resend verification link"
       },
       "delete": {

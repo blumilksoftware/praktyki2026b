@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import BaseModal from '@/Components/Common/BaseModal.vue'
@@ -7,11 +7,14 @@ import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
 import ProfileTagInput from '@/Components/Profile/ProfileTagInput.vue'
+import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   open: { type: Boolean, required: true },
   user: { type: Object, required: true },
+  studyFields: { type: Array, default: () => [] },
+  focusSection: { type: String, default: null },
 })
 
 const emit = defineEmits(['close'])
@@ -42,7 +45,7 @@ const profileForm = useForm({
   study_field: props.user.study_field ?? '',
   study_year: props.user.study_year ?? '',
   specialization: props.user.specialization ?? '',
-  preferred_fields: [...(props.user.preferred_fields ?? [])],
+  study_field_ids: [...(props.user.study_field_ids ?? [])],
   preferred_cities: [...(props.user.preferred_cities ?? [])],
 })
 
@@ -57,12 +60,20 @@ watch(() => props.open, (isOpen) => {
       study_field: props.user.study_field ?? '',
       study_year: props.user.study_year ?? '',
       specialization: props.user.specialization ?? '',
-      preferred_fields: [...(props.user.preferred_fields ?? [])],
+      study_field_ids: [...(props.user.study_field_ids ?? [])],
       preferred_cities: [...(props.user.preferred_cities ?? [])],
     }).reset()
     cancelPhotoPending()
+    scrollToFocusSection()
   }
 })
+
+function scrollToFocusSection() {
+  if (!props.focusSection) return
+  nextTick(() => {
+    document.getElementById(`profile-section-${props.focusSection}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  })
+}
 
 const displayPhotoUrl = computed(() => previewUrl.value ?? props.user.photo_url)
 const hasPhotoPending = computed(() => Boolean(pendingFile.value))
@@ -230,28 +241,35 @@ onBeforeUnmount(revokePreview)
         id="edit_age"
         v-model="profileForm.age"
         class="max-w-36"
-        :label="t('student.profile.edit.age')"
+        stacked
+        :label="t('student.profile.edit.ageLabel')"
         :error="fieldError('age')"
       />
       <BaseInput
         id="edit_location"
         v-model="profileForm.location"
         class="sm:col-span-2"
-        :label="t('student.profile.edit.location')"
+        stacked
+        :label="t('student.profile.edit.locationLabel')"
         :error="fieldError('location')"
       />
     </form>
 
-    <h3 class="mb-3 mt-6 font-medium text-text text-sm">
+    <h3 class="mb-1 mt-6 font-medium text-text text-sm">
       {{ t('student.profile.edit.searchPreferences') }}
     </h3>
+    <p class="mb-3 text-additional text-xs">
+      {{ t('student.profile.edit.searchPreferencesHint') }}
+    </p>
     <div class="grid grid-cols-1 gap-4">
-      <ProfileTagInput
+      <DynamicMultiSelect
         id="edit_fields"
-        v-model="profileForm.preferred_fields"
+        v-model="profileForm.study_field_ids"
         :label="t('student.profile.details.fields')"
+        :options="studyFields"
+        :max="10"
         :placeholder="t('student.profile.details.fieldsPlaceholder')"
-        :error="fieldError('preferred_fields')"
+        :error="fieldError('study_field_ids')"
       />
       <ProfileTagInput
         id="edit_cities"
@@ -262,7 +280,7 @@ onBeforeUnmount(revokePreview)
       />
     </div>
 
-    <h3 class="mb-3 mt-6 font-medium text-text text-sm">
+    <h3 id="profile-section-university" class="mb-3 mt-6 font-medium text-text text-sm">
       {{ t('student.profile.edit.education') }}
     </h3>
     <form class="grid grid-cols-1 gap-4 sm:grid-cols-2" novalidate @submit.prevent>
@@ -315,7 +333,7 @@ onBeforeUnmount(revokePreview)
       />
     </form>
 
-    <div class="mt-6 rounded-xl border border-border bg-background px-4 py-3 text-additional text-sm">
+    <div id="profile-section-cv" class="mt-6 rounded-xl border border-border bg-background px-4 py-3 text-additional text-sm">
       {{ t('student.profile.edit.cvPlaceholder') }}
     </div>
 

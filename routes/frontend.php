@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
@@ -41,6 +42,13 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
     ->group(function (): void {
         Route::get("/dashboard", [UniversityController::class, "index"])->name("university.dashboard");
         Route::get("/profile", [UniversityController::class, "profile"])->name("university.profile");
+    });
+
+Route::middleware(["auth", "can:access-student-panel"])
+    ->prefix("student")
+    ->group(function (): void {
+        Route::get("/dashboard", [StudentController::class, "index"])->name("student.dashboard");
+        Route::get("/profile", [StudentController::class, "profile"])->name("student.profile");
     });
 
 Route::middleware(["role:superAdmin"])

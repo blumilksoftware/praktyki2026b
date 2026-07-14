@@ -281,9 +281,14 @@
         "title": "Edytuj profil",
         "basicData": "Dane podstawowe",
         "searchPreferences": "Preferencje wyszukiwania",
+        "searchPreferencesHint": "Wybierz branże i miasta, które Cię interesują — pomoże nam to dopasować oferty praktyk.",
         "education": "Edukacja",
         "age": "Wiek (lata)",
+        "ageLabel": "Wiek",
+        "agePlaceholder": "lata",
         "location": "Lokalizacja (miasto, kraj)",
+        "locationLabel": "Lokalizacja",
+        "locationPlaceholder": "miasto, kraj",
         "university": "Uczelnia",
         "studyField": "Kierunek studiów",
         "studyYear": "Rok studiów",
@@ -306,7 +311,7 @@
         "firstName": "Imię",
         "lastName": "Nazwisko",
         "fields": "Branże",
-        "fieldsPlaceholder": "Wpisz branżę i naciśnij Enter",
+        "fieldsPlaceholder": "Wybierz branżę z listy",
         "cities": "Miasta",
         "citiesPlaceholder": "Wpisz miasto i naciśnij Enter"
       },
@@ -317,11 +322,13 @@
         "title": "Umiejętności techniczne",
         "description": "Technologie, narzędzia i języki programowania",
         "modalTitle": "Dodaj umiejętności techniczne",
-        "placeholder": "Wpisz umiejętność i naciśnij Enter"
+        "placeholder": "Wpisz umiejętność i naciśnij Enter",
+        "empty": "Brak dodanych umiejętności. Kliknij „Dodaj”, aby uzupełnić."
       },
       "workMode": {
         "title": "Oczekiwany tryb pracy",
         "modalTitle": "Edytuj oczekiwany tryb pracy",
+        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić.",
         "options": {
           "onsite": "Stacjonarnie",
           "remote": "Zdalnie",
@@ -332,11 +339,13 @@
         "title": "Zapisane i wysłane aplikacje"
       },
       "placeholder": {
-        "comingSoon": "Ta sekcja będzie dostępna wkrótce."
+        "comingSoon": "Ta sekcja będzie dostępna wkrótce.",
+        "mockDataNotice": "Dane są tymczasowe (mock) i nie zapisują się na serwerze. Zostaną podpięte pod backend, gdy będzie gotowy."
       },
       "account": {
         "title": "Konto i bezpieczeństwo",
-        "description": "Hasło, adres e-mail i usuwanie konta."
+        "description": "Hasło, adres e-mail i usuwanie konta.",
+        "navbarNotice": "Po ukończeniu paska nawigacji ta sekcja zostanie przeniesiona do ustawień profilu w menu."
       },
       "password": {
         "title": "Zmiana hasła",
@@ -345,9 +354,12 @@
         "confirmation": "Potwierdź nowe hasło"
       },
       "email": {
-        "title": "Adres e-mail",
+        "title": "Zmiana adresu e-mail",
         "label": "Adres e-mail",
+        "newAddress": "Nowy adres e-mail",
         "unverifiedNotice": "Adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
+        "pendingNotice": "Nowy adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
+        "currentPassword": "Obecne hasło",
         "resend": "Wyślij ponownie link weryfikacyjny"
       },
       "delete": {

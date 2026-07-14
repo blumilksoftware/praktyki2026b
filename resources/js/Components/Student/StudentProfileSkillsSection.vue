@@ -28,7 +28,13 @@ const { t } = useI18n()
       <ProfileTag v-for="skill in skills" :key="skill" :label="skill" />
     </div>
     <p v-else class="text-additional text-sm">
-      {{ t('student.profile.placeholder.comingSoon') }}
+      {{ t('student.profile.skills.empty') }}
+    </p>
+    <p
+      class="mt-3 rounded-lg bg-slate-50 px-3 py-2 text-additional text-xs ring-1 ring-slate-200"
+      role="status"
+    >
+      {{ t('student.profile.placeholder.mockDataNotice') }}
     </p>
   </ProfileSectionCard>
 </template>

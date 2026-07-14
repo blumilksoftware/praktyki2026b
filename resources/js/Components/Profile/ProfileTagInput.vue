@@ -40,36 +40,40 @@ function onKeydown(event) {
 </script>
 
 <template>
-  <div>
+  <div class="flex w-full flex-col gap-1">
     <label :for="id" class="mb-1 block text-additional text-sm">{{ label }}</label>
     <div
-      class="flex flex-wrap gap-2 rounded-lg border bg-white px-3 py-2"
+      class="flex min-h-[44px] cursor-text items-center gap-2 rounded-lg border bg-white px-3 py-2"
       :class="error ? 'border-error' : 'border-border'"
     >
-      <span
-        v-for="(tag, index) in modelValue"
-        :key="`${tag}-${index}`"
-        class="inline-flex items-center gap-1 rounded-full border border-slate-400 bg-slate-100 px-3 py-1 text-sm font-medium text-text"
-      >
-        {{ tag }}
-        <button
-          type="button"
-          class="rounded-full px-1 text-additional hover:bg-white hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-          :aria-label="t('student.profile.tags.remove')"
-          @click="removeTag(index)"
+      <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
+        <span
+          v-for="(tag, index) in modelValue"
+          :key="`${tag}-${index}`"
+          class="inline-flex max-w-full items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary"
         >
-          ×
-        </button>
-      </span>
-      <input
-        :id="id"
-        v-model="inputValue"
-        type="text"
-        class="min-w-[8rem] flex-1 border-0 bg-transparent p-0 text-sm focus:outline-none"
-        :placeholder="placeholder"
-        @keydown="onKeydown"
-        @blur="addTag(inputValue)"
-      >
+          <span class="truncate">{{ tag }}</span>
+          <button
+            type="button"
+            class="shrink-0 rounded-md p-0.5 text-additional transition-colors hover:bg-red-500/10 hover:text-red-500"
+            :aria-label="t('student.profile.tags.remove')"
+            @click="removeTag(index)"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </span>
+        <input
+          :id="id"
+          v-model="inputValue"
+          type="text"
+          class="min-w-[8rem] flex-1 border-0 bg-transparent py-1 text-sm text-text outline-none placeholder:text-additional focus:ring-0"
+          :placeholder="placeholder"
+          @keydown="onKeydown"
+          @blur="addTag(inputValue)"
+        >
+      </div>
     </div>
     <p v-if="error" class="mt-1 text-error text-sm" role="alert">{{ error }}</p>
   </div>

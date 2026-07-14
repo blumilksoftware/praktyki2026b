@@ -31,7 +31,8 @@ describe("StudentProfileEditModal", () => {
     const wrapper = mount(StudentProfileEditModal, {
       props: {
         open: true,
-        user: { first_name: "Jan", last_name: "Kowalski", email: "jan@example.com" },
+        user: { first_name: "Jan", last_name: "Kowalski", email: "jan@example.com", study_field_ids: [], preferred_cities: [] },
+        studyFields: [],
       },
       global: {
         plugins: [i18n],
