@@ -18,7 +18,6 @@ const { suggestions, fetchSuggestions, clearSuggestions } = useMapboxGeocoding()
 const isOpen = ref(false)
 const highlightedIndex = ref(-1)
 
-// to, co user widzi w polu — niezależne od tego, co leci do formularza
 const displayValue = ref(props.modelValue)
 
 watch(() => props.modelValue, (value) => {
@@ -38,8 +37,8 @@ const onInput = (value) => {
 }
 
 const selectCity = (suggestion) => {
-  displayValue.value = suggestion.fullName   // w polu: pełny adres
-  emit('update:modelValue', suggestion.name) // do formularza/bazy: krótka nazwa
+  displayValue.value = suggestion.fullName
+  emit('update:modelValue', suggestion.name)
   emit('select', suggestion)
   isOpen.value = false
   clearSuggestions()
