@@ -30,7 +30,7 @@ class SearchOffers
         $paginatedOffers = (clone $offers)
             ->with("company")
             ->orderByDesc("published_at")
-            ->paginate(15)
+            ->paginate($data->perPage)
             ->withQueryString()
             ->through(fn(Offer $offer): array => [
                 "id" => $offer->id,

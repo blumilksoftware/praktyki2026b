@@ -18,6 +18,7 @@ readonly class SearchOffersData
         public ?string $dateFrom,
         public ?string $dateTo,
         public int $dateFlexDays,
+        public int $perPage,
     ) {}
 
     public static function fromArray(array $data): self
@@ -29,6 +30,7 @@ readonly class SearchOffersData
             dateFrom: $data["date_from"] ?? null,
             dateTo: $data["date_to"] ?? null,
             dateFlexDays: $data["date_flex_days"] ?? 0,
+            perPage: $data["per_page"] ?? 15,
         );
     }
 }
