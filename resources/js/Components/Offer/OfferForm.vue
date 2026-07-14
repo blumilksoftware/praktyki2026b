@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import BaseButton from '@/Components/Base/BaseButton.vue'
@@ -7,16 +7,51 @@ import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
 import BaseTextarea from '@/Components/Base/BaseTextarea.vue'
 import BaseToggle from '@/Components/Base/BaseToggle.vue'
-import MultiSelect from '@/Components/Common/MultiSelect.vue'
+import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import DateRangeField from '@/Components/Offer/DateRangeField.vue'
 import CityAutocomplete from '@/Components/Offer/CityAutocomplete.vue'
-import { ROUTES } from '@/Helpers/routes' 
+import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   studyFields: { type: Array, required: true },
   universities: { type: Array, required: true },
   offer: { type: Object, default: null },
 })
+
+const uniqueStudyFields = computed(() => {
+  const seen = new Map()
+  for (const field of props.studyFields) {
+    if (!seen.has(field.name)) seen.set(field.name, field)
+  }
+  return [...seen.values()]
+})
+
+const uniqueUniversities = computed(() => {
+  const seen = new Map()
+  for (const uni of props.universities) {
+    if (!seen.has(uni.name)) seen.set(uni.name, uni)
+  }
+  return [...seen.values()]
+})
+
+const studyFieldNames = computed(() => uniqueStudyFields.value.map(f => f.name))
+const universityNames = computed(() => uniqueUniversities.value.map(u => u.name))
+
+const nameToStudyFieldId = (name) => uniqueStudyFields.value.find(f => f.name === name)?.id
+const nameToUniversityId = (name) => uniqueUniversities.value.find(u => u.name === name)?.id
+
+const selectedStudyFieldNames = ref(
+  uniqueStudyFields.value
+    .filter(f => (props.offer?.study_field_ids ?? []).includes(f.id))
+    .map(f => f.name),
+)
+const selectedUniversityNames = ref(
+  uniqueUniversities.value
+    .filter(u => (props.offer?.university_ids ?? []).includes(u.id))
+    .map(u => u.name),
+)
+
+
 
 const { t } = useI18n()
 
@@ -52,6 +87,14 @@ const workModeOptions = computed(() => [
 const fieldError = (field) => form.errors[field]
 
 const submit = () => {
+  form.study_field_ids = selectedStudyFieldNames.value
+    .map(nameToStudyFieldId)
+    .filter(id => id !== undefined)
+
+  form.university_ids = selectedUniversityNames.value
+    .map(nameToUniversityId)
+    .filter(id => id !== undefined)
+
   if (isEditing.value) {
     form.patch(`/company/offers/${props.offer.id}`, { preserveScroll: true })
   } else {
@@ -101,28 +144,19 @@ const submit = () => {
     </section>
 
     <section class="rounded-3xl border border-border bg-white p-6 shadow-sm">
-      <div class="flex flex-col gap-3">
+      <div class="grid gap-5">
         <div>
-          <p class="text-sm font-semibold uppercase tracking-[0.25em] text-additional">
-            {{ t('company.offers.form.section.preferences') }}
-          </p>
-          <p class="mt-1 text-sm text-additional">
-            {{ t('company.offers.form.section.preferencesHint') }}
-          </p>
+          <label for="study_field_ids" class="mb-1 block text-sm font-medium text-text">
+            {{ t('company.offers.form.preferredFields') }}
+          </label>
+          <DynamicMultiSelect id="study_field_ids" v-model="selectedStudyFieldNames" :options="studyFieldNames" />
         </div>
 
-        <div class="grid gap-5">
-          <MultiSelect id="study_field_ids" v-model="form.study_field_ids" :options="studyFields"
-                       :label="t('company.offers.form.preferredFields')"
-                       :placeholder="t('company.offers.form.preferredFieldsPlaceholder')"
-                       :empty-state-label="t('company.offers.form.noMoreOptions')"
-          />
-
-          <MultiSelect id="university_ids" v-model="form.university_ids" :options="universities"
-                       :label="t('company.offers.form.preferredUniversities')"
-                       :placeholder="t('company.offers.form.preferredUniversitiesPlaceholder')"
-                       :empty-state-label="t('company.offers.form.noMoreOptions')"
-          />
+        <div>
+          <label for="university_ids" class="mb-1 block text-sm font-medium text-text">
+            {{ t('company.offers.form.preferredUniversities') }}
+          </label>
+          <DynamicMultiSelect id="university_ids" v-model="selectedUniversityNames" :options="universityNames" />
         </div>
       </div>
     </section>
