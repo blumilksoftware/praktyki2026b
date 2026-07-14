@@ -12,8 +12,7 @@ use App\DTO\Offer\CreateOfferData;
 use App\DTO\Offer\UpdateOfferData;
 use App\Enums\OfferStatus;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateOfferRequest;
-use App\Http\Requests\UpdateOfferRequest;
+use App\Http\Requests\StoreOfferRequest;
 use App\Models\Offer;
 use App\Models\StudyField;
 use App\Models\University;
@@ -48,7 +47,7 @@ class OfferController extends Controller
         return inertia("Company/CreateOffer", $this->formOptions());
     }
 
-    public function store(CreateOfferRequest $request): RedirectResponse
+    public function store(StoreOfferRequest $request): RedirectResponse
     {
         $company = Auth::user()->company;
         $data = CreateOfferData::fromArray($request->getData());
@@ -83,7 +82,7 @@ class OfferController extends Controller
         ]);
     }
 
-    public function update(UpdateOfferRequest $request, Offer $offer): RedirectResponse
+    public function update(StoreOfferRequest $request, Offer $offer): RedirectResponse
     {
         Gate::authorize("update", $offer);
 

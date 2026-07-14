@@ -522,9 +522,7 @@
         "heading": "Utwórz nową ofertę"
       },
       "edit": {
-        "title": "Edytuj ofertę",
-        "heading": "Edytuj \"{title}\""
-      },
+        "title": "Edytuj ofertę"      },
       "form": {
         "title": "Tytuł",
         "startDate": "Data rozpoczęcia",

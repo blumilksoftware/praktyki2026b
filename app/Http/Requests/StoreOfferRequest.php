@@ -11,7 +11,7 @@ use App\Enums\WorkMode;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateOfferRequest extends FormRequest
+class StoreOfferRequest extends FormRequest
 {
     public function authorize(): bool
     {

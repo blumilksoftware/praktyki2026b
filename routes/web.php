@@ -57,7 +57,9 @@ Route::middleware(["auth"])
         Route::patch("/offers/{offer}", [OfferController::class, "update"])->name("company.offers.update");
         Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])->name("company.offers.deactivate");
         Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");
-        Route::get("/geocoding/cities", [CityGeocodingController::class, "suggest"])->name("company.geocoding.cities");
+        Route::get("/geocoding/cities", [CityGeocodingController::class, "suggest"])
+            ->name("company.geocoding.cities")
+            ->middleware("throttle:30,1");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])

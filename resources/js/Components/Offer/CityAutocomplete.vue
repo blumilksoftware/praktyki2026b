@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useMapboxGeocoding } from '@/Composables/useMapboxGeocoding'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 
@@ -18,9 +18,19 @@ const { suggestions, fetchSuggestions, clearSuggestions } = useMapboxGeocoding()
 const isOpen = ref(false)
 const highlightedIndex = ref(-1)
 
+// to, co user widzi w polu — niezależne od tego, co leci do formularza
+const displayValue = ref(props.modelValue)
+
+watch(() => props.modelValue, (value) => {
+  if (value !== displayValue.value) {
+    displayValue.value = value
+  }
+})
+
 const showDropdown = computed(() => isOpen.value && suggestions.value.length > 0)
 
 const onInput = (value) => {
+  displayValue.value = value
   emit('update:modelValue', value)
   highlightedIndex.value = -1
   isOpen.value = true
@@ -28,7 +38,8 @@ const onInput = (value) => {
 }
 
 const selectCity = (suggestion) => {
-  emit('update:modelValue', suggestion.fullName)
+  displayValue.value = suggestion.fullName   // w polu: pełny adres
+  emit('update:modelValue', suggestion.name) // do formularza/bazy: krótka nazwa
   emit('select', suggestion)
   isOpen.value = false
   clearSuggestions()
@@ -58,7 +69,7 @@ const onKeydown = (event) => {
 
 <template>
   <div class="relative">
-    <BaseInput :id="id" :model-value="modelValue" :label="label" :error="error" :required="required"
+    <BaseInput :id="id" :model-value="displayValue" :label="label" :error="error" :required="required"
                autocomplete="off" @update:model-value="onInput" @focus="isOpen = true" @blur="onBlur"
                @keydown="onKeydown"
     />
@@ -66,7 +77,7 @@ const onKeydown = (event) => {
     <ul v-if="showDropdown"
         class="absolute z-20 mt-1 w-full overflow-hidden rounded-xl border border-border bg-white shadow-lg"
     >
-      <li v-for="(suggestion, index) in suggestions" :key="suggestion.id" class="cursor-pointer px-4 py-2 text-sm"
+      <li v-for="(suggestion, index) in suggestions" :key="suggestion.fullName" class="cursor-pointer px-4 py-2 text-sm"
           :class="index === highlightedIndex ? 'bg-secondary/10' : 'hover:bg-secondary/5'"
           @mousedown.prevent="selectCity(suggestion)"
       >

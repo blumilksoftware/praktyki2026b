@@ -52,7 +52,9 @@ Route::middleware(["auth", "can:create," . Offer::class])
 Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
-        Route::get("/offers/{offer}/edit", [OfferController::class, "edit"])->name("company.offers.edit");
+        Route::get("/offers/{offer}/edit", [OfferController::class, "edit"])
+            ->middleware("can:update,offer")
+            ->name("company.offers.edit");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])

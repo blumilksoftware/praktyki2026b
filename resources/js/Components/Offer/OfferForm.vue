@@ -84,7 +84,15 @@ const workModeOptions = computed(() => [
   { value: 'remote', label: t('company.offers.form.workModeOptions.remote') },
 ])
 
-const fieldError = (field) => form.errors[field]
+const fieldError = (field) => {
+  if (form.errors[field]) {
+    return form.errors[field]
+  }
+
+  const nestedKey = Object.keys(form.errors).find((key) => key.startsWith(`${field}.`))
+
+  return nestedKey ? form.errors[nestedKey] : undefined
+}
 
 const submit = () => {
   form.study_field_ids = selectedStudyFieldNames.value
@@ -96,7 +104,7 @@ const submit = () => {
     .filter(id => id !== undefined)
 
   if (isEditing.value) {
-    form.patch(`/company/offers/${props.offer.id}`, { preserveScroll: true })
+    form.patch(ROUTES.COMPANY_OFFERS_UPDATE(props.offer.id), { preserveScroll: true })
   } else {
     form.post(ROUTES.COMPANY_OFFERS_STORE, { preserveScroll: true })
   }
@@ -150,6 +158,9 @@ const submit = () => {
             {{ t('company.offers.form.preferredFields') }}
           </label>
           <DynamicMultiSelect id="study_field_ids" v-model="selectedStudyFieldNames" :options="studyFieldNames" />
+          <p v-if="fieldError('study_field_ids')" class="text-sm text-error" role="alert">
+            {{ fieldError('study_field_ids') }}
+          </p>
         </div>
 
         <div>
@@ -157,6 +168,9 @@ const submit = () => {
             {{ t('company.offers.form.preferredUniversities') }}
           </label>
           <DynamicMultiSelect id="university_ids" v-model="selectedUniversityNames" :options="universityNames" />
+          <p v-if="fieldError('university_ids')" class="text-sm text-error" role="alert">
+            {{ fieldError('university_ids') }}
+          </p>
         </div>
       </div>
     </section>

@@ -95,13 +95,14 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
 
       <label :for="id"
              class="absolute z-10 origin-left cursor-text transition-all duration-200 text-base font-medium text-additional
-               -top-6 inset-s-0 translate-y-0 scale-90
-               peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:inset-s-4 peer-placeholder-shown:scale-100
-               peer-focus:-top-6 peer-focus:translate-y-0 peer-focus:inset-s-0 peer-focus:scale-90 peer-focus:text-text"
+         -top-6 inset-s-0 translate-y-0 scale-90
+         peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:inset-s-4 peer-placeholder-shown:scale-100
+         peer-focus:-top-6 peer-focus:translate-y-0 peer-focus:inset-s-0 peer-focus:scale-90 peer-focus:text-text"
              :class="{ 'text-error peer-focus:text-error': hasError }"
 >>>>>>> 88d5382 (fix form)
       >
         {{ label }}
+        <span v-if="required" class="text-error" aria-hidden="true">*</span>
       </label>
 
 <<<<<<< HEAD

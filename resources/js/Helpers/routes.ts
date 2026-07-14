@@ -12,6 +12,8 @@ export const ROUTES = {
 
   COMPANY_OFFERS_CREATE: "/company/offers/create",
   COMPANY_OFFERS_STORE: "/company/offers",
+  COMPANY_OFFERS_UPDATE: "/company/offers/{offer}",
+  COMPANY_OFFERS_UPDATE: (id: number | string) => `/company/offers/${id}`,
 
   EMAIL_VERIFICATION: "/email/verify/{id}/{token}",
   EMAIL_VERIFICATION_RESEND: "/email/resend",
