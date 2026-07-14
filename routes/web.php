@@ -40,12 +40,6 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
     });
 
-Route::middleware(["auth", "can:create," . Offer::class])
-    ->prefix("company")
-    ->group(function (): void {
-        Route::post("/offers", [OfferController::class, "store"])->name("company.offers.store");
-    });
-
 Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
