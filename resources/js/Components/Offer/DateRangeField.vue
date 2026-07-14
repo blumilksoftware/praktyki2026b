@@ -14,9 +14,6 @@ const props = defineProps({
 const start = defineModel('start', { type: String, required: true })
 const end = defineModel('end', { type: String, required: true })
 
-// Keep the end date from ever being set before the start date, on top of the
-// server-side "after:start_date" rule, so the picker itself can't produce an
-// invalid range.
 watch(start, (newStart) => {
   if (newStart && end.value && end.value < newStart) {
     end.value = newStart
