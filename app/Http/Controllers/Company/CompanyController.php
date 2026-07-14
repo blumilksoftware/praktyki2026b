@@ -76,7 +76,7 @@ class CompanyController extends Controller
             "city" => $company?->city ?? null,
             "nip" => $company?->nip ?? null,
             "offers" => $company ? $company->offers()
-                ->where("is_active", true)
+                ->where("status", "published")
                 ->select("id", "title", "description", "spots")
                 ->latest()
                 ->get() : [],

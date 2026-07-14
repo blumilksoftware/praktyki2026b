@@ -7,93 +7,28 @@ use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
 use App\Http\Controllers\Onboarding\OnboardingController;
+use App\Http\Controllers\ProfileRedirectController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\Offer;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
 require __DIR__ . "/frontend.php";
 
 Route::post("/language/{locale}", function (string $locale) {
-    if (in_array($locale, ["pl", "en"], true)) {
+    if (in_array($locale, config("app.available_locales"), true)) {
         Session::put("locale", $locale);
     }
 
     return redirect()->back();
 })->name("language.switch");
 
-Route::get("/dev-login", function () {
-    $user = User::where("email", "admin@example.com")->first();
-
-    if ($user) {
-        if (method_exists($user, "markEmailAsVerified") && !$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified();
-            $user->save();
-        }
-        Auth::login($user);
-        session()->regenerate();
-
-        return redirect()->route("admin.dashboard");
-    }
-
-    return "Admin user not found";
-});
-
-Route::get("/profile", function (Request $request) {
-    $user = $request->user();
-
-    if ($user->role->value === "companyAdmin") {
-        return redirect()->route("company.profile");
-    }
-
-    if ($user->role->value === "student") {
-        return redirect()->route("student.profile");
-    }
-
-    if ($user->role->value === "universityAdmin ") {
-        return redirect()->route("university.profile");
-    }
-
-    return redirect("/");
-})->name("profile");
-
-Route::get("/profile/edit", function (Request $request) {
-    $user = $request->user();
-
-    if ($user->role->value === "companyAdmin") {
-        return redirect()->route("company.profile.edit");
-    }
-
-    if ($user->role->value === "student") {
-        return redirect()->route("student.profile.edit");
-    }
-
-    return redirect("/");
-})->name("profile.edit");
-
-Route::patch("/profile", function (Request $request) {
-    $user = $request->user();
-
-    if ($user->role->value === "companyAdmin") {
-        return redirect()->route("company.profile.update", [], 307);
-    }
-
-    if ($user->role->value === "student") {
-        return redirect()->route("student.profile.update", [], 307);
-    }
-
-    if ($user->role->value === "universityAdmin") {
-        return redirect()->route("university.profile.update", [], 307);
-    }
-
-    return abort(403, "Unauthorized");
-})->name("profile.update");
+Route::get("/profile", [ProfileRedirectController::class, "show"])->name("profile");
+Route::get("/profile/edit", [ProfileRedirectController::class, "edit"])->name("profile.edit");
+Route::patch("/profile", [ProfileRedirectController::class, "update"])->name("profile.update");
 
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
@@ -102,12 +37,6 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
         Route::get("/profile/edit", [CompanyController::class, "edit"])->name("company.profile.edit");
-    });
-
-Route::middleware(["auth", "can:create," . Offer::class])
-    ->prefix("company")
-    ->group(function (): void {
-        Route::post("/offers", [OfferController::class, "store"])->name("company.offers.store");
     });
 
 Route::middleware(["auth", "can:create," . Offer::class])

@@ -82,7 +82,7 @@ const viewAllOffers = () => {
     </div>
 
     <div v-else class="text-gray-400 italic text-sm">
-      {{ t('profiles.noOffers') }}
+      {{ t('profiles.company.noOffers') }}
     </div>
   </div>
 </template>
