@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
 Route::get("/", fn() => redirect()->route("login"));
+
+Route::get("/offers", [OfferController::class, "search"])->name("offers.search");
 
 Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");

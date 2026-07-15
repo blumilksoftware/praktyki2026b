@@ -166,6 +166,7 @@ return [
     "no_spots_available" => "Brak wolnych miejsc na tę ofertę.",
     "city_geocoding_failed" => "Nie udało się znaleźć lokalizacji dla podanego miasta. Sprawdź pisownię i spróbuj ponownie.",
     "offer_publish_requires_verification" => "Twoja firma musi zostać zweryfikowana, zanim będzie można publikować oferty. Zapisz ją jako szkic.",
+    "offer_publish_invalid_status" => "Tej oferty nie można opublikować.",
 
     "attributes" => [
         "email" => "adres e-mail",
@@ -199,5 +200,8 @@ return [
         "salary_max" => "maksymalne wynagrodzenie",
         "study_field_ids" => "kierunki studiów",
         "university_ids" => "uczelnie",
+        "date_from" => "początek zakresu dat",
+        "date_to" => "koniec zakresu dat",
+        "date_flex_days" => "elastyczność dat (dni)",
     ],
 ];
