@@ -23,6 +23,7 @@ return [
     "no_spots_available" => "No spots available for this offer.",
     "city_geocoding_failed" => "We could not find the location for this city. Please check the spelling and try again.",
     "offer_publish_requires_verification" => "Your company must be verified before you can publish offers. Save it as a draft instead.",
+    "offer_publish_invalid_status" => "This offer cannot be published.",
 
     "attributes" => [
         "email" => "email address",
@@ -56,5 +57,8 @@ return [
         "salary_max" => "maximum salary",
         "study_field_ids" => "fields of study",
         "university_ids" => "universities",
+        "date_from" => "start of date range",
+        "date_to" => "end of date range",
+        "date_flex_days" => "date flexibility (days)",
     ],
 ];

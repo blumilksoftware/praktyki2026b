@@ -48,6 +48,7 @@ Route::middleware(["auth", "can:create," . Offer::class])
 Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
+        Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])->name("company.offers.publish");
         Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])->name("company.offers.deactivate");
         Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");
     });
