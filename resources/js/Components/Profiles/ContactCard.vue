@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconWorld, IconMapPin, IconPhone } from '@tabler/icons-vue'
+import { IconWorld, IconMapPin, IconPhone, IconMail } from '@tabler/icons-vue'
 
 const { t } = useI18n()
 
@@ -44,7 +44,7 @@ const googleMapsUrl = computed(() => {
   <div class="flex flex-col gap-5">
     <h2 class="text-xl font-bold text-text">{{ t('profiles.contact') }}</h2>
     
-    <div class="border border-gray-200 rounded-4xl p-6 sm:p-8 bg-white flex flex-col gap-6">
+    <div class=" p-6 sm:p-8 bg-white flex flex-col gap-6">
       <div v-if="website" class="flex items-center gap-4 sm:gap-6">
         <IconWorld stroke="2.5" class="w-7 h-7 text-black shrink-0" />
         <a 
@@ -66,6 +66,16 @@ const googleMapsUrl = computed(() => {
           class="text-link hover:text-link/80 font-medium transition-colors wrap-break-word"
         >
           <span>{{ fullAddress }}</span>
+        </a>
+      </div>
+
+      <div v-if="email" class="flex items-center gap-4 sm:gap-6">
+        <IconMail stroke="2.5" class="w-7 h-7 text-black shrink-0" />
+        <a 
+          :href="`mailto:${email}`" 
+          class="text-link hover:text-link/80 font-medium transition-colors wrap-break-word"
+        >
+          {{ email }}
         </a>
       </div>
 

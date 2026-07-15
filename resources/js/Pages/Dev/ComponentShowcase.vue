@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
@@ -8,11 +8,24 @@ import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
 import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
+import Menu from '@/Components/Profiles/Menu.vue'
+import { IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
+import { useI18n } from 'vue-i18n'
+import { ROUTES } from '@/Helpers/routes'
+
+const { t } = useI18n()
 
 const email = ref('student@example.com')
 const password = ref('secret')
 const inputWithError = ref('')
 const terms = ref(false)
+
+const companyMenu = computed(() => [
+  { label: t('profiles.company.myOffers'), href: ROUTES.OFFERS, icon: IconSearch },
+  { label: t('profiles.company.candidateApplications'), href: ROUTES.APPLICATIONS, icon: IconClipboardText },
+  { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle, isActive: true },
+  { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
+])
 
 const selectedTags = ref(['Vue'])
 const availableTags = ref([
@@ -86,9 +99,18 @@ const availableTags = ref([
           BaseNavbar
         </h2>
         <div class="rounded-lg border border-border bg-white p-6 flex flex-col gap-6">
-          <BaseNavbar />
+          <BaseNavbar show-hamburger :menu-items="companyMenu" />
           <BaseLogo />
           <div><LanguageSwitcher current-locale="pl" /></div>
+        </div>
+      </section>
+      <section class="flex flex-col gap-4">
+        <h2 class="text-xl font-medium text-text">
+          Menu
+        </h2>
+        <div class="rounded-lg border border-border bg-white p-6 flex flex-col gap-6">
+          <Menu :items="companyMenu" />
+          <p>moves to navbar on mobile</p>
         </div>
       </section>
       <section class="flex flex-col gap-4">

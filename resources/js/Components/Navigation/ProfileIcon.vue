@@ -31,7 +31,7 @@ onUnmounted(() => {
 
 <template>
   <div ref="dropdownRef" class="relative inline-block text-left">
-    <button
+    <div
       class="flex items-center justify-center w-10 h-10 p-0 rounded-full bg-secondary text-accent overflow-hidden hover:cursor-pointer hover:ring-2 hover:ring-link hover:ring-offset-2 hover:ring-offset-background transition-all focus:outline-none"
       :aria-expanded="isOpen"
       aria-haspopup="true"
@@ -49,7 +49,7 @@ onUnmounted(() => {
         stroke="2" 
         class="w-6 h-6 text-accent" 
       />
-    </button>
+    </div>
 
     <transition
       enter-active-class="transition ease-out duration-100"

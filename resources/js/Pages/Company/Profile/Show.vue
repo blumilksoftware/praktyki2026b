@@ -9,7 +9,7 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Offers from '@/Components/Profiles/Offers.vue'
-import Sidebar from '@/Components/Profiles/Sidebar.vue'
+import Menu from '@/Components/Profiles/Menu.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
 import { IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
@@ -38,68 +38,67 @@ defineProps({
 
 <template>
   <Head :title="company.name" />
+  
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar class="shrink-0" />
-
-    <div class="flex-1 w-full max-w-screen-2xl mx-auto bg-background px-6 md:px-12 lg:px-16 py-6 md:py-8">
+    <BaseNavbar show-hamburger :menu-items="companyMenu" />
+  
+    <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
-        <div class="w-auto lg:w-72 shrink-0">
-          <BaseButton
-            class="bg-secondary hover:bg-secondary/90 text-white px-5 py-2 flex items-center justify-center lg:justify-start w-fit text-sm font-semibold rounded-xl shadow-sm transition-all"
-            @click="goBack"
-          >
-            <IconArrowLeft stroke="2.5" class="w-4 h-4 mr-2" />
-            {{ t('buttons.back') }}
-          </BaseButton>
-        </div>
-
+        <BaseButton
+          variant="primary"
+          class="flex items-center gap-2 text-sm font-semibold transition-all px-4 py-2 rounded-xl"
+          @click="goBack"
+        >
+          <IconArrowLeft stroke="2.5" class="w-4 h-4 mr-2" />
+          {{ t('buttons.back') }}
+        </BaseButton>
         <div>
-          <BaseButton
-            class="bg-secondary hover:bg-secondary/90 text-white px-6 py-2 text-sm font-semibold rounded-xl shadow-sm transition-all"
-            @click="goToEdit"
-          >
-            {{ t('buttons.editProfile') }}
-          </BaseButton>
+          <Menu :items="companyMenu" />
         </div>
       </div>
 
-      <div class="flex flex-col lg:flex-row gap-8 items-start">
-        <div class="w-full lg:w-72 shrink-0">
-          <Sidebar :items="companyMenu" />
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div class="flex flex-col gap-6">
+          <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 flex flex-col items-center text-center">
+            <Header
+              :name="company.name"
+              :logo-url="company.logoUrl"
+              class="flex flex-col items-center w-full"
+            />
+
+            <div class="text-sm text-slate-500 mt-2 flex items-center gap-2">
+              <Tags :tags="company.tags" />
+            </div>
+
+            <BaseButton
+              class="w-full bg-[#0f172a] hover:bg-slate-800 text-white py-2.5 mt-6 text-sm font-semibold rounded-lg transition-all"
+              @click="goToEdit"
+            >
+              {{ t('buttons.editProfile') }}
+            </BaseButton>
+          </div>
+
+          <div class="h-full bg-white rounded-xl border border-secondary/20 shadow-sm p-6">
+            <ContactCard
+              :email="company.email"
+              :phone="company.phone"
+              :website="company.website"
+              :street="company.street"
+              :building-number="company.buildingNumber"
+              :postal-code="company.postalCode"
+              :city="company.city"
+              :nip="company.nip"
+            />
+          </div>
         </div>
 
-        <div class="flex-1 w-full bg-white rounded-xl border border-secondary shadow-sm px-6 py-10 sm:px-12 sm:py-12 relative">
-          <Header
-            :name="company.name"
-            :logo-url="company.logoUrl"
-          />
+        <div class="flex flex-col gap-6 lg:col-span-2">
+          <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
+            <About :description="company.description" />
+          </div>
 
-          <Tags :tags="company.tags" />
-
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 mt-12">
-            <div class="lg:col-span-2">
-              <About
-                :description="company.description"
-              />
-            </div>
-
-            <div class="lg:col-span-1 lg:col-start-3 lg:row-span-2">
-              <ContactCard
-                :email="company.email"
-                :phone="company.phone"
-                :website="company.website"
-                :street="company.street"
-                :building-number="company.buildingNumber"
-                :postal-code="company.postalCode"
-                :city="company.city"
-                :nip="company.nip"
-              />
-            </div>
-
-            <div class="lg:col-span-2 flex flex-col gap-10">
-              <hr class="border-border/60">
-              <Offers :offers="company.offers" />
-            </div>
+          <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
+            <Offers :offers="company.offers" />
           </div>
         </div>
       </div>

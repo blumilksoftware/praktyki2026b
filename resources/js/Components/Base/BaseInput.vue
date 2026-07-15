@@ -13,6 +13,9 @@ const props = defineProps({
   autocomplete: { type: String, default: undefined },
   required: { type: Boolean, default: false },
   maxlength: { type: [Number, String], default: undefined },
+  compact: { type: Boolean, default: false },
+  stacked: { type: Boolean, default: false },
+  placeholder: { type: String, default: '' },
 })
 
 const model = defineModel({ type: String, required: true })
@@ -30,10 +33,21 @@ const inputType = computed(() => {
   }
   return showPassword.value ? 'text' : 'password'
 })
+
+const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
 </script>
 
 <template>
-  <div class="flex flex-col gap-1.5 w-full pt-6">
+  <div class="flex w-full flex-col gap-1.5" :class="stacked ? '' : wrapperClass">
+    <label
+      v-if="stacked"
+      :for="id"
+      class="mb-1 block text-additional text-sm"
+      :class="{ 'text-error': hasError }"
+    >
+      {{ label }}
+    </label>
+
     <div class="relative">
       <input
         :id="id"
@@ -44,16 +58,18 @@ const inputType = computed(() => {
         :maxlength="maxlength"
         :aria-invalid="hasError ? true : undefined"
         :aria-describedby="error ? `${id}-error` : undefined"
-        placeholder=" "
-        class="peer w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+        :placeholder="stacked ? placeholder : ' '"
+        class="w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text transition-all focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30"
         :class="[
           hasError ? 'border-error focus:border-error focus:ring-error/30' : '',
-          isPassword ? 'pr-11' : '' 
+          isPassword ? 'pr-11' : '',
+          stacked ? '' : 'peer',
         ]"
       >
 
-      <label 
-        :for="id" 
+      <label
+        v-if="!stacked"
+        :for="id"
         class="absolute z-10 origin-left cursor-text transition-all duration-200 text-base font-medium text-additional
                -top-6 inset-s-0 translate-y-0 scale-90
                peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:inset-s-4 peer-placeholder-shown:scale-100

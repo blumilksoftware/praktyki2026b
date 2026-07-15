@@ -158,6 +158,10 @@
     "activeTags": "Aktywne tagi",
     "noActiveTags": "Nie wybrano żadnych tagów",
     "noResults": "Brak wyników",
+    "errors": {
+      "invalidFormat": "Nieprawidłowy format. Dozwolone formaty to: JPG, JPEG, PNG, WEBP.",
+      "fileTooLarge": "Maksymalny rozmiar pliku to {maxSize} MB."
+    },
     "company": {
       "myOffers": "Moje oferty",
       "candidateApplications": "Aplikacje kandydatów",
@@ -329,6 +333,7 @@
     "dblClickToEdit": "Kliknij dwukrotnie, aby edytować",
     "clearAll": "Wyczyść wszystkie",
     "accessibility": {
+      "inputLabel": "Lista dynamiczna",
       "addItem": "Dodaj nowy element do listy",
       "removeItem": "Usuń element {item} z listy",
       "editItem": "Edytuj element {item} na liście",

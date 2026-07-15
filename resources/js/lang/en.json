@@ -157,6 +157,13 @@
     "activeTags": "Active tags",
     "noActiveTags": "No active tags",
     "noResults": "No results",
+    "errors":{
+       "invalidFormat": "Invalid format. Allowed formats are: JPG, JPEG, PNG, WEBP.",
+      "fileTooLarge": "Maximum file size is {maxSize} MB."
+    },
+    "edit": {
+      "successMessage": "Profile updated successfully."
+    },
     "company": {
       "myOffers": "My offers",
       "candidateApplications": "Candidate applications",
@@ -327,6 +334,7 @@
     "dblClickToEdit": "Double click to edit",
     "clearAll": "Clear all",
         "accessibility": {
+      "inputLabel": "Dynamic list input",
       "addItem": "Add a new item to the list",
       "removeItem": "Remove item {item} from the list",
       "editItem": "Edit item {item} in the list",

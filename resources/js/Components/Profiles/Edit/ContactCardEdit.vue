@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconWorld, IconMapPin, IconPhone } from '@tabler/icons-vue'
+import { IconWorld, IconMapPin, IconPhone, IconMail } from '@tabler/icons-vue'
 import BaseInput from '@/Components/Base/BaseInput.vue' 
 
 const { t } = useI18n()
@@ -30,12 +30,17 @@ const emit = defineEmits([
 const requiredFields = ['city', 'postalCode', 'street', 'buildingNumber', 'phone']
 
 const getTranslatedError = (field) => {
-  if (props.errors[field]) {
-    return t(props.errors[field])
+  if (props.errors && props.errors[field]) {
+    return props.errors[field] 
   }
-  if (requiredFields.includes(field) && props[field].trim() === '') {
-    return t('validation.requiredField')
+  
+  if (requiredFields.includes(field)) {
+    const value = props[field]
+    if (value === null || value === undefined || String(value).trim() === '') {
+      return t('validation.requiredField')
+    }
   }
+  
   return undefined
 }
 

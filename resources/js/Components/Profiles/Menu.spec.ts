@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect, vi } from 'vitest'
-import Sidebar from '@/Components/Profiles/Sidebar.vue'
+import Sidebar from '@/Components/Profiles/Menu.vue'
 import { IconMenu2, IconX } from '@tabler/icons-vue'
 
 vi.mock('vue-i18n', () => ({
