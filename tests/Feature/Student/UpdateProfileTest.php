@@ -183,6 +183,25 @@ class UpdateProfileTest extends TestCase
         $response->assertInvalid("preferred_cities");
     }
 
+    public function testInvalidAgeReturnsFriendlyMessageInPolish(): void
+    {
+        app()->setLocale("pl");
+
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
+            "age" => -1,
+        ]));
+
+        $response->assertInvalid("age");
+        $response->assertSessionHasErrors([
+            "age" => "Wiek musi być większy od 0.",
+        ]);
+    }
+
     public function testGeocodingFailureRollsBackWithValidationError(): void
     {
         $user = User::factory()->create([

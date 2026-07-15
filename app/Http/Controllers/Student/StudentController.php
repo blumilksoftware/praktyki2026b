@@ -57,6 +57,13 @@ class StudentController extends Controller
         return inertia("Student/Profile", $this->buildStudentProfileData->execute($user));
     }
 
+    public function editProfile(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Student/ProfileEdit", $this->buildStudentProfileData->execute($user));
+    }
+
     public function showPhoto(): StreamedResponse
     {
         $user = Auth::user();
@@ -81,7 +88,7 @@ class StudentController extends Controller
 
         $this->updateStudentProfile->execute($user, $data);
 
-        return back();
+        return redirect()->route("student.profile");
     }
 
     public function uploadPhoto(UploadStudentPhotoRequest $request): RedirectResponse
@@ -90,7 +97,7 @@ class StudentController extends Controller
 
         $this->uploadStudentPhotoAction->execute($user, $request->file("photo"));
 
-        return back();
+        return redirect()->route("student.profile");
     }
 
     public function deletePhoto(): RedirectResponse

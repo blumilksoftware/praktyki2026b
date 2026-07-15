@@ -294,9 +294,15 @@
         "specialization": "Specialization",
         "cvPlaceholder": "CV section — separate task T-036.",
         "saveChanges": "Save changes",
+        "backToProfile": "Back to profile",
         "emailReadonlyHint": "To change your email, use the Account and security section on the profile page."
       },
       "photo": {
+        "label": "Profile photo",
+        "changeButton": "Change",
+        "uploadAction": "Upload a file",
+        "orDragDrop": " or drag and drop",
+        "formatHint": "PNG, JPG, WebP up to 2 MB",
         "change": "Change profile photo",
         "dropzone": "Drag a photo here or choose a file",
         "previewHint": "Preview — save changes to upload the photo.",

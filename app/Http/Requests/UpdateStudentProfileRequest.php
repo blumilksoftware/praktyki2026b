@@ -31,6 +31,19 @@ class UpdateStudentProfileRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            "age.integer" => __("validation.profile_age_integer"),
+            "age.min" => __("validation.profile_age_min"),
+            "age.max" => __("validation.profile_age_max"),
+            "study_year.integer" => __("validation.profile_study_year_integer"),
+            "study_year.min" => __("validation.profile_study_year_min"),
+            "study_year.max" => __("validation.profile_study_year_max"),
+            "preferred_cities.max" => __("validation.profile_preferred_cities_max"),
+        ];
+    }
+
     public function getData(): array
     {
         return [

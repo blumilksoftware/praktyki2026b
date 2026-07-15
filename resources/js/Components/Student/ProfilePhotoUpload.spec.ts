@@ -1,23 +1,8 @@
 import { mount } from "@vue/test-utils"
 import { createI18n } from "vue-i18n"
 import { beforeAll, describe, expect, it, vi } from "vitest"
-import StudentProfileEditModal from "@/Components/Student/StudentProfileEditModal.vue"
+import ProfilePhotoUpload from "@/Components/Student/ProfilePhotoUpload.vue"
 import en from "@/lang/en.json"
-
-const postMock = vi.fn()
-
-vi.mock("@inertiajs/vue3", () => ({
-  useForm: (data: Record<string, unknown>) => ({
-    ...data,
-    processing: false,
-    errors: {},
-    isDirty: false,
-    clearErrors: vi.fn(),
-    defaults: () => ({ reset: vi.fn() }),
-    patch: vi.fn(),
-    post: postMock,
-  }),
-}))
 
 beforeAll(() => {
   globalThis.URL.createObjectURL = vi.fn(() => "blob://preview") as unknown as typeof URL.createObjectURL
@@ -26,22 +11,18 @@ beforeAll(() => {
 
 const i18n = createI18n({ legacy: false, locale: "en", messages: { en } })
 
-describe("StudentProfileEditModal", () => {
+describe("ProfilePhotoUpload", () => {
   it("shows preview hint after selecting file", async () => {
-    const wrapper = mount(StudentProfileEditModal, {
+    const wrapper = mount(ProfilePhotoUpload, {
       props: {
-        open: true,
-        user: { first_name: "Jan", last_name: "Kowalski", email: "jan@example.com", study_field_ids: [], preferred_cities: [] },
-        studyFields: [],
+        photoUrl: null,
+        firstName: "John",
+        lastName: "Doe",
+        pendingFile: null,
+        "onUpdate:pendingFile": (file: File | null) => wrapper.setProps({ pendingFile: file }),
       },
       global: {
         plugins: [i18n],
-        stubs: {
-          BaseModal: {
-            props: ["open"],
-            template: '<section v-if="open"><slot /></section>',
-          },
-        },
       },
     })
 
@@ -51,6 +32,6 @@ describe("StudentProfileEditModal", () => {
     await input.trigger("change")
 
     expect(wrapper.text()).toContain("Preview")
-    expect(postMock).not.toHaveBeenCalled()
+    expect(wrapper.text()).toContain("Upload a file")
   })
 })

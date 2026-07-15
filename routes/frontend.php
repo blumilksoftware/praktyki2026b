@@ -5,8 +5,8 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
-use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
@@ -52,6 +52,7 @@ Route::middleware(["auth", "can:access-student-panel"])
     ->group(function (): void {
         Route::get("/dashboard", [StudentController::class, "index"])->name("student.dashboard");
         Route::get("/profile", [StudentController::class, "profile"])->name("student.profile");
+        Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");
     });
 
 Route::middleware(["role:superAdmin"])

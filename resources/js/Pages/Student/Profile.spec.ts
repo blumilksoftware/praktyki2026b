@@ -64,7 +64,6 @@ describe("Student/Profile", () => {
         },
         OnboardingBanner: true,
         ProfileProgress: true,
-        StudentProfileEditModal: true,
         StudentDeleteAccountModal: true,
       },
     },

@@ -1,6 +1,6 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
-import { Head, usePage } from '@inertiajs/vue3'
+import { computed, ref, watch } from 'vue'
+import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconHome, IconUser } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
@@ -13,7 +13,6 @@ import StudentProfileSkillsSection from '@/Components/Student/StudentProfileSkil
 import StudentProfileWorkModeSection from '@/Components/Student/StudentProfileWorkModeSection.vue'
 import StudentProfileApplicationsSection from '@/Components/Student/StudentProfileApplicationsSection.vue'
 import StudentAccountSettingsSection from '@/Components/Student/StudentAccountSettingsSection.vue'
-import StudentProfileEditModal from '@/Components/Student/StudentProfileEditModal.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -22,9 +21,6 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
-const page = usePage()
-const isEditOpen = ref(false)
-const focusSection = ref(null)
 const isSkillsModalOpen = ref(false)
 const isWorkModeModalOpen = ref(false)
 const skills = ref([])
@@ -77,21 +73,6 @@ function saveWorkModes() {
   isWorkModeModalOpen.value = false
 }
 
-function syncSectionFromUrl() {
-  const section = new URLSearchParams(window.location.search).get('section')
-  if (!section) return
-  focusSection.value = section
-  isEditOpen.value = true
-}
-
-onMounted(syncSectionFromUrl)
-watch(() => page.url, syncSectionFromUrl)
-
-function closeEditModal() {
-  isEditOpen.value = false
-  focusSection.value = null
-}
-
 const navItems = computed(() => [
   { key: 'dashboard', label: t('student.layout.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
   { key: 'profile', label: t('student.layout.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
@@ -109,10 +90,7 @@ const navItems = computed(() => [
     <OnboardingBanner />
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-      <StudentProfileSidebar
-        :user="profileUser"
-        @edit="isEditOpen = true"
-      />
+      <StudentProfileSidebar :user="profileUser" />
 
       <div class="flex flex-col gap-6 lg:col-span-2">
         <StudentProfileSkillsSection
@@ -131,14 +109,6 @@ const navItems = computed(() => [
         />
       </div>
     </div>
-
-    <StudentProfileEditModal
-      :open="isEditOpen"
-      :user="profileUser"
-      :study-fields="studyFields"
-      :focus-section="focusSection"
-      @close="closeEditModal"
-    />
 
     <BaseModal
       :open="isSkillsModalOpen"

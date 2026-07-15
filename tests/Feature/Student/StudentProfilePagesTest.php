@@ -20,6 +20,7 @@ class StudentProfilePagesTest extends TestCase
     {
         $this->get(route("student.dashboard"))->assertRedirect(route("login"));
         $this->get(route("student.profile"))->assertRedirect(route("login"));
+        $this->get(route("student.profile.edit"))->assertRedirect(route("login"));
     }
 
     public function testNonStudentRoleCannotAccessStudentDashboardOrProfile(): void
@@ -31,6 +32,7 @@ class StudentProfilePagesTest extends TestCase
 
         $this->actingAs($companyUser)->get(route("student.dashboard"))->assertStatus(403);
         $this->actingAs($companyUser)->get(route("student.profile"))->assertStatus(403);
+        $this->actingAs($companyUser)->get(route("student.profile.edit"))->assertStatus(403);
     }
 
     public function testInactiveStudentCannotAccessStudentDashboardOrProfile(): void
@@ -42,6 +44,7 @@ class StudentProfilePagesTest extends TestCase
 
         $this->actingAs($student)->get(route("student.dashboard"))->assertStatus(403);
         $this->actingAs($student)->get(route("student.profile"))->assertStatus(403);
+        $this->actingAs($student)->get(route("student.profile.edit"))->assertStatus(403);
     }
 
     public function testStudentCanSeeDashboard(): void
@@ -66,9 +69,9 @@ class StudentProfilePagesTest extends TestCase
         $student = User::factory()->create([
             "role" => UserRole::Student,
             "status" => UserStatus::Active,
-            "first_name" => "Jan",
-            "last_name" => "Kowalski",
-            "email" => "jan@example.com",
+            "first_name" => "John",
+            "last_name" => "Doe",
+            "email" => "john@example.com",
             "pending_email" => "new@example.com",
         ]);
         $student->preferredStudyFields()->sync([$studyField->id]);
@@ -79,9 +82,9 @@ class StudentProfilePagesTest extends TestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("Student/Profile")
-                    ->where("user.first_name", "Jan")
-                    ->where("user.last_name", "Kowalski")
-                    ->where("user.email", "jan@example.com")
+                    ->where("user.first_name", "John")
+                    ->where("user.last_name", "Doe")
+                    ->where("user.email", "john@example.com")
                     ->where("user.pending_email", "new@example.com")
                     ->has("user.study_field_ids", 1)
                     ->where("user.study_field_ids.0", $studyField->id)
@@ -90,6 +93,24 @@ class StudentProfilePagesTest extends TestCase
                         "value" => $studyField->id,
                         "label" => "Informatyka",
                     ]),
+            );
+    }
+
+    public function testStudentCanSeeProfileEditPage(): void
+    {
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $this->actingAs($student)
+            ->get(route("student.profile.edit"))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Student/ProfileEdit")
+                    ->has("user")
+                    ->has("study_fields"),
             );
     }
 }

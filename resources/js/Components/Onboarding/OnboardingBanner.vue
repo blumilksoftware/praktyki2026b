@@ -17,8 +17,8 @@ const profileUrl = computed(() => {
   if (role.value === 'universityAdmin') return ROUTES.UNIVERSITY_PROFILE
   if (role.value === 'student') {
     return nextStep.value
-      ? `${ROUTES.STUDENT_PROFILE}?section=${nextStep.value}`
-      : ROUTES.STUDENT_PROFILE
+      ? `${ROUTES.STUDENT_PROFILE_EDIT}?section=${nextStep.value}`
+      : ROUTES.STUDENT_PROFILE_EDIT
   }
   return null
 })

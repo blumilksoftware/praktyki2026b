@@ -295,9 +295,15 @@
         "specialization": "Specjalność",
         "cvPlaceholder": "Sekcja CV — osobny task T-036.",
         "saveChanges": "Zapisz zmiany",
+        "backToProfile": "Wróć do profilu",
         "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” na stronie profilu."
       },
       "photo": {
+        "label": "Zdjęcie profilowe",
+        "changeButton": "Zmień",
+        "uploadAction": "Prześlij plik",
+        "orDragDrop": " lub przeciągnij i upuść",
+        "formatHint": "PNG, JPG, WebP do 2 MB",
         "change": "Zmień zdjęcie profilowe",
         "dropzone": "Przeciągnij zdjęcie tutaj lub wybierz plik",
         "previewHint": "Podgląd — zapisz zmiany, aby wysłać zdjęcie na serwer.",
