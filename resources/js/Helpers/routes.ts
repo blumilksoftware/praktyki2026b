@@ -32,6 +32,7 @@ export const ROUTES = {
   UNIVERSITY_PROFILE: "/university/profile",
 
   HOME: "/",
+  OFFERS_SEARCH: "/offers",
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]

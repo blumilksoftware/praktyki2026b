@@ -380,6 +380,36 @@
       }
     }
   },
+  "offers": {
+    "search": {
+      "title": "Praktyki i oferty",
+      "subtitle": "Przeglądaj oferty i dopasuj wyniki do swoich preferencji.",
+      "resultsTitle": "Wyniki",
+      "empty": "Brak ofert spełniających wybrane kryteria.",
+      "resultsCount": "Wyświetlono {count} ofert na tej stronie."
+    },
+    "filters": {
+      "title": "Filtry",
+      "clearAll": "Wyczyść filtry",
+      "studyFields": {
+        "label": "Kierunki studiów",
+        "placeholder": "Wybierz kierunki z listy"
+      },
+      "workMode": {
+        "label": "Tryb pracy",
+        "all": "Wszystkie",
+        "onSite": "Stacjonarnie",
+        "hybrid": "Hybrydowo",
+        "remote": "Zdalnie"
+      },
+      "dateRange": {
+        "label": "Zakres dat praktyk",
+        "from": "Od",
+        "to": "Do"
+      },
+      "dateRangeInvalid": "Data „Do” musi być taka sama lub późniejsza niż data „Od”."
+    }
+  },
   "company": {
     "layout": {
       "title": "Firma"
