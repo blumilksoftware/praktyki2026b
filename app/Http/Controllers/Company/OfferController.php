@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Company;
 
 use App\Actions\Company\CreateOffer;
+use App\Actions\Company\PublishOffer;
 use App\DTO\Offer\CreateOfferData;
 use App\Enums\OfferStatus;
 use App\Http\Controllers\Controller;
@@ -18,6 +19,7 @@ class OfferController extends Controller
 {
     public function __construct(
         private readonly CreateOffer $createOffer,
+        private readonly PublishOffer $publishOffer,
     ) {}
 
     public function store(CreateOfferRequest $request): RedirectResponse
@@ -26,6 +28,15 @@ class OfferController extends Controller
         $data = CreateOfferData::fromArray($request->getData());
 
         $this->createOffer->execute($company, $data);
+
+        return redirect()->route("company.dashboard");
+    }
+
+    public function publish(Offer $offer): RedirectResponse
+    {
+        Gate::authorize("update", $offer);
+
+        $this->publishOffer->execute($offer);
 
         return redirect()->route("company.dashboard");
     }
