@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController as CompanyOfferController;
-use App\Http\Controllers\OfferController;
+use App\Http\Controllers\OfferController as PublicOfferController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\CompanyController as UniversityCompanyController;
 use App\Http\Controllers\University\UniversityController;
@@ -17,7 +17,7 @@ use Inertia\Response;
 
 Route::get("/", fn() => redirect()->route("login"));
 
-Route::get("/offers", [OfferController::class, "search"])->name("offers.search");
+Route::get("/offers", [PublicOfferController::class, "search"])->name("offers.search");
 
 Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");

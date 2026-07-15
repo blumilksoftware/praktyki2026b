@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
+
 class OfferController extends Controller
 {
     public function __construct(
