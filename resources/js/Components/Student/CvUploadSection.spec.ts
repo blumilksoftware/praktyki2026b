@@ -100,7 +100,7 @@ describe("CvUploadSection", () => {
     expect(wrapper.text()).toContain("Preview")
     expect(wrapper.text()).toContain("Replace")
     expect(mocks.reload).toHaveBeenCalledWith({
-      only: ["auth", "onboarding", "user"],
+      only: ["user", "auth", "onboarding"],
       preserveScroll: true,
       preserveState: true,
     })
@@ -179,7 +179,7 @@ describe("CvUploadSection", () => {
 
     expect(mocks.deleteRequest).toHaveBeenCalledOnce()
     expect(mocks.reload).toHaveBeenCalledWith({
-      only: ["auth", "onboarding", "user"],
+      only: ["user", "auth", "onboarding"],
       preserveScroll: true,
       preserveState: true,
     })

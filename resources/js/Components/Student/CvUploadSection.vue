@@ -68,7 +68,7 @@ function openPreview() {
 
 function refreshProfileState() {
   router.reload({
-    only: ['auth', 'onboarding', 'user'],
+    only: ['user', 'auth', 'onboarding'],
     preserveScroll: true,
     preserveState: true,
   })
@@ -170,7 +170,7 @@ onBeforeUnmount(revokePreviewObjectUrl)
 </script>
 
 <template>
-  <section id="student-cv-section" class="mt-6">
+  <section id="student-cv-section">
     <h3 class="mb-1 font-medium text-text text-sm">
       {{ t('student.cv.title') }}
     </h3>
@@ -211,41 +211,46 @@ onBeforeUnmount(revokePreviewObjectUrl)
 
     <div
       v-else-if="hasCv && displayFileName"
-      class="flex flex-col gap-3 rounded-xl border border-border bg-background px-4 py-3 sm:flex-row sm:items-center"
+      class="rounded-xl border border-border bg-background px-4 py-4"
     >
-      <div class="flex min-w-0 flex-1 items-center gap-2">
-        <IconFile class="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-        <span class="truncate text-text text-sm font-medium">
-          {{ displayFileName }}
-        </span>
-      </div>
-      <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
-        <button
-          type="button"
-          class="inline-flex items-center justify-center gap-1 text-primary text-sm font-medium hover:underline disabled:cursor-not-allowed disabled:opacity-60"
-          :disabled="form.processing || !previewUrl"
-          @click="openPreview"
-        >
-          <IconEye class="h-4 w-4" aria-hidden="true" />
-          {{ t('student.cv.preview') }}
-        </button>
-        <button
-          type="button"
-          class="text-primary text-sm font-medium hover:underline"
-          :disabled="form.processing"
-          @click="deleteCv"
-        >
-          {{ t('student.cv.delete') }}
-        </button>
-        <BaseButton
-          type="button"
-          variant="secondary"
-          class="w-full justify-center sm:w-auto"
-          :disabled="form.processing"
-          @click="openFilePicker"
-        >
-          {{ t('student.cv.replace') }}
-        </BaseButton>
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+        <div class="flex min-w-0 flex-1 items-center gap-2">
+          <IconFile class="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+          <span class="truncate text-sm font-medium text-text">
+            {{ displayFileName }}
+          </span>
+        </div>
+
+        <div class="flex flex-col gap-3 sm:flex-row sm:shrink-0 sm:items-center sm:gap-3">
+          <div class="flex items-center gap-4">
+            <button
+              type="button"
+              class="inline-flex items-center gap-1 text-primary text-sm font-medium hover:underline disabled:cursor-not-allowed disabled:opacity-60"
+              :disabled="form.processing || !previewUrl"
+              @click="openPreview"
+            >
+              <IconEye class="h-4 w-4 shrink-0" aria-hidden="true" />
+              {{ t('student.cv.preview') }}
+            </button>
+            <button
+              type="button"
+              class="inline-flex items-center text-red-600 text-sm font-medium hover:text-red-700 hover:underline disabled:cursor-not-allowed disabled:opacity-60"
+              :disabled="form.processing"
+              @click="deleteCv"
+            >
+              {{ t('student.cv.delete') }}
+            </button>
+          </div>
+          <BaseButton
+            type="button"
+            variant="secondary"
+            class="w-full justify-center sm:w-auto"
+            :disabled="form.processing"
+            @click="openFilePicker"
+          >
+            {{ t('student.cv.replace') }}
+          </BaseButton>
+        </div>
       </div>
     </div>
 

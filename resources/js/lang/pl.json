@@ -264,7 +264,6 @@
       "hint": "Akceptowany format: PDF. Maksymalny rozmiar: 5 MB.",
       "selectFile": "Wybierz plik PDF",
       "dropzone": "lub przeciągnij go tutaj",
-      "change": "Zmień",
       "replace": "Zamień",
       "delete": "Usuń plik",
       "preview": "Podgląd",
@@ -273,7 +272,6 @@
       "previewUnavailable": "Podgląd CV jest chwilowo niedostępny.",
       "uploading": "Przesyłanie... {progress}%",
       "defaultFileName": "CV.pdf",
-      "uploaded": "CV przesłane",
       "errors": {
         "invalidType": "Plik musi być w formacie PDF.",
         "tooLarge": "Plik nie może być większy niż 5 MB."
@@ -313,7 +311,6 @@
         "studyField": "Kierunek studiów",
         "studyYear": "Rok studiów",
         "specialization": "Specjalność",
-        "cvPlaceholder": "Sekcja CV — osobny task T-036.",
         "saveChanges": "Zapisz zmiany",
         "backToProfile": "Wróć do profilu",
         "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” na stronie profilu."
