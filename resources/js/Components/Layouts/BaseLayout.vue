@@ -9,6 +9,7 @@ const props = defineProps({
   activePage: { type: String, default: '' },
   navItems: { type: Array, default: () => [] },
   showBackground: { type: Boolean, default: true },
+  logoHref: { type: String, default: ROUTES.ADMIN_DASHBOARD },
 })
 
 const { t, locale } = useI18n()
@@ -42,7 +43,7 @@ const navItems = computed(() => props.navItems.length > 0
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
       <div class="flex justify-between items-center px-4 md:px-6 py-4">
         <a
-          :href="ROUTES.ADMIN_DASHBOARD"
+          :href="props.logoHref"
           class="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 transition"
         >
           <div class="flex-1">

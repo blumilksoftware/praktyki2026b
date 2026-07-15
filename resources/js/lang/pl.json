@@ -259,6 +259,52 @@
       "title": "Profil"
     }
   },
+  "student": {
+    "offers": {
+      "title": "Oferty",
+      "filters": {
+        "kicker": "Filtry",
+        "title": "Tablica ofert",
+        "reset": "Resetuj",
+        "resetAriaLabel": "Wyczyść wszystkie filtry",
+        "search": "Szukaj",
+        "searchPlaceholder": "Firma, stanowisko lub miasto",
+        "city": "Miasto",
+        "allCities": "Wszystkie miasta",
+        "workMode": "Tryb pracy",
+        "allWorkModes": "Wszystkie tryby",
+        "verifiedOnly": "Tylko zweryfikowane firmy"
+      },
+      "results": {
+        "caption": "Dostępne oferty",
+        "count": "{count} ofert",
+        "helper": "Przewijana lista kafelków, jedna oferta na jeden kafelek"
+      },
+      "nav": {
+        "offers": "Oferty",
+        "home": "Strona główna"
+      },
+      "empty": {
+        "title": "Brak ofert spełniających filtry",
+        "description": "Spróbuj wyczyścić filtry albo rozszerzyć wyszukiwanie."
+      },
+      "workModes": {
+        "remote": "Zdalnie",
+        "hybrid": "Hybrydowo",
+        "office": "Stacjonarnie"
+      },
+      "card": {
+        "logoAlt": "Logo firmy {company}",
+        "verified": "Zweryfikowana",
+        "verifiedAriaLabel": "Firma zweryfikowana",
+        "dateRange": "Zakres dat",
+        "remainingSpots": "Pozostałe miejsca",
+        "location": "Lokalizacja",
+        "showOnMap": "Pokaż na mapie",
+        "applyNow": "Aplikuj teraz"
+      }
+    }
+  },
   "pending": {
     "title": "Konto w trakcie weryfikacji",
     "description": "Dziękujemy za rejestrację. Aby dbać o bezpieczeństwo studentów, każde konto uczelni lub firmy musi zostać ręcznie zatwierdzone przez naszego administratora.",

@@ -12,6 +12,7 @@ use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\Offer;
+use App\Enums\VerificationStatus;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . "/frontend.php";
@@ -45,6 +46,32 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
 Route::middleware(["auth", "can:access-student-panel"])
     ->prefix("student")
     ->group(function (): void {
+        Route::get("/offers", function () {
+            $offers = Offer::published()
+                ->with(['company', 'applications'])
+                ->when(request()->filled('city'), fn($q) => $q->where('city', request('city')))
+                ->when(request()->filled('work_mode'), fn($q) => $q->where('work_mode', request('work_mode')))
+                ->get()
+                ->map(function (Offer $o) {
+                    return [
+                        'id' => $o->id,
+                        'title' => $o->title,
+                        'city' => $o->city,
+                        'work_mode' => $o->work_mode->value ?? null,
+                        'start_date' => $o->start_date?->toDateString(),
+                        'end_date' => $o->end_date?->toDateString(),
+                        'spots' => $o->spots,
+                        'remaining_spots' => max(0, $o->spots - $o->applications->count()),
+                        'company' => [
+                            'name' => $o->company->name,
+                            'logo_path' => $o->company->logo_path,
+                            'is_verified' => ($o->company->verification_status ?? null) === VerificationStatus::Verified,
+                        ],
+                    ];
+                });
+
+            return inertia('Student/Offers', ['offers' => $offers->values()]);
+        })->name('student.offers.index');
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
