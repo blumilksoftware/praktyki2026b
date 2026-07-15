@@ -49,11 +49,11 @@ class UpdateStudentProfileRequest extends FormRequest
         return [
             "first_name" => $this->string("first_name")->toString(),
             "last_name" => $this->string("last_name")->toString(),
-            "age" => $this->input("age"),
+            "age" => $this->filled("age") ? $this->integer("age") : null,
             "location" => $this->input("location"),
             "university" => $this->input("university"),
             "study_field" => $this->input("study_field"),
-            "study_year" => $this->input("study_year"),
+            "study_year" => $this->filled("study_year") ? $this->integer("study_year") : null,
             "specialization" => $this->input("specialization"),
             "study_field_ids" => $this->input("study_field_ids", []),
             "preferred_cities" => $this->input("preferred_cities", []),

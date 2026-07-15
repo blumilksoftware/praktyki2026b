@@ -102,7 +102,7 @@ function saveAll() {
     :minimal-header="true"
     :show-background="false"
   >
-    <div class="mx-auto w-full max-w-2xl">
+    <div class="mx-auto w-full max-w-4xl">
       <Link
         :href="ROUTES.STUDENT_PROFILE"
         class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text"

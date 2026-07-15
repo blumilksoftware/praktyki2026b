@@ -77,6 +77,25 @@ class UpdateProfileTest extends TestCase
         $this->assertEquals("Backend", $user->specialization);
     }
 
+    public function testProfileUpdateAcceptsStringNumericAgeAndStudyYearFromForm(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
+            "age" => "22",
+            "study_year" => "3",
+        ]));
+
+        $response->assertRedirect(route("student.profile"));
+        $user->refresh();
+
+        $this->assertEquals(22, $user->age);
+        $this->assertEquals(3, $user->study_year);
+    }
+
     public function testMissingRequiredFieldsAreRejected(): void
     {
         $user = User::factory()->create([
