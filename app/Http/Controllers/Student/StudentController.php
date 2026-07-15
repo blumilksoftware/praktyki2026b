@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Student;
 
 use App\Actions\Student\ApplyToOfferAction;
+use App\Actions\Student\BuildStudentProfileData;
 use App\Actions\Student\ChangePassword;
 use App\Actions\Student\DeleteCvAction;
 use App\Actions\Student\DeleteStudentAccount;
@@ -24,6 +25,10 @@ use App\Http\Requests\UploadStudentPhotoRequest;
 use App\Models\Offer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Inertia\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StudentController extends Controller
 {
@@ -37,7 +42,44 @@ class StudentController extends Controller
         private readonly ChangePassword $changePassword,
         private readonly RequestEmailChange $requestEmailChange,
         private readonly DeleteStudentAccount $deleteStudentAccount,
+        private readonly BuildStudentProfileData $buildStudentProfileData,
     ) {}
+
+    public function index(): Response
+    {
+        return inertia("Student/Dashboard");
+    }
+
+    public function profile(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Student/Profile", $this->buildStudentProfileData->execute($user));
+    }
+
+    public function editProfile(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Student/ProfileEdit", $this->buildStudentProfileData->execute($user));
+    }
+
+    public function showPhoto(): StreamedResponse
+    {
+        $user = Auth::user();
+
+        if ($user->photo_path === null) {
+            throw new NotFoundHttpException();
+        }
+
+        $disk = config("filesystems.default", "local");
+
+        if (!Storage::disk($disk)->exists($user->photo_path)) {
+            throw new NotFoundHttpException();
+        }
+
+        return Storage::disk($disk)->response($user->photo_path);
+    }
 
     public function updateProfile(UpdateStudentProfileRequest $request): RedirectResponse
     {
@@ -46,7 +88,7 @@ class StudentController extends Controller
 
         $this->updateStudentProfile->execute($user, $data);
 
-        return back();
+        return redirect()->route("student.profile");
     }
 
     public function uploadPhoto(UploadStudentPhotoRequest $request): RedirectResponse
@@ -55,7 +97,7 @@ class StudentController extends Controller
 
         $this->uploadStudentPhotoAction->execute($user, $request->file("photo"));
 
-        return back();
+        return redirect()->route("student.profile");
     }
 
     public function deletePhoto(): RedirectResponse
