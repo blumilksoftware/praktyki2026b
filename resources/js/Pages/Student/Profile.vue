@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconHome, IconUser } from '@tabler/icons-vue'
@@ -12,15 +12,15 @@ import StudentProfileSidebar from '@/Components/Student/StudentProfileSidebar.vu
 import StudentProfileSkillsSection from '@/Components/Student/StudentProfileSkillsSection.vue'
 import StudentProfileWorkModeSection from '@/Components/Student/StudentProfileWorkModeSection.vue'
 import StudentProfileApplicationsSection from '@/Components/Student/StudentProfileApplicationsSection.vue'
-import StudentProfileEditModal from '@/Components/Student/StudentProfileEditModal.vue'
+import StudentAccountSettingsSection from '@/Components/Student/StudentAccountSettingsSection.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   user: { type: Object, required: true },
+  studyFields: { type: Array, default: () => [] },
 })
 
 const { t } = useI18n()
-const isEditOpen = ref(false)
 const isSkillsModalOpen = ref(false)
 const isWorkModeModalOpen = ref(false)
 const skills = ref([])
@@ -33,28 +33,17 @@ const profileUser = computed(() => ({
   skills: skills.value,
   work_modes: workModes.value,
 }))
-const navItems = computed(() => [
-  { key: 'dashboard', label: t('student.layout.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
-  { key: 'profile', label: t('student.layout.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
-])
 
 const workModeOptions = computed(() => [
   t('student.profile.workMode.options.onsite'),
   t('student.profile.workMode.options.remote'),
   t('student.profile.workMode.options.hybrid'),
 ])
-const initialSection = computed(() => new URLSearchParams(window.location.search).get('section'))
 
 watch(() => props.user, () => {
   skills.value = [...(props.user.skills ?? [])]
   workModes.value = [...(props.user.work_modes ?? [])]
 }, { immediate: true })
-
-onMounted(() => {
-  if (initialSection.value === 'cv') {
-    isEditOpen.value = true
-  }
-})
 
 function openSkillsModal() {
   skillsDraft.value = [...skills.value]
@@ -72,31 +61,22 @@ function openWorkModeModal() {
 }
 
 function toggleWorkMode(mode) {
-  const [onsite, remote, hybrid] = workModeOptions.value
-
-  if (mode === hybrid) {
-    workModesDraft.value = workModesDraft.value.includes(hybrid) ? [] : [hybrid]
-    return
-  }
-
-  const withoutHybrid = workModesDraft.value.filter(item => item !== hybrid)
-
   if (workModesDraft.value.includes(mode)) {
-    workModesDraft.value = withoutHybrid.filter((item) => item !== mode)
+    workModesDraft.value = workModesDraft.value.filter((item) => item !== mode)
     return
   }
-
-  const nextModes = [...withoutHybrid, mode]
-
-  workModesDraft.value = nextModes.includes(onsite) && nextModes.includes(remote)
-    ? [hybrid]
-    : nextModes
+  workModesDraft.value = [...workModesDraft.value, mode]
 }
 
 function saveWorkModes() {
   workModes.value = [...workModesDraft.value]
   isWorkModeModalOpen.value = false
 }
+
+const navItems = computed(() => [
+  { key: 'dashboard', label: t('student.layout.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
+  { key: 'profile', label: t('student.layout.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
+])
 </script>
 
 <template>
@@ -110,24 +90,25 @@ function saveWorkModes() {
     <OnboardingBanner />
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-      <StudentProfileSidebar
-        :user="profileUser"
-        @edit="isEditOpen = true"
-      />
+      <StudentProfileSidebar :user="profileUser" />
 
       <div class="flex flex-col gap-6 lg:col-span-2">
-        <StudentProfileSkillsSection :skills="profileUser.skills ?? []" @manage="openSkillsModal" />
-        <StudentProfileWorkModeSection :work-modes="profileUser.work_modes ?? []" @manage="openWorkModeModal" />
+        <StudentProfileSkillsSection
+          :skills="profileUser.skills ?? []"
+          @manage="openSkillsModal"
+        />
+        <StudentProfileWorkModeSection
+          :work-modes="profileUser.work_modes ?? []"
+          @manage="openWorkModeModal"
+        />
         <StudentProfileApplicationsSection :applications="profileUser.applications ?? []" />
+        <StudentAccountSettingsSection
+          :email="user.email"
+          :email-verified-at="user.email_verified_at"
+          :pending-email="user.pending_email"
+        />
       </div>
     </div>
-
-    <StudentProfileEditModal
-      :open="isEditOpen"
-      :user="profileUser"
-      :initial-section="initialSection"
-      @close="isEditOpen = false"
-    />
 
     <BaseModal
       :open="isSkillsModalOpen"

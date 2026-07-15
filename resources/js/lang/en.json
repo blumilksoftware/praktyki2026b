@@ -300,18 +300,29 @@
         "title": "Edit profile",
         "basicData": "Basic information",
         "searchPreferences": "Search preferences",
+        "searchPreferencesHint": "Choose industries and cities you are interested in — we will use them to match internship offers.",
         "education": "Education",
         "age": "Age (years)",
+        "ageLabel": "Age",
+        "agePlaceholder": "years",
         "location": "Location (city, country)",
+        "locationLabel": "Location",
+        "locationPlaceholder": "city, country",
         "university": "University",
         "studyField": "Field of study",
         "studyYear": "Year of study",
         "specialization": "Specialization",
         "cvPlaceholder": "CV section — separate task T-036.",
         "saveChanges": "Save changes",
+        "backToProfile": "Back to profile",
         "emailReadonlyHint": "To change your email, use the Account and security section on the profile page."
       },
       "photo": {
+        "label": "Profile photo",
+        "changeButton": "Change",
+        "uploadAction": "Upload a file",
+        "orDragDrop": " or drag and drop",
+        "formatHint": "PNG, JPG, WebP up to 2 MB",
         "change": "Change profile photo",
         "dropzone": "Drag a photo here or choose a file",
         "previewHint": "Preview — save changes to upload the photo.",
@@ -325,7 +336,7 @@
         "firstName": "First name",
         "lastName": "Last name",
         "fields": "Industries",
-        "fieldsPlaceholder": "Type an industry and press Enter",
+        "fieldsPlaceholder": "Select an industry from the list",
         "cities": "Cities",
         "citiesPlaceholder": "Type a city and press Enter"
       },
@@ -336,11 +347,13 @@
         "title": "Technical skills",
         "description": "Technologies, tools and programming languages",
         "modalTitle": "Add technical skills",
-        "placeholder": "Type a skill and press Enter"
+        "placeholder": "Type a skill and press Enter",
+        "empty": "No skills added yet. Click \"Add\" to fill in."
       },
       "workMode": {
         "title": "Expected work mode",
         "modalTitle": "Edit expected work mode",
+        "empty": "No work mode selected. Click \"Edit\" to fill in.",
         "options": {
           "onsite": "On-site",
           "remote": "Remote",
@@ -351,11 +364,13 @@
         "title": "Saved and submitted applications"
       },
       "placeholder": {
-        "comingSoon": "This section will be available soon."
+        "comingSoon": "This section will be available soon.",
+        "mockDataNotice": "Data is temporary (mock) and is not saved to the server. It will be connected to the backend once it is ready."
       },
       "account": {
         "title": "Account and security",
-        "description": "Password, email and account deletion."
+        "description": "Password, email and account deletion.",
+        "navbarNotice": "Once the navigation bar is complete, this section will move to profile settings in the menu."
       },
       "password": {
         "title": "Change password",
@@ -364,9 +379,12 @@
         "confirmation": "Confirm new password"
       },
       "email": {
-        "title": "Email address",
+        "title": "Change email address",
         "label": "Email address",
+        "newAddress": "New email address",
         "unverifiedNotice": "The address {email} is inactive until you confirm it via the email link.",
+        "pendingNotice": "The new address {email} is inactive until you confirm it via the email link.",
+        "currentPassword": "Current password",
         "resend": "Resend verification link"
       },
       "delete": {
@@ -395,5 +413,32 @@
     "status": "This usually takes {time} hours. When verification is successful, we will unlock your access to the panel and notify you by email.",
     "contact": "If you have any questions, please contact us at {email}",
     "log_out": "Log out"
+  },
+  "dynamicList": {
+    "noResults": "No results",
+    "placeholder": "Enter a new value...",
+    "addBtn": "Add",
+    "removeBtn": "Remove",
+    "removeAria": "Remove item {item}",
+    "emptyState": "No items in the list.",
+    "errors": {
+      "empty": "Field cannot be empty!",
+      "exists": "Item already exists!",
+      "maxReached": "Maximum number of items reached ({max})",
+      "tooLong": "Entered value is too long (maximum {max} characters)"
+    },
+    "dblClickToEdit": "Double click to edit",
+    "clearAll": "Clear all",
+        "accessibility": {
+      "addItem": "Add a new item to the list",
+      "removeItem": "Remove item {item} from the list",
+      "editItem": "Edit item {item} in the list",
+      "openMenu": "Open options menu for item {item}",
+      "label": "Dynamic list with {count} items. Use arrow keys to navigate items. Press Enter to edit the selected item.",
+      "closeMenu": "Close options menu for item {item}",
+      "suggestions": "Suggestions",
+      "clearAll": "Clear all items from the list"
+    }
+
   }
 }

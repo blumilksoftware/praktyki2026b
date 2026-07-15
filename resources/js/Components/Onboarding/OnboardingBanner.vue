@@ -10,16 +10,24 @@ const page = usePage()
 
 const onboarding = computed(() => page.props.onboarding)
 const role = computed(() => page.props.auth?.user?.role)
-const nextStep = computed(() => onboarding.value?.steps?.find(step => !step.completed)?.key ?? null)
+const nextStep = computed(() => onboarding.value?.steps?.find((step) => !step.completed)?.key ?? null)
 
 const profileUrl = computed(() => {
   if (role.value === 'companyAdmin') return ROUTES.COMPANY_PROFILE
   if (role.value === 'universityAdmin') return ROUTES.UNIVERSITY_PROFILE
   if (role.value === 'student') {
-    return nextStep.value === 'cv' ? `${ROUTES.STUDENT_PROFILE}?section=cv` : ROUTES.STUDENT_PROFILE
+    return nextStep.value
+      ? `${ROUTES.STUDENT_PROFILE_EDIT}?section=${nextStep.value}`
+      : ROUTES.STUDENT_PROFILE_EDIT
   }
   return null
 })
+
+function goToProfile(event) {
+  if (!profileUrl.value) return
+  event.preventDefault()
+  router.visit(profileUrl.value)
+}
 
 function dismiss() {
   router.post('/onboarding/dismiss')
@@ -47,6 +55,7 @@ function dismiss() {
         v-if="profileUrl"
         :href="profileUrl"
         class="inline-flex items-center mt-2 text-primary hover:text-primary/80 font-medium text-xs transition"
+        @click="goToProfile"
       >
         {{ t('onboarding.banner.action') }}
       </a>

@@ -33,6 +33,17 @@ class EmailVerificationController extends Controller
         return inertia("Auth/EmailVerificationResult", ["status" => "success"]);
     }
 
+    public function verifyChange(string $id, string $token): RedirectResponse
+    {
+        $user = User::findOrFail($id);
+
+        if (!$this->verificationService->confirmEmailChange($user, $token)) {
+            return redirect("/login")->withErrors(["email" => __("auth.verification.invalid_link")]);
+        }
+
+        return redirect("/login");
+    }
+
     public function resend(Request $request): RedirectResponse
     {
         $request->validate([

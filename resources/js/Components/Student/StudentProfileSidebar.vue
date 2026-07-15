@@ -1,17 +1,16 @@
 <script setup>
 import { computed } from 'vue'
+import { Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconMapPin, IconSchool, IconMail, IconFile, IconCircleCheckFilled } from '@tabler/icons-vue'
+import { IconMapPin, IconSchool, IconMail, IconFile } from '@tabler/icons-vue'
 import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
 import ProfileTag from '@/Components/Profile/ProfileTag.vue'
 import ProfileProgress from '@/Components/Onboarding/ProfileProgress.vue'
-import BaseButton from '@/Components/Base/BaseButton.vue'
+import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   user: { type: Object, required: true },
 })
-
-const emit = defineEmits(['edit'])
 
 const { t } = useI18n()
 
@@ -75,25 +74,18 @@ const ageLabel = computed(() => {
       class="mt-4 flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm"
     >
       <IconFile class="h-4 w-4 text-primary" aria-hidden="true" />
-      <span class="min-w-0 flex-1 truncate font-medium text-text">
-        {{ t('student.cv.defaultFileName') }}
-      </span>
-      <IconCircleCheckFilled
-        class="h-4 w-4 shrink-0 text-green-500"
-        :aria-label="t('student.cv.uploaded')"
-      />
+      <span class="truncate">{{ t('student.profile.sidebar.cvUploaded') }}</span>
     </div>
 
     <div class="mt-5">
       <ProfileProgress />
     </div>
 
-    <BaseButton
-      type="button"
-      class="mt-5 w-full justify-center"
-      @click="emit('edit')"
+    <Link
+      :href="ROUTES.STUDENT_PROFILE_EDIT"
+      class="mt-5 flex w-full justify-center rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white tracking-wide transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
     >
       {{ t('student.profile.sidebar.editProfile') }}
-    </BaseButton>
+    </Link>
   </aside>
 </template>

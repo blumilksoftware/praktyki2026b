@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,6 +23,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property ?string $first_name
  * @property ?string $last_name
  * @property string $email
+ * @property ?string $pending_email
  * @property string $password
  * @property UserRole $role
  * @property UserStatus $status
@@ -31,6 +33,12 @@ use Laravel\Sanctum\HasApiTokens;
  * @property ?Carbon $terms_accepted_at
  * @property ?Carbon $email_verified_at
  * @property ?string $cv_path
+ * @property ?string $photo_path
+ * @property ?int $age
+ * @property ?string $location
+ * @property ?string $study_field
+ * @property ?int $study_year
+ * @property ?string $specialization
  * @property ?Carbon $onboarding_dismissed_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -46,6 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
         "first_name",
         "last_name",
         "email",
+        "pending_email",
         "password",
         "role",
         "status",
@@ -54,6 +63,12 @@ class User extends Authenticatable implements MustVerifyEmail
         "google_id",
         "terms_accepted_at",
         "cv_path",
+        "photo_path",
+        "age",
+        "location",
+        "study_field",
+        "study_year",
+        "specialization",
         "onboarding_dismissed_at",
     ];
     protected $hidden = [
@@ -79,6 +94,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function applications(): HasMany
     {
         return $this->hasMany(Application::class, "student_id");
+    }
+
+    public function preferredCities(): HasMany
+    {
+        return $this->hasMany(StudentPreferredCity::class, "student_id");
+    }
+
+    public function preferredStudyFields(): BelongsToMany
+    {
+        return $this->belongsToMany(StudyField::class, "student_study_field", "student_id");
     }
 
     public function fullName(): string

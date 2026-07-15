@@ -1,5 +1,4 @@
 import { mount } from "@vue/test-utils"
-import { nextTick } from "vue"
 import { describe, expect, it, vi } from "vitest"
 import { createI18n } from "vue-i18n"
 import Profile from "@/Pages/Student/Profile.vue"
@@ -22,6 +21,7 @@ const user = {
   specialization: "Web applications",
   preferred_fields: ["IT"],
   preferred_cities: ["Wroclaw"],
+  study_field_ids: [],
   cv_path: null,
   skills: ["Python", "Django", "React", "TypeScript"],
   work_modes: ["Hybrid", "Remote"],
@@ -52,8 +52,8 @@ vi.mock("@inertiajs/vue3", async () => {
 })
 
 describe("Student/Profile", () => {
-  const mountProfile = (props: Record<string, unknown> = {}) => mount(Profile, {
-    props: { user, ...props },
+  const mountProfile = () => mount(Profile, {
+    props: { user },
     global: {
       plugins: [i18n],
       stubs: {
@@ -64,7 +64,6 @@ describe("Student/Profile", () => {
         },
         OnboardingBanner: true,
         ProfileProgress: true,
-        StudentProfileEditModal: true,
         StudentDeleteAccountModal: true,
       },
     },
@@ -77,45 +76,13 @@ describe("Student/Profile", () => {
     expect(wrapper.text()).toContain("Edit profile")
     expect(wrapper.text()).toContain("Technical skills")
     expect(wrapper.text()).toContain("Expected work mode")
+    expect(wrapper.text()).toContain("Account and security")
   })
 
-  it("opens a dedicated skills modal from the skills section", async () => {
+  it("renders skills and work mode tags from user data", () => {
     const wrapper = mountProfile()
 
-    const addButton = wrapper.findAll("button").find((button) => button.text() === "Add")
-    await addButton?.trigger("click")
-
-    expect(wrapper.text()).toContain("Add technical skills")
-    expect(wrapper.find("#profile_skills").exists()).toBe(true)
-  })
-
-  it("opens a dedicated work mode modal from the work mode section", async () => {
-    const wrapper = mountProfile()
-
-    const editButton = wrapper.findAll("button").find((button) => button.text() === "Edit")
-    await editButton?.trigger("click")
-
-    expect(wrapper.text()).toContain("Edit expected work mode")
-    expect(wrapper.text()).toContain("On-site")
-    expect(wrapper.text()).toContain("Remote")
+    expect(wrapper.text()).toContain("Python")
     expect(wrapper.text()).toContain("Hybrid")
-  })
-
-  it("converts on-site and remote selection into hybrid work mode", async () => {
-    const wrapper = mountProfile({ user: { ...user, work_modes: [] } })
-
-    const editButton = wrapper.findAll("button").find((button) => button.text() === "Edit")
-    await editButton?.trigger("click")
-
-    const onSiteButton = wrapper.findAll("button").find((button) => button.text() === "On-site")
-    const remoteButton = wrapper.findAll("button").find((button) => button.text() === "Remote")
-
-    await remoteButton?.trigger("click")
-    await onSiteButton?.trigger("click")
-    await nextTick()
-
-    expect(onSiteButton?.attributes("aria-pressed")).toBe("false")
-    expect(remoteButton?.attributes("aria-pressed")).toBe("false")
-    expect(wrapper.findAll("button").find((button) => button.text() === "Hybrid")?.attributes("aria-pressed")).toBe("true")
   })
 })

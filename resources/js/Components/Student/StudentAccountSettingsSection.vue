@@ -11,6 +11,7 @@ import { ROUTES } from '@/Helpers/routes'
 const props = defineProps({
   email: { type: String, required: true },
   emailVerifiedAt: { type: String, default: null },
+  pendingEmail: { type: String, default: null },
   embedded: { type: Boolean, default: false },
 })
 
@@ -19,6 +20,7 @@ const showDeleteModal = ref(false)
 const isSending = ref(false)
 
 const isEmailUnverified = computed(() => !props.emailVerifiedAt)
+const hasPendingEmail = computed(() => Boolean(props.pendingEmail))
 
 const passwordForm = useForm({
   current_password: '',
@@ -28,6 +30,7 @@ const passwordForm = useForm({
 
 const emailForm = useForm({
   email: props.email,
+  current_password: '',
 })
 
 watch(() => props.email, (nextEmail) => {
@@ -76,7 +79,14 @@ function resendVerification() {
       </p>
     </header>
 
-    <form class="flex flex-col gap-4 border-b border-border pb-6" novalidate @submit.prevent="submitPassword">
+    <p
+      class="mb-4 rounded-lg bg-slate-50 px-3 py-2 text-additional text-xs ring-1 ring-slate-200"
+      role="status"
+    >
+      {{ t('student.profile.account.navbarNotice') }}
+    </p>
+
+    <form class="flex flex-col gap-1 border-b border-border pb-6" novalidate @submit.prevent="submitPassword">
       <h3 class="font-medium text-text text-sm">
         {{ t('student.profile.password.title') }}
       </h3>
@@ -84,6 +94,7 @@ function resendVerification() {
         id="current_password"
         v-model="passwordForm.current_password"
         type="password"
+        compact
         :label="t('student.profile.password.current')"
         autocomplete="current-password"
         :error="passwordError('current_password')"
@@ -92,6 +103,7 @@ function resendVerification() {
         id="new_password"
         v-model="passwordForm.password"
         type="password"
+        compact
         :label="t('student.profile.password.new')"
         autocomplete="new-password"
         :error="passwordError('password')"
@@ -100,21 +112,31 @@ function resendVerification() {
         id="password_confirmation"
         v-model="passwordForm.password_confirmation"
         type="password"
+        compact
         :label="t('student.profile.password.confirmation')"
         autocomplete="new-password"
         :error="passwordError('password_confirmation')"
       />
-      <BaseButton type="submit" :disabled="passwordForm.processing || !passwordForm.isDirty">
-        {{ t('student.profile.actions.save') }}
-      </BaseButton>
+      <div class="flex justify-end pt-2">
+        <BaseButton type="submit" :disabled="passwordForm.processing || !passwordForm.isDirty">
+          {{ t('student.profile.actions.save') }}
+        </BaseButton>
+      </div>
     </form>
 
-    <form class="mt-6 flex flex-col gap-4 border-b border-border pb-6" novalidate @submit.prevent="submitEmail">
+    <form class="mt-6 flex flex-col gap-1 border-b border-border pb-6" novalidate @submit.prevent="submitEmail">
       <h3 class="font-medium text-text text-sm">
         {{ t('student.profile.email.title') }}
       </h3>
       <p
-        v-if="isEmailUnverified"
+        v-if="hasPendingEmail"
+        class="rounded-lg bg-amber-50 px-4 py-3 text-amber-900 text-sm ring-1 ring-amber-200"
+        role="status"
+      >
+        {{ t('student.profile.email.pendingNotice', { email: pendingEmail }) }}
+      </p>
+      <p
+        v-else-if="isEmailUnverified"
         class="rounded-lg bg-amber-50 px-4 py-3 text-amber-900 text-sm ring-1 ring-amber-200"
         role="status"
       >
@@ -124,16 +146,26 @@ function resendVerification() {
         id="account_email"
         v-model="emailForm.email"
         type="email"
-        :label="t('student.profile.email.label')"
+        compact
+        :label="t('student.profile.email.newAddress')"
         autocomplete="email"
         :error="emailError('email')"
       />
-      <div class="flex flex-col gap-3 sm:flex-row">
+      <BaseInput
+        id="current_password_email"
+        v-model="emailForm.current_password"
+        type="password"
+        compact
+        :label="t('student.profile.email.currentPassword')"
+        autocomplete="current-password"
+        :error="emailError('current_password')"
+      />
+      <div class="flex flex-col items-end gap-3 pt-2 sm:flex-row sm:justify-end">
         <BaseButton type="submit" :disabled="emailForm.processing || !emailForm.isDirty">
           {{ t('student.profile.actions.save') }}
         </BaseButton>
         <BaseButton
-          v-if="isEmailUnverified"
+          v-if="isEmailUnverified && !hasPendingEmail"
           type="button"
           variant="secondary"
           :disabled="isSending"
