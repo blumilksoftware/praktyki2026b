@@ -70,7 +70,7 @@ class UniversityController extends Controller
             "phone" => $university?->phone ?? null,
             "website" => $university?->website ?? null,
             "externalFormUrl" => $university?->external_form_url ?? null,
-            "faculties" => $university ? $university->faculties()->with('studyFields')->get() : [],
-            ];
+            "faculties" => $university ? $university->faculties()->with("studyFields")->get() : [],
+        ];
     }
 }

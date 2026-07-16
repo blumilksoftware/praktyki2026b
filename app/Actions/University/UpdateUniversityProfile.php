@@ -21,16 +21,16 @@ class UpdateUniversityProfile
         return DB::transaction(function () use ($university, $data): University {
             $logoPath = $university->logo_path;
 
-        if ($data->logo !== null) {
-            if ($logoPath !== null) {
-                $oldPath = str_replace("/storage/", "", $logoPath);
-                Storage::disk("public")->delete($oldPath);
-            }
+            if ($data->logo !== null) {
+                if ($logoPath !== null) {
+                    $oldPath = str_replace("/storage/", "", $logoPath);
+                    Storage::disk("public")->delete($oldPath);
+                }
 
-            $path = $data->logo->store("logos", "public");
-            
-            $logoPath = "/storage/" . $path; 
-        }
+                $path = $data->logo->store("logos", "public");
+
+                $logoPath = "/storage/" . $path;
+            }
 
             $domain = $university->domain;
 

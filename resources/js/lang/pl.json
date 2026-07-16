@@ -175,7 +175,11 @@
       "noTags": "Firma nie dodała jeszcze tagów."
     },
     "university": {
-      "noFaculties": "Uczelnia nie dodała jeszcze żadnych wydziałów."
+      "noFaculties": "Uczelnia nie dodała jeszcze żadnych wydziałów.",
+      "facultiesAndStudyFields": "Wydziały i kierunki studiów",
+      "universityDomain": "Domena uczelni",
+      "noStudyFields": "Uczelnia nie dodała jeszcze żadnych kierunków studiów.",
+      "externalFormUrl": "Zewnętrzny formularz aplikacyjny"
     }
   },
   "validation": {

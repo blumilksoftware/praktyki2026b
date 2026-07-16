@@ -177,7 +177,11 @@
       "noTags": "The company has not provided any tags."
     },
     "university": {
-      "noFaculties": "The university has not added any faculties yet."
+      "noFaculties": "The university has not added any faculties yet.",
+      "facultiesAndStudyFields": "Faculties and study fields",
+      "universityDomain": "University domain",
+      "noStudyFields": "The university has not added any study fields yet.",
+      "externalFormUrl": "External application form URL"
     }
   },
   "validation": {

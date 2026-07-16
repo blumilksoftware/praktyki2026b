@@ -22,8 +22,6 @@ const localError = ref(null)
 const MAX_SIZE_MB = 2
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024
 
-const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
-
 const currentImage = computed(() => {
   if (previewUrl.value) return previewUrl.value
   if (props.logoUrl) return props.logoUrl.startsWith('/') ? props.logoUrl : '/' + props.logoUrl
@@ -31,7 +29,17 @@ const currentImage = computed(() => {
 })
 
 const handleFile = (file) => {
-  if (!file || !allowedTypes.includes(file.type)) {
+  errorMessage.value = ''
+  
+  if (!file) return
+
+  if (!ALLOWED_TYPES.includes(file.type)) {
+    errorMessage.value = t('profiles.errors.invalidFormat')
+    return
+  }
+
+  if (file.size > MAX_FILE_SIZE_BYTES) {
+    errorMessage.value = t('profiles.errors.fileTooLarge', { maxSize: MAX_FILE_SIZE_MB })
     return
   }
   
