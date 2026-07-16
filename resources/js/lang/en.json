@@ -108,7 +108,7 @@
       "email": "E-mail",
       "password": "Password",
       "passwordConfirmation": "Confirm password",
-      "optionalUniversity": "University (optional)",
+      "optionalUniversity": "University",
       "termsPrefix": "I confirm that I have read the",
       "termsLink": "terms and conditions",
       "submit": "Register",

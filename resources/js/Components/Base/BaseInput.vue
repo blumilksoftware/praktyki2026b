@@ -50,6 +50,7 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
       ]"
     >
       {{ label }}
+      <span v-if="required" aria-hidden="true" class="text-error">*</span>
     </label>
 
     <div class="relative">

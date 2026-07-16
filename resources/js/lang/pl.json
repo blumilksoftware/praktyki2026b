@@ -109,7 +109,7 @@
       "email": "E-mail",
       "password": "Hasło",
       "passwordConfirmation": "Powtórz hasło",
-      "optionalUniversity": "Uczelnia (opcjonalnie)",
+      "optionalUniversity": "Uczelnia",
       "termsPrefix": "Oświadczam, że zapoznałem się z",
       "termsLink": "warunkami regulaminu",
       "submit": "Zarejestruj się",

@@ -9,6 +9,7 @@ const props = defineProps({
   label: { type: String, default: '' },
   error: { type: String, default: null },
   required: { type: Boolean, default: false },
+  stacked: { type: Boolean, default: false }, 
 })
 
 const emit = defineEmits(['update:modelValue', 'select'])
@@ -69,7 +70,7 @@ const onKeydown = (event) => {
 <template>
   <div class="relative">
     <BaseInput :id="id" :model-value="displayValue" :label="label" :error="error" :required="required"
-               autocomplete="off" @update:model-value="onInput" @focus="isOpen = true" @blur="onBlur"
+               :stacked="stacked" autocomplete="off" @update:model-value="onInput" @focus="isOpen = true" @blur="onBlur"
                @keydown="onKeydown"
     />
 

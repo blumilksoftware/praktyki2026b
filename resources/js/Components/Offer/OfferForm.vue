@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import BaseButton from '@/Components/Base/BaseButton.vue'
@@ -73,6 +73,13 @@ const form = useForm({
   university_ids: props.offer?.university_ids ?? [],
 })
 
+watch(() => form.is_paid, (isPaid) => {
+  if (!isPaid) {
+    form.salary_min = ''
+    form.salary_max = ''
+  }
+})
+
 const isPublished = computed({
   get: () => form.status === 'published',
   set: (value) => { form.status = value ? 'published' : 'draft' },
@@ -125,7 +132,7 @@ const submit = () => {
         </div>
 
         <BaseInput id="title" v-model="form.title" :label="t('company.offers.form.title')" required :maxlength="255"
-                   :error="fieldError('title')"
+                   stacked :error="fieldError('title')"
         />
 
         <DateRangeField v-model:start="form.start_date" v-model:end="form.end_date" start-id="start_date"
@@ -141,12 +148,12 @@ const submit = () => {
           />
 
           <BaseInput id="spots" v-model="form.spots" type="number" :label="t('company.offers.form.spots')" required
-                     :error="fieldError('spots')"
+                     stacked :error="fieldError('spots')"
           />
         </div>
 
         <CityAutocomplete id="city" v-model="form.city" :label="t('company.offers.form.city')" required
-                          :error="fieldError('city')"
+                          stacked :error="fieldError('city')"
         />
       </div>
     </section>
@@ -209,10 +216,10 @@ const submit = () => {
 
         <div v-if="form.is_paid" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <BaseInput id="salary_min" v-model="form.salary_min" type="number" :label="t('company.offers.form.salaryMin')"
-                     required :error="fieldError('salary_min')"
+                     stacked required :error="fieldError('salary_min')"
           />
           <BaseInput id="salary_max" v-model="form.salary_max" type="number" :label="t('company.offers.form.salaryMax')"
-                     required :error="fieldError('salary_max')"
+                     stacked required :error="fieldError('salary_max')"
           />
         </div>
       </div>

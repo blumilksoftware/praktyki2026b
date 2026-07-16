@@ -13,10 +13,7 @@ const props = defineProps({
 const model = defineModel({ type: String, required: true })
 
 const hasError = computed(() => !!props.error)
-const remaining = computed(() => {
-  if (!props.maxlength) return null
-  return Number(props.maxlength) - model.value.length
-})
+const characterCount = computed(() => model.value?.length ?? 0)
 </script>
 
 <template>
@@ -48,8 +45,8 @@ const remaining = computed(() => {
         {{ error }}
       </p>
       <span v-else />
-      <span v-if="remaining !== null" class="text-xs text-additional whitespace-nowrap">
-        {{ remaining }}
+      <span v-if="maxlength" class="text-xs text-additional whitespace-nowrap">
+        {{ characterCount }}/{{ maxlength }}
       </span>
     </div>
   </div>
