@@ -10,6 +10,7 @@ const props = defineProps({
   navItems: { type: Array, default: () => [] },
   showBackground: { type: Boolean, default: true },
   logoHref: { type: String, default: ROUTES.ADMIN_DASHBOARD },
+  backgroundClass: { type: String, default: 'bg-secondary' },
 })
 
 const { t, locale } = useI18n()
@@ -32,7 +33,7 @@ const navItems = computed(() => props.navItems.length > 0
 </script>
 
 <template>
-  <div class="flex flex-col bg-secondary min-h-screen text-text">
+  <div class="flex min-h-screen flex-col text-text" :class="props.backgroundClass">
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:z-50 focus:absolute focus:bg-white focus:m-3 focus:px-3 focus:py-2 focus:rounded-md focus:font-medium focus:text-primary focus:text-sm"

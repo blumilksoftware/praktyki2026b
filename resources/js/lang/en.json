@@ -259,6 +259,37 @@
     }
   },
   "student": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "offers": "Offers",
+      "favorites": "Favorites"
+    },
+    "dashboard": {
+      "title": "Student dashboard",
+      "heading": "Your offer hub",
+      "description": "Browse offers, jump back to favorites, and move between views with one click.",
+      "primaryAction": "Browse offers",
+      "secondaryAction": "View favorites",
+      "previewTitle": "Latest offers",
+      "previewDescription": "A quick preview of the newest positions.",
+      "cards": {
+        "offersTitle": "All offers",
+        "offersDescription": "Open the full filtered list.",
+        "favoritesTitle": "Favorite offers",
+        "favoritesDescription": "Review saved positions in one place."
+      }
+    },
+    "favorites": {
+      "title": "Favorites",
+      "heading": "Your saved offers",
+      "description": "This is where heart-marked offers live. Remove them here or return to the full list.",
+      "backToOffers": "Back to offers",
+      "backToDashboard": "Back to dashboard",
+      "empty": {
+        "title": "You do not have any favorite offers yet",
+        "description": "Add an offer to favorites from a card and it will appear here."
+      }
+    },
     "offers": {
       "title": "Offers",
       "filters": {
@@ -300,7 +331,10 @@
         "remainingSpots": "Remaining spots",
         "location": "Location",
         "showOnMap": "Show on map",
-        "applyNow": "Apply now"
+        "applyNow": "Apply now",
+        "addToFavorites": "Add to favorites",
+        "removeFromFavorites": "Remove from favorites",
+        "mapComingSoon": "The map will appear on a separate page"
       }
     }
   },

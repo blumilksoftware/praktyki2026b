@@ -10,7 +10,9 @@ export const ROUTES = {
   REGISTER_UNIVERSITY: "/register/university",
   REGISTER_COMPANY: "/register/company",
 
+  STUDENT_DASHBOARD: "/student/dashboard",
   STUDENT_OFFERS: "/student/offers",
+  STUDENT_FAVORITES: "/student/favorites",
 
   EMAIL_VERIFICATION: "/email/verify/{id}/{token}",
   EMAIL_VERIFICATION_RESEND: "/email/resend",

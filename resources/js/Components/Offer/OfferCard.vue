@@ -1,28 +1,26 @@
 <script setup>
-import { computed } from 'vue'
 import { Link } from '@inertiajs/vue3'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   offer: { type: Object, required: true },
+  isFavorite: { type: Boolean, default: false },
 })
+
+defineEmits(['toggle-favorite'])
 
 const { t } = useI18n()
 
 const companyInitial = computed(() => props.offer.company?.name?.charAt(0) || 'O')
 
 const workModeLabel = computed(() => t(`student.offers.workModes.${props.offer.work_mode}`))
-
-const mapUrl = computed(() => {
-  const query = encodeURIComponent([props.offer.title, props.offer.city, props.offer.company?.name].filter(Boolean).join(', '))
-  return `https://www.google.com/maps/search/?api=1&query=${query}`
-})
 </script>
 
 <template>
   <article class="group overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
     <div class="grid gap-0 lg:grid-cols-[96px_minmax(0,1fr)]">
-      <div class="flex items-center justify-center bg-background p-5 lg:p-4">
+      <div class="flex items-center justify-center bg-white p-5 lg:p-4">
         <img
           v-if="offer.company.logo_path"
           :src="offer.company.logo_path"
@@ -58,37 +56,56 @@ const mapUrl = computed(() => {
           </div>
 
           <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-additional sm:justify-end">
-            <span class="rounded-full bg-background px-3 py-1.5">{{ offer.city }}</span>
-            <span class="rounded-full bg-background px-3 py-1.5">{{ workModeLabel }}</span>
+            <span class="rounded-full border border-border bg-white px-3 py-1.5">{{ offer.city }}</span>
+            <span class="rounded-full border border-border bg-white px-3 py-1.5">{{ workModeLabel }}</span>
           </div>
         </div>
 
         <div class="mt-6 grid gap-3 sm:grid-cols-3">
-          <div class="rounded-2xl bg-background px-4 py-3">
+          <div class="rounded-2xl border border-border bg-white px-4 py-3">
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-additional">{{ t('student.offers.card.dateRange') }}</p>
             <p class="mt-1 text-sm font-medium text-text">{{ offer.start_date }} - {{ offer.end_date }}</p>
           </div>
 
-          <div class="rounded-2xl bg-background px-4 py-3">
+          <div class="rounded-2xl border border-border bg-white px-4 py-3">
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-additional">{{ t('student.offers.card.remainingSpots') }}</p>
             <p class="mt-1 text-sm font-medium text-text">{{ offer.remaining_spots }}</p>
           </div>
 
-          <div class="rounded-2xl bg-background px-4 py-3">
+          <div class="rounded-2xl border border-border bg-white px-4 py-3">
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-additional">{{ t('student.offers.card.location') }}</p>
             <p class="mt-1 text-sm font-medium text-text">{{ offer.city }}</p>
           </div>
         </div>
 
         <div class="mt-5 flex flex-wrap items-center gap-3">
-          <a
-            :href="mapUrl"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             class="inline-flex items-center justify-center rounded-xl border border-border bg-white px-4 py-2.5 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            disabled
+            :aria-disabled="true"
+            :title="t('student.offers.card.mapComingSoon')"
           >
             {{ t('student.offers.card.showOnMap') }}
-          </a>
+          </button>
+
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            :class="isFavorite
+              ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
+              : 'border-border bg-white text-text hover:border-primary/40 hover:bg-background'"
+            :aria-pressed="isFavorite"
+            :aria-label="isFavorite
+              ? t('student.offers.card.removeFromFavorites')
+              : t('student.offers.card.addToFavorites')"
+            @click="$emit('toggle-favorite', offer.id)"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.53L12 21.35z" />
+            </svg>
+            {{ isFavorite ? t('student.offers.card.removeFromFavorites') : t('student.offers.card.addToFavorites') }}
+          </button>
 
           <Link
             :href="`/student/offers/${offer.id}/apply`"

@@ -1,14 +1,16 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHome, IconBriefcase } from '@tabler/icons-vue'
+import { IconHome, IconBriefcase, IconHeart } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
+import { useStudentFavorites } from '@/composables/useStudentFavorites'
 
 const props = defineProps({ offers: { type: Array, default: () => [] } })
 const { t } = useI18n()
+const { favoriteIds, toggleFavorite } = useStudentFavorites()
 
 const query = ref('')
 const city = ref('')
@@ -44,16 +46,34 @@ const resetFilters = () => {
 }
 
 const navItems = computed(() => [
-  { key: 'offers', label: t('student.offers.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
-  { key: 'home', label: t('student.offers.nav.home'), href: ROUTES.DASHBOARD, icon: IconHome },
+  { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
+  { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
+  { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
 ])
 </script>
 
 <template>
   <Head :title="t('student.offers.title')" />
 
-  <BaseLayout active-page="offers" :nav-items="navItems" :logo-href="ROUTES.STUDENT_OFFERS" :show-background="false">
+  <BaseLayout active-page="offers" :nav-items="navItems" :logo-href="ROUTES.STUDENT_OFFERS" background-class="bg-white" :show-background="false">
     <div class="min-h-screen bg-white px-4 py-6 sm:px-6 lg:px-8">
+      <div class="mx-auto mb-4 flex max-w-7xl items-center justify-between gap-3">
+        <Link
+          :href="ROUTES.STUDENT_DASHBOARD"
+          class="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+        >
+          <span aria-hidden="true">←</span>
+          {{ t('student.favorites.backToDashboard') }}
+        </Link>
+
+        <Link
+          :href="ROUTES.STUDENT_FAVORITES"
+          class="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+        >
+          {{ t('student.nav.favorites') }}
+        </Link>
+      </div>
+
       <div class="mx-auto flex max-w-7xl flex-col gap-6 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] lg:items-start">
         <aside aria-labelledby="offers-filters-heading" class="rounded-3xl border border-border bg-white p-5 shadow-[0_14px_40px_rgba(11,26,48,0.08)] lg:sticky lg:top-6">
           <div class="flex items-start justify-between gap-3">
@@ -138,7 +158,11 @@ const navItems = computed(() => [
             <p class="text-sm text-additional">{{ t('student.offers.results.helper') }}</p>
           </div>
 
-          <OffersList :offers="filteredOffers" />
+          <OffersList
+            :offers="filteredOffers"
+            :favorite-ids="favoriteIds"
+            @toggle-favorite="toggleFavorite"
+          />
         </section>
       </div>
     </div>

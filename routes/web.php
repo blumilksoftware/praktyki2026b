@@ -17,6 +17,29 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . "/frontend.php";
 
+$buildStudentOffers = function () {
+    return Offer::published()
+        ->with(['company', 'applications'])
+        ->get()
+        ->map(function (Offer $offer) {
+            return [
+                'id' => $offer->id,
+                'title' => $offer->title,
+                'city' => $offer->city,
+                'work_mode' => $offer->work_mode->value ?? null,
+                'start_date' => $offer->start_date?->toDateString(),
+                'end_date' => $offer->end_date?->toDateString(),
+                'spots' => $offer->spots,
+                'remaining_spots' => max(0, $offer->spots - $offer->applications->count()),
+                'company' => [
+                    'name' => $offer->company->name,
+                    'logo_path' => $offer->company->logo_path,
+                    'is_verified' => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,
+                ],
+            ];
+        });
+};
+
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
     ->group(function (): void {
@@ -45,33 +68,25 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
 
 Route::middleware(["auth", "can:access-student-panel"])
     ->prefix("student")
-    ->group(function (): void {
-        Route::get("/offers", function () {
-            $offers = Offer::published()
-                ->with(['company', 'applications'])
-                ->when(request()->filled('city'), fn($q) => $q->where('city', request('city')))
-                ->when(request()->filled('work_mode'), fn($q) => $q->where('work_mode', request('work_mode')))
-                ->get()
-                ->map(function (Offer $o) {
-                    return [
-                        'id' => $o->id,
-                        'title' => $o->title,
-                        'city' => $o->city,
-                        'work_mode' => $o->work_mode->value ?? null,
-                        'start_date' => $o->start_date?->toDateString(),
-                        'end_date' => $o->end_date?->toDateString(),
-                        'spots' => $o->spots,
-                        'remaining_spots' => max(0, $o->spots - $o->applications->count()),
-                        'company' => [
-                            'name' => $o->company->name,
-                            'logo_path' => $o->company->logo_path,
-                            'is_verified' => ($o->company->verification_status ?? null) === VerificationStatus::Verified,
-                        ],
-                    ];
-                });
+    ->group(function () use ($buildStudentOffers): void {
+        Route::get("/dashboard", function () use ($buildStudentOffers) {
+            return inertia('Student/Dashboard', [
+                'offers' => $buildStudentOffers()->take(3)->values(),
+            ]);
+        })->name('student.dashboard');
 
-            return inertia('Student/Offers', ['offers' => $offers->values()]);
+        Route::get("/offers", function () use ($buildStudentOffers) {
+            return inertia('Student/Offers', [
+                'offers' => $buildStudentOffers()->values(),
+            ]);
         })->name('student.offers.index');
+
+        Route::get("/favorites", function () use ($buildStudentOffers) {
+            return inertia('Student/Favorites', [
+                'offers' => $buildStudentOffers()->values(),
+            ]);
+        })->name('student.favorites.index');
+
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");

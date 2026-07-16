@@ -260,6 +260,37 @@
     }
   },
   "student": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "offers": "Oferty",
+      "favorites": "Ulubione"
+    },
+    "dashboard": {
+      "title": "Dashboard studenta",
+      "heading": "Twoje centrum ofert",
+      "description": "Przeglądaj oferty, wracaj do ulubionych i przechodź między widokami jednym kliknięciem.",
+      "primaryAction": "Przejdź do ofert",
+      "secondaryAction": "Zobacz ulubione",
+      "previewTitle": "Najnowsze oferty",
+      "previewDescription": "Krótki podgląd najświeższych pozycji.",
+      "cards": {
+        "offersTitle": "Wszystkie oferty",
+        "offersDescription": "Przejdź do pełnej listy z filtrami.",
+        "favoritesTitle": "Ulubione oferty",
+        "favoritesDescription": "Sprawdź zapisane pozycje w jednym miejscu."
+      }
+    },
+    "favorites": {
+      "title": "Ulubione",
+      "heading": "Twoje zapisane oferty",
+      "description": "Tu trafiają oferty oznaczone sercem. Możesz je potem odhaczyć albo wrócić do pełnej listy.",
+      "backToOffers": "Wróć do ofert",
+      "backToDashboard": "Wróć do dashboardu",
+      "empty": {
+        "title": "Nie masz jeszcze ulubionych ofert",
+        "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj."
+      }
+    },
     "offers": {
       "title": "Oferty",
       "filters": {
@@ -301,7 +332,10 @@
         "remainingSpots": "Pozostałe miejsca",
         "location": "Lokalizacja",
         "showOnMap": "Pokaż na mapie",
-        "applyNow": "Aplikuj teraz"
+        "applyNow": "Aplikuj teraz",
+        "addToFavorites": "Dodaj do ulubionych",
+        "removeFromFavorites": "Usuń z ulubionych",
+        "mapComingSoon": "Mapa pojawi się w osobnej podstronie"
       }
     }
   },
