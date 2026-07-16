@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
 Route::get("/", fn() => redirect()->route("login"));
+
+Route::get("/offers", [OfferController::class, "search"])->name("offers.search");
 
 Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");
@@ -47,6 +50,9 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
 Route::middleware(["auth", "can:access-student-panel"])
     ->prefix("student")
     ->group(function (): void {
+        Route::get("/dashboard", [StudentController::class, "index"])->name("student.dashboard");
+        Route::get("/profile", [StudentController::class, "profile"])->name("student.profile");
+        Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");
         Route::get("/favourites", [StudentController::class, "favourites"])->name("student.favourites");
     });
 

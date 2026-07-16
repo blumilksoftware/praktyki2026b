@@ -9,6 +9,7 @@ const props = defineProps({
   activePage: { type: String, default: '' },
   navItems: { type: Array, default: () => [] },
   showBackground: { type: Boolean, default: true },
+  minimalHeader: { type: Boolean, default: false },
 })
 
 const { t, locale } = useI18n()
@@ -31,7 +32,10 @@ const navItems = computed(() => props.navItems.length > 0
 </script>
 
 <template>
-  <div class="flex flex-col bg-secondary min-h-screen text-text">
+  <div
+    class="flex flex-col min-h-screen text-text"
+    :class="props.minimalHeader ? 'bg-background' : 'bg-secondary'"
+  >
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:z-50 focus:absolute focus:bg-white focus:m-3 focus:px-3 focus:py-2 focus:rounded-md focus:font-medium focus:text-primary focus:text-sm"
@@ -42,7 +46,7 @@ const navItems = computed(() => props.navItems.length > 0
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
       <div class="flex justify-between items-center px-4 md:px-6 py-4">
         <a
-          :href="ROUTES.ADMIN_DASHBOARD"
+          :href="ROUTES.HOME"
           class="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 transition"
         >
           <div class="flex-1">
@@ -55,6 +59,7 @@ const navItems = computed(() => props.navItems.length > 0
         </a>
 
         <nav
+          v-if="!props.minimalHeader"
           :aria-label="t('admin.layout.nav.ariaLabel')"
           class="hidden left-1/2 absolute md:flex items-center gap-1 -translate-x-1/2"
         >
@@ -78,7 +83,11 @@ const navItems = computed(() => props.navItems.length > 0
           </a>
         </nav>
 
-        <div class="flex items-center gap-3">
+        <div v-if="props.minimalHeader" class="ml-auto flex items-center gap-3">
+          <slot name="header-actions" />
+        </div>
+
+        <div v-if="!props.minimalHeader" class="flex items-center gap-3">
           <button
             class="md:hidden flex justify-center items-center hover:bg-white/10 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 w-9 h-9 text-white/90 hover:text-white transition"
             :aria-label="isMobileMenuOpen ? t('admin.layout.nav.closeMenu') : t('admin.layout.nav.openMenu')"
@@ -176,6 +185,7 @@ const navItems = computed(() => props.navItems.length > 0
     </header>
 
     <Transition
+      v-if="!props.minimalHeader"
       enter-active-class="transition duration-200 ease-out"
       enter-from-class="opacity-0"
       enter-to-class="opacity-100"

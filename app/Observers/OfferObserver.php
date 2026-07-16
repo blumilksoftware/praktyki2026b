@@ -10,6 +10,13 @@ use App\Models\Offer;
 
 class OfferObserver
 {
+    public function saving(Offer $offer): void
+    {
+        if ($offer->status === OfferStatus::Published && $offer->published_at === null) {
+            $offer->published_at = now();
+        }
+    }
+
     public function updated(Offer $offer): void
     {
         if (!$offer->wasChanged("status")) {

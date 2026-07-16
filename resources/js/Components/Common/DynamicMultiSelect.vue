@@ -10,17 +10,13 @@ const props = defineProps({
   },
   options: {
     type: Array,
-    required: false,
     default: () => [],
   },
-  max: {
-    type: Number,
-    default: null,
-  },
-  allowCustom: {
-    type: Boolean,
-    default: false,
-  },
+  label: { type: String, default: '' },
+  placeholder: { type: String, default: '' },
+  error: { type: String, default: undefined },
+  max: { type: Number, default: null },
+  allowCustom: { type: Boolean, default: false },
   id: {
     type: String,
     default: () => `multiselect-${Math.random().toString(36).substr(2, 9)}`,
@@ -30,23 +26,38 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const inputRef = ref(null)
-const dropdownRef = ref(null)
 const itemRefs = ref([])
 const searchQuery = ref('')
 const errorMsg = ref('')
 const isOpen = ref(false)
 const activeIndex = ref(0)
-const t = useI18n().t
+const { t } = useI18n()
 
 let errorTimeout = null
 let blurTimeout = null
-const errorShowTime = ref(3000)
+const errorShowTime = 3000
+
+function normalizeOption(option) {
+  if (typeof option === 'string') {
+    return { value: option, label: option }
+  }
+  return { value: option.value, label: option.label }
+}
+
+const normalizedOptions = computed(() => props.options.map(normalizeOption))
+
+const inputPlaceholder = computed(() => {
+  if (props.modelValue.length > 0) return ''
+  return props.placeholder || t('dynamicList.placeholder')
+})
+
+const hasError = computed(() => Boolean(props.error || errorMsg.value))
 
 const filteredOptions = computed(() => {
   const query = searchQuery.value.trim().toLowerCase()
-  return props.options.filter(option => {
-    const matchesSearch = option.toLowerCase().includes(query)
-    const isAlreadySelected = props.modelValue.includes(option)
+  return normalizedOptions.value.filter((option) => {
+    const matchesSearch = option.label.toLowerCase().includes(query)
+    const isAlreadySelected = props.modelValue.includes(option.value)
     return matchesSearch && !isAlreadySelected
   })
 })
@@ -60,44 +71,54 @@ watch(filteredOptions, () => {
   activeIndex.value = 0
 })
 
-const triggerError = (msg = '') => {
+function optionLabel(value) {
+  return normalizedOptions.value.find((option) => option.value === value)?.label ?? value
+}
+
+function triggerError(msg = '') {
   clearTimeout(errorTimeout)
   errorMsg.value = ''
   nextTick(() => {
     errorMsg.value = msg
-    errorTimeout = setTimeout(() => { errorMsg.value = '' }, errorShowTime.value)
+    errorTimeout = setTimeout(() => { errorMsg.value = '' }, errorShowTime)
   })
 }
 
-const selectOption = (option) => {
-  const cleanOption = option.trim()
-  
+function selectOption(option) {
+  const value = typeof option === 'string' ? option.trim() : option.value
+  const label = typeof option === 'string' ? option.trim() : option.label
+
   if (props.max && props.modelValue.length >= props.max) {
     triggerError(t('dynamicList.errors.maxReached', { max: props.max }))
     return
   }
 
-  if (!cleanOption) {
+  if (!value) {
     triggerError(t('dynamicList.errors.empty'))
     return
   }
 
-  if (props.modelValue.includes(cleanOption)) {
+  if (props.modelValue.includes(value)) {
     triggerError(t('dynamicList.errors.exists'))
     return
   }
 
-  emit('update:modelValue', [...props.modelValue, cleanOption])
+  if (!props.allowCustom && !normalizedOptions.value.some((item) => item.value === value)) {
+    triggerError(t('dynamicList.errors.invalidSelection'))
+    return
+  }
+
+  emit('update:modelValue', [...props.modelValue, value])
   searchQuery.value = ''
   nextTick(() => inputRef.value?.focus())
 }
 
-const onKeyDownArrow = (direction) => {
+function onKeyDownArrow(direction) {
   if (!isOpen.value) {
     isOpen.value = true
     return
   }
-  
+
   const maxIndex = filteredOptions.value.length - 1
   if (maxIndex < 0) return
 
@@ -108,51 +129,51 @@ const onKeyDownArrow = (direction) => {
   }
 
   nextTick(() => {
-    const activeElement = itemRefs.value[activeIndex.value]
-    if (activeElement) {
-      activeElement.scrollIntoView({ block: 'nearest' })
-    }
+    itemRefs.value[activeIndex.value]?.scrollIntoView({ block: 'nearest' })
   })
 }
 
-const onKeyDownEnter = () => {
+function onKeyDownEnter() {
   if (isOpen.value && filteredOptions.value.length > 0) {
     selectOption(filteredOptions.value[activeIndex.value])
-  } else if (props.allowCustom && searchQuery.value.trim()) {
+    return
+  }
+  if (props.allowCustom && searchQuery.value.trim()) {
     selectOption(searchQuery.value.trim())
-  } else if (!props.allowCustom && searchQuery.value.trim()) {
+    return
+  }
+  if (!props.allowCustom && searchQuery.value.trim()) {
     triggerError(t('dynamicList.errors.invalidSelection'))
   }
 }
 
-const removeItem = (itemToRemove) => {
-  const updatedList = props.modelValue.filter(item => item !== itemToRemove)
-  emit('update:modelValue', updatedList)
+function removeItem(itemToRemove) {
+  emit('update:modelValue', props.modelValue.filter((item) => item !== itemToRemove))
   nextTick(() => inputRef.value?.focus())
 }
 
-const handleBackspace = () => {
+function handleBackspace() {
   if (searchQuery.value === '' && props.modelValue.length > 0) {
     removeItem(props.modelValue[props.modelValue.length - 1])
   }
 }
 
-const handleFocus = () => {
+function handleFocus() {
   clearTimeout(blurTimeout)
   isOpen.value = true
 }
 
-const handleBlur = () => {
+function handleBlur() {
   blurTimeout = setTimeout(() => { isOpen.value = false }, 150)
 }
 
-const toggleDropdown = () => {
+function toggleDropdown() {
   if (isOpen.value) {
     isOpen.value = false
-  } else {
-    isOpen.value = true
-    nextTick(() => inputRef.value?.focus())
+    return
   }
+  isOpen.value = true
+  nextTick(() => inputRef.value?.focus())
 }
 
 onBeforeUnmount(() => {
@@ -162,79 +183,73 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1 w-full">
-    <label :for="props.id" class="sr-only">
-      {{ $t('dynamicList.accessibility.label') }}
+  <div class="flex w-full flex-col gap-1">
+    <label
+      v-if="label"
+      :for="props.id"
+      class="mb-1 block text-additional text-sm"
+    >
+      {{ label }}
     </label>
 
     <div class="relative w-full">
       <div
-        class="flex flex-wrap items-center gap-2 px-4 py-3 min-h-[52px] rounded-xl bg-primary/3 shadow-md ring-1 ring-border/50 transition-all duration-200 hover:shadow-md hover:ring-primary/50 cursor-text"
+        class="flex min-h-[44px] cursor-text flex-nowrap items-center gap-2 rounded-lg border bg-white px-3 py-2"
+        :class="hasError ? 'border-error' : 'border-border'"
         @click="inputRef?.focus()"
       >
-        <TransitionGroup
-          tag="div"
-          class="flex flex-wrap gap-1.5 items-center"
-          aria-live="polite"
-          enter-active-class="transition duration-200 ease-out"
-          enter-from-class="opacity-0 scale-75"
-          enter-to-class="opacity-100 scale-100"
-          leave-active-class="transition duration-200 ease-in absolute"
-          leave-from-class="opacity-100 scale-100"
-          leave-to-class="opacity-0 scale-75"
-          move-class="transition duration-300 ease-in-out"
-        >
+        <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
           <span
             v-for="item in modelValue"
             :key="item"
-            class="flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary transition-colors"
+            class="inline-flex max-w-full items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary"
           >
-            <span class="break-all max-w-[150px] sm:max-w-[200px]">{{ item }}</span>
+            <span class="truncate">{{ optionLabel(item) }}</span>
             <button
               type="button"
-              class="flex-shrink-0 rounded-md p-1 text-additional hover:text-red-500 hover:bg-red-500/10 transition-colors"
-              :aria-label="$t('dynamicList.accessibility.removeItem', { item })"
+              class="shrink-0 rounded-md p-0.5 text-additional transition-colors hover:bg-red-500/10 hover:text-red-500"
+              :aria-label="t('dynamicList.accessibility.removeItem', { item: optionLabel(item) })"
               @click.stop="removeItem(item)"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" clip-rule="evenodd" />
               </svg>
             </button>
           </span>
-        </TransitionGroup>
 
-        <input
-          :id="props.id"
-          ref="inputRef"
-          v-model="searchQuery"
-          type="text"
-          role="combobox"
-          :aria-expanded="isOpen"
-          :aria-controls="`${props.id}-listbox`"
-          :aria-activedescendant="activeOptionId"
-          aria-haspopup="listbox"
-          :aria-invalid="!!errorMsg"
-          :aria-describedby="errorMsg ? `${props.id}-error` : undefined"
-          :disabled="props.max && modelValue.length >= props.max"
-          :placeholder="modelValue.length === 0 ? $t('dynamicList.placeholder') : ''"
-          class="flex-1 items-center gap-2 rounded-xl border-2 border-border bg-white/50 dark:bg-background/60 px-4 py-3 min-h-[56px] cursor-text transition-all duration-400 hover:border-primary/30 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 shadow-sm"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          @input="isOpen = true"
-          @keydown.down.prevent="onKeyDownArrow('down')"
-          @keydown.up.prevent="onKeyDownArrow('up')"
-          @keydown.enter.prevent="onKeyDownEnter"
-          @keydown.esc.prevent="isOpen = false"
-          @keydown.backspace="handleBackspace"
-        >
-        
+          <input
+            :id="props.id"
+            ref="inputRef"
+            v-model="searchQuery"
+            type="text"
+            role="combobox"
+            :aria-expanded="isOpen"
+            :aria-controls="`${props.id}-listbox`"
+            :aria-activedescendant="activeOptionId"
+            aria-haspopup="listbox"
+            :aria-invalid="hasError ? true : undefined"
+            :aria-describedby="hasError ? `${props.id}-error` : undefined"
+            :disabled="props.max && modelValue.length >= props.max"
+            :placeholder="inputPlaceholder"
+            class="min-w-[8rem] flex-1 border-0 bg-transparent py-1 text-sm text-text outline-none placeholder:text-additional focus:ring-0"
+            @focus="handleFocus"
+            @blur="handleBlur"
+            @input="isOpen = true"
+            @keydown.down.prevent="onKeyDownArrow('down')"
+            @keydown.up.prevent="onKeyDownArrow('up')"
+            @keydown.enter.prevent="onKeyDownEnter"
+            @keydown.esc.prevent="isOpen = false"
+            @keydown.backspace="handleBackspace"
+          >
+        </div>
+
         <button
           type="button"
-          class="text-additional hover:text-text transition-colors px-1 cursor-pointer focus:outline-none"
-          :aria-label="isOpen ? $t('dynamicList.accessibility.closeMenu') : $t('dynamicList.accessibility.openMenu')"
+          class="shrink-0 px-1 text-additional transition-colors hover:text-text focus:outline-none"
+          :aria-label="isOpen ? t('dynamicList.accessibility.closeMenu') : t('dynamicList.accessibility.openMenu')"
           @mousedown.prevent.stop="toggleDropdown"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" :class="['w-4 h-4 transition-transform duration-200', isOpen ? 'rotate-180' : '']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200" :class="isOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </button>
@@ -250,62 +265,52 @@ onBeforeUnmount(() => {
       >
         <div
           v-if="isOpen"
-          ref="dropdownRef"
-          class="absolute z-50 left-0 right-0 top-full mt-1 border rounded-md shadow-lg bg-background border-border max-h-60 overflow-y-auto"
+          class="absolute left-0 right-0 top-full z-50 mt-1 max-h-60 overflow-y-auto rounded-md border border-border bg-background shadow-lg"
         >
-          <ul :id="`${props.id}-listbox`" role="listbox" :aria-label="$t('dynamicList.accessibility.suggestions')" class="py-1">
+          <ul :id="`${props.id}-listbox`" role="listbox" :aria-label="t('dynamicList.accessibility.suggestions')" class="py-1">
             <li
               v-for="(option, index) in filteredOptions"
               :id="`${props.id}-opt-${index}`"
-              :key="option"
-              :ref="el => { if (el) itemRefs[index] = el }"
+              :key="option.value"
+              :ref="(el) => { if (el) itemRefs[index] = el }"
               role="option"
               :aria-selected="index === activeIndex"
               :class="[
-                'px-4 py-2 text-sm cursor-pointer transition-colors flex justify-between items-center',
-                index === activeIndex ? 'bg-primary/10 text-primary text-text font-medium' : 'text-text hover:bg-primary/5'
+                'flex cursor-pointer items-center justify-between px-4 py-2 text-sm transition-colors',
+                index === activeIndex ? 'bg-primary/10 font-medium text-primary' : 'text-text hover:bg-primary/5',
               ]"
               @mousedown.prevent="selectOption(option)"
             >
-              <span>{{ option }}</span>
-              <span v-if="index === activeIndex" aria-hidden="true" class="text-[10px] opacity-40 px-1.5 py-0.5 border rounded bg-background">
+              <span>{{ option.label }}</span>
+              <span v-if="index === activeIndex" aria-hidden="true" class="rounded border bg-background px-1.5 py-0.5 text-[10px] opacity-40">
                 Enter
               </span>
             </li>
-            <li v-if="filteredOptions.length === 0" role="status" aria-live="polite" class="px-4 py-3 text-sm text-additional text-center">
-              <div v-if="searchQuery && allowCustom">
-                {{ $t('dynamicList.pressEnterToCreate') }}
-              </div>
-              <div v-else>
-                {{ searchQuery ? $t('dynamicList.noResults') : $t('dynamicList.emptyState') }}
-              </div>
+            <li v-if="filteredOptions.length === 0" role="status" aria-live="polite" class="px-4 py-3 text-center text-additional text-sm">
+              {{ searchQuery ? t('dynamicList.noResults') : t('dynamicList.emptyState') }}
             </li>
           </ul>
         </div>
       </Transition>
-    </div> <div class="min-h-[20px] px-1">
-      <Transition
-        enter-active-class="transition duration-200 ease-out"
-        enter-from-class="opacity-0 -translate-y-1"
-        enter-to-class="opacity-100 translate-y-0"
-        leave-active-class="transition duration-150 ease-in"
-        leave-from-class="opacity-100 translate-y-0"
-        leave-to-class="opacity-0 -translate-y-1"
-      >
-        <span v-if="errorMsg" :id="`${props.id}-error`" role="alert" class="block text-xs text-red-500">
-          {{ errorMsg }}
-        </span>
-      </Transition>
     </div>
+
+    <p
+      v-if="error || errorMsg"
+      :id="`${props.id}-error`"
+      class="mt-1 text-error text-sm"
+      role="alert"
+    >
+      {{ error || errorMsg }}
+    </p>
 
     <button
       v-if="modelValue.length > 1"
       type="button"
-      class="text-xs text-red-500 hover:underline self-start mt-1"
-      :aria-label="$t('dynamicList.accessibility.clearAll')"
+      class="mt-1 self-start text-error text-xs hover:underline"
+      :aria-label="t('dynamicList.accessibility.clearAll')"
       @click="emit('update:modelValue', [])"
     >
-      {{ $t('dynamicList.clearAll') }}
+      {{ t('dynamicList.clearAll') }}
     </button>
   </div>
 </template>

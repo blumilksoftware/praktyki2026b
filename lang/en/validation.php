@@ -24,6 +24,15 @@ return [
     "no_spots_available" => "No spots available for this offer.",
     "city_geocoding_failed" => "We could not find the location for this city. Please check the spelling and try again.",
     "offer_publish_requires_verification" => "Your company must be verified before you can publish offers. Save it as a draft instead.",
+    "offer_publish_invalid_status" => "This offer cannot be published.",
+
+    "profile_age_integer" => "Enter a valid age — a whole number.",
+    "profile_age_min" => "Age must be greater than 0.",
+    "profile_age_max" => "Enter a valid age.",
+    "profile_study_year_integer" => "Enter a valid year of study — a whole number.",
+    "profile_study_year_min" => "Year of study must be greater than 0.",
+    "profile_study_year_max" => "Enter a valid year of study.",
+    "profile_preferred_cities_max" => "You can add up to :max preferred cities.",
 
     "attributes" => [
         "email" => "email address",
@@ -57,5 +66,16 @@ return [
         "salary_max" => "maximum salary",
         "study_field_ids" => "fields of study",
         "university_ids" => "universities",
+        "age" => "age",
+        "location" => "location",
+        "study_field" => "field of study",
+        "study_year" => "year of study",
+        "specialization" => "specialization",
+        "preferred_cities" => "preferred cities",
+        "photo" => "profile photo",
+        "current_password" => "current password",
+        "date_from" => "start of date range",
+        "date_to" => "end of date range",
+        "date_flex_days" => "date flexibility (days)",
     ],
 ];

@@ -32,6 +32,7 @@ Route::middleware(["auth", "can:create," . Offer::class])
 Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
+        Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])->name("company.offers.publish");
         Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])->name("company.offers.deactivate");
         Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");
     });
@@ -53,6 +54,7 @@ Route::middleware(["auth", "can:access-student-panel"])
             ->name("student.offers.favourite.delete")
             ->withTrashed();
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
+        Route::get("/profile/photo", [StudentController::class, "showPhoto"])->name("student.profile.photo.show");
         Route::post("/profile/photo", [StudentController::class, "uploadPhoto"])->name("student.profile.photo.upload");
         Route::delete("/profile/photo", [StudentController::class, "deletePhoto"])->name("student.profile.photo.delete");
         Route::put("/password", [StudentController::class, "changePassword"])->name("student.password.update");
