@@ -162,6 +162,7 @@ return [
     "building_number_format" => "Wpisz poprawny numer budynku, np. 12, 12A lub 12/4.",
     "student_no_cv" => "Musisz przesłać swoje CV przed złożeniem aplikacji.",
     "already_applied" => "Już aplikowałeś na tę ofertę.",
+    "already_saved" => "Ta oferta jest już w Twoich ulubionych.",
     "offer_inactive" => "Ta oferta nie jest już aktywna.",
     "no_spots_available" => "Brak wolnych miejsc na tę ofertę.",
     "city_geocoding_failed" => "Nie udało się znaleźć lokalizacji dla podanego miasta. Sprawdź pisownię i spróbuj ponownie.",

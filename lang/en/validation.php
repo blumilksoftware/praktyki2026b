@@ -19,6 +19,7 @@ return [
     "building_number_format" => "Enter a valid building number, e.g. 12, 12A or 12/4.",
     "student_no_cv" => "You must upload your CV before applying.",
     "already_applied" => "You have already applied for this offer.",
+    "already_saved" => "This offer is already in your favourites.",
     "offer_inactive" => "This offer is no longer active.",
     "no_spots_available" => "No spots available for this offer.",
     "city_geocoding_failed" => "We could not find the location for this city. Please check the spelling and try again.",

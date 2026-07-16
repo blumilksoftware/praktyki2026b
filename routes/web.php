@@ -48,6 +48,10 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
+        Route::post("/offers/{offer}/favourite", [StudentController::class, "saveOffer"])->name("student.offers.favourite.save");
+        Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])
+            ->name("student.offers.favourite.delete")
+            ->withTrashed();
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
         Route::post("/profile/photo", [StudentController::class, "uploadPhoto"])->name("student.profile.photo.upload");
         Route::delete("/profile/photo", [StudentController::class, "deletePhoto"])->name("student.profile.photo.delete");
