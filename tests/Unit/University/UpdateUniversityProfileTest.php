@@ -59,14 +59,13 @@ class UpdateUniversityProfileTest extends TestCase
 
     public function testItUploadsLogoAndDeletesOldOne(): void
     {
-        $disk = config("filesystems.default", "local");
-        Storage::fake($disk);
+        Storage::fake("public");
 
-        $oldPath = "logos/old-logo.png";
-        Storage::disk($disk)->put($oldPath, "fake-data");
+        $oldDiskPath = "logos/old-logo.png";
+        Storage::disk("public")->put($oldDiskPath, "fake-data");
 
         $university = University::factory()->approved()->create([
-            "logo_path" => $oldPath,
+            "logo_path" => "/storage/" . $oldDiskPath,
         ]);
 
         $newLogo = UploadedFile::fake()->createWithContent("logo.png", $this->fakePng());
@@ -82,9 +81,10 @@ class UpdateUniversityProfileTest extends TestCase
         $updated = $action->execute($university, $data);
 
         $this->assertNotNull($updated->logo_path);
-        $this->assertNotEquals($oldPath, $updated->logo_path);
-        Storage::disk($disk)->assertMissing($oldPath);
-        Storage::disk($disk)->assertExists($updated->logo_path);
+        $this->assertNotEquals("/storage/" . $oldDiskPath, $updated->logo_path);
+        Storage::disk("public")->assertMissing($oldDiskPath);
+                $newDiskPath = str_replace('/storage/', '', $updated->logo_path);
+        Storage::disk("public")->assertExists($newDiskPath);
     }
 
     public function testItSynchronizesFacultiesAndStudyFields(): void

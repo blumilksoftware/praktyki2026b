@@ -19,8 +19,7 @@ class UpdateUniversityProfileTest extends TestCase
 
     public function testVerifiedUniversityAdminCanUpdateProfile(): void
     {
-        $disk = config("filesystems.default", "local");
-        Storage::fake($disk);
+        Storage::fake("public");
 
         $university = University::factory()->approved()->create([
             "domain" => "uj.edu.pl",
@@ -47,7 +46,8 @@ class UpdateUniversityProfileTest extends TestCase
         $this->assertEquals("uj.edu.pl", $university->domain);
         $this->assertEquals("https://uj.edu.pl/external-form", $university->external_form_url);
         $this->assertNotNull($university->logo_path);
-        Storage::disk($disk)->assertExists($university->logo_path);
+        $expectedDiskPath = str_replace('/storage/', '', $university->logo_path);
+        Storage::disk("public")->assertExists($expectedDiskPath);
 
         $this->assertCount(1, $university->faculties);
         $faculty = $university->faculties->first();
