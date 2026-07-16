@@ -30,7 +30,7 @@ function toggleExpanded() {
 </script>
 
 <template>
-  <div v-if="steps.length > 0" class="bg-white/60 backdrop-blur-sm rounded-2xl ring-1 ring-black/5 shadow-sm px-5 py-3">
+  <div v-if="steps.length > 0" class="rounded-2xl border border-slate-200 bg-white px-5 py-3 shadow-sm">
     <div class="flex items-center gap-3">
       <span class="font-medium text-text text-sm shrink-0">
         {{ t('onboarding.progress.title') }}

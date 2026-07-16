@@ -303,6 +303,135 @@
       "title": "Profile"
     }
   },
+  "student": {
+    "layout": {
+      "title": "Student panel",
+      "nav": {
+        "dashboard": "Dashboard",
+        "profile": "Profile"
+      }
+    },
+    "profile": {
+      "title": "Profile",
+      "modal": {
+        "close": "Close"
+      },
+      "actions": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "add": "Add",
+        "edit": "Edit"
+      },
+      "sidebar": {
+        "editProfile": "Edit profile",
+        "age": "{count} years old",
+        "yearTag": "year {year}",
+        "verified": "Verified university",
+        "cvUploaded": "CV uploaded"
+      },
+      "edit": {
+        "title": "Edit profile",
+        "basicData": "Basic information",
+        "searchPreferences": "Search preferences",
+        "searchPreferencesHint": "Choose industries and cities you are interested in — we will use them to match internship offers.",
+        "education": "Education",
+        "age": "Age (years)",
+        "ageLabel": "Age",
+        "agePlaceholder": "years",
+        "location": "Location (city, country)",
+        "locationLabel": "Location",
+        "locationPlaceholder": "city, country",
+        "university": "University",
+        "studyField": "Field of study",
+        "studyYear": "Year of study",
+        "specialization": "Specialization",
+        "cvPlaceholder": "CV section — separate task T-036.",
+        "saveChanges": "Save changes",
+        "backToProfile": "Back to profile",
+        "emailReadonlyHint": "To change your email, use the Account and security section on the profile page."
+      },
+      "photo": {
+        "label": "Profile photo",
+        "changeButton": "Change",
+        "uploadAction": "Upload a file",
+        "orDragDrop": " or drag and drop",
+        "formatHint": "PNG, JPG, WebP up to 2 MB",
+        "change": "Change profile photo",
+        "dropzone": "Drag a photo here or choose a file",
+        "previewHint": "Preview — save changes to upload the photo.",
+        "cancelPreview": "Cancel preview",
+        "errors": {
+          "invalidType": "Allowed formats: JPG, PNG, WebP.",
+          "tooLarge": "File is too large (max 2 MB)."
+        }
+      },
+      "details": {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "fields": "Industries",
+        "fieldsPlaceholder": "Select an industry from the list",
+        "cities": "Cities",
+        "citiesPlaceholder": "Type a city and press Enter"
+      },
+      "tags": {
+        "remove": "Remove tag"
+      },
+      "skills": {
+        "title": "Technical skills",
+        "description": "Technologies, tools and programming languages",
+        "modalTitle": "Add technical skills",
+        "placeholder": "Type a skill and press Enter",
+        "empty": "No skills added yet. Click \"Add\" to fill in."
+      },
+      "workMode": {
+        "title": "Expected work mode",
+        "modalTitle": "Edit expected work mode",
+        "empty": "No work mode selected. Click \"Edit\" to fill in.",
+        "options": {
+          "onsite": "On-site",
+          "remote": "Remote",
+          "hybrid": "Hybrid"
+        }
+      },
+      "applications": {
+        "title": "Saved and submitted applications"
+      },
+      "placeholder": {
+        "comingSoon": "This section will be available soon.",
+        "mockDataNotice": "Data is temporary (mock) and is not saved to the server. It will be connected to the backend once it is ready."
+      },
+      "account": {
+        "title": "Account and security",
+        "description": "Password, email and account deletion.",
+        "navbarNotice": "Once the navigation bar is complete, this section will move to profile settings in the menu."
+      },
+      "password": {
+        "title": "Change password",
+        "current": "Current password",
+        "new": "New password",
+        "confirmation": "Confirm new password"
+      },
+      "email": {
+        "title": "Change email address",
+        "label": "Email address",
+        "newAddress": "New email address",
+        "unverifiedNotice": "The address {email} is inactive until you confirm it via the email link.",
+        "pendingNotice": "The new address {email} is inactive until you confirm it via the email link.",
+        "currentPassword": "Current password",
+        "resend": "Resend verification link"
+      },
+      "delete": {
+        "title": "Delete account",
+        "warning": "This cannot be undone.",
+        "openModal": "Delete account",
+        "modalTitle": "Confirm account deletion",
+        "confirmationLabel": "I understand this action cannot be undone",
+        "password": "Password",
+        "confirm": "Delete account permanently",
+        "cancel": "Cancel"
+      }
+    }
+  },
   "company": {
     "layout": {
       "title": "Company"

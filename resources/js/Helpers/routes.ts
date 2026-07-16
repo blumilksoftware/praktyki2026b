@@ -21,6 +21,18 @@ export const ROUTES = {
 
   LANGUAGE_SWITCH: "/language/{locale}",
   
+  STUDENT_DASHBOARD: "/student/dashboard",
+  STUDENT_PROFILE: "/student/profile",
+  STUDENT_PROFILE_EDIT: "/student/profile/edit",
+  STUDENT_PROFILE_UPDATE: "/student/profile",
+  STUDENT_PROFILE_PHOTO: "/student/profile/photo",
+  STUDENT_PROFILE_PHOTO_DELETE: "/student/profile/photo",
+  STUDENT_PASSWORD_UPDATE: "/student/password",
+  STUDENT_EMAIL_UPDATE: "/student/email",
+  STUDENT_ACCOUNT_DELETE: "/student/account",
+  COMPANY_PROFILE: "/company/profile",
+  UNIVERSITY_PROFILE: "/university/profile",
+
   HOME: "/",
 
   OFFER_SHOW: `/offers/{offer}`,
