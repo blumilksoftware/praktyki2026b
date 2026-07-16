@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\Company\OfferController as CompanyOfferController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
@@ -38,6 +39,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/dashboard", [CompanyController::class, "index"])->name("company.dashboard");
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
+        Route::get("/offers", [CompanyOfferController::class, "index"])->name("company.offers");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
