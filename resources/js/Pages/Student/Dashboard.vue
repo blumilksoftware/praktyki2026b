@@ -2,9 +2,10 @@
 import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHeart, IconHome, IconBriefcase } from '@tabler/icons-vue'
+import { IconHeart, IconHome, IconBriefcase, IconUser } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
+import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useStudentFavorites } from '@/composables/useStudentFavorites'
 
@@ -17,6 +18,7 @@ const navItems = computed(() => [
   { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
   { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
   { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
+  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
 ])
 </script>
 
@@ -25,6 +27,8 @@ const navItems = computed(() => [
 
   <BaseLayout active-page="dashboard" :nav-items="navItems" :logo-href="ROUTES.STUDENT_DASHBOARD" background-class="bg-white" :show-background="false">
     <div class="min-h-screen bg-white px-4 py-6 sm:px-6 lg:px-8">
+      <OnboardingBanner />
+
       <section class="mx-auto max-w-7xl rounded-3xl border border-border bg-white p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] sm:p-8">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div class="max-w-2xl">

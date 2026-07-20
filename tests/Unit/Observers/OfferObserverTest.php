@@ -41,6 +41,25 @@ class OfferObserverTest extends TestCase
         );
     }
 
+    public function testPublishingOfferSetsPublishedAt(): void
+    {
+        $offer = Offer::factory()->draft()->create();
+
+        $offer->update(["status" => OfferStatus::Published]);
+
+        $this->assertNotNull($offer->fresh()->published_at);
+    }
+
+    public function testPublishedAtIsNotOverwrittenOnSubsequentSaves(): void
+    {
+        $offer = Offer::factory()->published()->create();
+        $originalPublishedAt = $offer->published_at;
+
+        $offer->update(["title" => "Updated Title"]);
+
+        $this->assertTrue($originalPublishedAt->equalTo($offer->fresh()->published_at));
+    }
+
     public function testUnrelatedFieldUpdateDoesNotDispatchEvent(): void
     {
         Event::fake([OfferBecameUnavailable::class]);

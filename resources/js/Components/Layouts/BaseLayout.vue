@@ -11,6 +11,7 @@ const props = defineProps({
   showBackground: { type: Boolean, default: true },
   logoHref: { type: String, default: ROUTES.ADMIN_DASHBOARD },
   backgroundClass: { type: String, default: 'bg-secondary' },
+  minimalHeader: { type: Boolean, default: false },
 })
 
 const { t, locale } = useI18n()
@@ -57,6 +58,7 @@ const navItems = computed(() => props.navItems.length > 0
         </a>
 
         <nav
+          v-if="!props.minimalHeader"
           :aria-label="t('admin.layout.nav.ariaLabel')"
           class="hidden left-1/2 absolute md:flex items-center gap-1 -translate-x-1/2"
         >
@@ -80,7 +82,11 @@ const navItems = computed(() => props.navItems.length > 0
           </a>
         </nav>
 
-        <div class="flex items-center gap-3">
+        <div v-if="props.minimalHeader" class="ml-auto flex items-center gap-3">
+          <slot name="header-actions" />
+        </div>
+
+        <div v-if="!props.minimalHeader" class="flex items-center gap-3">
           <button
             class="md:hidden flex justify-center items-center hover:bg-white/10 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 w-9 h-9 text-white/90 hover:text-white transition"
             :aria-label="isMobileMenuOpen ? t('admin.layout.nav.closeMenu') : t('admin.layout.nav.openMenu')"
@@ -178,6 +184,7 @@ const navItems = computed(() => props.navItems.length > 0
     </header>
 
     <Transition
+      v-if="!props.minimalHeader"
       enter-active-class="transition duration-200 ease-out"
       enter-from-class="opacity-0"
       enter-to-class="opacity-100"
