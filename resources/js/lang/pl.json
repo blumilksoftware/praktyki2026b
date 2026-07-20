@@ -145,6 +145,64 @@
       }
     }
   },
+"profiles": {
+    "navMenu": "Menu nawigacji",
+    "profile": "Profil",
+    "aboutUs": "O nas",
+    "contact": "Kontakt",
+    "currentOffers": "Aktualne oferty",
+    "nip": "NIP",
+    "spots": "Miejsca",
+    "uploadLogo": "Prześlij logo",
+    "searchTags": "Szukaj tagów...",
+    "activeTags": "Aktywne tagi",
+    "noActiveTags": "Nie wybrano żadnych tagów",
+    "noResults": "Brak wyników",
+    "errors": {
+      "invalidFormat": "Nieprawidłowy format. Dozwolone formaty to: JPG, JPEG, PNG, WEBP.",
+      "fileTooLarge": "Maksymalny rozmiar pliku to {maxSize} MB."
+    },
+    "company": {
+      "myOffers": "Moje oferty",
+      "candidateApplications": "Aplikacje kandydatów",
+      "teamAndPermissions": "Zespół i uprawnienia",
+      "noOffers": "Firma nie ma obecnie otwartych rekrutacji.",
+      "noContactInfo": "Firma nie podała danych kontaktowych.",
+      "noDescription": "Firma nie dodała jeszcze opisu.",
+      "noTags": "Firma nie dodała jeszcze tagów."
+    },
+    "university": {
+    }
+  },
+  "validation": {
+      "requiredField": "To pole jest wymagane.",
+      "fillRequiredFields": "Proszę wypełnić wszystkie wymagane pola."
+  },
+  "buttons": {
+    "view": "Wyświetl",
+    "save": "Zapisz zmiany",
+    "saving": "Zapisywanie...",
+    "saveAndGoToOffers": "Zapisz i przejdź do ofert",
+    "cancel": "Anuluj",
+    "editProfile": "Edytuj profil",
+    "back": "Powrót",
+    "delete": "Usuń",
+    "confirm": "Potwierdź",
+    "close": "Zamknij",
+    "showAll": "Pokaż wszystkie",
+    "collapseTags": "Zwiń tagi",
+    "myProfile": "Mój profil",
+    "settings": "Ustawienia",
+    "logout": "Wyloguj się",
+    "apply": {
+      "noCvMessage": "Aby zaaplikować na to stanowisko, musisz dodać CV do swojego profilu.",
+      "uploadCvPrompt": "Przejdź do edycji profilu i wgraj CV",
+      "applyNow": "Aplikuj teraz",
+      "loading": "Wysyłanie...",
+      "appliedOn": "Zaaplikowano {date}"
+    }
+  },
+  
   "table": {
     "id": "ID",
     "student": "Student",

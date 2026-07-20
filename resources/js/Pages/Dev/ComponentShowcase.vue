@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
+import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 
@@ -120,6 +121,33 @@ const availableTags = ref([
           <BaseButton type="button" disabled>
             Disabled button
           </BaseButton>
+        </div>
+      </section>
+      <section class="flex flex-col gap-4">
+        <h2 class="text-xl font-medium text-text">
+          BaseApplyButton
+        </h2>
+        <div class="rounded-lg border border-border bg-white p-6 flex flex-col gap-4">
+          <BaseApplyButton
+            :has-cv="false"
+            @upload-cv="() => alert('Upload CV clicked')"
+          />
+          <BaseApplyButton
+            :has-cv="true"
+            :is-applied="false"
+            :is-loading="false"
+            @apply="() => alert('Apply clicked')"
+          />
+          <BaseApplyButton
+            :has-cv="true"
+            :is-applied="true"
+            applied-date="2023-08-15 12:34"
+          />
+          <BaseApplyButton
+            :has-cv="true"
+            :is-applied="false"
+            :is-loading="true"
+          />
         </div>
       </section>
       <section class="flex flex-col gap-4">
