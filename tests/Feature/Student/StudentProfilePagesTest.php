@@ -59,7 +59,8 @@ class StudentProfilePagesTest extends TestCase
             ->assertOk()
             ->assertInertia(
                 fn(Assert $page) => $page
-                    ->component("Student/Dashboard"),
+                    ->component("Student/Dashboard")
+                    ->has("applications"),
             );
     }
 

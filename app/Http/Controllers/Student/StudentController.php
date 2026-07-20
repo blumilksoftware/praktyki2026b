@@ -10,10 +10,12 @@ use App\Actions\Student\ChangePassword;
 use App\Actions\Student\DeleteCvAction;
 use App\Actions\Student\DeleteStudentAccount;
 use App\Actions\Student\DeleteStudentPhotoAction;
+use App\Actions\Student\GetStudentApplicationsAction;
 use App\Actions\Student\RequestEmailChange;
 use App\Actions\Student\UpdateStudentProfile;
 use App\Actions\Student\UploadCvAction;
 use App\Actions\Student\UploadStudentPhotoAction;
+use App\Actions\Student\WithdrawOfferAction;
 use App\DTO\Student\UpdateStudentProfileData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangeEmailRequest;
@@ -36,6 +38,7 @@ class StudentController extends Controller
         private readonly UploadCvAction $uploadCvAction,
         private readonly DeleteCvAction $deleteCvAction,
         private readonly ApplyToOfferAction $applyToOfferAction,
+        private readonly WithdrawOfferAction $withdrawOfferAction,
         private readonly UpdateStudentProfile $updateStudentProfile,
         private readonly UploadStudentPhotoAction $uploadStudentPhotoAction,
         private readonly DeleteStudentPhotoAction $deleteStudentPhotoAction,
@@ -43,11 +46,16 @@ class StudentController extends Controller
         private readonly RequestEmailChange $requestEmailChange,
         private readonly DeleteStudentAccount $deleteStudentAccount,
         private readonly BuildStudentProfileData $buildStudentProfileData,
+        private readonly GetStudentApplicationsAction $getStudentApplicationsAction,
     ) {}
 
     public function index(): Response
     {
-        return inertia("Student/Dashboard");
+        $user = Auth::user();
+
+        return inertia("Student/Dashboard", [
+            "applications" => $this->getStudentApplicationsAction->execute($user),
+        ]);
     }
 
     public function profile(): Response
@@ -132,6 +140,15 @@ class StudentController extends Controller
         $user = Auth::user();
 
         $this->applyToOfferAction->execute($user, $offer);
+
+        return back();
+    }
+
+    public function withdraw(Offer $offer): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $this->withdrawOfferAction->execute($user, $offer);
 
         return back();
     }
