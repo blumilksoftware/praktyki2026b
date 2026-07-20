@@ -17,6 +17,8 @@ class UpdateApplicationStatusAction
             "status" => $status,
         ]);
 
+        $application->loadMissing(["offer.company", "student"]);
+
         $statusTranslated = __("emails.job_application.status.{$status->value}");
 
         Mail::to($application->student->email)->send(
@@ -24,7 +26,7 @@ class UpdateApplicationStatusAction
                 jobTitle: $application->offer->title,
                 companyName: $application->offer->company->name,
                 status: $statusTranslated,
-                dashboardUrl: route("student.dashboard"),
+                dashboardUrl: url("/"),
             ),
         );
 
