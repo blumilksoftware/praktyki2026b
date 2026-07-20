@@ -242,9 +242,13 @@ class CompanyApplicationsTest extends TestCase
         $company = Company::factory()->approved()->create();
         $user = $this->makeCompanyAdmin($company);
         $offer = Offer::factory()->create(["company_id" => $company->id]);
-        $application = Application::factory()->create(["offer_id" => $offer->id]);
 
         foreach ([ApplicationStatus::Reviewed, ApplicationStatus::Accepted, ApplicationStatus::Rejected] as $status) {
+            $application = Application::factory()->create([
+                "offer_id" => $offer->id,
+                "status" => ApplicationStatus::Pending,
+            ]);
+
             $response = $this->actingAs($user)
                 ->patch(route("company.applications.status.update", $application), [
                     "status" => $status->value,
@@ -253,6 +257,37 @@ class CompanyApplicationsTest extends TestCase
             $response->assertRedirect();
             $this->assertEquals($status, $application->fresh()->status);
         }
+    }
+
+    public function testTerminalStatusesCannotBeChanged(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+        $offer = Offer::factory()->create(["company_id" => $company->id]);
+
+        $acceptedApp = Application::factory()->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Accepted,
+        ]);
+
+        $rejectedApp = Application::factory()->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Rejected,
+        ]);
+
+        $response1 = $this->actingAs($user)
+            ->patch(route("company.applications.status.update", $acceptedApp), [
+                "status" => ApplicationStatus::Rejected->value,
+            ]);
+        $response1->assertSessionHasErrors("status");
+        $this->assertEquals(ApplicationStatus::Accepted, $acceptedApp->fresh()->status);
+
+        $response2 = $this->actingAs($user)
+            ->patch(route("company.applications.status.update", $rejectedApp), [
+                "status" => ApplicationStatus::Accepted->value,
+            ]);
+        $response2->assertSessionHasErrors("status");
+        $this->assertEquals(ApplicationStatus::Rejected, $rejectedApp->fresh()->status);
     }
 
     public function testCompanyAdminCannotSetStatusToPending(): void

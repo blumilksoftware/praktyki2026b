@@ -45,7 +45,7 @@ class UpdateApplicationStatusActionTest extends TestCase
         $this->assertEquals(ApplicationStatus::Accepted, $updatedApplication->status);
         $this->assertEquals(ApplicationStatus::Accepted, $application->fresh()->status);
 
-        Mail::assertSent(JobApplicationStatusChangedMail::class, fn(JobApplicationStatusChangedMail $mail) => $mail->hasTo($student->email) &&
+        Mail::assertQueued(JobApplicationStatusChangedMail::class, fn(JobApplicationStatusChangedMail $mail) => $mail->hasTo($student->email) &&
                 $mail->jobTitle === $offer->title &&
                 $mail->companyName === $company->name &&
                 $mail->status === __("emails.job_application.status.accepted"));

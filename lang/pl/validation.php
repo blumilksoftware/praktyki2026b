@@ -167,6 +167,7 @@ return [
     "city_geocoding_failed" => "Nie udało się znaleźć lokalizacji dla podanego miasta. Sprawdź pisownię i spróbuj ponownie.",
     "offer_publish_requires_verification" => "Twoja firma musi zostać zweryfikowana, zanim będzie można publikować oferty. Zapisz ją jako szkic.",
     "offer_publish_invalid_status" => "Tej oferty nie można opublikować.",
+    "application_status_invalid_transition" => "Nie można zmienić statusu aplikacji na wybrany.",
 
     "profile_age_integer" => "Wpisz poprawny wiek — liczbę całkowitą.",
     "profile_age_min" => "Wiek musi być większy od 0.",

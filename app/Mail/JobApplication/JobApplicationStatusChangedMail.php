@@ -4,17 +4,12 @@ declare(strict_types=1);
 
 namespace App\Mail\JobApplication;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
+use App\Mail\QueueableMailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class JobApplicationStatusChangedMail extends Mailable
+class JobApplicationStatusChangedMail extends QueueableMailable
 {
-    use Queueable;
-    use SerializesModels;
-
     public function __construct(
         public readonly string $jobTitle,
         public readonly string $companyName,
@@ -40,5 +35,19 @@ class JobApplicationStatusChangedMail extends Mailable
                 "dashboardUrl" => $this->dashboardUrl,
             ],
         );
+    }
+
+    protected function getLogAction(): string
+    {
+        return "send_job_application_status_changed_mail";
+    }
+
+    protected function getLogProperties(): array
+    {
+        return [
+            "job_title" => $this->jobTitle,
+            "company_name" => $this->companyName,
+            "status" => $this->status,
+        ];
     }
 }
