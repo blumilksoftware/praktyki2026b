@@ -1,6 +1,7 @@
 export const ROUTES = {
   ADMIN_DASHBOARD: "/admin/dashboard",
   ADMIN_APPLICATIONS: "/admin/applications",
+  LOGOUT: "/logout",
   DASHBOARD: "/dashboard",
   LOGIN: "/login",
   LOGIN_ADMIN: "/admin/login",
@@ -11,6 +12,17 @@ export const ROUTES = {
   REGISTER_COMPANY: "/register/company",
 
   STUDENT_DASHBOARD: "/student/dashboard",
+  STUDENT_PROFILE: "/student/profile",
+  STUDENT_PROFILE_EDIT: "/student/profile/edit",
+  STUDENT_PROFILE_UPDATE: "/student/profile",
+  STUDENT_PROFILE_PHOTO: "/student/profile/photo",
+  STUDENT_PROFILE_PHOTO_SHOW: "/student/profile/photo",
+  STUDENT_PROFILE_PHOTO_DELETE: "/student/profile/photo",
+  STUDENT_CV_UPLOAD: "/student/cv",
+  STUDENT_CV_DELETE: "/student/cv",
+  STUDENT_PASSWORD_UPDATE: "/student/password",
+  STUDENT_EMAIL_UPDATE: "/student/email",
+  STUDENT_ACCOUNT_DELETE: "/student/account",
   STUDENT_OFFERS: "/student/offers",
   STUDENT_FAVORITES: "/student/favorites",
 
@@ -22,18 +34,6 @@ export const ROUTES = {
 
   GOOGLE_AUTH: "/auth/google/redirect",
   GOOGLE_AUTH_CALLBACK: "/auth/google/callback",
-
-  STUDENT_DASHBOARD: "/student/dashboard",
-  STUDENT_PROFILE: "/student/profile",
-  STUDENT_PROFILE_EDIT: "/student/profile/edit",
-  STUDENT_PROFILE_UPDATE: "/student/profile",
-  STUDENT_PROFILE_PHOTO: "/student/profile/photo",
-  STUDENT_PROFILE_PHOTO_DELETE: "/student/profile/photo",
-  STUDENT_PASSWORD_UPDATE: "/student/password",
-  STUDENT_EMAIL_UPDATE: "/student/email",
-  STUDENT_ACCOUNT_DELETE: "/student/account",
-  COMPANY_PROFILE: "/company/profile",
-  UNIVERSITY_PROFILE: "/university/profile",
 
   HOME: "/",
 } as const

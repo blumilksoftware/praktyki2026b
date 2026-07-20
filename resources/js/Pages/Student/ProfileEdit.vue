@@ -99,7 +99,9 @@ function saveAll() {
   <BaseLayout
     active-page="profile"
     :nav-items="navItems"
-    :minimal-header="true"
+    layout-scope="student"
+    :show-user-section="false"
+    background-class="bg-white"
     :show-background="false"
   >
     <div class="mx-auto w-full max-w-4xl">

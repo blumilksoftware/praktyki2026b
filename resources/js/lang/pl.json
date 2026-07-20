@@ -1,5 +1,12 @@
 {
   "onboarding": {
+    "layout": {
+      "skipToContent": "Przejdź do treści",
+      "nav": {
+        "ariaLabel": "Nawigacja studenta",
+        "mobileAriaLabel": "Nawigacja mobilna studenta"
+      }
+    },
     "banner": {
       "title": "Uzupełnij swój profil",
       "description": "Wypełnij dane profilu, aby w pełni korzystać z Applikuj.",
@@ -254,9 +261,12 @@
   "student": {
     "layout": {
       "title": "Panel studenta",
+      "skipToContent": "Przejdź do treści",
       "nav": {
         "dashboard": "Panel",
-        "profile": "Profil"
+        "profile": "Profil",
+        "ariaLabel": "Nawigacja studenta",
+        "mobileAriaLabel": "Nawigacja mobilna studenta"
       }
     },
     "profile": {
@@ -378,19 +388,10 @@
         "confirm": "Usuń konto na stałe",
         "cancel": "Anuluj"
       }
-    }
-  },
-  "company": {
-    "layout": {
-      "title": "Firma"
     },
-    "profile": {
-      "title": "Profil"
-    }
-  },
-  "student": {
     "nav": {
       "dashboard": "Dashboard",
+      "profile": "Profil",
       "offers": "Oferty",
       "favorites": "Ulubione"
     },
@@ -466,6 +467,14 @@
         "removeFromFavorites": "Usuń z ulubionych",
         "mapComingSoon": "Mapa pojawi się w osobnej podstronie"
       }
+    }
+  },
+    "company": {
+    "layout": {
+      "title": "Firma"
+    },
+    "profile": {
+      "title": "Profil"
     }
   },
   "pending": {

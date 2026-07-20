@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHome, IconBriefcase, IconHeart } from '@tabler/icons-vue'
+import { IconHome, IconBriefcase, IconHeart, IconUser } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
@@ -47,6 +47,7 @@ const resetFilters = () => {
 
 const navItems = computed(() => [
   { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
+  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
   { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
   { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
 ])
@@ -55,8 +56,8 @@ const navItems = computed(() => [
 <template>
   <Head :title="t('student.offers.title')" />
 
-  <BaseLayout active-page="offers" :nav-items="navItems" :logo-href="ROUTES.STUDENT_OFFERS" background-class="bg-white" :show-background="false">
-    <div class="min-h-screen bg-white px-4 py-6 sm:px-6 lg:px-8">
+  <BaseLayout active-page="offers" :nav-items="navItems" :logo-href="ROUTES.STUDENT_OFFERS" background-class="bg-white" :show-background="false" layout-scope="student" :show-user-section="false" :show-compact-menu="true" :compact-menu-items="navItems">
+    <div class="min-h-screen bg-background px-4 py-6 sm:px-6 lg:px-8">
       <div class="mx-auto mb-4 flex max-w-7xl items-center justify-between gap-3">
         <Link
           :href="ROUTES.STUDENT_DASHBOARD"
@@ -75,7 +76,7 @@ const navItems = computed(() => [
       </div>
 
       <div class="mx-auto flex max-w-7xl flex-col gap-6 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] lg:items-start">
-        <aside aria-labelledby="offers-filters-heading" class="rounded-3xl border border-border bg-white p-5 shadow-[0_14px_40px_rgba(11,26,48,0.08)] lg:sticky lg:top-6">
+        <aside aria-labelledby="offers-filters-heading" class="rounded-3xl border border-border/80 bg-white/90 p-5 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm lg:sticky lg:top-6">
           <div class="flex items-start justify-between gap-3">
             <div>
               <p class="text-xs font-semibold uppercase tracking-[0.24em] text-additional">{{ t('student.offers.filters.kicker') }}</p>
@@ -147,7 +148,7 @@ const navItems = computed(() => [
           </div>
         </aside>
 
-        <section aria-labelledby="offers-list-heading" class="rounded-3xl border border-border bg-white p-5 shadow-[0_14px_40px_rgba(11,26,48,0.08)] sm:p-6">
+        <section aria-labelledby="offers-list-heading" class="rounded-3xl border border-border/80 bg-white/90 p-5 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:p-6">
           <div class="mb-5 flex items-end justify-between gap-4">
             <div>
               <p class="text-sm font-medium text-additional">{{ t('student.offers.results.caption') }}</p>

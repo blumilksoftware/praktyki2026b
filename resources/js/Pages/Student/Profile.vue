@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHome, IconUser } from '@tabler/icons-vue'
+import { IconHome, IconUser, IconBriefcase, IconHeart } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseModal from '@/Components/Common/BaseModal.vue'
@@ -74,8 +74,10 @@ function saveWorkModes() {
 }
 
 const navItems = computed(() => [
-  { key: 'dashboard', label: t('student.layout.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
-  { key: 'profile', label: t('student.layout.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
+  { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
+  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
+  { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
+  { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
 ])
 </script>
 
@@ -84,7 +86,9 @@ const navItems = computed(() => [
   <BaseLayout
     active-page="profile"
     :nav-items="navItems"
-    :minimal-header="true"
+    layout-scope="student"
+    :show-user-section="false"
+    background-class="bg-white"
     :show-background="false"
   >
     <OnboardingBanner />

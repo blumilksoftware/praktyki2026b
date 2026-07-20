@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { router, usePage } from '@inertiajs/vue3'
 import { IconSettings, IconLogout, IconMenu, IconX, IconUser, IconLanguage, IconChevronDown } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
 import LanguageDropdown from '../Common/LanguageDropdown.vue'
@@ -9,9 +10,8 @@ const props = defineProps({
   activePage: { type: String, default: '' },
   navItems: { type: Array, default: () => [] },
   showBackground: { type: Boolean, default: true },
-  logoHref: { type: String, default: ROUTES.ADMIN_DASHBOARD },
-  backgroundClass: { type: String, default: 'bg-secondary' },
   minimalHeader: { type: Boolean, default: false },
+  layoutScope: { type: String, default: 'admin' },
 })
 
 const { t, locale } = useI18n()
@@ -20,12 +20,29 @@ const isMobileMenuOpen = ref(false)
 const isDesktopMenuOpen = ref(false)
 const isDesktopLanguageOpen = ref(false)
 
+const page = usePage()
+const authUser = computed(() => page.props.auth?.user ?? null)
 const currentLanguage = computed(() => (locale.value || 'pl').toUpperCase())
+const logoHref = computed(() => navItems.value.find((item) => item.key === 'dashboard')?.href ?? ROUTES.DASHBOARD)
+const userFullName = computed(() => {
+  const firstName = authUser.value?.first_name?.trim() ?? ''
+  const lastName = authUser.value?.last_name?.trim() ?? ''
+  const fullName = `${firstName} ${lastName}`.trim()
+
+  return fullName || authUser.value?.email || t('admin.layout.userRole')
+})
+const userRoleLabel = computed(() => String(authUser.value?.role ?? '').trim())
+const userAvatarUrl = computed(() => authUser.value?.photo_path ? ROUTES.STUDENT_PROFILE_PHOTO_SHOW : null)
+const pageBackgroundClass = computed(() => (props.minimalHeader || props.layoutScope === 'student') ? 'bg-background' : 'bg-secondary')
 
 /** @param {string} lang */
 function setLanguage(lang) {
   locale.value = lang
   localStorage.setItem('locale', lang)
+}
+
+function logout() {
+  router.post(ROUTES.LOGOUT)
 }
 
 const navItems = computed(() => props.navItems.length > 0 
@@ -34,7 +51,10 @@ const navItems = computed(() => props.navItems.length > 0
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col text-text" :class="props.backgroundClass">
+  <div
+    class="flex flex-col min-h-screen text-text"
+    :class="pageBackgroundClass"
+  >
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:z-50 focus:absolute focus:bg-white focus:m-3 focus:px-3 focus:py-2 focus:rounded-md focus:font-medium focus:text-primary focus:text-sm"
@@ -45,7 +65,7 @@ const navItems = computed(() => props.navItems.length > 0
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
       <div class="flex justify-between items-center px-4 md:px-6 py-4">
         <a
-          :href="props.logoHref"
+          :href="logoHref"
           class="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 transition"
         >
           <div class="flex-1">
@@ -96,14 +116,20 @@ const navItems = computed(() => props.navItems.length > 0
             <IconMenu class="w-5 h-5" aria-hidden="true" />
           </button>
 
-          <img
-            class="hidden md:block rounded-full ring-2 ring-primary/10 w-10 h-10"
-            src="https://www.gravatar.com/avatar?d=mp&s=48"
-            alt=""
-          >
-          <div class="hidden md:block">
-            <p class="font-medium text-white text-sm">TestAdmin</p>
-            <p class="text-white/70 text-xs">{{ t('admin.layout.userRole') }}</p>
+          <div class="hidden md:flex items-center gap-3">
+            <div class="flex shrink-0 items-center justify-center overflow-hidden rounded-full ring-2 ring-primary/10 w-10 h-10 bg-white/10 text-white font-semibold text-sm">
+              <img
+                v-if="userAvatarUrl"
+                :src="userAvatarUrl"
+                alt=""
+                class="h-full w-full object-cover"
+              >
+              <span v-else>{{ userFullName.split(' ').map((part) => part[0]).filter(Boolean).slice(0, 2).join('').toUpperCase() }}</span>
+            </div>
+            <div>
+              <p class="font-medium text-white text-sm">{{ userFullName }}</p>
+              <p class="text-white/70 text-xs">{{ userRoleLabel || t('admin.layout.userRole') }}</p>
+            </div>
           </div>
 
           <div class="hidden md:block relative">
@@ -169,14 +195,14 @@ const navItems = computed(() => props.navItems.length > 0
                 </div>
               </div>
 
-              <a
+              <button
                 class="flex items-center gap-2 hover:bg-red-50 px-3 py-2 text-red-600 hover:text-red-700 text-sm transition"
-                :href="ROUTES.ADMIN_LOGOUT"
-                @click="isDesktopMenuOpen = false"
+                type="button"
+                @click="isDesktopMenuOpen = false; logout()"
               >
                 <IconLogout class="w-4 h-4" aria-hidden="true" />
                 {{ t('admin.layout.logout') }}
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -291,14 +317,14 @@ const navItems = computed(() => props.navItems.length > 0
                 {{ t('admin.layout.nav.settings') }}
               </a>
               
-              <a
+              <button
                 class="flex items-center gap-3 hover:bg-red-500/20 px-4 py-3 rounded-xl font-medium text-red-400 hover:text-red-300 text-sm transition"
-                :href="ROUTES.ADMIN_LOGOUT"
-                @click="isMobileMenuOpen = false"
+                type="button"
+                @click="isMobileMenuOpen = false; logout()"
               >
                 <IconLogout class="w-5 h-5 shrink-0" aria-hidden="true" />
                 {{ t('admin.layout.logout') }}
-              </a>
+              </button>
             </div>
           </div>
         </Transition>

@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHeart, IconHome, IconBriefcase } from '@tabler/icons-vue'
+import { IconHeart, IconHome, IconBriefcase, IconUser } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
@@ -17,6 +17,7 @@ const favoriteOffers = computed(() => props.offers.filter((offer) => favoriteIds
 
 const navItems = computed(() => [
   { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
+  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
   { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
   { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
 ])
@@ -25,8 +26,8 @@ const navItems = computed(() => [
 <template>
   <Head :title="t('student.favorites.title')" />
 
-  <BaseLayout active-page="favorites" :nav-items="navItems" :logo-href="ROUTES.STUDENT_DASHBOARD" background-class="bg-white" :show-background="false">
-    <div class="min-h-screen bg-white px-4 py-6 sm:px-6 lg:px-8">
+  <BaseLayout active-page="favorites" :nav-items="navItems" :logo-href="ROUTES.STUDENT_DASHBOARD" background-class="bg-white" :show-background="false" layout-scope="student" :show-user-section="false" :show-compact-menu="true" :compact-menu-items="navItems">
+    <div class="min-h-screen bg-background px-4 py-6 sm:px-6 lg:px-8">
       <div class="mx-auto mb-4 flex max-w-7xl items-center justify-between gap-3">
         <Link
           :href="ROUTES.STUDENT_DASHBOARD"
@@ -42,7 +43,7 @@ const navItems = computed(() => [
         </div>
       </div>
 
-      <section class="mx-auto max-w-7xl rounded-3xl border border-border bg-white p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] sm:p-8">
+      <section class="mx-auto max-w-7xl rounded-3xl border border-border/80 bg-white/90 p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:p-8">
         <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div class="max-w-2xl">
             <p class="text-xs font-semibold uppercase tracking-[0.24em] text-additional">{{ t('student.favorites.title') }}</p>
@@ -74,7 +75,7 @@ const navItems = computed(() => [
             @toggle-favorite="toggleFavorite"
           />
 
-          <div v-else class="rounded-3xl border border-dashed border-border bg-background p-8 text-center text-additional">
+          <div v-else class="rounded-3xl border border-dashed border-border/80 bg-white/75 p-8 text-center text-additional backdrop-blur-sm">
             <p class="text-lg font-semibold text-text">{{ t('student.favorites.empty.title') }}</p>
             <p class="mt-2 text-sm text-additional">{{ t('student.favorites.empty.description') }}</p>
             <Link

@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n'
 import { IconHeart, IconHome, IconBriefcase, IconUser } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
-import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useStudentFavorites } from '@/composables/useStudentFavorites'
 
@@ -16,20 +15,18 @@ const { favoriteIds, favoriteCount, toggleFavorite } = useStudentFavorites()
 
 const navItems = computed(() => [
   { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
+  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
   { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
   { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
-  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
 ])
 </script>
 
 <template>
   <Head :title="t('student.dashboard.title')" />
 
-  <BaseLayout active-page="dashboard" :nav-items="navItems" :logo-href="ROUTES.STUDENT_DASHBOARD" background-class="bg-white" :show-background="false">
-    <div class="min-h-screen bg-white px-4 py-6 sm:px-6 lg:px-8">
-      <OnboardingBanner />
-
-      <section class="mx-auto max-w-7xl rounded-3xl border border-border bg-white p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] sm:p-8">
+  <BaseLayout active-page="dashboard" :nav-items="navItems" :logo-href="ROUTES.STUDENT_DASHBOARD" background-class="bg-white" :show-background="false" layout-scope="student" :show-user-section="false" :show-compact-menu="true" :compact-menu-items="navItems">
+    <div class="min-h-screen bg-background px-4 py-6 sm:px-6 lg:px-8">
+      <section class="mx-auto max-w-7xl rounded-3xl border border-border/80 bg-white/90 p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:p-8">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div class="max-w-2xl">
             <p class="text-xs font-semibold uppercase tracking-[0.24em] text-additional">{{ t('student.dashboard.title') }}</p>
@@ -60,7 +57,7 @@ const navItems = computed(() => [
         <div class="mt-8 grid gap-4 lg:grid-cols-2">
           <Link
             :href="ROUTES.STUDENT_OFFERS"
-            class="rounded-3xl border border-border bg-background p-5 transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(11,26,48,0.08)]"
+            class="rounded-3xl border border-border/80 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(11,26,48,0.08)] backdrop-blur-sm"
           >
             <p class="text-sm font-semibold uppercase tracking-[0.2em] text-additional">{{ t('student.dashboard.cards.offersTitle') }}</p>
             <p class="mt-2 text-lg font-semibold text-text">{{ t('student.dashboard.cards.offersDescription') }}</p>
@@ -68,14 +65,14 @@ const navItems = computed(() => [
 
           <Link
             :href="ROUTES.STUDENT_FAVORITES"
-            class="rounded-3xl border border-border bg-background p-5 transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(11,26,48,0.08)]"
+            class="rounded-3xl border border-border/80 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(11,26,48,0.08)] backdrop-blur-sm"
           >
             <div class="flex items-center justify-between gap-4">
               <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.2em] text-additional">{{ t('student.dashboard.cards.favoritesTitle') }}</p>
                 <p class="mt-2 text-lg font-semibold text-text">{{ t('student.dashboard.cards.favoritesDescription') }}</p>
               </div>
-              <div class="rounded-2xl border border-border bg-white px-4 py-3 text-center">
+              <div class="rounded-2xl border border-border/80 bg-white px-4 py-3 text-center">
                 <p class="text-xs uppercase tracking-[0.18em] text-additional">{{ t('student.nav.favorites') }}</p>
                 <p class="mt-1 text-2xl font-semibold text-text">{{ favoriteCount }}</p>
               </div>
@@ -84,7 +81,7 @@ const navItems = computed(() => [
         </div>
       </section>
 
-      <section class="mx-auto mt-6 max-w-7xl rounded-3xl border border-border bg-white p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] sm:p-8">
+      <section class="mx-auto mt-6 max-w-7xl rounded-3xl border border-border/80 bg-white/90 p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:p-8">
         <div class="flex items-end justify-between gap-4">
           <div>
             <p class="text-sm font-medium text-additional">{{ t('student.dashboard.previewTitle') }}</p>

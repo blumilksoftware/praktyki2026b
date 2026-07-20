@@ -56,7 +56,6 @@ Route::middleware(["auth", "can:create," . Offer::class])
 Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
-        Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])->name("company.offers.publish");
         Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])->name("company.offers.deactivate");
         Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");
     });
@@ -76,6 +75,24 @@ Route::middleware(["auth", "can:access-student-panel"])
             ]);
         })->name('student.dashboard');
 
+        Route::get("/profile", function () {
+            $user = auth()->user();
+
+            return inertia('Student/Profile', [
+                'user' => $user->load(['applications.offer.company', 'preferredStudyFields', 'preferredCities']),
+                'studyFields' => \App\Models\StudyField::query()->orderBy('name')->get(['id', 'name']),
+            ]);
+        })->name('student.profile');
+
+        Route::get("/profile/edit", function () {
+            $user = auth()->user();
+
+            return inertia('Student/ProfileEdit', [
+                'user' => $user->load(['applications.offer.company', 'preferredStudyFields', 'preferredCities']),
+                'studyFields' => \App\Models\StudyField::query()->orderBy('name')->get(['id', 'name']),
+            ]);
+        })->name('student.profile.edit');
+
         Route::get("/offers", function () use ($buildStudentOffers) {
             return inertia('Student/Offers', [
                 'offers' => $buildStudentOffers()->values(),
@@ -92,8 +109,8 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
-        Route::get("/profile/photo", [StudentController::class, "showPhoto"])->name("student.profile.photo.show");
         Route::post("/profile/photo", [StudentController::class, "uploadPhoto"])->name("student.profile.photo.upload");
+        Route::get("/profile/photo", [StudentController::class, "showPhoto"])->name("student.profile.photo.show");
         Route::delete("/profile/photo", [StudentController::class, "deletePhoto"])->name("student.profile.photo.delete");
         Route::put("/password", [StudentController::class, "changePassword"])->name("student.password.update");
         Route::patch("/email", [StudentController::class, "changeEmail"])->name("student.email.update");
