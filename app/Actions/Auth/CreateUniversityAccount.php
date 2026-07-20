@@ -10,6 +10,7 @@ use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use App\Models\University;
 use App\Models\User;
+use App\Services\EmailVerificationService;
 use Illuminate\Support\Facades\DB;
 
 class CreateUniversityAccount
@@ -37,7 +38,7 @@ class CreateUniversityAccount
             ]);
         });
 
-        $user->sendEmailVerificationNotification();
+        app(EmailVerificationService::class)->sendVerificationEmail($user);
 
         return $user;
     }

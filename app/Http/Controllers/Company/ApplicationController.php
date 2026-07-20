@@ -34,7 +34,7 @@ class ApplicationController extends Controller
 
         $applications = $company->applications()
             ->when($offerId, fn(Builder $query): Builder => $query->where("offer_id", $offerId))
-            ->when($status, fn(Builder $query): Builder => $query->where("status", $status))
+            ->when($status, fn(Builder $query): Builder => $query->where("applications.status", $status))
             ->with(["student", "offer"])
             ->orderBy("created_at", "desc")
             ->paginate(15)

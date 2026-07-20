@@ -29,6 +29,7 @@ const tabs = computed(() => [
     key: 'student',
     label: t('auth.register.accountTypeTabs.student'),
     href: ROUTES.REGISTER_STUDENT,
+
   },
 ])
 
@@ -51,48 +52,25 @@ function tabClass(key, disabled = false) {
 
 <template>
   <div class="space-y-3">
-    <p
-      id="account-type-label"
-      class="text-center text-base font-medium text-text sm:text-lg"
-    >
+    <p id="account-type-label" class="text-center text-base font-medium text-text sm:text-lg">
       {{ t('auth.register.accountTypeTabs.label') }}
     </p>
 
-    <div
-      role="tablist"
-      class="flex border-b border-border"
-      :aria-label="t('auth.register.accountTypeTabs.ariaLabel')"
-      aria-labelledby="account-type-label"
+    <div role="tablist" class="flex border-b border-border" :aria-label="t('auth.register.accountTypeTabs.ariaLabel')"
+         aria-labelledby="account-type-label"
     >
       <template v-for="tab in tabs" :key="tab.key">
-        <button
-          v-if="tab.disabled"
-          type="button"
-          role="tab"
-          :class="tabClass(tab.key, true)"
-          aria-disabled="true"
+        <button v-if="tab.disabled" type="button" role="tab" :class="tabClass(tab.key, true)" aria-disabled="true">
+          {{ tab.label }}
+        </button>
+
+        <button v-else-if="activeTab === tab.key" type="button" role="tab" :class="tabClass(tab.key)"
+                aria-selected="true" aria-current="page"
         >
           {{ tab.label }}
         </button>
 
-        <button
-          v-else-if="activeTab === tab.key"
-          type="button"
-          role="tab"
-          :class="tabClass(tab.key)"
-          aria-selected="true"
-          aria-current="page"
-        >
-          {{ tab.label }}
-        </button>
-
-        <Link
-          v-else
-          role="tab"
-          :href="tab.href"
-          :class="tabClass(tab.key)"
-          aria-selected="false"
-        >
+        <Link v-else role="tab" :href="tab.href" :class="tabClass(tab.key)" aria-selected="false">
           {{ tab.label }}
         </Link>
       </template>

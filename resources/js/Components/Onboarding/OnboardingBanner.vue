@@ -3,18 +3,31 @@ import { computed } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconX, IconUserCheck } from '@tabler/icons-vue'
+import { ROUTES } from '@/Helpers/routes'
 
 const { t } = useI18n()
 const page = usePage()
 
 const onboarding = computed(() => page.props.onboarding)
 const role = computed(() => page.props.auth?.user?.role)
+const nextStep = computed(() => onboarding.value?.steps?.find((step) => !step.completed)?.key ?? null)
 
 const profileUrl = computed(() => {
-  if (role.value === 'companyAdmin') return '/company/profile'
-  if (role.value === 'universityAdmin') return '/university/profile'
+  if (role.value === 'companyAdmin') return ROUTES.COMPANY_PROFILE
+  if (role.value === 'universityAdmin') return ROUTES.UNIVERSITY_PROFILE
+  if (role.value === 'student') {
+    return nextStep.value
+      ? `${ROUTES.STUDENT_PROFILE_EDIT}?section=${nextStep.value}`
+      : ROUTES.STUDENT_PROFILE_EDIT
+  }
   return null
 })
+
+function goToProfile(event) {
+  if (!profileUrl.value) return
+  event.preventDefault()
+  router.visit(profileUrl.value)
+}
 
 function dismiss() {
   router.post('/onboarding/dismiss')
@@ -24,7 +37,7 @@ function dismiss() {
 <template>
   <div
     v-if="onboarding?.show"
-    class="flex items-start gap-4 bg-white/60 backdrop-blur-sm rounded-2xl ring-1 ring-primary/20 shadow-sm px-5 py-4"
+    class="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm"
     role="status"
   >
     <div class="flex items-center justify-center bg-primary/10 rounded-xl w-10 h-10 shrink-0">
@@ -42,6 +55,7 @@ function dismiss() {
         v-if="profileUrl"
         :href="profileUrl"
         class="inline-flex items-center mt-2 text-primary hover:text-primary/80 font-medium text-xs transition"
+        @click="goToProfile"
       >
         {{ t('onboarding.banner.action') }}
       </a>

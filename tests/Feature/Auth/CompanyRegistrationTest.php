@@ -20,7 +20,7 @@ class CompanyRegistrationTest extends TestCase
     public function testCompanyCanRegisterWithValidData(): void
     {
         $this->post("/register/company", $this->validPayload())
-            ->assertRedirect("/login");
+            ->assertRedirect(route("verification.waiting"));
 
         $this->assertDatabaseHas("companies", [
             "nip" => "1234563218",
@@ -40,7 +40,7 @@ class CompanyRegistrationTest extends TestCase
         $payload = $this->validPayload(["website" => "https://acme.com"]);
 
         $this->post("/register/company", $payload)
-            ->assertRedirect("/login");
+            ->assertRedirect(route("verification.waiting"));
 
         $this->assertDatabaseHas("companies", [
             "nip" => "1234563218",
@@ -54,7 +54,7 @@ class CompanyRegistrationTest extends TestCase
         $payload = $this->validPayload(["website" => "acme.com"]);
 
         $this->post("/register/company", $payload)
-            ->assertRedirect("/login");
+            ->assertRedirect("/email/verify/waiting");
 
         $this->assertDatabaseHas("companies", [
             "nip" => "1234563218",
@@ -100,7 +100,7 @@ class CompanyRegistrationTest extends TestCase
         $this->post("/register/company", $this->validPayload([
             "postal_code" => "00001",
             "phone" => "123 456 789",
-        ]))->assertRedirect("/login");
+        ]))->assertRedirect("/email/verify/waiting");
 
         $this->assertDatabaseHas("companies", [
             "postal_code" => "00-001",
@@ -120,7 +120,7 @@ class CompanyRegistrationTest extends TestCase
     {
         $this->post("/register/company", $this->validPayload([
             "building_number" => "12A",
-        ]))->assertRedirect("/login");
+        ]))->assertRedirect("/email/verify/waiting");
 
         $this->assertDatabaseHas("companies", [
             "building_number" => "12A",
@@ -144,7 +144,7 @@ class CompanyRegistrationTest extends TestCase
 
         $this->actingAs($user)
             ->get("/company/dashboard")
-            ->assertForbidden();
+            ->assertRedirect("/company/verification/pending");
     }
 
     public function testApprovedCompanyAdminCanAccessDashboard(): void

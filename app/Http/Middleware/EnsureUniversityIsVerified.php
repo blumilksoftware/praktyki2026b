@@ -8,6 +8,7 @@ use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUniversityIsVerified
@@ -16,13 +17,11 @@ class EnsureUniversityIsVerified
     {
         $user = $request->user();
 
-        if ($user === null || $user->status !== UserStatus::Active) {
-            abort(403);
+        if ($user->status === UserStatus::Pending) {
+            return redirect()->route("university.verification.pending");
         }
 
-        if ($user->universityOrganization === null) {
-            abort(403);
-        }
+        Gate::forUser($user)->authorize("access-university-panel");
 
         if ($user->universityOrganization->verification_status !== VerificationStatus::Verified) {
             return redirect()->route("university.verification.pending");

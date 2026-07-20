@@ -10,6 +10,7 @@ use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use App\Models\Company;
 use App\Models\User;
+use App\Services\EmailVerificationService;
 use Illuminate\Support\Facades\DB;
 
 class CreateCompanyAccount
@@ -38,7 +39,7 @@ class CreateCompanyAccount
                 "organization_id" => $company->id,
                 "terms_accepted_at" => now(),
             ]);
-            $user->sendEmailVerificationNotification();
+            app(EmailVerificationService::class)->sendVerificationEmail($user);
 
             return $user;
         });

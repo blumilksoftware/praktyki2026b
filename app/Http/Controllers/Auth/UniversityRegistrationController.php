@@ -19,8 +19,8 @@ class UniversityRegistrationController extends Controller
     public function __invoke(UniversityRegistrationRequest $request): RedirectResponse
     {
         $data = UniversityRegistrationData::fromArray($request->validated());
-        $this->createUniversityAccount->execute($data);
+        $user = $this->createUniversityAccount->execute($data);
 
-        return redirect()->route("login")->with("status", __("auth.register.university"));
+        return redirect()->route("verification.waiting")->with("email", $user->email);
     }
 }
