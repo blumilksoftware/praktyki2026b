@@ -37,7 +37,6 @@ const profileForm = useForm({
   last_name: props.user.last_name ?? '',
   age: props.user.age ?? '',
   street: props.user.street ?? '',
-  building_number: props.user.building_number ?? '',
   postal_code: props.user.postal_code ?? '',
   city: props.user.city ?? '',
   university: props.user.university ?? '',
@@ -184,21 +183,13 @@ function saveAll() {
             />
           </div>
 
-          <div class="sm:col-span-2 grid grid-cols-1 gap-4 md:grid-cols-[2fr_1fr]">
+          <div class="sm:col-span-2">
             <BaseInput
               id="edit_street"
               v-model="profileForm.street"
               :label="t('student.profile.edit.street')"
               autocomplete="street-address"
               :error="fieldError('street')"
-            />
-            <BaseInput
-              id="edit_building_number"
-              v-model="profileForm.building_number"
-              :label="t('student.profile.edit.buildingNumber')"
-              autocomplete="off"
-              :maxlength="10"
-              :error="fieldError('building_number')"
             />
           </div>
         </form>

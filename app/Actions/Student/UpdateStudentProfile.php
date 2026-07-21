@@ -23,7 +23,6 @@ class UpdateStudentProfile
             "last_name" => $data->lastName,
             "age" => $data->age,
             "street" => $data->street,
-            "building_number" => $data->buildingNumber,
             "postal_code" => $data->postalCode,
             "city" => $data->city,
             "university" => $data->university,

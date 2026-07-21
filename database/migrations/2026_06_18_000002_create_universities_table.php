@@ -16,7 +16,6 @@ return new class() extends Migration {
             $table->string("email");
             $table->string("domain")->unique();
             $table->string("street");
-            $table->string("building_number");
             $table->string("postal_code");
             $table->string("city");
             $table->string("phone");

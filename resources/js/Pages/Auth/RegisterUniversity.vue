@@ -20,7 +20,6 @@ const form = useForm({
   password: '',
   password_confirmation: '',
   street: '',
-  building_number: '',
   postal_code: '',
   city: '',
   phone: '',
@@ -122,25 +121,14 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             />
           </div>
 
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-[2fr_1fr]">
-            <BaseInput
-              id="street"
-              v-model="form.street"
-              :label="t('auth.register.university.street')"
-              autocomplete="street-address"
-              required
-              :error="fieldError('street')"
-            />
-            <BaseInput
-              id="building_number"
-              v-model="form.building_number"
-              :label="t('auth.register.university.buildingNumber')"
-              autocomplete="off"
-              :maxlength="10"
-              required
-              :error="fieldError('building_number')"
-            />
-          </div>
+          <BaseInput
+            id="street"
+            v-model="form.street"
+            :label="t('auth.register.university.street')"
+            autocomplete="street-address"
+            required
+            :error="fieldError('street')"
+          />
           <BaseMaskedInput
             id="phone"
             v-model="form.phone"

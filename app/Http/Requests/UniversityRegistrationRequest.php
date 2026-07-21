@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Rules\BuildingNumberRule;
 use App\Rules\DomainRule;
 use App\Rules\PhoneRule;
 use App\Rules\PostalCodeRule;
@@ -27,7 +26,6 @@ class UniversityRegistrationRequest extends FormRequest
             "domain" => ["required", "string", "max:255", new DomainRule(), Rule::unique("universities", "domain")],
             "password" => ["required", "confirmed", Password::defaults()],
             "street" => ["required", "string", "max:255"],
-            "building_number" => ["required", "string", "max:10", new BuildingNumberRule()],
             "postal_code" => ["required", "string", new PostalCodeRule()],
             "city" => ["required", "string", "max:255"],
             "phone" => ["required", "string", new PhoneRule(), "max:20"],
@@ -55,7 +53,6 @@ class UniversityRegistrationRequest extends FormRequest
             "domain" => $this->string("domain")->toString(),
             "password" => $this->string("password")->toString(),
             "street" => $this->string("street")->toString(),
-            "building_number" => $this->string("building_number")->toString(),
             "postal_code" => $this->string("postal_code")->toString(),
             "city" => $this->string("city")->toString(),
             "phone" => $this->string("phone")->toString(),

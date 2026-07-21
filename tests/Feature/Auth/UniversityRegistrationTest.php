@@ -66,7 +66,7 @@ class UniversityRegistrationTest extends TestCase
     public function testRegistrationFailsWithMissingRequiredFields(): void
     {
         $this->post("/register/university", [])
-            ->assertInvalid(["university_name", "email", "password", "street", "building_number", "postal_code", "city", "phone", "terms"]);
+            ->assertInvalid(["university_name", "email", "password", "street", "postal_code", "city", "phone", "terms"]);
     }
 
     public function testRegistrationRequiresTermsAcceptance(): void
@@ -145,7 +145,6 @@ class UniversityRegistrationTest extends TestCase
             "password" => "Password123!",
             "password_confirmation" => "Password123!",
             "street" => "Academic Street",
-            "building_number" => "123",
             "postal_code" => "12-345",
             "city" => "City",
             "phone" => "123456789",

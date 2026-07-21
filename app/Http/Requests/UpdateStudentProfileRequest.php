@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Rules\BuildingNumberRule;
 use App\Rules\PostalCodeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,7 +21,6 @@ class UpdateStudentProfileRequest extends FormRequest
             "last_name" => ["required", "string", "max:255"],
             "age" => ["nullable", "integer", "min:0", "max:255"],
             "street" => ["nullable", "string", "max:255"],
-            "building_number" => ["nullable", "string", "max:10", new BuildingNumberRule()],
             "postal_code" => ["nullable", "string", new PostalCodeRule()],
             "city" => ["nullable", "string", "max:255"],
             "university" => ["nullable", "string", "max:255"],
@@ -56,7 +54,6 @@ class UpdateStudentProfileRequest extends FormRequest
             "last_name" => $this->string("last_name")->toString(),
             "age" => $this->filled("age") ? $this->integer("age") : null,
             "street" => $this->input("street"),
-            "building_number" => $this->input("building_number"),
             "postal_code" => $this->input("postal_code"),
             "city" => $this->input("city"),
             "university" => $this->input("university"),

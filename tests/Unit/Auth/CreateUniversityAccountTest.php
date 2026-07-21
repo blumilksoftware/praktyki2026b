@@ -28,7 +28,6 @@ class CreateUniversityAccountTest extends TestCase
             domain: "example.com",
             password: "Password123!",
             street: "Academic Street",
-            buildingNumber: "123",
             postalCode: "12-345",
             city: "City",
             phone: "123456789",
@@ -49,7 +48,6 @@ class CreateUniversityAccountTest extends TestCase
         $this->assertEquals("university@example.com", $university->email);
         $this->assertEquals("example.com", $university->domain);
         $this->assertEquals("Academic Street", $university->street);
-        $this->assertEquals("123", $university->building_number);
         $this->assertEquals("12-345", $university->postal_code);
         $this->assertEquals("City", $university->city);
         $this->assertEquals("123456789", $university->phone);

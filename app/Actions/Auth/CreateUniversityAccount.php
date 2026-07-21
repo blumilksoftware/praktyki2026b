@@ -23,7 +23,6 @@ class CreateUniversityAccount
                 "email" => $data->email,
                 "domain" => $data->domain,
                 "street" => $data->street,
-                "building_number" => $data->buildingNumber,
                 "postal_code" => $data->postalCode,
                 "city" => $data->city,
                 "phone" => $data->phone,

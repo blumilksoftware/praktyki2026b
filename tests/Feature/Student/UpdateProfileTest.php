@@ -252,7 +252,6 @@ class UpdateProfileTest extends TestCase
 
         $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
             "street" => "Student Street",
-            "building_number" => "12",
             "postal_code" => "12-345",
             "city" => "Student City",
         ]));
@@ -261,7 +260,6 @@ class UpdateProfileTest extends TestCase
         $user->refresh();
 
         $this->assertEquals("Student Street", $user->street);
-        $this->assertEquals("12", $user->building_number);
         $this->assertEquals("12-345", $user->postal_code);
         $this->assertEquals("Student City", $user->city);
     }
@@ -278,20 +276,6 @@ class UpdateProfileTest extends TestCase
         ]));
 
         $response->assertInvalid("postal_code");
-    }
-
-    public function testInvalidBuildingNumberIsRejected(): void
-    {
-        $user = User::factory()->create([
-            "role" => UserRole::Student,
-            "status" => UserStatus::Active,
-        ]);
-
-        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
-            "building_number" => "invalid_building_number",
-        ]));
-
-        $response->assertInvalid("building_number");
     }
 
     private function validPayload(array $overrides = []): array

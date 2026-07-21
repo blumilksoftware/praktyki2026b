@@ -14,7 +14,6 @@ return new class() extends Migration {
             $table->string("pending_email")->nullable();
             $table->unsignedTinyInteger("age")->nullable();
             $table->string("street")->nullable();
-            $table->string("building_number")->nullable();
             $table->string("postal_code")->nullable();
             $table->string("city")->nullable();
             $table->string("study_field")->nullable();
@@ -26,7 +25,7 @@ return new class() extends Migration {
     public function down(): void
     {
         Schema::table("users", function (Blueprint $table): void {
-            $table->dropColumn(["photo_path", "pending_email", "age", "street", "building_number", "postal_code", "city", "study_field", "study_year", "specialization"]);
+            $table->dropColumn(["photo_path", "pending_email", "age", "street", "postal_code", "city", "study_field", "study_year", "specialization"]);
         });
     }
 };

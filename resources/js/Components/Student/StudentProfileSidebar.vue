@@ -22,8 +22,8 @@ const ageLabel = computed(() => {
 
 const formattedAddress = computed(() => {
   const parts = []
-  if (props.user.street || props.user.building_number) {
-    parts.push(`${props.user.street ?? ''} ${props.user.building_number ?? ''}`.trim())
+  if (props.user.street) {
+    parts.push(props.user.street.trim())
   }
   if (props.user.postal_code || props.user.city) {
     parts.push(`${props.user.postal_code ?? ''} ${props.user.city ?? ''}`.trim())

@@ -43,7 +43,6 @@ class BuildStudentProfileData
                 "photo_url" => $student->photo_path ? route("student.profile.photo.show") : null,
                 "age" => $student->age,
                 "street" => $student->street,
-                "building_number" => $student->building_number,
                 "postal_code" => $student->postal_code,
                 "city" => $student->city,
                 "university" => $student->university,
