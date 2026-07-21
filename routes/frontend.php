@@ -45,6 +45,7 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
     ->group(function (): void {
         Route::get("/dashboard", [UniversityController::class, "index"])->name("university.dashboard");
         Route::get("/profile", [UniversityController::class, "profile"])->name("university.profile");
+        Route::get("/companies", [App\Http\Controllers\University\CompanyController::class, "index"])->name("university.companies.index");
     });
 
 Route::middleware(["auth", "can:access-student-panel"])
