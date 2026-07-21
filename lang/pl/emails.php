@@ -69,6 +69,11 @@ return [
         "status_changed_title" => "Aktualizacja statusu aplikacji",
         "status_changed_body" => "Firma :company_name zmieniła status Twojej aplikacji na stanowisko :job_title na: :status.",
         "status_changed_cta" => "Przejdź do profilu",
+        "status" => [
+            "reviewed" => "rozpatrzona",
+            "accepted" => "zaakceptowana",
+            "rejected" => "odrzucona",
+        ],
     ],
 
     "offer" => [
