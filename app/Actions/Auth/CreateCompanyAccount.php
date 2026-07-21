@@ -23,7 +23,6 @@ class CreateCompanyAccount
                 "nip" => preg_replace("/\D/", "", $data->nip),
                 "email" => $data->email,
                 "street" => $data->street,
-                "building_number" => $data->buildingNumber,
                 "postal_code" => $data->postalCode,
                 "city" => $data->city,
                 "phone" => $data->phone,
