@@ -7,20 +7,36 @@ use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
 use App\Http\Controllers\Onboarding\OnboardingController;
+use App\Http\Controllers\ProfileRedirectController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 require __DIR__ . "/frontend.php";
+
+Route::post("/language/{locale}", function (string $locale) {
+    if (in_array($locale, config("app.available_locales"), true)) {
+        Session::put("locale", $locale);
+    }
+
+    return redirect()->back();
+})->name("language.switch");
+
+Route::get("/profile", [ProfileRedirectController::class, "show"])->name("profile");
+Route::get("/profile/edit", [ProfileRedirectController::class, "edit"])->name("profile.edit");
+Route::patch("/profile", [ProfileRedirectController::class, "update"])->name("profile.update");
 
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
     ->group(function (): void {
+        Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
+        Route::get("/profile/edit", [CompanyController::class, "edit"])->name("company.profile.edit");
         Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
     });
 
@@ -42,6 +58,7 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
     ->prefix("university")
     ->group(function (): void {
         Route::patch("/profile", [UniversityController::class, "update"])->name("university.profile.update");
+        Route::get("/profile/edit", [UniversityController::class, "edit"])->name("university.profile.edit");
     });
 
 Route::middleware(["auth", "can:access-student-panel"])
@@ -51,6 +68,7 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
+        Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");        
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
         Route::get("/profile/photo", [StudentController::class, "showPhoto"])->name("student.profile.photo.show");
         Route::post("/profile/photo", [StudentController::class, "uploadPhoto"])->name("student.profile.photo.upload");
