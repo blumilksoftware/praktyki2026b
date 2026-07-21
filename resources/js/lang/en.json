@@ -131,7 +131,7 @@
         "city": "City",
         "street": "Street and number",
         "phone": "Phone number",
-        "website": "Company website (optional)",
+        "website": "Company website",
         "websiteHint": "You can enter just a domain, e.g. example.com."
       },
       "university": {
@@ -143,7 +143,7 @@
         "postalCode": "Postal code",
         "city": "City",
         "phone": "Phone number",
-        "website": "University website link (optional)",
+        "website": "University website link",
         "websiteHint": "You can enter just the domain, e.g. example.pl."
       }
     }
@@ -535,6 +535,8 @@
           "remote": "Remote"
         },
         "spots": "Number of spots",
+        "spotsMaxHint": "Maximum number of spots: 1000",
+        "spotsMaxError": "Number of spots cannot exceed 1000",
         "city": "City",
         "preferredFields": "Preferred fields of study",
         "preferredFieldsPlaceholder": "Search fields of study",

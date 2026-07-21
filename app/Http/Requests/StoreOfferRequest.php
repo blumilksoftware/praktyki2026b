@@ -63,33 +63,4 @@ class StoreOfferRequest extends FormRequest
             "university_ids" => $this->input("university_ids", []),
         ];
     }
-
-    public function messages(): array
-    {
-        return [
-            "salary_min.required_if" => "Podaj minimalne wynagrodzenie, gdy oferta jest płatna.",
-            "salary_max.required_if" => "Podaj maksymalne wynagrodzenie, gdy oferta jest płatna.",
-            "salary_max.gte" => "Maksymalne wynagrodzenie musi być większe lub równe minimalnemu.",
-            "end_date.after" => "Data zakończenia musi być późniejsza niż data rozpoczęcia.",
-        ];
-    }
-
-    public function attributes(): array
-    {
-        return [
-            "title" => "tytuł",
-            "description" => "opis",
-            "spots" => "liczba miejsc",
-            "city" => "miasto",
-            "start_date" => "data rozpoczęcia",
-            "end_date" => "data zakończenia",
-            "work_mode" => "tryb pracy",
-            "status" => "status",
-            "is_paid" => "informacja o płatności",
-            "salary_min" => "minimalne wynagrodzenie",
-            "salary_max" => "maksymalne wynagrodzenie",
-            "study_field_ids" => "preferowane kierunki studiów",
-            "university_ids" => "preferowane uczelnie",
-        ];
-    }
 }

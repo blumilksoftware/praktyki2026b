@@ -21,15 +21,15 @@ const navItems = [
 <template>
   <Head :title="t('company.offers.create.title')" />
   <BaseLayout active-page="dashboard" :nav-items="navItems">
-    <div class="mx-auto w-full max-w-4xl px-4 py-8">
-      <div class="overflow-visible rounded-3xl border border-border bg-white shadow-sm w-full mx-auto">
-        <div class="border-b border-border px-6 py-6 sm:px-8">
-          <h1 class="text-2xl font-semibold text-text">
+    <div class="mx-auto px-4 py-8 w-full max-w-6xl">
+      <div class="bg-white shadow-sm mx-auto border border-border rounded-3xl w-full overflow-visible">
+        <div class="px-6 sm:px-8 py-6 border-border border-b">
+          <h1 class="font-semibold text-text text-2xl">
             {{ t('company.offers.create.heading') }}
           </h1>
         </div>
 
-        <div class="px-4 py-8 sm:px-8">
+        <div class="px-4 sm:px-8 py-8">
           <OfferForm :study-fields="studyFields" :universities="universities" />
         </div>
       </div>
