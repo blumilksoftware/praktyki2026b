@@ -37,6 +37,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
         Route::get("/profile/edit", [CompanyController::class, "edit"])->name("company.profile.edit");
+        Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
     });
 
 Route::middleware(["auth", "can:create," . Offer::class])
@@ -66,7 +67,7 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
-        Route::get("/profile/edit", [StudentController::class, "edit"])->name("student.profile.edit");
+        Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");        
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
         Route::get("/profile/photo", [StudentController::class, "showPhoto"])->name("student.profile.photo.show");
         Route::post("/profile/photo", [StudentController::class, "uploadPhoto"])->name("student.profile.photo.upload");

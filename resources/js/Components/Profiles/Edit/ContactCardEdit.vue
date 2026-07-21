@@ -24,7 +24,6 @@ const emit = defineEmits([
   'update:buildingNumber', 
   'update:postalCode', 
   'update:city', 
-  'update:nip',
 ])
 
 const requiredFields = ['city', 'postalCode', 'street', 'buildingNumber', 'phone']
@@ -74,7 +73,7 @@ const buildingNumberModel = computed({
   <div class="flex flex-col gap-5">
     <h2 class="text-xl font-bold text-text">{{ t('profiles.contact') }}</h2>
     
-    <div class="border border-gray-200 rounded-4xl p-6 sm:p-8 bg-white flex flex-col gap-2">
+    <div class="p-6 sm:p-8 bg-white flex flex-col gap-2">
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
         <IconWorld stroke="1.5" class="hidden sm:block w-7 h-7 text-black shrink-0 mt-9" />
         <BaseInput
@@ -134,7 +133,7 @@ const buildingNumberModel = computed({
       </div>
 
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
-        <IconPhone  class="hidden sm:block w-7 h-7 text-black shrink-0 mt-9" />
+        <IconPhone class="hidden sm:block w-7 h-7 text-black shrink-0 mt-9" />
         <BaseInput
           id="phone"
           v-model="phoneModel"
@@ -142,13 +141,6 @@ const buildingNumberModel = computed({
           :error="getTranslatedError('phone')"
           required
         />
-      </div>
-
-      <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 mt-4">
-        <span class="font-bold text-text text-sm shrink-0 sm:w-7 flex sm:justify-center sm:flex">
-          {{ t('auth.register.company.nip') }}:
-        </span>
-        <span class="text-gray-800">{{ nip }}</span>
       </div>
     </div>
   </div>

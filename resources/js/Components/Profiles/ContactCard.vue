@@ -80,7 +80,7 @@ const googleMapsUrl = computed(() => {
       </div>
 
       <div v-if="phone" class="flex items-center gap-4 sm:gap-6">
-        <IconPhone  class="w-7 h-7 text-black shrink-0" />
+        <IconPhone class="w-7 h-7 text-black shrink-0" />
         <a 
           :href="`tel:${phone}`" 
           class="text-link hover:text-link/80 font-medium transition-colors wrap-break-word"
