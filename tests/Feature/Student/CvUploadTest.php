@@ -160,4 +160,21 @@ class CvUploadTest extends TestCase
         $this->assertNull($user->cv_path);
         Storage::disk($this->disk)->assertMissing($cvPath);
     }
+
+    public function testStudentCanPreviewTheirCv(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "cv_path" => "cvs/test.pdf",
+        ]);
+
+        Storage::disk($this->disk)->put("cvs/test.pdf", "%PDF-1.4 preview");
+
+        $response = $this->actingAs($user)->get(route("student.cv.preview"));
+
+        $response->assertOk();
+        $response->assertHeader("content-type", "application/pdf");
+        $this->assertStringContainsString("inline", $response->headers->get("content-disposition"));
+    }
 }
