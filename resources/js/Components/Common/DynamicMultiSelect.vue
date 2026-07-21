@@ -194,7 +194,7 @@ onBeforeUnmount(() => {
 
     <div class="relative w-full">
       <div
-        class="flex min-h-[44px] cursor-text flex-nowrap items-center gap-2 rounded-lg border bg-white px-3 py-2"
+        class="flex min-h-11 cursor-text flex-nowrap items-center gap-2 rounded-lg border bg-white px-3 py-2"
         :class="hasError ? 'border-error' : 'border-border'"
         @click="inputRef?.focus()"
       >
@@ -226,12 +226,13 @@ onBeforeUnmount(() => {
             :aria-expanded="isOpen"
             :aria-controls="`${props.id}-listbox`"
             :aria-activedescendant="activeOptionId"
+            :aria-label="t('dynamicList.accessibility.inputLabel')"
             aria-haspopup="listbox"
             :aria-invalid="hasError ? true : undefined"
             :aria-describedby="hasError ? `${props.id}-error` : undefined"
             :disabled="props.max && modelValue.length >= props.max"
             :placeholder="inputPlaceholder"
-            class="min-w-[8rem] flex-1 border-0 bg-transparent py-1 text-sm text-text outline-none placeholder:text-additional focus:ring-0"
+            class="min-w-32 flex-1 border-0 bg-transparent py-1 text-sm text-text outline-none placeholder:text-additional focus:ring-0"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="isOpen = true"
@@ -306,7 +307,7 @@ onBeforeUnmount(() => {
     <button
       v-if="modelValue.length > 1"
       type="button"
-      class="mt-1 self-start text-error text-xs hover:underline"
+      class="mt-1 self-start text-black text-xs hover:underline cursor-pointer"
       :aria-label="t('dynamicList.accessibility.clearAll')"
       @click="emit('update:modelValue', [])"
     >

@@ -77,7 +77,6 @@
       "registerLink": "Register",
       "google": "Google",
       "or": "or continue with",
-      "resendVerification": "Resend verification link",
       "rememberMe": "Remember me",
       "noAccount": "Don't have an account yet? Sign up",
       "waiting": {
@@ -146,6 +145,60 @@
       }
     }
   },
+  "profiles": {
+    "navMenu": "Navigation menu",
+    "profile": "Profile",
+    "aboutUs": "About us",
+    "contact": "Contact",
+    "currentOffers": "Current offers",
+    "nip": "NIP",
+    "spots": "Spots",
+    "uploadLogo": "Upload logo",
+    "searchTags": "Search tags...",
+    "activeTags": "Active tags",
+    "noActiveTags": "No active tags",
+    "noResults": "No results",
+    "errors":{
+       "invalidFormat": "Invalid format. Allowed formats are: JPG, JPEG, PNG, WEBP.",
+      "fileTooLarge": "Maximum file size is {maxSize} MB."
+    },
+    "edit": {
+      "successMessage": "Profile updated successfully."
+    },
+    "company": {
+      "myOffers": "My offers",
+      "candidateApplications": "Candidate applications",
+      "teamAndPermissions": "Team and permissions",
+      "noOffers": "The company does not have any open job postings.",
+      "noContactInfo": "The company has not provided contact information.",
+      "noDescription": "The company has not provided a description yet.",
+      "noTags": "The company has not provided any tags."
+    },
+    "university": {
+    }
+  },
+  "validation": {
+      "requiredField": "This field is required.",
+      "fillRequiredFields": "Please fill in all required fields."
+  },
+  "buttons": {
+    "view": "View",
+    "save": "Save changes",
+    "saving": "Saving...",
+    "saveAndGoToOffers": "Save and go to offers",
+    "cancel": "Cancel",
+    "editProfile": "Edit profile",
+    "back": "Back",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close",
+    "showAll": "Show all",
+    "collapseTags": "Collapse tags",
+    "myProfile": "My profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+
   "table": {
     "id": "ID",
     "student": "Student",
@@ -430,6 +483,7 @@
     "dblClickToEdit": "Double click to edit",
     "clearAll": "Clear all",
         "accessibility": {
+      "inputLabel": "Dynamic list input",
       "addItem": "Add a new item to the list",
       "removeItem": "Remove item {item} from the list",
       "editItem": "Edit item {item} in the list",
