@@ -12,6 +12,7 @@ const props = defineProps({ offers: { type: Array, default: () => [] } })
 
 const { t } = useI18n()
 const { favoriteIds, favoriteCount, toggleFavorite } = useStudentFavorites()
+const offersCount = computed(() => props.offers.length)
 
 const navItems = computed(() => [
   { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
@@ -26,62 +27,65 @@ const navItems = computed(() => [
 
   <BaseLayout active-page="dashboard" :nav-items="navItems" :logo-href="ROUTES.STUDENT_DASHBOARD" background-class="bg-white" :show-background="false" layout-scope="student" :show-user-section="false" :show-compact-menu="true" :compact-menu-items="navItems">
     <div class="min-h-screen bg-background px-4 py-6 sm:px-6 lg:px-8">
-      <section class="mx-auto max-w-7xl rounded-3xl border border-border/80 bg-white/90 p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:p-8">
-        <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <section class="mx-auto max-w-7xl rounded-3xl border border-border bg-white p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] sm:p-8">
+        <div class="grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.95fr)] lg:items-center">
           <div class="max-w-2xl">
             <p class="text-xs font-semibold uppercase tracking-[0.24em] text-additional">{{ t('student.dashboard.title') }}</p>
-            <h1 class="mt-2 text-3xl font-semibold tracking-tight text-text sm:text-4xl">
+            <h1 class="mt-2 text-4xl font-semibold tracking-tight text-text sm:text-5xl">
               {{ t('student.dashboard.heading') }}
             </h1>
-            <p class="mt-3 text-base leading-7 text-additional">
+            <p class="mt-4 text-base leading-7 text-additional sm:text-lg">
               {{ t('student.dashboard.description') }}
             </p>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+              <Link
+                :href="ROUTES.STUDENT_OFFERS"
+                class="inline-flex items-center justify-center rounded-xl border border-primary bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+              >
+                {{ t('student.dashboard.primaryAction') }}
+              </Link>
+              <Link
+                :href="ROUTES.STUDENT_FAVORITES"
+                class="inline-flex items-center justify-center rounded-xl border border-border bg-white px-5 py-3 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              >
+                {{ t('student.dashboard.secondaryAction') }}
+              </Link>
+            </div>
           </div>
 
-          <div class="flex flex-wrap gap-3">
+          <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
             <Link
               :href="ROUTES.STUDENT_OFFERS"
-              class="inline-flex items-center justify-center rounded-xl border border-primary bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+              class="rounded-2xl border border-border bg-background/80 p-4 transition hover:-translate-y-0.5 hover:border-primary/30 hover:bg-white hover:shadow-[0_10px_28px_rgba(11,26,48,0.08)]"
             >
-              {{ t('student.dashboard.primaryAction') }}
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-additional">{{ t('student.nav.offers') }}</p>
+              <p class="mt-2 text-3xl font-semibold text-text">{{ offersCount }}</p>
+              <p class="mt-1 text-sm text-additional">{{ t('student.dashboard.cards.offersDescription') }}</p>
             </Link>
+
             <Link
               :href="ROUTES.STUDENT_FAVORITES"
-              class="inline-flex items-center justify-center rounded-xl border border-border bg-white px-5 py-3 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              class="rounded-2xl border border-border bg-background/80 p-4 transition hover:-translate-y-0.5 hover:border-primary/30 hover:bg-white hover:shadow-[0_10px_28px_rgba(11,26,48,0.08)]"
             >
-              {{ t('student.dashboard.secondaryAction') }}
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-additional">{{ t('student.nav.favorites') }}</p>
+              <p class="mt-2 text-3xl font-semibold text-text">{{ favoriteCount }}</p>
+              <p class="mt-1 text-sm text-additional">{{ t('student.dashboard.cards.favoritesDescription') }}</p>
+            </Link>
+
+            <Link
+              :href="ROUTES.STUDENT_PROFILE"
+              class="rounded-2xl border border-border bg-background/80 p-4 transition hover:-translate-y-0.5 hover:border-primary/30 hover:bg-white hover:shadow-[0_10px_28px_rgba(11,26,48,0.08)]"
+            >
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-additional">{{ t('student.nav.profile') }}</p>
+              <p class="mt-2 text-3xl font-semibold text-text">→</p>
+              <p class="mt-1 text-sm text-additional">{{ t('student.profile.title') }}</p>
             </Link>
           </div>
-        </div>
-
-        <div class="mt-8 grid gap-4 lg:grid-cols-2">
-          <Link
-            :href="ROUTES.STUDENT_OFFERS"
-            class="rounded-3xl border border-border/80 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(11,26,48,0.08)] backdrop-blur-sm"
-          >
-            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-additional">{{ t('student.dashboard.cards.offersTitle') }}</p>
-            <p class="mt-2 text-lg font-semibold text-text">{{ t('student.dashboard.cards.offersDescription') }}</p>
-          </Link>
-
-          <Link
-            :href="ROUTES.STUDENT_FAVORITES"
-            class="rounded-3xl border border-border/80 bg-white/75 p-5 transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_12px_30px_rgba(11,26,48,0.08)] backdrop-blur-sm"
-          >
-            <div class="flex items-center justify-between gap-4">
-              <div>
-                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-additional">{{ t('student.dashboard.cards.favoritesTitle') }}</p>
-                <p class="mt-2 text-lg font-semibold text-text">{{ t('student.dashboard.cards.favoritesDescription') }}</p>
-              </div>
-              <div class="rounded-2xl border border-border/80 bg-white px-4 py-3 text-center">
-                <p class="text-xs uppercase tracking-[0.18em] text-additional">{{ t('student.nav.favorites') }}</p>
-                <p class="mt-1 text-2xl font-semibold text-text">{{ favoriteCount }}</p>
-              </div>
-            </div>
-          </Link>
         </div>
       </section>
 
-      <section class="mx-auto mt-6 max-w-7xl rounded-3xl border border-border/80 bg-white/90 p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:p-8">
+      <section class="mx-auto mt-6 max-w-7xl rounded-3xl border border-border bg-white p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] sm:p-8">
         <div class="flex items-end justify-between gap-4">
           <div>
             <p class="text-sm font-medium text-additional">{{ t('student.dashboard.previewTitle') }}</p>

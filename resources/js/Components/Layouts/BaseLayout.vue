@@ -14,6 +14,9 @@ const props = defineProps({
   layoutScope: { type: String, default: 'admin' },
 })
 
+const profileHref = computed(() => ROUTES[`${props.layoutScope.toUpperCase()}_PROFILE`])
+const settingsHref = computed(() => ROUTES[`${props.layoutScope.toUpperCase()}_SETTINGS`])
+
 const { t, locale } = useI18n()
 
 const isMobileMenuOpen = ref(false)
@@ -149,7 +152,7 @@ const navItems = computed(() => props.navItems.length > 0
             >
               <a
                 class="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 text-gray-700 hover:text-gray-900 text-sm transition"
-                :href="ROUTES.ADMIN_PROFILE"
+                :href="profileHref"
                 @click="isDesktopMenuOpen = false"
               >
                 <IconUser class="w-4 h-4" aria-hidden="true" />
@@ -158,7 +161,7 @@ const navItems = computed(() => props.navItems.length > 0
               
               <a
                 class="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 text-gray-700 hover:text-gray-900 text-sm transition"
-                :href="ROUTES.ADMIN_SETTINGS"
+                :href="settingsHref"
                 @click="isDesktopMenuOpen = false"
               >
                 <IconSettings class="w-4 h-4" aria-hidden="true" />

@@ -452,7 +452,7 @@
       "workModes": {
         "remote": "Zdalnie",
         "hybrid": "Hybrydowo",
-        "office": "Stacjonarnie"
+        "onsite": "Stacjonarnie"
       },
       "card": {
         "logoAlt": "Logo firmy {company}",

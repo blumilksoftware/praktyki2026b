@@ -89,6 +89,7 @@ const navItems = computed(() => [
     layout-scope="student"
     :show-user-section="false"
     background-class="bg-white"
+    minimalHeader="true"
     :show-background="false"
   >
     <OnboardingBanner />
