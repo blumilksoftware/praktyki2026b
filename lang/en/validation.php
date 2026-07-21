@@ -16,7 +16,6 @@ return [
     "delete_confirmation_required" => "You must confirm this action.",
     "postal_code_format" => "Enter a postal code in the XX-XXX format.",
     "website_invalid_friendly" => "Enter a valid website address, e.g. example.com or https://example.com.",
-    "building_number_format" => "Enter a valid building number, e.g. 12, 12A or 12/4.",
     "student_no_cv" => "You must upload your CV before applying.",
     "already_applied" => "You have already applied for this offer.",
     "already_saved" => "This offer is already in your favourites.",
@@ -25,6 +24,7 @@ return [
     "city_geocoding_failed" => "We could not find the location for this city. Please check the spelling and try again.",
     "offer_publish_requires_verification" => "Your company must be verified before you can publish offers. Save it as a draft instead.",
     "offer_publish_invalid_status" => "This offer cannot be published.",
+    "application_status_invalid_transition" => "The application status cannot be changed to the selected.",
 
     "profile_age_integer" => "Enter a valid age — a whole number.",
     "profile_age_min" => "Age must be greater than 0.",
@@ -47,7 +47,6 @@ return [
         "nip" => "NIP",
         "address" => "address",
         "street" => "street",
-        "building_number" => "building number",
         "postal_code" => "postal code",
         "city" => "city",
         "phone" => "phone number",

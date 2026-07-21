@@ -159,7 +159,6 @@ return [
     "delete_confirmation_required" => "Musisz potwierdzić tę czynność.",
     "postal_code_format" => "Wpisz kod pocztowy w formacie XX-XXX.",
     "website_invalid_friendly" => "Wpisz poprawny adres strony, np. example.pl lub https://example.pl.",
-    "building_number_format" => "Wpisz poprawny numer budynku, np. 12, 12A lub 12/4.",
     "student_no_cv" => "Musisz przesłać swoje CV przed złożeniem aplikacji.",
     "already_applied" => "Już aplikowałeś na tę ofertę.",
     "already_saved" => "Ta oferta jest już w Twoich ulubionych.",
@@ -168,6 +167,7 @@ return [
     "city_geocoding_failed" => "Nie udało się znaleźć lokalizacji dla podanego miasta. Sprawdź pisownię i spróbuj ponownie.",
     "offer_publish_requires_verification" => "Twoja firma musi zostać zweryfikowana, zanim będzie można publikować oferty. Zapisz ją jako szkic.",
     "offer_publish_invalid_status" => "Tej oferty nie można opublikować.",
+    "application_status_invalid_transition" => "Nie można zmienić statusu aplikacji na wybrany.",
 
     "profile_age_integer" => "Wpisz poprawny wiek — liczbę całkowitą.",
     "profile_age_min" => "Wiek musi być większy od 0.",
@@ -190,7 +190,6 @@ return [
         "nip" => "NIP",
         "address" => "adres",
         "street" => "ulica",
-        "building_number" => "numer budynku",
         "postal_code" => "kod pocztowy",
         "city" => "miasto",
         "phone" => "telefon",

@@ -19,12 +19,17 @@ export const ROUTES = {
   GOOGLE_AUTH: "/auth/google/redirect",
   GOOGLE_AUTH_CALLBACK: "/auth/google/callback",
 
+  LANGUAGE_SWITCH: "/language/{locale}",
+  
   STUDENT_DASHBOARD: "/student/dashboard",
   STUDENT_PROFILE: "/student/profile",
   STUDENT_PROFILE_EDIT: "/student/profile/edit",
   STUDENT_PROFILE_UPDATE: "/student/profile",
   STUDENT_PROFILE_PHOTO: "/student/profile/photo",
   STUDENT_PROFILE_PHOTO_DELETE: "/student/profile/photo",
+  STUDENT_CV_PREVIEW: "/student/cv",
+  STUDENT_CV_UPLOAD: "/student/cv",
+  STUDENT_CV_DELETE: "/student/cv",
   STUDENT_PASSWORD_UPDATE: "/student/password",
   STUDENT_EMAIL_UPDATE: "/student/email",
   STUDENT_ACCOUNT_DELETE: "/student/account",
@@ -32,6 +37,17 @@ export const ROUTES = {
   UNIVERSITY_PROFILE: "/university/profile",
 
   HOME: "/",
+
+  OFFER_SHOW: `/offers/{offer}`,
+  OFFERS: "/offers",
+  COMPANY_OFFERS: "/search?company_id={companyId}",
+  APPLICATIONS: "/applications",
+  PROFILE: "/profile",
+  PROFILE_EDIT: "/profile/edit",
+  TEAM: "/team",
+  
+  SETTINGS: "/settings",
+  LOGOUT: "/logout",
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]

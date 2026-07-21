@@ -28,6 +28,13 @@ class UpdateCompanyProfileTest extends TestCase
             logo: null,
             description: "We build great software.",
             tags: ["PHP", "Laravel"],
+            website: null,
+            phone: "123456789",
+            street: "Testowa",
+            building_number: "1A",
+            postal_code: "00-000",
+            city: "Warszawa",
+            nip: "1234567890",
         );
 
         $action = new UpdateCompanyProfile(new FileUploadService());
@@ -40,34 +47,42 @@ class UpdateCompanyProfileTest extends TestCase
 
     public function testItUploadsLogoAndStoresPath(): void
     {
-        Storage::fake(config("filesystems.default", "local"));
+        Storage::fake("public");
 
         $company = Company::factory()->approved()->create(["logo_path" => null]);
-
         $file = UploadedFile::fake()->createWithContent("logo.png", $this->fakePng());
 
         $data = new UpdateCompanyProfileData(
             logo: $file,
             description: null,
             tags: null,
+            website: null,
+            phone: "123456789",
+            street: "Testowa",
+            building_number: "1A",
+            postal_code: "00-000",
+            city: "Warszawa",
+            nip: "1234567890",
         );
 
         $action = new UpdateCompanyProfile(new FileUploadService());
         $updated = $action->execute($company, $data);
 
         $this->assertNotNull($updated->logo_path);
-        Storage::disk(config("filesystems.default", "local"))->assertExists($updated->logo_path);
+
+        $relativePath = str_replace("/storage/", "", $updated->logo_path);
+        Storage::disk("public")->assertExists($relativePath);
     }
 
     public function testItDeletesOldLogoWhenNewOneIsUploaded(): void
     {
-        $disk = config("filesystems.default", "local");
+        $disk = "public";
         Storage::fake($disk);
 
         $oldPath = "logos/old-logo.png";
         Storage::disk($disk)->put($oldPath, "fake-image-data");
 
-        $company = Company::factory()->approved()->create(["logo_path" => $oldPath]);
+        $company = Company::factory()->approved()->create(["logo_path" => "/storage/" . $oldPath]);
 
         $newFile = UploadedFile::fake()->createWithContent("new-logo.png", $this->fakePng());
 
@@ -75,14 +90,23 @@ class UpdateCompanyProfileTest extends TestCase
             logo: $newFile,
             description: null,
             tags: null,
+            website: null,
+            phone: "123456789",
+            street: "Testowa",
+            building_number: "1A",
+            postal_code: "00-000",
+            city: "Warszawa",
+            nip: "1234567890",
         );
 
         $action = new UpdateCompanyProfile(new FileUploadService());
         $updated = $action->execute($company, $data);
 
         Storage::disk($disk)->assertMissing($oldPath);
-        Storage::disk($disk)->assertExists($updated->logo_path);
-        $this->assertNotEquals($oldPath, $updated->logo_path);
+
+        $newRelativePath = str_replace("/storage/", "", $updated->logo_path);
+        Storage::disk($disk)->assertExists($newRelativePath);
+        $this->assertNotEquals("/storage/" . $oldPath, $updated->logo_path);
     }
 
     public function testItKeepsExistingLogoWhenNoNewLogoProvided(): void
@@ -93,18 +117,25 @@ class UpdateCompanyProfileTest extends TestCase
         $existingPath = "logos/existing-logo.png";
         Storage::disk($disk)->put($existingPath, "fake-image-data");
 
-        $company = Company::factory()->approved()->create(["logo_path" => $existingPath]);
+        $company = Company::factory()->approved()->create(["logo_path" => "/storage/" . $existingPath]);
 
         $data = new UpdateCompanyProfileData(
             logo: null,
             description: "Updated description",
             tags: null,
+            website: null,
+            phone: "123456789",
+            street: "Testowa",
+            building_number: "1A",
+            postal_code: "00-000",
+            city: "Warszawa",
+            nip: "1234567890",
         );
 
         $action = new UpdateCompanyProfile(new FileUploadService());
         $updated = $action->execute($company, $data);
 
-        $this->assertEquals($existingPath, $updated->logo_path);
+        $this->assertEquals("/storage/" . $existingPath, $updated->logo_path);
         Storage::disk($disk)->assertExists($existingPath);
     }
 
