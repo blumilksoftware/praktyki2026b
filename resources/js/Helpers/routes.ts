@@ -19,6 +19,8 @@ export const ROUTES = {
   GOOGLE_AUTH: "/auth/google/redirect",
   GOOGLE_AUTH_CALLBACK: "/auth/google/callback",
 
+  LANGUAGE_SWITCH: "/language/{locale}",
+  
   STUDENT_DASHBOARD: "/student/dashboard",
   STUDENT_PROFILE: "/student/profile",
   STUDENT_PROFILE_EDIT: "/student/profile/edit",
@@ -35,6 +37,17 @@ export const ROUTES = {
   UNIVERSITY_PROFILE: "/university/profile",
 
   HOME: "/",
+
+  OFFER_SHOW: `/offers/{offer}`,
+  OFFERS: "/offers",
+  COMPANY_OFFERS: "/search?company_id={companyId}",
+  APPLICATIONS: "/applications",
+  PROFILE: "/profile",
+  PROFILE_EDIT: "/profile/edit",
+  TEAM: "/team",
+  
+  SETTINGS: "/settings",
+  LOGOUT: "/logout",
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]

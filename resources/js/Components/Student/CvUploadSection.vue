@@ -281,6 +281,5 @@ onBeforeUnmount(revokePreviewObjectUrl)
     >
       {{ displayError }}
     </p>
-
   </section>
 </template>
