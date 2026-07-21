@@ -120,18 +120,27 @@ describe("CvUploadSection", () => {
     expect(wrapper.text()).toContain("Dropped_CV.pdf")
   })
 
-  it("opens a preview modal for an uploaded CV", async () => {
+  it("opens uploaded CV preview in a new tab", async () => {
     mocks.post.mockImplementation((_url: string, options: { onSuccess: () => void }) => options.onSuccess())
     const wrapper = mountComponent()
     const file = new File(["cv"], "Jan_Kowalski_CV.pdf", { type: "application/pdf" })
 
     await selectFile(wrapper, file)
     await nextTick()
-    await wrapper.findAll("button").find(button => button.text().includes("Preview"))?.trigger("click")
-    await nextTick()
 
-    expect(document.body.textContent).toContain("CV preview")
-    expect(document.body.querySelector("iframe")?.getAttribute("src")).toBe("blob:cv-preview")
+    const previewLink = wrapper.findAll("a").find(link => link.text().includes("Preview"))
+
+    expect(previewLink?.attributes("target")).toBe("_blank")
+    expect(previewLink?.attributes("href")).toBe("blob:cv-preview")
+    expect(previewLink?.attributes("rel")).toBe("noopener noreferrer")
+  })
+
+  it("links existing server CV preview in a new tab", () => {
+    const wrapper = mountComponent({ cvPath: "cvs/existing.pdf" })
+    const previewLink = wrapper.findAll("a").find(link => link.text().includes("Preview"))
+
+    expect(previewLink?.attributes("target")).toBe("_blank")
+    expect(previewLink?.attributes("href")).toBe("/student/cv")
   })
 
   it("shows upload progress while processing", () => {

@@ -4,7 +4,6 @@ import { router, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconEye, IconFile, IconUpload } from '@tabler/icons-vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
-import BaseModal from '@/Components/Common/BaseModal.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -21,7 +20,6 @@ const hasLocalCv = ref(false)
 const isDeletedLocally = ref(false)
 const localError = ref(null)
 const previewObjectUrl = ref(null)
-const isPreviewOpen = ref(false)
 const MAX_SIZE_BYTES = 5 * 1024 * 1024
 
 const form = useForm({
@@ -58,12 +56,6 @@ function revokePreviewObjectUrl() {
 function openFilePicker() {
   localError.value = null
   fileInput.value?.click()
-}
-
-function openPreview() {
-  if (previewUrl.value) {
-    isPreviewOpen.value = true
-  }
 }
 
 function refreshProfileState() {
@@ -157,7 +149,6 @@ function deleteCv() {
       uploadedFileName.value = null
       hasLocalCv.value = false
       isDeletedLocally.value = true
-      isPreviewOpen.value = false
       revokePreviewObjectUrl()
       form.reset()
       uploadProgress.value = 0
@@ -223,18 +214,27 @@ onBeforeUnmount(revokePreviewObjectUrl)
 
         <div class="flex flex-col gap-3 sm:flex-row sm:shrink-0 sm:items-center sm:gap-3">
           <div class="flex items-center gap-4">
-            <button
-              type="button"
-              class="inline-flex items-center gap-1 text-primary text-sm font-medium hover:underline disabled:cursor-not-allowed disabled:opacity-60"
-              :disabled="form.processing || !previewUrl"
-              @click="openPreview"
+            <a
+              v-if="previewUrl && !form.processing"
+              :href="previewUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex cursor-pointer items-center gap-1 text-primary text-sm font-medium hover:underline"
             >
               <IconEye class="h-4 w-4 shrink-0" aria-hidden="true" />
               {{ t('student.cv.preview') }}
-            </button>
+            </a>
+            <span
+              v-else
+              class="inline-flex items-center gap-1 text-primary text-sm font-medium opacity-60"
+              aria-hidden="true"
+            >
+              <IconEye class="h-4 w-4 shrink-0" aria-hidden="true" />
+              {{ t('student.cv.preview') }}
+            </span>
             <button
               type="button"
-              class="inline-flex items-center text-red-600 text-sm font-medium hover:text-red-700 hover:underline disabled:cursor-not-allowed disabled:opacity-60"
+              class="inline-flex cursor-pointer items-center text-red-600 text-sm font-medium hover:text-red-700 hover:underline disabled:cursor-not-allowed disabled:opacity-60"
               :disabled="form.processing"
               @click="deleteCv"
             >
@@ -282,32 +282,5 @@ onBeforeUnmount(revokePreviewObjectUrl)
       {{ displayError }}
     </p>
 
-    <BaseModal
-      :open="isPreviewOpen"
-      :title="t('student.cv.previewTitle')"
-      max-width-class="max-w-4xl"
-      @close="isPreviewOpen = false"
-    >
-      <div v-if="previewUrl" class="space-y-4">
-        <iframe
-          :src="previewUrl"
-          :title="t('student.cv.previewTitle')"
-          class="h-[70vh] w-full rounded-xl border border-border"
-        />
-        <div class="flex justify-end">
-          <a
-            :href="previewUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="w-fit rounded-lg border border-border bg-white px-4 py-3 text-sm font-semibold tracking-wide text-text transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-          >
-            {{ t('student.cv.openInNewTab') }}
-          </a>
-        </div>
-      </div>
-      <p v-else class="text-additional text-sm">
-        {{ t('student.cv.previewUnavailable') }}
-      </p>
-    </BaseModal>
   </section>
 </template>
