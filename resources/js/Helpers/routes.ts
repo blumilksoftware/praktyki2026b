@@ -11,6 +11,17 @@ export const ROUTES = {
   REGISTER_UNIVERSITY: "/register/university",
   REGISTER_COMPANY: "/register/company",
 
+  EMAIL_VERIFICATION: "/email/verify/{id}/{token}",
+  EMAIL_VERIFICATION_RESEND: "/email/resend",
+
+  RESET_PASSWORD: "/reset-password/{token}",
+  RESET_PASSWORD_STORE: "/reset-password",
+
+  GOOGLE_AUTH: "/auth/google/redirect",
+  GOOGLE_AUTH_CALLBACK: "/auth/google/callback",
+
+  LANGUAGE_SWITCH: "/language/{locale}",
+  
   STUDENT_DASHBOARD: "/student/dashboard",
   STUDENT_PROFILE: "/student/profile",
   STUDENT_PROFILE_EDIT: "/student/profile/edit",
@@ -18,6 +29,7 @@ export const ROUTES = {
   STUDENT_PROFILE_PHOTO: "/student/profile/photo",
   STUDENT_PROFILE_PHOTO_SHOW: "/student/profile/photo",
   STUDENT_PROFILE_PHOTO_DELETE: "/student/profile/photo",
+  STUDENT_CV_PREVIEW: "/student/cv",
   STUDENT_CV_UPLOAD: "/student/cv",
   STUDENT_CV_DELETE: "/student/cv",
   STUDENT_PASSWORD_UPDATE: "/student/password",
@@ -36,6 +48,17 @@ export const ROUTES = {
   GOOGLE_AUTH_CALLBACK: "/auth/google/callback",
 
   HOME: "/",
+
+  OFFER_SHOW: `/offers/{offer}`,
+  OFFERS: "/offers",
+  COMPANY_OFFERS: "/search?company_id={companyId}",
+  APPLICATIONS: "/applications",
+  PROFILE: "/profile",
+  PROFILE_EDIT: "/profile/edit",
+  TEAM: "/team",
+  
+  SETTINGS: "/settings",
+  LOGOUT: "/logout",
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]

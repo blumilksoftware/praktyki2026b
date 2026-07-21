@@ -9,6 +9,8 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import ProfileTagInput from '@/Components/Profile/ProfileTagInput.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import ProfilePhotoUpload from '@/Components/Student/ProfilePhotoUpload.vue'
+import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
+import CvUploadSection from '@/Components/Student/CvUploadSection.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -34,7 +36,9 @@ const profileForm = useForm({
   first_name: props.user.first_name ?? '',
   last_name: props.user.last_name ?? '',
   age: props.user.age ?? '',
-  location: props.user.location ?? '',
+  street: props.user.street ?? '',
+  postal_code: props.user.postal_code ?? '',
+  city: props.user.city ?? '',
   university: props.user.university ?? '',
   study_field: props.user.study_field ?? '',
   study_year: props.user.study_year ?? '',
@@ -162,14 +166,34 @@ function saveAll() {
             :label="t('student.profile.edit.ageLabel')"
             :error="fieldError('age')"
           />
-          <BaseInput
-            id="edit_location"
-            v-model="profileForm.location"
-            class="sm:col-span-2"
-            stacked
-            :label="t('student.profile.edit.locationLabel')"
-            :error="fieldError('location')"
-          />
+          <div class="sm:col-span-2 grid grid-cols-1 gap-4 md:grid-cols-[1fr_2fr]">
+            <BaseMaskedInput
+              id="edit_postal_code"
+              v-model="profileForm.postal_code"
+              mask="##-###"
+              inputmode="numeric"
+              autocomplete="postal-code"
+              :label="t('student.profile.edit.postalCode')"
+              :error="fieldError('postal_code')"
+            />
+            <BaseInput
+              id="edit_city"
+              v-model="profileForm.city"
+              :label="t('student.profile.edit.city')"
+              autocomplete="address-level2"
+              :error="fieldError('city')"
+            />
+          </div>
+
+          <div class="sm:col-span-2">
+            <BaseInput
+              id="edit_street"
+              v-model="profileForm.street"
+              :label="t('student.profile.edit.street')"
+              autocomplete="street-address"
+              :error="fieldError('street')"
+            />
+          </div>
         </form>
 
         <h2 class="mb-1 mt-8 font-medium text-text text-sm">
@@ -250,38 +274,36 @@ function saveAll() {
           />
         </form>
 
-        <div id="profile-section-cv" class="mt-8 rounded-xl border border-border bg-background px-4 py-3 text-additional text-sm">
-          {{ t('student.profile.edit.cvPlaceholder') }}
+        <div id="profile-section-cv" class="mt-8">
+          <CvUploadSection :cv-path="user.cv_path" />
         </div>
 
-        <div class="mt-8 flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:justify-end">
+        <div class="mt-8 flex flex-row flex-wrap gap-3 border-t border-border pt-6 sm:justify-end">
           <BaseButton
             type="button"
             variant="secondary"
-            class="justify-center sm:w-auto"
+            class="flex-1 justify-center sm:flex-none"
             @click="router.visit(ROUTES.STUDENT_PROFILE)"
           >
             {{ t('student.profile.actions.cancel') }}
           </BaseButton>
-          <div class="flex flex-col gap-3 sm:flex-row">
-            <BaseButton
-              v-if="hasPhotoPending"
-              type="button"
-              variant="secondary"
-              class="justify-center"
-              @click="photoUpload?.clearPending(); pendingPhoto = null"
-            >
-              {{ t('student.profile.photo.cancelPreview') }}
-            </BaseButton>
-            <BaseButton
-              type="button"
-              class="justify-center"
-              :disabled="profileForm.processing || photoForm.processing"
-              @click="saveAll"
-            >
-              {{ t('student.profile.edit.saveChanges') }}
-            </BaseButton>
-          </div>
+          <BaseButton
+            v-if="hasPhotoPending"
+            type="button"
+            variant="secondary"
+            class="w-full justify-center sm:w-auto"
+            @click="photoUpload?.clearPending(); pendingPhoto = null"
+          >
+            {{ t('student.profile.photo.cancelPreview') }}
+          </BaseButton>
+          <BaseButton
+            type="button"
+            class="flex-1 justify-center sm:flex-none"
+            :disabled="profileForm.processing || photoForm.processing"
+            @click="saveAll"
+          >
+            {{ t('student.profile.edit.saveChanges') }}
+          </BaseButton>
         </div>
       </div>
     </div>

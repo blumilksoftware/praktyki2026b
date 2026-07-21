@@ -27,7 +27,8 @@ class LoginControllerTest extends TestCase
             "password" => "password",
         ]);
 
-        $response->assertRedirect(route("verification.waiting"));
+        $response->assertRedirect("/")
+            ->assertSessionHasErrors("email");
         $this->assertGuest();
     }
 }

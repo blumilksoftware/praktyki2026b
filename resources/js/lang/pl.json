@@ -134,8 +134,7 @@
         "nip": "NIP",
         "postalCode": "Kod pocztowy",
         "city": "Miejscowość",
-        "street": "Ulica",
-        "buildingNumber": "Numer budynku",
+        "street": "Ulica i numer",
         "phone": "Numer telefonu",
         "website": "Link do strony firmy (opcjonalnie)",
         "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
@@ -145,13 +144,66 @@
         "institutionName": "Nazwa uczelni",
         "domain": "Domena uczelni",
         "domainHint": "Domena e-mail studentów, np. edu.pl (bez https://).",
-        "address": "Adres",
+        "street": "Ulica i numer",
+        "postalCode": "Kod pocztowy",
+        "city": "Miejscowość",
         "phone": "Numer telefonu",
         "website": "Link do strony uczelni (opcjonalnie)",
         "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
       }
     }
   },
+"profiles": {
+    "navMenu": "Menu nawigacji",
+    "profile": "Profil",
+    "aboutUs": "O nas",
+    "contact": "Kontakt",
+    "currentOffers": "Aktualne oferty",
+    "nip": "NIP",
+    "spots": "Miejsca",
+    "uploadLogo": "Prześlij logo",
+    "searchTags": "Szukaj tagów...",
+    "activeTags": "Aktywne tagi",
+    "noActiveTags": "Nie wybrano żadnych tagów",
+    "noResults": "Brak wyników",
+    "errors": {
+      "invalidFormat": "Nieprawidłowy format. Dozwolone formaty to: JPG, JPEG, PNG, WEBP.",
+      "fileTooLarge": "Maksymalny rozmiar pliku to {maxSize} MB."
+    },
+    "company": {
+      "myOffers": "Moje oferty",
+      "candidateApplications": "Aplikacje kandydatów",
+      "teamAndPermissions": "Zespół i uprawnienia",
+      "noOffers": "Firma nie ma obecnie otwartych rekrutacji.",
+      "noContactInfo": "Firma nie podała danych kontaktowych.",
+      "noDescription": "Firma nie dodała jeszcze opisu.",
+      "noTags": "Firma nie dodała jeszcze tagów."
+    },
+    "university": {
+    }
+  },
+  "validation": {
+      "requiredField": "To pole jest wymagane.",
+      "fillRequiredFields": "Proszę wypełnić wszystkie wymagane pola."
+  },
+  "buttons": {
+    "view": "Wyświetl",
+    "save": "Zapisz zmiany",
+    "saving": "Zapisywanie...",
+    "saveAndGoToOffers": "Zapisz i przejdź do ofert",
+    "cancel": "Anuluj",
+    "editProfile": "Edytuj profil",
+    "back": "Powrót",
+    "delete": "Usuń",
+    "confirm": "Potwierdź",
+    "close": "Zamknij",
+    "showAll": "Pokaż wszystkie",
+    "collapseTags": "Zwiń tagi",
+    "myProfile": "Mój profil",
+    "settings": "Ustawienia",
+    "logout": "Wyloguj się"
+  },
+
   "table": {
     "id": "ID",
     "student": "Student",
@@ -177,8 +229,7 @@
       "companies": "Firmy",
       "universities": "Uczelnie",
       "city": "Miasto",
-      "street": "Ulica",
-      "buildingNumber": "Numer budynku",
+      "street": "Ulica i numer",
       "postalCode": "Kod pocztowy",
       "description": "Opis",
       "close": "Zamknij",
@@ -269,6 +320,24 @@
         "mobileAriaLabel": "Nawigacja mobilna studenta"
       }
     },
+    "cv": {
+      "title": "Twoje CV (tylko PDF)",
+      "hint": "Akceptowany format: PDF. Maksymalny rozmiar: 5 MB.",
+      "selectFile": "Wybierz plik PDF",
+      "dropzone": "lub przeciągnij go tutaj",
+      "replace": "Zamień",
+      "delete": "Usuń plik",
+      "preview": "Podgląd",
+      "previewTitle": "Podgląd CV",
+      "openInNewTab": "Otwórz w nowej karcie",
+      "previewUnavailable": "Podgląd CV jest chwilowo niedostępny.",
+      "uploading": "Przesyłanie... {progress}%",
+      "defaultFileName": "CV.pdf",
+      "errors": {
+        "invalidType": "Plik musi być w formacie PDF.",
+        "tooLarge": "Plik nie może być większy niż 5 MB."
+      }
+    },
     "profile": {
       "title": "Profil",
       "modal": {
@@ -299,11 +368,13 @@
         "location": "Lokalizacja (miasto, kraj)",
         "locationLabel": "Lokalizacja",
         "locationPlaceholder": "miasto, kraj",
+        "street": "Ulica i numer",
+        "postalCode": "Kod pocztowy",
+        "city": "Miasto",
         "university": "Uczelnia",
         "studyField": "Kierunek studiów",
         "studyYear": "Rok studiów",
         "specialization": "Specjalność",
-        "cvPlaceholder": "Sekcja CV — osobny task T-036.",
         "saveChanges": "Zapisz zmiany",
         "backToProfile": "Wróć do profilu",
         "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” na stronie profilu."
@@ -500,6 +571,7 @@
     "dblClickToEdit": "Kliknij dwukrotnie, aby edytować",
     "clearAll": "Wyczyść wszystkie",
     "accessibility": {
+      "inputLabel": "Lista dynamiczna",
       "addItem": "Dodaj nowy element do listy",
       "removeItem": "Usuń element {item} z listy",
       "editItem": "Edytuj element {item} na liście",
