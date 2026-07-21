@@ -11,16 +11,6 @@ use Illuminate\Support\Collection;
 
 class GetStudentApplicationsAction
 {
-    /**
-     * @return Collection<int, array{
-     *     id: string,
-     *     offer_id: string,
-     *     offer_title: string,
-     *     company_name: string,
-     *     date_applied: string,
-     *     status: string
-     * }>
-     */
     public function execute(User $student): Collection
     {
         return $student->applications()
