@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Rules\BuildingNumberRule;
 use App\Rules\DomainRule;
 use App\Rules\PhoneRule;
+use App\Rules\PostalCodeRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -24,7 +26,10 @@ class UniversityRegistrationRequest extends FormRequest
             "email" => ["required", "string", "email", "max:255", Rule::unique("users", "email")],
             "domain" => ["required", "string", "max:255", new DomainRule(), Rule::unique("universities", "domain")],
             "password" => ["required", "confirmed", Password::defaults()],
-            "address" => ["required", "string", "max:255"],
+            "street" => ["required", "string", "max:255"],
+            "building_number" => ["required", "string", "max:10", new BuildingNumberRule()],
+            "postal_code" => ["required", "string", new PostalCodeRule()],
+            "city" => ["required", "string", "max:255"],
             "phone" => ["required", "string", new PhoneRule(), "max:20"],
             "website" => ["nullable", "string", "url", "max:255"],
             "terms" => ["required", "accepted"],
@@ -49,7 +54,10 @@ class UniversityRegistrationRequest extends FormRequest
             "email" => $this->string("email")->toString(),
             "domain" => $this->string("domain")->toString(),
             "password" => $this->string("password")->toString(),
-            "address" => $this->string("address")->toString(),
+            "street" => $this->string("street")->toString(),
+            "building_number" => $this->string("building_number")->toString(),
+            "postal_code" => $this->string("postal_code")->toString(),
+            "city" => $this->string("city")->toString(),
             "phone" => $this->string("phone")->toString(),
             "website" => $this->string("website")->toString() ?: null,
         ];
@@ -58,9 +66,21 @@ class UniversityRegistrationRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
+            "postal_code" => $this->normalizePostalCode((string)$this->input("postal_code")),
             "phone" => $this->normalizePhone((string)$this->input("phone")),
             "website" => $this->normalizeWebsite((string)$this->input("website")),
         ]);
+    }
+
+    private function normalizePostalCode(string $postalCode): string
+    {
+        $postalCode = preg_replace("/\s+/", "", $postalCode);
+
+        if (preg_match("/^\d{5}$/", $postalCode) === 1) {
+            return substr($postalCode, 0, 2) . "-" . substr($postalCode, 2);
+        }
+
+        return $postalCode;
     }
 
     private function normalizePhone(string $phone): string

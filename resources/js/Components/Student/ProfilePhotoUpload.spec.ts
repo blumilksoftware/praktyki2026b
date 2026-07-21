@@ -15,7 +15,7 @@ describe("ProfilePhotoUpload", () => {
   it("shows preview hint after selecting file", async () => {
     const wrapper = mount(ProfilePhotoUpload, {
       props: {
-        photoUrl: null,
+        photoUrl: undefined,
         firstName: "John",
         lastName: "Doe",
         pendingFile: null,

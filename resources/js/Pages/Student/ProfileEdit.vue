@@ -9,6 +9,7 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import ProfileTagInput from '@/Components/Profile/ProfileTagInput.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import ProfilePhotoUpload from '@/Components/Student/ProfilePhotoUpload.vue'
+import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -34,7 +35,10 @@ const profileForm = useForm({
   first_name: props.user.first_name ?? '',
   last_name: props.user.last_name ?? '',
   age: props.user.age ?? '',
-  location: props.user.location ?? '',
+  street: props.user.street ?? '',
+  building_number: props.user.building_number ?? '',
+  postal_code: props.user.postal_code ?? '',
+  city: props.user.city ?? '',
   university: props.user.university ?? '',
   study_field: props.user.study_field ?? '',
   study_year: props.user.study_year ?? '',
@@ -160,14 +164,42 @@ function saveAll() {
             :label="t('student.profile.edit.ageLabel')"
             :error="fieldError('age')"
           />
-          <BaseInput
-            id="edit_location"
-            v-model="profileForm.location"
-            class="sm:col-span-2"
-            stacked
-            :label="t('student.profile.edit.locationLabel')"
-            :error="fieldError('location')"
-          />
+          <div class="sm:col-span-2 grid grid-cols-1 gap-4 md:grid-cols-[1fr_2fr]">
+            <BaseMaskedInput
+              id="edit_postal_code"
+              v-model="profileForm.postal_code"
+              mask="##-###"
+              inputmode="numeric"
+              autocomplete="postal-code"
+              :label="t('student.profile.edit.postalCode')"
+              :error="fieldError('postal_code')"
+            />
+            <BaseInput
+              id="edit_city"
+              v-model="profileForm.city"
+              :label="t('student.profile.edit.city')"
+              autocomplete="address-level2"
+              :error="fieldError('city')"
+            />
+          </div>
+
+          <div class="sm:col-span-2 grid grid-cols-1 gap-4 md:grid-cols-[2fr_1fr]">
+            <BaseInput
+              id="edit_street"
+              v-model="profileForm.street"
+              :label="t('student.profile.edit.street')"
+              autocomplete="street-address"
+              :error="fieldError('street')"
+            />
+            <BaseInput
+              id="edit_building_number"
+              v-model="profileForm.building_number"
+              :label="t('student.profile.edit.buildingNumber')"
+              autocomplete="off"
+              :maxlength="10"
+              :error="fieldError('building_number')"
+            />
+          </div>
         </form>
 
         <h2 class="mb-1 mt-8 font-medium text-text text-sm">

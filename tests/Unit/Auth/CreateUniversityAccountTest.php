@@ -27,7 +27,10 @@ class CreateUniversityAccountTest extends TestCase
             email: "university@example.com",
             domain: "example.com",
             password: "Password123!",
-            address: "123 Academic Street, City",
+            street: "Academic Street",
+            buildingNumber: "123",
+            postalCode: "12-345",
+            city: "City",
             phone: "123456789",
             website: "https://example.com",
         );
@@ -45,7 +48,10 @@ class CreateUniversityAccountTest extends TestCase
         $this->assertEquals("Example University", $university->name);
         $this->assertEquals("university@example.com", $university->email);
         $this->assertEquals("example.com", $university->domain);
-        $this->assertEquals("123 Academic Street, City", $university->address);
+        $this->assertEquals("Academic Street", $university->street);
+        $this->assertEquals("123", $university->building_number);
+        $this->assertEquals("12-345", $university->postal_code);
+        $this->assertEquals("City", $university->city);
         $this->assertEquals("123456789", $university->phone);
         $this->assertEquals("https://example.com", $university->website);
         $this->assertEquals(VerificationStatus::Pending, $university->verification_status);

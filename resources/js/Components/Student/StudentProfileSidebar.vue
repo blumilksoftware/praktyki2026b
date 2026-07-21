@@ -19,6 +19,17 @@ const ageLabel = computed(() => {
   if (!props.user.age) return null
   return t('student.profile.sidebar.age', { count: props.user.age })
 })
+
+const formattedAddress = computed(() => {
+  const parts = []
+  if (props.user.street || props.user.building_number) {
+    parts.push(`${props.user.street ?? ''} ${props.user.building_number ?? ''}`.trim())
+  }
+  if (props.user.postal_code || props.user.city) {
+    parts.push(`${props.user.postal_code ?? ''} ${props.user.city ?? ''}`.trim())
+  }
+  return parts.filter(Boolean).join(', ')
+})
 </script>
 
 <template>
@@ -55,9 +66,9 @@ const ageLabel = computed(() => {
     </div>
 
     <ul class="mt-6 space-y-3 text-base">
-      <li v-if="user.location" class="flex items-start gap-2 text-text">
+      <li v-if="formattedAddress" class="flex items-start gap-2 text-text">
         <IconMapPin class="mt-0.5 h-5 w-5 shrink-0 text-additional" aria-hidden="true" />
-        <span>{{ user.location }}</span>
+        <span>{{ formattedAddress }}</span>
       </li>
       <li v-if="user.specialization" class="flex items-start gap-2 text-text">
         <IconSchool class="mt-0.5 h-5 w-5 shrink-0 text-additional" aria-hidden="true" />
