@@ -258,6 +258,24 @@
         "profile": "Profile"
       }
     },
+    "cv": {
+      "title": "Your CV (PDF only)",
+      "hint": "Accepted format: PDF. Maximum size: 5 MB.",
+      "selectFile": "Choose PDF file",
+      "dropzone": "or drag and drop it here",
+      "replace": "Replace",
+      "delete": "Delete file",
+      "preview": "Preview",
+      "previewTitle": "CV preview",
+      "openInNewTab": "Open in a new tab",
+      "previewUnavailable": "CV preview is temporarily unavailable.",
+      "uploading": "Uploading... {progress}%",
+      "defaultFileName": "CV.pdf",
+      "errors": {
+        "invalidType": "The file must be a PDF.",
+        "tooLarge": "The file must not be larger than 5 MB."
+      }
+    },
     "profile": {
       "title": "Profile",
       "modal": {
@@ -292,7 +310,6 @@
         "studyField": "Field of study",
         "studyYear": "Year of study",
         "specialization": "Specialization",
-        "cvPlaceholder": "CV section — separate task T-036.",
         "saveChanges": "Save changes",
         "backToProfile": "Back to profile",
         "emailReadonlyHint": "To change your email, use the Account and security section on the profile page."
