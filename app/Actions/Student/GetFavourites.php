@@ -9,18 +9,6 @@ use App\Models\User;
 
 class GetFavourites
 {
-    /**
-     * @return list<array{
-     *     id: string,
-     *     title: string,
-     *     company_name: string,
-     *     city: string,
-     *     work_mode: string,
-     *     status: string,
-     *     deleted_at: ?string,
-     *     saved_at: string,
-     * }>
-     */
     public function execute(User $student): array
     {
         return $student->favourites()
