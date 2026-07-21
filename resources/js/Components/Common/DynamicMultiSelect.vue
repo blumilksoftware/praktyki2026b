@@ -307,7 +307,7 @@ onBeforeUnmount(() => {
     <button
       v-if="modelValue.length > 1"
       type="button"
-      class="mt-1 self-start text-error text-xs hover:underline"
+      class="mt-1 self-start text-black text-xs hover:underline cursor-pointer"
       :aria-label="t('dynamicList.accessibility.clearAll')"
       @click="emit('update:modelValue', [])"
     >
