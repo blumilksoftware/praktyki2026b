@@ -19,7 +19,9 @@ const form = useForm({
   domain: '',
   password: '',
   password_confirmation: '',
-  address: '',
+  street: '',
+  postal_code: '',
+  city: '',
   phone: '',
   website: '',
   terms: false,
@@ -98,13 +100,34 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             required
             :error="fieldError('password_confirmation')"
           />
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-[1fr_2fr]">
+            <BaseMaskedInput
+              id="postal_code"
+              v-model="form.postal_code"
+              mask="##-###"
+              inputmode="numeric"
+              autocomplete="postal-code"
+              :label="t('auth.register.university.postalCode')"
+              required
+              :error="fieldError('postal_code')"
+            />
+            <BaseInput
+              id="city"
+              v-model="form.city"
+              :label="t('auth.register.university.city')"
+              autocomplete="address-level2"
+              required
+              :error="fieldError('city')"
+            />
+          </div>
+
           <BaseInput
-            id="address"
-            v-model="form.address"
-            :label="t('auth.register.university.address')"
+            id="street"
+            v-model="form.street"
+            :label="t('auth.register.university.street')"
             autocomplete="street-address"
             required
-            :error="fieldError('address')"
+            :error="fieldError('street')"
           />
           <BaseMaskedInput
             id="phone"

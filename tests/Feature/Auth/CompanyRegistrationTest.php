@@ -116,25 +116,6 @@ class CompanyRegistrationTest extends TestCase
             ->assertSessionHasErrors("postal_code");
     }
 
-    public function testCompanyCanRegisterWithAlphanumericBuildingNumber(): void
-    {
-        $this->post("/register/company", $this->validPayload([
-            "building_number" => "12A",
-        ]))->assertRedirect("/email/verify/waiting");
-
-        $this->assertDatabaseHas("companies", [
-            "building_number" => "12A",
-        ]);
-    }
-
-    public function testRegistrationFailsWithInvalidBuildingNumber(): void
-    {
-        $this->post("/register/company", $this->validPayload([
-            "building_number" => "abc!!!",
-        ]))->assertRedirect()
-            ->assertSessionHasErrors("building_number");
-    }
-
     public function testPendingCompanyAdminCannotAccessDashboard(): void
     {
         $company = Company::factory()->pending()->create();
@@ -182,8 +163,7 @@ class CompanyRegistrationTest extends TestCase
             "email" => "company@example.com",
             "password" => "Password123!",
             "password_confirmation" => "Password123!",
-            "street" => "ul. Kwiatowa",
-            "building_number" => "1",
+            "street" => "ul. Kwiatowa 1",
             "postal_code" => "00-001",
             "city" => "Warszawa",
             "phone" => "123456789",

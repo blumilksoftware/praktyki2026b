@@ -77,7 +77,6 @@
       "registerLink": "Register",
       "google": "Google",
       "or": "or continue with",
-      "resendVerification": "Resend verification link",
       "rememberMe": "Remember me",
       "noAccount": "Don't have an account yet? Sign up",
       "waiting": {
@@ -127,8 +126,7 @@
         "nip": "NIP",
         "postalCode": "Postal code",
         "city": "City",
-        "street": "Street",
-        "buildingNumber": "Building number",
+        "street": "Street and number",
         "phone": "Phone number",
         "website": "Company website (optional)",
         "websiteHint": "You can enter just a domain, e.g. example.com."
@@ -138,13 +136,69 @@
         "institutionName": "Institution name",
         "domain": "University domain",
         "domainHint": "Student email domain, e.g. edu.pl (without https://).",
-        "address": "Address",
+        "street": "Street and number",
+        "postalCode": "Postal code",
+        "city": "City",
         "phone": "Phone number",
         "website": "University website link (optional)",
         "websiteHint": "You can enter just the domain, e.g. example.pl."
       }
     }
   },
+  "profiles": {
+    "navMenu": "Navigation menu",
+    "profile": "Profile",
+    "aboutUs": "About us",
+    "contact": "Contact",
+    "currentOffers": "Current offers",
+    "nip": "NIP",
+    "spots": "Spots",
+    "uploadLogo": "Upload logo",
+    "searchTags": "Search tags...",
+    "activeTags": "Active tags",
+    "noActiveTags": "No active tags",
+    "noResults": "No results",
+    "errors":{
+       "invalidFormat": "Invalid format. Allowed formats are: JPG, JPEG, PNG, WEBP.",
+      "fileTooLarge": "Maximum file size is {maxSize} MB."
+    },
+    "edit": {
+      "successMessage": "Profile updated successfully."
+    },
+    "company": {
+      "myOffers": "My offers",
+      "candidateApplications": "Candidate applications",
+      "teamAndPermissions": "Team and permissions",
+      "noOffers": "The company does not have any open job postings.",
+      "noContactInfo": "The company has not provided contact information.",
+      "noDescription": "The company has not provided a description yet.",
+      "noTags": "The company has not provided any tags."
+    },
+    "university": {
+    }
+  },
+  "validation": {
+      "requiredField": "This field is required.",
+      "fillRequiredFields": "Please fill in all required fields."
+  },
+  "buttons": {
+    "view": "View",
+    "save": "Save changes",
+    "saving": "Saving...",
+    "saveAndGoToOffers": "Save and go to offers",
+    "cancel": "Cancel",
+    "editProfile": "Edit profile",
+    "back": "Back",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close",
+    "showAll": "Show all",
+    "collapseTags": "Collapse tags",
+    "myProfile": "My profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+
   "table": {
     "id": "ID",
     "student": "Student",
@@ -179,9 +233,8 @@
       "accept": "Accept",
       "reject": "Reject",
       "rejectReason": "Enter rejection reason:",
-      "street": "Street",
+      "street": "Street and number",
       "close": "Close",
-      "buildingNumber": "Building number",
       "postalCode": "Postal code",
       "description": "Description",
       "tags": "Tags",
@@ -258,6 +311,24 @@
         "profile": "Profile"
       }
     },
+    "cv": {
+      "title": "Your CV (PDF only)",
+      "hint": "Accepted format: PDF. Maximum size: 5 MB.",
+      "selectFile": "Choose PDF file",
+      "dropzone": "or drag and drop it here",
+      "replace": "Replace",
+      "delete": "Delete file",
+      "preview": "Preview",
+      "previewTitle": "CV preview",
+      "openInNewTab": "Open in a new tab",
+      "previewUnavailable": "CV preview is temporarily unavailable.",
+      "uploading": "Uploading... {progress}%",
+      "defaultFileName": "CV.pdf",
+      "errors": {
+        "invalidType": "The file must be a PDF.",
+        "tooLarge": "The file must not be larger than 5 MB."
+      }
+    },
     "profile": {
       "title": "Profile",
       "modal": {
@@ -288,11 +359,13 @@
         "location": "Location (city, country)",
         "locationLabel": "Location",
         "locationPlaceholder": "city, country",
+        "street": "Street and number",
+        "postalCode": "Postal code",
+        "city": "City",
         "university": "University",
         "studyField": "Field of study",
         "studyYear": "Year of study",
         "specialization": "Specialization",
-        "cvPlaceholder": "CV section — separate task T-036.",
         "saveChanges": "Save changes",
         "backToProfile": "Back to profile",
         "emailReadonlyHint": "To change your email, use the Account and security section on the profile page."
@@ -410,6 +483,7 @@
     "dblClickToEdit": "Double click to edit",
     "clearAll": "Clear all",
         "accessibility": {
+      "inputLabel": "Dynamic list input",
       "addItem": "Add a new item to the list",
       "removeItem": "Remove item {item} from the list",
       "editItem": "Edit item {item} in the list",

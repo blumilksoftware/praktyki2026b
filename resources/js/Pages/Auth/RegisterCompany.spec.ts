@@ -33,7 +33,6 @@ vi.mock('@inertiajs/vue3', async () => {
       password: '',
       password_confirmation: '',
       street: '',
-      building_number: '',
       postal_code: '',
       city: '',
       phone: '',
@@ -65,7 +64,6 @@ describe('RegisterCompany', () => {
     expect(wrapper.find('#password').exists()).toBe(true)
     expect(wrapper.find('#password_confirmation').exists()).toBe(true)
     expect(wrapper.find('#street').exists()).toBe(true)
-    expect(wrapper.find('#building_number').exists()).toBe(true)
     expect(wrapper.find('#postal_code').exists()).toBe(true)
     expect(wrapper.find('#city').exists()).toBe(true)
     expect(wrapper.find('#phone').exists()).toBe(true)

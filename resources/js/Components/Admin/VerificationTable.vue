@@ -59,7 +59,6 @@ const companyDetailFields = [
   { key: 'email', label: t('admin.verification.email'), type: 'email' },
   { key: 'phone', label: t('admin.verification.phone'), type: 'tel' },
   { key: 'street', label: t('admin.verification.street') },
-  { key: 'building_number', label: t('admin.verification.buildingNumber') },
   { key: 'postal_code', label: t('admin.verification.postalCode') },
   { key: 'city', label: t('admin.verification.city') },
   { key: 'website', label: t('admin.verification.website'), type: 'url' },
@@ -72,7 +71,9 @@ const universityDetailFields = [
   { key: 'domain', label: t('admin.verification.domain') },
   { key: 'email', label: t('admin.verification.email'), type: 'email' },
   { key: 'phone', label: t('admin.verification.phone'), type: 'tel' },
-  { key: 'address', label: t('admin.verification.address') },
+  { key: 'street', label: t('admin.verification.street') },
+  { key: 'postal_code', label: t('admin.verification.postalCode') },
+  { key: 'city', label: t('admin.verification.city') },
   { key: 'website', label: t('admin.verification.website'), type: 'url' },
   { key: 'external_form_url', label: t('admin.verification.externalFormUrl'), type: 'url' },
 ]
