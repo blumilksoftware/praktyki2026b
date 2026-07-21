@@ -65,7 +65,6 @@ class University extends Model
     }
 
     /**
-     * @param Builder<University> $query
      * @return Builder<University>
      */
     public function scopeVerified(Builder $query): Builder
@@ -74,7 +73,6 @@ class University extends Model
     }
 
     /**
-     * @param Builder<University> $query
      * @return Builder<University>
      */
     public function scopeMatchingName(Builder $query, string $name): Builder

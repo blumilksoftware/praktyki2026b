@@ -15,14 +15,6 @@ class BuildStudentProfileData
         private readonly ResolveUniversityByDomain $resolveUniversityByDomain,
     ) {}
 
-    /**
-     * @return array{
-     *     user: array<string, mixed>,
-     *     study_fields: array<int, array{value: string, label: string}>,
-     *     university_organization: ?array{id: string, name: string},
-     *     suggested_university: ?array{id: string, name: string},
-     * }
-     */
     public function execute(User $student): array
     {
         $student->loadMissing(["preferredCities", "preferredStudyFields", "universityOrganization"]);
