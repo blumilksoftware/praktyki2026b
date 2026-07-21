@@ -64,6 +64,7 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
 Route::middleware(["auth", "can:access-student-panel"])
     ->prefix("student")
     ->group(function (): void {
+        Route::get("/cv", [StudentController::class, "previewCv"])->name("student.cv.preview");
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
