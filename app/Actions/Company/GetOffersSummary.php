@@ -10,15 +10,6 @@ use Illuminate\Support\Collection;
 
 class GetOffersSummary
 {
-    /**
-     * @return Collection<int, array{
-     *     id: string,
-     *     title: string,
-     *     status: string,
-     *     spots: int,
-     *     applications_count: int,
-     * }>
-     */
     public function execute(Company $company): Collection
     {
         return $company->offers()
