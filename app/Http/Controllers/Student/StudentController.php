@@ -150,6 +150,26 @@ class StudentController extends Controller
         return back();
     }
 
+    public function previewCv(): StreamedResponse
+    {
+        $user = Auth::user();
+
+        if (!$user->cv_path) {
+            throw new NotFoundHttpException();
+        }
+
+        $disk = config("filesystems.default", "local");
+
+        if (!Storage::disk($disk)->exists($user->cv_path)) {
+            throw new NotFoundHttpException();
+        }
+
+        return Storage::disk($disk)->response($user->cv_path, "CV.pdf", [
+            "Content-Type" => "application/pdf",
+            "Content-Disposition" => 'inline; filename="CV.pdf"',
+        ]);
+    }
+
     public function apply(Offer $offer): RedirectResponse
     {
         $user = Auth::user();

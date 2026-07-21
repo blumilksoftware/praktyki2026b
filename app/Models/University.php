@@ -17,7 +17,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property string $email
  * @property string $domain
- * @property string $address
+ * @property string $street
+ * @property string $postal_code
+ * @property string $city
  * @property string $phone
  * @property ?string $website
  * @property ?string $logo_path
@@ -36,7 +38,9 @@ class University extends Model
         "name",
         "email",
         "domain",
-        "address",
+        "street",
+        "postal_code",
+        "city",
         "phone",
         "website",
         "logo_path",
