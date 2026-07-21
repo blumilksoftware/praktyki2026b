@@ -257,7 +257,7 @@ onBeforeUnmount(revokePreviewObjectUrl)
     <button
       v-else
       type="button"
-      class="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-8 text-additional transition hover:border-primary/50 hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+      class="flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-8 text-additional transition hover:border-primary/50 hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
       :class="isDragging ? 'border-primary bg-primary/5 text-text' : 'border-border'"
       @dragover.prevent
       @dragenter.prevent="isDragging = true"
