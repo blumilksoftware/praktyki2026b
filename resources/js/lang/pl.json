@@ -262,6 +262,24 @@
         "profile": "Profil"
       }
     },
+    "cv": {
+      "title": "Twoje CV (tylko PDF)",
+      "hint": "Akceptowany format: PDF. Maksymalny rozmiar: 5 MB.",
+      "selectFile": "Wybierz plik PDF",
+      "dropzone": "lub przeciągnij go tutaj",
+      "replace": "Zamień",
+      "delete": "Usuń plik",
+      "preview": "Podgląd",
+      "previewTitle": "Podgląd CV",
+      "openInNewTab": "Otwórz w nowej karcie",
+      "previewUnavailable": "Podgląd CV jest chwilowo niedostępny.",
+      "uploading": "Przesyłanie... {progress}%",
+      "defaultFileName": "CV.pdf",
+      "errors": {
+        "invalidType": "Plik musi być w formacie PDF.",
+        "tooLarge": "Plik nie może być większy niż 5 MB."
+      }
+    },
     "profile": {
       "title": "Profil",
       "modal": {
@@ -300,7 +318,6 @@
         "studyField": "Kierunek studiów",
         "studyYear": "Rok studiów",
         "specialization": "Specjalność",
-        "cvPlaceholder": "Sekcja CV — osobny task T-036.",
         "saveChanges": "Zapisz zmiany",
         "backToProfile": "Wróć do profilu",
         "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” na stronie profilu."

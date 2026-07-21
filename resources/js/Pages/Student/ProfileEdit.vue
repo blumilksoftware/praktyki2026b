@@ -10,6 +10,7 @@ import ProfileTagInput from '@/Components/Profile/ProfileTagInput.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import ProfilePhotoUpload from '@/Components/Student/ProfilePhotoUpload.vue'
 import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
+import CvUploadSection from '@/Components/Student/CvUploadSection.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -280,38 +281,36 @@ function saveAll() {
           />
         </form>
 
-        <div id="profile-section-cv" class="mt-8 rounded-xl border border-border bg-background px-4 py-3 text-additional text-sm">
-          {{ t('student.profile.edit.cvPlaceholder') }}
+        <div id="profile-section-cv" class="mt-8">
+          <CvUploadSection :cv-path="user.cv_path" />
         </div>
 
-        <div class="mt-8 flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:justify-end">
+        <div class="mt-8 flex flex-row flex-wrap gap-3 border-t border-border pt-6 sm:justify-end">
           <BaseButton
             type="button"
             variant="secondary"
-            class="justify-center sm:w-auto"
+            class="flex-1 justify-center sm:flex-none"
             @click="router.visit(ROUTES.STUDENT_PROFILE)"
           >
             {{ t('student.profile.actions.cancel') }}
           </BaseButton>
-          <div class="flex flex-col gap-3 sm:flex-row">
-            <BaseButton
-              v-if="hasPhotoPending"
-              type="button"
-              variant="secondary"
-              class="justify-center"
-              @click="photoUpload?.clearPending(); pendingPhoto = null"
-            >
-              {{ t('student.profile.photo.cancelPreview') }}
-            </BaseButton>
-            <BaseButton
-              type="button"
-              class="justify-center"
-              :disabled="profileForm.processing || photoForm.processing"
-              @click="saveAll"
-            >
-              {{ t('student.profile.edit.saveChanges') }}
-            </BaseButton>
-          </div>
+          <BaseButton
+            v-if="hasPhotoPending"
+            type="button"
+            variant="secondary"
+            class="w-full justify-center sm:w-auto"
+            @click="photoUpload?.clearPending(); pendingPhoto = null"
+          >
+            {{ t('student.profile.photo.cancelPreview') }}
+          </BaseButton>
+          <BaseButton
+            type="button"
+            class="flex-1 justify-center sm:flex-none"
+            :disabled="profileForm.processing || photoForm.processing"
+            @click="saveAll"
+          >
+            {{ t('student.profile.edit.saveChanges') }}
+          </BaseButton>
         </div>
       </div>
     </div>
