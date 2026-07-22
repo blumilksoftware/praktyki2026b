@@ -12,6 +12,7 @@ use App\Actions\Student\DeleteStudentAccount;
 use App\Actions\Student\DeleteStudentPhotoAction;
 use App\Actions\Student\GetFavourites;
 use App\Actions\Student\GetStudentApplicationsAction;
+use App\Actions\Student\LinkStudentToUniversity;
 use App\Actions\Student\RequestEmailChange;
 use App\Actions\Student\SaveOfferAction;
 use App\Actions\Student\UnsaveOfferAction;
@@ -19,15 +20,18 @@ use App\Actions\Student\UpdateStudentProfile;
 use App\Actions\Student\UploadCvAction;
 use App\Actions\Student\UploadStudentPhotoAction;
 use App\Actions\Student\WithdrawOfferAction;
+use App\Actions\University\SearchUniversities;
 use App\DTO\Student\UpdateStudentProfileData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangeEmailRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\DeleteAccountRequest;
-use App\Http\Requests\UpdateStudentProfileRequest;
+use App\Http\Requests\LinkUniversityRequest;
+use App\Http\Requests\SearchUniversitiesRequest;
 use App\Http\Requests\UploadCvRequest;
 use App\Http\Requests\UploadStudentPhotoRequest;
 use App\Models\Offer;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -53,6 +57,8 @@ class StudentController extends Controller
         private readonly GetFavourites $getFavourites,
         private readonly BuildStudentProfileData $buildStudentProfileData,
         private readonly GetStudentApplicationsAction $getStudentApplicationsAction,
+        private readonly SearchUniversities $searchUniversities,
+        private readonly LinkStudentToUniversity $linkStudentToUniversity,
     ) {}
 
     public function index(): Response
@@ -101,6 +107,22 @@ class StudentController extends Controller
         $data = UpdateStudentProfileData::fromArray($request->getData());
 
         $this->updateStudentProfile->execute($user, $data);
+
+        return redirect()->route("student.profile");
+    }
+
+    public function searchUniversities(SearchUniversitiesRequest $request): JsonResponse
+    {
+        return response()->json([
+            "universities" => $this->searchUniversities->execute($request->string("query")->toString()),
+        ]);
+    }
+
+    public function linkUniversity(LinkUniversityRequest $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $this->linkStudentToUniversity->execute($user, $request->string("university")->toString());
 
         return redirect()->route("student.profile");
     }

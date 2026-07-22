@@ -76,6 +76,8 @@ Route::middleware(["auth", "can:access-student-panel"])
             ->withTrashed();
         Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
+        Route::get("/universities/search", [StudentController::class, "searchUniversities"])->name("student.universities.search");
+        Route::patch("/university", [StudentController::class, "linkUniversity"])->name("student.university.update");
         Route::get("/profile/photo", [StudentController::class, "showPhoto"])->name("student.profile.photo.show");
         Route::post("/profile/photo", [StudentController::class, "uploadPhoto"])->name("student.profile.photo.upload");
         Route::delete("/profile/photo", [StudentController::class, "deletePhoto"])->name("student.profile.photo.delete");
