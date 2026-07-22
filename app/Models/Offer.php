@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property ?Carbon $deleted_at
+ * @property-read StudentFavourite $pivot
  */
 class Offer extends Model
 {

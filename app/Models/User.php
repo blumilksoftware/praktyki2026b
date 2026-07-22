@@ -113,6 +113,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(StudyField::class, "student_study_field", "student_id");
     }
 
+    /**
+     * @return BelongsToMany<Offer, $this, StudentFavourite>
+     */
+    public function favourites(): BelongsToMany
+    {
+        return $this->belongsToMany(Offer::class, "student_favourites", "student_id")
+            ->withTrashed()
+            ->using(StudentFavourite::class)
+            ->withTimestamps();
+    }
+
     public function fullName(): string
     {
         return trim(($this->first_name ?? "") . " " . ($this->last_name ?? "")) ?: $this->email;
