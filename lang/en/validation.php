@@ -18,6 +18,7 @@ return [
     "website_invalid_friendly" => "Enter a valid website address, e.g. example.com or https://example.com.",
     "student_no_cv" => "You must upload your CV before applying.",
     "already_applied" => "You have already applied for this offer.",
+    "already_saved" => "This offer is already in your favourites.",
     "offer_inactive" => "This offer is no longer active.",
     "no_spots_available" => "No spots available for this offer.",
     "city_geocoding_failed" => "We could not find the location for this city. Please check the spelling and try again.",
