@@ -3,9 +3,6 @@ import { useI18n } from 'vue-i18n'
 import { IconHome, IconUserCircle } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 
-/**
- * @param {import('vue').MaybeRefOrGetter<'dashboard' | 'profile'>} activePage
- */
 export function useStudentPanelMenu(activePage) {
   const { t } = useI18n()
 
