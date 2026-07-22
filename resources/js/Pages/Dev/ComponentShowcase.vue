@@ -1,14 +1,85 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
+import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
+import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
+import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
+import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
+import Menu from '@/Components/Profiles/Menu.vue'
+import { IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
+import { useI18n } from 'vue-i18n'
+import { ROUTES } from '@/Helpers/routes'
+
+const { t } = useI18n()
 
 const email = ref('student@example.com')
 const password = ref('secret')
 const inputWithError = ref('')
 const terms = ref(false)
+
+const companyMenu = computed(() => [
+  { label: t('profiles.company.myOffers'), href: ROUTES.OFFERS, icon: IconSearch },
+  { label: t('profiles.company.candidateApplications'), href: ROUTES.APPLICATIONS, icon: IconClipboardText },
+  { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle, isActive: true },
+  { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
+])
+
+const selectedTags = ref(['Vue'])
+const availableTags = ref([
+  'JavaScript',
+  'TypeScript',
+  'Vue',
+  'React',
+  'Angular',
+  'Svelte',
+  'Node.js',
+  'Laravel',
+  'PHP',
+  'Python',
+  'Django',
+  'Ruby',
+  'Rails',
+  'Java',
+  'Spring Boot',
+  'C#',
+  '.NET',
+  'Go',
+  'Rust',
+  'Kotlin',
+  'Swift',
+  'Flutter',
+  'Dart',
+  'React Native',
+  'Docker',
+  'Kubernetes',
+  'AWS',
+  'Azure',
+  'Google Cloud',
+  'Firebase',
+  'PostgreSQL',
+  'MySQL',
+  'MongoDB',
+  'Redis',
+  'GraphQL',
+  'REST API',
+  'Git',
+  'GitHub',
+  'CI/CD',
+  'DevOps',
+  'Linux',
+  'UI/UX',
+  'Tailwind CSS',
+  'Bootstrap',
+  'Figma',
+  'Testing',
+  'Jest',
+  'Cypress',
+  'Machine Learning',
+  'Artificial Intelligence',
+])
 </script>
 
 <template>
@@ -23,6 +94,25 @@ const terms = ref(false)
           Developer page for previewing reusable components.
         </p>
       </header>
+      <section class="flex flex-col gap-4">
+        <h2 class="text-xl font-medium text-text">
+          BaseNavbar
+        </h2>
+        <div class="rounded-lg border border-border bg-white p-6 flex flex-col gap-6">
+          <BaseNavbar show-hamburger :menu-items="companyMenu" />
+          <BaseLogo />
+          <div><LanguageSwitcher current-locale="pl" /></div>
+        </div>
+      </section>
+      <section class="flex flex-col gap-4">
+        <h2 class="text-xl font-medium text-text">
+          Menu
+        </h2>
+        <div class="rounded-lg border border-border bg-white p-6 flex flex-col gap-6">
+          <Menu :items="companyMenu" />
+          <p>moves to navbar on mobile</p>
+        </div>
+      </section>
       <section class="flex flex-col gap-4">
         <h2 class="text-xl font-medium text-text">
           BaseInput
@@ -75,6 +165,19 @@ const terms = ref(false)
           <BaseCheckbox id="showcase-terms" v-model="terms">
             I accept the terms
           </BaseCheckbox>
+        </div>
+      </section>
+      <section class="flex flex-col gap-4">
+        <h2 class="text-xl font-medium text-text">
+          DynamicMultiSelect
+        </h2>
+        <div class="rounded-lg border border-border bg-white p-6">
+          <DynamicMultiSelect 
+            v-model="selectedTags" 
+            :options="availableTags"
+            :max="30"
+            :allow-custom="false"
+          />
         </div>
       </section>
     </div>

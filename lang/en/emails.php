@@ -38,6 +38,16 @@ return [
         "already_rejected_university" => "University is already rejected.",
     ],
 
+    "email_change" => [
+        "subject" => "Confirm your new email address",
+        "title" => "Confirm your new email address",
+        "status_message" => "We received a request to change your account email to: :email",
+        "expiration_message" => "Remember that the link expires after :count hours.",
+        "action_text" => "To confirm this change, click the button below:",
+        "button" => "Confirm email change",
+        "ignore_notice" => "If you didn't request this change, you can safely ignore this email — your current email address remains active.",
+    ],
+
     "job_application" => [
         "new_subject" => "New application for :job_title",
         "new_title" => "New application",
@@ -47,5 +57,19 @@ return [
         "status_changed_title" => "Application status updated",
         "status_changed_body" => "Company :company_name has changed the status of your application for :job_title to: :status.",
         "status_changed_cta" => "Go to dashboard",
+        "status" => [
+            "reviewed" => "reviewed",
+            "accepted" => "accepted",
+            "rejected" => "rejected",
+        ],
+    ],
+
+    "offer" => [
+        "unavailable_subject" => "Update on your application: :job_title",
+        "unavailable_title" => "This offer is no longer available",
+        "unavailable_body" => "The offer \":job_title\" from :company_name is no longer available (:reason). Your application remains on record.",
+        "reason_closed" => "the company has closed it",
+        "reason_expired" => "it has expired",
+        "reason_deleted" => "it was removed by the company",
     ],
 ];

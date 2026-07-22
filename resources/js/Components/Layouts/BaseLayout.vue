@@ -9,6 +9,7 @@ const props = defineProps({
   activePage: { type: String, default: '' },
   navItems: { type: Array, default: () => [] },
   showBackground: { type: Boolean, default: true },
+  minimalHeader: { type: Boolean, default: false },
 })
 
 const { t, locale } = useI18n()
@@ -31,7 +32,10 @@ const navItems = computed(() => props.navItems.length > 0
 </script>
 
 <template>
-  <div class="flex flex-col bg-secondary min-h-screen text-text">
+  <div
+    class="flex flex-col min-h-screen text-text"
+    :class="props.minimalHeader ? 'bg-background' : 'bg-secondary'"
+  >
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:z-50 focus:absolute focus:bg-white focus:m-3 focus:px-3 focus:py-2 focus:rounded-md focus:font-medium focus:text-primary focus:text-sm"
@@ -42,7 +46,7 @@ const navItems = computed(() => props.navItems.length > 0
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
       <div class="flex justify-between items-center px-4 md:px-6 py-4">
         <a
-          :href="ROUTES.ADMIN_DASHBOARD"
+          :href="ROUTES.HOME"
           class="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 transition"
         >
           <div class="flex-1">
@@ -55,6 +59,7 @@ const navItems = computed(() => props.navItems.length > 0
         </a>
 
         <nav
+          v-if="!props.minimalHeader"
           :aria-label="t('admin.layout.nav.ariaLabel')"
           class="hidden left-1/2 absolute md:flex items-center gap-1 -translate-x-1/2"
         >
@@ -78,7 +83,11 @@ const navItems = computed(() => props.navItems.length > 0
           </a>
         </nav>
 
-        <div class="flex items-center gap-3">
+        <div v-if="props.minimalHeader" class="ml-auto flex items-center gap-3">
+          <slot name="header-actions" />
+        </div>
+
+        <div v-if="!props.minimalHeader" class="flex items-center gap-3">
           <button
             class="md:hidden flex justify-center items-center hover:bg-white/10 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 w-9 h-9 text-white/90 hover:text-white transition"
             :aria-label="isMobileMenuOpen ? t('admin.layout.nav.closeMenu') : t('admin.layout.nav.openMenu')"
@@ -111,7 +120,7 @@ const navItems = computed(() => props.navItems.length > 0
 
             <div
               v-if="isDesktopMenuOpen"
-              class="top-full right-0 z-50 absolute bg-white shadow-lg mt-2 py-1 rounded-lg ring-1 ring-black/5 min-w-[160px]"
+              class="top-full right-0 z-50 absolute bg-white shadow-lg mt-2 py-1 rounded-lg ring-1 ring-black/5 min-w-40"
             >
               <a
                 class="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 text-gray-700 hover:text-gray-900 text-sm transition"
@@ -142,7 +151,7 @@ const navItems = computed(() => props.navItems.length > 0
                 </button>
                 <div
                   v-if="isDesktopLanguageOpen"
-                  class="top-full right-0 z-50 absolute bg-white shadow-lg mt-1 py-1 rounded-lg ring-1 ring-black/5 min-w-[80px]"
+                  class="top-full right-0 z-50 absolute bg-white shadow-lg mt-1 py-1 rounded-lg ring-1 ring-black/5 min-w-20"
                 >
                   <button
                     class="flex items-center hover:bg-gray-100 px-3 py-2 w-full text-gray-700 text-sm text-left transition"
@@ -176,6 +185,7 @@ const navItems = computed(() => props.navItems.length > 0
     </header>
 
     <Transition
+      v-if="!props.minimalHeader"
       enter-active-class="transition duration-200 ease-out"
       enter-from-class="opacity-0"
       enter-to-class="opacity-100"
@@ -298,12 +308,12 @@ const navItems = computed(() => props.navItems.length > 0
 
     <main id="main-content" class="relative flex flex-col flex-1 justify-start items-stretch p-4 md:p-6 overflow-y-auto">
       <div v-if="showBackground" class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <div class="absolute inset-0 bg-gradient-to-br from-secondary via-slate-100/90 to-primary/12" />
+        <div class="absolute inset-0 bg-linear-to-br from-secondary via-slate-100/90 to-primary/12" />
         <div class="absolute inset-0 admin-panel-dots" />
         <div class="-top-24 -right-16 absolute bg-primary/12 blur-3xl rounded-full w-96 h-96" />
-        <div class="bottom-[-4rem] left-[8%] absolute bg-accent/45 blur-3xl rounded-full w-80 h-80" />
+        <div class="-bottom-16 left-[8%] absolute bg-accent/45 blur-3xl rounded-full w-80 h-80" />
         <div class="top-[38%] right-[18%] absolute bg-primary/6 blur-2xl rounded-full w-56 h-56" />
-        <div class="absolute inset-0 bg-gradient-to-t from-white/35 via-transparent to-primary/8" />
+        <div class="absolute inset-0 bg-linear-to-t from-white/35 via-transparent to-primary/8" />
       </div>
       <div class="z-10 relative flex flex-col gap-8 mx-auto w-full max-w-7xl">
         <slot />

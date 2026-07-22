@@ -9,6 +9,7 @@ use App\Enums\UserStatus;
 use App\Models\Application;
 use App\Models\Offer;
 use App\Models\User;
+use App\Observers\OfferObserver;
 use App\Policies\ApplicationPolicy;
 use App\Policies\OfferPolicy;
 use Illuminate\Support\Facades\Gate;
@@ -24,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(Application::class, ApplicationPolicy::class);
         Gate::policy(Offer::class, OfferPolicy::class);
+
+        Offer::observe(OfferObserver::class);
 
         Gate::define("access-student-panel", fn(User $user): bool => $user->status === UserStatus::Active && $user->role === UserRole::Student);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
+use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,6 +17,8 @@ class LoginTest extends TestCase
     public function testUserCanLoginWithValidCredentials(): void
     {
         $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
             "email" => "user@example.com",
             "password" => "Password123!",
             "email_verified_at" => now(),
@@ -26,7 +29,7 @@ class LoginTest extends TestCase
             "password" => "Password123!",
         ]);
 
-        $response->assertRedirect("/");
+        $response->assertRedirect(route("student.dashboard"));
         $this->assertAuthenticatedAs($user);
     }
 
@@ -71,7 +74,8 @@ class LoginTest extends TestCase
             "password" => "Password123!",
         ]);
 
-        $response->assertRedirect(route("verification.waiting"));
+        $response->assertRedirect("/")
+            ->assertSessionHasErrors("email");
         $this->assertGuest();
     }
 

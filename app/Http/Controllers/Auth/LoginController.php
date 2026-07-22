@@ -42,6 +42,18 @@ class LoginController extends Controller
             ]);
         }
 
+        if ($user && !$user->hasVerifiedEmail()) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            $request->session()->flash("requires_verification", true);
+
+            throw ValidationException::withMessages([
+                "email" => __("auth.verification.not_verified"),
+            ]);
+        }
+
         if ($user->role === UserRole::SuperAdmin) {
             Auth::logout();
             $request->session()->invalidate();
@@ -67,7 +79,7 @@ class LoginController extends Controller
         $redirectUrl = match ($user->role) {
             UserRole::CompanyAdmin => route("company.dashboard"),
             UserRole::UniversityAdmin => route("university.dashboard"),
-            UserRole::Student => "/",
+            UserRole::Student => route("student.dashboard"),
             default => "/",
         };
 
