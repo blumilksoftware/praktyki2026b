@@ -101,10 +101,11 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
           <li v-for="item in menuItems" :key="item.href">
             <Link 
               :href="item.href" 
-              class="flex items-center gap-3 text-base font-semibold transition-colors p-3 rounded-lg"
+              class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold transition-colors"
               :class="item.isActive 
-                ? 'bg-background border border-border text-secondary' 
+                ? 'border border-primary/30 bg-primary/5 text-primary' 
                 : 'text-additional hover:bg-gray-50 hover:text-secondary'"
+              :aria-current="item.isActive ? 'page' : undefined"
               @click="close"
             >
               <component :is="item.icon" stroke="2" class="w-6 h-6 shrink-0" />
