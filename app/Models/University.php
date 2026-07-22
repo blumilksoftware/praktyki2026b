@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\VerificationStatus;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property string $email
  * @property string $domain
- * @property string $address
+ * @property string $street
+ * @property string $postal_code
+ * @property string $city
  * @property string $phone
  * @property ?string $website
  * @property ?string $logo_path
@@ -35,7 +38,9 @@ class University extends Model
         "name",
         "email",
         "domain",
-        "address",
+        "street",
+        "postal_code",
+        "city",
         "phone",
         "website",
         "logo_path",
@@ -57,6 +62,22 @@ class University extends Model
     public function scopeNeedingVerification($query)
     {
         return $query->where("verification_status", VerificationStatus::Pending);
+    }
+
+    /**
+     * @return Builder<University>
+     */
+    public function scopeVerified(Builder $query): Builder
+    {
+        return $query->where("verification_status", VerificationStatus::Verified);
+    }
+
+    /**
+     * @return Builder<University>
+     */
+    public function scopeMatchingName(Builder $query, string $name): Builder
+    {
+        return $query->where("name", "like", "%{$name}%");
     }
 
     protected function casts(): array
