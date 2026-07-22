@@ -15,7 +15,7 @@ const navItems = [
 
 <template>
   <Head :title="t('company.layout.title')" />
-  <BaseLayout active-page="dashboard" :nav-items="navItems">
+  <BaseLayout active-page="dashboard" :nav-items="navItems" :show-background="false">
     <OnboardingBanner />
   </BaseLayout>
 </template>

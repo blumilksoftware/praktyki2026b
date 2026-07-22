@@ -175,11 +175,16 @@
       "noTags": "Firma nie dodała jeszcze tagów."
     },
     "university": {
+      "recruitmentAndSystem:": "Rekrutacja i system",
       "noFaculties": "Uczelnia nie dodała jeszcze żadnych wydziałów.",
       "facultiesAndStudyFields": "Wydziały i kierunki studiów",
       "universityDomain": "Domena uczelni",
       "noStudyFields": "Uczelnia nie dodała jeszcze żadnych kierunków studiów.",
-      "externalFormUrl": "Zewnętrzny formularz aplikacyjny"
+      "systemInformation": "Informacje systemowe",
+      "domain": "Domena uczelni",
+      "domainLockedHint": "Domeny nie można zmienić. Skontaktuj się z administratorem.",
+      "externalFormUrl": "Link do systemu rekrutacyjnego (opcjonalnie)",
+      "externalFormUrlPlaceholder": "Link do systemu rekrutacyjnego (opcjonalnie)"
     }
   },
   "validation": {

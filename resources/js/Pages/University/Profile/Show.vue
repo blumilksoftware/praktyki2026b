@@ -1,7 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import { IconArrowLeft, IconUserCircle, IconBuildingCommunity } from '@tabler/icons-vue'
+import { IconArrowLeft, IconUserCircle } from '@tabler/icons-vue'
 import Header from '@/Components/Profiles/Header.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
@@ -39,14 +39,12 @@ defineProps({
   
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
-        <BaseButton
-          variant="primary"
-          class="flex items-center gap-2 text-sm font-semibold transition-all px-4 py-2 rounded-xl"
-          @click="goBack"
+        <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
+           @click="goBack"
         >
-          <IconArrowLeft stroke="2.5" class="w-4 h-4 mr-2" />
+          <IconArrowLeft stroke="2.5" class="w-4 h-4" />
           {{ t('buttons.back') }}
-        </BaseButton>
+        </a>
         <div>
           <Menu :items="universityMenu" />
         </div>
@@ -74,13 +72,15 @@ defineProps({
               :email="university.email"
               :phone="university.phone"
               :website="university.website"
-              :address="university.address"
+              :street="university.street"
+              :postal-code="university.postalCode"
+              :city="university.city"
             />
           </div>
 
           <div v-if="university.domain || university.externalFormUrl" class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6">
             <h3 class="text-xl font-bold text-gray-900 mb-5">
-              Rekrutacja i system
+              {{ t('profiles.university.recruitmentAndSystem') }}
             </h3>
             
             <Info 
@@ -93,7 +93,6 @@ defineProps({
         <div class="flex flex-col gap-6 lg:col-span-2">
           <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8 h-fit">
             <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <IconBuildingCommunity class="w-6 h-6 text-primary" />
               {{ t('profiles.university.facultiesAndStudyFields') }}
             </h3>
             
