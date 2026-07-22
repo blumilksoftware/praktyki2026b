@@ -88,6 +88,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(University::class, "organization_id");
     }
 
+    /**
+     * @return BelongsTo<Company, $this>
+     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, "organization_id");

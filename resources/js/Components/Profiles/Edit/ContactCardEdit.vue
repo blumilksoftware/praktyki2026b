@@ -10,7 +10,6 @@ const props = defineProps({
   website: { type: String, default: '' },
   phone: { type: String, default: '' },
   street: { type: String, default: '' },
-  buildingNumber: { type: String, default: '' },
   postalCode: { type: String, default: '' },
   city: { type: String, default: '' },
   nip: { type: String, default: '' },
@@ -20,13 +19,12 @@ const props = defineProps({
 const emit = defineEmits([
   'update:website', 
   'update:phone', 
-  'update:street', 
-  'update:buildingNumber', 
-  'update:postalCode', 
+  'update:street',
+  'update:postalCode',
   'update:city', 
 ])
 
-const requiredFields = ['city', 'postalCode', 'street', 'buildingNumber', 'phone']
+const requiredFields = ['city', 'postalCode', 'street', 'phone']
 
 const getTranslatedError = (field) => {
   if (props.errors && props.errors[field]) {
@@ -62,10 +60,6 @@ const postalCodeModel = computed({
 const streetModel = computed({
   get: () => props.street,
   set: (val) => emit('update:street', val),
-})
-const buildingNumberModel = computed({
-  get: () => props.buildingNumber,
-  set: (val) => emit('update:buildingNumber', val),
 })
 </script>
 
@@ -110,26 +104,13 @@ const buildingNumberModel = computed({
 
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
         <div class="hidden sm:block w-7 h-7 shrink-0" /> 
-        <div class="w-full flex flex-col sm:flex-row gap-3">
-          <div class="w-full sm:w-3/4">
-            <BaseInput
-              id="street"
-              v-model="streetModel"
-              :label="t('auth.register.company.street')"
-              :error="getTranslatedError('street')"
-              required
-            />
-          </div>
-          <div class="w-full sm:w-1/4">
-            <BaseInput
-              id="buildingNumber"
-              v-model="buildingNumberModel"
-              :label="t('auth.register.company.buildingNumber')"
-              :error="getTranslatedError('buildingNumber')"
-              required
-            />
-          </div>
-        </div>
+        <BaseInput
+          id="street"
+          v-model="streetModel"
+          :label="t('auth.register.company.street')"
+          :error="getTranslatedError('street')"
+          required
+        />
       </div>
 
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
