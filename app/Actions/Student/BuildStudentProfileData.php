@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace App\Actions\Student;
 
+use App\Actions\University\ResolveUniversityByDomain;
 use App\Models\StudyField;
+use App\Models\University;
 use App\Models\User;
 
 class BuildStudentProfileData
 {
+    public function __construct(
+        private readonly ResolveUniversityByDomain $resolveUniversityByDomain,
+    ) {}
+
     public function execute(User $student): array
     {
-        $student->loadMissing(["preferredCities", "preferredStudyFields"]);
+        $student->loadMissing(["preferredCities", "preferredStudyFields", "universityOrganization"]);
 
         $preferredCities = $student->preferredCities
             ->pluck("city")
@@ -32,6 +38,15 @@ class BuildStudentProfileData
                 "label" => $field->name,
             ])
             ->all();
+
+        $suggestedUniversity = $student->organization_id === null
+            ? $this->resolveUniversityByDomain->execute($student->email)
+            : null;
+
+        $mapUniversity = fn(University $university): array => [
+            "id" => $university->id,
+            "name" => $university->name,
+        ];
 
         return [
             "user" => [
@@ -54,6 +69,8 @@ class BuildStudentProfileData
                 "study_field_ids" => $studyFieldIds,
             ],
             "study_fields" => $studyFields,
+            "university_organization" => $student->universityOrganization ? $mapUniversity($student->universityOrganization) : null,
+            "suggested_university" => $suggestedUniversity ? $mapUniversity($suggestedUniversity) : null,
         ];
     }
 }
