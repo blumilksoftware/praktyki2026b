@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace App\Actions\Auth;
 
+use App\Actions\University\ResolveUniversityByDomain;
 use App\DTO\Auth\StudentRegistrationData;
 use App\Enums\UserRole;
-use App\Models\University;
 use App\Models\User;
 use App\Services\EmailVerificationService;
 use Illuminate\Support\Facades\DB;
 
 class CreateStudentAccount
 {
+    public function __construct(
+        private readonly ResolveUniversityByDomain $resolveUniversityByDomain,
+    ) {}
+
     public function execute(StudentRegistrationData $data): User
     {
-        $domain = $this->extractDomainFromEmail($data->email);
-        $university = $this->resolveUniversity($domain);
+        $university = $this->resolveUniversityByDomain->execute($data->email);
 
         $user = DB::transaction(fn(): User => User::create([
             "first_name" => $data->firstName,
@@ -32,30 +35,5 @@ class CreateStudentAccount
         app(EmailVerificationService::class)->sendVerificationEmail($user);
 
         return $user;
-    }
-
-    public function extractDomainFromEmail(string $email): string
-    {
-        return substr($email, strrpos($email, "@") + 1);
-    }
-
-    public function resolveUniversity(string $domain): ?University
-    {
-        if ($university = University::where("domain", $domain)->first()) {
-            return $university;
-        }
-
-        $parts = explode(".", $domain);
-
-        while (count($parts) > 1) {
-            array_shift($parts);
-            $parentDomain = implode(".", $parts);
-
-            if ($university = University::where("domain", $parentDomain)->first()) {
-                return $university;
-            }
-        }
-
-        return null;
     }
 }

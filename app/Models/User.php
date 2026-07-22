@@ -80,6 +80,9 @@ class User extends Authenticatable implements MustVerifyEmail
         "remember_token",
     ];
 
+    /**
+     * @return BelongsTo<University, $this>
+     */
     public function universityOrganization(): BelongsTo
     {
         return $this->belongsTo(University::class, "organization_id");
@@ -108,6 +111,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function preferredStudyFields(): BelongsToMany
     {
         return $this->belongsToMany(StudyField::class, "student_study_field", "student_id");
+    }
+
+    /**
+     * @return BelongsToMany<Offer, $this, StudentFavourite>
+     */
+    public function favourites(): BelongsToMany
+    {
+        return $this->belongsToMany(Offer::class, "student_favourites", "student_id")
+            ->withTrashed()
+            ->using(StudentFavourite::class)
+            ->withTimestamps();
     }
 
     public function fullName(): string

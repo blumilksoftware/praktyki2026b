@@ -41,6 +41,7 @@ $buildStudentOffers = function () {
             ];
         });
 };
+
 Route::post("/language/{locale}", function (string $locale) {
     if (in_array($locale, config("app.available_locales"), true)) {
         Session::put("locale", $locale);
@@ -101,15 +102,6 @@ Route::middleware(["auth", "can:access-student-panel"])
             ]);
         })->name('student.profile');
 
-        Route::get("/profile/edit", function () {
-            $user = auth()->user();
-
-            return inertia('Student/ProfileEdit', [
-                'user' => $user->load(['applications.offer.company', 'preferredStudyFields', 'preferredCities']),
-                'studyFields' => \App\Models\StudyField::query()->orderBy('name')->get(['id', 'name']),
-            ]);
-        })->name('student.profile.edit');
-
         Route::get("/offers", function () use ($buildStudentOffers) {
             return inertia('Student/Offers', [
                 'offers' => $buildStudentOffers()->values(),
@@ -121,14 +113,23 @@ Route::middleware(["auth", "can:access-student-panel"])
                 'offers' => $buildStudentOffers()->values(),
             ]);
         })->name('student.favorites.index');
+    });
 
+Route::middleware(["auth", "can:access-student-panel"])
+    ->prefix("student")
     ->group(function (): void {
         Route::get("/cv", [StudentController::class, "previewCv"])->name("student.cv.preview");
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
-        Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");        
+        Route::post("/offers/{offer}/favourite", [StudentController::class, "saveOffer"])->name("student.offers.favourite.save");
+        Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])
+            ->name("student.offers.favourite.delete")
+            ->withTrashed();
+        Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
+        Route::get("/universities/search", [StudentController::class, "searchUniversities"])->name("student.universities.search");
+        Route::patch("/university", [StudentController::class, "linkUniversity"])->name("student.university.update");
         Route::post("/profile/photo", [StudentController::class, "uploadPhoto"])->name("student.profile.photo.upload");
         Route::get("/profile/photo", [StudentController::class, "showPhoto"])->name("student.profile.photo.show");
         Route::delete("/profile/photo", [StudentController::class, "deletePhoto"])->name("student.profile.photo.delete");

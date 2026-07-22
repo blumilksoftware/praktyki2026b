@@ -161,6 +161,8 @@ return [
     "website_invalid_friendly" => "Wpisz poprawny adres strony, np. example.pl lub https://example.pl.",
     "student_no_cv" => "Musisz przesłać swoje CV przed złożeniem aplikacji.",
     "already_applied" => "Już aplikowałeś na tę ofertę.",
+    "not_applied" => "Nie zaaplikowałeś na tę ofertę.",
+    "already_saved" => "Ta oferta jest już w Twoich ulubionych.",
     "offer_inactive" => "Ta oferta nie jest już aktywna.",
     "no_spots_available" => "Brak wolnych miejsc na tę ofertę.",
     "city_geocoding_failed" => "Nie udało się znaleźć lokalizacji dla podanego miasta. Sprawdź pisownię i spróbuj ponownie.",
