@@ -24,6 +24,7 @@ export const ROUTES = {
   STUDENT_DASHBOARD: "/student/dashboard",
   STUDENT_PROFILE: "/student/profile",
   STUDENT_PROFILE_EDIT: "/student/profile/edit",
+  STUDENT_SETTINGS: "/student/settings",
   STUDENT_PROFILE_UPDATE: "/student/profile",
   STUDENT_PROFILE_PHOTO: "/student/profile/photo",
   STUDENT_PROFILE_PHOTO_DELETE: "/student/profile/photo",

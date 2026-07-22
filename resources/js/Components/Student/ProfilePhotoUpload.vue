@@ -84,7 +84,7 @@ defineExpose({ clearPending })
 </script>
 
 <template>
-  <div>
+  <div class="flex w-full flex-col items-start text-left">
     <div class="flex items-center gap-4">
       <ProfileAvatar
         :photo-url="displayPhotoUrl"
@@ -117,7 +117,7 @@ defineExpose({ clearPending })
     >
 
     <div
-      class="mt-4 rounded-xl border-2 border-dashed px-6 py-8 text-center transition"
+      class="mt-4 w-full rounded-xl border-2 border-dashed px-6 py-8 text-center transition"
       :class="isDragging ? 'border-primary bg-primary/5' : 'border-border bg-white'"
       @dragover.prevent
       @dragenter.prevent="isDragging = true"

@@ -9,7 +9,37 @@ const { t } = useI18n()
 const page = usePage()
 
 const user = computed(() => page.props.auth?.user)
-const logoPath = computed(() => user.value?.company?.logo_path)
+const isStudent = computed(() => user.value?.role === 'student')
+
+const avatarUrl = computed(() => {
+  const currentUser = user.value
+  if (!currentUser) {
+    return null
+  }
+
+  if (currentUser.photo_path) {
+    return ROUTES.STUDENT_PROFILE_PHOTO
+  }
+
+  const companyLogo = currentUser.company?.logo_path
+  if (companyLogo) {
+    return companyLogo.startsWith('/') ? companyLogo : `/${companyLogo}`
+  }
+
+  return null
+})
+
+const settingsLabel = computed(() => (
+  isStudent.value
+    ? t('student.profile.account.title')
+    : t('buttons.settings')
+))
+
+const isOnMyProfile = computed(() => (
+  page.component === 'Student/Profile' || page.component === 'Student/ProfileEdit'
+))
+
+const isOnSettings = computed(() => page.component === 'Student/Settings')
 
 const isOpen = ref(false)
 const dropdownRef = ref(null)
@@ -32,22 +62,22 @@ onUnmounted(() => {
 <template>
   <div ref="dropdownRef" class="relative inline-block text-left">
     <div
-      class="flex items-center justify-center w-10 h-10 p-0 rounded-full bg-secondary text-accent overflow-hidden hover:cursor-pointer hover:ring-2 hover:ring-link hover:ring-offset-2 hover:ring-offset-background transition-all focus:outline-none"
+      class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-secondary p-0 text-accent transition-all hover:cursor-pointer hover:ring-2 hover:ring-link hover:ring-offset-2 hover:ring-offset-background focus:outline-none"
       :aria-expanded="isOpen"
       aria-haspopup="true"
       @click="isOpen = !isOpen"
     >
-      <img 
-        v-if="logoPath" 
-        :src="logoPath.startsWith('/') ? logoPath : '/' + logoPath" 
-        alt="Profil" 
-        class="w-full h-full object-cover"
+      <img
+        v-if="avatarUrl"
+        :src="avatarUrl"
+        alt=""
+        class="h-full w-full object-cover"
       >
-      
-      <IconUser 
-        v-else 
-        stroke="2" 
-        class="w-6 h-6 text-accent" 
+
+      <IconUser
+        v-else
+        stroke="2"
+        class="h-6 w-6 text-accent"
       />
     </div>
 
@@ -59,32 +89,43 @@ onUnmounted(() => {
       leave-from-class="transform opacity-100 scale-100"
       leave-to-class="transform opacity-0 scale-95"
     >
-      <div 
+      <div
         v-if="isOpen"
-        class="absolute right-0 mt-3 w-48 origin-top-right rounded-xl bg-white shadow-md border border-border focus:outline-none z-50 overflow-hidden"
+        class="absolute right-0 z-50 mt-3 w-56 origin-top-right overflow-hidden rounded-xl border border-border bg-white shadow-md focus:outline-none"
       >
         <div class="py-1">
-          <Link 
-            :href="ROUTES.PROFILE" 
-            class="block px-4 py-2.5 text-sm font-medium text-text hover:bg-background transition-colors"
+          <Link
+            :href="ROUTES.PROFILE"
+            class="block px-4 py-2.5 text-sm font-medium transition-colors"
+            :class="isOnMyProfile
+              ? 'bg-primary/5 text-primary'
+              : 'text-text hover:bg-background'"
+            :aria-current="isOnMyProfile ? 'page' : undefined"
+            @click="isOpen = false"
           >
             {{ t('buttons.myProfile') }}
           </Link>
-          
-          <Link 
-            :href="ROUTES.SETTINGS" 
-            class="block px-4 py-2.5 text-sm font-medium text-text hover:bg-background transition-colors"
+
+          <Link
+            :href="ROUTES.SETTINGS"
+            class="block px-4 py-2.5 text-sm font-medium transition-colors"
+            :class="isOnSettings
+              ? 'bg-primary/5 text-primary'
+              : 'text-text hover:bg-background'"
+            :aria-current="isOnSettings ? 'page' : undefined"
+            @click="isOpen = false"
           >
-            {{ t('buttons.settings') }}
+            {{ settingsLabel }}
           </Link>
-          
+
           <hr class="my-1 border-border">
-          
-          <Link 
-            :href="ROUTES.LOGOUT" 
-            method="post" 
+
+          <Link
+            :href="ROUTES.LOGOUT"
+            method="post"
             as="button"
-            class="block w-full text-left px-4 py-2.5 text-sm font-medium text-error hover:bg-red-50 hover:text-error-dark transition-colors"
+            class="block w-full px-4 py-2.5 text-left text-sm font-medium text-error transition-colors hover:bg-red-50 hover:text-error-dark"
+            @click="isOpen = false"
           >
             {{ t('buttons.logout') }}
           </Link>

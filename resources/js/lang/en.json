@@ -306,9 +306,17 @@
   "student": {
     "layout": {
       "title": "Student panel",
+      "skipToContent": "Skip to content",
       "nav": {
         "dashboard": "Dashboard",
         "profile": "Profile"
+      }
+    },
+    "dashboard": {
+      "comingSoon": {
+        "title": "The student panel is under construction.",
+        "applications": "An overview of your applications will appear here soon (T-062, BE: T-061).",
+        "offersAndFavourites": "Offer search and favourites will arrive with milestones M3/M4 (T-046, T-066)."
       }
     },
     "cv": {
@@ -368,7 +376,7 @@
         "specialization": "Specialization",
         "saveChanges": "Save changes",
         "backToProfile": "Back to profile",
-        "emailReadonlyHint": "To change your email, use the Account and security section on the profile page."
+        "emailReadonlyHint": "To change your email, open Account and security from the profile icon in the navigation bar."
       },
       "photo": {
         "label": "Profile photo",
@@ -422,8 +430,7 @@
       },
       "account": {
         "title": "Account and security",
-        "description": "Password, email and account deletion.",
-        "navbarNotice": "Once the navigation bar is complete, this section will move to profile settings in the menu."
+        "description": "Password, email and account deletion."
       },
       "password": {
         "title": "Change password",
