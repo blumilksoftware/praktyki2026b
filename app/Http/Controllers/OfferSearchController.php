@@ -10,7 +10,7 @@ use App\Http\Requests\SearchOffersRequest;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class OfferController extends Controller
+class OfferSearchController extends Controller
 {
     public function __construct(
         private readonly SearchOffers $searchOffers,
