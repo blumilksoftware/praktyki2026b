@@ -10,7 +10,10 @@ use App\Actions\Student\ChangePassword;
 use App\Actions\Student\DeleteCvAction;
 use App\Actions\Student\DeleteStudentAccount;
 use App\Actions\Student\DeleteStudentPhotoAction;
+use App\Actions\Student\GetFavourites;
 use App\Actions\Student\RequestEmailChange;
+use App\Actions\Student\SaveOfferAction;
+use App\Actions\Student\UnsaveOfferAction;
 use App\Actions\Student\UpdateStudentProfile;
 use App\Actions\Student\UploadCvAction;
 use App\Actions\Student\UploadStudentPhotoAction;
@@ -42,6 +45,9 @@ class StudentController extends Controller
         private readonly ChangePassword $changePassword,
         private readonly RequestEmailChange $requestEmailChange,
         private readonly DeleteStudentAccount $deleteStudentAccount,
+        private readonly SaveOfferAction $saveOfferAction,
+        private readonly UnsaveOfferAction $unsaveOfferAction,
+        private readonly GetFavourites $getFavourites,
         private readonly BuildStudentProfileData $buildStudentProfileData,
     ) {}
 
@@ -154,6 +160,33 @@ class StudentController extends Controller
         $this->applyToOfferAction->execute($user, $offer);
 
         return back();
+    }
+
+    public function saveOffer(Offer $offer): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $this->saveOfferAction->execute($user, $offer);
+
+        return back();
+    }
+
+    public function unsaveOffer(Offer $offer): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $this->unsaveOfferAction->execute($user, $offer);
+
+        return back();
+    }
+
+    public function favourites(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Student/Favourites", [
+            "favourites" => $this->getFavourites->execute($user),
+        ]);
     }
 
     public function changePassword(ChangePasswordRequest $request): RedirectResponse

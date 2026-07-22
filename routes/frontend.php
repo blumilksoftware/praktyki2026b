@@ -53,6 +53,7 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::get("/dashboard", [StudentController::class, "index"])->name("student.dashboard");
         Route::get("/profile", [StudentController::class, "profile"])->name("student.profile");
         Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");
+        Route::get("/favourites", [StudentController::class, "favourites"])->name("student.favourites");
     });
 
 Route::middleware(["role:superAdmin"])
