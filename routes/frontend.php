@@ -40,7 +40,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/dashboard", [CompanyController::class, "index"])->name("company.dashboard");
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
-        Route::get("/offers", [CompanyOfferController::class, "index"])->name("company.offers");
+        Route::get("/offers", [OfferController::class, "index"])->name("company.offers");
     });
 
 Route::middleware(["auth", "can:create," . Offer::class])
