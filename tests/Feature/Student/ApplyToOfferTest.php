@@ -181,4 +181,47 @@ class ApplyToOfferTest extends TestCase
             "student_id" => $user->id,
         ]);
     }
+
+    public function testStudentCanWithdrawApplication(): void
+    {
+        $disk = config("filesystems.default", "local");
+        Storage::fake($disk);
+        Storage::disk($disk)->put("cvs/test_cv.pdf", "CV PDF Content");
+
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "cv_path" => "cvs/test_cv.pdf",
+        ]);
+        $offer = Offer::factory()->create([
+            "status" => OfferStatus::Published,
+            "spots" => 5,
+        ]);
+
+        $this->actingAs($user)->post(route("student.offers.apply", $offer))->assertRedirect();
+        $this->assertEquals(4, $offer->fresh()->spots);
+
+        $response = $this->actingAs($user)->post(route("student.offers.withdraw", $offer));
+
+        $response->assertRedirect();
+        $this->assertEquals(5, $offer->fresh()->spots);
+        $this->assertDatabaseMissing("applications", [
+            "offer_id" => $offer->id,
+            "student_id" => $user->id,
+        ]);
+    }
+
+    public function testStudentCannotWithdrawNonExistentApplication(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+        $offer = Offer::factory()->create(["spots" => 5]);
+
+        $response = $this->actingAs($user)->post(route("student.offers.withdraw", $offer));
+
+        $response->assertInvalid("offer");
+        $this->assertEquals(5, $offer->fresh()->spots);
+    }
 }
