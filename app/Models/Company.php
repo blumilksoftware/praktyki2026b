@@ -56,6 +56,9 @@ class Company extends Model
         return $this->hasMany(User::class, "organization_id");
     }
 
+    /**
+     * @return HasMany<Offer, $this>
+     */
     public function offers(): HasMany
     {
         return $this->hasMany(Offer::class);
