@@ -39,6 +39,11 @@ class UpdateUniversityProfileTest extends TestCase
                         "study_fields" => ["Computer Science"],
                     ],
                 ],
+                "website" => "https://uj.edu.pl",
+                "phone" => "+48 123 456 789",
+                "street" => "Main Street 1",
+                "postalCode" => "30-001",
+                "city" => "Kraków",
             ])
             ->assertRedirect("/university/profile");
 
@@ -46,8 +51,14 @@ class UpdateUniversityProfileTest extends TestCase
         $this->assertEquals("uj.edu.pl", $university->domain);
         $this->assertEquals("https://uj.edu.pl/external-form", $university->external_form_url);
         $this->assertNotNull($university->logo_path);
-        $expectedDiskPath = str_replace('/storage/', '', $university->logo_path);
+        $expectedDiskPath = str_replace("/storage/", "", $university->logo_path);
         Storage::disk("public")->assertExists($expectedDiskPath);
+
+        $this->assertEquals("https://uj.edu.pl", $university->website);
+        $this->assertEquals("+48 123 456 789", $university->phone);
+        $this->assertEquals("Main Street 1", $university->street);
+        $this->assertEquals("30-001", $university->postal_code);
+        $this->assertEquals("Kraków", $university->city);
 
         $this->assertCount(1, $university->faculties);
         $faculty = $university->faculties->first();
@@ -68,6 +79,10 @@ class UpdateUniversityProfileTest extends TestCase
                 "domain" => "another.edu.pl",
                 "external_form_url" => null,
                 "faculties" => [],
+                "phone" => "+48 123 456 789",
+                "street" => "Main Street 1",
+                "postalCode" => "30-001",
+                "city" => "Kraków",
             ])
             ->assertRedirect()
             ->assertSessionHasErrors("domain");
@@ -93,6 +108,10 @@ class UpdateUniversityProfileTest extends TestCase
         $this->actingAs($user)
             ->patch("/university/profile", [
                 "domain" => $university->domain,
+                "phone" => "+48 123 456 789",
+                "street" => "Main Street 1",
+                "postalCode" => "30-001",
+                "city" => "Kraków",
             ])
             ->assertRedirect("/university/verification/pending");
     }
@@ -108,6 +127,10 @@ class UpdateUniversityProfileTest extends TestCase
             ->patch("/university/profile", [
                 "domain" => $university->domain,
                 "logo" => $invalidFile,
+                "phone" => "+48 123 456 789",
+                "street" => "Main Street 1",
+                "postalCode" => "30-001",
+                "city" => "Kraków",
             ])
             ->assertRedirect()
             ->assertSessionHasErrors("logo");
@@ -125,6 +148,10 @@ class UpdateUniversityProfileTest extends TestCase
             ->patch("/university/profile", [
                 "domain" => $university->domain,
                 "logo" => $oversizedFile,
+                "phone" => "+48 123 456 789",
+                "street" => "Main Street 1",
+                "postalCode" => "30-001",
+                "city" => "Kraków",
             ])
             ->assertRedirect()
             ->assertSessionHasErrors("logo");
@@ -138,6 +165,10 @@ class UpdateUniversityProfileTest extends TestCase
         $this->actingAs($user)
             ->patch("/university/profile", [
                 "domain" => $university->domain,
+                "phone" => "+48 123 456 789",
+                "street" => "Main Street 1",
+                "postalCode" => "30-001",
+                "city" => "Kraków",
                 "faculties" => [
                     [
                         "name" => "",

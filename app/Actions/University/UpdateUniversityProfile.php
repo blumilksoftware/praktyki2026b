@@ -42,6 +42,11 @@ class UpdateUniversityProfile
                 "domain" => $domain,
                 "logo_path" => $logoPath,
                 "external_form_url" => $data->externalFormUrl,
+                "website" => $data->website,
+                "phone" => $data->phone,
+                "street" => $data->street,
+                "postal_code" => $data->postalCode,
+                "city" => $data->city,
             ]);
 
             if ($data->faculties !== null && count($data->faculties) > 0) {

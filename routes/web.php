@@ -12,7 +12,6 @@ use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
-use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -43,6 +42,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
 Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
+        Route::post("/offers", [OfferController::class, "store"])->name("company.offers.store");
         Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])->name("company.offers.publish");
         Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])->name("company.offers.deactivate");
         Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");

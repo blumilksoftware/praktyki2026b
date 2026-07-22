@@ -29,6 +29,11 @@ class UpdateUniversityProfileTest extends TestCase
             logo: null,
             externalFormUrl: "https://uj.edu.pl/form",
             faculties: null,
+            website: "https://uj.edu.pl",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
         );
 
         $action = new UpdateUniversityProfile(new FileUploadService());
@@ -49,6 +54,11 @@ class UpdateUniversityProfileTest extends TestCase
             logo: null,
             externalFormUrl: null,
             faculties: null,
+            website: "https://example.com",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
         );
 
         $action = new UpdateUniversityProfile(new FileUploadService());
@@ -75,6 +85,11 @@ class UpdateUniversityProfileTest extends TestCase
             logo: $newLogo,
             externalFormUrl: null,
             faculties: null,
+            website: "https://uj.edu.pl",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
         );
 
         $action = new UpdateUniversityProfile(new FileUploadService());
@@ -83,7 +98,7 @@ class UpdateUniversityProfileTest extends TestCase
         $this->assertNotNull($updated->logo_path);
         $this->assertNotEquals("/storage/" . $oldDiskPath, $updated->logo_path);
         Storage::disk("public")->assertMissing($oldDiskPath);
-                $newDiskPath = str_replace('/storage/', '', $updated->logo_path);
+        $newDiskPath = str_replace("/storage/", "", $updated->logo_path);
         Storage::disk("public")->assertExists($newDiskPath);
     }
 
@@ -108,6 +123,11 @@ class UpdateUniversityProfileTest extends TestCase
                     "study_fields" => ["Pure Mathematics"],
                 ],
             ],
+            website: "https://example.com",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
         );
 
         $action = new UpdateUniversityProfile(new FileUploadService());
@@ -155,6 +175,11 @@ class UpdateUniversityProfileTest extends TestCase
             logo: null,
             externalFormUrl: null,
             faculties: [],
+            website: "https://example.com",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
         );
 
         $action = new UpdateUniversityProfile(new FileUploadService());
