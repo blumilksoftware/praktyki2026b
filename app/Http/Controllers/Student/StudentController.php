@@ -175,6 +175,8 @@ class StudentController extends Controller
         $user = Auth::user();
 
         $this->withdrawOfferAction->execute($user, $offer);
+
+        return back();
     }
 
     public function saveOffer(Offer $offer): RedirectResponse
