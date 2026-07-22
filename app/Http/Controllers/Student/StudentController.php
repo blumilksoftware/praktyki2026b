@@ -28,6 +28,7 @@ use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\DeleteAccountRequest;
 use App\Http\Requests\LinkUniversityRequest;
 use App\Http\Requests\SearchUniversitiesRequest;
+use App\Http\Requests\UpdateStudentProfileRequest;
 use App\Http\Requests\UploadCvRequest;
 use App\Http\Requests\UploadStudentPhotoRequest;
 use App\Models\Offer;
