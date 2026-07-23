@@ -20,7 +20,7 @@ Route::get("/", fn() => redirect()->route("login"));
 
 Route::get("/offers", [OfferSearchController::class, "search"])->name("offers.search");
 
-Route::get("/companies/{company}", [CompanyProfileController::class, "show"])->name("companies.show");
+Route::get("/companies/{company}", [CompanyProfileController::class, "show"])->name("companies.show")->whereUuid("company");
 
 Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");
