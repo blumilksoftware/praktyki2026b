@@ -22,7 +22,7 @@ const { t } = useI18n()
       </button>
     </template>
     <div v-if="workModes.length" class="flex flex-wrap gap-2">
-      <ProfileTag v-for="mode in workModes" :key="mode" :label="mode" />
+      <ProfileTag v-for="mode in workModes" :key="mode" :label="t(`student.workModes.${mode}`)" />
     </div>
     <p v-else class="text-additional text-sm">
       {{ t('student.profile.workMode.empty') }}

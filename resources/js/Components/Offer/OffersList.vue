@@ -38,7 +38,3 @@ const { t } = useI18n()
     </div>
   </div>
 </template>
-
-<style scoped>
-/* rely on Tailwind for layout */
-</style>

@@ -311,11 +311,8 @@
   },
   "student": {
     "layout": {
-      "title": "Panel studenta",
       "skipToContent": "Przejdź do treści",
       "nav": {
-        "dashboard": "Panel",
-        "profile": "Profil",
         "ariaLabel": "Nawigacja studenta",
         "mobileAriaLabel": "Nawigacja mobilna studenta"
       }
@@ -339,7 +336,6 @@
       }
     },
     "profile": {
-      "title": "Profil",
       "modal": {
         "close": "Zamknij"
       },
@@ -415,12 +411,7 @@
       "workMode": {
         "title": "Oczekiwany tryb pracy",
         "modalTitle": "Edytuj oczekiwany tryb pracy",
-        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić.",
-        "options": {
-          "onsite": "Stacjonarnie",
-          "remote": "Zdalnie",
-          "hybrid": "Hybrydowo"
-        }
+        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić."
       },
       "applications": {
         "title": "Zapisane i wysłane aplikacje"
@@ -466,6 +457,12 @@
       "offers": "Oferty",
       "favorites": "Ulubione"
     },
+    "workModes": {
+      "remote": "Zdalnie",
+      "hybrid": "Hybrydowo",
+      "onsite": "Stacjonarnie",
+      "onSite": "Stacjonarnie"
+    },
     "dashboard": {
       "title": "Dashboard studenta",
       "heading": "Twoje centrum ofert",
@@ -482,7 +479,6 @@
       }
     },
     "favorites": {
-      "title": "Ulubione",
       "heading": "Twoje zapisane oferty",
       "description": "Tu trafiają oferty oznaczone sercem. Możesz je potem odhaczyć albo wrócić do pełnej listy.",
       "backToOffers": "Wróć do ofert",
@@ -493,7 +489,6 @@
       }
     },
     "offers": {
-      "title": "Oferty",
       "filters": {
         "kicker": "Filtry",
         "title": "Tablica ofert",
@@ -512,18 +507,9 @@
         "count": "{count} ofert",
         "helper": "Przewijana lista kafelków, jedna oferta na jeden kafelek"
       },
-      "nav": {
-        "offers": "Oferty",
-        "home": "Strona główna"
-      },
       "empty": {
         "title": "Brak ofert spełniających filtry",
         "description": "Spróbuj wyczyścić filtry albo rozszerzyć wyszukiwanie."
-      },
-      "workModes": {
-        "remote": "Zdalnie",
-        "hybrid": "Hybrydowo",
-        "onsite": "Stacjonarnie"
       },
       "card": {
         "logoAlt": "Logo firmy {company}",

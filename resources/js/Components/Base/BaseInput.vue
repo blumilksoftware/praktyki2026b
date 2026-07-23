@@ -14,7 +14,7 @@ const props = defineProps({
   required: { type: Boolean, default: false },
   maxlength: { type: [Number, String], default: undefined },
   compact: { type: Boolean, default: false },
-  stacked: { type: Boolean, default: false },
+  stacked: { type: Boolean, default: true },
   placeholder: { type: String, default: '' },
 })
 
@@ -40,32 +40,32 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
 <template>
   <div class="flex w-full flex-col gap-1.5" :class="stacked ? '' : wrapperClass">
     <label
-      v-if="stacked"
-      :for="id"
-      class="mb-1 block text-additional text-sm"
-      :class="{ 'text-error': hasError }"
-    >
-      {{ label }}
-    </label>
+  v-if="stacked"
+  :for="id"
+  class="mb-1 block text-base font-medium text-additional"
+  :class="{ 'text-error': hasError }"
+>
+  {{ label }}
+</label>
 
-    <div class="relative">
-      <input
-        :id="id"
-        v-model="model"
-        :type="inputType"
-        :autocomplete="autocomplete"
-        :required="required"
-        :maxlength="maxlength"
-        :aria-invalid="hasError ? true : undefined"
-        :aria-describedby="error ? `${id}-error` : undefined"
-        :placeholder="stacked ? placeholder : ' '"
-        class="w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text transition-all focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30"
-        :class="[
-          hasError ? 'border-error focus:border-error focus:ring-error/30' : '',
-          isPassword ? 'pr-11' : '',
-          stacked ? '' : 'peer',
-        ]"
-      >
+<div class="relative">
+  <input
+    :id="id"
+    v-model="model"
+    :type="inputType"
+    :autocomplete="autocomplete"
+    :required="required"
+    :maxlength="maxlength"
+    :aria-invalid="hasError ? true : undefined"
+    :aria-describedby="error ? `${id}-error` : undefined"
+    :placeholder="stacked ? placeholder : ' '"
+    class="w-full rounded-lg border border-border bg-white px-4 py-3 transition-all focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30"
+    :class="[
+      hasError ? 'border-error focus:border-error focus:ring-error/30' : '',
+      isPassword ? 'pr-11' : '',
+      stacked ? '' : 'peer',
+    ]"
+  >
 
       <label
         v-if="!stacked"

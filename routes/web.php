@@ -13,34 +13,10 @@ use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\Offer;
-use App\Enums\VerificationStatus;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
 require __DIR__ . "/frontend.php";
-
-$buildStudentOffers = function () {
-    return Offer::published()
-        ->with(['company', 'applications'])
-        ->get()
-        ->map(function (Offer $offer) {
-            return [
-                'id' => $offer->id,
-                'title' => $offer->title,
-                'city' => $offer->city,
-                'work_mode' => $offer->work_mode->value ?? null,
-                'start_date' => $offer->start_date?->toDateString(),
-                'end_date' => $offer->end_date?->toDateString(),
-                'spots' => $offer->spots,
-                'remaining_spots' => max(0, $offer->spots - $offer->applications->count()),
-                'company' => [
-                    'name' => $offer->company->name,
-                    'logo_path' => $offer->company->logo_path,
-                    'is_verified' => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,
-                ],
-            ];
-        });
-};
 
 Route::post("/language/{locale}", function (string $locale) {
     if (in_array($locale, config("app.available_locales"), true)) {
@@ -86,12 +62,10 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
 
 Route::middleware(["auth", "can:access-student-panel"])
     ->prefix("student")
-    ->group(function () use ($buildStudentOffers): void {
-        Route::get("/dashboard", function () use ($buildStudentOffers) {
-            return inertia('Student/Dashboard', [
-                'offers' => $buildStudentOffers()->take(3)->values(),
-            ]);
-        })->name('student.dashboard');
+    ->group(function (): void {
+        Route::get("/dashboard", [StudentController::class, "index"])->name('student.dashboard');
+        Route::get("/offers", [StudentController::class, "offers"])->name('student.offers.index');
+        Route::get("/favorites", [StudentController::class, "favorites"])->name('student.favorites.index');
 
         Route::get("/profile", function () {
             $user = auth()->user();
@@ -122,11 +96,6 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
-        Route::post("/offers/{offer}/favourite", [StudentController::class, "saveOffer"])->name("student.offers.favourite.save");
-        Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])
-            ->name("student.offers.favourite.delete")
-            ->withTrashed();
-        Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
         Route::get("/universities/search", [StudentController::class, "searchUniversities"])->name("student.universities.search");
         Route::patch("/university", [StudentController::class, "linkUniversity"])->name("student.university.update");

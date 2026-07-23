@@ -325,6 +325,11 @@
       "offers": "Offers",
       "favorites": "Favorites"
     },
+    "workModes": {
+      "remote": "Remote",
+      "hybrid": "Hybrid",
+      "onSite": "On-site"
+    },
     "dashboard": {
       "title": "Student dashboard",
       "heading": "Your offer hub",
@@ -341,7 +346,6 @@
       }
     },
     "favorites": {
-      "title": "Favorites",
       "heading": "Your saved offers",
       "description": "This is where heart-marked offers live. Remove them here or return to the full list.",
       "backToOffers": "Back to offers",
@@ -352,7 +356,6 @@
       }
     },
     "offers": {
-      "title": "Offers",
       "filters": {
         "kicker": "Filters",
         "title": "Offer board",
@@ -365,6 +368,30 @@
         "workMode": "Work mode",
         "allWorkModes": "All work modes",
         "verifiedOnly": "Verified companies only"
+      },
+      "results": {
+        "caption": "Available positions",
+        "count": "{count} offers",
+        "helper": "Scrollable tile list, one offer per tile"
+      },
+      "empty": {
+        "title": "No offers match the filters",
+        "description": "Try clearing the filters or broadening your search."
+      },
+      "card": {
+        "logoAlt": "Company logo for {company}",
+        "verified": "Verified",
+        "verifiedAriaLabel": "Verified company",
+        "dateRange": "Date range",
+        "remainingSpots": "Remaining spots",
+        "location": "Location",
+        "showOnMap": "Show on map",
+        "applyNow": "Apply now",
+        "addToFavorites": "Add to favorites",
+        "removeFromFavorites": "Remove from favorites",
+        "mapComingSoon": "The map will appear on a separate page"
+      }
+    },
     "cv": {
       "title": "Your CV (PDF only)",
       "hint": "Accepted format: PDF. Maximum size: 5 MB.",
@@ -384,7 +411,6 @@
       }
     },
     "profile": {
-      "title": "Profile",
       "modal": {
         "close": "Close"
       },
@@ -460,46 +486,44 @@
       "workMode": {
         "title": "Expected work mode",
         "modalTitle": "Edit expected work mode",
-        "empty": "No work mode selected. Click \"Edit\" to fill in.",
-        "options": {
-          "onsite": "On-site",
-          "remote": "Remote",
-          "hybrid": "Hybrid"
-        }
+        "empty": "No work mode selected. Click \"Edit\" to fill in."
       },
       "applications": {
         "title": "Saved and submitted applications"
       },
-      "results": {
-        "caption": "Available positions",
-        "count": "{count} offers",
-        "helper": "Scrollable tile list, one offer per tile"
+      "placeholder": {
+        "comingSoon": "This section will be available soon.",
+        "mockDataNotice": "The data is temporary (mock) and is not saved on the server. It will be connected to the backend when it is ready."
       },
-      "nav": {
-        "offers": "Offers",
-        "home": "Home"
+      "account": {
+        "title": "Account and security",
+        "description": "Password, email address, and account deletion.",
+        "navbarNotice": "After completing the navigation bar, this section will be moved to the profile settings in the menu."
       },
-      "empty": {
-        "title": "No offers match the filters",
-        "description": "Try clearing the filters or broadening your search."
+      "password": {
+        "title": "Change password",
+        "current": "Current password",
+        "new": "New password",
+        "confirmation": "Confirm new password"
       },
-      "workModes": {
-        "remote": "Remote",
-        "hybrid": "Hybrid",
-        "office": "On-site"
+      "email": {
+        "title": "Change email address",
+        "label": "Email address",
+        "newAddress": "New email address",
+        "unverifiedNotice": "The address {email} is inactive until confirmed with a link from the email.",
+        "pendingNotice": "The new address {email} is inactive until confirmed with a link from the email.",
+        "currentPassword": "Current password",
+        "resend": "Resend verification link"
       },
-      "card": {
-        "logoAlt": "Company logo for {company}",
-        "verified": "Verified",
-        "verifiedAriaLabel": "Verified company",
-        "dateRange": "Date range",
-        "remainingSpots": "Remaining spots",
-        "location": "Location",
-        "showOnMap": "Show on map",
-        "applyNow": "Apply now",
-        "addToFavorites": "Add to favorites",
-        "removeFromFavorites": "Remove from favorites",
-        "mapComingSoon": "The map will appear on a separate page"
+      "delete": {
+        "title": "Delete account",
+        "warning": "This operation cannot be undone.",
+        "openModal": "Delete account",
+        "modalTitle": "Confirm account deletion",
+        "confirmationLabel": "I understand that this operation cannot be undone",
+        "password": "Password",
+        "confirm": "Delete account permanently",
+        "cancel": "Cancel"
       }
     }
   },

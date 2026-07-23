@@ -17,9 +17,9 @@ const city = ref('')
 const workMode = ref('')
 const verifiedOnly = ref(false)
 
-const workModes = ['remote', 'hybrid', 'office']
+const workModes = ['remote', 'hybrid', 'onSite']
 
-const workModeLabel = (mode) => t(`student.offers.workModes.${mode}`)
+const workModeLabel = (mode) => t(`student.workModes.${mode}`)
 
 const filteredOffers = computed(() => props.offers.filter((offer) => {
   const queryValue = query.value.trim().toLowerCase()
@@ -54,14 +54,14 @@ const navItems = computed(() => [
 </script>
 
 <template>
-  <Head :title="t('student.offers.title')" />
+  <Head :title="t('student.nav.offers')" />
 
   <BaseLayout active-page="offers" :nav-items="navItems" :logo-href="ROUTES.STUDENT_OFFERS" background-class="bg-white" :show-background="false" layout-scope="student" :show-user-section="false" :show-compact-menu="true" :compact-menu-items="navItems">
-    <div class="min-h-screen bg-background px-4 py-6 sm:px-6 lg:px-8">
-      <div class="mx-auto mb-4 flex max-w-7xl items-center justify-between gap-3">
+    <div class="bg-background px-4 sm:px-6 lg:px-8 py-6 min-h-screen">
+      <div class="flex justify-between items-center gap-3 mx-auto mb-4 max-w-7xl">
         <Link
           :href="ROUTES.STUDENT_DASHBOARD"
-          class="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
         >
           <span aria-hidden="true">←</span>
           {{ t('student.favorites.backToDashboard') }}
@@ -69,24 +69,24 @@ const navItems = computed(() => [
 
         <Link
           :href="ROUTES.STUDENT_FAVORITES"
-          class="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
         >
           {{ t('student.nav.favorites') }}
         </Link>
       </div>
 
-      <div class="mx-auto flex max-w-7xl flex-col gap-6 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] lg:items-start">
-        <aside aria-labelledby="offers-filters-heading" class="rounded-3xl border border-border/80 bg-white/90 p-5 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm lg:sticky lg:top-6">
-          <div class="flex items-start justify-between gap-3">
+      <div class="flex flex-col lg:items-start gap-6 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] mx-auto max-w-7xl">
+        <aside aria-labelledby="offers-filters-heading" class="lg:top-6 lg:sticky bg-white/90 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm p-5 border border-border/80 rounded-3xl">
+          <div class="flex justify-between items-start gap-3">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-additional">{{ t('student.offers.filters.kicker') }}</p>
-              <h1 id="offers-filters-heading" class="mt-2 text-2xl font-semibold tracking-tight text-text">
+              <p class="font-semibold text-additional text-xs uppercase tracking-[0.24em]">{{ t('student.offers.filters.kicker') }}</p>
+              <h1 id="offers-filters-heading" class="mt-2 font-semibold text-text text-2xl tracking-tight">
                 {{ t('student.offers.filters.title') }}
               </h1>
             </div>
             <button
               type="button"
-              class="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              class="hover:bg-background px-3 py-1.5 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-xs transition"
               :aria-label="t('student.offers.filters.resetAriaLabel')"
               @click="resetFilters"
             >
@@ -94,23 +94,23 @@ const navItems = computed(() => [
             </button>
           </div>
 
-          <div class="mt-6 space-y-4">
+          <div class="space-y-4 mt-6">
             <label class="block">
-              <span class="mb-2 block text-sm font-medium text-text">{{ t('student.offers.filters.search') }}</span>
+              <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.search') }}</span>
               <input
                 v-model="query"
                 type="search"
                 :placeholder="t('student.offers.filters.searchPlaceholder')"
-                class="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm text-text outline-none transition placeholder:text-additional focus:border-primary/50 focus:bg-white focus:ring-2 focus:ring-primary/20"
+                class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text placeholder:text-additional text-sm transition"
                 :aria-label="t('student.offers.filters.search')"
               >
             </label>
 
             <label class="block">
-              <span class="mb-2 block text-sm font-medium text-text">{{ t('student.offers.filters.city') }}</span>
+              <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.city') }}</span>
               <select
                 v-model="city"
-                class="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm text-text outline-none transition focus:border-primary/50 focus:bg-white focus:ring-2 focus:ring-primary/20"
+                class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text text-sm transition"
                 :aria-label="t('student.offers.filters.city')"
               >
                 <option value="">{{ t('student.offers.filters.allCities') }}</option>
@@ -121,10 +121,10 @@ const navItems = computed(() => [
             </label>
 
             <label class="block">
-              <span class="mb-2 block text-sm font-medium text-text">{{ t('student.offers.filters.workMode') }}</span>
+              <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.workMode') }}</span>
               <select
                 v-model="workMode"
-                class="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm text-text outline-none transition focus:border-primary/50 focus:bg-white focus:ring-2 focus:ring-primary/20"
+                class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text text-sm transition"
                 :aria-label="t('student.offers.filters.workMode')"
               >
                 <option value="">{{ t('student.offers.filters.allWorkModes') }}</option>
@@ -134,12 +134,12 @@ const navItems = computed(() => [
               </select>
             </label>
 
-            <div class="rounded-2xl border border-border bg-background px-4 py-3">
-              <label class="flex items-center gap-3 text-sm text-text">
+            <div class="bg-background px-4 py-3 border border-border rounded-2xl">
+              <label class="flex items-center gap-3 text-text text-sm">
                 <input
                   v-model="verifiedOnly"
                   type="checkbox"
-                  class="h-4 w-4 rounded border-border text-primary focus:ring-primary/30"
+                  class="border-border rounded focus:ring-primary/30 w-4 h-4 text-primary"
                   :aria-label="t('student.offers.filters.verifiedOnly')"
                 >
                 <span>{{ t('student.offers.filters.verifiedOnly') }}</span>
@@ -148,15 +148,15 @@ const navItems = computed(() => [
           </div>
         </aside>
 
-        <section aria-labelledby="offers-list-heading" class="rounded-3xl border border-border/80 bg-white/90 p-5 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:p-6">
-          <div class="mb-5 flex items-end justify-between gap-4">
+        <section aria-labelledby="offers-list-heading" class="bg-white/90 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm p-5 sm:p-6 border border-border/80 rounded-3xl">
+          <div class="flex justify-between items-end gap-4 mb-5">
             <div>
-              <p class="text-sm font-medium text-additional">{{ t('student.offers.results.caption') }}</p>
-              <h2 id="offers-list-heading" class="mt-1 text-3xl font-semibold tracking-tight text-text" aria-live="polite">
+              <p class="font-medium text-additional text-sm">{{ t('student.offers.results.caption') }}</p>
+              <h2 id="offers-list-heading" class="mt-1 font-semibold text-text text-3xl tracking-tight" aria-live="polite">
                 {{ t('student.offers.results.count', { count: filteredOffers.length }) }}
               </h2>
             </div>
-            <p class="text-sm text-additional">{{ t('student.offers.results.helper') }}</p>
+            <p class="text-additional text-sm">{{ t('student.offers.results.helper') }}</p>
           </div>
 
           <OffersList

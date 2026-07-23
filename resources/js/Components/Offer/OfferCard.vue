@@ -14,7 +14,7 @@ const { t } = useI18n()
 
 const companyInitial = computed(() => props.offer.company?.name?.charAt(0) || 'O')
 
-const workModeLabel = computed(() => t(`student.offers.workModes.${props.offer.work_mode}`))
+const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mode}`))
 </script>
 
 <template>

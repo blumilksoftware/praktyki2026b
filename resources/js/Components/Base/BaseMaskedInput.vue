@@ -11,6 +11,7 @@ const props = defineProps({
   autocomplete: { type: String, default: undefined },
   inputmode: { type: String, default: undefined },
   required: { type: Boolean, default: false },
+  placeholder: { type: String, default: '' },
 })
 
 const model = defineModel({ type: String, required: true })
@@ -57,7 +58,15 @@ function handleUpdate(value) {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1.5 w-full pt-6">
+  <div class="flex w-full flex-col gap-1.5">
+    <label
+      :for="id"
+      class="mb-1 block text-base font-medium text-additional"
+      :class="{ 'text-error': hasError }"
+    >
+      {{ label }}
+    </label>
+
     <div class="relative">
       <MaskInput
         :id="id"
@@ -67,8 +76,8 @@ function handleUpdate(value) {
         :inputmode="inputmode"
         :autocomplete="autocomplete"
         :required="required"
-        placeholder=" "
-        class="peer w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+        :placeholder="placeholder"
+        class="w-full rounded-lg border border-border bg-white px-4 py-3 focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
         :class="[
           hasError ? 'border-error focus:border-error focus:ring-error/30' : '',
         ]"
@@ -76,17 +85,6 @@ function handleUpdate(value) {
         :aria-describedby="error ? `${id}-error` : undefined"
         @update:model-value="handleUpdate"
       />
-
-      <label
-        :for="id"
-        class="absolute z-10 origin-left cursor-text transition-all duration-200 text-base font-medium text-additional
-               -top-6 inset-s-0 translate-y-0 scale-90
-               peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:inset-s-4 peer-placeholder-shown:scale-100
-               peer-focus:-top-6 peer-focus:translate-y-0 peer-focus:inset-s-0 peer-focus:scale-90 peer-focus:text-text"
-        :class="{ 'text-error peer-focus:text-error': hasError }"
-      >
-        {{ label }}
-      </label>
     </div>
 
     <p

@@ -34,11 +34,7 @@ const profileUser = computed(() => ({
   work_modes: workModes.value,
 }))
 
-const workModeOptions = computed(() => [
-  t('student.profile.workMode.options.onsite'),
-  t('student.profile.workMode.options.remote'),
-  t('student.profile.workMode.options.hybrid'),
-])
+const workModeOptions = ['onSite', 'remote', 'hybrid']
 
 watch(() => props.user, () => {
   skills.value = [...(props.user.skills ?? [])]
@@ -82,14 +78,14 @@ const navItems = computed(() => [
 </script>
 
 <template>
-  <Head :title="t('student.profile.title')" />
+  <Head :title="t('student.nav.profile')" />
   <BaseLayout
     active-page="profile"
     :nav-items="navItems"
     layout-scope="student"
     :show-user-section="false"
     background-class="bg-white"
-    minimalHeader="true"
+    minimal-header="true"
     :show-background="false"
   >
     <OnboardingBanner />
@@ -155,7 +151,7 @@ const navItems = computed(() => [
           :aria-pressed="workModesDraft.includes(mode)"
           @click="toggleWorkMode(mode)"
         >
-          {{ mode }}
+          {{ t(`student.workModes.${mode}`) }}
         </button>
       </div>
       <div class="mt-6 flex justify-end gap-3">
