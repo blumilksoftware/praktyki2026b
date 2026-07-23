@@ -73,11 +73,6 @@ function saveWorkModes() {
 
 <template>
   <Head :title="t('student.profile.title')" />
-  <BaseLayout
-    active-page="profile"
-    :nav-items="navItems"
-    :minimal-header="true"
-  >
   <StudentPanelLayout active-page="profile">
     <OnboardingBanner />
 
