@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
@@ -8,15 +8,18 @@ const props = defineProps({
   label: { type: String, required: true },
   placeholder: { type: String, default: '' },
   error: { type: String, default: undefined },
+  max: { type: Number, default: 15 },
 })
 
 const emit = defineEmits(['update:modelValue'])
 const { t } = useI18n()
 const inputValue = ref('')
 
+const isAtLimit = computed(() => props.modelValue.length >= props.max)
+
 function addTag(raw) {
   const tag = raw.trim().slice(0, 50)
-  if (!tag || props.modelValue.length >= 20) return
+  if (!tag || isAtLimit.value) return
   if (props.modelValue.some((item) => item.toLowerCase() === tag.toLowerCase())) return
   emit('update:modelValue', [...props.modelValue, tag])
   inputValue.value = ''
@@ -76,5 +79,15 @@ function onKeydown(event) {
       </div>
     </div>
     <p v-if="error" class="mt-1 text-error text-sm" role="alert">{{ error }}</p>
+    <p
+      v-else
+      class="mt-1 text-sm"
+      :class="isAtLimit ? 'text-error' : 'text-additional'"
+      :role="isAtLimit ? 'status' : undefined"
+    >
+      {{ isAtLimit
+        ? t('student.profile.tags.limitReached', { max })
+        : t('student.profile.tags.limitHint', { max, count: modelValue.length }) }}
+    </p>
   </div>
 </template>

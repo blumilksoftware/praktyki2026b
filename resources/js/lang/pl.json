@@ -422,7 +422,9 @@
         "citiesPlaceholder": "Wpisz miasto i naciśnij Enter"
       },
       "tags": {
-        "remove": "Usuń tag"
+        "remove": "Usuń tag",
+        "limitHint": "{count}/{max} tagów. Możesz dodać maksymalnie {max}.",
+        "limitReached": "Osiągnięto limit: maksymalnie {max} tagów."
       },
       "skills": {
         "title": "Umiejętności techniczne",
@@ -445,8 +447,7 @@
         "title": "Zapisane i wysłane aplikacje"
       },
       "placeholder": {
-        "comingSoon": "Ta sekcja będzie dostępna wkrótce.",
-        "mockDataNotice": "Dane są tymczasowe (mock) i nie zapisują się na serwerze. Zostaną podpięte pod backend, gdy będzie gotowy."
+        "comingSoon": "Ta sekcja będzie dostępna wkrótce."
       },
       "account": {
         "title": "Konto i bezpieczeństwo",
