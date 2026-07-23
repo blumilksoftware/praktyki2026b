@@ -53,6 +53,7 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
     </label>
 
     <div class="relative">
+<<<<<<< HEAD
       <input
         :id="id"
         v-model="model"
@@ -81,10 +82,29 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
                peer-focus:-top-6 peer-focus:translate-y-0 peer-focus:inset-s-0 peer-focus:scale-90 peer-focus:text-text
                peer-disabled:cursor-not-allowed peer-disabled:opacity-60"
         :class="{ 'text-error peer-focus:text-error': hasError }"
+=======
+      <input :id="id" :value="model" :type="inputType" :autocomplete="autocomplete" :required="required"
+             :maxlength="maxlength" :aria-invalid="hasError ? true : undefined"
+             :aria-describedby="error ? `${id}-error` : undefined" placeholder=" "
+             class="peer w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+             :class="[
+               hasError ? 'border-error focus:border-error focus:ring-error/30' : '',
+               isPassword ? 'pr-11' : ''
+             ]" @input="model = $event.target.value"
+      >
+
+      <label :for="id"
+             class="absolute z-10 origin-left cursor-text transition-all duration-200 text-base font-medium text-additional
+               -top-6 inset-s-0 translate-y-0 scale-90
+               peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:inset-s-4 peer-placeholder-shown:scale-100
+               peer-focus:-top-6 peer-focus:translate-y-0 peer-focus:inset-s-0 peer-focus:scale-90 peer-focus:text-text"
+             :class="{ 'text-error peer-focus:text-error': hasError }"
+>>>>>>> 88d5382 (fix form)
       >
         {{ label }}
       </label>
 
+<<<<<<< HEAD
       <button
         v-if="isPassword"
         type="button"
@@ -94,18 +114,20 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
           ? t('auth.fields.hidePassword')
           : t('auth.fields.showPassword')"
         @click="togglePassword"
+=======
+      <button v-if="isPassword" type="button"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-additional hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded p-0.5"
+              :aria-label="showPassword
+                ? t('auth.fields.hidePassword')
+                : t('auth.fields.showPassword')" @click="togglePassword"
+>>>>>>> 88d5382 (fix form)
       >
         <IconEyeOff v-if="showPassword" class="w-5 h-5" aria-hidden="true" />
         <IconEye v-else class="w-5 h-5" aria-hidden="true" />
       </button>
     </div>
 
-    <p
-      v-if="error"
-      :id="`${id}-error`"
-      class="text-sm text-error"
-      role="alert"
-    >
+    <p v-if="error" :id="`${id}-error`" class="text-sm text-error" role="alert">
       {{ error }}
     </p>
   </div>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
+use App\Http\Controllers\Company\CityGeocodingController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
 use App\Http\Controllers\Onboarding\OnboardingController;
@@ -54,6 +55,9 @@ Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
         Route::patch("/offers/{offer}", [OfferController::class, "update"])->name("company.offers.update");
+        Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])->name("company.offers.deactivate");
+        Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");
+        Route::get("/geocoding/cities", [CityGeocodingController::class, "suggest"])->name("company.geocoding.cities");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])

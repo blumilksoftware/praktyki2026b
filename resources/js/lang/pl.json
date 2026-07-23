@@ -547,6 +547,16 @@
         "isPaid": "To płatny staż",
         "salaryMin": "Minimalne wynagrodzenie",
         "salaryMax": "Maksymalne wynagrodzenie",
+        "section": {
+          "details": "Szczegóły oferty",
+          "detailsHint": "Najpierw wprowadź podstawowe dane oferty.",
+          "preferences": "Preferencje kandydatów",
+          "preferencesHint": "Wybierz preferowane kierunki studiów i uczelnie.",
+          "description": "Opis oferty",
+          "descriptionHint": "Opisz staż tak, aby studenci wiedzieli, czego mogą się spodziewać.",
+          "compensation": "Wynagrodzenie",
+          "compensationHint": "Podaj kwotę, jeśli oferta jest płatna."
+        },
         "draft": "Zapisz jako szkic",
         "published": "Opublikuj od razu",
         "draftHint": "Szkice są widoczne tylko dla Ciebie. Publikacja wymaga zweryfikowanego konta firmy.",

@@ -9,7 +9,8 @@ import BaseTextarea from '@/Components/Base/BaseTextarea.vue'
 import BaseToggle from '@/Components/Base/BaseToggle.vue'
 import MultiSelect from '@/Components/Common/MultiSelect.vue'
 import DateRangeField from '@/Components/Offer/DateRangeField.vue'
-import { ROUTES } from '@/Helpers/routes'
+import CityAutocomplete from '@/Components/Offer/CityAutocomplete.vue'
+import { ROUTES } from '@/Helpers/routes' 
 
 const props = defineProps({
   studyFields: { type: Array, required: true },
@@ -60,121 +61,133 @@ const submit = () => {
 </script>
 
 <template>
-  <form class="flex flex-col gap-5" novalidate @submit.prevent="submit">
-    <BaseInput
-      id="title"
-      v-model="form.title"
-      :label="t('company.offers.form.title')"
-      required
-      :maxlength="255"
-      :error="fieldError('title')"
-    />
+  <form class="flex flex-col gap-6" novalidate @submit.prevent="submit">
+    <section class="rounded-3xl border border-border bg-secondary/5 p-6 shadow-sm">
+      <div class="flex flex-col gap-3">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.25em] text-additional">
+            {{ t('company.offers.form.section.details') }}
+          </p>
+          <p class="mt-1 text-sm text-additional">
+            {{ t('company.offers.form.section.detailsHint') }}
+          </p>
+        </div>
 
-    <DateRangeField
-      v-model:start="form.start_date"
-      v-model:end="form.end_date"
-      start-id="start_date"
-      end-id="end_date"
-      :start-label="t('company.offers.form.startDate')"
-      :end-label="t('company.offers.form.endDate')"
-      :start-error="fieldError('start_date')"
-      :end-error="fieldError('end_date')"
-      required
-    />
-
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <BaseSelect
-        id="work_mode"
-        v-model="form.work_mode"
-        :label="t('company.offers.form.workMode')"
-        :options="workModeOptions"
-        :placeholder="t('company.offers.form.workModePlaceholder')"
-        required
-        :error="fieldError('work_mode')"
-      />
-
-      <BaseInput
-        id="spots"
-        v-model="form.spots"
-        type="number"
-        :label="t('company.offers.form.spots')"
-        required
-        :error="fieldError('spots')"
-      />
-    </div>
-
-    <BaseInput
-      id="city"
-      v-model="form.city"
-      :label="t('company.offers.form.city')"
-      autocomplete="address-level2"
-      required
-      :error="fieldError('city')"
-    />
-
-    <MultiSelect
-      id="study_field_ids"
-      v-model="form.study_field_ids"
-      :options="studyFields"
-      :label="t('company.offers.form.preferredFields')"
-      :placeholder="t('company.offers.form.preferredFieldsPlaceholder')"
-      :empty-state-label="t('company.offers.form.noMoreOptions')"
-    />
-
-    <MultiSelect
-      id="university_ids"
-      v-model="form.university_ids"
-      :options="universities"
-      :label="t('company.offers.form.preferredUniversities')"
-      :placeholder="t('company.offers.form.preferredUniversitiesPlaceholder')"
-      :empty-state-label="t('company.offers.form.noMoreOptions')"
-    />
-
-    <BaseTextarea
-      id="description"
-      v-model="form.description"
-      :label="t('company.offers.form.description')"
-      required
-      :maxlength="10000"
-      :rows="6"
-      :error="fieldError('description')"
-    />
-
-    <div class="flex flex-col gap-4 rounded-lg border border-border p-4">
-      <BaseToggle id="is_paid" v-model="form.is_paid" :label="t('company.offers.form.isPaid')" />
-
-      <div v-if="form.is_paid" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <BaseInput
-          id="salary_min"
-          v-model="form.salary_min"
-          type="number"
-          :label="t('company.offers.form.salaryMin')"
-          required
-          :error="fieldError('salary_min')"
+        <BaseInput id="title" v-model="form.title" :label="t('company.offers.form.title')" required :maxlength="255"
+                   :error="fieldError('title')"
         />
-        <BaseInput
-          id="salary_max"
-          v-model="form.salary_max"
-          type="number"
-          :label="t('company.offers.form.salaryMax')"
-          required
-          :error="fieldError('salary_max')"
+
+        <DateRangeField v-model:start="form.start_date" v-model:end="form.end_date" start-id="start_date"
+                        end-id="end_date" :start-label="t('company.offers.form.startDate')"
+                        :end-label="t('company.offers.form.endDate')" :start-error="fieldError('start_date')"
+                        :end-error="fieldError('end_date')" required
+        />
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <BaseSelect id="work_mode" v-model="form.work_mode" :label="t('company.offers.form.workMode')"
+                      :options="workModeOptions" :placeholder="t('company.offers.form.workModePlaceholder')" required
+                      :error="fieldError('work_mode')"
+          />
+
+          <BaseInput id="spots" v-model="form.spots" type="number" :label="t('company.offers.form.spots')" required
+                     :error="fieldError('spots')"
+          />
+        </div>
+
+        <CityAutocomplete id="city" v-model="form.city" :label="t('company.offers.form.city')" required
+                          :error="fieldError('city')"
         />
       </div>
-    </div>
+    </section>
 
-    <div class="flex flex-col gap-2 rounded-lg border border-border p-4">
-      <BaseToggle id="status" v-model="isPublished" :label="isPublished ? t('company.offers.form.published') : t('company.offers.form.draft')" />
-      <p class="text-sm text-additional">
-        {{ t('company.offers.form.draftHint') }}
-      </p>
-      <p v-if="fieldError('status')" class="text-sm text-error" role="alert">
-        {{ fieldError('status') }}
-      </p>
-    </div>
+    <section class="rounded-3xl border border-border bg-white p-6 shadow-sm">
+      <div class="flex flex-col gap-3">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.25em] text-additional">
+            {{ t('company.offers.form.section.preferences') }}
+          </p>
+          <p class="mt-1 text-sm text-additional">
+            {{ t('company.offers.form.section.preferencesHint') }}
+          </p>
+        </div>
 
-    <BaseButton type="submit" class="w-fit px-8" :disabled="form.processing">
-      {{ isEditing ? t('company.offers.form.submitEdit') : t('company.offers.form.submitCreate') }}
-    </BaseButton>
+        <div class="grid gap-5">
+          <MultiSelect id="study_field_ids" v-model="form.study_field_ids" :options="studyFields"
+                       :label="t('company.offers.form.preferredFields')"
+                       :placeholder="t('company.offers.form.preferredFieldsPlaceholder')"
+                       :empty-state-label="t('company.offers.form.noMoreOptions')"
+          />
+
+          <MultiSelect id="university_ids" v-model="form.university_ids" :options="universities"
+                       :label="t('company.offers.form.preferredUniversities')"
+                       :placeholder="t('company.offers.form.preferredUniversitiesPlaceholder')"
+                       :empty-state-label="t('company.offers.form.noMoreOptions')"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-3xl border border-border bg-white p-6 shadow-sm">
+      <div class="flex flex-col gap-3">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.25em] text-additional">
+            {{ t('company.offers.form.section.description') }}
+          </p>
+          <p class="mt-1 text-sm text-additional">
+            {{ t('company.offers.form.section.descriptionHint') }}
+          </p>
+        </div>
+
+        <BaseTextarea id="description" v-model="form.description" :label="t('company.offers.form.description')" required
+                      :maxlength="10000" :rows="6" :error="fieldError('description')"
+        />
+      </div>
+    </section>
+
+    <section class="rounded-3xl border border-border bg-white p-6 shadow-sm">
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p class="text-sm font-semibold text-text">
+              {{ t('company.offers.form.section.compensation') }}
+            </p>
+            <p class="text-sm text-additional">
+              {{ t('company.offers.form.section.compensationHint') }}
+            </p>
+          </div>
+
+          <BaseToggle id="is_paid" v-model="form.is_paid" :label="t('company.offers.form.isPaid')" />
+        </div>
+
+        <div v-if="form.is_paid" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <BaseInput id="salary_min" v-model="form.salary_min" type="number" :label="t('company.offers.form.salaryMin')"
+                     required :error="fieldError('salary_min')"
+          />
+          <BaseInput id="salary_max" v-model="form.salary_max" type="number" :label="t('company.offers.form.salaryMax')"
+                     required :error="fieldError('salary_max')"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-3xl border border-border bg-white p-6 shadow-sm">
+      <div class="flex flex-col gap-4">
+        <BaseToggle id="status" v-model="isPublished"
+                    :label="isPublished ? t('company.offers.form.published') : t('company.offers.form.draft')"
+        />
+        <p class="text-sm text-additional">
+          {{ t('company.offers.form.draftHint') }}
+        </p>
+        <p v-if="fieldError('status')" class="text-sm text-error" role="alert">
+          {{ fieldError('status') }}
+        </p>
+      </div>
+    </section>
+
+    <div class="flex justify-end">
+      <BaseButton type="submit" class="w-full sm:w-auto px-8" :disabled="form.processing">
+        {{ isEditing ? t('company.offers.form.submitEdit') : t('company.offers.form.submitCreate') }}
+      </BaseButton>
+    </div>
   </form>
 </template>

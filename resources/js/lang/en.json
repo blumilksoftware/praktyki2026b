@@ -545,6 +545,16 @@
         "isPaid": "This is a paid internship",
         "salaryMin": "Minimum salary",
         "salaryMax": "Maximum salary",
+        "section": {
+          "details": "Offer details",
+          "detailsHint": "Fill in the basic offer details first.",
+          "preferences": "Candidate preferences",
+          "preferencesHint": "Choose preferred study fields and universities.",
+          "description": "Offer description",
+          "descriptionHint": "Describe the internship clearly so students know what to expect.",
+          "compensation": "Compensation",
+          "compensationHint": "Enter salary details if the offer is paid."
+        },
         "draft": "Save as draft",
         "published": "Publish immediately",
         "draftHint": "Drafts are only visible to you. Publishing requires a verified company account.",
