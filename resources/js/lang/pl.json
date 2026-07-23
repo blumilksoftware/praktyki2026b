@@ -165,6 +165,9 @@
       "invalidFormat": "Nieprawidłowy format. Dozwolone formaty to: JPG, JPEG, PNG, WEBP.",
       "fileTooLarge": "Maksymalny rozmiar pliku to {maxSize} MB."
     },
+    "edit": {
+      "successMessage": "Profil został pomyślnie zaktualizowany."
+    },
     "company": {
       "myOffers": "Moje oferty",
       "candidateApplications": "Aplikacje kandydatów",

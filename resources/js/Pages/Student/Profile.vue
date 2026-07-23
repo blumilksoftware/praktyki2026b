@@ -85,7 +85,6 @@ const navItems = computed(() => [
     active-page="profile"
     :nav-items="navItems"
     :minimal-header="true"
-    :show-background="false"
   >
     <OnboardingBanner />
 

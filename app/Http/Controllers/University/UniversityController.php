@@ -70,7 +70,6 @@ class UniversityController extends Controller
             "postalCode" => $university?->postal_code ?? null,
             "city" => $university?->city ?? null,          
             "phone" => $university?->phone ?? null,
-            "domain" => $university?->domain ?? null,
             "website" => $university?->website ?? null,
             "externalFormUrl" => $university?->external_form_url ?? null,
             "faculties" => $university ? $university->faculties()->with("studyFields")->get() : [],

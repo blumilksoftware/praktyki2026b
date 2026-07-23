@@ -51,7 +51,7 @@ const submit = () => {
   })).post('/university/profile', {
     preserveScroll: true,
     onSuccess: () => {
-      statusMessage.value = t('profiles.edit.success_message')
+      statusMessage.value = t('profiles.edit.successMessage')
       
       setTimeout(() => {
         statusMessage.value = null

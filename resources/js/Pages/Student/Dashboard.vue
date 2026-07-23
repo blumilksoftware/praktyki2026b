@@ -21,7 +21,6 @@ const navItems = computed(() => [
     active-page="dashboard"
     :nav-items="navItems"
     :minimal-header="true"
-    :show-background="false"
   >
     <OnboardingBanner />
   </BaseLayout>

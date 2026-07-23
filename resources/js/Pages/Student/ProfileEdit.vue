@@ -104,7 +104,6 @@ function saveAll() {
     active-page="profile"
     :nav-items="navItems"
     :minimal-header="true"
-    :show-background="false"
   >
     <div class="mx-auto w-full max-w-4xl">
       <Link
