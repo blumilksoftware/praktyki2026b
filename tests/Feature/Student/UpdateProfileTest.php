@@ -1,4 +1,4 @@
-<?php
+git<?php
 
 declare(strict_types=1);
 
@@ -6,6 +6,7 @@ namespace Tests\Feature\Student;
 
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Enums\WorkMode;
 use App\Models\StudentPreferredCity;
 use App\Models\StudyField;
 use App\Models\User;
@@ -276,6 +277,81 @@ class UpdateProfileTest extends TestCase
         ]));
 
         $response->assertInvalid("postal_code");
+    }
+
+    public function testStudentCanSaveSkillsAndWorkModes(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
+            "skills" => ["Vue.js", "Python"],
+            "work_modes" => [WorkMode::Remote->value, WorkMode::Hybrid->value],
+        ]));
+
+        $response->assertRedirect();
+        $user->refresh();
+
+        $this->assertEquals(["Vue.js", "Python"], $user->skills);
+        $this->assertEquals([WorkMode::Remote->value, WorkMode::Hybrid->value], $user->work_modes);
+    }
+
+    public function testMoreThanTwentySkillsIsRejected(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
+            "skills" => array_map(fn(int $i): string => "Skill{$i}", range(1, 21)),
+        ]));
+
+        $response->assertInvalid("skills");
+    }
+
+    public function testDuplicateSkillCaseInsensitiveIsRejected(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
+            "skills" => ["Python", "python"],
+        ]));
+
+        $response->assertInvalid("skills.0");
+    }
+
+    public function testInvalidWorkModeValueIsRejected(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
+            "work_modes" => ["from_home"],
+        ]));
+
+        $response->assertInvalid("work_modes.0");
+    }
+
+    public function testDuplicateWorkModeIsRejected(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
+            "work_modes" => [WorkMode::Remote->value, WorkMode::Remote->value],
+        ]));
+
+        $response->assertInvalid("work_modes.0");
     }
 
     private function validPayload(array $overrides = []): array
