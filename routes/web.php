@@ -45,18 +45,21 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
 Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
-        Route::post("/offers", [OfferController::class, "store"])->name("company.offers.store");
-        Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])->name("company.offers.publish");
-        Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])->name("company.offers.deactivate");
-        Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");
-    });
+        Route::post("/offers", [OfferController::class, "store"])
+            ->name("company.offers.store");
 
-Route::middleware(["auth"])
-    ->prefix("company")
-    ->group(function (): void {
-        Route::patch("/offers/{offer}", [OfferController::class, "update"])->name("company.offers.update");
-        Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])->name("company.offers.deactivate");
-        Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");
+        Route::patch("/offers/{offer}", [OfferController::class, "update"])
+            ->name("company.offers.update");
+
+        Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])
+            ->name("company.offers.publish");
+
+        Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])
+            ->name("company.offers.deactivate");
+
+        Route::delete("/offers/{offer}", [OfferController::class, "destroy"])
+            ->name("company.offers.destroy");
+
         Route::get("/geocoding/cities", [CityGeocodingController::class, "suggest"])
             ->name("company.geocoding.cities")
             ->middleware("throttle:30,1");
@@ -78,10 +81,7 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
         Route::post("/offers/{offer}/withdraw", [StudentController::class, "withdraw"])->name("student.offers.withdraw");
-<<<<<<< HEAD
         Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");        
-=======
->>>>>>> 414a9f4 (fix conflicts)
         Route::post("/offers/{offer}/favourite", [StudentController::class, "saveOffer"])->name("student.offers.favourite.save");
         Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])
             ->name("student.offers.favourite.delete")

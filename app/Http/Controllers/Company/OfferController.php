@@ -8,7 +8,6 @@ use App\Actions\Company\CreateOffer;
 use App\Actions\Company\GetOffersSummary;
 use App\Actions\Company\PublishOffer;
 use App\Actions\Company\UpdateOffer;
-use App\Actions\Offer\SearchOffers;
 use App\DTO\Offer\CreateOfferData;
 use App\DTO\Offer\UpdateOfferData;
 use App\Enums\OfferStatus;
@@ -22,7 +21,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
-
 
 class OfferController extends Controller
 {

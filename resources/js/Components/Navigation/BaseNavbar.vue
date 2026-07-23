@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
 import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
 import ProfileIcon from '@/Components/Navigation/ProfileIcon.vue'
+import BaseNavigationButtons from '@/Components/Navigation/BaseNavigationButtons.vue'
 import { IconMenu2, IconX } from '@tabler/icons-vue'
 import { useMobileMenu } from '@/Composables/useMobileMenu'
 
@@ -20,7 +21,22 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  showNavigationButtons: {
+    type: Boolean,
+    default: false,
+  },
+  navigationButtons: {
+    type: Array,
+    default: () => [],
+  },
+  navigationVariant: {
+    type: String,
+    default: 'default',
+    validator: (value) => ['default', 'outline', 'ghost'].includes(value),
+  },
 })
+
+const emit = defineEmits(['navigationClick'])
 
 const user = computed(() => page.props.auth?.user)
 const isAuthenticated = computed(() => !!user.value)
@@ -32,6 +48,10 @@ const isAuthPage = computed(() => {
 const showProfileIcon = computed(() => isAuthenticated.value && !isAuthPage.value)
 
 const { isMobileMenuOpen, toggle, close } = useMobileMenu()
+
+const handleNavigationClick = (item) => {
+  emit('navigationClick', item)
+}
 </script>
 
 <template>
@@ -48,6 +68,16 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
         >
           <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" />
         </button>
+      </div>
+
+      <div class="hidden lg:flex lg:items-center lg:gap-2">
+        <BaseNavigationButtons 
+          v-if="showNavigationButtons && navigationButtons.length > 0"
+          :show-buttons="true"
+          :variant="navigationVariant"
+          :buttons="navigationButtons"
+          @button-click="handleNavigationClick"
+        />
       </div>
 
       <div class="flex items-center gap-4">
@@ -97,22 +127,55 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
       </div>
 
       <div class="p-5 overflow-y-auto h-full bg-white">
-        <ul class="flex flex-col gap-2">
-          <li v-for="item in menuItems" :key="item.href">
-            <Link 
-              :href="item.href" 
-              class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold transition-colors"
-              :class="item.isActive 
-                ? 'border border-primary/30 bg-primary/5 text-primary' 
-                : 'text-additional hover:bg-gray-50 hover:text-secondary'"
-              :aria-current="item.isActive ? 'page' : undefined"
-              @click="close"
-            >
-              <component :is="item.icon" stroke="2" class="w-6 h-6 shrink-0" />
-              {{ item.label }}
-            </Link>
-          </li>
-        </ul>
+        <div v-if="showNavigationButtons && navigationButtons.length > 0" class="mb-6">
+          <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
+            {{ t('navigation') || 'Nawigacja' }}
+          </h3>
+          <ul class="flex flex-col gap-1">
+            <li v-for="item in navigationButtons" :key="item.id || item.key">
+              <Link 
+                :href="item.href || '#'"
+                class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
+                :class="item.isActive 
+                  ? 'bg-primary/10 text-primary' 
+                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'"
+                :aria-current="item.isActive ? 'page' : undefined"
+                @click="close"
+              >
+                <component 
+                  :is="item.icon" 
+                  v-if="item.icon" 
+                  stroke="2" 
+                  class="w-5 h-5 shrink-0" 
+                  :class="item.isActive ? 'text-primary' : 'text-gray-400'"
+                />
+                {{ item.label }}
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="menuItems.length > 0" class="mb-6">
+          <h3 v-if="showNavigationButtons && navigationButtons.length > 0" class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
+            {{ t('menu') || 'Menu' }}
+          </h3>
+          <ul class="flex flex-col gap-1">
+            <li v-for="item in menuItems" :key="item.href">
+              <Link 
+                :href="item.href" 
+                class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
+                :class="item.isActive 
+                  ? 'bg-primary/10 text-primary' 
+                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'"
+                :aria-current="item.isActive ? 'page' : undefined"
+                @click="close"
+              >
+                <component :is="item.icon" stroke="2" class="w-5 h-5 shrink-0" :class="item.isActive ? 'text-primary' : 'text-gray-400'" />
+                {{ item.label }}
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </aside>
   </transition>
