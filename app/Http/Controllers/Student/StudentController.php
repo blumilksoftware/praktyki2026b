@@ -85,6 +85,17 @@ class StudentController extends Controller
         return inertia("Student/ProfileEdit", $this->buildStudentProfileData->execute($user));
     }
 
+    public function settings(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Student/Settings", [
+            "email" => $user->email,
+            "emailVerifiedAt" => $user->email_verified_at?->toIso8601String(),
+            "pendingEmail" => $user->pending_email,
+        ]);
+    }
+
     public function showPhoto(): StreamedResponse
     {
         $user = Auth::user();

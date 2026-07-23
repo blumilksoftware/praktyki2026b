@@ -21,10 +21,10 @@ describe('TagsEdit.vue', () => {
     })
 
     const text = wrapper.text()
-    
+
     expect(text).toContain('IT')
     expect(text).toContain('Vue.js')
-    
+
     expect(text).toContain('2 / 20')
   })
 
@@ -35,9 +35,9 @@ describe('TagsEdit.vue', () => {
     })
 
     const searchInput = wrapper.find('input[type="text"]')
-    
+
     await searchInput.setValue('Wroc')
-    
+
     const text = wrapper.text()
     expect(text).toContain('Wrocław')
     expect(text).not.toContain('Warszawa')
@@ -49,9 +49,9 @@ describe('TagsEdit.vue', () => {
       global: { stubs: globalStubs }
     })
 
-    const searchInput = wrapper.find<HTMLInputElement>('input[type="text"]')    
+    const searchInput = wrapper.find<HTMLInputElement>('input[type="text"]')
     await searchInput.setValue('Python')
-    
+
     const clearButton = wrapper.find('button')
     await clearButton.trigger('click')
 
@@ -86,7 +86,7 @@ describe('TagsEdit.vue', () => {
 
   it('does not exceed the maxTags limit', async () => {
     const wrapper = mount(TagsEdit, {
-      props: { 
+      props: {
         modelValue: ['Tag1', 'Tag2'],
         maxTags: 2
       },

@@ -67,6 +67,8 @@ class BuildStudentProfileData
                 "cv_path" => $student->cv_path,
                 "preferred_cities" => $preferredCities,
                 "study_field_ids" => $studyFieldIds,
+                "skills" => $student->skills ?? [],
+                "work_modes" => $student->work_modes ?? [],
             ],
             "study_fields" => $studyFields,
             "university_organization" => $student->universityOrganization ? $mapUniversity($student->universityOrganization) : null,

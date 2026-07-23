@@ -44,7 +44,7 @@ describe('ContactCard.vue', () => {
 
     const mapsLink = wrapper.find('a[href^="https://www.google.com/maps/search/"]')
     expect(mapsLink.exists()).toBe(true)
-    
+
     const expectedQuery = encodeURIComponent('Baker Street 221B, London')
     expect(mapsLink.attributes('href')).toContain(expectedQuery)
   })

@@ -104,7 +104,6 @@ const submit = () => {
             v-model:street="form.street"
             v-model:postal-code="form.postalCode"
             v-model:city="form.city"
-            :nip="company.nip"
             :errors="form.errors"
           />
         </div>

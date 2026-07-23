@@ -114,7 +114,7 @@ describe('HeaderEdit.vue', () => {
 
     const mockFile = new File([''], 'logo.jpg', { type: 'image/jpeg' })
     const fileInput = wrapper.find<HTMLInputElement>('input[type="file"]')
-    
+
     Object.defineProperty(fileInput.element, 'files', {
       value: [mockFile]
     })
@@ -124,7 +124,7 @@ describe('HeaderEdit.vue', () => {
     // Verifications
     expect(wrapper.emitted('update:logo')).toBeTruthy()
     expect(wrapper.emitted('update:logo')![0]).toEqual([mockFile])
-    
+
     expect(wrapper.find('img').attributes('src')).toBe('blob:http://localhost/mock-preview-url')
   })
 

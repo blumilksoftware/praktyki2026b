@@ -46,6 +46,11 @@ class UpdateUniversityProfileRequest extends FormRequest
             "faculties.*.name" => ["required", "string", "max:255"],
             "faculties.*.study_fields" => ["required", "array"],
             "faculties.*.study_fields.*" => ["required", "string", "max:255"],
+            "website" => ["nullable", "string", "url", "max:255"],
+            "phone" => ["required", "string", "max:50"],
+            "street" => ["required", "string", "max:255"],
+            "postalCode" => ["required", "string", "max:20"],
+            "city" => ["required", "string", "max:255"],
         ];
     }
 
@@ -56,6 +61,11 @@ class UpdateUniversityProfileRequest extends FormRequest
             "logo" => $this->file("logo"),
             "external_form_url" => $this->string("external_form_url")->toString() ?: null,
             "faculties" => $this->has("faculties") ? $this->input("faculties") : null,
+            "website" => $this->string("website")->toString() ?: null,
+            "phone" => $this->string("phone")->toString(),
+            "street" => $this->string("street")->toString(),
+            "postal_code" => $this->string("postalCode")->toString(),
+            "city" => $this->string("city")->toString(),
         ];
     }
 }

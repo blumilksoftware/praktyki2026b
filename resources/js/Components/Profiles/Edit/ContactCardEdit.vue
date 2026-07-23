@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconWorld, IconMapPin, IconPhone, IconMail } from '@tabler/icons-vue'
+import { IconWorld, IconMapPin, IconPhone } from '@tabler/icons-vue'
 import BaseInput from '@/Components/Base/BaseInput.vue' 
 
 const { t } = useI18n()
@@ -12,16 +12,15 @@ const props = defineProps({
   street: { type: String, default: '' },
   postalCode: { type: String, default: '' },
   city: { type: String, default: '' },
-  nip: { type: String, default: '' },
   errors: { type: Object, default: () => ({}) }, 
 })
 
 const emit = defineEmits([
   'update:website', 
-  'update:phone', 
+  'update:phone',
   'update:street',
   'update:postalCode',
-  'update:city', 
+  'update:city',
 ])
 
 const requiredFields = ['city', 'postalCode', 'street', 'phone']
@@ -103,7 +102,7 @@ const streetModel = computed({
       </div>
 
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
-        <div class="hidden sm:block w-7 h-7 shrink-0" /> 
+        <div class="hidden sm:block w-7 h-7 shrink-0" />
         <BaseInput
           id="street"
           v-model="streetModel"
