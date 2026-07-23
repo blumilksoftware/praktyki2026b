@@ -41,6 +41,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property ?string $study_field
  * @property ?int $study_year
  * @property ?string $specialization
+ * @property ?array $skills
+ * @property ?array $work_modes
  * @property ?Carbon $onboarding_dismissed_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -73,6 +75,8 @@ class User extends Authenticatable implements MustVerifyEmail
         "study_field",
         "study_year",
         "specialization",
+        "skills",
+        "work_modes",
         "onboarding_dismissed_at",
     ];
     protected $hidden = [
@@ -143,6 +147,8 @@ class User extends Authenticatable implements MustVerifyEmail
             "terms_accepted_at" => "datetime",
             "onboarding_dismissed_at" => "datetime",
             "password" => "hashed",
+            "skills" => "array",
+            "work_modes" => "array",
         ];
     }
 }

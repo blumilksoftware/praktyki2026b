@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
@@ -11,6 +11,7 @@ import StudentProfileSidebar from '@/Components/Student/StudentProfileSidebar.vu
 import StudentProfileSkillsSection from '@/Components/Student/StudentProfileSkillsSection.vue'
 import StudentProfileWorkModeSection from '@/Components/Student/StudentProfileWorkModeSection.vue'
 import StudentProfileApplicationsSection from '@/Components/Student/StudentProfileApplicationsSection.vue'
+import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   user: { type: Object, required: true },
@@ -24,6 +25,10 @@ const skills = ref([])
 const workModes = ref([])
 const skillsDraft = ref([])
 const workModesDraft = ref([])
+const skillsError = ref(undefined)
+const workModesError = ref(undefined)
+const isSkillsSaving = ref(false)
+const isWorkModesSaving = ref(false)
 
 const profileUser = computed(() => ({
   ...props.user,
@@ -32,28 +37,71 @@ const profileUser = computed(() => ({
 }))
 
 const workModeOptions = computed(() => [
-  t('student.profile.workMode.options.onsite'),
-  t('student.profile.workMode.options.remote'),
-  t('student.profile.workMode.options.hybrid'),
+  { value: 'onSite', label: t('student.profile.workMode.options.onsite') },
+  { value: 'remote', label: t('student.profile.workMode.options.remote') },
+  { value: 'hybrid', label: t('student.profile.workMode.options.hybrid') },
 ])
+
+const workModeLabels = computed(() => Object.fromEntries(
+  workModeOptions.value.map((option) => [option.value, option.label]),
+))
+
+const displayWorkModes = computed(() => profileUser.value.work_modes.map(
+  (mode) => workModeLabels.value[mode] ?? mode,
+))
 
 watch(() => props.user, () => {
   skills.value = [...(props.user.skills ?? [])]
   workModes.value = [...(props.user.work_modes ?? [])]
 }, { immediate: true })
 
+function buildProfilePayload(overrides) {
+  return {
+    first_name: props.user.first_name ?? '',
+    last_name: props.user.last_name ?? '',
+    age: props.user.age ?? '',
+    street: props.user.street ?? '',
+    postal_code: props.user.postal_code ?? '',
+    city: props.user.city ?? '',
+    university: props.user.university ?? '',
+    study_field: props.user.study_field ?? '',
+    study_year: props.user.study_year ?? '',
+    specialization: props.user.specialization ?? '',
+    study_field_ids: [...(props.user.study_field_ids ?? [])],
+    preferred_cities: [...(props.user.preferred_cities ?? [])],
+    skills: [...skills.value],
+    work_modes: [...workModes.value],
+    ...overrides,
+  }
+}
+
 function openSkillsModal() {
   skillsDraft.value = [...skills.value]
+  skillsError.value = undefined
   isSkillsModalOpen.value = true
 }
 
 function saveSkills() {
-  skills.value = [...skillsDraft.value]
-  isSkillsModalOpen.value = false
+  skillsError.value = undefined
+  isSkillsSaving.value = true
+  router.patch(ROUTES.STUDENT_PROFILE_UPDATE, buildProfilePayload({ skills: [...skillsDraft.value] }), {
+    preserveScroll: true,
+    onSuccess: () => {
+      skills.value = [...skillsDraft.value]
+      isSkillsModalOpen.value = false
+    },
+    onError: (errors) => {
+      skillsError.value = errors.skills
+    },
+    onFinish: () => {
+      isSkillsSaving.value = false
+    },
+  })
 }
 
 function openWorkModeModal() {
   workModesDraft.value = [...workModes.value]
+  workModesError.value = undefined
   isWorkModeModalOpen.value = true
 }
 
@@ -66,8 +114,21 @@ function toggleWorkMode(mode) {
 }
 
 function saveWorkModes() {
-  workModes.value = [...workModesDraft.value]
-  isWorkModeModalOpen.value = false
+  workModesError.value = undefined
+  isWorkModesSaving.value = true
+  router.patch(ROUTES.STUDENT_PROFILE_UPDATE, buildProfilePayload({ work_modes: [...workModesDraft.value] }), {
+    preserveScroll: true,
+    onSuccess: () => {
+      workModes.value = [...workModesDraft.value]
+      isWorkModeModalOpen.value = false
+    },
+    onError: (errors) => {
+      workModesError.value = errors.work_modes
+    },
+    onFinish: () => {
+      isWorkModesSaving.value = false
+    },
+  })
 }
 </script>
 
@@ -85,7 +146,7 @@ function saveWorkModes() {
           @manage="openSkillsModal"
         />
         <StudentProfileWorkModeSection
-          :work-modes="profileUser.work_modes ?? []"
+          :work-modes="displayWorkModes"
           @manage="openWorkModeModal"
         />
         <StudentProfileApplicationsSection :applications="profileUser.applications ?? []" />
@@ -103,12 +164,13 @@ function saveWorkModes() {
         v-model="skillsDraft"
         :label="t('student.profile.skills.title')"
         :placeholder="t('student.profile.skills.placeholder')"
+        :error="skillsError"
       />
       <div class="mt-6 flex justify-end gap-3">
         <BaseButton type="button" variant="secondary" @click="isSkillsModalOpen = false">
           {{ t('student.profile.actions.cancel') }}
         </BaseButton>
-        <BaseButton type="button" @click="saveSkills">
+        <BaseButton type="button" :disabled="isSkillsSaving" @click="saveSkills">
           {{ t('student.profile.actions.save') }}
         </BaseButton>
       </div>
@@ -122,24 +184,25 @@ function saveWorkModes() {
     >
       <div class="flex flex-wrap gap-2">
         <button
-          v-for="mode in workModeOptions"
-          :key="mode"
+          v-for="option in workModeOptions"
+          :key="option.value"
           type="button"
           class="rounded-full border px-4 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-          :class="workModesDraft.includes(mode)
+          :class="workModesDraft.includes(option.value)
             ? 'border-primary bg-primary text-white'
             : 'border-slate-400 bg-slate-100 text-text hover:bg-white'"
-          :aria-pressed="workModesDraft.includes(mode)"
-          @click="toggleWorkMode(mode)"
+          :aria-pressed="workModesDraft.includes(option.value)"
+          @click="toggleWorkMode(option.value)"
         >
-          {{ mode }}
+          {{ option.label }}
         </button>
       </div>
+      <p v-if="workModesError" class="mt-2 text-error text-sm" role="alert">{{ workModesError }}</p>
       <div class="mt-6 flex justify-end gap-3">
         <BaseButton type="button" variant="secondary" @click="isWorkModeModalOpen = false">
           {{ t('student.profile.actions.cancel') }}
         </BaseButton>
-        <BaseButton type="button" @click="saveWorkModes">
+        <BaseButton type="button" :disabled="isWorkModesSaving" @click="saveWorkModes">
           {{ t('student.profile.actions.save') }}
         </BaseButton>
       </div>

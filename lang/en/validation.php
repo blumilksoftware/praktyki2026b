@@ -34,6 +34,7 @@ return [
     "profile_study_year_min" => "Year of study must be greater than 0.",
     "profile_study_year_max" => "Enter a valid year of study.",
     "profile_preferred_cities_max" => "You can add up to :max preferred cities.",
+    "profile_skills_max" => "You can add up to :max skills.",
 
     "attributes" => [
         "email" => "email address",
@@ -72,6 +73,8 @@ return [
         "study_year" => "year of study",
         "specialization" => "specialization",
         "preferred_cities" => "preferred cities",
+        "skills" => "technical skills",
+        "work_modes" => "work mode",
         "photo" => "profile photo",
         "current_password" => "current password",
         "date_from" => "start of date range",
