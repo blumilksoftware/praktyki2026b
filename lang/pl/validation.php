@@ -177,6 +177,7 @@ return [
     "profile_study_year_min" => "Rok studiów musi być większy od 0.",
     "profile_study_year_max" => "Wpisz poprawny rok studiów.",
     "profile_preferred_cities_max" => "Możesz dodać maksymalnie :max preferowanych miast.",
+    "profile_skills_max" => "Możesz dodać maksymalnie :max umiejętności.",
 
     "attributes" => [
         "email" => "adres e-mail",
@@ -215,6 +216,8 @@ return [
         "study_year" => "rok studiów",
         "specialization" => "specjalizacja",
         "preferred_cities" => "preferowane miasta",
+        "skills" => "umiejętności techniczne",
+        "work_modes" => "tryb pracy",
         "photo" => "zdjęcie profilowe",
         "current_password" => "aktualne hasło",
         "date_from" => "początek zakresu dat",
