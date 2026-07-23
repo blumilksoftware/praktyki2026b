@@ -24,6 +24,9 @@
       "externalFormUrl": "URL formularza rekrutacyjnego"
     }
   },
+  "common": {
+    "verifiedBadge": "Konto zweryfikowane przez administratora"
+  },
   "errors": {
     "401": {
       "title": "Wymagane logowanie",
