@@ -13,10 +13,6 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const universityMenu = computed(() => [
-  { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle, isActive: true },
-])
-
 const goBack = () => {
   window.history.back()
 }
@@ -65,7 +61,7 @@ const submit = () => {
   <Head :title="university.name" />
   
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar show-hamburger :menu-items="universityMenu" />
+    <BaseNavbar />
   
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
@@ -75,9 +71,6 @@ const submit = () => {
           <IconArrowLeft stroke="2.5" class="w-4 h-4" />
           {{ t('buttons.back') }}
         </a>
-        <div>
-          <Menu :items="universityMenu" />
-        </div>
       </div>
 
       <div class="flex flex-col gap-6 w-full">
