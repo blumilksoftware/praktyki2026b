@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
-use App\Http\Controllers\OfferController as PublicOfferController;
 use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\OfferSearchController;
 use App\Http\Controllers\Student\StudentController;
