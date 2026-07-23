@@ -59,7 +59,7 @@ describe("Student/Profile", () => {
     global: {
       plugins: [i18n],
       stubs: {
-        BaseLayout: { template: "<div><slot /></div>" },
+        StudentPanelLayout: { template: "<div><slot /></div>" },
         BaseModal: {
           props: ["open", "title"],
           template: '<section v-if="open"><h2>{{ title }}</h2><slot /></section>',
@@ -78,7 +78,6 @@ describe("Student/Profile", () => {
     expect(wrapper.text()).toContain("Edit profile")
     expect(wrapper.text()).toContain("Technical skills")
     expect(wrapper.text()).toContain("Expected work mode")
-    expect(wrapper.text()).toContain("Account and security")
   })
 
   it("renders skills and work mode tags from user data", () => {

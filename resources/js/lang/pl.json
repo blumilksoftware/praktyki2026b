@@ -305,9 +305,17 @@
   "student": {
     "layout": {
       "title": "Panel studenta",
+      "skipToContent": "Przejdź do treści",
       "nav": {
         "dashboard": "Panel",
         "profile": "Profil"
+      }
+    },
+    "dashboard": {
+      "comingSoon": {
+        "title": "Panel studenta jest w przygotowaniu.",
+        "applications": "Wkrótce pojawi się tu przegląd Twoich aplikacji (T-062, BE: T-061).",
+        "offersAndFavourites": "Szukanie ofert i ulubione dojdą wraz z milestone’ami M3/M4 (T-046, T-066)."
       }
     },
     "cv": {
@@ -367,7 +375,7 @@
         "specialization": "Specjalność",
         "saveChanges": "Zapisz zmiany",
         "backToProfile": "Wróć do profilu",
-        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” na stronie profilu."
+        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” (ikona profilu w pasku nawigacji)."
       },
       "photo": {
         "label": "Zdjęcie profilowe",
@@ -421,8 +429,7 @@
       },
       "account": {
         "title": "Konto i bezpieczeństwo",
-        "description": "Hasło, adres e-mail i usuwanie konta.",
-        "navbarNotice": "Po ukończeniu paska nawigacji ta sekcja zostanie przeniesiona do ustawień profilu w menu."
+        "description": "Hasło, adres e-mail i usuwanie konta."
       },
       "password": {
         "title": "Zmiana hasła",
