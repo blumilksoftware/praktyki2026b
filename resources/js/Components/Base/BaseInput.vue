@@ -23,7 +23,11 @@ const props = defineProps({
 =======
   dropdown: { type: Boolean, default: false },
   dropdownOpen: { type: Boolean, default: false },
+<<<<<<< HEAD
 >>>>>>> 7591af3 (apply pr suggestions)
+=======
+  disabled: { type: Boolean, default: false },
+>>>>>>> 414a9f4 (fix conflicts)
 })
 
 const model = defineModel({ type: String, required: true })
@@ -50,10 +54,17 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
     <label
       v-if="stacked"
       :for="id"
+<<<<<<< HEAD
       class="mb-1 block text-additional text-sm"
       :class="[
         hasError ? 'text-error' : '',
         disabled ? 'opacity-60 cursor-not-allowed' : ''
+=======
+      class="text-sm font-medium text-text"
+      :class="[
+        hasError ? 'text-error' : '',
+        disabled ? 'opacity-60 cursor-not-allowed' : '',
+>>>>>>> 414a9f4 (fix conflicts)
       ]"
     >
       {{ label }}
@@ -66,7 +77,6 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
         :id="id"
         v-model="model"
         v-bind="$attrs"
-
         :type="inputType"
         :autocomplete="autocomplete"
         :required="required"
@@ -83,6 +93,7 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
           stacked ? '' : 'peer',
         ]"
       >
+
       <IconChevronDown
         v-if="dropdown"
         class="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-additional transition-transform duration-200"
@@ -123,6 +134,9 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
       </label>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 414a9f4 (fix conflicts)
       <button
         v-if="isPassword"
         type="button"
@@ -132,6 +146,7 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
           ? t('auth.fields.hidePassword')
           : t('auth.fields.showPassword')"
         @click="togglePassword"
+<<<<<<< HEAD
 =======
       <button v-if="isPassword" type="button"
               class="absolute right-3 top-1/2 -translate-y-1/2 text-additional hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded p-0.5"
@@ -139,6 +154,8 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
                 ? t('auth.fields.hidePassword')
                 : t('auth.fields.showPassword')" @click="togglePassword"
 >>>>>>> 88d5382 (fix form)
+=======
+>>>>>>> 414a9f4 (fix conflicts)
       >
         <IconEyeOff v-if="showPassword" class="w-5 h-5" aria-hidden="true" />
         <IconEye v-else class="w-5 h-5" aria-hidden="true" />

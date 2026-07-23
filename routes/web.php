@@ -78,7 +78,10 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
         Route::post("/offers/{offer}/withdraw", [StudentController::class, "withdraw"])->name("student.offers.withdraw");
+<<<<<<< HEAD
         Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");        
+=======
+>>>>>>> 414a9f4 (fix conflicts)
         Route::post("/offers/{offer}/favourite", [StudentController::class, "saveOffer"])->name("student.offers.favourite.save");
         Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])
             ->name("student.offers.favourite.delete")
