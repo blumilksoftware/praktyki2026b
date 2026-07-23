@@ -17,10 +17,10 @@ class SearchCompaniesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["sometimes", "nullable", "string", "max:255"],
-            "city" => ["sometimes", "nullable", "string", "max:255"],
-            "tag" => ["sometimes", "nullable", "string", "max:255"],
-            "per_page" => ["sometimes", "nullable", "integer", Rule::in([15, 30, 50])],
+            "name" => ["nullable", "string", "max:255"],
+            "city" => ["nullable", "string", "max:255"],
+            "tag" => ["nullable", "string", "max:255"],
+            "per_page" => ["nullable", "integer", Rule::in([15, 30, 50])],
         ];
     }
 
@@ -32,10 +32,10 @@ class SearchCompaniesRequest extends FormRequest
         $perPage = $this->validated("per_page");
 
         return [
-            "name" => filled($name) ? (string)$name : null,
-            "city" => filled($city) ? (string)$city : null,
-            "tag" => filled($tag) ? (string)$tag : null,
-            "per_page" => filled($perPage) ? (int)$perPage : 15,
+            "name" => filled($name) ? $name : null,
+            "city" => filled($city) ? $city : null,
+            "tag" => filled($tag) ? $tag : null,
+            "per_page" => filled($perPage) ? $perPage : 15,
         ];
     }
 }
