@@ -44,7 +44,7 @@ const formattedAppliedDate = computed(() => {
   const hours = String(dateObj.getHours()).padStart(2, '0')
   const minutes = String(dateObj.getMinutes()).padStart(2, '0')
 
-  return `${day}-${month}-${year} ${hours}:${minutes}`
+  return `${day}.${month}.${year} ${hours}:${minutes}`
 })
 </script>
 
