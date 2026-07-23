@@ -12,8 +12,7 @@ describe('ContactCard.vue', () => {
       props: {
         website: 'https://example.com',
         phone: '+48 123 456 789',
-        street: 'Main Street',
-        buildingNumber: '10A',
+        street: 'Main Street 10A',
         postalCode: '00-001',
         city: 'Warsaw',
         nip: '1234567890'
@@ -35,8 +34,7 @@ describe('ContactCard.vue', () => {
   it('generates the correct Google Maps URL based on the address', () => {
     const wrapper = mount(ContactCard, {
       props: {
-        street: 'Baker Street',
-        buildingNumber: '221B',
+        street: 'Baker Street 221B',
         city: 'London'
       },
       global: {

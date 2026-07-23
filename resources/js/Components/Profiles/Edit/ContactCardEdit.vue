@@ -17,10 +17,10 @@ const props = defineProps({
 
 const emit = defineEmits([
   'update:website', 
-  'update:phone', 
-  'update:street', 
-  'update:postalCode', 
-  'update:city', 
+  'update:phone',
+  'update:street',
+  'update:postalCode',
+  'update:city',
 ])
 
 const requiredFields = ['city', 'postalCode', 'street', 'phone']
@@ -102,18 +102,14 @@ const streetModel = computed({
       </div>
 
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
-        <div class="hidden sm:block w-7 h-7 shrink-0" /> 
-        <div class="w-full flex flex-col sm:flex-row gap-3">
-          <div class="w-full">
-            <BaseInput
-              id="street"
-              v-model="streetModel"
-              :label="t('auth.register.company.street')"
-              :error="getTranslatedError('street')"
-              required
-            />
-          </div>
-        </div>
+        <div class="hidden sm:block w-7 h-7 shrink-0" />
+        <BaseInput
+          id="street"
+          v-model="streetModel"
+          :label="t('auth.register.company.street')"
+          :error="getTranslatedError('street')"
+          required
+        />
       </div>
 
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
