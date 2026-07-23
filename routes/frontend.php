@@ -7,6 +7,8 @@ use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
 use App\Http\Controllers\OfferController as PublicOfferController;
+use App\Http\Controllers\CompanyProfileController;
+use App\Http\Controllers\OfferSearchController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\CompanyController as UniversityCompanyController;
 use App\Http\Controllers\University\UniversityController;
@@ -18,7 +20,9 @@ use Inertia\Response;
 
 Route::get("/", fn() => redirect()->route("login"));
 
-Route::get("/offers", [PublicOfferController::class, "search"])->name("offers.search");
+Route::get("/offers", [OfferSearchController::class, "search"])->name("offers.search");
+
+Route::get("/companies/{company}", [CompanyProfileController::class, "show"])->name("companies.show")->whereUuid("company");
 
 Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");

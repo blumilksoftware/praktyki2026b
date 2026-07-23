@@ -211,7 +211,14 @@
     "collapseTags": "Collapse tags",
     "myProfile": "My profile",
     "settings": "Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "apply": {
+      "noCvMessage": "To apply for this position, you must add a CV to your profile.",
+      "uploadCvPrompt": "Go to profile edit and upload your CV",
+      "applyNow": "Apply now",
+      "loading": "Sending...",
+      "appliedOn": "Applied on {date}"
+    }
   },
 
   "table": {

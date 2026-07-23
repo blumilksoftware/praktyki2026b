@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Company;
 
+use App\Actions\Company\BuildCompanyProfileData;
 use App\Actions\Company\UpdateCompanyProfile;
 use App\DTO\Company\UpdateCompanyProfileData;
 use App\Http\Controllers\Controller;
@@ -16,6 +17,7 @@ class CompanyController extends Controller
 {
     public function __construct(
         private readonly UpdateCompanyProfile $updateCompanyProfile,
+        private readonly BuildCompanyProfileData $buildCompanyProfileData,
     ) {}
 
     public function index(): Response
@@ -58,27 +60,6 @@ class CompanyController extends Controller
 
     private function getCompanyProfileData(): array
     {
-        $user = Auth::user();
-        $company = $user->company;
-
-        return [
-            "id" => $company?->id ?? $user->id,
-            "name" => $company?->name ?? ($user->first_name . " " . $user->last_name),
-            "logoUrl" => $company?->logo_path ?? null,
-            "tags" => $company?->tags ?? [],
-            "description" => $company?->description ?? null,
-            "email" => $company?->email ?? null,
-            "phone" => $company?->phone ?? null,
-            "website" => $company?->website ?? null,
-            "street" => $company?->street ?? null,
-            "postalCode" => $company?->postal_code ?? null,
-            "city" => $company?->city ?? null,
-            "nip" => $company?->nip ?? null,
-            "offers" => $company ? $company->offers()
-                ->where("status", "published")
-                ->select("id", "title", "description", "spots")
-                ->latest()
-                ->get() : [],
-        ];
+        return $this->buildCompanyProfileData->execute(Auth::user()->company);
     }
 }

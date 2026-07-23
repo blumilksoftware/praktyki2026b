@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.4",
         "ext-pdo": "*",
+        "fakerphp/faker": "^1.24.1",
         "guzzlehttp/guzzle": "^7.10.0",
         "inertiajs/inertia-laravel": "^2.0.18",
         "laravel/fortify": "^1.37",
@@ -18,7 +19,6 @@
     },
     "require-dev": {
         "blumilksoftware/codestyle": "^v5.1.1",
-        "fakerphp/faker": "^1.24.1",
         "larastan/larastan": "^3.8.1",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.8.3",

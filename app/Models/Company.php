@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\VerificationStatus;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -80,6 +81,14 @@ class Company extends Model
     public function scopeNeedingVerification($query)
     {
         return $query->where("verification_status", VerificationStatus::Pending);
+    }
+
+    /**
+     * @return Builder<Company>
+     */
+    public function scopeVerified(Builder $query): Builder
+    {
+        return $query->where("verification_status", VerificationStatus::Verified);
     }
 
     protected function casts(): array
