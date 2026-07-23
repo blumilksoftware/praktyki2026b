@@ -1,8 +1,10 @@
 <script setup>
 import { computed } from 'vue'
-import { IconEye, IconEyeOff } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { useTogglePassword } from '@/composables/useTogglePassword'
+import { IconChevronDown, IconEye, IconEyeOff } from '@tabler/icons-vue'
+
+defineOptions({ inheritAttrs: false })
 
 const props = defineProps({
   id: { type: String, required: true },
@@ -16,7 +18,12 @@ const props = defineProps({
   compact: { type: Boolean, default: false },
   stacked: { type: Boolean, default: false },
   placeholder: { type: String, default: '' },
+<<<<<<< HEAD
   disabled: { type: Boolean, default: false },
+=======
+  dropdown: { type: Boolean, default: false },
+  dropdownOpen: { type: Boolean, default: false },
+>>>>>>> 7591af3 (apply pr suggestions)
 })
 
 const model = defineModel({ type: String, required: true })
@@ -58,6 +65,8 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
       <input
         :id="id"
         v-model="model"
+        v-bind="$attrs"
+
         :type="inputType"
         :autocomplete="autocomplete"
         :required="required"
@@ -70,9 +79,16 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
         :class="[
           hasError ? 'border-error focus:border-error focus:ring-error/30' : '',
           isPassword ? 'pr-11' : '',
+          dropdown ? 'pr-11' : '',
           stacked ? '' : 'peer',
         ]"
       >
+      <IconChevronDown
+        v-if="dropdown"
+        class="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-additional transition-transform duration-200"
+        :class="dropdownOpen ? 'rotate-180' : ''"
+        aria-hidden="true"
+      />
 
       <label
         v-if="!stacked"

@@ -69,8 +69,9 @@ const onKeydown = (event) => {
 
 <template>
   <div class="relative">
-    <BaseInput :id="id" :model-value="displayValue" :label="label" :error="error" :required="required"
-               :stacked="stacked" autocomplete="off" @update:model-value="onInput" @focus="isOpen = true" @blur="onBlur"
+    <BaseInput :id="id" :model-value="displayValue" :label="label" :error="error" :required="required" :stacked="stacked"
+               dropdown :dropdown-open="isOpen"
+               autocomplete="off" @update:model-value="onInput" @focus="isOpen = true" @blur="onBlur"
                @keydown="onKeydown"
     />
 

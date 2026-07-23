@@ -548,6 +548,7 @@
         "salaryMin": "Minimalne wynagrodzenie",
         "salaryMax": "Maksymalne wynagrodzenie",
         "section": {
+          "status": "Status oferty",
           "details": "Szczegóły oferty",
           "detailsHint": "Najpierw wprowadź podstawowe dane oferty.",
           "preferences": "Preferencje kandydatów",
@@ -555,7 +556,9 @@
           "description": "Opis oferty",
           "descriptionHint": "Opisz staż tak, aby studenci wiedzieli, czego mogą się spodziewać.",
           "compensation": "Wynagrodzenie",
-          "compensationHint": "Podaj kwotę, jeśli oferta jest płatna."
+          "compensationHint": "Podaj kwotę, jeśli oferta jest płatna.",
+          "requirementsHint" : "Dodaj wymagania, aby przyciągnąć odpowiednich kandydatów.",
+          "requirements": "Wymagania"
         },
         "draft": "Zapisz jako szkic",
         "published": "Opublikuj od razu",

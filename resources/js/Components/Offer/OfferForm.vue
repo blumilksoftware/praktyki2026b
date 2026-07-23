@@ -160,7 +160,7 @@ const submit = () => {
         </div>
 
         <BaseInput id="title" v-model="form.title" :label="t('company.offers.form.title')" required :maxlength="255"
-                   stacked :error="fieldError('title')"
+                   :error="fieldError('title')"
         />
 
         <DateRangeField v-model:start="form.start_date" v-model:end="form.end_date" start-id="start_date"
@@ -177,7 +177,7 @@ const submit = () => {
 
           <div>
             <BaseInput id="spots" v-model="form.spots" type="number" :label="t('company.offers.form.spots')" required
-                       stacked :error="fieldError('spots')" max="1000"
+                       :error="fieldError('spots')" max="1000"
             />
             <p class="mt-1 text-additional text-sm">
               {{ t('company.offers.form.spotsMaxHint') }}
@@ -186,31 +186,45 @@ const submit = () => {
         </div>
 
         <CityAutocomplete id="city" v-model="form.city" :label="t('company.offers.form.city')" required
-                          stacked :error="fieldError('city')"
+                          :error="fieldError('city')"
         />
       </div>
     </section>
-
     <section class="bg-white shadow-sm p-6 border border-border rounded-3xl">
-      <div class="gap-5 grid">
+      <div class="flex flex-col gap-3">
         <div>
-          <label for="study_field_ids" class="block mb-1 font-medium text-text text-sm">
-            {{ t('company.offers.form.preferredFields') }}
-          </label>
-          <DynamicMultiSelect id="study_field_ids" v-model="selectedStudyFieldNames" :options="studyFieldNames" />
-          <p v-if="fieldError('study_field_ids')" class="text-error text-sm" role="alert">
-            {{ fieldError('study_field_ids') }}
+          <p class="font-semibold text-additional text-sm uppercase tracking-[0.25em]">
+            {{ t('company.offers.form.section.requirements') }}
+          </p>
+          <p class="mt-1 text-additional text-sm">
+            {{ t('company.offers.form.section.requirementsHint') }}
           </p>
         </div>
 
-        <div>
-          <label for="university_ids" class="block mb-1 font-medium text-text text-sm">
-            {{ t('company.offers.form.preferredUniversities') }}
-          </label>
-          <DynamicMultiSelect id="university_ids" v-model="selectedUniversityNames" :options="universityNames" />
-          <p v-if="fieldError('university_ids')" class="text-error text-sm" role="alert">
-            {{ fieldError('university_ids') }}
-          </p>
+        <div class="gap-5 grid">
+          <div>
+            <DynamicMultiSelect
+              id="study_field_ids"
+              v-model="selectedStudyFieldNames"
+              :label="t('company.offers.form.preferredFields')"
+              :options="studyFieldNames"
+            />
+            <p v-if="fieldError('study_field_ids')" class="text-error text-sm" role="alert">
+              {{ fieldError('study_field_ids') }}
+            </p>
+          </div>
+
+          <div>
+            <DynamicMultiSelect
+              id="university_ids"
+              v-model="selectedUniversityNames"
+              :label="t('company.offers.form.preferredUniversities')"
+              :options="universityNames"
+            />
+            <p v-if="fieldError('university_ids')" class="text-error text-sm" role="alert">
+              {{ fieldError('university_ids') }}
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -233,13 +247,13 @@ const submit = () => {
     </section>
 
     <section class="bg-white shadow-sm p-6 border border-border rounded-3xl">
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-3">
         <div class="flex sm:flex-row flex-col sm:justify-between sm:items-center gap-2">
           <div>
-            <p class="font-semibold text-text text-sm">
+            <p class="font-semibold text-additional text-sm uppercase tracking-[0.25em]">
               {{ t('company.offers.form.section.compensation') }}
             </p>
-            <p class="text-additional text-sm">
+            <p class="mt-1 text-additional text-sm">
               {{ t('company.offers.form.section.compensationHint') }}
             </p>
           </div>
@@ -249,23 +263,29 @@ const submit = () => {
 
         <div v-if="form.is_paid" class="gap-4 grid grid-cols-1 sm:grid-cols-2">
           <BaseInput id="salary_min" v-model="form.salary_min" type="number" :label="t('company.offers.form.salaryMin')"
-                     stacked required :error="fieldError('salary_min')"
+                     required :error="fieldError('salary_min')"
           />
           <BaseInput id="salary_max" v-model="form.salary_max" type="number" :label="t('company.offers.form.salaryMax')"
-                     stacked required :error="fieldError('salary_max')"
+                     required :error="fieldError('salary_max')"
           />
         </div>
       </div>
     </section>
 
     <section class="bg-white shadow-sm p-6 border border-border rounded-3xl">
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-3">
+        <div>
+          <p class="font-semibold text-additional text-sm uppercase tracking-[0.25em]">
+            {{ t('company.offers.form.section.status') }}
+          </p>
+          <p class="mt-1 text-additional text-sm">
+            {{ t('company.offers.form.draftHint') }}
+          </p>
+        </div>
+
         <BaseToggle id="status" v-model="isPublished"
                     :label="isPublished ? t('company.offers.form.published') : t('company.offers.form.draft')"
         />
-        <p class="text-additional text-sm">
-          {{ t('company.offers.form.draftHint') }}
-        </p>
         <p v-if="fieldError('status')" class="text-error text-sm" role="alert">
           {{ fieldError('status') }}
         </p>

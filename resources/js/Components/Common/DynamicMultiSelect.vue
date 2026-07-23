@@ -21,6 +21,8 @@ const props = defineProps({
     type: String,
     default: () => `multiselect-${Math.random().toString(36).substr(2, 9)}`,
   },
+  stacked: { type: Boolean, default: false },
+
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -48,6 +50,7 @@ const normalizedOptions = computed(() => props.options.map(normalizeOption))
 
 const inputPlaceholder = computed(() => {
   if (props.modelValue.length > 0) return ''
+  if (!props.stacked && !isFloating.value) return ''
   return props.placeholder || t('dynamicList.placeholder')
 })
 
@@ -180,12 +183,26 @@ onBeforeUnmount(() => {
   clearTimeout(errorTimeout)
   clearTimeout(blurTimeout)
 })
+
+const isFloating = computed(() =>
+  isOpen.value || props.modelValue.length > 0 || searchQuery.value.length > 0,
+)
+
+const labelClasses = computed(() => {
+  const base = 'pointer-events-none absolute z-10 origin-left transition-all duration-200 font-medium'
+
+  if (isFloating.value) {
+    return `${base} -top-6 inset-s-0 translate-y-0 scale-90 text-sm ${hasError.value ? 'text-error' : 'text-text'}`
+  }
+
+  return `${base} top-1/2 -translate-y-1/2 inset-s-4 scale-100 text-base ${hasError.value ? 'text-error' : 'text-additional'}`
+})
 </script>
 
 <template>
-  <div class="flex w-full flex-col gap-1">
+  <div class="flex w-full flex-col gap-1" :class="stacked ? '' : 'pt-6'">
     <label
-      v-if="label"
+      v-if="label && stacked"
       :for="props.id"
       class="mb-1 block text-additional text-sm"
     >
@@ -193,6 +210,14 @@ onBeforeUnmount(() => {
     </label>
 
     <div class="relative w-full">
+      <label
+        v-if="label && !stacked"
+        :for="props.id"
+        :class="labelClasses"
+      >
+        {{ label }}
+      </label>
+
       <div
         class="flex min-h-11 cursor-text flex-nowrap items-center gap-2 rounded-lg border bg-white px-3 py-2"
         :class="hasError ? 'border-error' : 'border-border'"
