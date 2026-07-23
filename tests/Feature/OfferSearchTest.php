@@ -126,4 +126,21 @@ class OfferSearchTest extends TestCase
         ]))
             ->assertSessionHasErrors("date_to");
     }
+
+    public function testSearchPageIncludesStudyFields(): void
+    {
+        $field = StudyField::factory()->create(["name" => "Computer Science"]);
+
+        $this->get(route("offers.search"))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Offers/Search")
+                    ->has("studyFields", 1)
+                    ->where("studyFields.0", [
+                        "value" => $field->id,
+                        "label" => "Computer Science",
+                    ]),
+            );
+    }
 }

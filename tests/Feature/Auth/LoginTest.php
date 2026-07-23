@@ -33,6 +33,19 @@ class LoginTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
+    public function testAuthenticatedStudentVisitingLoginPageIsRedirectedToDashboard(): void
+    {
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "email_verified_at" => now(),
+        ]);
+
+        $this->actingAs($student)
+            ->get(route("login"))
+            ->assertRedirect(route("student.dashboard"));
+    }
+
     public function testLoginFailsWithWrongPassword(): void
     {
         User::factory()->create([

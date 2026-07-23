@@ -308,9 +308,17 @@
   "student": {
     "layout": {
       "title": "Panel studenta",
+      "skipToContent": "Przejdź do treści",
       "nav": {
         "dashboard": "Panel",
         "profile": "Profil"
+      }
+    },
+    "dashboard": {
+      "comingSoon": {
+        "title": "Panel studenta jest w przygotowaniu.",
+        "applications": "Wkrótce pojawi się tu przegląd Twoich aplikacji (T-062, BE: T-061).",
+        "offersAndFavourites": "Szukanie ofert i ulubione dojdą wraz z milestone’ami M3/M4 (T-046, T-066)."
       }
     },
     "cv": {
@@ -370,7 +378,7 @@
         "specialization": "Specjalność",
         "saveChanges": "Zapisz zmiany",
         "backToProfile": "Wróć do profilu",
-        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” na stronie profilu."
+        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” (ikona profilu w pasku nawigacji)."
       },
       "photo": {
         "label": "Zdjęcie profilowe",
@@ -424,8 +432,7 @@
       },
       "account": {
         "title": "Konto i bezpieczeństwo",
-        "description": "Hasło, adres e-mail i usuwanie konta.",
-        "navbarNotice": "Po ukończeniu paska nawigacji ta sekcja zostanie przeniesiona do ustawień profilu w menu."
+        "description": "Hasło, adres e-mail i usuwanie konta."
       },
       "password": {
         "title": "Zmiana hasła",
@@ -452,6 +459,36 @@
         "confirm": "Usuń konto na stałe",
         "cancel": "Anuluj"
       }
+    }
+  },
+  "offers": {
+    "search": {
+      "title": "Praktyki i oferty",
+      "subtitle": "Przeglądaj oferty i dopasuj wyniki do swoich preferencji.",
+      "resultsTitle": "Wyniki",
+      "empty": "Brak ofert spełniających wybrane kryteria.",
+      "resultsCount": "Wyświetlono {count} ofert na tej stronie."
+    },
+    "filters": {
+      "title": "Filtry",
+      "clearAll": "Wyczyść filtry",
+      "studyFields": {
+        "label": "Kierunki studiów",
+        "placeholder": "Wybierz kierunki z listy"
+      },
+      "workMode": {
+        "label": "Tryb pracy",
+        "all": "Wszystkie",
+        "onSite": "Stacjonarnie",
+        "hybrid": "Hybrydowo",
+        "remote": "Zdalnie"
+      },
+      "dateRange": {
+        "label": "Zakres dat praktyk",
+        "from": "Od",
+        "to": "Do"
+      },
+      "dateRangeInvalid": "Data „Do” musi być taka sama lub późniejsza niż data „Od”."
     }
   },
   "company": {
