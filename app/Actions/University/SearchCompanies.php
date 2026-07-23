@@ -25,16 +25,10 @@ class SearchCompanies
         }
 
         if ($data->tag !== null) {
-            $tagLower = strtolower($data->tag);
-            $tagUpper = strtoupper($data->tag);
-            $tagTitle = ucfirst($tagLower);
-
-            $query->where(function ($q) use ($data, $tagLower, $tagUpper, $tagTitle): void {
-                $q->whereJsonContains("tags", $data->tag)
-                    ->orWhereJsonContains("tags", $tagLower)
-                    ->orWhereJsonContains("tags", $tagUpper)
-                    ->orWhereJsonContains("tags", $tagTitle);
-            });
+            $query->whereRaw(
+                "EXISTS (SELECT 1 FROM json_array_elements_text(tags) AS tag WHERE LOWER(tag) = ?)",
+                [strtolower($data->tag)],
+            );
         }
 
         return $query

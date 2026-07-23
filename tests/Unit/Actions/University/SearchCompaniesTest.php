@@ -78,17 +78,27 @@ class SearchCompaniesTest extends TestCase
         $this->assertEquals("Company A", $results->first()["name"]);
     }
 
+    public function testItFiltersByTagRegardlessOfInternalCasing(): void
+    {
+        Company::factory()->approved()->create(["name" => "Company A", "tags" => ["iOS", "Swift"]]);
+        Company::factory()->approved()->create(["name" => "Company B", "tags" => ["Android", "Kotlin"]]);
+
+        $data = new SearchCompaniesData(name: null, city: null, tag: "ios", perPage: 15);
+        $results = $this->action->execute($data, $this->university->id);
+
+        $this->assertCount(1, $results);
+        $this->assertEquals("Company A", $results->first()["name"]);
+    }
+
     public function testItReturnsActiveOffersCount(): void
     {
         $company = Company::factory()->approved()->create();
 
-        // 2 published offers
         Offer::factory()->count(2)->create([
             "company_id" => $company->id,
             "status" => OfferStatus::Published,
         ]);
 
-        // 1 draft offer
         Offer::factory()->create([
             "company_id" => $company->id,
             "status" => OfferStatus::Draft,

@@ -8,6 +8,7 @@ use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController as CompanyOfferController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\University\CompanyController as UniversityCompanyController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
@@ -47,7 +48,7 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
     ->group(function (): void {
         Route::get("/dashboard", [UniversityController::class, "index"])->name("university.dashboard");
         Route::get("/profile", [UniversityController::class, "profile"])->name("university.profile");
-        Route::get("/companies", [App\Http\Controllers\University\CompanyController::class, "index"])->name("university.companies.index");
+        Route::get("/companies", [UniversityCompanyController::class, "index"])->name("university.companies.index");
     });
 
 Route::middleware(["auth", "can:access-student-panel"])

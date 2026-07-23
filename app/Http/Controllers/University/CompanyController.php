@@ -9,7 +9,6 @@ use App\DTO\University\SearchCompaniesData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchCompaniesRequest;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Inertia\Response;
 
 class CompanyController extends Controller
@@ -27,7 +26,7 @@ class CompanyController extends Controller
             $universityId,
         );
 
-        return Inertia::render("University/Companies/Index", [
+        return inertia("University/Companies/Index", [
             "companies" => $companies,
             "filters" => $request->validated(),
         ]);
