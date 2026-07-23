@@ -10,19 +10,29 @@ use App\Actions\Student\ChangePassword;
 use App\Actions\Student\DeleteCvAction;
 use App\Actions\Student\DeleteStudentAccount;
 use App\Actions\Student\DeleteStudentPhotoAction;
+use App\Actions\Student\GetFavourites;
+use App\Actions\Student\GetStudentApplicationsAction;
+use App\Actions\Student\LinkStudentToUniversity;
 use App\Actions\Student\RequestEmailChange;
+use App\Actions\Student\SaveOfferAction;
+use App\Actions\Student\UnsaveOfferAction;
 use App\Actions\Student\UpdateStudentProfile;
 use App\Actions\Student\UploadCvAction;
 use App\Actions\Student\UploadStudentPhotoAction;
+use App\Actions\Student\WithdrawOfferAction;
+use App\Actions\University\SearchUniversities;
 use App\DTO\Student\UpdateStudentProfileData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangeEmailRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\DeleteAccountRequest;
+use App\Http\Requests\LinkUniversityRequest;
+use App\Http\Requests\SearchUniversitiesRequest;
 use App\Http\Requests\UpdateStudentProfileRequest;
 use App\Http\Requests\UploadCvRequest;
 use App\Http\Requests\UploadStudentPhotoRequest;
 use App\Models\Offer;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -36,18 +46,29 @@ class StudentController extends Controller
         private readonly UploadCvAction $uploadCvAction,
         private readonly DeleteCvAction $deleteCvAction,
         private readonly ApplyToOfferAction $applyToOfferAction,
+        private readonly WithdrawOfferAction $withdrawOfferAction,
         private readonly UpdateStudentProfile $updateStudentProfile,
         private readonly UploadStudentPhotoAction $uploadStudentPhotoAction,
         private readonly DeleteStudentPhotoAction $deleteStudentPhotoAction,
         private readonly ChangePassword $changePassword,
         private readonly RequestEmailChange $requestEmailChange,
         private readonly DeleteStudentAccount $deleteStudentAccount,
+        private readonly SaveOfferAction $saveOfferAction,
+        private readonly UnsaveOfferAction $unsaveOfferAction,
+        private readonly GetFavourites $getFavourites,
         private readonly BuildStudentProfileData $buildStudentProfileData,
+        private readonly GetStudentApplicationsAction $getStudentApplicationsAction,
+        private readonly SearchUniversities $searchUniversities,
+        private readonly LinkStudentToUniversity $linkStudentToUniversity,
     ) {}
 
     public function index(): Response
     {
-        return inertia("Student/Dashboard");
+        $user = Auth::user();
+
+        return inertia("Student/Dashboard", [
+            "applications" => $this->getStudentApplicationsAction->execute($user),
+        ]);
     }
 
     public function profile(): Response
@@ -62,6 +83,17 @@ class StudentController extends Controller
         $user = Auth::user();
 
         return inertia("Student/ProfileEdit", $this->buildStudentProfileData->execute($user));
+    }
+
+    public function settings(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Student/Settings", [
+            "email" => $user->email,
+            "emailVerifiedAt" => $user->email_verified_at?->toIso8601String(),
+            "pendingEmail" => $user->pending_email,
+        ]);
     }
 
     public function showPhoto(): StreamedResponse
@@ -87,6 +119,22 @@ class StudentController extends Controller
         $data = UpdateStudentProfileData::fromArray($request->getData());
 
         $this->updateStudentProfile->execute($user, $data);
+
+        return redirect()->route("student.profile");
+    }
+
+    public function searchUniversities(SearchUniversitiesRequest $request): JsonResponse
+    {
+        return response()->json([
+            "universities" => $this->searchUniversities->execute($request->string("query")->toString()),
+        ]);
+    }
+
+    public function linkUniversity(LinkUniversityRequest $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $this->linkStudentToUniversity->execute($user, $request->string("university")->toString());
 
         return redirect()->route("student.profile");
     }
@@ -127,6 +175,26 @@ class StudentController extends Controller
         return back();
     }
 
+    public function previewCv(): StreamedResponse
+    {
+        $user = Auth::user();
+
+        if (!$user->cv_path) {
+            throw new NotFoundHttpException();
+        }
+
+        $disk = config("filesystems.default", "local");
+
+        if (!Storage::disk($disk)->exists($user->cv_path)) {
+            throw new NotFoundHttpException();
+        }
+
+        return Storage::disk($disk)->response($user->cv_path, "CV.pdf", [
+            "Content-Type" => "application/pdf",
+            "Content-Disposition" => 'inline; filename="CV.pdf"',
+        ]);
+    }
+
     public function apply(Offer $offer): RedirectResponse
     {
         $user = Auth::user();
@@ -134,6 +202,42 @@ class StudentController extends Controller
         $this->applyToOfferAction->execute($user, $offer);
 
         return back();
+    }
+
+    public function withdraw(Offer $offer): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $this->withdrawOfferAction->execute($user, $offer);
+
+        return back();
+    }
+
+    public function saveOffer(Offer $offer): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $this->saveOfferAction->execute($user, $offer);
+
+        return back();
+    }
+
+    public function unsaveOffer(Offer $offer): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $this->unsaveOfferAction->execute($user, $offer);
+
+        return back();
+    }
+
+    public function favourites(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Student/Favourites", [
+            "favourites" => $this->getFavourites->execute($user),
+        ]);
     }
 
     public function changePassword(ChangePasswordRequest $request): RedirectResponse

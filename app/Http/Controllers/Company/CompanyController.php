@@ -32,18 +32,53 @@ class CompanyController extends Controller
 
     public function profile(): Response
     {
-        return inertia("Company/Profile", [
-            "user" => Auth::user(),
+        return inertia("Company/Profile/Show", [
+            "company" => $this->getCompanyProfileData(),
+            "canEdit" => true,
+        ]);
+    }
+
+    public function edit(): Response
+    {
+        return inertia("Company/Profile/Edit", [
+            "company" => $this->getCompanyProfileData(),
         ]);
     }
 
     public function update(UpdateCompanyProfileRequest $request): RedirectResponse
     {
         $company = Auth::user()->company;
+
         $data = UpdateCompanyProfileData::fromArray($request->getData());
 
         $this->updateCompanyProfile->execute($company, $data);
 
         return redirect()->route("company.profile");
+    }
+
+    private function getCompanyProfileData(): array
+    {
+        $user = Auth::user();
+        $company = $user->company;
+
+        return [
+            "id" => $company?->id ?? $user->id,
+            "name" => $company?->name ?? ($user->first_name . " " . $user->last_name),
+            "logoUrl" => $company?->logo_path ?? null,
+            "tags" => $company?->tags ?? [],
+            "description" => $company?->description ?? null,
+            "email" => $company?->email ?? null,
+            "phone" => $company?->phone ?? null,
+            "website" => $company?->website ?? null,
+            "street" => $company?->street ?? null,
+            "postalCode" => $company?->postal_code ?? null,
+            "city" => $company?->city ?? null,
+            "nip" => $company?->nip ?? null,
+            "offers" => $company ? $company->offers()
+                ->where("status", "published")
+                ->select("id", "title", "description", "spots")
+                ->latest()
+                ->get() : [],
+        ];
     }
 }

@@ -22,11 +22,15 @@ class UpdateStudentProfile
             "first_name" => $data->firstName,
             "last_name" => $data->lastName,
             "age" => $data->age,
-            "location" => $data->location,
+            "street" => $data->street,
+            "postal_code" => $data->postalCode,
+            "city" => $data->city,
             "university" => $data->university,
             "study_field" => $data->studyField,
             "study_year" => $data->studyYear,
             "specialization" => $data->specialization,
+            "skills" => $data->skills,
+            "work_modes" => $data->workModes,
         ]);
 
         $student->preferredStudyFields()->sync($data->studyFieldIds);

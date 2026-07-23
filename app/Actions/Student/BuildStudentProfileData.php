@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace App\Actions\Student;
 
+use App\Actions\University\ResolveUniversityByDomain;
 use App\Models\StudyField;
+use App\Models\University;
 use App\Models\User;
 
 class BuildStudentProfileData
 {
+    public function __construct(
+        private readonly ResolveUniversityByDomain $resolveUniversityByDomain,
+    ) {}
+
     public function execute(User $student): array
     {
-        $student->loadMissing(["preferredCities", "preferredStudyFields"]);
+        $student->loadMissing(["preferredCities", "preferredStudyFields", "universityOrganization"]);
 
         $preferredCities = $student->preferredCities
             ->pluck("city")
@@ -33,6 +39,15 @@ class BuildStudentProfileData
             ])
             ->all();
 
+        $suggestedUniversity = $student->organization_id === null
+            ? $this->resolveUniversityByDomain->execute($student->email)
+            : null;
+
+        $mapUniversity = fn(University $university): array => [
+            "id" => $university->id,
+            "name" => $university->name,
+        ];
+
         return [
             "user" => [
                 "first_name" => $student->first_name,
@@ -42,7 +57,9 @@ class BuildStudentProfileData
                 "pending_email" => $student->pending_email,
                 "photo_url" => $student->photo_path ? route("student.profile.photo.show") : null,
                 "age" => $student->age,
-                "location" => $student->location,
+                "street" => $student->street,
+                "postal_code" => $student->postal_code,
+                "city" => $student->city,
                 "university" => $student->university,
                 "study_field" => $student->study_field,
                 "study_year" => $student->study_year,
@@ -50,8 +67,12 @@ class BuildStudentProfileData
                 "cv_path" => $student->cv_path,
                 "preferred_cities" => $preferredCities,
                 "study_field_ids" => $studyFieldIds,
+                "skills" => $student->skills ?? [],
+                "work_modes" => $student->work_modes ?? [],
             ],
             "study_fields" => $studyFields,
+            "university_organization" => $student->universityOrganization ? $mapUniversity($student->universityOrganization) : null,
+            "suggested_university" => $suggestedUniversity ? $mapUniversity($suggestedUniversity) : null,
         ];
     }
 }

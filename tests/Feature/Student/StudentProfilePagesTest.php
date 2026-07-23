@@ -6,7 +6,9 @@ namespace Tests\Feature\Student;
 
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Enums\VerificationStatus;
 use App\Models\StudyField;
+use App\Models\University;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -21,6 +23,7 @@ class StudentProfilePagesTest extends TestCase
         $this->get(route("student.dashboard"))->assertRedirect(route("login"));
         $this->get(route("student.profile"))->assertRedirect(route("login"));
         $this->get(route("student.profile.edit"))->assertRedirect(route("login"));
+        $this->get(route("student.settings"))->assertRedirect(route("login"));
     }
 
     public function testNonStudentRoleCannotAccessStudentDashboardOrProfile(): void
@@ -33,6 +36,7 @@ class StudentProfilePagesTest extends TestCase
         $this->actingAs($companyUser)->get(route("student.dashboard"))->assertStatus(403);
         $this->actingAs($companyUser)->get(route("student.profile"))->assertStatus(403);
         $this->actingAs($companyUser)->get(route("student.profile.edit"))->assertStatus(403);
+        $this->actingAs($companyUser)->get(route("student.settings"))->assertStatus(403);
     }
 
     public function testInactiveStudentCannotAccessStudentDashboardOrProfile(): void
@@ -45,6 +49,7 @@ class StudentProfilePagesTest extends TestCase
         $this->actingAs($student)->get(route("student.dashboard"))->assertStatus(403);
         $this->actingAs($student)->get(route("student.profile"))->assertStatus(403);
         $this->actingAs($student)->get(route("student.profile.edit"))->assertStatus(403);
+        $this->actingAs($student)->get(route("student.settings"))->assertStatus(403);
     }
 
     public function testStudentCanSeeDashboard(): void
@@ -59,7 +64,8 @@ class StudentProfilePagesTest extends TestCase
             ->assertOk()
             ->assertInertia(
                 fn(Assert $page) => $page
-                    ->component("Student/Dashboard"),
+                    ->component("Student/Dashboard")
+                    ->has("applications"),
             );
     }
 
@@ -96,6 +102,83 @@ class StudentProfilePagesTest extends TestCase
             );
     }
 
+    public function testStudentProfileSuggestsUniversityWhenDomainMatchesAndUnlinked(): void
+    {
+        $university = University::factory()->create([
+            "domain" => "example.com",
+            "verification_status" => VerificationStatus::Verified,
+        ]);
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "email" => "john@example.com",
+            "organization_id" => null,
+        ]);
+
+        $this->actingAs($student)
+            ->get(route("student.profile"))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Student/Profile")
+                    ->where("suggested_university", [
+                        "id" => $university->id,
+                        "name" => $university->name,
+                    ])
+                    ->where("university_organization", null),
+            );
+    }
+
+    public function testStudentProfileHasNoSuggestionWhenAlreadyLinked(): void
+    {
+        University::factory()->create([
+            "domain" => "example.com",
+            "verification_status" => VerificationStatus::Verified,
+        ]);
+        $linkedUniversity = University::factory()->create([
+            "verification_status" => VerificationStatus::Verified,
+        ]);
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "email" => "john@example.com",
+            "organization_id" => $linkedUniversity->id,
+        ]);
+
+        $this->actingAs($student)
+            ->get(route("student.profile"))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Student/Profile")
+                    ->where("suggested_university", null)
+                    ->where("university_organization", [
+                        "id" => $linkedUniversity->id,
+                        "name" => $linkedUniversity->name,
+                    ]),
+            );
+    }
+
+    public function testStudentProfileHasNoSuggestionWhenNoDomainMatch(): void
+    {
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "email" => "john@unrelated.com",
+            "organization_id" => null,
+        ]);
+
+        $this->actingAs($student)
+            ->get(route("student.profile"))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Student/Profile")
+                    ->where("suggested_university", null)
+                    ->where("university_organization", null),
+            );
+    }
+
     public function testStudentCanSeeProfileEditPage(): void
     {
         $student = User::factory()->create([
@@ -112,5 +195,37 @@ class StudentProfilePagesTest extends TestCase
                     ->has("user")
                     ->has("study_fields"),
             );
+    }
+
+    public function testStudentCanSeeSettingsPage(): void
+    {
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "email" => "john@example.com",
+            "pending_email" => "new@example.com",
+        ]);
+
+        $this->actingAs($student)
+            ->get(route("student.settings"))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Student/Settings")
+                    ->where("email", "john@example.com")
+                    ->where("pendingEmail", "new@example.com"),
+            );
+    }
+
+    public function testSettingsRedirectSendsStudentToStudentSettings(): void
+    {
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $this->actingAs($student)
+            ->get(route("settings"))
+            ->assertRedirect(route("student.settings"));
     }
 }

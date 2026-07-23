@@ -35,10 +35,14 @@ use Laravel\Sanctum\HasApiTokens;
  * @property ?string $cv_path
  * @property ?string $photo_path
  * @property ?int $age
- * @property ?string $location
+ * @property ?string $street
+ * @property ?string $postal_code
+ * @property ?string $city
  * @property ?string $study_field
  * @property ?int $study_year
  * @property ?string $specialization
+ * @property ?array $skills
+ * @property ?array $work_modes
  * @property ?Carbon $onboarding_dismissed_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -65,10 +69,14 @@ class User extends Authenticatable implements MustVerifyEmail
         "cv_path",
         "photo_path",
         "age",
-        "location",
+        "street",
+        "postal_code",
+        "city",
         "study_field",
         "study_year",
         "specialization",
+        "skills",
+        "work_modes",
         "onboarding_dismissed_at",
     ];
     protected $hidden = [
@@ -76,6 +84,9 @@ class User extends Authenticatable implements MustVerifyEmail
         "remember_token",
     ];
 
+    /**
+     * @return BelongsTo<University, $this>
+     */
     public function universityOrganization(): BelongsTo
     {
         return $this->belongsTo(University::class, "organization_id");
@@ -106,6 +117,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(StudyField::class, "student_study_field", "student_id");
     }
 
+    /**
+     * @return BelongsToMany<Offer, $this, StudentFavourite>
+     */
+    public function favourites(): BelongsToMany
+    {
+        return $this->belongsToMany(Offer::class, "student_favourites", "student_id")
+            ->withTrashed()
+            ->using(StudentFavourite::class)
+            ->withTimestamps();
+    }
+
     public function fullName(): string
     {
         return trim(($this->first_name ?? "") . " " . ($this->last_name ?? "")) ?: $this->email;
@@ -125,6 +147,8 @@ class User extends Authenticatable implements MustVerifyEmail
             "terms_accepted_at" => "datetime",
             "onboarding_dismissed_at" => "datetime",
             "password" => "hashed",
+            "skills" => "array",
+            "work_modes" => "array",
         ];
     }
 }

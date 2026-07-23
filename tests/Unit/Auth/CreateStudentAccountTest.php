@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Auth;
 
 use App\Actions\Auth\CreateStudentAccount;
+use App\Actions\University\ResolveUniversityByDomain;
 use App\DTO\Auth\StudentRegistrationData;
 use App\Enums\UserRole;
 use App\Models\University;
@@ -18,7 +19,7 @@ class CreateStudentAccountTest extends TestCase
 
     public function testItCreatesStudentWithCorrectFieldsAndRole(): void
     {
-        $action = new CreateStudentAccount();
+        $action = new CreateStudentAccount(new ResolveUniversityByDomain());
         $data = new StudentRegistrationData(
             firstName: "John",
             lastName: "Doe",
@@ -46,7 +47,7 @@ class CreateStudentAccountTest extends TestCase
             "domain" => "example.com",
         ]);
 
-        $action = new CreateStudentAccount();
+        $action = new CreateStudentAccount(new ResolveUniversityByDomain());
         $data = new StudentRegistrationData(
             firstName: "John",
             lastName: "Doe",
@@ -69,7 +70,7 @@ class CreateStudentAccountTest extends TestCase
             "domain" => "example.com",
         ]);
 
-        $action = new CreateStudentAccount();
+        $action = new CreateStudentAccount(new ResolveUniversityByDomain());
         $data = new StudentRegistrationData(
             firstName: "John",
             lastName: "Doe",

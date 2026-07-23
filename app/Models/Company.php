@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  * @property string $nip
  * @property string $email
  * @property string $street
- * @property string $building_number
  * @property string $postal_code
  * @property string $city
  * @property string $phone
@@ -41,7 +40,6 @@ class Company extends Model
         "nip",
         "email",
         "street",
-        "building_number",
         "postal_code",
         "city",
         "phone",
@@ -58,6 +56,9 @@ class Company extends Model
         return $this->hasMany(User::class, "organization_id");
     }
 
+    /**
+     * @return HasMany<Offer, $this>
+     */
     public function offers(): HasMany
     {
         return $this->hasMany(Offer::class);
@@ -66,6 +67,14 @@ class Company extends Model
     public function applications(): HasManyThrough
     {
         return $this->hasManyThrough(Application::class, Offer::class)->withTrashedParents();
+    }
+
+    /**
+     * @return HasMany<Partnership, $this>
+     */
+    public function partnerships(): HasMany
+    {
+        return $this->hasMany(Partnership::class);
     }
 
     public function scopeNeedingVerification($query)
