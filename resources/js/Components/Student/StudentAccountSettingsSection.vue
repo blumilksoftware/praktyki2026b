@@ -79,13 +79,6 @@ function resendVerification() {
       </p>
     </header>
 
-    <p
-      class="mb-4 rounded-lg bg-slate-50 px-3 py-2 text-additional text-xs ring-1 ring-slate-200"
-      role="status"
-    >
-      {{ t('student.profile.account.navbarNotice') }}
-    </p>
-
     <form class="flex flex-col gap-1 border-b border-border pb-6" novalidate @submit.prevent="submitPassword">
       <h3 class="font-medium text-text text-sm">
         {{ t('student.profile.password.title') }}

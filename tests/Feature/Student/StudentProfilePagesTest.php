@@ -23,6 +23,7 @@ class StudentProfilePagesTest extends TestCase
         $this->get(route("student.dashboard"))->assertRedirect(route("login"));
         $this->get(route("student.profile"))->assertRedirect(route("login"));
         $this->get(route("student.profile.edit"))->assertRedirect(route("login"));
+        $this->get(route("student.settings"))->assertRedirect(route("login"));
     }
 
     public function testNonStudentRoleCannotAccessStudentDashboardOrProfile(): void
@@ -35,6 +36,7 @@ class StudentProfilePagesTest extends TestCase
         $this->actingAs($companyUser)->get(route("student.dashboard"))->assertStatus(403);
         $this->actingAs($companyUser)->get(route("student.profile"))->assertStatus(403);
         $this->actingAs($companyUser)->get(route("student.profile.edit"))->assertStatus(403);
+        $this->actingAs($companyUser)->get(route("student.settings"))->assertStatus(403);
     }
 
     public function testInactiveStudentCannotAccessStudentDashboardOrProfile(): void
@@ -47,6 +49,7 @@ class StudentProfilePagesTest extends TestCase
         $this->actingAs($student)->get(route("student.dashboard"))->assertStatus(403);
         $this->actingAs($student)->get(route("student.profile"))->assertStatus(403);
         $this->actingAs($student)->get(route("student.profile.edit"))->assertStatus(403);
+        $this->actingAs($student)->get(route("student.settings"))->assertStatus(403);
     }
 
     public function testStudentCanSeeDashboard(): void
@@ -192,5 +195,37 @@ class StudentProfilePagesTest extends TestCase
                     ->has("user")
                     ->has("study_fields"),
             );
+    }
+
+    public function testStudentCanSeeSettingsPage(): void
+    {
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "email" => "john@example.com",
+            "pending_email" => "new@example.com",
+        ]);
+
+        $this->actingAs($student)
+            ->get(route("student.settings"))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Student/Settings")
+                    ->where("email", "john@example.com")
+                    ->where("pendingEmail", "new@example.com"),
+            );
+    }
+
+    public function testSettingsRedirectSendsStudentToStudentSettings(): void
+    {
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $this->actingAs($student)
+            ->get(route("settings"))
+            ->assertRedirect(route("student.settings"));
     }
 }

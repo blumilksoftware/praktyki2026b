@@ -2,8 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHome, IconUser } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseModal from '@/Components/Common/BaseModal.vue'
 import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
@@ -12,8 +11,6 @@ import StudentProfileSidebar from '@/Components/Student/StudentProfileSidebar.vu
 import StudentProfileSkillsSection from '@/Components/Student/StudentProfileSkillsSection.vue'
 import StudentProfileWorkModeSection from '@/Components/Student/StudentProfileWorkModeSection.vue'
 import StudentProfileApplicationsSection from '@/Components/Student/StudentProfileApplicationsSection.vue'
-import StudentAccountSettingsSection from '@/Components/Student/StudentAccountSettingsSection.vue'
-import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   user: { type: Object, required: true },
@@ -72,11 +69,6 @@ function saveWorkModes() {
   workModes.value = [...workModesDraft.value]
   isWorkModeModalOpen.value = false
 }
-
-const navItems = computed(() => [
-  { key: 'dashboard', label: t('student.layout.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
-  { key: 'profile', label: t('student.layout.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
-])
 </script>
 
 <template>
@@ -86,6 +78,7 @@ const navItems = computed(() => [
     :nav-items="navItems"
     :minimal-header="true"
   >
+  <StudentPanelLayout active-page="profile">
     <OnboardingBanner />
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -101,11 +94,6 @@ const navItems = computed(() => [
           @manage="openWorkModeModal"
         />
         <StudentProfileApplicationsSection :applications="profileUser.applications ?? []" />
-        <StudentAccountSettingsSection
-          :email="user.email"
-          :email-verified-at="user.email_verified_at"
-          :pending-email="user.pending_email"
-        />
       </div>
     </div>
 
@@ -161,5 +149,5 @@ const navItems = computed(() => [
         </BaseButton>
       </div>
     </BaseModal>
-  </BaseLayout>
+  </StudentPanelLayout>
 </template>

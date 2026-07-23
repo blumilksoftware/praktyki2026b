@@ -8,6 +8,7 @@ use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\ProfileRedirectController;
+use App\Http\Controllers\SettingsRedirectController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
@@ -28,6 +29,7 @@ Route::post("/language/{locale}", function (string $locale) {
 Route::get("/profile", [ProfileRedirectController::class, "show"])->name("profile");
 Route::get("/profile/edit", [ProfileRedirectController::class, "edit"])->name("profile.edit");
 Route::patch("/profile", [ProfileRedirectController::class, "update"])->name("profile.update");
+Route::get("/settings", [SettingsRedirectController::class, "show"])->name("settings");
 
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")

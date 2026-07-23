@@ -1,4 +1,6 @@
 <script setup>
+import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
+
 defineProps({
   title: { type: String, required: true },
   description: { type: String, default: undefined },
@@ -6,10 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <section
-    class="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm"
-    :aria-label="title"
-  >
+  <ProfilePageCard :aria-label="title">
     <header class="mb-4 flex items-start justify-between gap-4">
       <div>
         <h2 class="font-semibold text-text text-base">
@@ -25,5 +24,5 @@ defineProps({
       <slot name="actions" />
     </header>
     <slot />
-  </section>
+  </ProfilePageCard>
 </template>
