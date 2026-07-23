@@ -24,6 +24,9 @@
       "externalFormUrl": "Application form URL"
     }
   },
+  "common": {
+    "verifiedBadge": "Account verified by an administrator"
+  },
   "errors": {
     "401": {
       "title": "Login required",
@@ -469,6 +472,36 @@
         "confirm": "Delete account permanently",
         "cancel": "Cancel"
       }
+    }
+  },
+  "offers": {
+    "search": {
+      "title": "Internships and offers",
+      "subtitle": "Browse offers and narrow results to match your preferences.",
+      "resultsTitle": "Results",
+      "empty": "No offers match the selected filters.",
+      "resultsCount": "Showing {count} offers on this page."
+    },
+    "filters": {
+      "title": "Filters",
+      "clearAll": "Clear filters",
+      "studyFields": {
+        "label": "Fields of study",
+        "placeholder": "Select fields from the list"
+      },
+      "workMode": {
+        "label": "Work mode",
+        "all": "All",
+        "onSite": "On-site",
+        "hybrid": "Hybrid",
+        "remote": "Remote"
+      },
+      "dateRange": {
+        "label": "Internship date range",
+        "from": "From",
+        "to": "To"
+      },
+      "dateRangeInvalid": "The end date must be on or after the start date."
     }
   },
   "company": {

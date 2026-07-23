@@ -29,6 +29,8 @@ class UpdateStudentProfile
             "study_field" => $data->studyField,
             "study_year" => $data->studyYear,
             "specialization" => $data->specialization,
+            "skills" => $data->skills,
+            "work_modes" => $data->workModes,
         ]);
 
         $student->preferredStudyFields()->sync($data->studyFieldIds);
