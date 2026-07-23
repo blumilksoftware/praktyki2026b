@@ -9,6 +9,9 @@ const { t } = useI18n()
 const page = usePage()
 
 const user = computed(() => page.props.auth?.user)
+const logoPath = computed(() => {
+  return user.value?.company?.logo_path || user.value?.university_organization?.logo_path
+})
 const isStudent = computed(() => user.value?.role === 'student')
 
 const avatarUrl = computed(() => {

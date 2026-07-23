@@ -154,7 +154,9 @@
     "profile": "Profil",
     "aboutUs": "O nas",
     "contact": "Kontakt",
+    "noContactInfo": "Brak danych kontaktowych",
     "currentOffers": "Aktualne oferty",
+    "noOffers": "Brak aktualnych ofert",
     "nip": "NIP",
     "spots": "Miejsca",
     "uploadLogo": "Prześlij logo",
@@ -166,6 +168,9 @@
       "invalidFormat": "Nieprawidłowy format. Dozwolone formaty to: JPG, JPEG, PNG, WEBP.",
       "fileTooLarge": "Maksymalny rozmiar pliku to {maxSize} MB."
     },
+    "edit": {
+      "successMessage": "Profil został pomyślnie zaktualizowany."
+    },
     "company": {
       "myOffers": "Moje oferty",
       "candidateApplications": "Aplikacje kandydatów",
@@ -176,6 +181,16 @@
       "noTags": "Firma nie dodała jeszcze tagów."
     },
     "university": {
+      "recruitmentAndSystem": "Rekrutacja i system",
+      "noFaculties": "Uczelnia nie dodała jeszcze żadnych wydziałów.",
+      "facultiesAndStudyFields": "Wydziały i kierunki studiów",
+      "universityDomain": "Domena uczelni",
+      "noStudyFields": "Uczelnia nie dodała jeszcze żadnych kierunków studiów.",
+      "systemInformation": "Informacje systemowe",
+      "domain": "Domena uczelni",
+      "domainLockedHint": "Domeny nie można zmienić. Skontaktuj się z administratorem.",
+      "externalFormUrl": "Link do systemu rekrutacyjnego (opcjonalnie)",
+      "externalFormUrlPlaceholder": "Link do systemu rekrutacyjnego (opcjonalnie)"
     }
   },
   "validation": {

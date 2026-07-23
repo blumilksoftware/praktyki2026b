@@ -10,6 +10,13 @@ const { t } = useI18n()
 
 <template>
   <Head :title="t('student.layout.title')" />
+  <BaseLayout
+    active-page="dashboard"
+    :nav-items="navItems"
+    :minimal-header="true"
+  >
+    <OnboardingBanner />
+  </BaseLayout>
   <StudentPanelLayout active-page="dashboard">
     <div class="flex flex-col gap-6">
       <OnboardingBanner />

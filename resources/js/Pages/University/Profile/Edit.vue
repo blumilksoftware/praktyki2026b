@@ -1,45 +1,39 @@
 <script setup>
-import { Head, useForm, router } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
-import { IconArrowLeft } from '@tabler/icons-vue'
+import { IconArrowLeft, IconUserCircle } from '@tabler/icons-vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
-import TagsEdit from '@/Components/Profiles/Edit/TagsEdit.vue'
-import AboutEdit from '@/Components/Profiles/Edit/AboutEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
 import Menu from '@/Components/Profiles/Menu.vue'
+import InfoEdit from '@/Components/Profiles/Edit/InfoEdit.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
-import { IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
 
 const { t } = useI18n()
-
-const companyMenu = computed(() => [
-  { label: t('profiles.company.myOffers'), href: ROUTES.OFFERS, icon: IconSearch },
-  { label: t('profiles.company.candidateApplications'), href: ROUTES.APPLICATIONS, icon: IconClipboardText },
-  { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle, isActive: true },
-  { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
-])
 
 const goBack = () => {
   window.history.back()
 }
 
 const props = defineProps({
-  company: { type: Object, default: () => ({}) },
+  university: { type: Object, required: true },
+})
+
+const isDomainLocked = computed(() => {
+  return !!props.university.domain
 })
 
 const form = useForm({
   logo: null,
-  tags: props.company.tags || [],
-  description: props.company.description || '',
-  website: props.company.website || '',
-  phone: props.company.phone || '',
-  street: props.company.street || '',
-  postalCode: props.company.postalCode || '',
-  city: props.company.city || '',
-  nip: props.company.nip || '',
+  website: props.university.website || '',
+  phone: props.university.phone || '',
+  street: props.university.street || '',
+  postalCode: props.university.postalCode || '',
+  city: props.university.city || '',
+  domain: props.university.domain || '',
+  external_form_url: props.university.externalFormUrl || '',
 })
 
 const statusMessage = ref(null)
@@ -50,7 +44,7 @@ const submit = () => {
   form.transform((data) => ({
     ...data,
     _method: 'patch',
-  })).post('/profile', {
+  })).post('/university/profile', {
     preserveScroll: true,
     onSuccess: () => {
       statusMessage.value = t('profiles.edit.successMessage')
@@ -64,10 +58,10 @@ const submit = () => {
 </script>
 
 <template>
-  <Head :title="company.name" />
+  <Head :title="university.name" />
   
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar show-hamburger :menu-items="companyMenu" />
+    <BaseNavbar />
   
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
@@ -77,28 +71,27 @@ const submit = () => {
           <IconArrowLeft stroke="2.5" class="w-4 h-4" />
           {{ t('buttons.back') }}
         </a>
-        <div>
-          <Menu :items="companyMenu" />
-        </div>
       </div>
 
       <div class="flex flex-col gap-6 w-full">
         <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 flex flex-col items-center text-center">
           <HeaderEdit
-            :name="company.name"
-            :logo-url="company.logoUrl"
+            :name="university.name"
+            :logo-url="university.logoUrl"
             class="flex flex-col items-center w-full md:px-10"
-            @update:logo="form.logo = $event"
+            @update:logo="form.logo = $event" 
           />
-
-          <div class="text-sm text-slate-500 mt-2 flex items-center gap-2 w-full justify-center">
-            <TagsEdit v-model="form.tags" :max-tags="10" />
-          </div>
         </div>
+
+        <InfoEdit
+          v-model:domain="form.domain"
+          v-model:external-form-url="form.external_form_url"
+          :is-domain-locked="isDomainLocked"
+          :errors="form.errors"
+        />
 
         <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6">
           <ContactCardEdit
-            v-model:email="form.email"
             v-model:website="form.website"
             v-model:phone="form.phone"
             v-model:street="form.street"
@@ -106,10 +99,6 @@ const submit = () => {
             v-model:city="form.city"
             :errors="form.errors"
           />
-        </div>
-
-        <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
-          <AboutEdit v-model="form.description" />
         </div>
 
         <div class="flex flex-col items-center gap-5 pt-4 pb-4 mt-2">

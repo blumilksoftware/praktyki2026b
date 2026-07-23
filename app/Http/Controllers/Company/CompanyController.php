@@ -71,7 +71,6 @@ class CompanyController extends Controller
             "phone" => $company?->phone ?? null,
             "website" => $company?->website ?? null,
             "street" => $company?->street ?? null,
-            "buildingNumber" => $company?->building_number ?? null,
             "postalCode" => $company?->postal_code ?? null,
             "city" => $company?->city ?? null,
             "nip" => $company?->nip ?? null,

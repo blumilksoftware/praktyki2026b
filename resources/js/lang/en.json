@@ -153,7 +153,9 @@
     "profile": "Profile",
     "aboutUs": "About us",
     "contact": "Contact",
+    "noContactInfo": "No contact information",
     "currentOffers": "Current offers",
+    "noOffers": "No current offers",
     "nip": "NIP",
     "spots": "Spots",
     "uploadLogo": "Upload logo",
@@ -178,6 +180,16 @@
       "noTags": "The company has not provided any tags."
     },
     "university": {
+      "recruitmentAndSystem": "Recruitment and system",
+      "noFaculties": "The university has not added any faculties yet.",
+      "facultiesAndStudyFields": "Faculties and study fields",
+      "universityDomain": "University domain",
+      "noStudyFields": "The university has not added any study fields yet.",
+      "systemInformation": "System information",
+      "domain": "University domain",
+      "domainLockedHint": "Domains cannot be changed. Please contact the administrator.",
+      "externalFormUrl": "External application form URL",
+      "externalFormUrlPlaceholder": "External application form URL (optional)"
     }
   },
   "validation": {

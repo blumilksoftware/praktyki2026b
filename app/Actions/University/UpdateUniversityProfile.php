@@ -8,6 +8,7 @@ use App\DTO\University\UpdateUniversityProfileData;
 use App\Models\University;
 use App\Services\FileUploadService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateUniversityProfile
 {
@@ -21,7 +22,14 @@ class UpdateUniversityProfile
             $logoPath = $university->logo_path;
 
             if ($data->logo !== null) {
-                $logoPath = $this->fileUploadService->upload($data->logo, "logos", $university->logo_path);
+                if ($logoPath !== null) {
+                    $oldPath = str_replace("/storage/", "", $logoPath);
+                    Storage::disk("public")->delete($oldPath);
+                }
+
+                $path = $data->logo->store("logos", "public");
+
+                $logoPath = "/storage/" . $path;
             }
 
             $domain = $university->domain;
@@ -34,6 +42,11 @@ class UpdateUniversityProfile
                 "domain" => $domain,
                 "logo_path" => $logoPath,
                 "external_form_url" => $data->externalFormUrl,
+                "website" => $data->website,
+                "phone" => $data->phone,
+                "street" => $data->street,
+                "postal_code" => $data->postalCode,
+                "city" => $data->city,
             ]);
 
             if ($data->faculties !== null && count($data->faculties) > 0) {

@@ -30,7 +30,6 @@ class UpdateCompanyProfileRequest extends FormRequest
 
             "phone" => ["required", "string", "max:50"],
             "street" => ["required", "string", "max:255"],
-            "buildingNumber" => ["required", "string", "max:50"],
             "postalCode" => ["required", "string", "max:20"],
             "city" => ["required", "string", "max:255"],
             "nip" => ["required", "string", "max:50"],
@@ -48,7 +47,6 @@ class UpdateCompanyProfileRequest extends FormRequest
             "website" => $this->string("website")->toString() ?: null,
             "phone" => $this->string("phone")->toString() ?: null,
             "street" => $this->string("street")->toString() ?: null,
-            "building_number" => $this->string("buildingNumber")->toString() ?: null,
             "postal_code" => $this->string("postalCode")->toString() ?: null,
             "city" => $this->string("city")->toString() ?: null,
             "nip" => $this->string("nip")->toString() ?: null,
