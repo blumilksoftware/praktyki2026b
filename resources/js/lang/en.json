@@ -304,6 +304,9 @@
     },
     "profile": {
       "title": "Profile"
+    },
+    "companies": {
+      "title": "Company search"
     }
   },
   "student": {

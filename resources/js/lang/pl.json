@@ -303,6 +303,9 @@
     },
     "profile": {
       "title": "Profil"
+    },
+    "companies": {
+      "title": "Wyszukiwarka firm"
     }
   },
   "student": {
