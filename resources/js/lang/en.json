@@ -24,6 +24,9 @@
       "externalFormUrl": "Application form URL"
     }
   },
+  "common": {
+    "verifiedBadge": "Account verified by an administrator"
+  },
   "errors": {
     "401": {
       "title": "Login required",
