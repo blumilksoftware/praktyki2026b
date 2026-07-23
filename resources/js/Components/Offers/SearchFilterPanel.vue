@@ -46,7 +46,7 @@ const workModeOptions = computed(() => [
       <button
         v-if="hasActiveFilters()"
         type="button"
-        class="inline-flex items-center gap-1 text-additional text-sm transition hover:text-text"
+        class="inline-flex cursor-pointer items-center gap-1 text-additional text-sm transition hover:text-text"
         :aria-label="t('offers.filters.clearAll')"
         @click="clearFilters"
       >
@@ -75,7 +75,7 @@ const workModeOptions = computed(() => [
             v-for="option in workModeOptions"
             :key="option.labelKey"
             type="button"
-            class="rounded-lg border px-3 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            class="cursor-pointer rounded-lg border px-3 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
             :class="localFilters.workMode === option.value
               ? 'border-primary bg-primary text-white'
               : 'border-border bg-white text-text hover:border-primary/40'"
@@ -91,7 +91,7 @@ const workModeOptions = computed(() => [
         <p class="mb-2 text-additional text-sm">
           {{ t('offers.filters.dateRange.label') }}
         </p>
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div class="grid grid-cols-1 gap-3">
           <BaseInput
             id="offer-search-date-from"
             v-model="localFilters.dateFrom"
