@@ -212,9 +212,16 @@
     "collapseTags": "Zwiń tagi",
     "myProfile": "Mój profil",
     "settings": "Ustawienia",
-    "logout": "Wyloguj się"
+    "logout": "Wyloguj się",
+    "apply": {
+      "noCvMessage": "Aby zaaplikować na to stanowisko, musisz dodać CV do swojego profilu.",
+      "uploadCvPrompt": "Przejdź do edycji profilu i wgraj CV",
+      "applyNow": "Aplikuj teraz",
+      "loading": "Wysyłanie...",
+      "appliedOn": "Zaaplikowano {date}"
+    }
   },
-
+  
   "table": {
     "id": "ID",
     "student": "Student",
