@@ -1,10 +1,11 @@
 <script setup>
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { IconLoader2, IconCheck } from '@tabler/icons-vue'
 
 const { t } = useI18n()
 
-defineProps({
+const props = defineProps({
   hasCv: { 
     type: Boolean, 
     required: true, 
@@ -28,6 +29,23 @@ defineProps({
 })
 
 defineEmits(['apply', 'uploadCv'])
+
+const formattedAppliedDate = computed(() => {
+  if (!props.appliedDate) return ''
+  
+  const dateObj = new Date(props.appliedDate)
+  
+  if (isNaN(dateObj.getTime())) return props.appliedDate
+
+  const day = String(dateObj.getDate()).padStart(2, '0')
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0')
+  const year = dateObj.getFullYear()
+  
+  const hours = String(dateObj.getHours()).padStart(2, '0')
+  const minutes = String(dateObj.getMinutes()).padStart(2, '0')
+
+  return `${day}-${month}-${year} ${hours}:${minutes}`
+})
 </script>
 
 <template>
@@ -35,7 +53,7 @@ defineEmits(['apply', 'uploadCv'])
     <span class="text-text text-center font-medium">{{ t('buttons.apply.noCvMessage') }}</span>
     <button
       type="button"
-      class="text-link hover:text-link/80 font-bold underline underline-offset-4 text-left w-fit transition-colors"
+      class="text-link hover:text-link/80 font-bold underline underline-offset-4 text-left w-fit transition-colors hover:cursor-pointer"
       @click="$emit('uploadCv')"
     >
       {{ t('buttons.apply.uploadCvPrompt') }}
@@ -61,7 +79,7 @@ defineEmits(['apply', 'uploadCv'])
 
     <template v-else-if="isApplied">
       <IconCheck class="w-5 h-5" />
-      {{ t('buttons.apply.appliedOn', { date: appliedDate }) }}
+      {{ t('buttons.apply.appliedOn', { date: formattedAppliedDate }) }}
     </template>
 
     <template v-else>

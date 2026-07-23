@@ -65,6 +65,8 @@ const availableTags = ref([
   'Machine Learning',
   'Artificial Intelligence',
 ])
+
+const currentDate = new Date().toISOString()
 </script>
 
 <template>
@@ -130,18 +132,16 @@ const availableTags = ref([
         <div class="rounded-lg border border-border bg-white p-6 flex flex-col gap-4">
           <BaseApplyButton
             :has-cv="false"
-            @upload-cv="() => alert('Upload CV clicked')"
           />
           <BaseApplyButton
             :has-cv="true"
             :is-applied="false"
             :is-loading="false"
-            @apply="() => alert('Apply clicked')"
           />
           <BaseApplyButton
             :has-cv="true"
             :is-applied="true"
-            applied-date="2023-08-15 12:34"
+            :applied-date="currentDate"
           />
           <BaseApplyButton
             :has-cv="true"
