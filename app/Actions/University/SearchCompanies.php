@@ -25,10 +25,11 @@ class SearchCompanies
         }
 
         if ($data->tag !== null) {
-            $query->whereRaw(
-                "EXISTS (SELECT 1 FROM json_array_elements_text(tags) AS tag WHERE LOWER(tag) = ?)",
-                [strtolower($data->tag)],
-            );
+            $tagElementsExpression = $query->getModel()->getConnection()->getDriverName() === "sqlite"
+                ? "SELECT 1 FROM json_each(tags) WHERE LOWER(value) = ?"
+                : "SELECT 1 FROM json_array_elements_text(tags) AS tag WHERE LOWER(tag) = ?";
+
+            $query->whereRaw("EXISTS ({$tagElementsExpression})", [strtolower($data->tag)]);
         }
 
         return $query
