@@ -22,7 +22,7 @@ class UpdateUniversityProfileTest extends TestCase
         Storage::fake("public");
 
         $university = University::factory()->approved()->create([
-            "domain" => "uj.edu.pl",
+            "domain" => "example.com",
         ]);
         $user = $this->makeUniversityAdmin($university);
 
@@ -30,16 +30,16 @@ class UpdateUniversityProfileTest extends TestCase
 
         $this->actingAs($user)
             ->patch("/university/profile", [
-                "domain" => "uj.edu.pl",
+                "domain" => "example.com",
                 "logo" => $logo,
-                "external_form_url" => "https://uj.edu.pl/external-form",
+                "external_form_url" => "https://example.com/external-form",
                 "faculties" => [
                     [
                         "name" => "Faculty of IT",
                         "study_fields" => ["Computer Science"],
                     ],
                 ],
-                "website" => "https://uj.edu.pl",
+                "website" => "https://example.com",
                 "phone" => "+48 123 456 789",
                 "street" => "Main Street 1",
                 "postalCode" => "30-001",
@@ -48,13 +48,13 @@ class UpdateUniversityProfileTest extends TestCase
             ->assertRedirect("/university/profile");
 
         $university->refresh();
-        $this->assertEquals("uj.edu.pl", $university->domain);
-        $this->assertEquals("https://uj.edu.pl/external-form", $university->external_form_url);
+        $this->assertEquals("example.com", $university->domain);
+        $this->assertEquals("https://example.com/external-form", $university->external_form_url);
         $this->assertNotNull($university->logo_path);
         $expectedDiskPath = str_replace("/storage/", "", $university->logo_path);
         Storage::disk("public")->assertExists($expectedDiskPath);
 
-        $this->assertEquals("https://uj.edu.pl", $university->website);
+        $this->assertEquals("https://example.com", $university->website);
         $this->assertEquals("+48 123 456 789", $university->phone);
         $this->assertEquals("Main Street 1", $university->street);
         $this->assertEquals("30-001", $university->postal_code);
@@ -70,7 +70,7 @@ class UpdateUniversityProfileTest extends TestCase
     public function testAttemptingToChangeDomainWhenAlreadySetReturnsValidationError(): void
     {
         $university = University::factory()->approved()->create([
-            "domain" => "uj.edu.pl",
+            "domain" => "example.com",
         ]);
         $user = $this->makeUniversityAdmin($university);
 
@@ -88,13 +88,13 @@ class UpdateUniversityProfileTest extends TestCase
             ->assertSessionHasErrors("domain");
 
         $university->refresh();
-        $this->assertEquals("uj.edu.pl", $university->domain);
+        $this->assertEquals("example.com", $university->domain);
     }
 
     public function testUnauthenticatedUserCannotUpdateProfile(): void
     {
         $this->patch("/university/profile", [
-            "domain" => "uj.edu.pl",
+            "domain" => "example.com",
         ])->assertRedirect("/login");
     }
 

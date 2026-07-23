@@ -20,16 +20,16 @@ class UpdateUniversityProfileTest extends TestCase
     public function testItUpdatesExternalFormUrlAndPreservesDomainIfAlreadySet(): void
     {
         $university = University::factory()->approved()->create([
-            "domain" => "uj.edu.pl",
+            "domain" => "example.com",
             "external_form_url" => null,
         ]);
 
         $data = new UpdateUniversityProfileData(
             domain: "different.edu.pl",
             logo: null,
-            externalFormUrl: "https://uj.edu.pl/form",
+            externalFormUrl: "https://example.com/form",
             faculties: null,
-            website: "https://uj.edu.pl",
+            website: "https://example.com",
             phone: "123456789",
             street: "Test Street 1",
             postalCode: "00-000",
@@ -39,8 +39,8 @@ class UpdateUniversityProfileTest extends TestCase
         $action = new UpdateUniversityProfile(new FileUploadService());
         $updated = $action->execute($university, $data);
 
-        $this->assertEquals("uj.edu.pl", $updated->domain);
-        $this->assertEquals("https://uj.edu.pl/form", $updated->external_form_url);
+        $this->assertEquals("example.com", $updated->domain);
+        $this->assertEquals("https://example.com/form", $updated->external_form_url);
     }
 
     public function testItUpdatesDomainIfExistingDomainIsEmpty(): void
@@ -81,11 +81,11 @@ class UpdateUniversityProfileTest extends TestCase
         $newLogo = UploadedFile::fake()->createWithContent("logo.png", $this->fakePng());
 
         $data = new UpdateUniversityProfileData(
-            domain: "uj.edu.pl",
+            domain: "example.com",
             logo: $newLogo,
             externalFormUrl: null,
             faculties: null,
-            website: "https://uj.edu.pl",
+            website: "https://example.com",
             phone: "123456789",
             street: "Test Street 1",
             postalCode: "00-000",
