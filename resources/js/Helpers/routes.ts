@@ -38,6 +38,7 @@ export const ROUTES = {
   UNIVERSITY_PROFILE: "/university/profile",
 
   HOME: "/",
+  OFFERS_SEARCH: "/offers",
 
   OFFER_SHOW: `/offers/{offer}`,
   OFFERS: "/offers",
