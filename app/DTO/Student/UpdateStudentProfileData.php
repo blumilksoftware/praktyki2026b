@@ -19,6 +19,8 @@ readonly class UpdateStudentProfileData
         public ?string $specialization,
         public array $studyFieldIds,
         public array $preferredCities,
+        public array $skills,
+        public array $workModes,
     ) {}
 
     public static function fromArray(array $data): self
@@ -36,6 +38,8 @@ readonly class UpdateStudentProfileData
             specialization: $data["specialization"] ?? null,
             studyFieldIds: $data["study_field_ids"] ?? [],
             preferredCities: $data["preferred_cities"] ?? [],
+            skills: $data["skills"] ?? [],
+            workModes: $data["work_modes"] ?? [],
         );
     }
 }

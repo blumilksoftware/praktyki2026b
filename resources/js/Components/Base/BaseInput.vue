@@ -16,6 +16,7 @@ const props = defineProps({
   compact: { type: Boolean, default: false },
   stacked: { type: Boolean, default: false },
   placeholder: { type: String, default: '' },
+  disabled: { type: Boolean, default: false },
 })
 
 const model = defineModel({ type: String, required: true })
@@ -43,7 +44,10 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
       v-if="stacked"
       :for="id"
       class="mb-1 block text-additional text-sm"
-      :class="{ 'text-error': hasError }"
+      :class="[
+        hasError ? 'text-error' : '',
+        disabled ? 'opacity-60 cursor-not-allowed' : ''
+      ]"
     >
       {{ label }}
     </label>
@@ -56,10 +60,11 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
         :autocomplete="autocomplete"
         :required="required"
         :maxlength="maxlength"
+        :disabled="disabled"
         :aria-invalid="hasError ? true : undefined"
         :aria-describedby="error ? `${id}-error` : undefined"
         :placeholder="stacked ? placeholder : ' '"
-        class="w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text transition-all focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30"
+        class="w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text transition-all focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:bg-gray-50 disabled:text-additional disabled:cursor-not-allowed disabled:border-border/50"
         :class="[
           hasError ? 'border-error focus:border-error focus:ring-error/30' : '',
           isPassword ? 'pr-11' : '',
@@ -73,7 +78,8 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
         class="absolute z-10 origin-left cursor-text transition-all duration-200 text-base font-medium text-additional
                -top-6 inset-s-0 translate-y-0 scale-90
                peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:inset-s-4 peer-placeholder-shown:scale-100
-               peer-focus:-top-6 peer-focus:translate-y-0 peer-focus:inset-s-0 peer-focus:scale-90 peer-focus:text-text"
+               peer-focus:-top-6 peer-focus:translate-y-0 peer-focus:inset-s-0 peer-focus:scale-90 peer-focus:text-text
+               peer-disabled:cursor-not-allowed peer-disabled:opacity-60"
         :class="{ 'text-error peer-focus:text-error': hasError }"
       >
         {{ label }}
@@ -82,7 +88,8 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
       <button
         v-if="isPassword"
         type="button"
-        class="absolute right-3 top-1/2 -translate-y-1/2 text-additional hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded p-0.5"
+        :disabled="disabled"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-additional hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded p-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-additional"
         :aria-label="showPassword
           ? t('auth.fields.hidePassword')
           : t('auth.fields.showPassword')"

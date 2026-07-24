@@ -26,9 +26,11 @@ const user = {
   study_field_ids: [],
   cv_path: null,
   skills: ["Python", "Django", "React", "TypeScript"],
-  work_modes: ["Hybrid", "Remote"],
+  work_modes: ["hybrid", "remote"],
   applications: [],
 }
+
+const { routerPatch } = vi.hoisted(() => ({ routerPatch: vi.fn() }))
 
 vi.mock("@inertiajs/vue3", async () => {
   const actual = await vi.importActual("@inertiajs/vue3")
@@ -49,7 +51,7 @@ vi.mock("@inertiajs/vue3", async () => {
       delete: vi.fn(),
       defaults: () => ({ reset: vi.fn() }),
     }),
-    router: { post: vi.fn(), delete: vi.fn() },
+    router: { post: vi.fn(), delete: vi.fn(), patch: routerPatch },
   }
 })
 
@@ -59,7 +61,7 @@ describe("Student/Profile", () => {
     global: {
       plugins: [i18n],
       stubs: {
-        BaseLayout: { template: "<div><slot /></div>" },
+        StudentPanelLayout: { template: "<div><slot /></div>" },
         BaseModal: {
           props: ["open", "title"],
           template: '<section v-if="open"><h2>{{ title }}</h2><slot /></section>',
@@ -78,7 +80,6 @@ describe("Student/Profile", () => {
     expect(wrapper.text()).toContain("Edit profile")
     expect(wrapper.text()).toContain("Technical skills")
     expect(wrapper.text()).toContain("Expected work mode")
-    expect(wrapper.text()).toContain("Account and security")
   })
 
   it("renders skills and work mode tags from user data", () => {
@@ -86,5 +87,48 @@ describe("Student/Profile", () => {
 
     expect(wrapper.text()).toContain("Python")
     expect(wrapper.text()).toContain("Hybrid")
+  })
+
+  it("saves work modes as enum values, not labels, via the shared profile patch endpoint", async () => {
+    routerPatch.mockClear()
+    const wrapper = mountProfile()
+
+    const editButton = wrapper.findAll("button").find((btn) => btn.text() === "Edit")
+    await editButton!.trigger("click")
+
+    const onsiteButton = wrapper.findAll("button").find((btn) => btn.text() === "On-site")
+    await onsiteButton!.trigger("click")
+
+    const saveButton = wrapper.findAll("button").find((btn) => btn.text() === "Save")
+    await saveButton!.trigger("click")
+
+    expect(routerPatch).toHaveBeenCalledTimes(1)
+    const [url, payload] = routerPatch.mock.calls[0]
+    expect(url).toBe("/student/profile")
+    expect(payload.first_name).toBe("Jan")
+    expect(payload.last_name).toBe("Kowalski")
+    expect(payload.work_modes).toEqual(["hybrid", "remote", "onSite"])
+    expect(payload.skills).toEqual(["Python", "Django", "React", "TypeScript"])
+  })
+
+  it("saves skills via the shared profile patch endpoint", async () => {
+    routerPatch.mockClear()
+    const wrapper = mountProfile()
+
+    const addButton = wrapper.findAll("button").find((btn) => btn.text() === "Add")
+    await addButton!.trigger("click")
+
+    const input = wrapper.find("#profile_skills")
+    await input.setValue("Vue.js")
+    await input.trigger("keydown", { key: "Enter" })
+
+    const saveButton = wrapper.findAll("button").find((btn) => btn.text() === "Save")
+    await saveButton!.trigger("click")
+
+    expect(routerPatch).toHaveBeenCalledTimes(1)
+    const [url, payload] = routerPatch.mock.calls[0]
+    expect(url).toBe("/student/profile")
+    expect(payload.skills).toEqual(["Python", "Django", "React", "TypeScript", "Vue.js"])
+    expect(payload.work_modes).toEqual(["hybrid", "remote"])
   })
 })

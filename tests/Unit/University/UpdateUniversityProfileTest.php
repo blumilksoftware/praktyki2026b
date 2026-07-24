@@ -20,22 +20,27 @@ class UpdateUniversityProfileTest extends TestCase
     public function testItUpdatesExternalFormUrlAndPreservesDomainIfAlreadySet(): void
     {
         $university = University::factory()->approved()->create([
-            "domain" => "uj.edu.pl",
+            "domain" => "example.com",
             "external_form_url" => null,
         ]);
 
         $data = new UpdateUniversityProfileData(
             domain: "different.edu.pl",
             logo: null,
-            externalFormUrl: "https://uj.edu.pl/form",
+            externalFormUrl: "https://example.com/form",
             faculties: null,
+            website: "https://example.com",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
         );
 
         $action = new UpdateUniversityProfile(new FileUploadService());
         $updated = $action->execute($university, $data);
 
-        $this->assertEquals("uj.edu.pl", $updated->domain);
-        $this->assertEquals("https://uj.edu.pl/form", $updated->external_form_url);
+        $this->assertEquals("example.com", $updated->domain);
+        $this->assertEquals("https://example.com/form", $updated->external_form_url);
     }
 
     public function testItUpdatesDomainIfExistingDomainIsEmpty(): void
@@ -49,6 +54,11 @@ class UpdateUniversityProfileTest extends TestCase
             logo: null,
             externalFormUrl: null,
             faculties: null,
+            website: "https://example.com",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
         );
 
         $action = new UpdateUniversityProfile(new FileUploadService());
@@ -59,32 +69,37 @@ class UpdateUniversityProfileTest extends TestCase
 
     public function testItUploadsLogoAndDeletesOldOne(): void
     {
-        $disk = config("filesystems.default", "local");
-        Storage::fake($disk);
+        Storage::fake("public");
 
-        $oldPath = "logos/old-logo.png";
-        Storage::disk($disk)->put($oldPath, "fake-data");
+        $oldDiskPath = "logos/old-logo.png";
+        Storage::disk("public")->put($oldDiskPath, "fake-data");
 
         $university = University::factory()->approved()->create([
-            "logo_path" => $oldPath,
+            "logo_path" => "/storage/" . $oldDiskPath,
         ]);
 
         $newLogo = UploadedFile::fake()->createWithContent("logo.png", $this->fakePng());
 
         $data = new UpdateUniversityProfileData(
-            domain: "uj.edu.pl",
+            domain: "example.com",
             logo: $newLogo,
             externalFormUrl: null,
             faculties: null,
+            website: "https://example.com",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
         );
 
         $action = new UpdateUniversityProfile(new FileUploadService());
         $updated = $action->execute($university, $data);
 
         $this->assertNotNull($updated->logo_path);
-        $this->assertNotEquals($oldPath, $updated->logo_path);
-        Storage::disk($disk)->assertMissing($oldPath);
-        Storage::disk($disk)->assertExists($updated->logo_path);
+        $this->assertNotEquals("/storage/" . $oldDiskPath, $updated->logo_path);
+        Storage::disk("public")->assertMissing($oldDiskPath);
+        $newDiskPath = str_replace("/storage/", "", $updated->logo_path);
+        Storage::disk("public")->assertExists($newDiskPath);
     }
 
     public function testItSynchronizesFacultiesAndStudyFields(): void
@@ -108,6 +123,11 @@ class UpdateUniversityProfileTest extends TestCase
                     "study_fields" => ["Pure Mathematics"],
                 ],
             ],
+            website: "https://example.com",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
         );
 
         $action = new UpdateUniversityProfile(new FileUploadService());
@@ -155,6 +175,11 @@ class UpdateUniversityProfileTest extends TestCase
             logo: null,
             externalFormUrl: null,
             faculties: [],
+            website: "https://example.com",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
         );
 
         $action = new UpdateUniversityProfile(new FileUploadService());

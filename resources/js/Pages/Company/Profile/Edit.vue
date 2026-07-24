@@ -37,7 +37,6 @@ const form = useForm({
   website: props.company.website || '',
   phone: props.company.phone || '',
   street: props.company.street || '',
-  buildingNumber: props.company.buildingNumber || '',
   postalCode: props.company.postalCode || '',
   city: props.company.city || '',
   nip: props.company.nip || '',
@@ -103,10 +102,8 @@ const submit = () => {
             v-model:website="form.website"
             v-model:phone="form.phone"
             v-model:street="form.street"
-            v-model:building-number="form.buildingNumber"
             v-model:postal-code="form.postalCode"
             v-model:city="form.city"
-            :nip="company.nip"
             :errors="form.errors"
           />
         </div>

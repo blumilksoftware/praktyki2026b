@@ -82,7 +82,6 @@ defineProps({
               :phone="company.phone"
               :website="company.website"
               :street="company.street"
-              :building-number="company.buildingNumber"
               :postal-code="company.postalCode"
               :city="company.city"
               :nip="company.nip"
