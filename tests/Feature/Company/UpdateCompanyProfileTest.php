@@ -169,7 +169,6 @@ class UpdateCompanyProfileTest extends TestCase
         return array_merge([
             "phone" => "123456789",
             "street" => "Ulica Testowa",
-            "buildingNumber" => "12A",
             "postalCode" => "00-000",
             "city" => "Warszawa",
             "nip" => "1234567890",

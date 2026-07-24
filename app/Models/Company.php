@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\VerificationStatus;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -69,9 +70,25 @@ class Company extends Model
         return $this->hasManyThrough(Application::class, Offer::class)->withTrashedParents();
     }
 
+    /**
+     * @return HasMany<Partnership, $this>
+     */
+    public function partnerships(): HasMany
+    {
+        return $this->hasMany(Partnership::class);
+    }
+
     public function scopeNeedingVerification($query)
     {
         return $query->where("verification_status", VerificationStatus::Pending);
+    }
+
+    /**
+     * @return Builder<Company>
+     */
+    public function scopeVerified(Builder $query): Builder
+    {
+        return $query->where("verification_status", VerificationStatus::Verified);
     }
 
     protected function casts(): array

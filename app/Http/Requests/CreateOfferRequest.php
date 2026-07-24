@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Enums\OfferStatus;
+use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Enums\WorkMode;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -13,7 +15,11 @@ class CreateOfferRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        $user = $this->user();
+
+        return $user !== null
+            && $user->role === UserRole::CompanyAdmin 
+            && $user->status === UserStatus::Active;
     }
 
     public function rules(): array

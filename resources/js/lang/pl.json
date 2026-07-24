@@ -31,6 +31,9 @@
       "externalFormUrl": "URL formularza rekrutacyjnego"
     }
   },
+  "common": {
+    "verifiedBadge": "Konto zweryfikowane przez administratora"
+  },
   "errors": {
     "401": {
       "title": "Wymagane logowanie",
@@ -158,7 +161,9 @@
     "profile": "Profil",
     "aboutUs": "O nas",
     "contact": "Kontakt",
+    "noContactInfo": "Brak danych kontaktowych",
     "currentOffers": "Aktualne oferty",
+    "noOffers": "Brak aktualnych ofert",
     "nip": "NIP",
     "spots": "Miejsca",
     "uploadLogo": "Prześlij logo",
@@ -170,6 +175,9 @@
       "invalidFormat": "Nieprawidłowy format. Dozwolone formaty to: JPG, JPEG, PNG, WEBP.",
       "fileTooLarge": "Maksymalny rozmiar pliku to {maxSize} MB."
     },
+    "edit": {
+      "successMessage": "Profil został pomyślnie zaktualizowany."
+    },
     "company": {
       "myOffers": "Moje oferty",
       "candidateApplications": "Aplikacje kandydatów",
@@ -180,6 +188,16 @@
       "noTags": "Firma nie dodała jeszcze tagów."
     },
     "university": {
+      "recruitmentAndSystem": "Rekrutacja i system",
+      "noFaculties": "Uczelnia nie dodała jeszcze żadnych wydziałów.",
+      "facultiesAndStudyFields": "Wydziały i kierunki studiów",
+      "universityDomain": "Domena uczelni",
+      "noStudyFields": "Uczelnia nie dodała jeszcze żadnych kierunków studiów.",
+      "systemInformation": "Informacje systemowe",
+      "domain": "Domena uczelni",
+      "domainLockedHint": "Domeny nie można zmienić. Skontaktuj się z administratorem.",
+      "externalFormUrl": "Link do systemu rekrutacyjnego (opcjonalnie)",
+      "externalFormUrlPlaceholder": "Link do systemu rekrutacyjnego (opcjonalnie)"
     }
   },
   "validation": {
@@ -201,9 +219,16 @@
     "collapseTags": "Zwiń tagi",
     "myProfile": "Mój profil",
     "settings": "Ustawienia",
-    "logout": "Wyloguj się"
+    "logout": "Wyloguj się",
+    "apply": {
+      "noCvMessage": "Aby zaaplikować na to stanowisko, musisz dodać CV do swojego profilu.",
+      "uploadCvPrompt": "Przejdź do edycji profilu i wgraj CV",
+      "applyNow": "Aplikuj teraz",
+      "loading": "Wysyłanie...",
+      "appliedOn": "Zaaplikowano {date}"
+    }
   },
-
+  
   "table": {
     "id": "ID",
     "student": "Student",
@@ -307,6 +332,9 @@
     },
     "profile": {
       "title": "Profil"
+    },
+    "companies": {
+      "title": "Wyszukiwarka firm"
     }
   },
   "student": {
@@ -315,6 +343,13 @@
       "nav": {
         "ariaLabel": "Nawigacja studenta",
         "mobileAriaLabel": "Nawigacja mobilna studenta"
+      }
+    },
+    "dashboard": {
+      "comingSoon": {
+        "title": "Panel studenta jest w przygotowaniu.",
+        "applications": "Wkrótce pojawi się tu przegląd Twoich aplikacji (T-062, BE: T-061).",
+        "offersAndFavourites": "Szukanie ofert i ulubione dojdą wraz z milestone’ami M3/M4 (T-046, T-066)."
       }
     },
     "cv": {
@@ -373,7 +408,7 @@
         "specialization": "Specjalność",
         "saveChanges": "Zapisz zmiany",
         "backToProfile": "Wróć do profilu",
-        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” na stronie profilu."
+        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” (ikona profilu w pasku nawigacji)."
       },
       "photo": {
         "label": "Zdjęcie profilowe",
@@ -422,8 +457,7 @@
       },
       "account": {
         "title": "Konto i bezpieczeństwo",
-        "description": "Hasło, adres e-mail i usuwanie konta.",
-        "navbarNotice": "Po ukończeniu paska nawigacji ta sekcja zostanie przeniesiona do ustawień profilu w menu."
+        "description": "Hasło, adres e-mail i usuwanie konta."
       },
       "password": {
         "title": "Zmiana hasła",
@@ -527,6 +561,37 @@
     }
   },
     "company": {
+  "offers": {
+    "search": {
+      "title": "Praktyki i oferty",
+      "subtitle": "Przeglądaj oferty i dopasuj wyniki do swoich preferencji.",
+      "resultsTitle": "Wyniki",
+      "empty": "Brak ofert spełniających wybrane kryteria.",
+      "resultsCount": "Wyświetlono {count} ofert na tej stronie."
+    },
+    "filters": {
+      "title": "Filtry",
+      "clearAll": "Wyczyść filtry",
+      "studyFields": {
+        "label": "Kierunki studiów",
+        "placeholder": "Wybierz kierunki z listy"
+      },
+      "workMode": {
+        "label": "Tryb pracy",
+        "all": "Wszystkie",
+        "onSite": "Stacjonarnie",
+        "hybrid": "Hybrydowo",
+        "remote": "Zdalnie"
+      },
+      "dateRange": {
+        "label": "Zakres dat praktyk",
+        "from": "Od",
+        "to": "Do"
+      },
+      "dateRangeInvalid": "Data „Do” musi być taka sama lub późniejsza niż data „Od”."
+    }
+  },
+  "company": {
     "layout": {
       "title": "Firma"
     },

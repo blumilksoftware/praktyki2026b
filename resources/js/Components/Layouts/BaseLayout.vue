@@ -9,7 +9,6 @@ import { ROUTES } from '@/Helpers/routes'
 const props = defineProps({
   activePage: { type: String, default: '' },
   navItems: { type: Array, default: () => [] },
-  showBackground: { type: Boolean, default: true },
   minimalHeader: { type: Boolean, default: false },
   layoutScope: { type: String, default: 'admin' },
 })
@@ -55,8 +54,7 @@ const navItems = computed(() => props.navItems.length > 0
 
 <template>
   <div
-    class="flex flex-col min-h-screen text-text"
-    :class="pageBackgroundClass"
+    class="flex flex-col min-h-screen text-text bg-background"
   >
     <a
       href="#main-content"
@@ -335,14 +333,6 @@ const navItems = computed(() => props.navItems.length > 0
     </Transition>
 
     <main id="main-content" class="relative flex flex-col flex-1 justify-start items-stretch p-4 md:p-6 overflow-y-auto">
-      <div v-if="showBackground" class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <div class="absolute inset-0 bg-linear-to-br from-secondary via-slate-100/90 to-primary/12" />
-        <div class="absolute inset-0 admin-panel-dots" />
-        <div class="-top-24 -right-16 absolute bg-primary/12 blur-3xl rounded-full w-96 h-96" />
-        <div class="-bottom-16 left-[8%] absolute bg-accent/45 blur-3xl rounded-full w-80 h-80" />
-        <div class="top-[38%] right-[18%] absolute bg-primary/6 blur-2xl rounded-full w-56 h-56" />
-        <div class="absolute inset-0 bg-linear-to-t from-white/35 via-transparent to-primary/8" />
-      </div>
       <div class="z-10 relative flex flex-col gap-8 mx-auto w-full max-w-7xl">
         <slot />
       </div>

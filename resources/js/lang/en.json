@@ -24,6 +24,9 @@
       "externalFormUrl": "Application form URL"
     }
   },
+  "common": {
+    "verifiedBadge": "Account verified by an administrator"
+  },
   "errors": {
     "401": {
       "title": "Login required",
@@ -150,7 +153,9 @@
     "profile": "Profile",
     "aboutUs": "About us",
     "contact": "Contact",
+    "noContactInfo": "No contact information",
     "currentOffers": "Current offers",
+    "noOffers": "No current offers",
     "nip": "NIP",
     "spots": "Spots",
     "uploadLogo": "Upload logo",
@@ -175,6 +180,16 @@
       "noTags": "The company has not provided any tags."
     },
     "university": {
+      "recruitmentAndSystem": "Recruitment and system",
+      "noFaculties": "The university has not added any faculties yet.",
+      "facultiesAndStudyFields": "Faculties and study fields",
+      "universityDomain": "University domain",
+      "noStudyFields": "The university has not added any study fields yet.",
+      "systemInformation": "System information",
+      "domain": "University domain",
+      "domainLockedHint": "Domains cannot be changed. Please contact the administrator.",
+      "externalFormUrl": "External application form URL",
+      "externalFormUrlPlaceholder": "External application form URL (optional)"
     }
   },
   "validation": {
@@ -196,7 +211,14 @@
     "collapseTags": "Collapse tags",
     "myProfile": "My profile",
     "settings": "Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "apply": {
+      "noCvMessage": "To apply for this position, you must add a CV to your profile.",
+      "uploadCvPrompt": "Go to profile edit and upload your CV",
+      "applyNow": "Apply now",
+      "loading": "Sending...",
+      "appliedOn": "Applied on {date}"
+    }
   },
 
   "table": {
@@ -301,6 +323,9 @@
     },
     "profile": {
       "title": "Profile"
+    },
+    "companies": {
+      "title": "Company search"
     }
   },
   "company": {
@@ -313,6 +338,7 @@
   },
   "student": {
     "layout": {
+      "title": "Student panel",
       "skipToContent": "Skip to content",
       "nav": {
         "ariaLabel": "Student navigation",
@@ -448,7 +474,7 @@
         "specialization": "Specialization",
         "saveChanges": "Save changes",
         "backToProfile": "Back to profile",
-        "emailReadonlyHint": "To change your email, use the Account and security section on the profile page."
+        "emailReadonlyHint": "To change your email, open Account and security from the profile icon in the navigation bar."
       },
       "photo": {
         "label": "Profile photo",
@@ -499,6 +525,16 @@
         "title": "Account and security",
         "description": "Password, email address, and account deletion.",
         "navbarNotice": "After completing the navigation bar, this section will be moved to the profile settings in the menu."
+      "nav": {
+        "offers": "Offers",
+        "home": "Home"
+      "account": {
+        "title": "Account and security",
+        "description": "Password, email and account deletion."
+      },
+      "empty": {
+        "title": "No offers match the filters",
+        "description": "Try clearing the filters or broadening your search."
       },
       "password": {
         "title": "Change password",
@@ -525,6 +561,82 @@
         "confirm": "Delete account permanently",
         "cancel": "Cancel"
       }
+    }
+  },
+  "offers": {
+    "search": {
+      "title": "Internships and offers",
+      "subtitle": "Browse offers and narrow results to match your preferences.",
+      "resultsTitle": "Results",
+      "empty": "No offers match the selected filters.",
+      "resultsCount": "Showing {count} offers on this page."
+    },
+    "filters": {
+      "title": "Filters",
+      "clearAll": "Clear filters",
+      "studyFields": {
+        "label": "Fields of study",
+        "placeholder": "Select fields from the list"
+      },
+      "workMode": {
+        "label": "Work mode",
+        "all": "All",
+        "onSite": "On-site",
+        "hybrid": "Hybrid",
+        "remote": "Remote"
+      },
+      "dateRange": {
+        "label": "Internship date range",
+        "from": "From",
+        "to": "To"
+      },
+      "dateRangeInvalid": "The end date must be on or after the start date."
+    }
+  },
+  "company": {
+    "layout": {
+      "title": "Company"
+    },
+    "profile": {
+      "title": "Profile"
+    }
+  },
+  "offers": {
+    "search": {
+      "title": "Internships and offers",
+      "subtitle": "Browse offers and narrow results to match your preferences.",
+      "resultsTitle": "Results",
+      "empty": "No offers match the selected filters.",
+      "resultsCount": "Showing {count} offers on this page."
+    },
+    "filters": {
+      "title": "Filters",
+      "clearAll": "Clear filters",
+      "studyFields": {
+        "label": "Fields of study",
+        "placeholder": "Select fields from the list"
+      },
+      "workMode": {
+        "label": "Work mode",
+        "all": "All",
+        "onSite": "On-site",
+        "hybrid": "Hybrid",
+        "remote": "Remote"
+      },
+      "dateRange": {
+        "label": "Internship date range",
+        "from": "From",
+        "to": "To"
+      },
+      "dateRangeInvalid": "The end date must be on or after the start date."
+    }
+  },
+  "company": {
+    "layout": {
+      "title": "Company"
+    },
+    "profile": {
+      "title": "Profile"
     }
   },
   "pending": {
