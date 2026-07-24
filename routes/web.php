@@ -74,18 +74,6 @@ Route::middleware(["auth", "can:access-student-panel"])
                 'studyFields' => \App\Models\StudyField::query()->orderBy('name')->get(['id', 'name']),
             ]);
         })->name('student.profile');
-
-        Route::get("/offers", function () use ($buildStudentOffers) {
-            return inertia('Student/Offers', [
-                'offers' => $buildStudentOffers()->values(),
-            ]);
-        })->name('student.offers.index');
-
-        Route::get("/favorites", function () use ($buildStudentOffers) {
-            return inertia('Student/Favorites', [
-                'offers' => $buildStudentOffers()->values(),
-            ]);
-        })->name('student.favorites.index');
     });
 
 Route::middleware(["auth", "can:access-student-panel"])

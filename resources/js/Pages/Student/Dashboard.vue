@@ -1,17 +1,45 @@
 <script setup>
-import { Head } from '@inertiajs/vue3'
+import { computed } from 'vue'
+import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
-import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
-import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
+import { IconHome, IconBriefcase, IconHeart, IconUser } from '@tabler/icons-vue'
+import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import OffersList from '@/Components/Offer/OffersList.vue'
+import { ROUTES } from '@/Helpers/routes'
+import { useStudentFavorites } from '@/composables/useStudentFavorites'
+
+const props = defineProps({
+  offers: { type: Array, default: () => [] },
+})
 
 const { t } = useI18n()
+const { favoriteIds, toggleFavorite } = useStudentFavorites()
+
+const offersCount = computed(() => props.offers.length)
+const favoriteCount = computed(() => favoriteIds.value.length)
+
+const navItems = computed(() => [
+  { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
+  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
+  { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
+  { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
+])
 </script>
 
 <template>
   <Head :title="t('student.dashboard.title')" />
 
-  <BaseLayout active-page="dashboard" :nav-items="navItems" :logo-href="ROUTES.STUDENT_DASHBOARD" background-class="bg-white" :show-background="false" layout-scope="student" :show-user-section="false" :show-compact-menu="true" :compact-menu-items="navItems">
+  <BaseLayout
+    active-page="dashboard"
+    :nav-items="navItems"
+    :logo-href="ROUTES.STUDENT_DASHBOARD"
+    background-class="bg-white"
+    :show-background="false"
+    layout-scope="student"
+    :show-user-section="false"
+    :show-compact-menu="true"
+    :compact-menu-items="navItems"
+  >
     <div class="bg-slate-50 px-4 sm:px-6 lg:px-8 py-6 min-h-screen">
       <section class="bg-white shadow-[0_14px_40px_rgba(11,26,48,0.08)] mx-auto p-6 sm:p-8 border border-slate-200 rounded-3xl max-w-7xl">
         <div class="lg:items-center gap-6 grid lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.95fr)]">
@@ -86,6 +114,5 @@ const { t } = useI18n()
         </div>
       </section>
     </div>
-  </StudentPanelLayout>
+  </BaseLayout>
 </template>
-
