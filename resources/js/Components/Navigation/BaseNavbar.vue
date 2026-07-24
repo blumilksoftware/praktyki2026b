@@ -37,20 +37,19 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
 <template>
   <nav class="w-full h-14 md:h-16 lg:h-20 bg-primary border-b border-border shrink-0 relative z-30">
     <div class="h-full flex items-center justify-between px-4 sm:px-6">
+      <BaseLogo />
+
       <div class="flex items-center gap-3 sm:gap-4">
-        <BaseLogo />
-        
         <button
           v-if="showHamburger"
+          type="button"
           class="lg:hidden flex items-center justify-center text-white hover:text-white/80 transition-colors focus:outline-none"
           :aria-label="t('profiles.navMenu')"
+          :aria-expanded="isMobileMenuOpen"
           @click="toggle"
         >
           <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" />
         </button>
-      </div>
-
-      <div class="flex items-center gap-4">
         <LanguageSwitcher />
         <ProfileIcon v-if="showProfileIcon" />
       </div>

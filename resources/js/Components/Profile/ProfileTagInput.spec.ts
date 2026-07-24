@@ -35,4 +35,38 @@ describe("ProfileTagInput", () => {
 
     expect(wrapper.emitted("update:modelValue")?.[0]?.[0]).toEqual([])
   })
+
+  it("shows the tag limit hint", () => {
+    const wrapper = mount(ProfileTagInput, {
+      props: {
+        id: "skills",
+        label: "Skills",
+        max: 15,
+        modelValue: ["Python"],
+      },
+      global: { plugins: [i18n] },
+    })
+
+    expect(wrapper.text()).toContain("1/15")
+    expect(wrapper.text()).toContain("You can add up to 15")
+  })
+
+  it("does not add a tag when the max limit is reached", async () => {
+    const wrapper = mount(ProfileTagInput, {
+      props: {
+        id: "skills",
+        label: "Skills",
+        max: 15,
+        modelValue: Array.from({ length: 15 }, (_, index) => `Skill${index + 1}`),
+      },
+      global: { plugins: [i18n] },
+    })
+
+    const input = wrapper.find("input")
+    await input.setValue("Extra")
+    await input.trigger("keydown", { key: "Enter" })
+
+    expect(wrapper.emitted("update:modelValue")).toBeUndefined()
+    expect(wrapper.text()).toContain("Limit reached")
+  })
 })

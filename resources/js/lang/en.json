@@ -427,7 +427,9 @@
         "citiesPlaceholder": "Type a city and press Enter"
       },
       "tags": {
-        "remove": "Remove tag"
+        "remove": "Remove tag",
+        "limitHint": "{count}/{max} tags. You can add up to {max}.",
+        "limitReached": "Limit reached: maximum {max} tags."
       },
       "skills": {
         "title": "Technical skills",
@@ -450,8 +452,7 @@
         "title": "Saved and submitted applications"
       },
       "placeholder": {
-        "comingSoon": "This section will be available soon.",
-        "mockDataNotice": "Data is temporary (mock) and is not saved to the server. It will be connected to the backend once it is ready."
+        "comingSoon": "This section will be available soon."
       },
       "account": {
         "title": "Account and security",
