@@ -33,7 +33,7 @@ class UpdateStudentProfileRequest extends FormRequest
             "study_field_ids.*" => ["string", "uuid", "exists:study_fields,id"],
             "preferred_cities" => ["nullable", "array", "max:10"],
             "preferred_cities.*" => ["required", "string", "max:255"],
-            "skills" => ["nullable", "array", "max:20"],
+            "skills" => ["nullable", "array", "max:15"],
             "skills.*" => ["string", "max:50", "distinct:ignore_case"],
             "work_modes" => ["nullable", "array", "max:3"],
             "work_modes.*" => [Rule::enum(WorkMode::class), "distinct"],
