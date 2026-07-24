@@ -334,7 +334,29 @@
       "skipToContent": "Skip to content",
       "nav": {
         "dashboard": "Dashboard",
-        "profile": "Profile"
+        "profile": "Profile",
+        "applications": "Applications"
+      }
+    },
+    "applications": {
+      "title": "Application history",
+      "subtitle": "Track the status of your internship applications.",
+      "empty": "You have not applied to any offers yet.",
+      "listAriaLabel": "Application list",
+      "appliedAt": "Applied: {date}",
+      "openHistory": "View application history",
+      "status": {
+        "pending": "Pending",
+        "reviewed": "Reviewed",
+        "accepted": "Accepted",
+        "rejected": "Rejected"
+      },
+      "withdraw": {
+        "action": "Withdraw",
+        "modalTitle": "Withdraw application?",
+        "confirmation": "Are you sure you want to withdraw your application for “{title}”? This cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Withdraw application"
       }
     },
     "dashboard": {
@@ -449,7 +471,8 @@
         }
       },
       "applications": {
-        "title": "Saved and submitted applications"
+        "title": "Saved and submitted applications",
+        "historyHint": "View the status of your submitted applications."
       },
       "placeholder": {
         "comingSoon": "This section will be available soon."

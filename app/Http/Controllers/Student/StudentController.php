@@ -71,6 +71,15 @@ class StudentController extends Controller
         ]);
     }
 
+    public function applications(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Student/Applications", [
+            "applications" => $this->getStudentApplicationsAction->execute($user),
+        ]);
+    }
+
     public function profile(): Response
     {
         $user = Auth::user();
