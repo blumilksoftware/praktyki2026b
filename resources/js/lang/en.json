@@ -341,6 +341,10 @@
       "title": "Student panel",
       "skipToContent": "Skip to content",
       "nav": {
+        "dashboard": "Dashboard",
+        "profile": "Profile",
+        "offers": "Offers",
+        "favorites": "Favorites",
         "ariaLabel": "Student navigation",
         "mobileAriaLabel": "Student mobile navigation"
       }

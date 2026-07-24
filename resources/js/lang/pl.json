@@ -341,15 +341,12 @@
     "layout": {
       "skipToContent": "Przejdź do treści",
       "nav": {
+        "dashboard": "Dashboard",
+        "profile": "Profil",
+        "offers": "Oferty",
+        "favorites": "Ulubione",
         "ariaLabel": "Nawigacja studenta",
         "mobileAriaLabel": "Nawigacja mobilna studenta"
-      }
-    },
-    "dashboard": {
-      "comingSoon": {
-        "title": "Panel studenta jest w przygotowaniu.",
-        "applications": "Wkrótce pojawi się tu przegląd Twoich aplikacji (T-062, BE: T-061).",
-        "offersAndFavourites": "Szukanie ofert i ulubione dojdą wraz z milestone’ami M3/M4 (T-046, T-066)."
       }
     },
     "cv": {

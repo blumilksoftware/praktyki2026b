@@ -2,8 +2,7 @@
 import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHeart, IconHome, IconBriefcase, IconUser } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useStudentFavorites } from '@/composables/useStudentFavorites'
@@ -14,19 +13,12 @@ const { t } = useI18n()
 const { favoriteIds, favoriteCount, toggleFavorite, clearFavorites } = useStudentFavorites()
 
 const favoriteOffers = computed(() => props.offers.filter((offer) => favoriteIds.value.includes(offer.id)))
-
-const navItems = computed(() => [
-  { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
-  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
-  { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
-  { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
-])
 </script>
 
 <template>
   <Head :title="t('student.nav.favorites')" />
 
-  <BaseLayout active-page="favorites" :nav-items="navItems" :logo-href="ROUTES.STUDENT_DASHBOARD" background-class="bg-white" :show-background="false" layout-scope="student" :show-user-section="false" :show-compact-menu="true" :compact-menu-items="navItems">
+  <StudentPanelLayout active-page="favorites">
     <div class="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div class="mx-auto mb-4 flex max-w-7xl items-center justify-between gap-3">
         <Link
@@ -88,5 +80,5 @@ const navItems = computed(() => [
         </div>
       </section>
     </div>
-  </BaseLayout>
+  </StudentPanelLayout>
 </template>

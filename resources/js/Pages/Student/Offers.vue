@@ -2,8 +2,7 @@
 import { computed, ref } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHome, IconBriefcase, IconHeart, IconUser } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useStudentFavorites } from '@/composables/useStudentFavorites'
@@ -44,19 +43,12 @@ const resetFilters = () => {
   workMode.value = ''
   verifiedOnly.value = false
 }
-
-const navItems = computed(() => [
-  { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
-  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
-  { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
-  { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
-])
 </script>
 
 <template>
   <Head :title="t('student.nav.offers')" />
 
-  <BaseLayout active-page="offers" :nav-items="navItems" :logo-href="ROUTES.STUDENT_OFFERS" background-class="bg-white" :show-background="false" layout-scope="student" :show-user-section="false" :show-compact-menu="true" :compact-menu-items="navItems">
+  <StudentPanelLayout active-page="offers">
     <div class="bg-background px-4 sm:px-6 lg:px-8 py-6 min-h-screen">
       <div class="flex justify-between items-center gap-3 mx-auto mb-4 max-w-7xl">
         <Link
@@ -167,5 +159,5 @@ const navItems = computed(() => [
         </section>
       </div>
     </div>
-  </BaseLayout>
+  </StudentPanelLayout>
 </template>
