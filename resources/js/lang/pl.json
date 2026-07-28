@@ -547,6 +547,7 @@
       "dashboard": {
           "offers": {
               "title": "Oferty",
+              "subtitle": "Zarządzaj ofertami pracy i aplikacjami kandydatów",
               "noOffers": "Brak ofert",
               "confirmDelete": "Czy na pewno chcesz usunąć tę ofertę?",
               "table": {
@@ -560,7 +561,7 @@
                   "menu": "Otwórz menu akcji",
                   "edit": "Edytuj",
                   "activate": "Aktywuj",
-                  "deactivate": "Zawieś",
+                  "deactivate": "Dezaktywuj",
                   "delete": "Usuń"
               }
           }

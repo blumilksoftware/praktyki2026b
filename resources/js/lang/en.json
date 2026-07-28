@@ -545,6 +545,7 @@
       "dashboard": {
           "offers": {
               "title": "Offers",
+              "subtitle": "Manage your job postings and applications",
               "noOffers": "No offers yet",
               "confirmDelete": "Are you sure you want to delete this offer?",
               "table": {
@@ -558,7 +559,7 @@
                   "menu": "Open actions menu",
                   "edit": "Edit",
                   "activate": "Activate",
-                  "deactivate": "Suspend",
+                  "deactivate": "Deactivate",
                   "delete": "Delete"
               }
           }
