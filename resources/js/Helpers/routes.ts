@@ -10,6 +10,8 @@ export const ROUTES = {
   REGISTER_UNIVERSITY: "/register/university",
   REGISTER_COMPANY: "/register/company",
 
+  COMPANY_OFFERS_STORE: "/company/offers",
+
   EMAIL_VERIFICATION: "/email/verify/{id}/{token}",
   EMAIL_VERIFICATION_RESEND: "/email/resend",
 
@@ -20,7 +22,7 @@ export const ROUTES = {
   GOOGLE_AUTH_CALLBACK: "/auth/google/callback",
 
   LANGUAGE_SWITCH: "/language/{locale}",
-  
+
   STUDENT_DASHBOARD: "/student/dashboard",
   STUDENT_PROFILE: "/student/profile",
   STUDENT_PROFILE_EDIT: "/student/profile/edit",
@@ -37,6 +39,7 @@ export const ROUTES = {
   STUDENT_APPLICATIONS: "/student/applications",
   STUDENT_OFFER_WITHDRAW: "/student/offers/{offer}/withdraw",
   COMPANY_PROFILE: "/company/profile",
+  COMPANY_APPLICATIONS: "/company/applications",
   UNIVERSITY_PROFILE: "/university/profile",
 
   HOME: "/",
@@ -49,7 +52,7 @@ export const ROUTES = {
   PROFILE: "/profile",
   PROFILE_EDIT: "/profile/edit",
   TEAM: "/team",
-  
+
   SETTINGS: "/settings",
   LOGOUT: "/logout",
 } as const

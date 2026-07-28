@@ -221,7 +221,7 @@
       "appliedOn": "Zaaplikowano {date}"
     }
   },
-  
+
   "table": {
     "id": "ID",
     "student": "Student",
@@ -544,6 +544,27 @@
     "layout": {
       "title": "Firma"
     },
+      "dashboard": {
+          "offers": {
+              "title": "Oferty",
+              "noOffers": "Brak ofert",
+              "confirmDelete": "Czy na pewno chcesz usunąć tę ofertę?",
+              "table": {
+                  "offer": "Oferta",
+                  "status": "Status",
+                  "spots": "Miejsca",
+                  "applications": "Zgłoszenia",
+                  "actions": "Akcje"
+              },
+              "actions": {
+                  "menu": "Otwórz menu akcji",
+                  "edit": "Edytuj",
+                  "activate": "Aktywuj",
+                  "deactivate": "Zawieś",
+                  "delete": "Usuń"
+              }
+          }
+      },
     "profile": {
       "title": "Profil"
     }

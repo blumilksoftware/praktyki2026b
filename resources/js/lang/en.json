@@ -542,6 +542,27 @@
     "layout": {
       "title": "Company"
     },
+      "dashboard": {
+          "offers": {
+              "title": "Offers",
+              "noOffers": "No offers yet",
+              "confirmDelete": "Are you sure you want to delete this offer?",
+              "table": {
+                  "offer": "Offer",
+                  "status": "Status",
+                  "spots": "Spots",
+                  "applications": "Applications",
+                  "actions": "Actions"
+              },
+              "actions": {
+                  "menu": "Open actions menu",
+                  "edit": "Edit",
+                  "activate": "Activate",
+                  "deactivate": "Suspend",
+                  "delete": "Delete"
+              }
+          }
+      },
     "profile": {
       "title": "Profile"
     }

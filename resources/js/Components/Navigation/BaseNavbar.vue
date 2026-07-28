@@ -87,7 +87,7 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
         <span class="font-bold text-white text-sm uppercase tracking-wider">
           {{ t('profiles.navMenu') }}
         </span>
-        <button 
+        <button
           class="text-white hover:text-white/80 transition-colors focus:outline-none flex items-center justify-center p-1"
           @click="close"
         >
@@ -98,11 +98,11 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
       <div class="p-5 overflow-y-auto h-full bg-white">
         <ul class="flex flex-col gap-2">
           <li v-for="item in menuItems" :key="item.href">
-            <Link 
-              :href="item.href" 
+            <Link
+              :href="item.href"
               class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold transition-colors"
-              :class="item.isActive 
-                ? 'border border-primary/30 bg-primary/5 text-primary' 
+              :class="item.isActive
+                ? 'border border-primary/30 bg-primary/5 text-primary'
                 : 'text-additional hover:bg-gray-50 hover:text-secondary'"
               :aria-current="item.isActive ? 'page' : undefined"
               @click="close"

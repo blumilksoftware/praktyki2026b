@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Company;
 
 use App\Actions\Company\BuildCompanyProfileData;
+use App\Actions\Company\GetOffersSummary;
 use App\Actions\Company\UpdateCompanyProfile;
 use App\DTO\Company\UpdateCompanyProfileData;
 use App\Http\Controllers\Controller;
@@ -18,11 +19,16 @@ class CompanyController extends Controller
     public function __construct(
         private readonly UpdateCompanyProfile $updateCompanyProfile,
         private readonly BuildCompanyProfileData $buildCompanyProfileData,
+        private readonly GetOffersSummary $getOffersSummary,
     ) {}
 
     public function index(): Response
     {
-        return inertia("Company/Dashboard");
+        $company = Auth::user()->company;
+
+        return inertia("Company/Dashboard", [
+            "offers" => $this->getOffersSummary->execute($company),
+        ]);
     }
 
     public function verificationPending(): Response

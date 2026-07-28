@@ -13,11 +13,12 @@ class PublishOffer
 {
     public function execute(Offer $offer): Offer
     {
-        if ($offer->status !== OfferStatus::Draft) {
+        //there are no ways to change offer status to draft
+        if ($offer->status !== OfferStatus::Draft && $offer->status !== OfferStatus::Closed) {
             throw ValidationException::withMessages([
                 "status" => __("validation.offer_publish_invalid_status"),
             ]);
-        }
+        } 
 
         if ($offer->company->verification_status !== VerificationStatus::Verified) {
             throw ValidationException::withMessages([

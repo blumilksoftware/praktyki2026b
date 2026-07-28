@@ -15,6 +15,7 @@ class GetOffersSummary
         return $company->offers()
             ->withCount("applications")
             ->orderByDesc("created_at")
+            ->orderByDesc("id")
             ->get()
             ->map(fn(Offer $offer): array => [
                 "id" => $offer->id,
