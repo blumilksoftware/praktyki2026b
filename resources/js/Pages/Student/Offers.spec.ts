@@ -17,9 +17,9 @@ vi.mock('@inertiajs/vue3', () => ({
 }))
 
 const offers = [
-  { id: 1, title: 'Frontend Intern', city: 'Wrocław', work_mode: 'remote', company: { name: 'Acme', is_verified: true } },
-  { id: 2, title: 'Backend Intern', city: 'Warszawa', work_mode: 'onSite', company: { name: 'Globex', is_verified: false } },
-  { id: 3, title: 'Fullstack Intern', city: 'Wrocław', work_mode: 'hybrid', company: { name: 'Acme', is_verified: true } },
+  { id: 1, title: 'Frontend Intern', city: 'Wrocław', work_mode: 'remote', has_applied: false, company: { name: 'Acme', is_verified: true } },
+  { id: 2, title: 'Backend Intern', city: 'Warszawa', work_mode: 'onSite', has_applied: true, company: { name: 'Globex', is_verified: false } },
+  { id: 3, title: 'Fullstack Intern', city: 'Wrocław', work_mode: 'hybrid', has_applied: false, company: { name: 'Acme', is_verified: true } },
 ]
 
 describe('Student/Offers.vue', () => {
@@ -101,5 +101,38 @@ describe('Student/Offers.vue', () => {
     expect(wrapper.findAll('.stub-offer').length).toBe(3)
     expect((wrapper.find('input[type="search"]').element as HTMLInputElement).value).toBe('')
     expect((wrapper.find('input[type="checkbox"]').element as HTMLInputElement).checked).toBe(false)
+  })
+
+  it('switches to the "applied" tab and shows only offers the student applied to', async () => {
+    const wrapper = mountOffers()
+
+    const tabs = wrapper.findAll('[role="tab"]')
+    const appliedTab = tabs.find((tab) => tab.text() === 'student.offers.tabs.applied')
+    await appliedTab!.trigger('click')
+
+    const titles = wrapper.findAll('.stub-offer').map((el) => el.text())
+    expect(titles).toEqual(['Backend Intern'])
+    expect(appliedTab!.attributes('aria-selected')).toBe('true')
+  })
+
+  it('switches to the "not applied" tab and shows only offers the student has not applied to', async () => {
+    const wrapper = mountOffers()
+
+    const tabs = wrapper.findAll('[role="tab"]')
+    const notAppliedTab = tabs.find((tab) => tab.text() === 'student.offers.tabs.notApplied')
+    await notAppliedTab!.trigger('click')
+
+    const titles = wrapper.findAll('.stub-offer').map((el) => el.text())
+    expect(titles).toEqual(['Frontend Intern', 'Fullstack Intern'])
+  })
+
+  it('returns to showing every offer when the "all" tab is selected again', async () => {
+    const wrapper = mountOffers()
+
+    const tabs = wrapper.findAll('[role="tab"]')
+    await tabs.find((tab) => tab.text() === 'student.offers.tabs.applied')!.trigger('click')
+    await tabs.find((tab) => tab.text() === 'student.offers.tabs.all')!.trigger('click')
+
+    expect(wrapper.findAll('.stub-offer').length).toBe(3)
   })
 })

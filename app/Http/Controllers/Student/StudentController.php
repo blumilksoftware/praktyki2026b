@@ -33,6 +33,7 @@ use App\Http\Requests\UpdateStudentProfileRequest;
 use App\Http\Requests\UploadCvRequest;
 use App\Http\Requests\UploadStudentPhotoRequest;
 use App\Models\Offer;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
@@ -70,21 +71,28 @@ class StudentController extends Controller
 
         return inertia("Student/Dashboard", [
             "applications" => $this->getStudentApplicationsAction->execute($user),
-            "offers" => $this->buildStudentOffers()->take(3)->values(),
+            "offers" => $this->buildStudentOffers($user)->take(3)->values(),
+            "hasCv" => $user->cv_path !== null,
         ]);
     }
 
     public function offers(): Response
     {
+        $user = Auth::user();
+
         return inertia("Student/Offers", [
-            "offers" => $this->buildStudentOffers()->values(),
+            "offers" => $this->buildStudentOffers($user)->values(),
+            "hasCv" => $user->cv_path !== null,
         ]);
     }
 
     public function favorites(): Response
     {
+        $user = Auth::user();
+
         return inertia("Student/Favorites", [
-            "offers" => $this->buildStudentOffers()->values(),
+            "offers" => $this->buildStudentOffers($user)->values(),
+            "hasCv" => $user->cv_path !== null,
         ]);
     }
 
@@ -297,25 +305,31 @@ class StudentController extends Controller
         return redirect("/");
     }
 
-    private function buildStudentOffers(): Collection
+    private function buildStudentOffers(User $user): Collection
     {
         return Offer::published()
             ->with(["company", "applications"])
             ->get()
-            ->map(fn(Offer $offer) => [
-                "id" => $offer->id,
-                "title" => $offer->title,
-                "city" => $offer->city,
-                "work_mode" => $offer->work_mode->value ?? null,
-                "start_date" => $offer->start_date?->toDateString(),
-                "end_date" => $offer->end_date?->toDateString(),
-                "spots" => $offer->spots,
-                "remaining_spots" => max(0, $offer->spots - $offer->applications->count()),
-                "company" => [
-                    "name" => $offer->company->name,
-                    "logo_path" => $offer->company->logo_path,
-                    "is_verified" => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,
-                ],
-            ]);
+            ->map(function (Offer $offer) use ($user): array {
+                $ownApplication = $offer->applications->firstWhere("student_id", $user->id);
+
+                return [
+                    "id" => $offer->id,
+                    "title" => $offer->title,
+                    "city" => $offer->city,
+                    "work_mode" => $offer->work_mode->value ?? null,
+                    "start_date" => $offer->start_date?->toDateString(),
+                    "end_date" => $offer->end_date?->toDateString(),
+                    "spots" => $offer->spots,
+                    "remaining_spots" => max(0, $offer->spots - $offer->applications->count()),
+                    "has_applied" => $ownApplication !== null,
+                    "applied_at" => $ownApplication?->created_at?->toDateString(),
+                    "company" => [
+                        "name" => $offer->company->name,
+                        "logo_path" => $offer->company->logo_path,
+                        "is_verified" => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,
+                    ],
+                ];
+            });
     }
 }

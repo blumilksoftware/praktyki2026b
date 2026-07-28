@@ -408,6 +408,11 @@
       }
     },
     "offers": {
+      "tabs": {
+        "all": "All offers",
+        "applied": "Applied",
+        "notApplied": "Not applied"
+      },
       "filters": {
         "kicker": "Filters",
         "title": "Offer board",
@@ -422,13 +427,17 @@
         "verifiedOnly": "Verified companies only"
       },
       "results": {
-        "caption": "Available positions",
+        "caption": "Number of offers",
         "count": "{count} offers",
         "helper": "Scrollable tile list, one offer per tile"
       },
       "empty": {
         "title": "No offers match the filters",
         "description": "Try clearing the filters or broadening your search."
+      },
+      "emptyApplied": {
+        "title": "You have not applied to any offers yet",
+        "description": "Offers you apply to will show up here."
       },
       "card": {
         "logoAlt": "Company logo for {company}",

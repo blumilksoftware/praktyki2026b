@@ -10,6 +10,7 @@ import { useStudentFavorites } from '@/Composables/useStudentFavorites.ts'
 
 const props = defineProps({
   offers: { type: Array, default: () => [] },
+  hasCv: { type: Boolean, default: true },
 })
 
 const { t } = useI18n()
@@ -98,6 +99,7 @@ const navItems = computed(() => [
           <OffersList
             :offers="offers"
             :favorite-ids="favoriteIds"
+            :has-cv="hasCv"
             @toggle-favorite="toggleFavorite"
           />
         </div>

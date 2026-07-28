@@ -372,7 +372,7 @@
       }
     },
       "dashboard": {
-          "title": "Dashboard studenta",
+          "title": "Panel główny studenta",
           "heading": "Twoje centrum ofert",
           "description": "Przeglądaj oferty, wracaj do ulubionych i przechodź między widokami jednym kliknięciem.",
           "primaryAction": "Przejdź do ofert",
@@ -537,13 +537,18 @@
       "heading": "Twoje zapisane oferty",
       "description": "Tu trafiają oferty oznaczone sercem. Możesz je potem odhaczyć albo wrócić do pełnej listy.",
       "backToOffers": "Wróć do ofert",
-      "backToDashboard": "Wróć do dashboardu",
+      "backToDashboard": "Wróć do panelu głównego",
       "empty": {
         "title": "Nie masz jeszcze ulubionych ofert",
         "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj."
       }
     },
     "offers": {
+      "tabs": {
+        "all": "Wszystkie oferty",
+        "applied": "Zaaplikowane",
+        "notApplied": "Niezaaplikowane"
+      },
       "filters": {
         "kicker": "Filtry",
         "title": "Tablica ofert",
@@ -558,13 +563,16 @@
         "verifiedOnly": "Tylko zweryfikowane firmy"
       },
       "results": {
-        "caption": "Dostępne oferty",
-        "count": "{count} ofert",
-        "helper": "Przewijana lista kafelków, jedna oferta na jeden kafelek"
+        "caption": "Liczba ofert",
+        "count": "{count} ofert"
       },
       "empty": {
         "title": "Brak ofert spełniających filtry",
         "description": "Spróbuj wyczyścić filtry albo rozszerzyć wyszukiwanie."
+      },
+      "emptyApplied": {
+        "title": "Nie zaaplikowałeś jeszcze do żadnej oferty",
+        "description": "Oferty, na które zaaplikujesz, pojawią się tutaj."
       },
       "card": {
         "logoAlt": "Logo firmy {company}",

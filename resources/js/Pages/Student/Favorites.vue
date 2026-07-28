@@ -7,7 +7,10 @@ import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useStudentFavorites } from '@/Composables/useStudentFavorites.ts'
 
-const props = defineProps({ offers: { type: Array, default: () => [] } })
+const props = defineProps({
+  offers: { type: Array, default: () => [] },
+  hasCv: { type: Boolean, default: true },
+})
 
 const { t } = useI18n()
 const { favoriteIds, favoriteCount, toggleFavorite, clearFavorites } = useStudentFavorites()
@@ -49,7 +52,7 @@ const favoriteOffers = computed(() => props.offers.filter((offer) => favoriteIds
 
           <button
             type="button"
-            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-blue-600/40 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30 disabled:cursor-not-allowed disabled:opacity-50"
+            class="inline-flex items-center justify-center rounded-xl border cursor-pointer border-border bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-blue-600/40 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30 disabled:cursor-not-allowed disabled:opacity-50"
             :disabled="favoriteCount === 0"
             @click="clearFavorites"
           >
@@ -62,6 +65,7 @@ const favoriteOffers = computed(() => props.offers.filter((offer) => favoriteIds
             v-if="favoriteOffers.length > 0"
             :offers="favoriteOffers"
             :favorite-ids="favoriteIds"
+            :has-cv="hasCv"
             :empty-title="t('student.favorites.empty.title')"
             :empty-description="t('student.favorites.empty.description')"
             @toggle-favorite="toggleFavorite"

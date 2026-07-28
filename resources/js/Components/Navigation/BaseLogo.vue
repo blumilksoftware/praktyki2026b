@@ -8,7 +8,7 @@ import { ROUTES } from '@/Helpers/routes'
     <img
       src="/logo.svg"
       alt="Applikuj"
-      class="block h-8 w-auto brightness-0 invert md:hidden"
+      class="block h-8 w-auto md:hidden"
     >
 
     <img

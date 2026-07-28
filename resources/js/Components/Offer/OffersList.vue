@@ -4,6 +4,7 @@ import OfferCard from '@/Components/Offer/OfferCard.vue'
 const props = defineProps({
   offers: { type: Array, default: () => [] },
   favoriteIds: { type: Array, default: () => [] },
+  hasCv: { type: Boolean, default: true },
   emptyTitle: { type: String, default: undefined },
   emptyDescription: { type: String, default: undefined },
 })
@@ -15,7 +16,7 @@ const { t } = useI18n()
 
 <template>
   <div class="max-h-[calc(100vh-10rem)] overflow-y-auto pr-1">
-    <div v-if="offers.length === 0" class="flex min-h-[28rem] items-center justify-center rounded-3xl border border-dashed border-border bg-white px-8 text-center text-additional" role="status" aria-live="polite">
+    <div v-if="offers.length === 0" class="mx-4 flex min-h-[28rem] items-center justify-center rounded-3xl border border-dashed border-border bg-white px-8 text-center text-additional sm:mx-0" role="status" aria-live="polite">
       <div>
         <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-white shadow-sm">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-additional" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -27,12 +28,13 @@ const { t } = useI18n()
       </div>
     </div>
 
-    <div v-else class="space-y-4 px-4 py-6">
+    <div v-else class="space-y-3 py-4 sm:space-y-4 sm:px-4 sm:py-6">
       <OfferCard
         v-for="offer in offers"
         :key="offer.id"
         :offer="offer"
         :is-favorite="favoriteIds.includes(offer.id)"
+        :has-cv="hasCv"
         @toggle-favorite="$emit('toggle-favorite', $event)"
       />
     </div>

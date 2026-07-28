@@ -1,11 +1,16 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { router } from '@inertiajs/vue3'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
+import BaseButton from '@/Components/Base/BaseButton.vue'
+import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
+import { ROUTES, studentOfferWithdraw } from '@/Helpers/routes'
 
 const props = defineProps({
   offer: { type: Object, required: true },
   isFavorite: { type: Boolean, default: false },
+  hasCv: { type: Boolean, default: true },
 })
 
 defineEmits(['toggle-favorite'])
@@ -15,12 +20,70 @@ const { t } = useI18n()
 const companyInitial = computed(() => props.offer.company?.name?.charAt(0) || 'O')
 
 const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mode}`))
+
+const isApplying = ref(false)
+const appliedLocally = ref(false)
+const withdrawnLocally = ref(false)
+const applyError = ref(null)
+
+const isApplied = computed(() => !withdrawnLocally.value && (props.offer.has_applied || appliedLocally.value))
+const appliedDate = computed(() => props.offer.applied_at)
+
+function applyToOffer() {
+  applyError.value = null
+  isApplying.value = true
+
+  router.post(`/student/offers/${props.offer.id}/apply`, {}, {
+    preserveScroll: true,
+    onSuccess: () => {
+      appliedLocally.value = true
+      withdrawnLocally.value = false
+    },
+    onError: (errors) => {
+      applyError.value = errors.cv ?? errors.offer ?? null
+    },
+    onFinish: () => {
+      isApplying.value = false
+    },
+  })
+}
+
+function goToUploadCv() {
+  router.visit(ROUTES.STUDENT_PROFILE_EDIT)
+}
+
+const isWithdrawModalOpen = ref(false)
+const isWithdrawing = ref(false)
+
+function openWithdrawModal() {
+  isWithdrawModalOpen.value = true
+}
+
+function closeWithdrawModal() {
+  isWithdrawModalOpen.value = false
+}
+
+function confirmWithdraw() {
+  isWithdrawing.value = true
+
+  router.post(studentOfferWithdraw(props.offer.id), {}, {
+    preserveScroll: true,
+    onSuccess: () => {
+      withdrawnLocally.value = true
+      appliedLocally.value = false
+      isWithdrawModalOpen.value = false
+    },
+    onFinish: () => {
+      isWithdrawing.value = false
+    },
+  })
+}
 </script>
 
 <template>
-  <article class="group overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
-    <div class="grid gap-0 lg:grid-cols-[96px_minmax(0,1fr)]">
-      <div class="flex items-center justify-center bg-white p-5 lg:p-4">
+  <article class="group overflow-hidden bg-white transition sm:rounded-3xl sm:border sm:border-border sm:shadow-[0_8px_30px_rgba(11,26,48,0.08)] sm:hover:-translate-y-0.5 sm:hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
+    <div class="grid gap-3 lg:gap-0 lg:grid-cols-[96px_minmax(0,1fr)]">
+      <div class="flex items-center justify-center bg-white pt-5 px-5 lg:p-4">
         <img
           v-if="offer.company.logo_path"
           :src="offer.company.logo_path"
@@ -33,7 +96,7 @@ const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mod
       </div>
 
       <div class="p-5 sm:p-6">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div class="min-w-0">
             <div class="flex flex-wrap items-center gap-2">
               <p class="text-sm font-semibold uppercase tracking-[0.18em] text-additional">
@@ -50,7 +113,7 @@ const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mod
                 <span aria-hidden="true">{{ t('student.offers.card.verified') }}</span>
               </span>
             </div>
-            <h3 class="mt-2 text-2xl font-semibold tracking-tight text-text">
+            <h3 class="mt-3 text-xl font-semibold tracking-tight text-text sm:text-2xl">
               {{ offer.title }}
             </h3>
           </div>
@@ -81,7 +144,7 @@ const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mod
         <div class="mt-5 flex flex-wrap items-center gap-3">
           <button
             type="button"
-            class="inline-flex items-center justify-center rounded-xl border border-border bg-white px-4 py-2.5 text-sm font-semibold text-text opacity-60 transition cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            class="inline-flex items-center justify-center rounded-xl border border-border cursor-pointer bg-white px-4 py-2.5 text-sm font-semibold text-text opacity-60 transition cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
             aria-disabled="true"
             :title="t('student.offers.card.mapComingSoon')"
           >
@@ -90,7 +153,7 @@ const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mod
 
           <button
             type="button"
-            class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 cursor-pointer text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
             :class="isFavorite
               ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
               : 'border-border bg-white text-text hover:border-primary/40 hover:bg-background'"
@@ -106,18 +169,39 @@ const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mod
             {{ isFavorite ? t('student.offers.card.removeFromFavorites') : t('student.offers.card.addToFavorites') }}
           </button>
 
-          <Link
-            :href="`/student/offers/${offer.id}/apply`"
-            method="post"
-            as="button"
+          <BaseApplyButton
+            :has-cv="hasCv"
+            :is-applied="isApplied"
+            :applied-date="appliedDate"
+            :is-loading="isApplying"
+            @apply="applyToOffer"
+            @upload-cv="goToUploadCv"
+          />
+
+          <BaseButton
+            v-if="isApplied"
             type="button"
-            class="inline-flex items-center justify-center rounded-xl border border-primary bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            variant="secondary"
+            :disabled="isWithdrawing"
+            @click="openWithdrawModal"
           >
-            {{ t('student.offers.card.applyNow') }}
-          </Link>
+            {{ t('student.applications.withdraw.action') }}
+          </BaseButton>
         </div>
+
+        <p v-if="applyError" class="mt-3 text-error text-sm" role="alert">
+          {{ applyError }}
+        </p>
       </div>
     </div>
+
+    <WithdrawApplicationModal
+      :open="isWithdrawModalOpen"
+      :offer-title="offer.title"
+      :processing="isWithdrawing"
+      @close="closeWithdrawModal"
+      @confirm="confirmWithdraw"
+    />
   </article>
 </template>
 
