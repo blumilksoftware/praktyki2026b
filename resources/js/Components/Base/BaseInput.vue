@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { IconEye, IconEyeOff } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
-import { useTogglePassword } from '@/composables/useTogglePassword'
+import { useTogglePassword } from '@/Composables/useTogglePassword.ts'
 
 const props = defineProps({
   id: { type: String, required: true },

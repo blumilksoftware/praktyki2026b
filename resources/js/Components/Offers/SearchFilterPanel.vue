@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { IconFilter, IconX } from '@tabler/icons-vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
-import { useOfferSearchFilters } from '@/composables/useOfferSearchFilters'
+import { useOfferSearchFilters } from '@/Composables/useOfferSearchFilters.ts'
 
 const props = defineProps({
   filters: { type: Object, required: true },

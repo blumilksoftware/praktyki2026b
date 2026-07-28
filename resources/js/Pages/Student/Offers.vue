@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
-import { useStudentFavorites } from '@/composables/useStudentFavorites'
+import { useStudentFavorites } from '@/Composables/useStudentFavorites.ts'
 
 const props = defineProps({ offers: { type: Array, default: () => [] } })
 const { t } = useI18n()
