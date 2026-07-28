@@ -359,6 +359,30 @@
       "remote": "Remote",
       "hybrid": "Hybrid",
       "onSite": "On-site"
+        "profile": "Profile",
+        "applications": "Applications"
+      }
+    },
+    "applications": {
+      "title": "Application history",
+      "subtitle": "Track the status of your internship applications.",
+      "empty": "You have not applied to any offers yet.",
+      "listAriaLabel": "Application list",
+      "appliedAt": "Applied: {date}",
+      "openHistory": "View application history",
+      "status": {
+        "pending": "Pending",
+        "reviewed": "Reviewed",
+        "accepted": "Accepted",
+        "rejected": "Rejected"
+      },
+      "withdraw": {
+        "action": "Withdraw",
+        "modalTitle": "Withdraw application?",
+        "confirmation": "Are you sure you want to withdraw your application for “{title}”? This cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Withdraw application"
+      }
     },
     "dashboard": {
       "title": "Student dashboard",
@@ -441,6 +465,7 @@
       }
     },
     "profile": {
+      "title": "Profile",
       "modal": {
         "close": "Close"
       },
@@ -518,26 +543,23 @@
       "workMode": {
         "title": "Expected work mode",
         "modalTitle": "Edit expected work mode",
-        "empty": "No work mode selected. Click \"Edit\" to fill in."
+        "empty": "No work mode selected. Click \"Edit\" to fill in.",
+        "options": {
+          "onsite": "On-site",
+          "remote": "Remote",
+          "hybrid": "Hybrid"
+        }
       },
       "applications": {
-        "title": "Saved and submitted applications"
+        "title": "Saved and submitted applications",
+        "historyHint": "View the status of your submitted applications."
       },
       "placeholder": {
         "comingSoon": "This section will be available soon."
       },
       "account": {
         "title": "Account and security",
-        "description": "Password, email address, and account deletion.",
-        "navbarNotice": "After completing the navigation bar, this section will be moved to the profile settings in the menu."
-      },
-      "nav": {
-        "offers": "Offers",
-        "home": "Home"
-      },
-      "empty": {
-        "title": "No offers match the filters",
-        "description": "Try clearing the filters or broadening your search."
+        "description": "Password, email and account deletion."
       },
       "password": {
         "title": "Change password",
@@ -549,17 +571,17 @@
         "title": "Change email address",
         "label": "Email address",
         "newAddress": "New email address",
-        "unverifiedNotice": "The address {email} is inactive until confirmed with a link from the email.",
-        "pendingNotice": "The new address {email} is inactive until confirmed with a link from the email.",
+        "unverifiedNotice": "The address {email} is inactive until you confirm it via the email link.",
+        "pendingNotice": "The new address {email} is inactive until you confirm it via the email link.",
         "currentPassword": "Current password",
         "resend": "Resend verification link"
       },
       "delete": {
         "title": "Delete account",
-        "warning": "This operation cannot be undone.",
+        "warning": "This cannot be undone.",
         "openModal": "Delete account",
         "modalTitle": "Confirm account deletion",
-        "confirmationLabel": "I understand that this operation cannot be undone",
+        "confirmationLabel": "I understand this action cannot be undone",
         "password": "Password",
         "confirm": "Delete account permanently",
         "cancel": "Cancel"
@@ -594,6 +616,14 @@
         "to": "To"
       },
       "dateRangeInvalid": "The end date must be on or after the start date."
+    }
+  },
+  "company": {
+    "layout": {
+      "title": "Company"
+    },
+    "profile": {
+      "title": "Profile"
     }
   },
   "pending": {

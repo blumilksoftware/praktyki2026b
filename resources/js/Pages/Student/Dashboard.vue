@@ -27,7 +27,7 @@ const navItems = computed(() => [
 </script>
 
 <template>
- <Head :title="t('student.dashboard.title')" />
+  <Head :title="t('student.dashboard.title')" />
   <StudentPanelLayout active-page="dashboard" :nav-items="navItems">
     <div class="bg-slate-50 px-4 sm:px-6 lg:px-8 py-6 min-h-screen">
       <section class="bg-white shadow-[0_14px_40px_rgba(11,26,48,0.08)] mx-auto p-6 sm:p-8 border border-slate-200 rounded-3xl max-w-7xl">
@@ -102,10 +102,8 @@ const navItems = computed(() => [
           />
         </div>
       </section>
-  <Head :title="t('student.layout.title')" />
-    <div class="flex flex-col gap-6">
-</div>
-
+      <Head :title="t('student.layout.title')" />
+      <div class="flex flex-col gap-6" />
     </div>
   </StudentPanelLayout>
 </template>

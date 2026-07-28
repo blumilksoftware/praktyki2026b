@@ -228,7 +228,7 @@
       "appliedOn": "Zaaplikowano {date}"
     }
   },
-  
+
   "table": {
     "id": "ID",
     "student": "Student",
@@ -341,13 +341,50 @@
     "layout": {
       "skipToContent": "Przejdź do treści",
       "nav": {
-        "dashboard": "Dashboard",
+        "dashboard": "Panel",
         "profile": "Profil",
         "offers": "Oferty",
         "favorites": "Ulubione",
         "ariaLabel": "Nawigacja studenta",
-        "mobileAriaLabel": "Nawigacja mobilna studenta"
+        "mobileAriaLabel": "Nawigacja mobilna studenta",
+        "applications": "Aplikacje"
       }
+    },
+    "applications": {
+      "title": "Historia aplikacji",
+      "subtitle": "Przeglądaj status swoich aplikacji na oferty praktyk.",
+      "empty": "Nie masz jeszcze żadnych aplikacji.",
+      "listAriaLabel": "Lista aplikacji",
+      "appliedAt": "Wysłano: {date}",
+      "openHistory": "Zobacz historię aplikacji",
+      "status": {
+        "pending": "Oczekująca",
+        "reviewed": "Rozpatrywana",
+        "accepted": "Zaakceptowana",
+        "rejected": "Odrzucona"
+      },
+      "withdraw": {
+        "action": "Wycofaj",
+        "modalTitle": "Wycofać aplikację?",
+        "confirmation": "Czy na pewno chcesz wycofać aplikację na ofertę „{title}”? Tego nie można cofnąć.",
+        "cancel": "Anuluj",
+        "confirm": "Wycofaj aplikację"
+      }
+    },
+      "dashboard": {
+          "title": "Dashboard studenta",
+          "heading": "Twoje centrum ofert",
+          "description": "Przeglądaj oferty, wracaj do ulubionych i przechodź między widokami jednym kliknięciem.",
+          "primaryAction": "Przejdź do ofert",
+          "secondaryAction": "Zobacz ulubione",
+          "previewTitle": "Najnowsze oferty",
+          "previewDescription": "Krótki podgląd najświeższych pozycji.",
+          "cards": {
+              "offersTitle": "Wszystkie oferty",
+              "offersDescription": "Przejdź do pełnej listy z filtrami.",
+              "favoritesTitle": "Ulubione oferty",
+              "favoritesDescription": "Sprawdź zapisane pozycje w jednym miejscu."
+          }
     },
     "cv": {
       "title": "Twoje CV (tylko PDF)",
@@ -448,7 +485,8 @@
         "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić."
       },
       "applications": {
-        "title": "Zapisane i wysłane aplikacje"
+        "title": "Zapisane i wysłane aplikacje",
+        "historyHint": "Sprawdź status swoich wysłanych aplikacji."
       },
       "placeholder": {
         "comingSoon": "Ta sekcja będzie dostępna wkrótce."
@@ -494,21 +532,6 @@
       "hybrid": "Hybrydowo",
       "onsite": "Stacjonarnie",
       "onSite": "Stacjonarnie"
-    },
-    "dashboard": {
-      "title": "Dashboard studenta",
-      "heading": "Twoje centrum ofert",
-      "description": "Przeglądaj oferty, wracaj do ulubionych i przechodź między widokami jednym kliknięciem.",
-      "primaryAction": "Przejdź do ofert",
-      "secondaryAction": "Zobacz ulubione",
-      "previewTitle": "Najnowsze oferty",
-      "previewDescription": "Krótki podgląd najświeższych pozycji.",
-      "cards": {
-        "offersTitle": "Wszystkie oferty",
-        "offersDescription": "Przejdź do pełnej listy z filtrami.",
-        "favoritesTitle": "Ulubione oferty",
-        "favoritesDescription": "Sprawdź zapisane pozycje w jednym miejscu."
-      }
     },
     "favorites": {
       "heading": "Twoje zapisane oferty",
@@ -630,7 +653,6 @@
       "suggestions": "Sugestie",
       "clearAll": "Wyczyść wszystkie elementy z listy"
     }
-
   }
 }
 }

@@ -64,15 +64,15 @@ class StudentController extends Controller
         private readonly LinkStudentToUniversity $linkStudentToUniversity,
     ) {}
 
-public function index(): Response
-{
-    $user = Auth::user();
+    public function index(): Response
+    {
+        $user = Auth::user();
 
-    return inertia("Student/Dashboard", [
-        "applications" => $this->getStudentApplicationsAction->execute($user),
-        "offers" => $this->buildStudentOffers()->take(3)->values(),
-    ]);
-}
+        return inertia("Student/Dashboard", [
+            "applications" => $this->getStudentApplicationsAction->execute($user),
+            "offers" => $this->buildStudentOffers()->take(3)->values(),
+        ]);
+    }
 
     public function offers(): Response
     {
@@ -85,6 +85,15 @@ public function index(): Response
     {
         return inertia("Student/Favorites", [
             "offers" => $this->buildStudentOffers()->values(),
+        ]);
+    }
+
+    public function applications(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Student/Applications", [
+            "applications" => $this->getStudentApplicationsAction->execute($user),
         ]);
     }
 

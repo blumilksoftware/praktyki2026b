@@ -13,7 +13,7 @@ use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
-use App\Models\Offer;
+use App\Models\StudyField;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -62,18 +62,18 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
 Route::middleware(["auth", "can:access-student-panel"])
     ->prefix("student")
     ->group(function (): void {
-        Route::get("/dashboard", [StudentController::class, "index"])->name('student.dashboard');
-        Route::get("/offers", [StudentController::class, "offers"])->name('student.offers.index');
-        Route::get("/favorites", [StudentController::class, "favorites"])->name('student.favorites.index');
+        Route::get("/dashboard", [StudentController::class, "index"])->name("student.dashboard");
+        Route::get("/offers", [StudentController::class, "offers"])->name("student.offers.index");
+        Route::get("/favorites", [StudentController::class, "favorites"])->name("student.favorites.index");
 
         Route::get("/profile", function () {
             $user = auth()->user();
 
-            return inertia('Student/Profile', [
-                'user' => $user->load(['applications.offer.company', 'preferredStudyFields', 'preferredCities']),
-                'studyFields' => \App\Models\StudyField::query()->orderBy('name')->get(['id', 'name']),
+            return inertia("Student/Profile", [
+                "user" => $user->load(["applications.offer.company", "preferredStudyFields", "preferredCities"]),
+                "studyFields" => StudyField::query()->orderBy("name")->get(["id", "name"]),
             ]);
-        })->name('student.profile');
+        })->name("student.profile");
     });
 
 Route::middleware(["auth", "can:access-student-panel"])

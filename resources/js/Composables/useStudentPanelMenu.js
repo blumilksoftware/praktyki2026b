@@ -34,6 +34,12 @@ export function useStudentPanelMenu(activePage) {
         icon: IconHeart,
         isActive: current === 'favorites',
       },
+      {
+        label: t('student.layout.nav.applications'),
+        href: ROUTES.STUDENT_APPLICATIONS,
+        icon: IconBriefcase,
+        isActive: current === 'applications',
+      },
     ]
   })
 }
