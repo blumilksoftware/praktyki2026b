@@ -22,7 +22,7 @@ const props = defineProps({
   },
 })
 
-const user = computed(() => page.props.auth?.user)
+const user = computed(() => page.props?.auth?.user)
 const isAuthenticated = computed(() => !!user.value)
 const isAuthPage = computed(() => {
   const currentComponent = page.component

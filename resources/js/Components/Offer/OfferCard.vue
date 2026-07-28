@@ -81,9 +81,8 @@ const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mod
         <div class="mt-5 flex flex-wrap items-center gap-3">
           <button
             type="button"
-            class="inline-flex items-center justify-center rounded-xl border border-border bg-white px-4 py-2.5 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-            disabled
-            :aria-disabled="true"
+            class="inline-flex items-center justify-center rounded-xl border border-border bg-white px-4 py-2.5 text-sm font-semibold text-text opacity-60 transition cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            aria-disabled="true"
             :title="t('student.offers.card.mapComingSoon')"
           >
             {{ t('student.offers.card.showOnMap') }}

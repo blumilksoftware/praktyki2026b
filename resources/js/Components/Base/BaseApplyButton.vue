@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { IconLoader2, IconCheck } from '@tabler/icons-vue'
 
@@ -29,23 +28,6 @@ const props = defineProps({
 })
 
 defineEmits(['apply', 'uploadCv'])
-
-const formattedAppliedDate = computed(() => {
-  if (!props.appliedDate) return ''
-  
-  const dateObj = new Date(props.appliedDate)
-  
-  if (isNaN(dateObj.getTime())) return props.appliedDate
-
-  const day = String(dateObj.getDate()).padStart(2, '0')
-  const month = String(dateObj.getMonth() + 1).padStart(2, '0')
-  const year = dateObj.getFullYear()
-  
-  const hours = String(dateObj.getHours()).padStart(2, '0')
-  const minutes = String(dateObj.getMinutes()).padStart(2, '0')
-
-  return `${day}.${month}.${year} ${hours}:${minutes}`
-})
 </script>
 
 <template>
@@ -79,7 +61,7 @@ const formattedAppliedDate = computed(() => {
 
     <template v-else-if="isApplied">
       <IconCheck class="w-5 h-5" />
-      {{ t('buttons.apply.appliedOn', { date: formattedAppliedDate }) }}
+      {{ t('buttons.apply.appliedOn', { date: appliedDate }) }}
     </template>
 
     <template v-else>

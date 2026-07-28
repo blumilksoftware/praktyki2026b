@@ -32,7 +32,7 @@ describe('Offers.vue', () => {
   const globalStubs = {
     IconBriefcase2Filled: true,
     BaseButton: {
-      template: '<button @click="$emit(\'click\')"><slot /></button>'
+      template: '<button><slot /></button>'
     }
   }
 

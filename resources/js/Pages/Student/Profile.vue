@@ -42,13 +42,7 @@ const workModeOptions = computed(() => [
   { value: 'hybrid', label: t('student.profile.workMode.options.hybrid') },
 ])
 
-const workModeLabels = computed(() => Object.fromEntries(
-  workModeOptions.value.map((option) => [option.value, option.label]),
-))
-
-const displayWorkModes = computed(() => profileUser.value.work_modes.map(
-  (mode) => workModeLabels.value[mode] ?? mode,
-))
+const displayWorkModes = computed(() => profileUser.value.work_modes)
 
 watch(() => props.user, () => {
   skills.value = [...(props.user.skills ?? [])]
@@ -197,7 +191,7 @@ function saveWorkModes() {
           :aria-pressed="workModesDraft.includes(option.value)"
           @click="toggleWorkMode(option.value)"
         >
-          {{ t(`student.workModes.${mode}`) }}
+          {{ option.label }}
         </button>
       </div>
       <p v-if="workModesError" class="mt-2 text-error text-sm" role="alert">{{ workModesError }}</p>

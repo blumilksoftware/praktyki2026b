@@ -72,14 +72,14 @@ const resetFilters = () => {
           <div class="flex justify-between items-start gap-3">
             <div>
               <p class="font-semibold text-additional text-xs uppercase tracking-[0.24em]">{{ t('student.offers.filters.kicker') }}</p>
-              <h1 id="offers-filters-heading" class="mt-2 font-semibold text-text text-2xl tracking-tight">
+              <h2 id="offers-filters-heading" class="mt-2 font-semibold text-text text-2xl tracking-tight">
                 {{ t('student.offers.filters.title') }}
-              </h1>
+              </h2>
             </div>
             <button
               type="button"
               class="hover:bg-background px-3 py-1.5 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-xs transition"
-              :aria-label="t('student.offers.filters.resetAriaLabel')"
+              :aria-label="t('student.offers.filters.reset')"
               @click="resetFilters"
             >
               {{ t('student.offers.filters.reset') }}
@@ -87,23 +87,23 @@ const resetFilters = () => {
           </div>
 
           <div class="space-y-4 mt-6">
-            <label class="block">
+            <label class="block" for="offers-filter-search">
               <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.search') }}</span>
               <input
+                id="offers-filter-search"
                 v-model="query"
                 type="search"
                 :placeholder="t('student.offers.filters.searchPlaceholder')"
                 class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text placeholder:text-additional text-sm transition"
-                :aria-label="t('student.offers.filters.search')"
               >
             </label>
 
-            <label class="block">
+            <label class="block" for="offers-filter-city">
               <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.city') }}</span>
               <select
+                id="offers-filter-city"
                 v-model="city"
                 class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text text-sm transition"
-                :aria-label="t('student.offers.filters.city')"
               >
                 <option value="">{{ t('student.offers.filters.allCities') }}</option>
                 <option v-for="availableCity in availableCities" :key="availableCity" :value="availableCity">
@@ -112,12 +112,12 @@ const resetFilters = () => {
               </select>
             </label>
 
-            <label class="block">
+            <label class="block" for="offers-filter-work-mode">
               <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.workMode') }}</span>
               <select
+                id="offers-filter-work-mode"
                 v-model="workMode"
                 class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text text-sm transition"
-                :aria-label="t('student.offers.filters.workMode')"
               >
                 <option value="">{{ t('student.offers.filters.allWorkModes') }}</option>
                 <option v-for="mode in workModes" :key="mode" :value="mode">
@@ -127,12 +127,12 @@ const resetFilters = () => {
             </label>
 
             <div class="bg-background px-4 py-3 border border-border rounded-2xl">
-              <label class="flex items-center gap-3 text-text text-sm">
+              <label class="flex items-center gap-3 text-text text-sm" for="offers-filter-verified-only">
                 <input
+                  id="offers-filter-verified-only"
                   v-model="verifiedOnly"
                   type="checkbox"
                   class="border-border rounded focus:ring-primary/30 w-4 h-4 text-primary"
-                  :aria-label="t('student.offers.filters.verifiedOnly')"
                 >
                 <span>{{ t('student.offers.filters.verifiedOnly') }}</span>
               </label>

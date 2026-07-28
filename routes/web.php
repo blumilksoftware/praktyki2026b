@@ -13,7 +13,6 @@ use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
-use App\Models\StudyField;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -66,14 +65,7 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::get("/offers", [StudentController::class, "offers"])->name("student.offers.index");
         Route::get("/favorites", [StudentController::class, "favorites"])->name("student.favorites.index");
 
-        Route::get("/profile", function () {
-            $user = auth()->user();
-
-            return inertia("Student/Profile", [
-                "user" => $user->load(["applications.offer.company", "preferredStudyFields", "preferredCities"]),
-                "studyFields" => StudyField::query()->orderBy("name")->get(["id", "name"]),
-            ]);
-        })->name("student.profile");
+        Route::get("/profile", [StudentController::class, "profile"])->name("student.profile");
     });
 
 Route::middleware(["auth", "can:access-student-panel"])
@@ -83,6 +75,10 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
+        Route::post("/offers/{offer}/withdraw", [StudentController::class, "withdraw"])->name("student.offers.withdraw");
+        Route::post("/offers/{offer}/favourite", [StudentController::class, "saveOffer"])->name("student.offers.favourite.save");
+        Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])->name("student.offers.favourite.delete")->withTrashed();
+        Route::get("/favourites", [StudentController::class, "favourites"])->name("student.favourites");
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
         Route::get("/universities/search", [StudentController::class, "searchUniversities"])->name("student.universities.search");
         Route::patch("/university", [StudentController::class, "linkUniversity"])->name("student.university.update");

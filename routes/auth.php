@@ -56,5 +56,5 @@ Route::post("/logout", function (Request $request): RedirectResponse {
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect()->route("login");
+    return redirect("/");
 })->middleware("auth")->name("logout");

@@ -346,7 +346,8 @@
         "offers": "Offers",
         "favorites": "Favorites",
         "ariaLabel": "Student navigation",
-        "mobileAriaLabel": "Student mobile navigation"
+        "mobileAriaLabel": "Student mobile navigation",
+        "applications": "Applications"
       }
     },
     "nav": {
@@ -359,9 +360,6 @@
       "remote": "Remote",
       "hybrid": "Hybrid",
       "onSite": "On-site"
-        "profile": "Profile",
-        "applications": "Applications"
-      }
     },
     "applications": {
       "title": "Application history",
@@ -616,14 +614,6 @@
         "to": "To"
       },
       "dateRangeInvalid": "The end date must be on or after the start date."
-    }
-  },
-  "company": {
-    "layout": {
-      "title": "Company"
-    },
-    "profile": {
-      "title": "Profile"
     }
   },
   "pending": {

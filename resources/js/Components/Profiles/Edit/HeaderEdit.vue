@@ -1,17 +1,15 @@
 <script setup>
 import { computed, onBeforeUnmount, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconPhoto } from '@tabler/icons-vue'
-import BaseButton from '@/Components/Base/BaseButton.vue'
+import { IconPlus } from '@tabler/icons-vue'
 
 const props = defineProps({
+  name: { type: String, default: '' },
   logoUrl: { type: String, default: null },
   serverError: { type: String, default: null },
 })
 
 const emit = defineEmits(['update:logo'])
-
-const pendingFile = ref(null)
 
 const { t } = useI18n()
 
@@ -28,7 +26,6 @@ const displayLogoUrl = computed(() => {
   return null
 })
 
-const hasLogoPending = computed(() => Boolean(pendingFile.value))
 const logoError = computed(() => localError.value || props.serverError)
 
 function revokePreview() {
@@ -42,7 +39,7 @@ function validateLogo(file) {
   const name = file.name.toLowerCase()
   const ok = ['image/jpeg', 'image/png', 'image/webp'].includes(file.type)
     || name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png') || name.endsWith('.webp')
-  
+
   if (!ok) {
     localError.value = t('student.profile.photo.errors.invalidType')
     return false
@@ -54,104 +51,89 @@ function validateLogo(file) {
   return true
 }
 
-function setPendingLogo(file) {
+function setLogo(file) {
   localError.value = null
   if (!validateLogo(file)) return
-  
+
   revokePreview()
-  pendingFile.value = file
   previewUrl.value = URL.createObjectURL(file)
-  
+
   emit('update:logo', file)
+}
+
+function openFileDialog() {
+  fileInput.value?.click()
+}
+
+function onDragOver() {
+  isDragging.value = true
+}
+
+function onDragLeave() {
+  isDragging.value = false
 }
 
 function onDrop(event) {
   isDragging.value = false
   const file = event.dataTransfer?.files?.[0]
-  if (file) setPendingLogo(file)
+  if (file) setLogo(file)
 }
 
 function onFileSelected(event) {
   const file = event.target.files?.[0]
-  if (file) setPendingLogo(file)
+  if (file) setLogo(file)
   event.target.value = ''
 }
 
-function clearPending() {
-  pendingFile.value = null
-  revokePreview()
-  localError.value = null
-}
-
 onBeforeUnmount(revokePreview)
-
-defineExpose({ clearPending })
 </script>
 
 <template>
-  <div class="w-full flex flex-col items-start text-left">
-    <div class="flex items-center gap-4">
-      <div class="w-20 h-20 sm:w-24 sm:h-24 border border-border bg-background shadow-sm rounded-xl overflow-hidden flex items-center justify-center shrink-0 text-secondary">
-        <img
-          v-if="displayLogoUrl"
-          :src="displayLogoUrl"
-          alt="Logo"
-          class="w-full h-full object-cover"
-        >
-        <IconPhoto v-else stroke="1.5" class="w-8 h-8" />
-      </div>
-      
-      <div class="flex flex-col items-start">
-        <p class="font-medium text-text text-sm">
-          {{ t('student.profile.photo.label') }}
-        </p>
-        <BaseButton
-          type="button"
-          variant="secondary"
-          class="mt-2"
-          @click="fileInput?.click()"
-        >
-          {{ t('student.profile.photo.changeButton') }}
-        </BaseButton>
-      </div>
+  <div class="w-full flex flex-col items-center text-center">
+    <p v-if="name" class="font-medium text-text text-sm">
+      {{ name }}
+    </p>
+
+    <div
+      class="cursor-pointer mt-3 w-24 h-24 rounded-xl border-2 flex items-center justify-center transition overflow-hidden shrink-0"
+      :class="isDragging ? 'border-primary border-dashed bg-primary/5' : 'border-border bg-white'"
+      role="button"
+      tabindex="0"
+      @click="openFileDialog"
+      @keydown.enter="openFileDialog"
+      @dragover.prevent="onDragOver"
+      @dragenter.prevent="onDragOver"
+      @dragleave="onDragLeave"
+      @drop.prevent="onDrop"
+    >
+      <img
+        v-if="displayLogoUrl"
+        :src="displayLogoUrl"
+        alt="Logo"
+        class="w-full h-full object-cover"
+      >
+      <IconPlus v-else stroke="1.5" class="w-8 h-8 text-secondary" />
     </div>
+
+    <button
+      type="button"
+      class="mt-2 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
+      @click="openFileDialog"
+    >
+      {{ t('profiles.uploadLogo') }}
+    </button>
 
     <input
       ref="fileInput"
       type="file"
       accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
       class="sr-only"
-      :aria-label="t('student.profile.photo.dropzone')"
+      :aria-label="t('profiles.uploadLogo')"
       @change="onFileSelected"
     >
-    <div
-      class="mt-6 w-full rounded-xl border-2 border-dashed px-6 py-8 flex flex-col items-center justify-center transition"
-      :class="isDragging ? 'border-primary bg-primary/5' : 'border-border bg-white'"
-      @dragover.prevent
-      @dragenter.prevent="isDragging = true"
-      @dragleave="isDragging = false"
-      @drop.prevent="onDrop"
-    >
-      <IconPhoto class="mx-auto h-10 w-10 text-additional" aria-hidden="true" />
-      <p class="mt-3 text-sm text-text">
-        <button
-          type="button"
-          class="font-semibold text-primary hover:text-primary/80 transition-colors"
-          @click="fileInput?.click()"
-        >
-          {{ t('student.profile.photo.uploadAction') }}
-        </button>
-        {{ t('student.profile.photo.orDragDrop') }}
-      </p>
-      <p class="mt-1 text-additional text-xs">
-        {{ t('student.profile.photo.formatHint') }}
-      </p>
-    </div>
-    <p v-if="hasLogoPending" class="mt-2 text-additional text-xs font-medium">
-      {{ t('student.profile.photo.previewHint') }}
-    </p>
+
     <p v-if="logoError" class="mt-2 text-error text-sm" role="alert">
       {{ logoError }}
     </p>
   </div>
-</template> 
+</template>
