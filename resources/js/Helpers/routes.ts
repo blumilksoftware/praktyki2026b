@@ -38,6 +38,8 @@ export const ROUTES = {
   STUDENT_PASSWORD_UPDATE: "/student/password",
   STUDENT_EMAIL_UPDATE: "/student/email",
   STUDENT_ACCOUNT_DELETE: "/student/account",
+  STUDENT_APPLICATIONS: "/student/applications",
+  STUDENT_OFFER_WITHDRAW: "/student/offers/{offer}/withdraw",
   COMPANY_PROFILE: "/company/profile",
   UNIVERSITY_PROFILE: "/university/profile",
 
@@ -57,3 +59,7 @@ export const ROUTES = {
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]
+
+export function studentOfferWithdraw(offerId: string): string {
+  return ROUTES.STUDENT_OFFER_WITHDRAW.replace("{offer}", offerId)
+}

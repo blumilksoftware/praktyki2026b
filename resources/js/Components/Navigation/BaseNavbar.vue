@@ -57,13 +57,15 @@ const handleNavigationClick = (item) => {
 <template>
   <nav class="w-full h-14 md:h-16 lg:h-20 bg-primary border-b border-border shrink-0 relative z-30">
     <div class="h-full flex items-center justify-between px-4 sm:px-6">
+      <BaseLogo />
+
       <div class="flex items-center gap-3 sm:gap-4">
-        <BaseLogo />
-        
         <button
           v-if="showHamburger"
+          type="button"
           class="lg:hidden flex items-center justify-center text-white hover:text-white/80 transition-colors focus:outline-none"
           :aria-label="t('profiles.navMenu')"
+          :aria-expanded="isMobileMenuOpen"
           @click="toggle"
         >
           <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" />
@@ -71,7 +73,7 @@ const handleNavigationClick = (item) => {
       </div>
 
       <div class="hidden lg:flex lg:items-center lg:gap-2">
-        <BaseNavigationButtons 
+        <BaseNavigationButtons
           v-if="showNavigationButtons && navigationButtons.length > 0"
           :show-buttons="true"
           :variant="navigationVariant"
@@ -118,7 +120,7 @@ const handleNavigationClick = (item) => {
         <span class="font-bold text-white text-sm uppercase tracking-wider">
           {{ t('profiles.navMenu') }}
         </span>
-        <button 
+        <button
           class="text-white hover:text-white/80 transition-colors focus:outline-none flex items-center justify-center p-1"
           @click="close"
         >
@@ -133,20 +135,20 @@ const handleNavigationClick = (item) => {
           </h3>
           <ul class="flex flex-col gap-1">
             <li v-for="item in navigationButtons" :key="item.id || item.key">
-              <Link 
+              <Link
                 :href="item.href || '#'"
                 class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
-                :class="item.isActive 
-                  ? 'bg-primary/10 text-primary' 
+                :class="item.isActive
+                  ? 'bg-primary/10 text-primary'
                   : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'"
                 :aria-current="item.isActive ? 'page' : undefined"
                 @click="close"
               >
-                <component 
-                  :is="item.icon" 
-                  v-if="item.icon" 
-                  stroke="2" 
-                  class="w-5 h-5 shrink-0" 
+                <component
+                  :is="item.icon"
+                  v-if="item.icon"
+                  stroke="2"
+                  class="w-5 h-5 shrink-0"
                   :class="item.isActive ? 'text-primary' : 'text-gray-400'"
                 />
                 {{ item.label }}
@@ -161,11 +163,11 @@ const handleNavigationClick = (item) => {
           </h3>
           <ul class="flex flex-col gap-1">
             <li v-for="item in menuItems" :key="item.href">
-              <Link 
-                :href="item.href" 
+              <Link
+                :href="item.href"
                 class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
-                :class="item.isActive 
-                  ? 'bg-primary/10 text-primary' 
+                :class="item.isActive
+                  ? 'bg-primary/10 text-primary'
                   : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'"
                 :aria-current="item.isActive ? 'page' : undefined"
                 @click="close"

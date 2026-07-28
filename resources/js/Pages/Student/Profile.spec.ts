@@ -131,4 +131,33 @@ describe("Student/Profile", () => {
     expect(payload.skills).toEqual(["Python", "Django", "React", "TypeScript", "Vue.js"])
     expect(payload.work_modes).toEqual(["hybrid", "remote"])
   })
+
+  it("does not show the temporary mock data notice", () => {
+    const wrapper = mountProfile()
+
+    expect(wrapper.text()).not.toContain(
+      "Data is temporary (mock) and is not saved to the server",
+    )
+  })
+
+  it("keeps the skills modal open and shows an inline error on validation failure", async () => {
+    routerPatch.mockImplementation((_url, _payload, options) => {
+      options?.onError?.({ skills: "Too many skills." })
+      options?.onFinish?.()
+    })
+
+    try {
+      const wrapper = mountProfile()
+      const addButton = wrapper.findAll("button").find((btn) => btn.text() === "Add")
+      await addButton!.trigger("click")
+
+      const saveButton = wrapper.findAll("button").find((btn) => btn.text() === "Save")
+      await saveButton!.trigger("click")
+
+      expect(wrapper.text()).toContain("Add technical skills")
+      expect(wrapper.text()).toContain("Too many skills.")
+    } finally {
+      routerPatch.mockReset()
+    }
+  })
 })

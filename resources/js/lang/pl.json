@@ -336,7 +336,29 @@
       "skipToContent": "Przejdź do treści",
       "nav": {
         "dashboard": "Panel",
-        "profile": "Profil"
+        "profile": "Profil",
+        "applications": "Aplikacje"
+      }
+    },
+    "applications": {
+      "title": "Historia aplikacji",
+      "subtitle": "Przeglądaj status swoich aplikacji na oferty praktyk.",
+      "empty": "Nie masz jeszcze żadnych aplikacji.",
+      "listAriaLabel": "Lista aplikacji",
+      "appliedAt": "Wysłano: {date}",
+      "openHistory": "Zobacz historię aplikacji",
+      "status": {
+        "pending": "Oczekująca",
+        "reviewed": "Rozpatrywana",
+        "accepted": "Zaakceptowana",
+        "rejected": "Odrzucona"
+      },
+      "withdraw": {
+        "action": "Wycofaj",
+        "modalTitle": "Wycofać aplikację?",
+        "confirmation": "Czy na pewno chcesz wycofać aplikację na ofertę „{title}”? Tego nie można cofnąć.",
+        "cancel": "Anuluj",
+        "confirm": "Wycofaj aplikację"
       }
     },
     "dashboard": {
@@ -429,7 +451,9 @@
         "citiesPlaceholder": "Wpisz miasto i naciśnij Enter"
       },
       "tags": {
-        "remove": "Usuń tag"
+        "remove": "Usuń tag",
+        "limitHint": "{count}/{max} tagów. Możesz dodać maksymalnie {max}.",
+        "limitReached": "Osiągnięto limit: maksymalnie {max} tagów."
       },
       "skills": {
         "title": "Umiejętności techniczne",
@@ -449,11 +473,11 @@
         }
       },
       "applications": {
-        "title": "Zapisane i wysłane aplikacje"
+        "title": "Zapisane i wysłane aplikacje",
+        "historyHint": "Sprawdź status swoich wysłanych aplikacji."
       },
       "placeholder": {
-        "comingSoon": "Ta sekcja będzie dostępna wkrótce.",
-        "mockDataNotice": "Dane są tymczasowe (mock) i nie zapisują się na serwerze. Zostaną podpięte pod backend, gdy będzie gotowy."
+        "comingSoon": "Ta sekcja będzie dostępna wkrótce."
       },
       "account": {
         "title": "Konto i bezpieczeństwo",
