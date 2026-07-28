@@ -170,7 +170,39 @@
       "noOffers": "Firma nie ma obecnie otwartych rekrutacji.",
       "noContactInfo": "Firma nie podała danych kontaktowych.",
       "noDescription": "Firma nie dodała jeszcze opisu.",
-      "noTags": "Firma nie dodała jeszcze tagów."
+      "noTags": "Firma nie dodała jeszcze tagów.",
+        "applications": {
+          "title": "Aplikacje kandydatów",
+          "empty": "Brak aplikacji spełniających podane kryteria.",
+          "no_cv": "Brak CV",
+          "filters": {
+            "offer": "Oferta",
+            "all_offers": "Wszystkie oferty",
+            "status": "Status",
+            "all_statuses": "Wszystkie statusy"
+          },
+          "table": {
+            "candidate": "Kandydat",
+            "offer": "Oferta",
+            "status": "Status",
+            "actions": "Akcje"
+          },
+          "actions": {
+            "download_cv": "Pobierz CV"
+          },
+          "date": {
+            "today": "Złożono: Dzisiaj, {time}",
+            "exact": "Złożono: {date}"
+          },
+          "no_university": "Brak danych uczelni",
+          "applied_for": "Aplikuje na:",
+          "statuses": {
+            "pending": "Oczekujące",
+            "reviewed": "Zweryfikowane",
+            "accepted": "Zaakceptowana",
+            "rejected": "Odrzucona"
+          }
+     }
     },
     "university": {
     }

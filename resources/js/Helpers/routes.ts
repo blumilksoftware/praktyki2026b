@@ -41,8 +41,9 @@ export const ROUTES = {
   OFFER_SHOW: `/offers/{offer}`,
   OFFERS: "/offers",
   COMPANY_OFFERS: "/search?company_id={companyId}",
-  APPLICATIONS: "/applications",
-  PROFILE: "/profile",
+  COMPANY_APPLICATIONS: "/company/applications",
+  COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
+  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",  PROFILE: "/profile",
   PROFILE_EDIT: "/profile/edit",
   TEAM: "/team",
   
