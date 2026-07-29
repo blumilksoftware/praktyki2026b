@@ -10,8 +10,8 @@ use App\Actions\Company\UpdateCompanyProfile;
 use App\DTO\Company\UpdateCompanyProfileData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCompanyProfileRequest;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 

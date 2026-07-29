@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Actions\Company;
 
+use App\Enums\OfferStatus;
 use App\Models\Company;
 use App\Models\Offer;
-use App\Enums\OfferStatus;
 use Illuminate\Support\Collection;
 
 class GetOffersSummary
@@ -15,7 +16,7 @@ class GetOffersSummary
         $allowedSorts = ["title", "status", "spots", "applications_count", "created_at"];
         $direction = $direction === "asc" ? "asc" : "desc";
 
-        if (! in_array($sort, $allowedSorts, true)) {
+        if (!in_array($sort, $allowedSorts, true)) {
             $sort = "created_at";
         }
 
@@ -33,7 +34,7 @@ class GetOffersSummary
         return $query
             ->orderByDesc("id")
             ->get()
-            ->map(fn (Offer $offer): array => [
+            ->map(fn(Offer $offer): array => [
                 "id" => $offer->id,
                 "title" => $offer->title,
                 "status" => $offer->status->value,
@@ -46,6 +47,7 @@ class GetOffersSummary
     {
         $cases = [];
         $bindings = [];
+
         foreach (OfferStatus::sortOrder() as $position => $status) {
             $cases[] = "WHEN ? THEN ?";
             $bindings[] = $status->value;
