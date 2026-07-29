@@ -12,6 +12,7 @@ use App\Actions\Student\DeleteStudentAccount;
 use App\Actions\Student\DeleteStudentPhotoAction;
 use App\Actions\Student\GetFavourites;
 use App\Actions\Student\GetStudentApplicationsAction;
+use App\Actions\Student\GetStudentOffersAction;
 use App\Actions\Student\LinkStudentToUniversity;
 use App\Actions\Student\RequestEmailChange;
 use App\Actions\Student\SaveOfferAction;
@@ -22,7 +23,6 @@ use App\Actions\Student\UploadStudentPhotoAction;
 use App\Actions\Student\WithdrawOfferAction;
 use App\Actions\University\SearchUniversities;
 use App\DTO\Student\UpdateStudentProfileData;
-use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangeEmailRequest;
 use App\Http\Requests\ChangePasswordRequest;
@@ -33,10 +33,8 @@ use App\Http\Requests\UpdateStudentProfileRequest;
 use App\Http\Requests\UploadCvRequest;
 use App\Http\Requests\UploadStudentPhotoRequest;
 use App\Models\Offer;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
@@ -61,6 +59,7 @@ class StudentController extends Controller
         private readonly GetFavourites $getFavourites,
         private readonly BuildStudentProfileData $buildStudentProfileData,
         private readonly GetStudentApplicationsAction $getStudentApplicationsAction,
+        private readonly GetStudentOffersAction $getStudentOffersAction,
         private readonly SearchUniversities $searchUniversities,
         private readonly LinkStudentToUniversity $linkStudentToUniversity,
     ) {}
@@ -71,8 +70,9 @@ class StudentController extends Controller
 
         return inertia("Student/Dashboard", [
             "applications" => $this->getStudentApplicationsAction->execute($user),
-            "offers" => $this->buildStudentOffers($user)->take(3)->values(),
+            "offers" => $this->getStudentOffersAction->execute($user)->take(3)->values(),
             "hasCv" => $user->cv_path !== null,
+            "favoritesCount" => $user->favourites()->count(),
         ]);
     }
 
@@ -81,17 +81,7 @@ class StudentController extends Controller
         $user = Auth::user();
 
         return inertia("Student/Offers", [
-            "offers" => $this->buildStudentOffers($user)->values(),
-            "hasCv" => $user->cv_path !== null,
-        ]);
-    }
-
-    public function favorites(): Response
-    {
-        $user = Auth::user();
-
-        return inertia("Student/Favorites", [
-            "offers" => $this->buildStudentOffers($user)->values(),
+            "offers" => $this->getStudentOffersAction->execute($user)->values(),
             "hasCv" => $user->cv_path !== null,
         ]);
     }
@@ -303,33 +293,5 @@ class StudentController extends Controller
         $request->session()->regenerateToken();
 
         return redirect("/");
-    }
-
-    private function buildStudentOffers(User $user): Collection
-    {
-        return Offer::published()
-            ->with(["company", "applications"])
-            ->get()
-            ->map(function (Offer $offer) use ($user): array {
-                $ownApplication = $offer->applications->firstWhere("student_id", $user->id);
-
-                return [
-                    "id" => $offer->id,
-                    "title" => $offer->title,
-                    "city" => $offer->city,
-                    "work_mode" => $offer->work_mode->value ?? null,
-                    "start_date" => $offer->start_date?->toDateString(),
-                    "end_date" => $offer->end_date?->toDateString(),
-                    "spots" => $offer->spots,
-                    "remaining_spots" => max(0, $offer->spots - $offer->applications->count()),
-                    "has_applied" => $ownApplication !== null,
-                    "applied_at" => $ownApplication?->created_at?->toDateString(),
-                    "company" => [
-                        "name" => $offer->company->name,
-                        "logo_path" => $offer->company->logo_path,
-                        "is_verified" => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,
-                    ],
-                ];
-            });
     }
 }

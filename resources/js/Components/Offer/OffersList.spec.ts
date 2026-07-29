@@ -56,25 +56,14 @@ describe('OffersList.vue', () => {
     expect(wrapper.text()).toContain('Save an offer to see it here.')
   })
 
-  it('marks offers present in favoriteIds as favorite', () => {
-    const offers = generateOffers(2)
+  it('marks offers as favorite based on their is_favorite field', () => {
+    const offers = generateOffers(2).map((offer, index) => ({ ...offer, is_favorite: index === 1 }))
     const wrapper = mount(OffersList, {
-      props: { offers, favoriteIds: [2] },
+      props: { offers },
     })
 
     const favoriteButtons = wrapper.findAll('button').filter((btn) => btn.attributes('aria-pressed') !== undefined)
     expect(favoriteButtons[0].attributes('aria-pressed')).toBe('false')
     expect(favoriteButtons[1].attributes('aria-pressed')).toBe('true')
-  })
-
-  it('re-emits toggle-favorite from a card with the offer id', async () => {
-    const offers = generateOffers(1)
-    const wrapper = mount(OffersList, { props: { offers } })
-
-    const favoriteButton = wrapper.findAll('button').find((btn) => btn.attributes('aria-pressed') !== undefined)
-    await favoriteButton!.trigger('click')
-
-    expect(wrapper.emitted('toggle-favorite')).toBeTruthy()
-    expect(wrapper.emitted('toggle-favorite')![0]).toEqual([1])
   })
 })

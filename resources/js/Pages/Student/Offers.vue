@@ -5,14 +5,12 @@ import { useI18n } from 'vue-i18n'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
-import { useStudentFavorites } from '@/Composables/useStudentFavorites.ts'
 
 const props = defineProps({
   offers: { type: Array, default: () => [] },
   hasCv: { type: Boolean, default: true },
 })
 const { t } = useI18n()
-const { favoriteIds, toggleFavorite } = useStudentFavorites()
 
 const query = ref('')
 const city = ref('')
@@ -192,11 +190,9 @@ const resetFilters = () => {
 
           <OffersList
             :offers="filteredOffers"
-            :favorite-ids="favoriteIds"
             :has-cv="hasCv"
             :empty-title="viewMode === 'applied' ? t('student.offers.emptyApplied.title') : undefined"
             :empty-description="viewMode === 'applied' ? t('student.offers.emptyApplied.description') : undefined"
-            @toggle-favorite="toggleFavorite"
           />
         </section>
       </div>

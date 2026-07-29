@@ -8,13 +8,14 @@ vi.mock('vue-i18n', () => ({
   }),
 }))
 
-const { routerPost, routerVisit } = vi.hoisted(() => ({
+const { routerPost, routerVisit, routerDelete } = vi.hoisted(() => ({
   routerPost: vi.fn(),
   routerVisit: vi.fn(),
+  routerDelete: vi.fn(),
 }))
 
 vi.mock('@inertiajs/vue3', () => ({
-  router: { post: routerPost, visit: routerVisit },
+  router: { post: routerPost, visit: routerVisit, delete: routerDelete },
 }))
 
 const baseOffer = {
@@ -41,6 +42,7 @@ describe('OfferCard.vue', () => {
   beforeEach(() => {
     routerPost.mockClear()
     routerVisit.mockClear()
+    routerDelete.mockClear()
   })
 
   it('renders company name, title, city, date range and remaining spots', () => {
@@ -91,18 +93,30 @@ describe('OfferCard.vue', () => {
     expect(wrapper.text()).toContain('A')
   })
 
-  it('emits toggle-favorite with the offer id when the favorite button is clicked', async () => {
+  it('posts to the offer favourite endpoint when marking an offer as favorite', async () => {
     const wrapper = createWrapper()
 
     const favoriteButton = wrapper.findAll('button').find((btn) => btn.attributes('aria-pressed') !== undefined)
     await favoriteButton!.trigger('click')
 
-    expect(wrapper.emitted('toggle-favorite')).toBeTruthy()
-    expect(wrapper.emitted('toggle-favorite')![0]).toEqual([42])
+    expect(routerPost).toHaveBeenCalledTimes(1)
+    const [url, data] = routerPost.mock.calls[0]
+    expect(url).toBe('/student/offers/42/favourite')
+    expect(data).toEqual({})
   })
 
-  it('reflects the isFavorite prop on the favorite button', () => {
-    const wrapper = createWrapper({ isFavorite: true })
+  it('deletes the offer favourite endpoint when unmarking an already favorited offer', async () => {
+    const wrapper = createWrapper({ offer: { ...baseOffer, is_favorite: true } })
+
+    const favoriteButton = wrapper.findAll('button').find((btn) => btn.attributes('aria-pressed') !== undefined)
+    await favoriteButton!.trigger('click')
+
+    expect(routerDelete).toHaveBeenCalledTimes(1)
+    expect(routerDelete.mock.calls[0][0]).toBe('/student/offers/42/favourite')
+  })
+
+  it('reflects the offer.is_favorite prop on the favorite button', () => {
+    const wrapper = createWrapper({ offer: { ...baseOffer, is_favorite: true } })
 
     const favoriteButton = wrapper.findAll('button').find((btn) => btn.attributes('aria-pressed') !== undefined)
     expect(favoriteButton!.attributes('aria-pressed')).toBe('true')

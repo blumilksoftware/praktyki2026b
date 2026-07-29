@@ -48,9 +48,11 @@ export const ROUTES = {
 
   // Student Offers & Applications
   STUDENT_OFFERS: "/student/offers",
+  STUDENT_OFFER_APPLY: "/student/offers/{offer}/apply",
   STUDENT_OFFER_WITHDRAW: "/student/offers/{offer}/withdraw",
+  STUDENT_OFFER_FAVOURITE: "/student/offers/{offer}/favourite",
   STUDENT_APPLICATIONS: "/student/applications",
-  STUDENT_FAVORITES: "/student/favorites",
+  STUDENT_FAVORITES: "/student/favourites",
 
   // Offers & Search
   OFFERS: "/offers",
@@ -73,6 +75,14 @@ export const ROUTES = {
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]
 
+export function studentOfferApply(offerId: string): string {
+  return ROUTES.STUDENT_OFFER_APPLY.replace("{offer}", offerId)
+}
+
 export function studentOfferWithdraw(offerId: string): string {
   return ROUTES.STUDENT_OFFER_WITHDRAW.replace("{offer}", offerId)
+}
+
+export function studentOfferFavourite(offerId: string): string {
+  return ROUTES.STUDENT_OFFER_FAVOURITE.replace("{offer}", offerId)
 }

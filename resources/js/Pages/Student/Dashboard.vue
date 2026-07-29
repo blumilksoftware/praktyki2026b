@@ -2,34 +2,24 @@
 import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHome, IconBriefcase, IconHeart, IconUser } from '@tabler/icons-vue'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
-import { useStudentFavorites } from '@/Composables/useStudentFavorites.ts'
 
 const props = defineProps({
   offers: { type: Array, default: () => [] },
   hasCv: { type: Boolean, default: true },
+  favoritesCount: { type: Number, default: 0 },
 })
 
 const { t } = useI18n()
-const { favoriteIds, toggleFavorite } = useStudentFavorites()
 
 const offersCount = computed(() => props.offers.length)
-const favoriteCount = computed(() => favoriteIds.value.length)
-
-const navItems = computed(() => [
-  { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
-  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
-  { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
-  { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
-])
 </script>
 
 <template>
   <Head :title="t('student.dashboard.title')" />
-  <StudentPanelLayout active-page="dashboard" :nav-items="navItems">
+  <StudentPanelLayout active-page="dashboard">
     <div class="bg-slate-50 px-4 sm:px-6 lg:px-8 py-6 min-h-screen">
       <section class="bg-white shadow-[0_14px_40px_rgba(11,26,48,0.08)] mx-auto p-6 sm:p-8 border border-slate-200 rounded-3xl max-w-7xl">
         <div class="lg:items-center gap-6 grid lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.95fr)]">
@@ -73,7 +63,7 @@ const navItems = computed(() => [
               class="bg-slate-50/80 hover:bg-white hover:shadow-[0_10px_28px_rgba(11,26,48,0.08)] p-4 border border-slate-200 hover:border-blue-600/30 rounded-2xl transition hover:-translate-y-0.5"
             >
               <p class="font-semibold text-slate-500 text-xs uppercase tracking-[0.18em]">{{ t('student.nav.favorites') }}</p>
-              <p class="mt-2 font-semibold text-slate-900 text-3xl">{{ favoriteCount }}</p>
+              <p class="mt-2 font-semibold text-slate-900 text-3xl">{{ favoritesCount }}</p>
               <p class="mt-1 text-slate-500 text-sm">{{ t('student.dashboard.cards.favoritesDescription') }}</p>
             </Link>
           </div>
@@ -98,14 +88,10 @@ const navItems = computed(() => [
         <div class="mt-6">
           <OffersList
             :offers="offers"
-            :favorite-ids="favoriteIds"
             :has-cv="hasCv"
-            @toggle-favorite="toggleFavorite"
           />
         </div>
       </section>
-      <Head :title="t('student.layout.title')" />
-      <div class="flex flex-col gap-6" />
     </div>
   </StudentPanelLayout>
 </template>

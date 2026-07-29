@@ -1,12 +1,30 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
-import { ROUTES } from '@/Helpers/routes'
+import { ROUTES, studentOfferFavourite } from '@/Helpers/routes'
 
-defineProps({ favourites: { type: Array, default: () => [] } })
+const props = defineProps({ favourites: { type: Array, default: () => [] } })
 
 const { t } = useI18n()
+
+const favourites = ref(props.favourites)
+const removingId = ref(null)
+
+function removeFavourite(offerId) {
+  removingId.value = offerId
+
+  router.delete(studentOfferFavourite(offerId), {
+    preserveScroll: true,
+    onSuccess: () => {
+      favourites.value = favourites.value.filter((offer) => offer.id !== offerId)
+    },
+    onFinish: () => {
+      removingId.value = null
+    },
+  })
+}
 </script>
 
 <template>
@@ -33,6 +51,14 @@ const { t } = useI18n()
               <h3 class="font-semibold text-lg text-slate-900">{{ offer.title }}</h3>
               <p class="text-slate-500 text-sm mt-1">{{ offer.company_name }} &middot; {{ offer.city }}</p>
             </div>
+            <button
+              type="button"
+              class="inline-flex items-center justify-center rounded-xl border cursor-pointer border-border bg-white px-4 py-2 text-sm font-semibold text-text transition hover:border-red-200 hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
+              :disabled="removingId === offer.id"
+              @click="removeFavourite(offer.id)"
+            >
+              {{ t('student.offers.card.removeFromFavorites') }}
+            </button>
           </div>
         </div>
 

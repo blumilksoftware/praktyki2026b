@@ -3,13 +3,10 @@ import { useI18n } from 'vue-i18n'
 import OfferCard from '@/Components/Offer/OfferCard.vue'
 const props = defineProps({
   offers: { type: Array, default: () => [] },
-  favoriteIds: { type: Array, default: () => [] },
   hasCv: { type: Boolean, default: true },
   emptyTitle: { type: String, default: undefined },
   emptyDescription: { type: String, default: undefined },
 })
-
-defineEmits(['toggle-favorite'])
 
 const { t } = useI18n()
 </script>
@@ -33,9 +30,7 @@ const { t } = useI18n()
         v-for="offer in offers"
         :key="offer.id"
         :offer="offer"
-        :is-favorite="favoriteIds.includes(offer.id)"
         :has-cv="hasCv"
-        @toggle-favorite="$emit('toggle-favorite', $event)"
       />
     </div>
   </div>

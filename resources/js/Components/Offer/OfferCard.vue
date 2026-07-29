@@ -2,18 +2,16 @@
 import { router } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { IconCheck, IconHeart, IconHeartFilled } from '@tabler/icons-vue'
 import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
-import { ROUTES, studentOfferWithdraw } from '@/Helpers/routes'
+import { ROUTES, studentOfferApply, studentOfferFavourite, studentOfferWithdraw } from '@/Helpers/routes'
 
 const props = defineProps({
   offer: { type: Object, required: true },
-  isFavorite: { type: Boolean, default: false },
   hasCv: { type: Boolean, default: true },
 })
-
-defineEmits(['toggle-favorite'])
 
 const { t } = useI18n()
 
@@ -33,7 +31,7 @@ function applyToOffer() {
   applyError.value = null
   isApplying.value = true
 
-  router.post(`/student/offers/${props.offer.id}/apply`, {}, {
+  router.post(studentOfferApply(props.offer.id), {}, {
     preserveScroll: true,
     onSuccess: () => {
       appliedLocally.value = true
@@ -50,6 +48,35 @@ function applyToOffer() {
 
 function goToUploadCv() {
   router.visit(ROUTES.STUDENT_PROFILE_EDIT)
+}
+
+const isTogglingFavorite = ref(false)
+const favoritedLocally = ref(false)
+const unfavoritedLocally = ref(false)
+
+const isFavorite = computed(() => !unfavoritedLocally.value && (props.offer.is_favorite || favoritedLocally.value))
+
+function toggleFavorite() {
+  const wasFavorite = isFavorite.value
+  const url = studentOfferFavourite(props.offer.id)
+  const options = {
+    preserveScroll: true,
+    onSuccess: () => {
+      favoritedLocally.value = !wasFavorite
+      unfavoritedLocally.value = wasFavorite
+    },
+    onFinish: () => {
+      isTogglingFavorite.value = false
+    },
+  }
+
+  isTogglingFavorite.value = true
+
+  if (wasFavorite) {
+    router.delete(url, options)
+  } else {
+    router.post(url, {}, options)
+  }
 }
 
 const isWithdrawModalOpen = ref(false)
@@ -107,9 +134,7 @@ function confirmWithdraw() {
                 class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-success"
                 :aria-label="t('student.offers.card.verifiedAriaLabel')"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M20 6L9 17l-5-5" />
-                </svg>
+                <IconCheck class="h-3.5 w-3.5" stroke-width="2" aria-hidden="true" />
                 <span aria-hidden="true">{{ t('student.offers.card.verified') }}</span>
               </span>
             </div>
@@ -153,19 +178,18 @@ function confirmWithdraw() {
 
           <button
             type="button"
-            class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 cursor-pointer text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 cursor-pointer text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
             :class="isFavorite
               ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
               : 'border-border bg-white text-text hover:border-primary/40 hover:bg-background'"
+            :disabled="isTogglingFavorite"
             :aria-pressed="isFavorite"
             :aria-label="isFavorite
               ? t('student.offers.card.removeFromFavorites')
               : t('student.offers.card.addToFavorites')"
-            @click="$emit('toggle-favorite', offer.id)"
+            @click="toggleFavorite"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.53L12 21.35z" />
-            </svg>
+            <component :is="isFavorite ? IconHeartFilled : IconHeart" class="h-4 w-4" aria-hidden="true" />
             {{ isFavorite ? t('student.offers.card.removeFromFavorites') : t('student.offers.card.addToFavorites') }}
           </button>
 
@@ -204,7 +228,3 @@ function confirmWithdraw() {
     />
   </article>
 </template>
-
-<style scoped>
-/* keep styling via Tailwind classes */
-</style>

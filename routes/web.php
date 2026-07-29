@@ -63,7 +63,6 @@ Route::middleware(["auth", "can:access-student-panel"])
     ->group(function (): void {
         Route::get("/dashboard", [StudentController::class, "index"])->name("student.dashboard");
         Route::get("/offers", [StudentController::class, "offers"])->name("student.offers.index");
-        Route::get("/favorites", [StudentController::class, "favorites"])->name("student.favorites.index");
 
         Route::get("/profile", [StudentController::class, "profile"])->name("student.profile");
     });
