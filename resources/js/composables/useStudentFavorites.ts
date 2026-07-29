@@ -34,8 +34,23 @@ export function useStudentFavorites() {
 
   }
 
+  function deleteFavourite(offerId: string): Promise<void> {
+    return new Promise((resolve) => {
+      router.delete(offerFavouriteRoute(offerId), {
+        preserveScroll: true,
+          preserveState: true,
+          onFinish: () => resolve(),
+      })
+    })
+  }
+
   const clearFavorites = () => {
-    [...favoriteIds.value].forEach((offerId) => toggleFavorite(offerId))
+    const idsToRemove = [...favoriteIds.value]
+    favoriteIds.value = []
+      return idsToRemove.reduce(
+      (chain, offerId) => chain.then(() => deleteFavourite(offerId)),
+        Promise.resolve(),
+      )
   }
 
   const favoriteCount = computed(() => favoriteIds.value.length)
