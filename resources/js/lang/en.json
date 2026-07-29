@@ -328,6 +328,14 @@
       "title": "Company search"
     }
   },
+  "company": {
+    "layout": {
+      "title": "Company"
+    },
+    "profile": {
+      "title": "Profile"
+    }
+  },
   "student": {
     "layout": {
       "title": "Student panel",
@@ -335,35 +343,83 @@
       "nav": {
         "dashboard": "Dashboard",
         "profile": "Profile",
-        "applications": "Applications"
+        "offers": "Offers",
+        "favorites": "Favorites",
+        "ariaLabel": "Student navigation",
+        "mobileAriaLabel": "Student mobile navigation"
       }
     },
-    "applications": {
-      "title": "Application history",
-      "subtitle": "Track the status of your internship applications.",
-      "empty": "You have not applied to any offers yet.",
-      "listAriaLabel": "Application list",
-      "appliedAt": "Applied: {date}",
-      "openHistory": "View application history",
-      "status": {
-        "pending": "Pending",
-        "reviewed": "Reviewed",
-        "accepted": "Accepted",
-        "rejected": "Rejected"
-      },
-      "withdraw": {
-        "action": "Withdraw",
-        "modalTitle": "Withdraw application?",
-        "confirmation": "Are you sure you want to withdraw your application for “{title}”? This cannot be undone.",
-        "cancel": "Cancel",
-        "confirm": "Withdraw application"
-      }
+    "nav": {
+      "dashboard": "Dashboard",
+      "profile": "Profile",
+      "offers": "Offers",
+      "favorites": "Favorites"
+    },
+    "workModes": {
+      "remote": "Remote",
+      "hybrid": "Hybrid",
+      "onSite": "On-site"
     },
     "dashboard": {
-      "comingSoon": {
-        "title": "The student panel is under construction.",
-        "applications": "An overview of your applications will appear here soon (T-062, BE: T-061).",
-        "offersAndFavourites": "Offer search and favourites will arrive with milestones M3/M4 (T-046, T-066)."
+      "title": "Student dashboard",
+      "heading": "Your offer hub",
+      "description": "Browse offers, jump back to favorites, and move between views with one click.",
+      "primaryAction": "Browse offers",
+      "secondaryAction": "View favorites",
+      "previewTitle": "Latest offers",
+      "previewDescription": "A quick preview of the newest positions.",
+      "cards": {
+        "offersTitle": "All offers",
+        "offersDescription": "Open the full filtered list.",
+        "favoritesTitle": "Favorite offers",
+        "favoritesDescription": "Review saved positions in one place."
+      }
+    },
+    "favorites": {
+      "heading": "Your saved offers",
+      "description": "This is where heart-marked offers live. Remove them here or return to the full list.",
+      "backToOffers": "Back to offers",
+      "backToDashboard": "Back to dashboard",
+      "empty": {
+        "title": "You do not have any favorite offers yet",
+        "description": "Add an offer to favorites from a card and it will appear here."
+      }
+    },
+    "offers": {
+      "filters": {
+        "kicker": "Filters",
+        "title": "Offer board",
+        "reset": "Reset",
+        "resetAriaLabel": "Clear all filters",
+        "search": "Search",
+        "searchPlaceholder": "Company, position or city",
+        "city": "City",
+        "allCities": "All cities",
+        "workMode": "Work mode",
+        "allWorkModes": "All work modes",
+        "verifiedOnly": "Verified companies only"
+      },
+      "results": {
+        "caption": "Available positions",
+        "count": "{count} offers",
+        "helper": "Scrollable tile list, one offer per tile"
+      },
+      "empty": {
+        "title": "No offers match the filters",
+        "description": "Try clearing the filters or broadening your search."
+      },
+      "card": {
+        "logoAlt": "Company logo for {company}",
+        "verified": "Verified",
+        "verifiedAriaLabel": "Verified company",
+        "dateRange": "Date range",
+        "remainingSpots": "Remaining spots",
+        "location": "Location",
+        "showOnMap": "Show on map",
+        "applyNow": "Apply now",
+        "addToFavorites": "Add to favorites",
+        "removeFromFavorites": "Remove from favorites",
+        "mapComingSoon": "The map will appear on a separate page"
       }
     },
     "cv": {
@@ -385,7 +441,6 @@
       }
     },
     "profile": {
-      "title": "Profile",
       "modal": {
         "close": "Close"
       },
@@ -463,23 +518,26 @@
       "workMode": {
         "title": "Expected work mode",
         "modalTitle": "Edit expected work mode",
-        "empty": "No work mode selected. Click \"Edit\" to fill in.",
-        "options": {
-          "onsite": "On-site",
-          "remote": "Remote",
-          "hybrid": "Hybrid"
-        }
+        "empty": "No work mode selected. Click \"Edit\" to fill in."
       },
       "applications": {
-        "title": "Saved and submitted applications",
-        "historyHint": "View the status of your submitted applications."
+        "title": "Saved and submitted applications"
       },
       "placeholder": {
         "comingSoon": "This section will be available soon."
       },
       "account": {
         "title": "Account and security",
-        "description": "Password, email and account deletion."
+        "description": "Password, email address, and account deletion.",
+        "navbarNotice": "After completing the navigation bar, this section will be moved to the profile settings in the menu."
+      },
+      "nav": {
+        "offers": "Offers",
+        "home": "Home"
+      },
+      "empty": {
+        "title": "No offers match the filters",
+        "description": "Try clearing the filters or broadening your search."
       },
       "password": {
         "title": "Change password",
@@ -491,17 +549,17 @@
         "title": "Change email address",
         "label": "Email address",
         "newAddress": "New email address",
-        "unverifiedNotice": "The address {email} is inactive until you confirm it via the email link.",
-        "pendingNotice": "The new address {email} is inactive until you confirm it via the email link.",
+        "unverifiedNotice": "The address {email} is inactive until confirmed with a link from the email.",
+        "pendingNotice": "The new address {email} is inactive until confirmed with a link from the email.",
         "currentPassword": "Current password",
         "resend": "Resend verification link"
       },
       "delete": {
         "title": "Delete account",
-        "warning": "This cannot be undone.",
+        "warning": "This operation cannot be undone.",
         "openModal": "Delete account",
         "modalTitle": "Confirm account deletion",
-        "confirmationLabel": "I understand this action cannot be undone",
+        "confirmationLabel": "I understand that this operation cannot be undone",
         "password": "Password",
         "confirm": "Delete account permanently",
         "cancel": "Cancel"
@@ -536,14 +594,6 @@
         "to": "To"
       },
       "dateRangeInvalid": "The end date must be on or after the start date."
-    }
-  },
-  "company": {
-    "layout": {
-      "title": "Company"
-    },
-    "profile": {
-      "title": "Profile"
     }
   },
   "pending": {

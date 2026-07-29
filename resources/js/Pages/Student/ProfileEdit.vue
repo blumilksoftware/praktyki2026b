@@ -2,8 +2,8 @@
 import { computed, nextTick, onMounted, ref } from 'vue'
 import { Head, Link, router, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconArrowLeft } from '@tabler/icons-vue'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
+import { IconArrowLeft, IconHome, IconUser, IconBriefcase, IconHeart } from '@tabler/icons-vue'
+import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import ProfileTagInput from '@/Components/Profile/ProfileTagInput.vue'
@@ -52,6 +52,13 @@ const profileForm = useForm({
 
 const hasPhotoPending = computed(() => Boolean(pendingPhoto.value))
 const fieldError = (field) => profileForm.errors[field]
+
+const navItems = computed(() => [
+  { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
+  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
+  { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
+  { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
+])
 
 function scrollToFocusSection() {
   const section = new URLSearchParams(window.location.search).get('section')

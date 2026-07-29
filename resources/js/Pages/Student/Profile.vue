@@ -197,7 +197,7 @@ function saveWorkModes() {
           :aria-pressed="workModesDraft.includes(option.value)"
           @click="toggleWorkMode(option.value)"
         >
-          {{ option.label }}
+          {{ t(`student.workModes.${mode}`) }}
         </button>
       </div>
       <p v-if="workModesError" class="mt-2 text-error text-sm" role="alert">{{ workModesError }}</p>

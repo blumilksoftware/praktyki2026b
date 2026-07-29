@@ -1,5 +1,12 @@
 {
   "onboarding": {
+    "layout": {
+      "skipToContent": "Przejdź do treści",
+      "nav": {
+        "ariaLabel": "Nawigacja studenta",
+        "mobileAriaLabel": "Nawigacja mobilna studenta"
+      }
+    },
     "banner": {
       "title": "Uzupełnij swój profil",
       "description": "Wypełnij dane profilu, aby w pełni korzystać z Applikuj.",
@@ -332,40 +339,14 @@
   },
   "student": {
     "layout": {
-      "title": "Panel studenta",
       "skipToContent": "Przejdź do treści",
       "nav": {
-        "dashboard": "Panel",
+        "dashboard": "Dashboard",
         "profile": "Profil",
-        "applications": "Aplikacje"
-      }
-    },
-    "applications": {
-      "title": "Historia aplikacji",
-      "subtitle": "Przeglądaj status swoich aplikacji na oferty praktyk.",
-      "empty": "Nie masz jeszcze żadnych aplikacji.",
-      "listAriaLabel": "Lista aplikacji",
-      "appliedAt": "Wysłano: {date}",
-      "openHistory": "Zobacz historię aplikacji",
-      "status": {
-        "pending": "Oczekująca",
-        "reviewed": "Rozpatrywana",
-        "accepted": "Zaakceptowana",
-        "rejected": "Odrzucona"
-      },
-      "withdraw": {
-        "action": "Wycofaj",
-        "modalTitle": "Wycofać aplikację?",
-        "confirmation": "Czy na pewno chcesz wycofać aplikację na ofertę „{title}”? Tego nie można cofnąć.",
-        "cancel": "Anuluj",
-        "confirm": "Wycofaj aplikację"
-      }
-    },
-    "dashboard": {
-      "comingSoon": {
-        "title": "Panel studenta jest w przygotowaniu.",
-        "applications": "Wkrótce pojawi się tu przegląd Twoich aplikacji (T-062, BE: T-061).",
-        "offersAndFavourites": "Szukanie ofert i ulubione dojdą wraz z milestone’ami M3/M4 (T-046, T-066)."
+        "offers": "Oferty",
+        "favorites": "Ulubione",
+        "ariaLabel": "Nawigacja studenta",
+        "mobileAriaLabel": "Nawigacja mobilna studenta"
       }
     },
     "cv": {
@@ -387,7 +368,6 @@
       }
     },
     "profile": {
-      "title": "Profil",
       "modal": {
         "close": "Zamknij"
       },
@@ -465,16 +445,10 @@
       "workMode": {
         "title": "Oczekiwany tryb pracy",
         "modalTitle": "Edytuj oczekiwany tryb pracy",
-        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić.",
-        "options": {
-          "onsite": "Stacjonarnie",
-          "remote": "Zdalnie",
-          "hybrid": "Hybrydowo"
-        }
+        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić."
       },
       "applications": {
-        "title": "Zapisane i wysłane aplikacje",
-        "historyHint": "Sprawdź status swoich wysłanych aplikacji."
+        "title": "Zapisane i wysłane aplikacje"
       },
       "placeholder": {
         "comingSoon": "Ta sekcja będzie dostępna wkrótce."
@@ -508,8 +482,83 @@
         "confirm": "Usuń konto na stałe",
         "cancel": "Anuluj"
       }
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "profile": "Profil",
+      "offers": "Oferty",
+      "favorites": "Ulubione"
+    },
+    "workModes": {
+      "remote": "Zdalnie",
+      "hybrid": "Hybrydowo",
+      "onsite": "Stacjonarnie",
+      "onSite": "Stacjonarnie"
+    },
+    "dashboard": {
+      "title": "Dashboard studenta",
+      "heading": "Twoje centrum ofert",
+      "description": "Przeglądaj oferty, wracaj do ulubionych i przechodź między widokami jednym kliknięciem.",
+      "primaryAction": "Przejdź do ofert",
+      "secondaryAction": "Zobacz ulubione",
+      "previewTitle": "Najnowsze oferty",
+      "previewDescription": "Krótki podgląd najświeższych pozycji.",
+      "cards": {
+        "offersTitle": "Wszystkie oferty",
+        "offersDescription": "Przejdź do pełnej listy z filtrami.",
+        "favoritesTitle": "Ulubione oferty",
+        "favoritesDescription": "Sprawdź zapisane pozycje w jednym miejscu."
+      }
+    },
+    "favorites": {
+      "heading": "Twoje zapisane oferty",
+      "description": "Tu trafiają oferty oznaczone sercem. Możesz je potem odhaczyć albo wrócić do pełnej listy.",
+      "backToOffers": "Wróć do ofert",
+      "backToDashboard": "Wróć do dashboardu",
+      "empty": {
+        "title": "Nie masz jeszcze ulubionych ofert",
+        "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj."
+      }
+    },
+    "offers": {
+      "filters": {
+        "kicker": "Filtry",
+        "title": "Tablica ofert",
+        "reset": "Resetuj",
+        "resetAriaLabel": "Wyczyść wszystkie filtry",
+        "search": "Szukaj",
+        "searchPlaceholder": "Firma, stanowisko lub miasto",
+        "city": "Miasto",
+        "allCities": "Wszystkie miasta",
+        "workMode": "Tryb pracy",
+        "allWorkModes": "Wszystkie tryby",
+        "verifiedOnly": "Tylko zweryfikowane firmy"
+      },
+      "results": {
+        "caption": "Dostępne oferty",
+        "count": "{count} ofert",
+        "helper": "Przewijana lista kafelków, jedna oferta na jeden kafelek"
+      },
+      "empty": {
+        "title": "Brak ofert spełniających filtry",
+        "description": "Spróbuj wyczyścić filtry albo rozszerzyć wyszukiwanie."
+      },
+      "card": {
+        "logoAlt": "Logo firmy {company}",
+        "verified": "Zweryfikowana",
+        "verifiedAriaLabel": "Firma zweryfikowana",
+        "dateRange": "Zakres dat",
+        "remainingSpots": "Pozostałe miejsca",
+        "location": "Lokalizacja",
+        "showOnMap": "Pokaż na mapie",
+        "applyNow": "Aplikuj teraz",
+        "addToFavorites": "Dodaj do ulubionych",
+        "removeFromFavorites": "Usuń z ulubionych",
+        "mapComingSoon": "Mapa pojawi się w osobnej podstronie"
+      }
     }
   },
+    "company": {
   "offers": {
     "search": {
       "title": "Praktyki i oferty",
@@ -583,4 +632,5 @@
     }
 
   }
+}
 }

@@ -1,6 +1,7 @@
 export const ROUTES = {
   ADMIN_DASHBOARD: "/admin/dashboard",
   ADMIN_APPLICATIONS: "/admin/applications",
+  LOGOUT: "/logout",
   DASHBOARD: "/dashboard",
   LOGIN: "/login",
   LOGIN_ADMIN: "/admin/login",
@@ -27,6 +28,7 @@ export const ROUTES = {
   STUDENT_SETTINGS: "/student/settings",
   STUDENT_PROFILE_UPDATE: "/student/profile",
   STUDENT_PROFILE_PHOTO: "/student/profile/photo",
+  STUDENT_PROFILE_PHOTO_SHOW: "/student/profile/photo",
   STUDENT_PROFILE_PHOTO_DELETE: "/student/profile/photo",
   STUDENT_CV_PREVIEW: "/student/cv",
   STUDENT_CV_UPLOAD: "/student/cv",
@@ -34,10 +36,17 @@ export const ROUTES = {
   STUDENT_PASSWORD_UPDATE: "/student/password",
   STUDENT_EMAIL_UPDATE: "/student/email",
   STUDENT_ACCOUNT_DELETE: "/student/account",
-  STUDENT_APPLICATIONS: "/student/applications",
-  STUDENT_OFFER_WITHDRAW: "/student/offers/{offer}/withdraw",
-  COMPANY_PROFILE: "/company/profile",
-  UNIVERSITY_PROFILE: "/university/profile",
+  STUDENT_OFFERS: "/student/offers",
+  STUDENT_FAVORITES: "/student/favorites",
+
+  EMAIL_VERIFICATION: "/email/verify/{id}/{token}",
+  EMAIL_VERIFICATION_RESEND: "/email/resend",
+
+  RESET_PASSWORD: "/reset-password/{token}",
+  RESET_PASSWORD_STORE: "/reset-password",
+
+  GOOGLE_AUTH: "/auth/google/redirect",
+  GOOGLE_AUTH_CALLBACK: "/auth/google/callback",
 
   HOME: "/",
   OFFERS_SEARCH: "/offers",
@@ -55,7 +64,3 @@ export const ROUTES = {
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]
-
-export function studentOfferWithdraw(offerId: string): string {
-  return ROUTES.STUDENT_OFFER_WITHDRAW.replace("{offer}", offerId)
-}

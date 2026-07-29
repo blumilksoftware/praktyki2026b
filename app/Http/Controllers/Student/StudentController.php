@@ -22,6 +22,7 @@ use App\Actions\Student\UploadStudentPhotoAction;
 use App\Actions\Student\WithdrawOfferAction;
 use App\Actions\University\SearchUniversities;
 use App\DTO\Student\UpdateStudentProfileData;
+use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangeEmailRequest;
 use App\Http\Requests\ChangePasswordRequest;
@@ -34,6 +35,7 @@ use App\Http\Requests\UploadStudentPhotoRequest;
 use App\Models\Offer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
@@ -62,12 +64,27 @@ class StudentController extends Controller
         private readonly LinkStudentToUniversity $linkStudentToUniversity,
     ) {}
 
-    public function index(): Response
-    {
-        $user = Auth::user();
+public function index(): Response
+{
+    $user = Auth::user();
 
-        return inertia("Student/Dashboard", [
-            "applications" => $this->getStudentApplicationsAction->execute($user),
+    return inertia("Student/Dashboard", [
+        "applications" => $this->getStudentApplicationsAction->execute($user),
+        "offers" => $this->buildStudentOffers()->take(3)->values(),
+    ]);
+}
+
+    public function offers(): Response
+    {
+        return inertia("Student/Offers", [
+            "offers" => $this->buildStudentOffers()->values(),
+        ]);
+    }
+
+    public function favorites(): Response
+    {
+        return inertia("Student/Favorites", [
+            "offers" => $this->buildStudentOffers()->values(),
         ]);
     }
 
@@ -278,5 +295,27 @@ class StudentController extends Controller
         $request->session()->regenerateToken();
 
         return redirect("/");
+    }
+
+    private function buildStudentOffers(): Collection
+    {
+        return Offer::published()
+            ->with(["company", "applications"])
+            ->get()
+            ->map(fn(Offer $offer) => [
+                "id" => $offer->id,
+                "title" => $offer->title,
+                "city" => $offer->city,
+                "work_mode" => $offer->work_mode->value ?? null,
+                "start_date" => $offer->start_date?->toDateString(),
+                "end_date" => $offer->end_date?->toDateString(),
+                "spots" => $offer->spots,
+                "remaining_spots" => max(0, $offer->spots - $offer->applications->count()),
+                "company" => [
+                    "name" => $offer->company->name,
+                    "logo_path" => $offer->company->logo_path,
+                    "is_verified" => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,
+                ],
+            ]);
     }
 }
