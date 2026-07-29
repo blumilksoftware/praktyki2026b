@@ -20,7 +20,6 @@ vi.mock("@inertiajs/vue3", async () => {
     router: { visit: routerVisit, patch: routerPatch, delete: routerDelete },
   }
 })
-
 vi.mock("@/Helpers/routes", () => ({
   ROUTES: {
     COMPANY_APPLICATIONS: "/company/applications",
