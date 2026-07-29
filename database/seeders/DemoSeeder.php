@@ -163,5 +163,35 @@ class DemoSeeder extends Seeder
                 $studyFields->random(random_int(1, 2))->pluck("id"),
             );
         }
+
+        $domainLinkedStudents = User::factory()->count(5)->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "email" => fn() => fake()->unique()->userName() . "@" . $approvedUniversity->domain,
+            "study_field" => fn() => $studyFields->random()->id,
+        ]);
+
+        $explicitlyLinkedStudents = User::factory()->count(3)->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "organization_id" => $approvedUniversity->id,
+            "study_field" => fn() => $studyFields->random()->id,
+        ]);
+
+        User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "email" => "unrelated-student@example.com",
+        ]);
+
+        $allLinkedStudents = $domainLinkedStudents->merge($explicitlyLinkedStudents);
+
+        foreach ($allLinkedStudents as $index => $student) {
+            Application::factory()->create([
+                "offer_id" => $offers[$index % $offers->count()]->id,
+                "student_id" => $student->id,
+                "status" => $index % 3 === 0 ? ApplicationStatus::Accepted : ApplicationStatus::Pending,
+            ]);
+        }
     }
 }

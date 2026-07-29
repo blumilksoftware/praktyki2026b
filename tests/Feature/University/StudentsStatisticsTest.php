@@ -1,0 +1,67 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature\University;
+
+use App\Enums\UserRole;
+use App\Enums\UserStatus;
+use App\Models\Application;
+use App\Models\University;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
+use Tests\TestCase;
+
+class StudentsStatisticsTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function testDashboardReturnsStatisticsFilteredByDateRange(): void
+    {
+        $university = University::factory()->approved()->create(["domain" => "example.edu"]);
+        $admin = User::factory()->create([
+            "role" => UserRole::UniversityAdmin,
+            "status" => UserStatus::Active,
+            "organization_id" => $university->id,
+        ]);
+        $student = User::factory()->create(["email" => "student@example.edu"]);
+
+        Application::factory()->accepted()->create([
+            "student_id" => $student->id,
+            "created_at" => "2026-01-31 23:59:59",
+        ]);
+        Application::factory()->accepted()->create([
+            "student_id" => $student->id,
+            "created_at" => "2026-02-28 23:59:59",
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route("university.dashboard", ["from" => "2026-02-01", "to" => "2026-02-28"]))
+            ->assertOk()
+            ->assertInertia(fn(Assert $page) => $page
+                ->component("University/Dashboard")
+                ->where("data.linkedStudents", 1)
+                ->where("data.applicationsSubmitted", 1)
+                ->where("data.acceptedPlacements", 1)
+                ->has("data.breakdownByFaculty", 1)
+                ->has("data.breakdownByField", 1)
+                ->where("filters.from", "2026-02-01")
+                ->where("filters.to", "2026-02-28"));
+    }
+
+    public function testDashboardRejectsAnInvalidDateRange(): void
+    {
+        $university = University::factory()->approved()->create();
+        $admin = User::factory()->create([
+            "role" => UserRole::UniversityAdmin,
+            "status" => UserStatus::Active,
+            "organization_id" => $university->id,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route("university.dashboard", ["from" => "2026-03-01", "to" => "2026-02-01"]))
+            ->assertRedirect()
+            ->assertSessionHasErrors("to");
+    }
+}
