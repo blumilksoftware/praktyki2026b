@@ -14,6 +14,7 @@ import {
 
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
+import OnboardingBanner from "@/Components/Onboarding/OnboardingBanner.vue";
 
 const { t } = useI18n()
 
@@ -96,6 +97,11 @@ function deactivateOffer(offer) {
   closeMenu()
 }
 
+function toggleStatusOffer(offer) {
+  if (offer.status === 'closed') return
+  offer.status === 'published' ? deactivateOffer(offer) : publishOffer(offer)
+}
+
 function deleteOffer(offer) {
   closeMenu()
   if (!confirm(t('company.dashboard.offers.confirmDelete'))) {
@@ -111,6 +117,7 @@ function deleteOffer(offer) {
     active-page="offers"
     :nav-items="navItems"
   >
+    <OnboardingBanner />
     <div class="p-4 sm:p-6 space-y-6">
       <header class="mb-6">
         <h1 class="font-semibold text-text text-xl sm:text-2xl">
@@ -209,8 +216,12 @@ function deleteOffer(offer) {
 
                       <button
                         type="button"
-                        class="flex items-center gap-2 w-full px-3 py-2 text-left text-text hover:bg-gray-50 cursor-pointer"
-                        @click="offer.status === 'published' ? deactivateOffer(offer) : publishOffer(offer)"
+                        class="flex items-center gap-2 w-full px-3 py-2 text-left"
+                        :class="offer.status === 'closed'
+                          ? 'text-gray-400 cursor-not-allowed'
+                          : 'text-text hover:bg-gray-50 cursor-pointer'"
+                        :disabled="offer.status === 'closed'"
+                        @click="toggleStatusOffer(offer)"
                       >
                         <IconPlayerPause v-if="offer.status === 'published'" class="w-4 h-4" />
                         <IconPlayerPlay v-else class="w-4 h-4" />
@@ -277,12 +288,15 @@ function deleteOffer(offer) {
 
                   <button
                     type="button"
-                    class="flex items-center gap-2 w-full px-3 py-2 text-left text-text hover:bg-gray-50 cursor-pointer"
-                    @click="offer.status === 'published' ? deactivateOffer(offer) : publishOffer(offer)"
+                    class="flex items-center gap-2 w-full px-3 py-2 text-left"
+                    :class="offer.status === 'closed'
+                      ? 'text-gray-400 cursor-not-allowed'
+                      : 'text-text hover:bg-gray-50 cursor-pointer'"
+                    :disabled="offer.status === 'closed'"
+                    @click="toggleStatusOffer(offer)"
                   >
                     <IconPlayerPause v-if="offer.status === 'published'" class="w-4 h-4" />
                     <IconPlayerPlay v-else class="w-4 h-4" />
-
                     {{
                       offer.status === 'published'
                         ? t('company.dashboard.offers.actions.deactivate')
