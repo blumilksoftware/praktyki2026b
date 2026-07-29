@@ -573,9 +573,6 @@
                   "delete": "Delete"
               },
               "pagination": {
-                  "summary": "Wyświetlono {from}–{to} z {total}"
-              },
-              "pagination": {
                   "summary": "Showing {from}–{to} of {total}"
               },
               "filters": {
