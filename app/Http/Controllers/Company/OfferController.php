@@ -42,7 +42,7 @@ class OfferController extends Controller
 
         $this->createOffer->execute($company, $data);
 
-        return redirect()->route("company.dashboard");
+        return back();
     }
 
     public function publish(Offer $offer): RedirectResponse
@@ -51,7 +51,7 @@ class OfferController extends Controller
 
         $this->publishOffer->execute($offer);
 
-        return redirect()->route("company.dashboard");
+        return back();
     }
 
     public function deactivate(Offer $offer): RedirectResponse
@@ -60,7 +60,7 @@ class OfferController extends Controller
 
         $offer->update(["status" => OfferStatus::Closed]);
 
-        return redirect()->route("company.dashboard");
+        return back();
     }
 
     public function destroy(Offer $offer): RedirectResponse
@@ -69,6 +69,6 @@ class OfferController extends Controller
 
         $offer->delete();
 
-        return redirect()->route("company.dashboard");
+        return back();
     }
 }

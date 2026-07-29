@@ -24,7 +24,7 @@ export function useOffersFilters(initial) {
         status: statusFilter.value || undefined,
         ...overrides,
       },
-      { preserveState: true, preserveScroll: true, replace: true },
+      {preserveScroll: true, replace: true },
     )
   }
 

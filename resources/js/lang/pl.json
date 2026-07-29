@@ -569,6 +569,16 @@
                   "activate": "Aktywuj",
                   "deactivate": "Dezaktywuj",
                   "delete": "Usuń"
+              },
+              "pagination": {
+                  "summary": "Wyświetlono {from}–{to} z {total}"
+              },
+              "search": {
+                  "placeholder": "Szukaj ofert",
+                  "clear": "Wyczyść wyszukiwanie"
+              },
+              "filters": {
+                  "allStatuses": "Wszystkie"
               }
           }
       },

@@ -7,56 +7,47 @@ namespace App\Actions\Company;
 use App\Enums\OfferStatus;
 use App\Models\Company;
 use App\Models\Offer;
-use Illuminate\Support\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetOffersSummary
 {
-    public function execute(Company $company, string $sort = "created_at", string $direction = "desc"): Collection
-    {
-        $allowedSorts = ["title", "status", "spots", "applications_count", "created_at"];
+    private const array ALLOWED_SORTS = ["title", "spots", "applications_count", "created_at"];
+
+    public function execute(
+        Company $company,
+        string $sort = "created_at",
+        string $direction = "desc",
+        ?OfferStatus $status = null,
+        ?string $search = null,
+        int $perPage = 15,
+    ): LengthAwarePaginator {
         $direction = $direction === "asc" ? "asc" : "desc";
 
-        if (!in_array($sort, $allowedSorts, true)) {
+        if (!in_array($sort, self::ALLOWED_SORTS, true)) {
             $sort = "created_at";
         }
 
         $query = $company->offers()->withCount("applications");
 
-        if ($sort === "applications_count") {
-            $query->orderBy("applications_count", $direction);
-        } elseif ($sort === "status") {
-            [$sql, $bindings] = $this->statusOrderSql();
-            $query->orderByRaw("{$sql} {$direction}", $bindings);
-        } else {
-            $query->orderBy($sort, $direction);
+        if ($status !== null) {
+            $query->where("status", $status->value);
+        }
+
+        if ($search !== null && trim($search) !== "") {
+            $term = "%" . addcslashes($search, "%_\\") . "%";
+            $query->where("title", "like", $term);
         }
 
         return $query
+            ->orderBy($sort, $direction)
             ->orderByDesc("id")
-            ->get()
-            ->map(fn(Offer $offer): array => [
+            ->paginate($perPage)
+            ->through(fn(Offer $offer): array => [
                 "id" => $offer->id,
                 "title" => $offer->title,
                 "status" => $offer->status->value,
                 "spots" => $offer->spots,
                 "applications_count" => $offer->applications_count,
             ]);
-    }
-
-    private function statusOrderSql(): array
-    {
-        $cases = [];
-        $bindings = [];
-
-        foreach (OfferStatus::sortOrder() as $position => $status) {
-            $cases[] = "WHEN ? THEN ?";
-            $bindings[] = $status->value;
-            $bindings[] = $position;
-        }
-
-        $sql = "CASE status " . implode(" ", $cases) . " ELSE ? END";
-        $bindings[] = count(OfferStatus::sortOrder());
-
-        return [$sql, $bindings];
     }
 }

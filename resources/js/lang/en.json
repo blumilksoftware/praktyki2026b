@@ -561,12 +561,25 @@
                   "applications": "Applications",
                   "actions": "Actions"
               },
+              "search": {
+                  "placeholder": "Search offers",
+                  "clear": "Clear search"
+              },
               "actions": {
                   "menu": "Open actions menu",
                   "edit": "Edit",
                   "activate": "Activate",
                   "deactivate": "Deactivate",
                   "delete": "Delete"
+              },
+              "pagination": {
+                  "summary": "Wyświetlono {from}–{to} z {total}"
+              },
+              "pagination": {
+                  "summary": "Showing {from}–{to} of {total}"
+              },
+              "filters": {
+                  "allStatuses": "All"
               }
           }
       },
