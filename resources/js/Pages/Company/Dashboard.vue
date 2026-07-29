@@ -9,7 +9,7 @@ import {
   IconPencil,
   IconPlayerPause,
   IconPlayerPlay,
-  IconTrash,
+  IconTrash, IconSelector, IconChevronUp, IconChevronDown,
 } from '@tabler/icons-vue'
 
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
@@ -23,7 +23,37 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  sort: {
+    type: String,
+    default: 'created_at',
+  },
+  direction: {
+    type: String,
+    default: 'desc',
+  },
 })
+
+const sortableColumns = [
+  { key: 'title', label: 'company.dashboard.offers.table.offer' },
+  { key: 'status', label: 'company.dashboard.offers.table.status' },
+  { key: 'spots', label: 'company.dashboard.offers.table.spots' },
+  { key: 'applications_count', label: 'company.dashboard.offers.table.applications' },
+]
+
+function sortBy(column) {
+  const newDirection = props.sort === column && props.direction === 'asc' ? 'desc' : 'asc'
+
+  router.get(
+    window.location.pathname,
+    { sort: column, direction: newDirection },
+    { preserveState: true, preserveScroll: true, replace: true },
+  )
+}
+
+function sortIcon(column) {
+  if (props.sort !== column) return IconSelector
+  return props.direction === 'asc' ? IconChevronUp : IconChevronDown
+}
 
 const navItems = [
   {
@@ -118,15 +148,14 @@ function deleteOffer(offer) {
     :nav-items="navItems"
   >
     <OnboardingBanner />
-    <div class="p-4 sm:p-6 space-y-6">
+    <div class="p-5 sm:p-6 space-y-6">
       <header class="mb-6">
         <h1 class="font-semibold text-text text-xl sm:text-2xl">
-          {{ t('company.dashboard.offers.title') }}
-        </h1>
-        <p class="mt-1 text-additional text-sm">
           {{ t('company.dashboard.offers.subtitle') }}
-        </p>
+        </h1>
       </header>
+
+      <div class="py-2" />
 
       <div class="rounded-xl border border-border bg-white shadow-sm overflow-visible">
         <div class="px-4 py-3 border-b border-border">
@@ -143,23 +172,27 @@ function deleteOffer(offer) {
         <div v-else class="hidden md:block overflow-visible">
           <table class="w-full text-sm">
             <thead class="bg-gray-50 text-additional">
-              <tr>
-                <th class="px-4 py-3 text-left font-medium">
-                  {{ t('company.dashboard.offers.table.offer') }}
-                </th>
-                <th class="px-4 py-3 text-center font-medium">
-                  {{ t('company.dashboard.offers.table.status') }}
-                </th>
-                <th class="px-4 py-3 text-center font-medium">
-                  {{ t('company.dashboard.offers.table.spots') }}
-                </th>
-                <th class="px-4 py-3 text-center font-medium">
-                  {{ t('company.dashboard.offers.table.applications') }}
-                </th>
-                <th class="px-4 py-3 text-right font-medium">
-                  {{ t('company.dashboard.offers.table.actions') }}
-                </th>
-              </tr>
+            <tr>
+              <th
+                v-for="column in sortableColumns"
+                :key="column.key"
+                class="px-4 py-3 font-medium select-none"
+                :class="column.key === 'title' ? 'text-left' : 'text-center'"
+              >
+                <button
+                  type="button"
+                  class="inline-flex items-center gap-1 cursor-pointer hover:text-text"
+                  :class="column.key !== 'title' && 'justify-center'"
+                  @click="sortBy(column.key)"
+                >
+                  {{ t(column.label) }}
+                  <component :is="sortIcon(column.key)" class="w-3.5 h-3.5" />
+                </button>
+              </th>
+              <th class="px-4 py-3 text-right font-medium">
+                {{ t('company.dashboard.offers.table.actions') }}
+              </th>
+            </tr>
             </thead>
             <tbody class="divide-y divide-border">
               <tr
@@ -175,7 +208,7 @@ function deleteOffer(offer) {
                     class="px-2 py-1 rounded-full text-xs font-medium"
                     :class="statusClasses[offer.status]?? 'bg-gray-100 text-gray-700'"
                   >
-                    {{ offer.status }}
+                    {{ t(`company.dashboard.offers.status.${offer.status}`) }}
                   </span>
                 </td>
                 <td class="px-4 py-3 text-center text-text">

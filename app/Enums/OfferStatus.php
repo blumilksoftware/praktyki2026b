@@ -10,4 +10,9 @@ enum OfferStatus: string
     case Published = "published";
     case Closed = "closed";
     case Expired = "expired";
+
+    public static function sortOrder(): array
+    {
+        return [self::Draft, self::Published, self::Expired, self::Closed];
+    }
 }

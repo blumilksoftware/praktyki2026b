@@ -10,6 +10,7 @@ use App\Actions\Company\UpdateCompanyProfile;
 use App\DTO\Company\UpdateCompanyProfileData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCompanyProfileRequest;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
@@ -22,12 +23,18 @@ class CompanyController extends Controller
         private readonly GetOffersSummary $getOffersSummary,
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $company = Auth::user()->company;
 
         return inertia("Company/Dashboard", [
-            "offers" => $this->getOffersSummary->execute($company),
+            "offers" => $this->getOffersSummary->execute(
+                $company,
+                $request->query("sort", "created_at"),
+                $request->query("direction", "desc"),
+            ),
+            "sort" => $request->query("sort", "created_at"),
+            "direction" => $request->query("direction", "desc"),
         ]);
     }
 

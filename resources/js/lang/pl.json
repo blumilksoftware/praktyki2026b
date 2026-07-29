@@ -550,6 +550,12 @@
               "subtitle": "Zarządzaj ofertami pracy i aplikacjami kandydatów",
               "noOffers": "Brak ofert",
               "confirmDelete": "Czy na pewno chcesz usunąć tę ofertę?",
+              "status": {
+                  "published": "Opublikowana",
+                  "draft": "Szkic",
+                  "closed": "Zamknięta",
+                  "expired": "Wygasła"
+              },
               "table": {
                   "offer": "Oferta",
                   "status": "Status",

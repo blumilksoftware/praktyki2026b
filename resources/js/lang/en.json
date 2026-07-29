@@ -548,6 +548,12 @@
               "subtitle": "Manage your job postings and applications",
               "noOffers": "No offers yet",
               "confirmDelete": "Are you sure you want to delete this offer?",
+              "status": {
+                  "published": "Published",
+                  "draft": "Draft",
+                  "closed": "Closed",
+                  "expired": "Expired"
+              },
               "table": {
                   "offer": "Offer",
                   "status": "Status",
