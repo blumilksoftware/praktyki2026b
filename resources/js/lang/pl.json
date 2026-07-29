@@ -228,7 +228,7 @@
       "appliedOn": "Zaaplikowano {date}"
     }
   },
-  
+
   "table": {
     "id": "ID",
     "student": "Student",
@@ -554,7 +554,9 @@
         "applyNow": "Aplikuj teraz",
         "addToFavorites": "Dodaj do ulubionych",
         "removeFromFavorites": "Usuń z ulubionych",
-        "mapComingSoon": "Mapa pojawi się w osobnej podstronie"
+        "mapComingSoon": "Mapa pojawi się w osobnej podstronie",
+          "expiredBadge": "Wygasła",
+          "expiredNotice": "Już nieaktywna"
       }
     }
   },

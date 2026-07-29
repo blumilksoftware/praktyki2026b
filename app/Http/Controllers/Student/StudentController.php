@@ -83,10 +83,23 @@ public function index(): Response
 
     public function favorites(): Response
     {
+//        return inertia("Student/Favorites", [
+//            "offers" => $this->buildStudentOffers()->values(),
+//        ]);
+        $user = Auth::user();
+
+        $offers = $user->favourites()
+            ->with(["company", "applications"])
+            ->get()
+            ->map(fn(Offer $offer) => $this->mapOfferForCard($offer))
+            ->values();
+
         return inertia("Student/Favorites", [
-            "offers" => $this->buildStudentOffers()->values(),
+            "offers" => $offers
         ]);
     }
+
+
 
     public function applications(): Response
     {
@@ -297,25 +310,30 @@ public function index(): Response
         return redirect("/");
     }
 
+    private function mapOfferForCard(Offer $offer): array {
+        return [
+            "id" => $offer->id,
+            "title" => $offer->title,
+            "city" => $offer->city,
+            "work_mode" => $offer->work_mode,
+            "start_date" => $offer->start_date,
+            "end_date" => $offer->end_date,
+            "spots" => $offer->spots,
+            "remaining_spots" => max(0, $offer->spots - $offer->applications()->count()),
+            "status" => $offer->status->value,
+            "company" => [
+                "name" => $offer->company->name,
+                "logo_path" => $offer->company->logo_path,
+                "is_verified" => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,
+            ],
+        ];
+    }
+
     private function buildStudentOffers(): Collection
     {
         return Offer::published()
             ->with(["company", "applications"])
             ->get()
-            ->map(fn(Offer $offer) => [
-                "id" => $offer->id,
-                "title" => $offer->title,
-                "city" => $offer->city,
-                "work_mode" => $offer->work_mode->value ?? null,
-                "start_date" => $offer->start_date?->toDateString(),
-                "end_date" => $offer->end_date?->toDateString(),
-                "spots" => $offer->spots,
-                "remaining_spots" => max(0, $offer->spots - $offer->applications->count()),
-                "company" => [
-                    "name" => $offer->company->name,
-                    "logo_path" => $offer->company->logo_path,
-                    "is_verified" => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,
-                ],
-            ]);
+            ->map(fn(Offer $offer) => $this->mapOfferForCard($offer));
     }
 }

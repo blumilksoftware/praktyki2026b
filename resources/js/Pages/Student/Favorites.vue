@@ -12,7 +12,7 @@ const props = defineProps({ offers: { type: Array, default: () => [] } })
 const { t } = useI18n()
 const { favoriteIds, favoriteCount, toggleFavorite, clearFavorites } = useStudentFavorites()
 
-const favoriteOffers = computed(() => props.offers.filter((offer) => favoriteIds.value.includes(offer.id)))
+const favoriteOffers = computed(() => props.offers)
 </script>
 
 <template>

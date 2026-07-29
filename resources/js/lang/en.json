@@ -409,17 +409,19 @@
         "description": "Try clearing the filters or broadening your search."
       },
       "card": {
-        "logoAlt": "Company logo for {company}",
-        "verified": "Verified",
-        "verifiedAriaLabel": "Verified company",
-        "dateRange": "Date range",
-        "remainingSpots": "Remaining spots",
-        "location": "Location",
-        "showOnMap": "Show on map",
-        "applyNow": "Apply now",
-        "addToFavorites": "Add to favorites",
-        "removeFromFavorites": "Remove from favorites",
-        "mapComingSoon": "The map will appear on a separate page"
+          "logoAlt": "Company logo for {company}",
+          "verified": "Verified",
+          "verifiedAriaLabel": "Verified company",
+          "dateRange": "Date range",
+          "remainingSpots": "Remaining spots",
+          "location": "Location",
+          "showOnMap": "Show on map",
+          "applyNow": "Apply now",
+          "addToFavorites": "Add to favorites",
+          "removeFromFavorites": "Remove from favorites",
+          "mapComingSoon": "The map will appear on a separate page",
+          "expiredBadge": "Expired",
+          "expiredNotice": "No longer active"
       }
     },
     "cv": {

@@ -16,10 +16,15 @@ const { t } = useI18n()
 const companyInitial = computed(() => props.offer.company?.name?.charAt(0) || 'O')
 
 const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mode}`))
+const isExpired = computed(() => props.offer.status === 'expired')
+
 </script>
 
 <template>
-  <article class="group overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
+    <article
+      class="group overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]"
+      :class="{ 'opacity-60 grayscale-[0.3]': isExpired }"
+    >
     <div class="grid gap-0 lg:grid-cols-[96px_minmax(0,1fr)]">
       <div class="flex items-center justify-center bg-white p-5 lg:p-4">
         <img
@@ -51,9 +56,17 @@ const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mod
                 <span aria-hidden="true">{{ t('student.offers.card.verified') }}</span>
               </span>
             </div>
-            <h3 class="mt-2 text-2xl font-semibold tracking-tight text-text">
-              {{ offer.title }}
-            </h3>
+            <div class="mt-2 flex flex-wrap items-center gap-2">
+              <h3 class="text-2xl font-semibold tracking-tight text-text">
+                {{ offer.title }}
+              </h3>
+              <span
+                v-if="isExpired"
+                class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-500"
+              >
+                {{ t('student.offers.card.expiredBadge') }}
+              </span>
+            </div>
           </div>
 
           <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-additional sm:justify-end">
@@ -109,6 +122,7 @@ const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mod
 
 
           <Link
+            v-if="!isExpired"
             :href="`/student/offers/${offer.id}/apply`"
             method="post"
             as="button"
@@ -117,6 +131,12 @@ const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mod
           >
             {{ t('student.offers.card.applyNow') }}
           </Link>
+          <span
+            v-else
+            class="inline-flex items-center justify-center rounded-xl border border-border bg-background px-4 py-2.5 text-sm font-semibold text-additional"
+          >
+            {{ t('student.offers.card.expiredNotice') }}
+          </span>
         </div>
       </div>
     </div>
