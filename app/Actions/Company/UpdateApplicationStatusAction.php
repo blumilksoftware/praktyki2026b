@@ -7,6 +7,7 @@ namespace App\Actions\Company;
 use App\Enums\ApplicationStatus;
 use App\Mail\JobApplication\JobApplicationStatusChangedMail;
 use App\Models\Application;
+use App\Notifications\ApplicationStatusChangedNotification;
 use Illuminate\Support\Facades\Mail;
 
 class UpdateApplicationStatusAction
@@ -29,6 +30,8 @@ class UpdateApplicationStatusAction
                 dashboardUrl: url("/"),
             ),
         );
+
+        $application->student->notify(new ApplicationStatusChangedNotification($application));
 
         return $application;
     }
