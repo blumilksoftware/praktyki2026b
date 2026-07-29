@@ -84,7 +84,7 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
         Route::post("/offers/{offer}/favorite", [StudentController::class, "saveOffer"])->name("student.offers.favorite.save");
-        Route::post("/offers/{offer}/favorite", [StudentController::class, "unsaveOffer"])->name("student.offers.favorite.delete")->withTrashed();
+        Route::delete("/offers/{offer}/favorite", [StudentController::class, "unsaveOffer"])->name("student.offers.favorite.delete")->withTrashed();
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
         Route::get("/universities/search", [StudentController::class, "searchUniversities"])->name("student.universities.search");
         Route::patch("/university", [StudentController::class, "linkUniversity"])->name("student.university.update");

@@ -1,56 +1,41 @@
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { router, usePage } from '@inertiajs/vue3'
+import { ROUTES } from '@/Helpers/routes'
 
-const STORAGE_KEY = 'student.favoriteOffers'
+function offerFavouriteRoute(offerId: string): string {
+  return ROUTES.STUDENT_OFFER_FAVORITE.replace('{offer}', offerId)
+}
 
 export function useStudentFavorites() {
-  const favoriteIds = ref<string[]>([])
-  const isReady = ref(false)
-
-  const loadFavorites = () => {
-    if (typeof window === 'undefined') {
-      return []
-    }
-
-    try {
-      const storedValue = window.localStorage.getItem(STORAGE_KEY)
-
-      if (!storedValue) {
-        return []
-      }
-
-      const parsedValue = JSON.parse(storedValue)
-
-      return Array.isArray(parsedValue)
-        ? parsedValue.filter((item): item is string => typeof item === 'string')
-        : []
-    } catch {
-      return []
-    }
-  }
-
-  onMounted(() => {
-    favoriteIds.value = loadFavorites()
-    isReady.value = true
-  })
-
-  watch(favoriteIds, (value) => {
-    if (typeof window === 'undefined' || !isReady.value) {
-      return
-    }
-
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value))
-  }, { deep: true })
+  const page = usePage()
+  const favoriteIds = ref<string[]>([...((page.props.favoriteOfferIds as string[] | undefined) ?? [])])
+    watch(() => page.props.favoriteOfferIds as string[] | undefined, (value) => {
+      favoriteIds.value = [...(value ?? [])]
+    })
 
   const isFavorite = (offerId: string) => favoriteIds.value.includes(offerId)
 
   const toggleFavorite = (offerId: string) => {
-    favoriteIds.value = isFavorite(offerId)
+    const wasFavorite = isFavorite(offerId)
+
+    favoriteIds.value = wasFavorite
       ? favoriteIds.value.filter((favoriteId) => favoriteId !== offerId)
       : [...favoriteIds.value, offerId]
+
+    const options = { preserveScroll: true, preserveState: true }
+
+    if (wasFavorite) {
+      router.delete(offerFavouriteRoute(offerId), options)
+    }
+
+    else {
+      router.post(offerFavouriteRoute(offerId), {}, options)
+    }
+
   }
 
   const clearFavorites = () => {
-    favoriteIds.value = []
+    [...favoriteIds.value].forEach((offerId) => toggleFavorite(offerId))
   }
 
   const favoriteCount = computed(() => favoriteIds.value.length)

@@ -30,7 +30,7 @@ class HandleInertiaRequests extends Middleware
             "auth" => fn() => $request->user() ? [
                 "user" => $request->user(),
             ] : null,
-            "favouriteOffersID" => fn() => $request->user()?->role === UserRole::Student ? $request->user()->favourites()->pluck("offers.id")->all() : [],
+            "favoriteOfferIds" => fn() => $request->user()?->role === UserRole::Student ? $request->user()->favourites()->pluck("offers.id")->all() : [],
             "onboarding" => fn() => $request->user() ? $this->onboardingData($request) : null,
             "flash" => [
                 "requires_verification" => $request->session()->get("requires_verification"),

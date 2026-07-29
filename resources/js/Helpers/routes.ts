@@ -21,7 +21,7 @@ export const ROUTES = {
   GOOGLE_AUTH_CALLBACK: "/auth/google/callback",
 
   LANGUAGE_SWITCH: "/language/{locale}",
-  
+
   STUDENT_DASHBOARD: "/student/dashboard",
   STUDENT_PROFILE: "/student/profile",
   STUDENT_PROFILE_EDIT: "/student/profile/edit",
@@ -38,6 +38,8 @@ export const ROUTES = {
   STUDENT_ACCOUNT_DELETE: "/student/account",
   STUDENT_OFFERS: "/student/offers",
   STUDENT_FAVORITES: "/student/favorites",
+  STUDENT_OFFER_FAVORITE: "/student/offers/{offer}/favorite",
+  STUDENT_OFFER_SHOW: "/student/offers/{offer}",
 
   EMAIL_VERIFICATION: "/email/verify/{id}/{token}",
   EMAIL_VERIFICATION_RESEND: "/email/resend",
@@ -58,7 +60,7 @@ export const ROUTES = {
   PROFILE: "/profile",
   PROFILE_EDIT: "/profile/edit",
   TEAM: "/team",
-  
+
   SETTINGS: "/settings",
   LOGOUT: "/logout",
 } as const
