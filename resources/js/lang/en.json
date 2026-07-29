@@ -579,7 +579,11 @@
                   "summary": "Showing {from}–{to} of {total}"
               },
               "filters": {
-                  "allStatuses": "All"
+                  "allStatuses": "All",
+                  "published": "Published",
+                  "draft": "Draft",
+                  "closed": "Closed",
+                  "expired": "Expired"
               }
           }
       },

@@ -578,7 +578,11 @@
                   "clear": "Wyczyść wyszukiwanie"
               },
               "filters": {
-                  "allStatuses": "Wszystkie"
+                  "allStatuses": "Wszystkie",
+                  "published": "Opublikowane",
+                  "draft": "Szkice",
+                  "closed": "Zamknięte",
+                  "expired": "Wygasłe"
               }
           }
       },

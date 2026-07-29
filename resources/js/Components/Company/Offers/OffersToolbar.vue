@@ -46,7 +46,7 @@ const emit = defineEmits(['status-change'])
         :key="option"
         :value="option"
       >
-        {{ t(`company.dashboard.offers.status.${option}`) }}
+        {{ t(`company.dashboard.offers.filters.${option}`) }}
       </option>
     </select>
   </div>

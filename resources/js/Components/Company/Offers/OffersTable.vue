@@ -20,7 +20,7 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['sort', 'toggle-menu', 'edit', 'toggle-status', 'delete', 'go-to-applications, go-to-offer'])
+const emit = defineEmits(['sort', 'toggle-menu', 'edit', 'toggle-status', 'delete', 'go-to-applications', 'go-to-offer'])
 
 const statusClasses = {
   published: 'bg-green-100 text-green-700',
@@ -92,7 +92,7 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
               class="text-primary hover:underline"
               @click="emit('go-to-offer', $event, offer.id)"
             >
-            {{ offer.title }}
+              {{ offer.title }}
             </a>
           </td>
           <td class="px-4 py-3 text-center">

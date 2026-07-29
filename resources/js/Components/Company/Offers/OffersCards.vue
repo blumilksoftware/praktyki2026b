@@ -16,7 +16,7 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['toggle-menu', 'edit', 'toggle-status', 'delete', 'go-to-applications'])
+const emit = defineEmits(['toggle-menu', 'edit', 'toggle-status', 'delete', 'go-to-applications', 'go-to-offer'])
 
 const statusClasses = {
   published: 'bg-green-100 text-green-700',
@@ -26,6 +26,7 @@ const statusClasses = {
 }
 
 const applicationsHref = (offerId) => `${ROUTES.COMPANY_APPLICATIONS}?offer=${offerId}`
+const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
 </script>
 
 <template>
@@ -38,7 +39,13 @@ const applicationsHref = (offerId) => `${ROUTES.COMPANY_APPLICATIONS}?offer=${of
       <div class="flex items-start justify-between gap-2">
         <div class="min-w-0">
           <p class="text-text font-medium truncate">
-            {{ offer.title }}
+            <a
+              :href="offerHref(offer.id)"
+              class="text-primary hover:underline"
+              @click="emit('go-to-offer', $event, offer.id)"
+            >
+              {{ offer.title }}
+            </a>
           </p>
           <span
             class="mt-1 inline-block px-2 py-0.5 rounded-full text-xs font-medium"
