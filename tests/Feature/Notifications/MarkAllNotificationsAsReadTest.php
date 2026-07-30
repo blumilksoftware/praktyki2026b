@@ -36,4 +36,28 @@ class MarkAllNotificationsAsReadTest extends TestCase
         $this->patch("/notifications/read-all")
             ->assertRedirect("/login");
     }
+
+    public function testItDoesNotMarkAnotherUsersNotificationsAsRead(): void
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+        $otherUser->notify(new NewVerificationRequestNotification(Company::factory()->create()));
+
+        $this->actingAs($user)
+            ->patch("/notifications/read-all")
+            ->assertRedirect();
+
+        $this->assertSame(1, $otherUser->unreadNotifications()->count());
+    }
+
+    public function testItDoesNothingWhenUserHasNoNotifications(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->patch("/notifications/read-all")
+            ->assertRedirect();
+
+        $this->assertSame(0, $user->notifications()->count());
+    }
 }
