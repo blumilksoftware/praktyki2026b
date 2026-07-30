@@ -326,7 +326,38 @@
     },
     "companies": {
       "title": "Company search"
-    }
+    },
+      "dashboard": {
+          "title": "Student statistics",
+          "filter": {
+              "title": "Period",
+              "from": "From",
+              "to": "To",
+              "apply": "Apply",
+              "reset": "Reset"
+          },
+          "stats": {
+              "linkedStudents": "Linked students",
+              "applicationsSubmitted": "Applications submitted",
+              "acceptedPlacements": "Accepted placements",
+              "acceptanceRate": "Acceptance rate {rate}%"
+          },
+          "breakdown": {
+              "title": "Faculty & field analytics",
+              "subtitle": "Detailed statistics on student distribution, applications, and placement success across academic units",
+              "byFaculty": "By faculty",
+              "byField": "By field of study",
+              "field": "Field of study",
+              "faculty": "Faculty",
+              "students": "Students",
+              "applications": "Applications",
+              "accepted": "Accepted",
+              "acceptedShare": "% accepted",
+              "empty": "No data for the selected period",
+              "unknown": "No faculty",
+              "showingResults" : "Showing {from}–{to} of {total}"
+          }
+      }
   },
   "student": {
     "layout": {

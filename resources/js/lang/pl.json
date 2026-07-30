@@ -328,7 +328,38 @@
     },
     "companies": {
       "title": "Wyszukiwarka firm"
-    }
+    },
+      "dashboard": {
+          "title": "Statystyki studentów",
+          "filter": {
+              "title": "Okres",
+              "from": "Od",
+              "to": "Do",
+              "apply": "Zastosuj",
+              "reset": "Wyczyść"
+          },
+          "stats": {
+              "linkedStudents": "Powiązani studenci",
+              "applicationsSubmitted": "Złożone wnioski",
+              "acceptedPlacements": "Zaakceptowane praktyki",
+              "acceptanceRate": "Konwersja {rate}%"
+          },
+          "breakdown": {
+              "title": "Statystyki wydziałów i kierunków",
+              "subtitle": "Szczegółowy podział aktywności studentów, złożonych aplikacji i przyjęć według jednostek uczelni",
+              "byFaculty": "Według wydziału",
+              "byField": "Według kierunku",
+              "field": "Kierunek",
+              "faculty": "Wydział",
+              "students": "Studenci",
+              "applications": "Wnioski",
+              "accepted": "Zaakceptowane",
+              "acceptedShare": "% zaakceptowanych",
+              "empty": "Brak danych dla wybranego okresu",
+              "unknown": "Bez wydziału",
+              "showingResults" : "Wyświetlono {from}–{to} z {total}"
+          }
+      }
   },
   "student": {
     "layout": {
