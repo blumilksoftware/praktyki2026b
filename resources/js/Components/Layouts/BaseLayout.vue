@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-background flex flex-col">
-    <BaseNavbar 
+    <BaseNavbar
       :show-hamburger="true"
       :menu-items="menuItems"
       :show-navigation-buttons="true"
@@ -8,7 +8,7 @@
       :navigation-variant="navigationVariant || 'default'"
       @navigation-click="handleNavigationClick"
     />
-    
+
     <main class="flex-1">
       <div class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <slot />
@@ -45,11 +45,10 @@ const props = defineProps({
 
 const emit = defineEmits(['navigationClick'])
 
-// Dla kompatybilności z istniejącym kodem
 const menuItems = computed(() => {
   return props.navItems.map(item => ({
     ...item,
-    isActive: item.key === props.activePage || 
+    isActive: item.key === props.activePage ||
               (item.href && page.url === item.href),
   }))
 })

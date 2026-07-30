@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { useTogglePassword } from '@/composables/useTogglePassword'
+import { useTogglePassword } from '@/Composables/useTogglePassword'
 
 describe('useTogglePassword', () => {
   it('starts with password hidden', () => {

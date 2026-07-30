@@ -43,7 +43,14 @@ function normalizeOption(option) {
   if (typeof option === 'string') {
     return { value: option, label: option }
   }
-  return { value: option.value, label: option.label }
+
+  const value = option.value ?? option.id ?? option.name ?? option.label
+  const label = option.label ?? option.name ?? option.title ?? option.value ?? option.id
+
+  return {
+    value: value ?? '',
+    label: label ?? '',
+  }
 }
 
 const normalizedOptions = computed(() => props.options.map(normalizeOption))
@@ -59,7 +66,7 @@ const hasError = computed(() => Boolean(props.error || errorMsg.value))
 const filteredOptions = computed(() => {
   const query = searchQuery.value.trim().toLowerCase()
   return normalizedOptions.value.filter((option) => {
-    const matchesSearch = option.label.toLowerCase().includes(query)
+    const matchesSearch = String(option.label ?? '').toLowerCase().includes(query)
     const isAlreadySelected = props.modelValue.includes(option.value)
     return matchesSearch && !isAlreadySelected
   })

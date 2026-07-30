@@ -6,8 +6,9 @@ import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
 import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
 import ProfileIcon from '@/Components/Navigation/ProfileIcon.vue'
 import BaseNavigationButtons from '@/Components/Navigation/BaseNavigationButtons.vue'
-import { IconMenu2, IconX } from '@tabler/icons-vue'
+import { IconMenu2, IconX, IconUserCircle, IconSettings, IconLogout, IconSearch } from '@tabler/icons-vue'
 import { useMobileMenu } from '@/Composables/useMobileMenu'
+import { ROUTES } from '@/Helpers/routes'
 
 const { t } = useI18n()
 const page = usePage()
@@ -38,7 +39,7 @@ const props = defineProps({
 
 const emit = defineEmits(['navigationClick'])
 
-const user = computed(() => page.props.auth?.user)
+const user = computed(() => page.props?.auth?.user)
 const isAuthenticated = computed(() => !!user.value)
 const isAuthPage = computed(() => {
   const currentComponent = page.component
@@ -47,11 +48,22 @@ const isAuthPage = computed(() => {
 
 const showProfileIcon = computed(() => isAuthenticated.value && !isAuthPage.value)
 
+const isStudent = computed(() => user.value?.role === 'student')
+const settingsLabel = computed(() => (
+  isStudent.value ? t('student.profile.account.title') : t('buttons.settings')
+))
+
 const { isMobileMenuOpen, toggle, close } = useMobileMenu()
 
 const handleNavigationClick = (item) => {
   emit('navigationClick', item)
 }
+
+// navigationButtons and menuItems are always the same list on pages that use both
+// (a desktop button row + a mobile menu list) — avoid rendering it twice on mobile.
+const mobileMenuItems = computed(() => (
+  props.navigationButtons.length > 0 ? props.navigationButtons : props.menuItems
+))
 </script>
 
 <template>
@@ -60,6 +72,27 @@ const handleNavigationClick = (item) => {
       <BaseLogo />
 
       <div class="flex items-center gap-3 sm:gap-4">
+        <Link
+          v-if="!isAuthenticated"
+          :href="ROUTES.OFFERS"
+          class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+        >
+          {{ t('offers.browseCta') }}
+        </Link>
+        <template v-if="!isAuthenticated && !isAuthPage">
+          <Link
+            :href="ROUTES.LOGIN"
+            class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+          >
+            {{ t('auth.login.submit') }}
+          </Link>
+          <Link
+            :href="ROUTES.REGISTER_STUDENT"
+            class="hidden lg:inline-block rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+          >
+            {{ t('auth.register.submit') }}
+          </Link>
+        </template>
         <button
           v-if="showHamburger"
           type="button"
@@ -84,7 +117,7 @@ const handleNavigationClick = (item) => {
 
       <div class="flex items-center gap-4">
         <LanguageSwitcher />
-        <ProfileIcon v-if="showProfileIcon" />
+        <ProfileIcon v-if="showProfileIcon" class="hidden lg:inline-block" />
       </div>
     </div>
   </nav>
@@ -129,55 +162,92 @@ const handleNavigationClick = (item) => {
       </div>
 
       <div class="p-5 overflow-y-auto h-full bg-white">
-        <div v-if="showNavigationButtons && navigationButtons.length > 0" class="mb-6">
-          <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
-            {{ t('navigation') || 'Nawigacja' }}
-          </h3>
-          <ul class="flex flex-col gap-1">
-            <li v-for="item in navigationButtons" :key="item.id || item.key">
+        <ul class="flex flex-col gap-2">
+          <li v-if="!isAuthenticated">
+            <Link
+              :href="ROUTES.OFFERS"
+              class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
+              @click="close"
+            >
+              <IconSearch stroke="2" class="w-6 h-6 shrink-0" />
+              {{ t('offers.browseCta') }}
+            </Link>
+          </li>
+          <template v-if="!isAuthenticated && !isAuthPage">
+            <li>
               <Link
-                :href="item.href || '#'"
-                class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
-                :class="item.isActive
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'"
-                :aria-current="item.isActive ? 'page' : undefined"
+                :href="ROUTES.LOGIN"
+                class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
                 @click="close"
               >
-                <component
-                  :is="item.icon"
-                  v-if="item.icon"
-                  stroke="2"
-                  class="w-5 h-5 shrink-0"
-                  :class="item.isActive ? 'text-primary' : 'text-gray-400'"
-                />
-                {{ item.label }}
+                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
+                {{ t('auth.login.submit') }}
               </Link>
             </li>
-          </ul>
-        </div>
+            <li>
+              <Link
+                :href="ROUTES.REGISTER_STUDENT"
+                class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-primary transition-colors hover:bg-primary/5"
+                @click="close"
+              >
+                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
+                {{ t('auth.register.submit') }}
+              </Link>
+            </li>
+          </template>
+          <li v-for="item in mobileMenuItems" :key="item.id || item.key || item.href">
+            <Link
+              :href="item.href || '#'"
+              class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold transition-colors"
+              :class="item.isActive
+                ? 'border border-primary/30 bg-primary/5 text-primary'
+                : 'text-additional hover:bg-gray-50 hover:text-secondary'"
+              :aria-current="item.isActive ? 'page' : undefined"
+              @click="close"
+            >
+              <component :is="item.icon" v-if="item.icon" stroke="2" class="w-6 h-6 shrink-0" />
+              {{ item.label }}
+            </Link>
+          </li>
+        </ul>
 
-        <div v-if="menuItems.length > 0" class="mb-6">
-          <h3 v-if="showNavigationButtons && navigationButtons.length > 0" class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
-            {{ t('menu') || 'Menu' }}
-          </h3>
-          <ul class="flex flex-col gap-1">
-            <li v-for="item in menuItems" :key="item.href">
+        <template v-if="showProfileIcon">
+          <hr class="my-4 border-border">
+          <ul class="flex flex-col gap-2">
+            <li>
               <Link
-                :href="item.href"
-                class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
-                :class="item.isActive
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'"
-                :aria-current="item.isActive ? 'page' : undefined"
+                :href="ROUTES.PROFILE"
+                class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
                 @click="close"
               >
-                <component :is="item.icon" stroke="2" class="w-5 h-5 shrink-0" :class="item.isActive ? 'text-primary' : 'text-gray-400'" />
-                {{ item.label }}
+                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
+                {{ t('buttons.myProfile') }}
+              </Link>
+            </li>
+            <li>
+              <Link
+                :href="ROUTES.SETTINGS"
+                class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
+                @click="close"
+              >
+                <IconSettings stroke="2" class="w-6 h-6 shrink-0" />
+                {{ settingsLabel }}
+              </Link>
+            </li>
+            <li>
+              <Link
+                :href="ROUTES.LOGOUT"
+                method="post"
+                as="button"
+                class="flex w-full items-center gap-3 rounded-lg p-3 text-left text-base font-semibold text-error transition-colors hover:bg-red-50"
+                @click="close"
+              >
+                <IconLogout stroke="2" class="w-6 h-6 shrink-0" />
+                {{ t('buttons.logout') }}
               </Link>
             </li>
           </ul>
-        </div>
+        </template>
       </div>
     </aside>
   </transition>

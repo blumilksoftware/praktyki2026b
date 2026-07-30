@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useTogglePassword } from '@/composables/useTogglePassword'
+import { useTogglePassword } from '@/Composables/useTogglePassword'
 import { IconChevronDown, IconEye, IconEyeOff } from '@tabler/icons-vue'
 
 defineOptions({ inheritAttrs: false })
@@ -16,7 +16,7 @@ const props = defineProps({
   required: { type: Boolean, default: false },
   maxlength: { type: [Number, String], default: undefined },
   compact: { type: Boolean, default: false },
-  stacked: { type: Boolean, default: false },
+  stacked: { type: Boolean, default: true },
   placeholder: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
   dropdown: { type: Boolean, default: false },
@@ -49,7 +49,7 @@ const wrapperClass = computed(() => (
     <label
       v-if="stacked"
       :for="id"
-      class="mb-1 block text-additional text-sm"
+      class="mb-1 block text-base font-medium text-additional"
       :class="{
         'text-error': hasError,
         'cursor-not-allowed opacity-60': disabled,
@@ -68,11 +68,10 @@ const wrapperClass = computed(() => (
         :autocomplete="autocomplete"
         :required="required"
         :maxlength="maxlength"
-        :disabled="disabled"
         :aria-invalid="hasError ? true : undefined"
         :aria-describedby="error ? `${id}-error` : undefined"
         :placeholder="stacked ? placeholder : ' '"
-        class="peer w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text transition-all focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-additional"
+        class="w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text transition-all focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-additional"
         :class="[
           hasError ? 'border-error focus:border-error focus:ring-error/30' : '',
           isPassword || dropdown ? 'pr-11' : '',
