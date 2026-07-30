@@ -1,7 +1,7 @@
 <script setup>
 import { computed, toRef } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconFilter, IconX } from '@tabler/icons-vue'
+import { IconFilter } from '@tabler/icons-vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import { useOfferSearchFilters } from '@/Composables/useOfferSearchFilters.ts'
@@ -32,30 +32,34 @@ const workModeOptions = computed(() => [
 
 <template>
   <aside
-    class="rounded-2xl border border-border bg-white p-5 shadow-sm"
+    class="lg:top-6 lg:sticky bg-white/90 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm p-5 border border-border/80 rounded-3xl"
     aria-labelledby="offer-search-filters-heading"
   >
-    <div class="flex items-center justify-between gap-3">
-      <h2
-        id="offer-search-filters-heading"
-        class="flex items-center gap-2 font-semibold text-text text-base"
-      >
-        <IconFilter class="h-5 w-5 text-primary" aria-hidden="true" />
-        {{ t('offers.filters.title') }}
-      </h2>
+    <div class="flex justify-between items-start gap-3">
+      <div>
+        <p class="flex items-center gap-1.5 font-semibold text-additional text-xs uppercase tracking-[0.24em]">
+          <IconFilter class="h-3.5 w-3.5" aria-hidden="true" />
+          {{ t('offers.filters.kicker') }}
+        </p>
+        <h2
+          id="offer-search-filters-heading"
+          class="mt-2 font-semibold text-text text-2xl tracking-tight"
+        >
+          {{ t('offers.filters.title') }}
+        </h2>
+      </div>
       <button
         v-if="hasActiveFilters()"
         type="button"
-        class="inline-flex cursor-pointer items-center gap-1 text-additional text-sm transition hover:text-text"
+        class="hover:bg-background px-3 py-1.5 border border-border cursor-pointer hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-xs transition"
         :aria-label="t('offers.filters.clearAll')"
         @click="clearFilters"
       >
-        <IconX class="h-4 w-4" aria-hidden="true" />
         {{ t('offers.filters.clearAll') }}
       </button>
     </div>
 
-    <div class="mt-5 space-y-6">
+    <div class="mt-6 space-y-6">
       <DynamicMultiSelect
         id="offer-search-study-fields"
         :model-value="localFilters.studyFieldIds"

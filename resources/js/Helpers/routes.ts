@@ -59,6 +59,7 @@ export const ROUTES = {
   OFFERS_SEARCH: "/offers",
   OFFER_SHOW: `/offers/{offer}`,
   COMPANY_OFFERS: "/search?company_id={companyId}",
+  COMPANY_MY_OFFERS: "/company/offers",
 
   // Profiles
   PROFILE: "/profile",

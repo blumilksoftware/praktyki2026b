@@ -585,21 +585,23 @@
         "applyNow": "Aplikuj teraz",
         "addToFavorites": "Dodaj do ulubionych",
         "removeFromFavorites": "Usuń z ulubionych",
-        "mapComingSoon": "Mapa pojawi się w osobnej podstronie"
+        "mapComingSoon": "Mapa pojawi się w osobnej podstronie",
+        "loginToApply": "Zaloguj się, aby aplikować"
       }
     }
   },
-    "company": {
   "offers": {
+    "browseCta": "Przeglądaj oferty",
     "search": {
       "title": "Praktyki i oferty",
       "subtitle": "Przeglądaj oferty i dopasuj wyniki do swoich preferencji.",
       "resultsTitle": "Wyniki",
       "empty": "Brak ofert spełniających wybrane kryteria.",
-      "resultsCount": "Wyświetlono {count} ofert na tej stronie."
+      "resultsCount": "{count} ofert na tej stronie"
     },
     "filters": {
-      "title": "Filtry",
+      "kicker": "Filtry",
+      "title": "Zawęź wyniki",
       "clearAll": "Wyczyść filtry",
       "studyFields": {
         "label": "Kierunki studiów",
@@ -662,5 +664,4 @@
       "clearAll": "Wyczyść wszystkie elementy z listy"
     }
   }
-}
 }

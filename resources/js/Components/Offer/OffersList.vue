@@ -4,6 +4,7 @@ import OfferCard from '@/Components/Offer/OfferCard.vue'
 const props = defineProps({
   offers: { type: Array, default: () => [] },
   hasCv: { type: Boolean, default: true },
+  guest: { type: Boolean, default: false },
   emptyTitle: { type: String, default: undefined },
   emptyDescription: { type: String, default: undefined },
 })
@@ -31,6 +32,7 @@ const { t } = useI18n()
         :key="offer.id"
         :offer="offer"
         :has-cv="hasCv"
+        :guest="guest"
       />
     </div>
   </div>

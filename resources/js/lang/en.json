@@ -450,7 +450,8 @@
         "applyNow": "Apply now",
         "addToFavorites": "Add to favorites",
         "removeFromFavorites": "Remove from favorites",
-        "mapComingSoon": "The map will appear on a separate page"
+        "mapComingSoon": "The map will appear on a separate page",
+        "loginToApply": "Log in to apply"
       }
     },
     "cv": {
@@ -596,15 +597,17 @@
     }
   },
   "offers": {
+    "browseCta": "Browse offers",
     "search": {
       "title": "Internships and offers",
       "subtitle": "Browse offers and narrow results to match your preferences.",
       "resultsTitle": "Results",
       "empty": "No offers match the selected filters.",
-      "resultsCount": "Showing {count} offers on this page."
+      "resultsCount": "{count} offers on this page"
     },
     "filters": {
-      "title": "Filters",
+      "kicker": "Filters",
+      "title": "Refine results",
       "clearAll": "Clear filters",
       "studyFields": {
         "label": "Fields of study",

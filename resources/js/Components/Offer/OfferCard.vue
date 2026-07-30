@@ -1,5 +1,5 @@
 <script setup>
-import { router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { IconCheck, IconHeart, IconHeartFilled } from '@tabler/icons-vue'
@@ -11,6 +11,7 @@ import { ROUTES, studentOfferApply, studentOfferFavourite, studentOfferWithdraw 
 const props = defineProps({
   offer: { type: Object, required: true },
   hasCv: { type: Boolean, default: true },
+  guest: { type: Boolean, default: false },
 })
 
 const { t } = useI18n()
@@ -177,6 +178,7 @@ function confirmWithdraw() {
           </button>
 
           <button
+            v-if="!guest"
             type="button"
             class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 cursor-pointer text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
             :class="isFavorite
@@ -193,24 +195,34 @@ function confirmWithdraw() {
             {{ isFavorite ? t('student.offers.card.removeFromFavorites') : t('student.offers.card.addToFavorites') }}
           </button>
 
-          <BaseApplyButton
-            :has-cv="hasCv"
-            :is-applied="isApplied"
-            :applied-date="appliedDate"
-            :is-loading="isApplying"
-            @apply="applyToOffer"
-            @upload-cv="goToUploadCv"
-          />
-
-          <BaseButton
-            v-if="isApplied"
-            type="button"
-            variant="secondary"
-            :disabled="isWithdrawing"
-            @click="openWithdrawModal"
+          <Link
+            v-if="guest"
+            :href="ROUTES.LOGIN"
+            class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
-            {{ t('student.applications.withdraw.action') }}
-          </BaseButton>
+            {{ t('student.offers.card.loginToApply') }}
+          </Link>
+
+          <template v-else>
+            <BaseApplyButton
+              :has-cv="hasCv"
+              :is-applied="isApplied"
+              :applied-date="appliedDate"
+              :is-loading="isApplying"
+              @apply="applyToOffer"
+              @upload-cv="goToUploadCv"
+            />
+
+            <BaseButton
+              v-if="isApplied"
+              type="button"
+              variant="secondary"
+              :disabled="isWithdrawing"
+              @click="openWithdrawModal"
+            >
+              {{ t('student.applications.withdraw.action') }}
+            </BaseButton>
+          </template>
         </div>
 
         <p v-if="applyError" class="mt-3 text-error text-sm" role="alert">
@@ -220,6 +232,7 @@ function confirmWithdraw() {
     </div>
 
     <WithdrawApplicationModal
+      v-if="!guest"
       :open="isWithdrawModalOpen"
       :offer-title="offer.title"
       :processing="isWithdrawing"

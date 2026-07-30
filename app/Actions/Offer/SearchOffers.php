@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Offer;
 
 use App\DTO\Offer\SearchOffersData;
+use App\Enums\VerificationStatus;
 use App\Models\Offer;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -28,23 +29,24 @@ class SearchOffers
             ->forDateRange($data->dateFrom, $data->dateTo, $data->dateFlexDays);
 
         $paginatedOffers = (clone $offers)
-            ->with("company")
+            ->with(["company", "applications"])
             ->orderByDesc("published_at")
             ->paginate($data->perPage)
             ->withQueryString()
             ->through(fn(Offer $offer): array => [
                 "id" => $offer->id,
                 "title" => $offer->title,
-                "company_name" => $offer->company->name,
                 "city" => $offer->city,
+                "work_mode" => $offer->work_mode->value,
                 "start_date" => $offer->start_date->toDateString(),
                 "end_date" => $offer->end_date->toDateString(),
-                "work_mode" => $offer->work_mode->value,
                 "spots" => $offer->spots,
-                "is_paid" => $offer->is_paid,
-                "salary_min" => $offer->salary_min,
-                "salary_max" => $offer->salary_max,
-                "published_at" => $offer->published_at?->toIso8601String(),
+                "remaining_spots" => max(0, $offer->spots - $offer->applications->count()),
+                "company" => [
+                    "name" => $offer->company->name,
+                    "logo_path" => $offer->company->logo_path,
+                    "is_verified" => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,
+                ],
             ]);
 
         $mapPoints = (clone $offers)
