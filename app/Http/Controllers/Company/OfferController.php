@@ -11,6 +11,7 @@ use App\Actions\Company\UpdateOffer;
 use App\DTO\Offer\CreateOfferData;
 use App\DTO\Offer\UpdateOfferData;
 use App\Enums\OfferStatus;
+use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOfferRequest;
 use App\Models\Offer;
@@ -37,6 +38,7 @@ class OfferController extends Controller
 
         return Inertia::render("Company/Offers", [
             "offers" => $this->getOffersSummary->execute($company),
+            "isCompanyVerified" => $company->verification_status === VerificationStatus::Verified,
         ]);
     }
 
@@ -54,7 +56,7 @@ class OfferController extends Controller
 
         $this->createOffer->execute($company, $data);
 
-        return redirect()->route("company.dashboard");
+        return $this->redirectAfterOfferAction();
     }
 
     public function edit(Offer $offer): Response
@@ -90,7 +92,7 @@ class OfferController extends Controller
 
         $this->updateOffer->execute($offer, $data);
 
-        return redirect()->route("company.dashboard");
+        return $this->redirectAfterOfferAction();
     }
 
     public function publish(Offer $offer): RedirectResponse
@@ -99,7 +101,7 @@ class OfferController extends Controller
 
         $this->publishOffer->execute($offer);
 
-        return redirect()->route("company.dashboard");
+        return $this->redirectAfterOfferAction();
     }
 
     public function deactivate(Offer $offer): RedirectResponse
@@ -108,7 +110,7 @@ class OfferController extends Controller
 
         $offer->update(["status" => OfferStatus::Closed]);
 
-        return redirect()->route("company.dashboard");
+        return $this->redirectAfterOfferAction();
     }
 
     public function destroy(Offer $offer): RedirectResponse
@@ -117,14 +119,20 @@ class OfferController extends Controller
 
         $offer->delete();
 
-        return redirect()->route("company.dashboard");
+        return $this->redirectAfterOfferAction();
+    }
+
+    private function redirectAfterOfferAction(): RedirectResponse
+    {
+        return redirect()->route("company.offers");
     }
 
     private function formOptions(): array
     {
         return [
             "studyFields" => StudyField::query()->orderBy("name")->get(["id", "name"]),
-            "universities" => University::query()->orderBy("name")->get(["id", "name"]),
+            "universities" => University::query()->verified()->orderBy("name")->get(["id", "name"]),
+            "isCompanyVerified" => Auth::user()->company?->verification_status === VerificationStatus::Verified,
         ];
     }
 }

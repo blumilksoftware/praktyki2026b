@@ -49,7 +49,7 @@ const wrapperClass = computed(() => (
     <label
       v-if="stacked"
       :for="id"
-      class="mb-1 block text-base font-medium text-additional"
+      class="mb-1 block text-sm font-medium text-text"
       :class="{
         'text-error': hasError,
         'cursor-not-allowed opacity-60': disabled,

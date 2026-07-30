@@ -16,6 +16,7 @@ const props = defineProps({
   studyFields: { type: Array, required: true },
   universities: { type: Array, required: true },
   offer: { type: Object, default: null },
+  isCompanyVerified: { type: Boolean, default: false },
 })
 
 const uniqueStudyFields = computed(() => {
@@ -65,7 +66,7 @@ const form = useForm({
   start_date: props.offer?.start_date ?? '',
   end_date: props.offer?.end_date ?? '',
   work_mode: props.offer?.work_mode ?? '',
-  status: props.offer?.status ?? 'draft',
+  status: props.offer?.status ?? (props.isCompanyVerified ? 'published' : 'draft'),
   is_paid: props.offer?.is_paid ?? false,
   salary_min: props.offer?.salary_min != null ? String(props.offer.salary_min) : '',
   salary_max: props.offer?.salary_max != null ? String(props.offer.salary_max) : '',
@@ -112,10 +113,6 @@ const workModeOptions = computed(() => [
 ])
 
 const fieldError = (field) => {
-  if (field === 'spots' && form.spots && Number(form.spots) > 1000) {
-    return t('company.offers.form.spotsMaxError')
-  }
-
   if (form.errors[field]) {
     return form.errors[field]
   }
@@ -126,10 +123,6 @@ const fieldError = (field) => {
 }
 
 const submit = () => {
-  if (form.spots && Number(form.spots) > 1000) {
-    return
-  }
-
   form.study_field_ids = selectedStudyFieldNames.value
     .map(nameToStudyFieldId)
     .filter(id => id !== undefined)
@@ -151,9 +144,9 @@ const submit = () => {
     <section class="bg-secondary/5 shadow-sm p-6 border border-border rounded-3xl">
       <div class="flex flex-col gap-3">
         <div>
-          <p class="font-semibold text-additional text-sm uppercase tracking-[0.25em]">
+          <h2 class="text-xl font-bold text-text">
             {{ t('company.offers.form.section.details') }}
-          </p>
+          </h2>
           <p class="mt-1 text-additional text-sm">
             {{ t('company.offers.form.section.detailsHint') }}
           </p>
@@ -166,13 +159,13 @@ const submit = () => {
         <DateRangeField v-model:start="form.start_date" v-model:end="form.end_date" start-id="start_date"
                         end-id="end_date" :start-label="t('company.offers.form.startDate')"
                         :end-label="t('company.offers.form.endDate')" :start-error="fieldError('start_date')"
-                        :end-error="fieldError('end_date')" required
+                        :end-error="fieldError('end_date')" required stacked
         />
 
         <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
           <BaseSelect id="work_mode" v-model="form.work_mode" :label="t('company.offers.form.workMode')"
                       :options="workModeOptions" :placeholder="t('company.offers.form.workModePlaceholder')" required
-                      :error="fieldError('work_mode')"
+                      :error="fieldError('work_mode')" stacked
           />
 
           <div>
@@ -186,16 +179,16 @@ const submit = () => {
         </div>
 
         <CityAutocomplete id="city" v-model="form.city" :label="t('company.offers.form.city')" required
-                          :error="fieldError('city')"
+                          :error="fieldError('city')" stacked
         />
       </div>
     </section>
     <section class="bg-white shadow-sm p-6 border border-border rounded-3xl">
       <div class="flex flex-col gap-3">
         <div>
-          <p class="font-semibold text-additional text-sm uppercase tracking-[0.25em]">
+          <h2 class="text-xl font-bold text-text">
             {{ t('company.offers.form.section.requirements') }}
-          </p>
+          </h2>
           <p class="mt-1 text-additional text-sm">
             {{ t('company.offers.form.section.requirementsHint') }}
           </p>
@@ -232,9 +225,9 @@ const submit = () => {
     <section class="bg-white shadow-sm p-6 border border-border rounded-3xl">
       <div class="flex flex-col gap-3">
         <div>
-          <p class="font-semibold text-additional text-sm uppercase tracking-[0.25em]">
+          <h2 class="text-xl font-bold text-text">
             {{ t('company.offers.form.section.description') }}
-          </p>
+          </h2>
           <p class="mt-1 text-additional text-sm">
             {{ t('company.offers.form.section.descriptionHint') }}
           </p>
@@ -250,9 +243,9 @@ const submit = () => {
       <div class="flex flex-col gap-3">
         <div class="flex sm:flex-row flex-col sm:justify-between sm:items-center gap-2">
           <div>
-            <p class="font-semibold text-additional text-sm uppercase tracking-[0.25em]">
+            <h2 class="text-xl font-bold text-text">
               {{ t('company.offers.form.section.compensation') }}
-            </p>
+            </h2>
             <p class="mt-1 text-additional text-sm">
               {{ t('company.offers.form.section.compensationHint') }}
             </p>
@@ -275,9 +268,9 @@ const submit = () => {
     <section class="bg-white shadow-sm p-6 border border-border rounded-3xl">
       <div class="flex flex-col gap-3">
         <div>
-          <p class="font-semibold text-additional text-sm uppercase tracking-[0.25em]">
+          <h2 class="text-xl font-bold text-text">
             {{ t('company.offers.form.section.status') }}
-          </p>
+          </h2>
           <p class="mt-1 text-additional text-sm">
             {{ t('company.offers.form.draftHint') }}
           </p>

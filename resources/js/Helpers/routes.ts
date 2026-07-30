@@ -18,6 +18,8 @@ export const ROUTES = {
   COMPANY_OFFERS_CREATE: "/company/offers/create",
   COMPANY_OFFERS_STORE: "/company/offers",
   COMPANY_OFFERS_UPDATE: (id: number | string) => `/company/offers/${id}`,
+  COMPANY_OFFERS_EDIT: (id: number | string) => `/company/offers/${id}/edit`,
+  COMPANY_OFFERS_PUBLISH: (id: number | string) => `/company/offers/${id}/publish`,
   COMPANY_APPLICATIONS: "/company/applications",
 
   // Authentication - Password & Email

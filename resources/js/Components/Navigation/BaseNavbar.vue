@@ -71,53 +71,55 @@ const mobileMenuItems = computed(() => (
     <div class="h-full flex items-center justify-between px-4 sm:px-6">
       <BaseLogo />
 
-      <div class="flex items-center gap-3 sm:gap-4">
-        <Link
-          v-if="!isAuthenticated"
-          :href="ROUTES.OFFERS"
-          class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-        >
-          {{ t('offers.browseCta') }}
-        </Link>
-        <template v-if="!isAuthenticated && !isAuthPage">
+      <div class="flex items-center gap-3 sm:gap-4 lg:gap-6">
+        <div class="flex items-center gap-3 sm:gap-4">
           <Link
-            :href="ROUTES.LOGIN"
+            v-if="!isAuthenticated"
+            :href="ROUTES.OFFERS"
             class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
           >
-            {{ t('auth.login.submit') }}
+            {{ t('offers.browseCta') }}
           </Link>
-          <Link
-            :href="ROUTES.REGISTER_STUDENT"
-            class="hidden lg:inline-block rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+          <template v-if="!isAuthenticated && !isAuthPage">
+            <Link
+              :href="ROUTES.LOGIN"
+              class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+            >
+              {{ t('auth.login.submit') }}
+            </Link>
+            <Link
+              :href="ROUTES.REGISTER_STUDENT"
+              class="hidden lg:inline-block rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+            >
+              {{ t('auth.register.submit') }}
+            </Link>
+          </template>
+          <button
+            v-if="showHamburger"
+            type="button"
+            class="lg:hidden flex items-center justify-center text-white hover:text-white/80 transition-colors focus:outline-none"
+            :aria-label="t('profiles.navMenu')"
+            :aria-expanded="isMobileMenuOpen"
+            @click="toggle"
           >
-            {{ t('auth.register.submit') }}
-          </Link>
-        </template>
-        <button
-          v-if="showHamburger"
-          type="button"
-          class="lg:hidden flex items-center justify-center text-white hover:text-white/80 transition-colors focus:outline-none"
-          :aria-label="t('profiles.navMenu')"
-          :aria-expanded="isMobileMenuOpen"
-          @click="toggle"
-        >
-          <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" />
-        </button>
-      </div>
+            <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" />
+          </button>
+        </div>
 
-      <div class="hidden lg:flex lg:items-center lg:gap-2">
-        <BaseNavigationButtons
-          v-if="showNavigationButtons && navigationButtons.length > 0"
-          :show-buttons="true"
-          :variant="navigationVariant"
-          :buttons="navigationButtons"
-          @button-click="handleNavigationClick"
-        />
-      </div>
+        <div class="hidden lg:flex lg:items-center lg:gap-2">
+          <BaseNavigationButtons
+            v-if="showNavigationButtons && navigationButtons.length > 0"
+            :show-buttons="true"
+            :variant="navigationVariant"
+            :buttons="navigationButtons"
+            @button-click="handleNavigationClick"
+          />
+        </div>
 
-      <div class="flex items-center gap-4">
-        <LanguageSwitcher />
-        <ProfileIcon v-if="showProfileIcon" class="hidden lg:inline-block" />
+        <div class="flex items-center gap-4">
+          <LanguageSwitcher />
+          <ProfileIcon v-if="showProfileIcon" class="hidden lg:inline-block" />
+        </div>
       </div>
     </div>
   </nav>

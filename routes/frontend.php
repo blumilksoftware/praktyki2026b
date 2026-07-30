@@ -44,12 +44,12 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/dashboard", [CompanyController::class, "index"])->name("company.dashboard");
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
-        Route::get("/offers", [CompanyOfferController::class, "index"])->name("company.offers");
     });
 
 Route::middleware(["auth", "can:create," . Offer::class])
     ->prefix("company")
     ->group(function (): void {
+        Route::get("/offers", [CompanyOfferController::class, "index"])->name("company.offers");
         Route::get("/offers/create", [CompanyOfferController::class, "create"])->name("company.offers.create");
     });
 

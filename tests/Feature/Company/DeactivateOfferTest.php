@@ -37,7 +37,7 @@ class DeactivateOfferTest extends TestCase
 
         $response = $this->actingAs($user)->patch("/company/offers/{$offer->id}/deactivate");
 
-        $response->assertRedirect("/company/dashboard");
+        $response->assertRedirect("/company/offers");
         $this->assertDatabaseHas("offers", [
             "id" => $offer->id,
             "status" => OfferStatus::Closed->value,

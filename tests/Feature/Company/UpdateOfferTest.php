@@ -83,7 +83,7 @@ class UpdateOfferTest extends TestCase
             "title" => "Updated Offer Title",
         ]);
 
-        $response->assertRedirect("/company/dashboard");
+        $response->assertRedirect("/company/offers");
         $this->assertDatabaseHas("offers", [
             "id" => $offer->id,
             "title" => "Updated Offer Title",

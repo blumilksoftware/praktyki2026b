@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Company;
 use App\Actions\Company\BuildCompanyProfileData;
 use App\Actions\Company\UpdateCompanyProfile;
 use App\DTO\Company\UpdateCompanyProfileData;
+use App\Enums\UserStatus;
+use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCompanyProfileRequest;
 use Illuminate\Http\RedirectResponse;
@@ -27,8 +29,12 @@ class CompanyController extends Controller
 
     public function verificationPending(): Response
     {
+        $user = Auth::user();
+
         return inertia("Auth/VerificationPending", [
-            "user" => Auth::user(),
+            "user" => $user,
+            "canCreateDraftOffer" => $user->status === UserStatus::Active
+                && $user->company?->verification_status === VerificationStatus::Pending,
         ]);
     }
 

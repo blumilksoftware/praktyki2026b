@@ -48,7 +48,7 @@ const labelClasses = computed(() => {
         @focus="isFocused = true"
         @blur="isFocused = false"
       >
-        <option v-if="placeholder && stacked" value="" disabled>
+        <option v-if="placeholder" value="" disabled>
           {{ placeholder }}
         </option>
         <option v-else-if="!stacked" value="" disabled />

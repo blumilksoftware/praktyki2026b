@@ -635,6 +635,26 @@
       "title": "Profile"
     },
     "offers": {
+      "index": {
+        "title": "My offers",
+        "empty": {
+          "title": "You haven't created any offers yet",
+          "description": "Create your first offer to start receiving applications."
+        },
+        "createAction": "Create offer",
+        "editAction": "Edit",
+        "publishAction": "Publish",
+        "publishing": "Publishing…",
+        "applicationsCount": "{count} applications",
+        "spotsLabel": "{count} spots",
+        "verificationRequiredHint": "Your company must be verified before this can be published.",
+        "status": {
+          "draft": "Draft",
+          "published": "Published",
+          "closed": "Closed",
+          "expired": "Expired"
+        }
+      },
       "create": {
         "title": "Create offer",
         "heading": "Create a new offer"
@@ -656,7 +676,6 @@
         },
         "spots": "Number of spots",
         "spotsMaxHint": "Maximum number of spots: 1000",
-        "spotsMaxError": "Number of spots cannot exceed 1000",
         "city": "City",
         "preferredFields": "Preferred fields of study",
         "preferredFieldsPlaceholder": "Search fields of study",
@@ -690,7 +709,12 @@
     "description": "Thank you for registering. To ensure student safety, every university or company account must be manually approved by our administrator.",
     "status": "This usually takes {time} hours. When verification is successful, we will unlock your access to the panel and notify you by email.",
     "contact": "If you have any questions, please contact us at {email}",
-    "log_out": "Log out"
+    "log_out": "Log out",
+    "createDraftOffer": {
+      "title": "Get a head start",
+      "description": "While you wait, you can prepare an offer as a draft. Drafts are only visible to you — publishing will unlock once your account is verified.",
+      "action": "Create a draft offer"
+    }
   },
   "dynamicList": {
     "noResults": "No results",

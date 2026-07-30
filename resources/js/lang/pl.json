@@ -629,6 +629,26 @@
       "title": "Profil"
     },
     "offers": {
+      "index": {
+        "title": "Moje oferty",
+        "empty": {
+          "title": "Nie utworzyłeś jeszcze żadnej oferty",
+          "description": "Utwórz swoją pierwszą ofertę, aby zacząć otrzymywać zgłoszenia."
+        },
+        "createAction": "Utwórz ofertę",
+        "editAction": "Edytuj",
+        "publishAction": "Opublikuj",
+        "publishing": "Publikowanie…",
+        "applicationsCount": "{count} zgłoszeń",
+        "spotsLabel": "{count} miejsc",
+        "verificationRequiredHint": "Twoja firma musi zostać zweryfikowana, zanim będzie można to opublikować.",
+        "status": {
+          "draft": "Szkic",
+          "published": "Opublikowana",
+          "closed": "Zamknięta",
+          "expired": "Wygasła"
+        }
+      },
       "create": {
         "title": "Utwórz ofertę",
         "heading": "Utwórz nową ofertę"
@@ -648,7 +668,6 @@
         },
         "spots": "Liczba miejsc",
         "spotsMaxHint": "Maksymalna liczba miejsc: 1000",
-        "spotsMaxError": "Liczba miejsc nie może przekroczyć 1000",
         "city": "Miasto",
         "preferredFields": "Preferowane kierunki studiów",
         "preferredFieldsPlaceholder": "Szukaj kierunków studiów",
@@ -685,7 +704,12 @@
     "description": "Dziękujemy za rejestrację. Aby dbać o bezpieczeństwo studentów, każde konto uczelni lub firmy musi zostać ręcznie zatwierdzone przez naszego administratora.",
     "status": "Zazwyczaj trwa to {time} godzin. Gdy weryfikacja przebiegnie pomyślnie, odblokujemy Twój dostęp do panelu i wyślemy Ci wiadomość e-mail z potwierdzeniem.",
     "contact": "Jeśli masz jakiekolwiek pytania, skontaktuj się z nami pod adresem {email}",
-    "log_out": "Wyloguj się"
+    "log_out": "Wyloguj się",
+    "createDraftOffer": {
+      "title": "Przygotuj się z wyprzedzeniem",
+      "description": "W czasie oczekiwania możesz przygotować ofertę jako szkic. Szkice widzisz tylko Ty — publikacja odblokuje się po weryfikacji konta.",
+      "action": "Utwórz szkic oferty"
+    }
   },
   "dynamicList": {
     "noResults": "Brak wyników",
