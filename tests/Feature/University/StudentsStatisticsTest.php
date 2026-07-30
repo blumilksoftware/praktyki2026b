@@ -7,6 +7,8 @@ namespace Tests\Feature\University;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\Application;
+use App\Models\Faculty;
+use App\Models\StudyField;
 use App\Models\University;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,12 +22,19 @@ class StudentsStatisticsTest extends TestCase
     public function testDashboardReturnsStatisticsFilteredByDateRange(): void
     {
         $university = University::factory()->approved()->create(["domain" => "example.edu"]);
+        $faculty = Faculty::factory()->for($university)->create();
+        $studyField = StudyField::factory()->for($faculty)->create();
+
         $admin = User::factory()->create([
             "role" => UserRole::UniversityAdmin,
             "status" => UserStatus::Active,
             "organization_id" => $university->id,
         ]);
-        $student = User::factory()->create(["email" => "student@example.edu"]);
+
+        $student = User::factory()->create([
+            "email" => "student@example.edu",
+            "study_field" => $studyField->id,
+        ]);
 
         Application::factory()->accepted()->create([
             "student_id" => $student->id,
@@ -45,7 +54,7 @@ class StudentsStatisticsTest extends TestCase
                 ->where("data.applicationsSubmitted", 1)
                 ->where("data.acceptedPlacements", 1)
                 ->has("data.breakdownByFaculty", 1)
-                ->has("data.breakdownByField", 1)
+                ->has("data.breakdownByField.data", 1)
                 ->where("filters.from", "2026-02-01")
                 ->where("filters.to", "2026-02-28"));
     }

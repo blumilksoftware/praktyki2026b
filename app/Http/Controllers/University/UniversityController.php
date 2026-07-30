@@ -33,13 +33,21 @@ class UniversityController extends Controller
         $filters = $request->validate([
             "from" => ["nullable", "date_format:Y-m-d"],
             "to" => ["nullable", "date_format:Y-m-d", "after_or_equal:from"],
+            "fieldPage" => ["nullable", "integer", "min:1"],
         ]);
 
         $from = isset($filters["from"]) ? Carbon::parse($filters["from"])->startOfDay() : null;
         $to = isset($filters["to"]) ? Carbon::parse($filters["to"])->endOfDay() : null;
+        $fieldPage = (int)($filters["fieldPage"] ?? 1);
 
         return inertia("University/Dashboard", [
-            "data" => $this->getStudentsStatistics->execute($university, $from, $to),
+            "data" => $this->getStudentsStatistics->execute(
+                university: $university,
+                from: $from,
+                to: $to,
+                fieldPage: $fieldPage,
+                fieldPerPage: 10,
+            ),
             "filters" => $filters,
         ]);
     }

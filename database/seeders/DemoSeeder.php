@@ -147,7 +147,7 @@ class DemoSeeder extends Seeder
             "name" => "Wydział Informatyki",
         ]);
 
-        $studyFields = StudyField::factory()->for($faculty)->count(5)->create();
+        $studyFields = StudyField::factory()->for($faculty)->count(20)->create();
 
         $cities = ["Warszawa", "Kraków", "Wrocław", "Poznań", "Gdańsk", "Łódź"];
         $workModes = WorkMode::cases();
@@ -164,7 +164,7 @@ class DemoSeeder extends Seeder
             );
         }
 
-        $domainLinkedStudents = User::factory()->count(5)->create([
+        $domainLinkedStudents = User::factory()->count(20)->create([
             "role" => UserRole::Student,
             "status" => UserStatus::Active,
             "email" => fn() => fake()->unique()->userName() . "@" . $approvedUniversity->domain,

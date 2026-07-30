@@ -11,6 +11,7 @@ use App\Models\Faculty;
 use App\Models\StudyField;
 use App\Models\University;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
@@ -47,11 +48,12 @@ class GetStudentsStatisticsTest extends TestCase
             "role" => UserRole::UniversityAdmin,
         ]);
 
-        $result = (new GetStudentsStatistics())->execute($university);
+        $result = app(GetStudentsStatistics::class)->execute($university);
 
         $this->assertSame(2, $result["linkedStudents"]);
         $this->assertSame(3, $result["applicationsSubmitted"]);
         $this->assertSame(2, $result["acceptedPlacements"]);
+
         $this->assertEquals([
             [
                 "facultyId" => $engineering->id,
@@ -68,6 +70,9 @@ class GetStudentsStatisticsTest extends TestCase
                 "acceptedPlacements" => 1,
             ],
         ], $result["breakdownByFaculty"]->all());
+
+        $this->assertInstanceOf(LengthAwarePaginator::class, $result["breakdownByField"]);
+        $this->assertSame(2, $result["breakdownByField"]->total());
         $this->assertEquals([
             [
                 "fieldId" => $computerScience->id,
@@ -83,7 +88,7 @@ class GetStudentsStatisticsTest extends TestCase
                 "applicationsSubmitted" => 1,
                 "acceptedPlacements" => 1,
             ],
-        ], $result["breakdownByField"]->all());
+        ], $result["breakdownByField"]->items());
     }
 
     public function testItFiltersApplicationsByDateRangeWithoutFilteringLinkedStudents(): void
@@ -104,7 +109,7 @@ class GetStudentsStatisticsTest extends TestCase
             "created_at" => "2026-03-15 12:00:00",
         ]);
 
-        $result = (new GetStudentsStatistics())->execute(
+        $result = app(GetStudentsStatistics::class)->execute(
             $university,
             Carbon::parse("2026-02-01 00:00:00"),
             Carbon::parse("2026-02-28 23:59:59"),
@@ -113,5 +118,33 @@ class GetStudentsStatisticsTest extends TestCase
         $this->assertSame(1, $result["linkedStudents"]);
         $this->assertSame(1, $result["applicationsSubmitted"]);
         $this->assertSame(0, $result["acceptedPlacements"]);
+    }
+
+    public function testItPaginatesBreakdownByField(): void
+    {
+        $university = University::factory()->create(["domain" => "example.edu"]);
+        $faculty = Faculty::factory()->for($university)->create();
+
+        // Создаем 15 направлений
+        $studyFields = StudyField::factory()->for($faculty)->count(15)->create();
+
+        // Создаем по студенту для каждого направления (привязаны к университету по домену email)
+        foreach ($studyFields as $index => $field) {
+            User::factory()->create([
+                "email" => "student{$index}@example.edu",
+                "study_field" => $field->id,
+            ]);
+        }
+
+        $result = app(GetStudentsStatistics::class)->execute(
+            university: $university,
+            fieldPage: 2,
+            fieldPerPage: 10,
+        );
+
+        $this->assertInstanceOf(LengthAwarePaginator::class, $result["breakdownByField"]);
+        $this->assertSame(15, $result["breakdownByField"]->total());
+        $this->assertSame(2, $result["breakdownByField"]->currentPage());
+        $this->assertCount(5, $result["breakdownByField"]->items());
     }
 }
