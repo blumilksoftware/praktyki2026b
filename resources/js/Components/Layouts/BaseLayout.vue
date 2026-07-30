@@ -1,14 +1,10 @@
 <template>
   <div class="min-h-screen bg-background flex flex-col">
-    <BaseNavbar 
+    <BaseNavbar
       :show-hamburger="true"
       :menu-items="menuItems"
-      :show-navigation-buttons="true"
-      :navigation-buttons="navigationButtons"
-      :navigation-variant="navigationVariant || 'default'"
-      @navigation-click="handleNavigationClick"
     />
-    
+
     <main class="flex-1">
       <slot />
     </main>
@@ -31,27 +27,13 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-  navigationButtons: {
-    type: Array,
-    default: () => [],
-  },
-  navigationVariant: {
-    type: String,
-    default: 'default',
-  },
 })
-
-const emit = defineEmits(['navigationClick'])
 
 const menuItems = computed(() => {
   return props.navItems.map(item => ({
     ...item,
-    isActive: item.key === props.activePage || 
+    isActive: item.key === props.activePage ||
               (item.href && page.url === item.href),
   }))
 })
-
-const handleNavigationClick = (item) => {
-  emit('navigationClick', item)
-}
 </script>
