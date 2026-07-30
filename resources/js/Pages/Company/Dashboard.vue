@@ -12,6 +12,8 @@ import OffersPagination from '@/Components/Company/Offers/OffersPagination.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useOffersFilters } from '@/Composables/useOffersFilters'
 import { useOfferActions } from '@/Composables/useOfferActions'
+import {computed} from "vue";
+import CompanyLayout from "@/Components/Layouts/CompanyLayout.vue";
 
 const { t } = useI18n()
 
@@ -38,10 +40,10 @@ const props = defineProps({
   },
 })
 
-const navItems = [
-  { key: 'dashboard', label: 'Dashboard', href: '/company/dashboard', icon: IconHome },
-  { key: 'profile', label: 'Profile', href: '/company/profile', icon: IconUser },
-]
+const navItems = computed(() =>[
+  { key: 'dashboard', label: t('company.layout.nav.dashboard'), href: ROUTES.COMPANY_DASHBOARD, icon: IconHome },
+  { key: 'profile', label: t('company.layout.nav.profile'), href: ROUTES.COMPANY_PROFILE, icon: IconUser },
+])
 
 const {
   searchQuery,
@@ -76,8 +78,8 @@ function goToApplications(event, offerId) {
 
 <template>
   <Head :title="t('company.dashboard.offers.title')" />
-  <BaseLayout
-    active-page="offers"
+  <CompanyLayout
+    active-page="dashboard"
     :nav-items="navItems"
   >
     <OnboardingBanner />
@@ -88,9 +90,7 @@ function goToApplications(event, offerId) {
         </h1>
       </header>
 
-      <div class="py-2" />
-
-      <div class="rounded-xl border border-border bg-white shadow-sm overflow-visible">
+      <div class="rounded-xl border border-border bg-white shadow-sm overflow-visible mt-10">
         <div class="px-4 py-3 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <h2 class="font-medium text-text">
             {{ t('company.dashboard.offers.title') }}
@@ -137,5 +137,5 @@ function goToApplications(event, offerId) {
         <OffersPagination :offers="offers" />
       </div>
     </div>
-  </BaseLayout>
+  </CompanyLayout>
 </template>

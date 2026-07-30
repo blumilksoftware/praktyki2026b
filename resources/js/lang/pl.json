@@ -542,7 +542,11 @@
   },
   "company": {
     "layout": {
-      "title": "Firma"
+      "title": "Firma",
+        "nav": {
+            "dashboard": "Panel",
+            "profile": "Profil"
+        }
     },
       "dashboard": {
           "offers": {

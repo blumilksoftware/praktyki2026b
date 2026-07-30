@@ -24,7 +24,7 @@ class CompanyController extends Controller
         private readonly GetOffersSummary $getOffersSummary,
     ) {}
 
-    public function index(Request $request)
+    public function index(Request $request) : Response
     {
         $company = $request->user()->company;
 

@@ -540,7 +540,11 @@
   },
   "company": {
     "layout": {
-      "title": "Company"
+        "title": "Company",
+        "nav": {
+            "dashboard": "Dashboard",
+            "profile": "Profile"
+        }
     },
       "dashboard": {
           "offers": {

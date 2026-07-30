@@ -53,8 +53,6 @@ function mountDashboard(props = {}, options = {}) {
   })
 }
 
-// The dashboard renders the table (desktop) and the cards (mobile) side by side,
-// so every offer owns two action menus — one per layout.
 const menusFor = (wrapper: ReturnType<typeof mountDashboard>, component: typeof OffersTable | typeof OffersCards) =>
   wrapper.findComponent(component).findAllComponents(OfferActionsMenu)
 

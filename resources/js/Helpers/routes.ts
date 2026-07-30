@@ -11,6 +11,7 @@ export const ROUTES = {
   REGISTER_COMPANY: "/register/company",
 
   COMPANY_OFFERS_STORE: "/company/offers",
+  COMPANY_DASHBOARD: "/company/dashboard",
 
   EMAIL_VERIFICATION: "/email/verify/{id}/{token}",
   EMAIL_VERIFICATION_RESEND: "/email/resend",
