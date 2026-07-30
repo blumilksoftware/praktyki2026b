@@ -41,15 +41,6 @@ export const ROUTES = {
   STUDENT_OFFER_FAVORITE: "/student/offers/{offer}/favorite",
   STUDENT_OFFER_SHOW: "/student/offers/{offer}",
 
-  EMAIL_VERIFICATION: "/email/verify/{id}/{token}",
-  EMAIL_VERIFICATION_RESEND: "/email/resend",
-
-  RESET_PASSWORD: "/reset-password/{token}",
-  RESET_PASSWORD_STORE: "/reset-password",
-
-  GOOGLE_AUTH: "/auth/google/redirect",
-  GOOGLE_AUTH_CALLBACK: "/auth/google/callback",
-
   HOME: "/",
   OFFERS_SEARCH: "/offers",
 
@@ -62,7 +53,6 @@ export const ROUTES = {
   TEAM: "/team",
 
   SETTINGS: "/settings",
-  LOGOUT: "/logout",
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]
