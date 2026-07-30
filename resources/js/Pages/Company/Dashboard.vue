@@ -1,9 +1,7 @@
 <script setup>
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHome, IconUser } from '@tabler/icons-vue'
 
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
 import OffersToolbar from '@/Components/Company/Offers/OffersToolbar.vue'
 import OffersTable from '@/Components/Company/Offers/OffersTable.vue'
@@ -12,7 +10,6 @@ import OffersPagination from '@/Components/Company/Offers/OffersPagination.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useOffersFilters } from '@/Composables/useOffersFilters'
 import { useOfferActions } from '@/Composables/useOfferActions'
-import { computed } from 'vue'
 import CompanyLayout from '@/Components/Layouts/CompanyLayout.vue'
 
 const { t } = useI18n()
@@ -39,11 +36,6 @@ const props = defineProps({
     default: '',
   },
 })
-
-const navItems = computed(() =>[
-  { key: 'dashboard', label: t('company.layout.nav.dashboard'), href: ROUTES.COMPANY_DASHBOARD, icon: IconHome },
-  { key: 'profile', label: t('company.layout.nav.profile'), href: ROUTES.COMPANY_PROFILE, icon: IconUser },
-])
 
 const {
   searchQuery,
@@ -80,7 +72,6 @@ function goToApplications(event, offerId) {
   <Head :title="t('company.dashboard.offers.title')" />
   <CompanyLayout
     active-page="dashboard"
-    :nav-items="navItems"
   >
     <OnboardingBanner />
     <div class="p-5 sm:p-6 space-y-6">
