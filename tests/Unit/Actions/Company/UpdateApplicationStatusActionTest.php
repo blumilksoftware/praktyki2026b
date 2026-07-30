@@ -11,8 +11,10 @@ use App\Models\Application;
 use App\Models\Company;
 use App\Models\Offer;
 use App\Models\User;
+use App\Notifications\ApplicationStatusChangedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class UpdateApplicationStatusActionTest extends TestCase
@@ -30,6 +32,7 @@ class UpdateApplicationStatusActionTest extends TestCase
     public function testItUpdatesApplicationStatusAndSendsEmailNotification(): void
     {
         Mail::fake();
+        Notification::fake();
 
         $company = Company::factory()->approved()->create();
         $offer = Offer::factory()->create(["company_id" => $company->id]);
@@ -49,5 +52,12 @@ class UpdateApplicationStatusActionTest extends TestCase
                 $mail->jobTitle === $offer->title &&
                 $mail->companyName === $company->name &&
                 $mail->status === __("emails.job_application.status.accepted"));
+
+        Notification::assertSentTo(
+            $student,
+            ApplicationStatusChangedNotification::class,
+            fn(ApplicationStatusChangedNotification $notification): bool => $notification->toArray($student)["application_id"] === $application->id &&
+                $notification->toArray($student)["status"] === ApplicationStatus::Accepted->value,
+        );
     }
 }
