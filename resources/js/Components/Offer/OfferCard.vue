@@ -2,7 +2,7 @@
 import { Link } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconBookmark, IconBookmarkFilled } from '@tabler/icons-vue'
+import { IconHeart, IconHeartFilled } from '@tabler/icons-vue'
 
 const props = defineProps({
   offer: { type: Object, required: true },
@@ -115,8 +115,8 @@ const isExpired = computed(() => props.offer.status === 'expired')
               : t('student.offers.card.addToFavorites')"
             @click="$emit('toggle-favorite', offer.id)"
           >
-            <IconBookmarkFilled v-if="isFavorite" class="h-4 w-4" aria-hidden="true" />
-            <IconBookmark v-else class="h-4 w-4" aria-hidden="true" />
+            <IconHeartFilled v-if="isFavorite" class="h-4 w-4" aria-hidden="true" />
+            <IconHeart v-else class="h-4 w-4" aria-hidden="true" />
             {{ isFavorite ? t('student.offers.card.removeFromFavorites') : t('student.offers.card.addToFavorites') }}
           </button>
 
