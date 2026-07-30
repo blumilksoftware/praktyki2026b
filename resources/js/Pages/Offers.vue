@@ -3,24 +3,49 @@ import { computed, ref } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
+import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
+import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
+import BaseInput from '@/Components/Base/BaseInput.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   offers: { type: Array, default: () => [] },
-  hasCv: { type: Boolean, default: true },
+  hasCv: { type: Boolean, default: false },
+  studyFields: { type: Array, default: () => [] },
+  isGuest: { type: Boolean, default: false },
 })
 const { t } = useI18n()
+
+const layoutComponent = computed(() => (props.isGuest ? BaseLayout : StudentPanelLayout))
+const layoutProps = computed(() => (props.isGuest ? {} : { activePage: 'offers' }))
 
 const query = ref('')
 const city = ref('')
 const workMode = ref('')
 const verifiedOnly = ref(false)
 const viewMode = ref('all')
+const studyFieldIds = ref([])
+const dateFrom = ref('')
+const dateTo = ref('')
 
 const workModes = ['remote', 'hybrid', 'onSite']
 
 const workModeLabel = (mode) => t(`student.workModes.${mode}`)
+
+const dateRangeError = computed(() => {
+  if (dateFrom.value && dateTo.value && dateTo.value < dateFrom.value) {
+    return 'student.offers.filters.dateRangeInvalid'
+  }
+  return null
+})
+
+const matchesDateRange = (offer) => {
+  if (dateRangeError.value) return true
+  if (dateFrom.value && offer.end_date && offer.end_date < dateFrom.value) return false
+  if (dateTo.value && offer.start_date && offer.start_date > dateTo.value) return false
+  return true
+}
 
 const filteredOffers = computed(() => props.offers.filter((offer) => {
   const queryValue = query.value.trim().toLowerCase()
@@ -31,11 +56,14 @@ const filteredOffers = computed(() => props.offers.filter((offer) => {
   const matchesCity = !city.value || offer.city === city.value
   const matchesWorkMode = !workMode.value || offer.work_mode === workMode.value
   const matchesVerified = !verifiedOnly.value || Boolean(offer.company?.is_verified)
-  const matchesView = viewMode.value === 'all'
+  const matchesStudyFields = studyFieldIds.value.length === 0
+    || studyFieldIds.value.some((id) => (offer.study_field_ids ?? []).includes(id))
+  const matchesView = props.isGuest || viewMode.value === 'all'
     || (viewMode.value === 'applied' && Boolean(offer.has_applied))
     || (viewMode.value === 'notApplied' && !offer.has_applied)
 
-  return matchesQuery && matchesCity && matchesWorkMode && matchesVerified && matchesView
+  return matchesQuery && matchesCity && matchesWorkMode && matchesVerified
+    && matchesStudyFields && matchesDateRange(offer) && matchesView
 }))
 
 const availableCities = computed(() => {
@@ -47,15 +75,18 @@ const resetFilters = () => {
   city.value = ''
   workMode.value = ''
   verifiedOnly.value = false
+  studyFieldIds.value = []
+  dateFrom.value = ''
+  dateTo.value = ''
 }
 </script>
 
 <template>
-  <Head :title="t('student.nav.offers')" />
+  <Head :title="isGuest ? t('offers.search.title') : t('student.nav.offers')" />
 
-  <StudentPanelLayout active-page="offers">
+  <component :is="layoutComponent" v-bind="layoutProps">
     <div class="bg-background py-6 min-h-screen">
-      <div class="flex flex-wrap justify-between items-center gap-3 mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div v-if="!isGuest" class="flex flex-wrap justify-between items-center gap-3 mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
         <Link
           :href="ROUTES.STUDENT_DASHBOARD"
           class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
@@ -71,6 +102,15 @@ const resetFilters = () => {
           {{ t('student.nav.favorites') }}
         </Link>
       </div>
+
+      <header v-else class="mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h1 class="font-semibold text-text text-2xl tracking-tight">
+          {{ t('offers.search.title') }}
+        </h1>
+        <p class="mt-1 text-additional text-sm">
+          {{ t('offers.search.subtitle') }}
+        </p>
+      </header>
 
       <div class="flex flex-col lg:items-start gap-6 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <aside aria-labelledby="offers-filters-heading" class="lg:top-6 lg:sticky bg-white/90 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm p-5 border border-border/80 rounded-3xl">
@@ -103,6 +143,15 @@ const resetFilters = () => {
               >
             </label>
 
+            <DynamicMultiSelect
+              id="offers-filter-study-fields"
+              v-model="studyFieldIds"
+              :label="t('student.offers.filters.studyFields.label')"
+              :placeholder="t('student.offers.filters.studyFields.placeholder')"
+              :options="studyFields"
+              :allow-custom="false"
+            />
+
             <label class="block" for="offers-filter-city">
               <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.city') }}</span>
               <select
@@ -131,6 +180,35 @@ const resetFilters = () => {
               </select>
             </label>
 
+            <div>
+              <p class="mb-2 font-medium text-text text-sm">
+                {{ t('student.offers.filters.dateRange.label') }}
+              </p>
+              <div class="grid grid-cols-1 gap-3">
+                <BaseInput
+                  id="offers-filter-date-from"
+                  v-model="dateFrom"
+                  type="date"
+                  stacked
+                  :label="t('student.offers.filters.dateRange.from')"
+                />
+                <BaseInput
+                  id="offers-filter-date-to"
+                  v-model="dateTo"
+                  type="date"
+                  stacked
+                  :label="t('student.offers.filters.dateRange.to')"
+                />
+              </div>
+              <p
+                v-if="dateRangeError"
+                class="mt-2 text-error text-sm"
+                role="alert"
+              >
+                {{ t(dateRangeError) }}
+              </p>
+            </div>
+
             <div class="bg-background px-4 py-3 border  border-border rounded-2xl">
               <label class="flex items-center gap-3 text-text text-sm" for="offers-filter-verified-only">
                 <input
@@ -155,7 +233,7 @@ const resetFilters = () => {
             </div>
           </div>
 
-          <div role="tablist" class="mb-5 flex gap-2 overflow-x-auto border-b border-border px-4 sm:px-0" :aria-label="t('student.offers.filters.title')">
+          <div v-if="!isGuest" role="tablist" class="mb-5 flex gap-2 overflow-x-auto border-b border-border px-4 sm:px-0" :aria-label="t('student.offers.filters.title')">
             <button
               type="button"
               role="tab"
@@ -191,11 +269,12 @@ const resetFilters = () => {
           <OffersList
             :offers="filteredOffers"
             :has-cv="hasCv"
+            :guest="isGuest"
             :empty-title="viewMode === 'applied' ? t('student.offers.emptyApplied.title') : undefined"
             :empty-description="viewMode === 'applied' ? t('student.offers.emptyApplied.description') : undefined"
           />
         </section>
       </div>
     </div>
-  </StudentPanelLayout>
+  </component>
 </template>

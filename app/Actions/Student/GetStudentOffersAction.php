@@ -11,15 +11,17 @@ use Illuminate\Support\Collection;
 
 class GetStudentOffersAction
 {
-    public function execute(User $user): Collection
+    public function execute(?User $user): Collection
     {
-        $favoriteOfferIds = $user->favourites()->pluck("offers.id")->all();
+        $favoriteOfferIds = $user?->favourites()->pluck("offers.id")->all() ?? [];
 
         return Offer::published()
-            ->with(["company", "applications"])
+            ->with(["company", "applications", "studyFields"])
             ->get()
             ->map(function (Offer $offer) use ($user, $favoriteOfferIds): array {
-                $ownApplication = $offer->applications->firstWhere("student_id", $user->id);
+                $ownApplication = $user !== null
+                    ? $offer->applications->firstWhere("student_id", $user->id)
+                    : null;
 
                 return [
                     "id" => $offer->id,
@@ -33,6 +35,7 @@ class GetStudentOffersAction
                     "has_applied" => $ownApplication !== null,
                     "applied_at" => $ownApplication?->created_at?->toDateString(),
                     "is_favorite" => in_array($offer->id, $favoriteOfferIds, true),
+                    "study_field_ids" => $offer->studyFields->pluck("id")->all(),
                     "company" => [
                         "name" => $offer->company->name,
                         "logo_path" => $offer->company->logo_path,

@@ -47,7 +47,6 @@ export const ROUTES = {
   STUDENT_CV_DELETE: "/student/cv",
 
   // Student Offers & Applications
-  STUDENT_OFFERS: "/student/offers",
   STUDENT_OFFER_APPLY: "/student/offers/{offer}/apply",
   STUDENT_OFFER_WITHDRAW: "/student/offers/{offer}/withdraw",
   STUDENT_OFFER_FAVOURITE: "/student/offers/{offer}/favourite",
@@ -56,7 +55,6 @@ export const ROUTES = {
 
   // Offers & Search
   OFFERS: "/offers",
-  OFFERS_SEARCH: "/offers",
   OFFER_SHOW: `/offers/{offer}`,
   COMPANY_OFFERS: "/search?company_id={companyId}",
   COMPANY_MY_OFFERS: "/company/offers",

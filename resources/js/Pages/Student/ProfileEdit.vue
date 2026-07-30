@@ -56,7 +56,7 @@ const fieldError = (field) => profileForm.errors[field]
 const navItems = computed(() => [
   { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
   { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
-  { key: 'offers', label: t('student.nav.offers'), href: ROUTES.STUDENT_OFFERS, icon: IconBriefcase },
+  { key: 'offers', label: t('student.nav.offers'), href: ROUTES.OFFERS, icon: IconBriefcase },
   { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
 ])
 

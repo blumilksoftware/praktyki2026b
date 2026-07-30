@@ -34,7 +34,7 @@ const offersCount = computed(() => props.offers.length)
 
             <div class="flex flex-wrap gap-3 mt-6">
               <Link
-                :href="ROUTES.STUDENT_OFFERS"
+                :href="ROUTES.OFFERS"
                 class="inline-flex justify-center items-center bg-blue-600 hover:bg-blue-700 px-5 py-3 border border-blue-600 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/40 font-semibold text-white text-sm transition"
               >
                 {{ t('student.dashboard.primaryAction') }}
@@ -50,7 +50,7 @@ const offersCount = computed(() => props.offers.length)
 
           <div class="gap-3 grid sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             <Link
-              :href="ROUTES.STUDENT_OFFERS"
+              :href="ROUTES.OFFERS"
               class="bg-slate-50/80 hover:bg-white hover:shadow-[0_10px_28px_rgba(11,26,48,0.08)] p-4 border border-slate-200 hover:border-blue-600/30 rounded-2xl transition hover:-translate-y-0.5"
             >
               <p class="font-semibold text-slate-500 text-xs uppercase tracking-[0.18em]">{{ t('student.nav.offers') }}</p>
@@ -77,7 +77,7 @@ const offersCount = computed(() => props.offers.length)
             <h2 class="mt-1 font-semibold text-slate-900 text-2xl tracking-tight">{{ t('student.dashboard.previewDescription') }}</h2>
           </div>
           <Link
-            :href="ROUTES.STUDENT_OFFERS"
+            :href="ROUTES.OFFERS"
             class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700 text-sm transition"
           >
             {{ t('student.dashboard.primaryAction') }}

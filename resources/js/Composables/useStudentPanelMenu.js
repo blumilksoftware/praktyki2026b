@@ -24,7 +24,7 @@ export function useStudentPanelMenu(activePage) {
       },
       {
         label: t('student.layout.nav.offers'),
-        href: ROUTES.STUDENT_OFFERS,
+        href: ROUTES.OFFERS,
         icon: IconBriefcase,
         isActive: current === 'offers',
       },

@@ -76,16 +76,6 @@ class StudentController extends Controller
         ]);
     }
 
-    public function offers(): Response
-    {
-        $user = Auth::user();
-
-        return inertia("Student/Offers", [
-            "offers" => $this->getStudentOffersAction->execute($user)->values(),
-            "hasCv" => $user->cv_path !== null,
-        ]);
-    }
-
     public function applications(): Response
     {
         $user = Auth::user();

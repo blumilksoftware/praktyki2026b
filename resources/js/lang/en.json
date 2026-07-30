@@ -424,7 +424,17 @@
         "allCities": "All cities",
         "workMode": "Work mode",
         "allWorkModes": "All work modes",
-        "verifiedOnly": "Verified companies only"
+        "verifiedOnly": "Verified companies only",
+        "studyFields": {
+          "label": "Fields of study",
+          "placeholder": "Select fields from the list"
+        },
+        "dateRange": {
+          "label": "Internship date range",
+          "from": "From",
+          "to": "To"
+        },
+        "dateRangeInvalid": "The end date must be on or after the start date."
       },
       "results": {
         "caption": "Number of offers",
@@ -600,32 +610,7 @@
     "browseCta": "Browse offers",
     "search": {
       "title": "Internships and offers",
-      "subtitle": "Browse offers and narrow results to match your preferences.",
-      "resultsTitle": "Results",
-      "empty": "No offers match the selected filters.",
-      "resultsCount": "{count} offers on this page"
-    },
-    "filters": {
-      "kicker": "Filters",
-      "title": "Refine results",
-      "clearAll": "Clear filters",
-      "studyFields": {
-        "label": "Fields of study",
-        "placeholder": "Select fields from the list"
-      },
-      "workMode": {
-        "label": "Work mode",
-        "all": "All",
-        "onSite": "On-site",
-        "hybrid": "Hybrid",
-        "remote": "Remote"
-      },
-      "dateRange": {
-        "label": "Internship date range",
-        "from": "From",
-        "to": "To"
-      },
-      "dateRangeInvalid": "The end date must be on or after the start date."
+      "subtitle": "Browse offers and narrow results to match your preferences."
     }
   },
   "pending": {
