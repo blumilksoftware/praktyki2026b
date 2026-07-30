@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\ProfileRedirectController;
 use App\Http\Controllers\SettingsRedirectController;
@@ -93,6 +94,12 @@ Route::middleware(["auth"])
     ->prefix("onboarding")
     ->group(function (): void {
         Route::post("/dismiss", [OnboardingController::class, "dismiss"])->name("onboarding.dismiss");
+    });
+
+Route::middleware(["auth"])
+    ->prefix("notifications")
+    ->group(function (): void {
+        Route::patch("/read-all", [NotificationController::class, "markAllAsRead"])->name("notifications.read-all");
     });
 
 Route::middleware(["role:superAdmin"])
