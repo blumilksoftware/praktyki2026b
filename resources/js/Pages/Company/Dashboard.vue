@@ -14,7 +14,7 @@ import {
 
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
-import OnboardingBanner from "@/Components/Onboarding/OnboardingBanner.vue";
+import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
 
 const { t } = useI18n()
 
