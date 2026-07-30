@@ -12,8 +12,8 @@ import OffersPagination from '@/Components/Company/Offers/OffersPagination.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useOffersFilters } from '@/Composables/useOffersFilters'
 import { useOfferActions } from '@/Composables/useOfferActions'
-import {computed} from "vue";
-import CompanyLayout from "@/Components/Layouts/CompanyLayout.vue";
+import { computed } from 'vue'
+import CompanyLayout from '@/Components/Layouts/CompanyLayout.vue'
 
 const { t } = useI18n()
 

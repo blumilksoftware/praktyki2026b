@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import {IconHome, IconClipboard, IconUser} from '@tabler/icons-vue'
+import { IconHome, IconClipboard, IconUser } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
 import BaseLayout from './BaseLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
