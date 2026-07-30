@@ -321,7 +321,11 @@
   },
   "university": {
     "layout": {
-      "title": "Uczelnia"
+      "title": "Uczelnia",
+        "nav": {
+            "dashboard": "Panel",
+            "profile": "Profil"
+        }
     },
     "profile": {
       "title": "Profil"

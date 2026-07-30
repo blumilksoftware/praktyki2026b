@@ -41,6 +41,7 @@ export const ROUTES = {
   COMPANY_PROFILE: "/company/profile",
   COMPANY_APPLICATIONS: "/company/applications",
   UNIVERSITY_PROFILE: "/university/profile",
+  UNIVERSITY_DASHBOARD: "/university/dashboard",
 
   HOME: "/",
   OFFERS_SEARCH: "/offers",
