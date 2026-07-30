@@ -33,7 +33,7 @@ const { showPassword, togglePassword } = useTogglePassword()
 const hasError = computed(() => Boolean(props.error) || props.invalid)
 
 const inputType = computed(() =>
-  isPassword.value && !showPassword.value ? 'password' : props.type,
+  isPassword.value ? (showPassword.value ? 'text' : 'password') : props.type,
 )
 
 const wrapperClass = computed(() => (

@@ -540,7 +540,21 @@
   },
   "company": {
     "layout": {
-      "title": "Company"
+      "title": "Company",
+      "nav": {
+        "dashboard": "Dashboard",
+        "offers": "My offers",
+        "applications": "Applications",
+        "profile": "Profile",
+        "settings": "Settings"
+      }
+    },
+    "dashboard": {
+      "createOfferCard": {
+        "title": "Have a new internship to offer?",
+        "description": "Publish an offer or save it as a draft to finish later.",
+        "action": "Create offer"
+      }
     },
     "profile": {
       "title": "Profile"

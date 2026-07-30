@@ -542,7 +542,21 @@
   },
   "company": {
     "layout": {
-      "title": "Firma"
+      "title": "Firma",
+      "nav": {
+        "dashboard": "Panel",
+        "offers": "Moje oferty",
+        "applications": "Zgłoszenia",
+        "profile": "Profil",
+        "settings": "Ustawienia"
+      }
+    },
+    "dashboard": {
+      "createOfferCard": {
+        "title": "Masz nową ofertę praktyk do dodania?",
+        "description": "Opublikuj ofertę albo zapisz ją jako szkic, żeby dokończyć później.",
+        "action": "Utwórz ofertę"
+      }
     },
     "profile": {
       "title": "Profil"
