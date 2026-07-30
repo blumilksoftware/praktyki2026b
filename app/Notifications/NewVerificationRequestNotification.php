@@ -14,17 +14,11 @@ class NewVerificationRequestNotification extends Notification
         private readonly Company|University $entity,
     ) {}
 
-    /**
-     * @return array<int, string>
-     */
     public function via(object $notifiable): array
     {
         return ["database"];
     }
 
-    /**
-     * @return array<string, string>
-     */
     public function toArray(object $notifiable): array
     {
         return [
