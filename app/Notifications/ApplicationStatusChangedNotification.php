@@ -26,6 +26,7 @@ class ApplicationStatusChangedNotification extends Notification
             "offer_id" => $this->application->offer_id,
             "offer_title" => $this->application->offer->title,
             "status" => $this->application->status->value,
+            "url" => route("student.applications"),
         ];
     }
 }

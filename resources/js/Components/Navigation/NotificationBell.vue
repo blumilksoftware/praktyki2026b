@@ -120,14 +120,14 @@ onUnmounted(() => {
           <button
             v-if="hasUnread"
             type="button"
-            class="shrink-0 whitespace-nowrap text-xs font-medium text-primary hover:text-primary/80"
+            class="shrink-0 whitespace-nowrap rounded-md border border-primary/30 px-2 py-1 text-xs font-medium text-primary hover:bg-primary/5"
             @click="markAllAsRead"
           >
             {{ t('notifications.markAllAsRead') }}
           </button>
         </div>
 
-        <ul class="max-h-96 overflow-y-auto">
+        <ul class="max-h-96 divide-y divide-border overflow-y-auto">
           <li v-if="notifications.length === 0" class="px-4 py-6 text-center text-sm text-additional">
             {{ t('notifications.empty') }}
           </li>
