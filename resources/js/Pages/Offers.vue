@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
@@ -7,7 +7,10 @@ import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
+import ClientPagination from '@/Components/Common/ClientPagination.vue'
 import { ROUTES } from '@/Helpers/routes'
+
+const OFFERS_PER_PAGE = 6
 
 const props = defineProps({
   offers: { type: Array, default: () => [] },
@@ -70,6 +73,19 @@ const availableCities = computed(() => {
   return [...new Set(props.offers.map((offer) => offer.city).filter(Boolean))].sort()
 })
 
+const currentPage = ref(1)
+
+const totalPages = computed(() => Math.max(1, Math.ceil(filteredOffers.value.length / OFFERS_PER_PAGE)))
+
+const paginatedOffers = computed(() => {
+  const start = (currentPage.value - 1) * OFFERS_PER_PAGE
+  return filteredOffers.value.slice(start, start + OFFERS_PER_PAGE)
+})
+
+watch(filteredOffers, () => {
+  currentPage.value = 1
+})
+
 const resetFilters = () => {
   query.value = ''
   city.value = ''
@@ -78,6 +94,7 @@ const resetFilters = () => {
   studyFieldIds.value = []
   dateFrom.value = ''
   dateTo.value = ''
+  currentPage.value = 1
 }
 </script>
 
@@ -267,12 +284,14 @@ const resetFilters = () => {
           </div>
 
           <OffersList
-            :offers="filteredOffers"
+            :offers="paginatedOffers"
             :has-cv="hasCv"
             :guest="isGuest"
             :empty-title="viewMode === 'applied' ? t('student.offers.emptyApplied.title') : undefined"
             :empty-description="viewMode === 'applied' ? t('student.offers.emptyApplied.description') : undefined"
           />
+
+          <ClientPagination v-model:current-page="currentPage" :total-pages="totalPages" />
         </section>
       </div>
     </div>

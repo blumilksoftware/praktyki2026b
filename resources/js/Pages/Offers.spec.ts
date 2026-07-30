@@ -186,4 +186,55 @@ describe('Offers.vue', () => {
       expect(titles).toEqual(['Frontend Intern', 'Fullstack Intern'])
     })
   })
+
+  describe('pagination', () => {
+    const manyOffers = Array.from({ length: 8 }, (_, index) => ({
+      id: index + 1,
+      title: `Intern ${index + 1}`,
+      city: 'Wrocław',
+      work_mode: 'remote',
+      has_applied: false,
+      start_date: '2026-09-01',
+      end_date: '2026-09-30',
+      study_field_ids: [],
+      company: { name: 'Acme', is_verified: true },
+    }))
+
+    it('shows only the first page of results and hides the rest', () => {
+      const wrapper = mountOffers({ offers: manyOffers })
+
+      const titles = wrapper.findAll('.stub-offer').map((el) => el.text())
+      expect(titles).toEqual(['Intern 1', 'Intern 2', 'Intern 3', 'Intern 4', 'Intern 5', 'Intern 6'])
+      expect(wrapper.text()).toContain('student.offers.results.count {"count":8}')
+    })
+
+    it('navigates to the next page and shows the remaining offers', async () => {
+      const wrapper = mountOffers({ offers: manyOffers })
+
+      const pageButtons = wrapper.findAll('button').filter((btn) => btn.text() === '2')
+      await pageButtons[0].trigger('click')
+
+      const titles = wrapper.findAll('.stub-offer').map((el) => el.text())
+      expect(titles).toEqual(['Intern 7', 'Intern 8'])
+    })
+
+    it('resets back to the first page when a filter changes', async () => {
+      const wrapper = mountOffers({ offers: manyOffers })
+
+      const pageButtons = wrapper.findAll('button').filter((btn) => btn.text() === '2')
+      await pageButtons[0].trigger('click')
+      expect(wrapper.findAll('.stub-offer').map((el) => el.text())).toEqual(['Intern 7', 'Intern 8'])
+
+      await wrapper.find('input[type="search"]').setValue('Intern 1')
+
+      const titles = wrapper.findAll('.stub-offer').map((el) => el.text())
+      expect(titles).toEqual(['Intern 1'])
+    })
+
+    it('does not render pagination controls when everything fits on one page', () => {
+      const wrapper = mountOffers()
+
+      expect(wrapper.findAll('button').some((btn) => btn.text() === '2')).toBe(false)
+    })
+  })
 })

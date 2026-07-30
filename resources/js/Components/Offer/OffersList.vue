@@ -13,7 +13,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div class="max-h-[calc(100vh-10rem)] overflow-y-auto pr-1">
+  <div>
     <div v-if="offers.length === 0" class="mx-4 flex min-h-[28rem] items-center justify-center rounded-3xl border border-dashed border-border bg-white px-8 text-center text-additional sm:mx-0" role="status" aria-live="polite">
       <div>
         <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-white shadow-sm">
