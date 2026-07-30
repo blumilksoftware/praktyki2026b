@@ -23,7 +23,7 @@ jobs:
       contents: read
     env:
       # renovate: datasource=github-releases depName=php packageName=containerbase/php-prebuild
-      PHP_VERSION: 8.4.16
+      PHP_VERSION: 8.4.23
     services:
       pgsql:
         image: postgres:16.3-alpine3.18@sha256:64e18e8fb3e9c9aac89ac590c5dd8306b862478404f76cd9b5f7720d012b4c47 # https://hub.docker.com/_/postgres
@@ -41,7 +41,7 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3 # https://github.com/actions/checkout
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0 # https://github.com/actions/checkout
 
       - name: Validate composer.json and composer.lock
         run: composer validate
