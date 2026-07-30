@@ -52,10 +52,17 @@ export const ROUTES = {
   
   SETTINGS: "/settings",
   LOGOUT: "/logout",
+
+  NOTIFICATIONS_READ_ALL: "/notifications/read-all",
+  NOTIFICATIONS_READ: "/notifications/{notification}/read",
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]
 
 export function studentOfferWithdraw(offerId: string): string {
   return ROUTES.STUDENT_OFFER_WITHDRAW.replace("{offer}", offerId)
+}
+
+export function notificationRead(notificationId: string): string {
+  return ROUTES.NOTIFICATIONS_READ.replace("{notification}", notificationId)
 }
