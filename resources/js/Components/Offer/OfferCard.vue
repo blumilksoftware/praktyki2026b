@@ -78,7 +78,7 @@ const isExpired = computed(() => props.offer.status === 'expired')
         <div class="mt-6 grid gap-3 sm:grid-cols-3">
           <div class="rounded-2xl border border-border bg-white px-4 py-3">
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-additional">{{ t('student.offers.card.dateRange') }}</p>
-            <p class="mt-1 text-sm font-medium text-text">{{ offer.start_date }} - {{ offer.end_date }}</p>
+            <p class="mt-1 text-sm font-medium text-text">{{ t('student.offers.card.dateRangeValue', { start: offer.start_date, end: offer.end_date }) }}</p>
           </div>
 
           <div class="rounded-2xl border border-border bg-white px-4 py-3">

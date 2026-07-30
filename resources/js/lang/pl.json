@@ -557,7 +557,8 @@
         "removeFromFavorites": "Usuń z ulubionych",
         "mapComingSoon": "Mapa pojawi się w osobnej podstronie",
           "expiredBadge": "Wygasła",
-          "expiredNotice": "Już nieaktywna"
+          "expiredNotice": "Już nieaktywna",
+          "dateRangeValue": "{start} - {end}"
       }
     }
   },

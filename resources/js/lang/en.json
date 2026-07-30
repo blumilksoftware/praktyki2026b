@@ -421,7 +421,8 @@
           "removeFromFavorites": "Remove from favorites",
           "mapComingSoon": "The map will appear on a separate page",
           "expiredBadge": "Expired",
-          "expiredNotice": "No longer active"
+          "expiredNotice": "No longer active",
+          "dateRangeValue": "{start} - {end}"
       }
     },
     "cv": {
