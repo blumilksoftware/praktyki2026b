@@ -1,6 +1,7 @@
 {
   "onboarding": {
     "layout": {
+        "title": "Panel studenta",
       "skipToContent": "Przejdź do treści",
       "nav": {
         "ariaLabel": "Nawigacja studenta",

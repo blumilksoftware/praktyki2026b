@@ -102,9 +102,6 @@ const navItems = computed(() => [
           />
         </div>
       </section>
-  <Head :title="t('student.layout.title')" />
-    <div class="flex flex-col gap-6">
-</div>
 
     </div>
   </StudentPanelLayout>
