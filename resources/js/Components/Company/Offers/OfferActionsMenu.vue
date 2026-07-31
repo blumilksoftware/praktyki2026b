@@ -41,7 +41,11 @@ const emit = defineEmits(['toggle', 'edit', 'toggle-status', 'delete'])
     >
       <button
         type="button"
-        class="flex items-center gap-2 w-full px-3 py-2 text-left text-text hover:bg-gray-50 cursor-pointer"
+        class="flex items-center gap-2 w-full px-3 py-2 text-left"
+        :class="offer.status === 'closed'
+          ? 'text-gray-400 cursor-not-allowed'
+          : 'text-text hover:bg-gray-50 cursor-pointer'"
+        :disabled="offer.status === 'closed'"
         @click="emit('edit', props.offer)"
       >
         <IconPencil class="w-4 h-4" />
