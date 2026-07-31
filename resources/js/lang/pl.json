@@ -671,6 +671,7 @@
         "spots": "Liczba miejsc",
         "spotsMaxHint": "Maksymalna liczba miejsc: 1000",
         "city": "Miasto",
+        "cityPlaceholder": "Zacznij pisać nazwę miasta...",
         "preferredFields": "Preferowane kierunki studiów",
         "preferredFieldsPlaceholder": "Szukaj kierunków studiów",
         "preferredUniversities": "Preferowane uczelnie",

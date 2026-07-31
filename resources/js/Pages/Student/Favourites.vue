@@ -67,7 +67,7 @@ function removeFavourite(offerId) {
           <p class="mt-2 text-sm text-slate-500">{{ t('student.favorites.empty.description') }}</p>
           <Link
             :href="ROUTES.OFFERS"
-            class="mt-5 inline-flex items-center justify-center rounded-xl border border-blue-600 bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/40"
+            class="mt-5 inline-flex items-center justify-center rounded-xl border border-primary bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
             {{ t('student.favorites.backToOffers') }}
           </Link>

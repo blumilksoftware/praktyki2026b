@@ -178,9 +178,12 @@ const submit = () => {
           </div>
         </div>
 
-        <CityAutocomplete id="city" v-model="form.city" :label="t('company.offers.form.city')" required
-                          :error="fieldError('city')" stacked
-        />
+        <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
+          <CityAutocomplete id="city" v-model="form.city" :label="t('company.offers.form.city')"
+                            :placeholder="t('company.offers.form.cityPlaceholder')" required
+                            :error="fieldError('city')" stacked
+          />
+        </div>
       </div>
     </section>
     <section class="bg-white shadow-sm p-6 border border-border rounded-3xl">

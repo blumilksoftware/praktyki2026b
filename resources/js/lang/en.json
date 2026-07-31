@@ -679,6 +679,7 @@
         "spots": "Number of spots",
         "spotsMaxHint": "Maximum number of spots: 1000",
         "city": "City",
+        "cityPlaceholder": "Start typing a city name...",
         "preferredFields": "Preferred fields of study",
         "preferredFieldsPlaceholder": "Search fields of study",
         "preferredUniversities": "Preferred universities",
