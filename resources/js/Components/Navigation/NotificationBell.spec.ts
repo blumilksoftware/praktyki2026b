@@ -45,21 +45,21 @@ describe("NotificationBell", () => {
   it("does not show a badge when there are no unread notifications", () => {
     const wrapper = mountBell()
 
-    expect(wrapper.find(".bg-error").exists()).toBe(false)
+    expect(wrapper.find(".bg-secondary").exists()).toBe(false)
   })
 
   it("shows the unread count badge", () => {
     pageProps.notificationsUnreadCount = 3
     const wrapper = mountBell()
 
-    expect(wrapper.find(".bg-error").text()).toBe("3")
+    expect(wrapper.find(".bg-secondary").text()).toBe("3")
   })
 
   it("caps the badge at 9+", () => {
     pageProps.notificationsUnreadCount = 42
     const wrapper = mountBell()
 
-    expect(wrapper.find(".bg-error").text()).toBe("9+")
+    expect(wrapper.find(".bg-secondary").text()).toBe("9+")
   })
 
   it("loads notifications via a partial reload when opened", async () => {

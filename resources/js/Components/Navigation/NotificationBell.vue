@@ -109,7 +109,7 @@ onUnmounted(() => {
       <IconBell stroke="2" class="h-6 w-6" />
       <span
         v-if="hasUnread"
-        class="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-error px-1 text-[10px] font-semibold text-white"
+        class="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-semibold text-white"
       >
         {{ unreadBadge }}
       </span>
@@ -150,10 +150,14 @@ onUnmounted(() => {
               method="patch"
               as="button"
               preserve-scroll
-              class="block w-full px-4 py-3 text-left text-sm transition-colors hover:bg-background"
-              :class="item.read_at ? 'text-additional' : 'bg-primary/5 font-medium text-text'"
+              class="relative block w-full py-3 pr-4 pl-8 text-left text-sm transition-colors"
+              :class="item.read_at ? 'text-additional hover:bg-background' : 'bg-secondary/10 font-medium text-text hover:bg-secondary/15'"
               @click="isOpen = false"
             >
+              <span
+                v-if="!item.read_at"
+                class="absolute top-4 left-3 h-2 w-2 rounded-full bg-secondary"
+              />
               <p>{{ notificationLabel(item) }}</p>
               <p class="mt-1 text-xs text-additional">{{ formatCreatedAt(item.created_at) }}</p>
             </Link>
