@@ -79,12 +79,20 @@ function handleClickOutside(event) {
   }
 }
 
+function handleKeydown(event) {
+  if (event.key === 'Escape' && isOpen.value) {
+    isOpen.value = false
+  }
+}
+
 onMounted(() => {
   document.addEventListener('mousedown', handleClickOutside)
+  document.addEventListener('keydown', handleKeydown)
 })
 
 onUnmounted(() => {
   document.removeEventListener('mousedown', handleClickOutside)
+  document.removeEventListener('keydown', handleKeydown)
 })
 </script>
 
@@ -124,7 +132,7 @@ onUnmounted(() => {
           <button
             v-if="hasUnread"
             type="button"
-            class="shrink-0 whitespace-nowrap rounded-md border border-primary/30 px-2 py-1 text-xs font-medium text-primary hover:bg-primary/5"
+            class="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-md border border-primary/30 px-2 py-1 text-xs font-medium text-primary hover:bg-primary/5"
             @click="markAllAsRead"
           >
             {{ t('notifications.markAllAsRead') }}
