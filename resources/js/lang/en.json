@@ -1,641 +1,724 @@
 {
-  "onboarding": {
-    "banner": {
-      "title": "Complete your profile",
-      "description": "Fill in your profile details to get the most out of Applikuj.",
-      "action": "Go to profile",
-      "dismiss": "Dismiss"
+    "onboarding": {
+        "banner": {
+            "title": "Complete your profile",
+            "description": "Fill in your profile details to get the most out of Applikuj.",
+            "action": "Go to profile",
+            "dismiss": "Dismiss"
+        },
+        "progress": {
+            "title": "Profile completion",
+            "complete": "Your profile is complete!",
+            "nextStep": "Next step: {step}",
+            "expand": "Show profile fields",
+            "collapse": "Hide profile fields",
+            "allSteps": "Profile steps"
+        },
+        "steps": {
+            "university": "University",
+            "cv": "CV",
+            "logo": "Logo",
+            "description": "Description",
+            "tags": "Tags",
+            "faculties": "Faculties",
+            "externalFormUrl": "Application form URL"
+        }
     },
-    "progress": {
-      "title": "Profile completion",
-      "complete": "Your profile is complete!",
-      "nextStep": "Next step: {step}",
-      "expand": "Show profile fields",
-      "collapse": "Hide profile fields",
-      "allSteps": "Profile steps"
+    "common": {
+        "verifiedBadge": "Account verified by an administrator"
     },
-    "steps": {
-      "university": "University",
-      "cv": "CV",
-      "logo": "Logo",
-      "description": "Description",
-      "tags": "Tags",
-      "faculties": "Faculties",
-      "externalFormUrl": "Application form URL"
-    }
-  },
-  "common": {
-    "verifiedBadge": "Account verified by an administrator"
-  },
-  "errors": {
-    "401": {
-      "title": "Login required",
-      "description": "You must log in to access this page."
+    "errors": {
+        "401": {
+            "title": "Login required",
+            "description": "You must log in to access this page."
+        },
+        "403": {
+            "title": "Access denied",
+            "description": "You do not have permission to view this page."
+        },
+        "404": {
+            "title": "Page not found",
+            "description": "The page you are looking for does not exist or has been moved."
+        },
+        "500": {
+            "title": "Server error",
+            "description": "Something went wrong. Please try again later."
+        },
+        "backToHome": "Back to home"
     },
-    "403": {
-      "title": "Access denied",
-      "description": "You do not have permission to view this page."
+    "auth": {
+        "verification": {
+            "invalidLink": "Invalid or expired verification link.",
+            "resend_message": "A new verification link has been sent. Check your inbox.",
+            "notVerified": "Your email address has not been verified.",
+            "resendVerification": "Resend verification link",
+            "result": {
+                "title": "Email verification",
+                "backToLogin": "Go to login",
+                "success": {
+                    "heading": "Email verified successfully",
+                    "message": "Your account has been activated. You can now log in."
+                },
+                "already_verified": {
+                    "heading": "Email already verified",
+                    "message": "This email address has already been confirmed. You can log in."
+                },
+                "invalid": {
+                    "heading": "Invalid link",
+                    "message": "This verification link is invalid or has expired. Request a new one from the login page."
+                }
+            }
+        },
+        "login": {
+            "title": "Log in",
+            "adminTitle": "Admin Panel Login",
+            "heading": "Welcome back!",
+            "email": "E-mail",
+            "password": "Password",
+            "submit": "Sign in",
+            "forgotPassword": "Forgot your password?",
+            "registerLink": "Register",
+            "google": "Google",
+            "or": "or continue with",
+            "rememberMe": "Remember me",
+            "noAccount": "Don't have an account yet? Sign up",
+            "waiting": {
+                "title": "Confirm your email",
+                "heading": "Check your inbox",
+                "sentTo": "We sent a verification link to:",
+                "expiresInfo": "The link is valid for 24 hours.",
+                "resend": "Resend verification link",
+                "resendCooldown": "Resend in {seconds} s",
+                "resendSuccess": "If the address is registered and unverified, we sent a new link.",
+                "backToLogin": "Back to sign in"
+            }
+        },
+        "fields": {
+            "showPassword": "Show password",
+            "hidePassword": "Hide password"
+        },
+        "layout": {
+            "skipToContent": "Skip to content"
+        },
+        "register": {
+            "title": "Registration",
+            "heading": "Join us!",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "email": "E-mail",
+            "password": "Password",
+            "passwordConfirmation": "Confirm password",
+            "optionalUniversity": "University (optional)",
+            "termsPrefix": "I confirm that I have read the",
+            "termsLink": "terms and conditions",
+            "submit": "Register",
+            "google": "Google",
+            "or": "or continue with",
+            "hasAccount": "Already have an account?",
+            "loginLink": "Sign in",
+            "accountTypeTabs": {
+                "label": "Register as",
+                "ariaLabel": "Account type selection",
+                "university": "University",
+                "company": "Company",
+                "student": "Student"
+            },
+            "company": {
+                "title": "Company registration",
+                "companyName": "Company name",
+                "nip": "NIP",
+                "postalCode": "Postal code",
+                "city": "City",
+                "street": "Street and number",
+                "phone": "Phone number",
+                "website": "Company website (optional)",
+                "websiteHint": "You can enter just a domain, e.g. example.com."
+            },
+            "university": {
+                "title": "University registration",
+                "institutionName": "Institution name",
+                "domain": "University domain",
+                "domainHint": "Student email domain, e.g. edu.pl (without https://).",
+                "street": "Street and number",
+                "postalCode": "Postal code",
+                "city": "City",
+                "phone": "Phone number",
+                "website": "University website link (optional)",
+                "websiteHint": "You can enter just the domain, e.g. example.pl."
+            }
+        }
     },
-    "404": {
-      "title": "Page not found",
-      "description": "The page you are looking for does not exist or has been moved."
-    },
-    "500": {
-      "title": "Server error",
-      "description": "Something went wrong. Please try again later."
-    },
-    "backToHome": "Back to home"
-  },
-  "auth": {
-    "verification": {
-  "invalidLink": "Invalid or expired verification link.",
-  "resend_message": "A new verification link has been sent. Check your inbox.",
-  "notVerified": "Your email address has not been verified.",
-  "resendVerification": "Resend verification link",
-  "result": {
-    "title": "Email verification",
-    "backToLogin": "Go to login",
-    "success": {
-      "heading": "Email verified successfully",
-      "message": "Your account has been activated. You can now log in."
-    },
-    "already_verified": {
-      "heading": "Email already verified",
-      "message": "This email address has already been confirmed. You can log in."
-    },
-    "invalid": {
-      "heading": "Invalid link",
-      "message": "This verification link is invalid or has expired. Request a new one from the login page."
-    }
-  }
-},
-    "login": {
-      "title": "Log in",
-      "adminTitle": "Admin Panel Login",
-      "heading": "Welcome back!",
-      "email": "E-mail",
-      "password": "Password",
-      "submit": "Sign in",
-      "forgotPassword": "Forgot your password?",
-      "registerLink": "Register",
-      "google": "Google",
-      "or": "or continue with",
-      "rememberMe": "Remember me",
-      "noAccount": "Don't have an account yet? Sign up",
-      "waiting": {
-        "title": "Confirm your email",
-        "heading": "Check your inbox",
-        "sentTo": "We sent a verification link to:",
-        "expiresInfo": "The link is valid for 24 hours.",
-        "resend": "Resend verification link",
-        "resendCooldown": "Resend in {seconds} s",
-        "resendSuccess": "If the address is registered and unverified, we sent a new link.",
-        "backToLogin": "Back to sign in"
-      }
-    },
-    "fields": {
-      "showPassword": "Show password",
-      "hidePassword": "Hide password"
-    },
-    "layout": {
-      "skipToContent": "Skip to content"
-    },
-    "register": {
-      "title": "Registration",
-      "heading": "Join us!",
-      "firstName": "First name",
-      "lastName": "Last name",
-      "email": "E-mail",
-      "password": "Password",
-      "passwordConfirmation": "Confirm password",
-      "optionalUniversity": "University (optional)",
-      "termsPrefix": "I confirm that I have read the",
-      "termsLink": "terms and conditions",
-      "submit": "Register",
-      "google": "Google",
-      "or": "or continue with",
-      "hasAccount": "Already have an account?",
-      "loginLink": "Sign in",
-      "accountTypeTabs": {
-        "label": "Register as",
-        "ariaLabel": "Account type selection",
-        "university": "University",
-        "company": "Company",
-        "student": "Student"
-      },
-      "company": {
-        "title": "Company registration",
-        "companyName": "Company name",
+    "profiles": {
+        "navMenu": "Navigation menu",
+        "profile": "Profile",
+        "aboutUs": "About us",
+        "contact": "Contact",
+        "noContactInfo": "No contact information",
+        "currentOffers": "Current offers",
+        "noOffers": "No current offers",
         "nip": "NIP",
-        "postalCode": "Postal code",
-        "city": "City",
-        "street": "Street and number",
-        "phone": "Phone number",
-        "website": "Company website (optional)",
-        "websiteHint": "You can enter just a domain, e.g. example.com."
-      },
-      "university": {
-        "title": "University registration",
-        "institutionName": "Institution name",
-        "domain": "University domain",
-        "domainHint": "Student email domain, e.g. edu.pl (without https://).",
-        "street": "Street and number",
-        "postalCode": "Postal code",
-        "city": "City",
-        "phone": "Phone number",
-        "website": "University website link (optional)",
-        "websiteHint": "You can enter just the domain, e.g. example.pl."
-      }
-    }
-  },
-  "profiles": {
-    "navMenu": "Navigation menu",
-    "profile": "Profile",
-    "aboutUs": "About us",
-    "contact": "Contact",
-    "noContactInfo": "No contact information",
-    "currentOffers": "Current offers",
-    "noOffers": "No current offers",
-    "nip": "NIP",
-    "spots": "Spots",
-    "uploadLogo": "Upload logo",
-    "searchTags": "Search tags...",
-    "activeTags": "Active tags",
-    "noActiveTags": "No active tags",
-    "noResults": "No results",
-    "errors":{
-       "invalidFormat": "Invalid format. Allowed formats are: JPG, JPEG, PNG, WEBP.",
-      "fileTooLarge": "Maximum file size is {maxSize} MB."
+        "spots": "Spots",
+        "uploadLogo": "Upload logo",
+        "searchTags": "Search tags...",
+        "activeTags": "Active tags",
+        "noActiveTags": "No active tags",
+        "noResults": "No results",
+        "errors":{
+            "invalidFormat": "Invalid format. Allowed formats are: JPG, JPEG, PNG, WEBP.",
+            "fileTooLarge": "Maximum file size is {maxSize} MB."
+        },
+        "edit": {
+            "successMessage": "Profile updated successfully."
+        },
+        "company": {
+            "myOffers": "My offers",
+            "candidateApplications": "Candidate applications",
+            "teamAndPermissions": "Team and permissions",
+            "noOffers": "The company does not have any open job postings.",
+            "noContactInfo": "The company has not provided contact information.",
+            "noDescription": "The company has not provided a description yet.",
+            "noTags": "The company has not provided any tags."
+        },
+        "university": {
+            "recruitmentAndSystem": "Recruitment and system",
+            "noFaculties": "The university has not added any faculties yet.",
+            "facultiesAndStudyFields": "Faculties and study fields",
+            "universityDomain": "University domain",
+            "noStudyFields": "The university has not added any study fields yet.",
+            "systemInformation": "System information",
+            "domain": "University domain",
+            "domainLockedHint": "Domains cannot be changed. Please contact the administrator.",
+            "externalFormUrl": "External application form URL",
+            "externalFormUrlPlaceholder": "External application form URL (optional)"
+        }
     },
-    "edit": {
-      "successMessage": "Profile updated successfully."
+    "validation": {
+        "requiredField": "This field is required.",
+        "fillRequiredFields": "Please fill in all required fields."
     },
-    "company": {
-      "myOffers": "My offers",
-      "candidateApplications": "Candidate applications",
-      "teamAndPermissions": "Team and permissions",
-      "noOffers": "The company does not have any open job postings.",
-      "noContactInfo": "The company has not provided contact information.",
-      "noDescription": "The company has not provided a description yet.",
-      "noTags": "The company has not provided any tags."
+    "buttons": {
+        "view": "View",
+        "save": "Save changes",
+        "saving": "Saving...",
+        "saveAndGoToOffers": "Save and go to offers",
+        "cancel": "Cancel",
+        "editProfile": "Edit profile",
+        "back": "Back",
+        "delete": "Delete",
+        "confirm": "Confirm",
+        "close": "Close",
+        "showAll": "Show all",
+        "collapseTags": "Collapse tags",
+        "myProfile": "My profile",
+        "settings": "Settings",
+        "logout": "Logout",
+        "apply": {
+            "noCvMessage": "To apply for this position, you must add a CV to your profile.",
+            "uploadCvPrompt": "Go to profile edit and upload your CV",
+            "applyNow": "Apply now",
+            "loading": "Sending...",
+            "appliedOn": "Applied on {date}"
+        }
+    },
+
+    "table": {
+        "id": "ID",
+        "student": "Student",
+        "company": "Company",
+        "status": "Status",
+        "noData": "No data to display"
+    },
+    "admin": {
+        "applications": {
+            "caption": "List of candidate applications",
+            "title": "Applications panel",
+            "description": "Review and verify the latest applications.",
+            "stats": "All applications statistics",
+            "heading": "Applications list",
+            "backToDashboard": "Back to dashboard",
+            "placeholder": "Page under construction"
+        },
+        "verification": {
+            "name": "Name",
+            "pending": "Pending",
+            "verified": "Verified",
+            "rejected": "Rejected",
+            "companies": "Companies",
+            "universities": "Universities",
+            "city": "City",
+            "nip": "NIP",
+            "email": "Email",
+            "domain": "Domain",
+            "address": "Address",
+            "phone": "Phone",
+            "website": "Website",
+            "accept": "Accept",
+            "reject": "Reject",
+            "rejectReason": "Enter rejection reason:",
+            "street": "Street and number",
+            "close": "Close",
+            "postalCode": "Postal code",
+            "description": "Description",
+            "tags": "Tags",
+            "externalFormUrl": "External form URL",
+            "noPending": "No pending verifications",
+            "submittedAt": "Submitted at",
+            "details": "Details",
+            "all": "All",
+            "search": "Search...",
+            "actions": "Actions",
+            "filterByStatusAriaLabel": "Filter applications by status",
+            "searchAriaLabel": "Search applications",
+            "acceptAriaLabel": "Accept application: {name}",
+            "rejectAriaLabel": "Reject application: {name}",
+            "detailsAriaLabel": "Application details: {name}",
+            "rejectTitle": "Reject application",
+            "rejectDescription": "You are about to reject the application for {name}. This action is irreversible.",
+            "rejectReasonPlaceholder": "Enter reason here...",
+            "cancel": "Cancel",
+            "confirmReject": "Reject application",
+            "closeModal": "Close modal",
+            "rejectReasonRequired": "Rejection reason is required."
+        },
+        "panel": {
+            "greeting": "Welcome to the admin panel!",
+            "description": "Here you can manage applications and view statistics.",
+            "goToApplications": "Go to applications",
+            "stats": {
+                "activeStudents": "Active students",
+                "approvedCompanies": "Approved companies",
+                "approvedUniversities": "Approved universities",
+                "activeOffers": "Active offers"
+            },
+            "pendingVerifications": "Pending verifications",
+            "verificationProgress": "Verification progress",
+            "verificationProgressAriaLabel": "Verification progress"
+        },
+        "layout": {
+            "language": "Language",
+            "skipToContent": "Skip to content",
+            "title": "Admin",
+            "subtitle": "Management panel",
+            "nav": {
+                "openMenu": "Open menu",
+                "closeMenu": "Close menu",
+                "profile": "Profile",
+                "ariaLabel": "Administrator navigation",
+                "dashboard": "Dashboard",
+                "applications": "Applications",
+                "settings": "Settings",
+                "mobileAriaLabel": "Mobile navigation"
+            },
+            "logout": "Logout",
+            "userRole": "Administrator",
+            "languageSwitch": {
+                "toEnglish": "Switch to english",
+                "toPolish": "Switch to polish"
+            }
+        }
     },
     "university": {
-      "recruitmentAndSystem": "Recruitment and system",
-      "noFaculties": "The university has not added any faculties yet.",
-      "facultiesAndStudyFields": "Faculties and study fields",
-      "universityDomain": "University domain",
-      "noStudyFields": "The university has not added any study fields yet.",
-      "systemInformation": "System information",
-      "domain": "University domain",
-      "domainLockedHint": "Domains cannot be changed. Please contact the administrator.",
-      "externalFormUrl": "External application form URL",
-      "externalFormUrlPlaceholder": "External application form URL (optional)"
-    }
-  },
-  "validation": {
-      "requiredField": "This field is required.",
-      "fillRequiredFields": "Please fill in all required fields."
-  },
-  "buttons": {
-    "view": "View",
-    "save": "Save changes",
-    "saving": "Saving...",
-    "saveAndGoToOffers": "Save and go to offers",
-    "cancel": "Cancel",
-    "editProfile": "Edit profile",
-    "back": "Back",
-    "delete": "Delete",
-    "confirm": "Confirm",
-    "close": "Close",
-    "showAll": "Show all",
-    "collapseTags": "Collapse tags",
-    "myProfile": "My profile",
-    "settings": "Settings",
-    "logout": "Logout",
-    "apply": {
-      "noCvMessage": "To apply for this position, you must add a CV to your profile.",
-      "uploadCvPrompt": "Go to profile edit and upload your CV",
-      "applyNow": "Apply now",
-      "loading": "Sending...",
-      "appliedOn": "Applied on {date}"
-    }
-  },
-
-  "table": {
-    "id": "ID",
-    "student": "Student",
-    "company": "Company",
-    "status": "Status",
-    "noData": "No data to display"
-  },
-  "admin": {
-    "applications": {
-      "caption": "List of candidate applications",
-      "title": "Applications panel",
-      "description": "Review and verify the latest applications.",
-      "stats": "All applications statistics",
-      "heading": "Applications list",
-      "backToDashboard": "Back to dashboard",
-      "placeholder": "Page under construction"
+        "layout": {
+            "title": "University"
+        },
+        "profile": {
+            "title": "Profile"
+        },
+        "companies": {
+            "title": "Company search"
+        }
     },
-    "verification": {
-      "name": "Name",
-      "pending": "Pending",
-      "verified": "Verified",
-      "rejected": "Rejected",
-      "companies": "Companies",
-      "universities": "Universities",
-      "city": "City",
-      "nip": "NIP",
-      "email": "Email",
-      "domain": "Domain",
-      "address": "Address",
-      "phone": "Phone",
-      "website": "Website",
-      "accept": "Accept",
-      "reject": "Reject",
-      "rejectReason": "Enter rejection reason:",
-      "street": "Street and number",
-      "close": "Close",
-      "postalCode": "Postal code",
-      "description": "Description",
-      "tags": "Tags",
-      "externalFormUrl": "External form URL",
-      "noPending": "No pending verifications",
-      "submittedAt": "Submitted at",
-      "details": "Details",
-      "all": "All",
-      "search": "Search...",
-      "actions": "Actions",
-      "filterByStatusAriaLabel": "Filter applications by status",
-      "searchAriaLabel": "Search applications",
-      "acceptAriaLabel": "Accept application: {name}",
-      "rejectAriaLabel": "Reject application: {name}",
-      "detailsAriaLabel": "Application details: {name}",
-      "rejectTitle": "Reject application",
-      "rejectDescription": "You are about to reject the application for {name}. This action is irreversible.",
-      "rejectReasonPlaceholder": "Enter reason here...",
-      "cancel": "Cancel",
-      "confirmReject": "Reject application",
-      "closeModal": "Close modal",
-      "rejectReasonRequired": "Rejection reason is required."
-    },
-    "panel": {
-      "greeting": "Welcome to the admin panel!",
-      "description": "Here you can manage applications and view statistics.",
-      "goToApplications": "Go to applications",
-      "stats": {
-        "activeStudents": "Active students",
-        "approvedCompanies": "Approved companies",
-        "approvedUniversities": "Approved universities",
-        "activeOffers": "Active offers"
-      },
-      "pendingVerifications": "Pending verifications",
-      "verificationProgress": "Verification progress",
-      "verificationProgressAriaLabel": "Verification progress"
-    },
-    "layout": {
-      "language": "Language",
-      "skipToContent": "Skip to content",
-      "title": "Admin",
-      "subtitle": "Management panel",
-      "nav": {
-        "openMenu": "Open menu",
-        "closeMenu": "Close menu",
-        "profile": "Profile",
-        "ariaLabel": "Administrator navigation",
-        "dashboard": "Dashboard",
-        "applications": "Applications",
-        "settings": "Settings",
-        "mobileAriaLabel": "Mobile navigation"
-      },
-      "logout": "Logout",
-      "userRole": "Administrator",
-      "languageSwitch": {
-        "toEnglish": "Switch to english",
-        "toPolish": "Switch to polish"
-      }
-    }
-  },
-  "university": {
-    "layout": {
-      "title": "University",
+    "student": {
+        "layout": {
+            "title": "Student panel",
+            "skipToContent": "Skip to content",
+            "nav": {
+                "dashboard": "Dashboard",
+                "profile": "Profile",
+                "offers": "Offers",
+                "favorites": "Favorites",
+                "ariaLabel": "Student navigation",
+                "mobileAriaLabel": "Student mobile navigation",
+                "applications": "Applications"
+            }
+        },
         "nav": {
             "dashboard": "Dashboard",
-            "profile": "Profile"
+            "profile": "Profile",
+            "offers": "Offers",
+            "favorites": "Favorites"
+        },
+        "workModes": {
+            "remote": "Remote",
+            "hybrid": "Hybrid",
+            "onSite": "On-site"
+        },
+        "applications": {
+            "title": "Application history",
+            "subtitle": "Track the status of your internship applications.",
+            "empty": "You have not applied to any offers yet.",
+            "listAriaLabel": "Application list",
+            "appliedAt": "Applied: {date}",
+            "openHistory": "View application history",
+            "status": {
+                "pending": "Pending",
+                "reviewed": "Reviewed",
+                "accepted": "Accepted",
+                "rejected": "Rejected"
+            },
+            "withdraw": {
+                "action": "Withdraw",
+                "modalTitle": "Withdraw application?",
+                "confirmation": "Are you sure you want to withdraw your application for “{title}”? This cannot be undone.",
+                "cancel": "Cancel",
+                "confirm": "Withdraw application"
+            }
+        },
+        "dashboard": {
+            "title": "Student dashboard",
+            "heading": "Your offer hub",
+            "description": "Browse offers, jump back to favorites, and move between views with one click.",
+            "primaryAction": "Browse offers",
+            "secondaryAction": "View favorites",
+            "previewTitle": "Latest offers",
+            "previewDescription": "A quick preview of the newest positions.",
+            "cards": {
+                "offersTitle": "All offers",
+                "offersDescription": "Open the full filtered list.",
+                "favoritesTitle": "Favorite offers",
+                "favoritesDescription": "Review saved positions in one place."
+            }
+        },
+        "favorites": {
+            "heading": "Your saved offers",
+            "description": "This is where heart-marked offers live. Remove them here or return to the full list.",
+            "backToOffers": "Back to offers",
+            "backToDashboard": "Back to dashboard",
+            "empty": {
+                "title": "You do not have any favorite offers yet",
+                "description": "Add an offer to favorites from a card and it will appear here."
+            }
+        },
+        "offers": {
+            "tabs": {
+                "all": "All offers",
+                "applied": "Applied",
+                "notApplied": "Not applied"
+            },
+            "filters": {
+                "kicker": "Filters",
+                "title": "Offer board",
+                "reset": "Reset",
+                "resetAriaLabel": "Clear all filters",
+                "search": "Search",
+                "searchPlaceholder": "Company, position or city",
+                "city": "City",
+                "allCities": "All cities",
+                "workMode": "Work mode",
+                "allWorkModes": "All work modes",
+                "verifiedOnly": "Verified companies only",
+                "studyFields": {
+                    "label": "Fields of study",
+                    "placeholder": "Select fields from the list"
+                },
+                "dateRange": {
+                    "label": "Internship date range",
+                    "from": "From",
+                    "to": "To"
+                },
+                "dateRangeInvalid": "The end date must be on or after the start date."
+            },
+            "results": {
+                "caption": "Number of offers",
+                "count": "{count} offers",
+                "helper": "Scrollable tile list, one offer per tile"
+            },
+            "pagination": {
+                "perPage": "Offers per page"
+            },
+            "empty": {
+                "title": "No offers match the filters",
+                "description": "Try clearing the filters or broadening your search."
+            },
+            "emptyApplied": {
+                "title": "You have not applied to any offers yet",
+                "description": "Offers you apply to will show up here."
+            },
+            "card": {
+                "logoAlt": "Company logo for {company}",
+                "verified": "Verified",
+                "verifiedAriaLabel": "Verified company",
+                "dateRange": "Date range",
+                "remainingSpots": "Remaining spots",
+                "showOnMap": "Show on map",
+                "applyNow": "Apply now",
+                "addToFavorites": "Add to favorites",
+                "removeFromFavorites": "Remove from favorites",
+                "mapComingSoon": "The map will appear on a separate page",
+                "loginToApply": "Log in to apply"
+            }
+        },
+        "cv": {
+            "title": "Your CV (PDF only)",
+            "hint": "Accepted format: PDF. Maximum size: 5 MB.",
+            "selectFile": "Choose PDF file",
+            "dropzone": "or drag and drop it here",
+            "replace": "Replace",
+            "delete": "Delete file",
+            "preview": "Preview",
+            "previewTitle": "CV preview",
+            "openInNewTab": "Open in a new tab",
+            "previewUnavailable": "CV preview is temporarily unavailable.",
+            "uploading": "Uploading... {progress}%",
+            "defaultFileName": "CV.pdf",
+            "errors": {
+                "invalidType": "The file must be a PDF.",
+                "tooLarge": "The file must not be larger than 5 MB."
+            }
+        },
+        "profile": {
+            "title": "Profile",
+            "modal": {
+                "close": "Close"
+            },
+            "actions": {
+                "save": "Save",
+                "cancel": "Cancel",
+                "add": "Add",
+                "edit": "Edit"
+            },
+            "sidebar": {
+                "editProfile": "Edit profile",
+                "age": "{count} years old",
+                "yearTag": "year {year}",
+                "verified": "Verified university",
+                "cvUploaded": "CV uploaded"
+            },
+            "edit": {
+                "title": "Edit profile",
+                "basicData": "Basic information",
+                "searchPreferences": "Search preferences",
+                "searchPreferencesHint": "Choose industries and cities you are interested in — we will use them to match internship offers.",
+                "education": "Education",
+                "age": "Age (years)",
+                "ageLabel": "Age",
+                "agePlaceholder": "years",
+                "location": "Location (city, country)",
+                "locationLabel": "Location",
+                "locationPlaceholder": "city, country",
+                "street": "Street and number",
+                "postalCode": "Postal code",
+                "city": "City",
+                "university": "University",
+                "studyField": "Field of study",
+                "studyYear": "Year of study",
+                "specialization": "Specialization",
+                "saveChanges": "Save changes",
+                "backToProfile": "Back to profile",
+                "emailReadonlyHint": "To change your email, open Account and security from the profile icon in the navigation bar."
+            },
+            "photo": {
+                "label": "Profile photo",
+                "changeButton": "Change",
+                "uploadAction": "Upload a file",
+                "orDragDrop": " or drag and drop",
+                "formatHint": "PNG, JPG, WebP up to 2 MB",
+                "change": "Change profile photo",
+                "dropzone": "Drag a photo here or choose a file",
+                "previewHint": "Preview — save changes to upload the photo.",
+                "cancelPreview": "Cancel preview",
+                "errors": {
+                    "invalidType": "Allowed formats: JPG, PNG, WebP.",
+                    "tooLarge": "File is too large (max 2 MB)."
+                }
+            },
+            "details": {
+                "firstName": "First name",
+                "lastName": "Last name",
+                "fields": "Industries",
+                "fieldsPlaceholder": "Select an industry from the list",
+                "cities": "Cities",
+                "citiesPlaceholder": "Type a city and press Enter"
+            },
+            "tags": {
+                "remove": "Remove tag",
+                "limitHint": "{count}/{max} tags. You can add up to {max}.",
+                "limitReached": "Limit reached: maximum {max} tags."
+            },
+            "skills": {
+                "title": "Technical skills",
+                "description": "Technologies, tools and programming languages",
+                "modalTitle": "Add technical skills",
+                "placeholder": "Type a skill and press Enter",
+                "empty": "No skills added yet. Click \"Add\" to fill in."
+            },
+            "workMode": {
+                "title": "Expected work mode",
+                "modalTitle": "Edit expected work mode",
+                "empty": "No work mode selected. Click \"Edit\" to fill in.",
+                "options": {
+                    "onsite": "On-site",
+                    "remote": "Remote",
+                    "hybrid": "Hybrid"
+                }
+            },
+            "applications": {
+                "title": "Saved and submitted applications",
+                "historyHint": "View the status of your submitted applications."
+            },
+            "placeholder": {
+                "comingSoon": "This section will be available soon."
+            },
+            "account": {
+                "title": "Account and security",
+                "description": "Password, email and account deletion."
+            },
+            "password": {
+                "title": "Change password",
+                "current": "Current password",
+                "new": "New password",
+                "confirmation": "Confirm new password"
+            },
+            "email": {
+                "title": "Change email address",
+                "label": "Email address",
+                "newAddress": "New email address",
+                "unverifiedNotice": "The address {email} is inactive until you confirm it via the email link.",
+                "pendingNotice": "The new address {email} is inactive until you confirm it via the email link.",
+                "currentPassword": "Current password",
+                "resend": "Resend verification link"
+            },
+            "delete": {
+                "title": "Delete account",
+                "warning": "This cannot be undone.",
+                "openModal": "Delete account",
+                "modalTitle": "Confirm account deletion",
+                "confirmationLabel": "I understand this action cannot be undone",
+                "password": "Password",
+                "confirm": "Delete account permanently",
+                "cancel": "Cancel"
+            }
         }
     },
-    "profile": {
-      "title": "Profile"
+    "offers": {
+        "browseCta": "Browse offers",
+        "search": {
+            "title": "Internships and offers",
+            "subtitle": "Browse offers and narrow results to match your preferences.",
+            "resultsTitle": "Results",
+            "empty": "No offers match the selected filters.",
+            "resultsCount": "Showing {count} offers on this page."
+        },
+        "filters": {
+            "title": "Filters",
+            "clearAll": "Clear filters",
+            "studyFields": {
+                "label": "Fields of study",
+                "placeholder": "Select fields from the list"
+            },
+            "workMode": {
+                "label": "Work mode",
+                "all": "All",
+                "onSite": "On-site",
+                "hybrid": "Hybrid",
+                "remote": "Remote"
+            },
+            "dateRange": {
+                "label": "Internship date range",
+                "from": "From",
+                "to": "To"
+            },
+            "dateRangeInvalid": "The end date must be on or after the start date."
+        }
     },
-    "companies": {
-      "title": "Company search"
+    "company": {
+        "layout": {
+            "title": "Company",
+            "nav": {
+                "dashboard": "Dashboard",
+                "profile": "Profile"
+            }
+        },
+        "dashboard": {
+            "offers": {
+                "title": "Offers",
+                "subtitle": "Manage your job postings and applications",
+                "noOffers": "No offers yet",
+                "confirmDelete": "Are you sure you want to delete this offer?",
+                "status": {
+                    "published": "Published",
+                    "draft": "Draft",
+                    "closed": "Closed",
+                    "expired": "Expired"
+                },
+                "table": {
+                    "offer": "Offer",
+                    "status": "Status",
+                    "spots": "Spots",
+                    "applications": "Applications",
+                    "actions": "Actions"
+                },
+                "search": {
+                    "placeholder": "Search offers",
+                    "clear": "Clear search"
+                },
+                "actions": {
+                    "menu": "Open actions menu",
+                    "edit": "Edit",
+                    "activate": "Activate",
+                    "deactivate": "Deactivate",
+                    "delete": "Delete"
+                },
+                "pagination": {
+                    "summary": "Showing {from}–{to} of {total}"
+                },
+                "filters": {
+                    "allStatuses": "All",
+                    "published": "Published",
+                    "draft": "Draft",
+                    "closed": "Closed",
+                    "expired": "Expired"
+                }
+            }
+        },
+        "profile": {
+            "title": "Profile",
+            "subtitle": "Browse offers and narrow results to match your preferences."
+        }
     },
-      "dashboard": {
-          "title": "Student statistics",
-          "filter": {
-              "title": "Period",
-              "from": "From",
-              "to": "To",
-              "apply": "Apply",
-              "reset": "Reset"
-          },
-          "stats": {
-              "linkedStudents": "Linked students",
-              "applicationsSubmitted": "Applications submitted",
-              "acceptedPlacements": "Accepted placements",
-              "acceptanceRate": "Acceptance rate {rate}%"
-          },
-          "breakdown": {
-              "title": "Faculty & field analytics",
-              "subtitle": "Detailed statistics on student distribution, applications, and placement success across academic units",
-              "byFaculty": "By faculty",
-              "byField": "By field of study",
-              "field": "Field of study",
-              "faculty": "Faculty",
-              "students": "Students",
-              "applications": "Applications",
-              "accepted": "Accepted",
-              "acceptedShare": "% accepted",
-              "empty": "No data for the selected period",
-              "unknown": "No faculty",
-              "showingResults" : "Showing {from}–{to} of {total}"
-          }
-      }
-  },
-  "student": {
-    "layout": {
-      "title": "Student panel",
-      "skipToContent": "Skip to content",
-      "nav": {
-        "dashboard": "Dashboard",
-        "profile": "Profile",
-        "applications": "Applications"
-      }
+    "pending": {
+        "title": "Accounts under verification",
+        "description": "Thank you for registering. To ensure student safety, every university or company account must be manually approved by our administrator.",
+        "status": "This usually takes {time} hours. When verification is successful, we will unlock your access to the panel and notify you by email.",
+        "contact": "If you have any questions, please contact us at {email}",
+        "log_out": "Log out"
     },
-    "applications": {
-      "title": "Application history",
-      "subtitle": "Track the status of your internship applications.",
-      "empty": "You have not applied to any offers yet.",
-      "listAriaLabel": "Application list",
-      "appliedAt": "Applied: {date}",
-      "openHistory": "View application history",
-      "status": {
-        "pending": "Pending",
-        "reviewed": "Reviewed",
-        "accepted": "Accepted",
-        "rejected": "Rejected"
-      },
-      "withdraw": {
-        "action": "Withdraw",
-        "modalTitle": "Withdraw application?",
-        "confirmation": "Are you sure you want to withdraw your application for “{title}”? This cannot be undone.",
-        "cancel": "Cancel",
-        "confirm": "Withdraw application"
-      }
-    },
-    "dashboard": {
-      "comingSoon": {
-        "title": "The student panel is under construction.",
-        "applications": "An overview of your applications will appear here soon (T-062, BE: T-061).",
-        "offersAndFavourites": "Offer search and favourites will arrive with milestones M3/M4 (T-046, T-066)."
-      }
-    },
-    "cv": {
-      "title": "Your CV (PDF only)",
-      "hint": "Accepted format: PDF. Maximum size: 5 MB.",
-      "selectFile": "Choose PDF file",
-      "dropzone": "or drag and drop it here",
-      "replace": "Replace",
-      "delete": "Delete file",
-      "preview": "Preview",
-      "previewTitle": "CV preview",
-      "openInNewTab": "Open in a new tab",
-      "previewUnavailable": "CV preview is temporarily unavailable.",
-      "uploading": "Uploading... {progress}%",
-      "defaultFileName": "CV.pdf",
-      "errors": {
-        "invalidType": "The file must be a PDF.",
-        "tooLarge": "The file must not be larger than 5 MB."
-      }
-    },
-    "profile": {
-      "title": "Profile",
-      "modal": {
-        "close": "Close"
-      },
-      "actions": {
-        "save": "Save",
-        "cancel": "Cancel",
-        "add": "Add",
-        "edit": "Edit"
-      },
-      "sidebar": {
-        "editProfile": "Edit profile",
-        "age": "{count} years old",
-        "yearTag": "year {year}",
-        "verified": "Verified university",
-        "cvUploaded": "CV uploaded"
-      },
-      "edit": {
-        "title": "Edit profile",
-        "basicData": "Basic information",
-        "searchPreferences": "Search preferences",
-        "searchPreferencesHint": "Choose industries and cities you are interested in — we will use them to match internship offers.",
-        "education": "Education",
-        "age": "Age (years)",
-        "ageLabel": "Age",
-        "agePlaceholder": "years",
-        "location": "Location (city, country)",
-        "locationLabel": "Location",
-        "locationPlaceholder": "city, country",
-        "street": "Street and number",
-        "postalCode": "Postal code",
-        "city": "City",
-        "university": "University",
-        "studyField": "Field of study",
-        "studyYear": "Year of study",
-        "specialization": "Specialization",
-        "saveChanges": "Save changes",
-        "backToProfile": "Back to profile",
-        "emailReadonlyHint": "To change your email, open Account and security from the profile icon in the navigation bar."
-      },
-      "photo": {
-        "label": "Profile photo",
-        "changeButton": "Change",
-        "uploadAction": "Upload a file",
-        "orDragDrop": " or drag and drop",
-        "formatHint": "PNG, JPG, WebP up to 2 MB",
-        "change": "Change profile photo",
-        "dropzone": "Drag a photo here or choose a file",
-        "previewHint": "Preview — save changes to upload the photo.",
-        "cancelPreview": "Cancel preview",
+    "dynamicList": {
+        "noResults": "No results",
+        "placeholder": "Enter a new value...",
+        "addBtn": "Add",
+        "removeBtn": "Remove",
+        "removeAria": "Remove item {item}",
+        "emptyState": "No items in the list.",
         "errors": {
-          "invalidType": "Allowed formats: JPG, PNG, WebP.",
-          "tooLarge": "File is too large (max 2 MB)."
-        }
-      },
-      "details": {
-        "firstName": "First name",
-        "lastName": "Last name",
-        "fields": "Industries",
-        "fieldsPlaceholder": "Select an industry from the list",
-        "cities": "Cities",
-        "citiesPlaceholder": "Type a city and press Enter"
-      },
-      "tags": {
-        "remove": "Remove tag",
-        "limitHint": "{count}/{max} tags. You can add up to {max}.",
-        "limitReached": "Limit reached: maximum {max} tags."
-      },
-      "skills": {
-        "title": "Technical skills",
-        "description": "Technologies, tools and programming languages",
-        "modalTitle": "Add technical skills",
-        "placeholder": "Type a skill and press Enter",
-        "empty": "No skills added yet. Click \"Add\" to fill in."
-      },
-      "workMode": {
-        "title": "Expected work mode",
-        "modalTitle": "Edit expected work mode",
-        "empty": "No work mode selected. Click \"Edit\" to fill in.",
-        "options": {
-          "onsite": "On-site",
-          "remote": "Remote",
-          "hybrid": "Hybrid"
-        }
-      },
-      "applications": {
-        "title": "Saved and submitted applications",
-        "historyHint": "View the status of your submitted applications."
-      },
-      "placeholder": {
-        "comingSoon": "This section will be available soon."
-      },
-      "account": {
-        "title": "Account and security",
-        "description": "Password, email and account deletion."
-      },
-      "password": {
-        "title": "Change password",
-        "current": "Current password",
-        "new": "New password",
-        "confirmation": "Confirm new password"
-      },
-      "email": {
-        "title": "Change email address",
-        "label": "Email address",
-        "newAddress": "New email address",
-        "unverifiedNotice": "The address {email} is inactive until you confirm it via the email link.",
-        "pendingNotice": "The new address {email} is inactive until you confirm it via the email link.",
-        "currentPassword": "Current password",
-        "resend": "Resend verification link"
-      },
-      "delete": {
-        "title": "Delete account",
-        "warning": "This cannot be undone.",
-        "openModal": "Delete account",
-        "modalTitle": "Confirm account deletion",
-        "confirmationLabel": "I understand this action cannot be undone",
-        "password": "Password",
-        "confirm": "Delete account permanently",
-        "cancel": "Cancel"
-      }
-    }
-  },
-  "offers": {
-    "search": {
-      "title": "Internships and offers",
-      "subtitle": "Browse offers and narrow results to match your preferences.",
-      "resultsTitle": "Results",
-      "empty": "No offers match the selected filters.",
-      "resultsCount": "Showing {count} offers on this page."
-    },
-    "filters": {
-      "title": "Filters",
-      "clearAll": "Clear filters",
-      "studyFields": {
-        "label": "Fields of study",
-        "placeholder": "Select fields from the list"
-      },
-      "workMode": {
-        "label": "Work mode",
-        "all": "All",
-        "onSite": "On-site",
-        "hybrid": "Hybrid",
-        "remote": "Remote"
-      },
-      "dateRange": {
-        "label": "Internship date range",
-        "from": "From",
-        "to": "To"
-      },
-      "dateRangeInvalid": "The end date must be on or after the start date."
-    }
-  },
-  "company": {
-    "layout": {
-      "title": "Company"
-    },
-      "dashboard": {
-          "offers": {
-              "title": "Offers",
-              "subtitle": "Manage your job postings and applications",
-              "noOffers": "No offers yet",
-              "confirmDelete": "Are you sure you want to delete this offer?",
-              "table": {
-                  "offer": "Offer",
-                  "status": "Status",
-                  "spots": "Spots",
-                  "applications": "Applications",
-                  "actions": "Actions"
-              },
-              "actions": {
-                  "menu": "Open actions menu",
-                  "edit": "Edit",
-                  "activate": "Activate",
-                  "deactivate": "Deactivate",
-                  "delete": "Delete"
-              }
-          }
-      },
-    "profile": {
-      "title": "Profile"
-    }
-  },
-  "pending": {
-    "title": "Accounts under verification",
-    "description": "Thank you for registering. To ensure student safety, every university or company account must be manually approved by our administrator.",
-    "status": "This usually takes {time} hours. When verification is successful, we will unlock your access to the panel and notify you by email.",
-    "contact": "If you have any questions, please contact us at {email}",
-    "log_out": "Log out"
-  },
-  "dynamicList": {
-    "noResults": "No results",
-    "placeholder": "Enter a new value...",
-    "addBtn": "Add",
-    "removeBtn": "Remove",
-    "removeAria": "Remove item {item}",
-    "emptyState": "No items in the list.",
-    "errors": {
-      "empty": "Field cannot be empty!",
-      "exists": "Item already exists!",
-      "maxReached": "Maximum number of items reached ({max})",
-      "tooLong": "Entered value is too long (maximum {max} characters)"
-    },
-    "dblClickToEdit": "Double click to edit",
-    "clearAll": "Clear all",
+            "empty": "Field cannot be empty!",
+            "exists": "Item already exists!",
+            "maxReached": "Maximum number of items reached ({max})",
+            "tooLong": "Entered value is too long (maximum {max} characters)"
+        },
+        "dblClickToEdit": "Double click to edit",
+        "clearAll": "Clear all",
         "accessibility": {
-      "inputLabel": "Dynamic list input",
-      "addItem": "Add a new item to the list",
-      "removeItem": "Remove item {item} from the list",
-      "editItem": "Edit item {item} in the list",
-      "openMenu": "Open options menu for item {item}",
-      "label": "Dynamic list with {count} items. Use arrow keys to navigate items. Press Enter to edit the selected item.",
-      "closeMenu": "Close options menu for item {item}",
-      "suggestions": "Suggestions",
-      "clearAll": "Clear all items from the list"
-    }
+            "inputLabel": "Dynamic list input",
+            "addItem": "Add a new item to the list",
+            "removeItem": "Remove item {item} from the list",
+            "editItem": "Edit item {item} in the list",
+            "openMenu": "Open options menu for item {item}",
+            "label": "Dynamic list with {count} items. Use arrow keys to navigate items. Press Enter to edit the selected item.",
+            "closeMenu": "Close options menu for item {item}",
+            "suggestions": "Suggestions",
+            "clearAll": "Clear all items from the list"
+        }
 
-  }
+    }
 }
