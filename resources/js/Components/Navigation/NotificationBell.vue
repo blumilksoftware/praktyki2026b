@@ -34,7 +34,11 @@ function toggle() {
 }
 
 function markAllAsRead() {
-  router.patch(ROUTES.NOTIFICATIONS_READ_ALL, {}, { preserveScroll: true, preserveState: true })
+  router.patch(ROUTES.NOTIFICATIONS_READ_ALL, {}, {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => loadNotifications(),
+  })
 }
 
 function notificationLabel(item) {
