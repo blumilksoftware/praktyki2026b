@@ -1,21 +1,34 @@
 <script setup>
 import { computed } from 'vue'
-import { IconHome, IconClipboard, IconUser } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
 import BaseLayout from './BaseLayout.vue'
-import { ROUTES } from '@/Helpers/routes'
+import Menu from '@/Components/Profiles/Menu.vue'
+import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu.js'
 
-defineProps({ activePage: { type: String, default: 'dashboard' } })
+const props = defineProps({
+  activePage: {
+    type: String,
+    default: 'dashboard',
+  },
+  showMenuRow: {
+    type: Boolean,
+    default: true,
+  },
+})
+
 const { t } = useI18n()
 
-const navItems = computed(() =>[
-  { key: 'dashboard', label: t('company.layout.nav.dashboard'), href: ROUTES.COMPANY_DASHBOARD, icon: IconHome },
-  { key: 'profile', label: t('company.layout.nav.profile'), href: ROUTES.COMPANY_PROFILE, icon: IconUser },
-])
+const panelMenu = useCompanyPanelMenu(computed(() => props.activePage))
 </script>
 
 <template>
-  <BaseLayout :active-page="activePage" :nav-items="navItems">
+  <BaseLayout :active-page="activePage" :nav-items="panelMenu">
+    <div
+      v-if="showMenuRow"
+      class="mb-6 flex w-full flex-row items-center justify-center"
+    >
+      <Menu :items="panelMenu" />
+    </div>
     <slot />
   </BaseLayout>
 </template>
