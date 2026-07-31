@@ -64,6 +64,15 @@ const handleNavigationClick = (item) => {
 const mobileMenuItems = computed(() => (
   props.navigationButtons.length > 0 ? props.navigationButtons : props.menuItems
 ))
+
+const hasSettingsInMenu = computed(() => (
+  mobileMenuItems.value.some(item => item.href === ROUTES.SETTINGS)
+))
+
+const roleProfileRoutes = [ROUTES.COMPANY_PROFILE, ROUTES.STUDENT_PROFILE, ROUTES.UNIVERSITY_PROFILE]
+const hasProfileInMenu = computed(() => (
+  mobileMenuItems.value.some(item => roleProfileRoutes.includes(item.href))
+))
 </script>
 
 <template>
@@ -216,7 +225,7 @@ const mobileMenuItems = computed(() => (
         <template v-if="showProfileIcon">
           <hr class="my-4 border-border">
           <ul class="flex flex-col gap-2">
-            <li>
+            <li v-if="!hasProfileInMenu">
               <Link
                 :href="ROUTES.PROFILE"
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
@@ -226,7 +235,7 @@ const mobileMenuItems = computed(() => (
                 {{ t('buttons.myProfile') }}
               </Link>
             </li>
-            <li>
+            <li v-if="!hasSettingsInMenu">
               <Link
                 :href="ROUTES.SETTINGS"
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"

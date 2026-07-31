@@ -33,7 +33,7 @@ function removeFavourite(offerId) {
   <StudentPanelLayout active-page="favorites">
     <div class="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <section class="mx-auto max-w-7xl rounded-3xl border border-slate-200/80 bg-white/90 p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:p-8">
-        <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">{{ t('student.nav.favorites') }}</p>
+        <p class="text-sm font-medium text-slate-500">{{ t('student.nav.favorites') }}</p>
         <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
           {{ t('student.favorites.heading') }}
         </h1>

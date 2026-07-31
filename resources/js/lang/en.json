@@ -49,7 +49,7 @@
   "auth": {
     "verification": {
       "invalidLink": "Invalid or expired verification link.",
-      "resend_message": "A new verification link has been sent. Check your inbox.",
+      "resendMessage": "A new verification link has been sent. Check your inbox.",
       "notVerified": "Your email address has not been verified.",
       "resendVerification": "Resend verification link",
       "result": {
@@ -326,14 +326,6 @@
     },
     "companies": {
       "title": "Company search"
-    }
-  },
-  "company": {
-    "layout": {
-      "title": "Company"
-    },
-    "profile": {
-      "title": "Profile"
     }
   },
   "student": {
@@ -694,10 +686,13 @@
           "detailsHint": "Fill in the basic offer details first.",
           "preferences": "Candidate preferences",
           "preferencesHint": "Choose preferred study fields and universities.",
+          "requirements": "Requirements",
+          "requirementsHint": "Add requirements to attract the right candidates.",
           "description": "Offer description",
           "descriptionHint": "Describe the internship clearly so students know what to expect.",
           "compensation": "Compensation",
-          "compensationHint": "Enter salary details if the offer is paid."
+          "compensationHint": "Enter salary details if the offer is paid.",
+          "status": "Offer status"
         },
         "draft": "Save as draft",
         "published": "Publish immediately",

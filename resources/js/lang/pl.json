@@ -405,6 +405,7 @@
       }
     },
     "profile": {
+      "title": "Profil",
       "modal": {
         "close": "Zamknij"
       },
@@ -482,7 +483,12 @@
       "workMode": {
         "title": "Oczekiwany tryb pracy",
         "modalTitle": "Edytuj oczekiwany tryb pracy",
-        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić."
+        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić.",
+        "options": {
+          "onsite": "Stacjonarnie",
+          "remote": "Zdalnie",
+          "hybrid": "Hybrydowo"
+        }
       },
       "applications": {
         "title": "Zapisane i wysłane aplikacje",
