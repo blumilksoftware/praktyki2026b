@@ -51,7 +51,7 @@ function notificationLabel(item) {
       status: t(`student.applications.status.${data.status}`),
     })
   default:
-    return ''
+    return t('notifications.types.fallback')
   }
 }
 

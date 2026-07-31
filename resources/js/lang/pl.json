@@ -593,7 +593,8 @@
     "types": {
       "verificationRequest": "Nowy wniosek weryfikacyjny od {name}",
       "newApplication": "{student} zaaplikował(a) na {offer}",
-      "statusChanged": "Status Twojej aplikacji na {offer} zmienił się na {status}"
+      "statusChanged": "Status Twojej aplikacji na {offer} zmienił się na {status}",
+      "fallback": "Nowe powiadomienie"
     }
   }
 }

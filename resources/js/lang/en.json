@@ -591,7 +591,8 @@
     "types": {
       "verificationRequest": "New verification request from {name}",
       "newApplication": "{student} applied to {offer}",
-      "statusChanged": "Your application to {offer} is now {status}"
+      "statusChanged": "Your application to {offer} is now {status}",
+      "fallback": "New notification"
     }
   }
 }
