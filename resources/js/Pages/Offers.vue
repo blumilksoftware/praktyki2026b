@@ -10,7 +10,7 @@ import BaseInput from '@/Components/Base/BaseInput.vue'
 import ClientPagination from '@/Components/Common/ClientPagination.vue'
 import { ROUTES } from '@/Helpers/routes'
 
-const OFFERS_PER_PAGE = 6
+const PER_PAGE_OPTIONS = [6, 12, 24, 48]
 
 const props = defineProps({
   offers: { type: Array, default: () => [] },
@@ -74,15 +74,20 @@ const availableCities = computed(() => {
 })
 
 const currentPage = ref(1)
+const perPage = ref(PER_PAGE_OPTIONS[0])
 
-const totalPages = computed(() => Math.max(1, Math.ceil(filteredOffers.value.length / OFFERS_PER_PAGE)))
+const totalPages = computed(() => Math.max(1, Math.ceil(filteredOffers.value.length / perPage.value)))
 
 const paginatedOffers = computed(() => {
-  const start = (currentPage.value - 1) * OFFERS_PER_PAGE
-  return filteredOffers.value.slice(start, start + OFFERS_PER_PAGE)
+  const start = (currentPage.value - 1) * perPage.value
+  return filteredOffers.value.slice(start, start + perPage.value)
 })
 
 watch(filteredOffers, () => {
+  currentPage.value = 1
+})
+
+watch(perPage, () => {
   currentPage.value = 1
 })
 
@@ -290,6 +295,21 @@ const resetFilters = () => {
             :empty-title="viewMode === 'applied' ? t('student.offers.emptyApplied.title') : undefined"
             :empty-description="viewMode === 'applied' ? t('student.offers.emptyApplied.description') : undefined"
           />
+
+          <div class="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm text-additional sm:justify-end">
+            <label class="flex items-center gap-2" for="offers-per-page">
+              {{ t('student.offers.pagination.perPage') }}
+              <select
+                id="offers-per-page"
+                v-model.number="perPage"
+                class="rounded-lg border border-border bg-white py-1.5 pl-3 pr-8 text-text outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+              >
+                <option v-for="size in PER_PAGE_OPTIONS" :key="size" :value="size">
+                  {{ size }}
+                </option>
+              </select>
+            </label>
+          </div>
 
           <ClientPagination v-model:current-page="currentPage" :total-pages="totalPages" />
         </section>

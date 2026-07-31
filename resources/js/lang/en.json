@@ -441,6 +441,9 @@
         "count": "{count} offers",
         "helper": "Scrollable tile list, one offer per tile"
       },
+      "pagination": {
+        "perPage": "Offers per page"
+      },
       "empty": {
         "title": "No offers match the filters",
         "description": "Try clearing the filters or broadening your search."
@@ -455,7 +458,6 @@
         "verifiedAriaLabel": "Verified company",
         "dateRange": "Date range",
         "remainingSpots": "Remaining spots",
-        "location": "Location",
         "showOnMap": "Show on map",
         "applyNow": "Apply now",
         "addToFavorites": "Add to favorites",
