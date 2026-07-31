@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
+import OfferMap from '@/Components/Offer/OfferMap.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import ClientPagination from '@/Components/Common/ClientPagination.vue'
@@ -22,6 +23,8 @@ const { t } = useI18n()
 
 const layoutComponent = computed(() => (props.isGuest ? BaseLayout : StudentPanelLayout))
 const layoutProps = computed(() => (props.isGuest ? {} : { activePage: 'offers' }))
+
+const displayMode = ref('list')
 
 const query = ref('')
 const city = ref('')
@@ -226,7 +229,7 @@ const resetFilters = () => {
               </p>
             </div>
 
-            <div class="bg-background px-4 py-3 border  border-border rounded-2xl">
+            <div class="bg-background px-4 py-3 border border-border rounded-2xl">
               <label class="flex items-center gap-3 text-text text-sm" for="offers-filter-verified-only">
                 <input
                   id="offers-filter-verified-only"
@@ -241,12 +244,37 @@ const resetFilters = () => {
         </aside>
 
         <section aria-labelledby="offers-list-heading" class="-mx-4 sm:mx-0 sm:rounded-3xl sm:border sm:border-border/80 sm:bg-white/90 sm:p-6 sm:shadow-[0_14px_40px_rgba(11,26,48,0.08)] sm:backdrop-blur-sm">
-          <div class="flex justify-between items-end gap-4 mb-5 px-4 pt-5 sm:px-0 sm:pt-0">
+          <div class="flex flex-wrap justify-between items-end gap-4 mb-5 px-4 pt-5 sm:px-0 sm:pt-0">
             <div>
               <p class="font-medium text-additional text-sm">{{ t('student.offers.results.caption') }}</p>
               <h2 id="offers-list-heading" class="mt-1 font-semibold text-text text-3xl tracking-tight" aria-live="polite">
                 {{ t('student.offers.results.count', { count: filteredOffers.length }) }}
               </h2>
+            </div>
+
+            <div class="flex bg-background p-1 border border-border rounded-2xl" role="group" :aria-label="t('student.offers.viewSwitcher.label')">
+              <button
+                type="button"
+                class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer"
+                :class="displayMode === 'list' ? 'bg-white text-primary shadow-sm' : 'text-additional hover:text-text'"
+                @click="displayMode = 'list'"
+              >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+                {{ t('student.offers.viewSwitcher.list') }}
+              </button>
+              <button
+                type="button"
+                class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer"
+                :class="displayMode === 'map' ? 'bg-white text-primary shadow-sm' : 'text-additional hover:text-text'"
+                @click="displayMode = 'map'"
+              >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                </svg>
+                {{ t('student.offers.viewSwitcher.map') }}
+              </button>
             </div>
           </div>
 
@@ -283,15 +311,24 @@ const resetFilters = () => {
             </button>
           </div>
 
-          <OffersList
-            :offers="paginatedOffers"
-            :has-cv="hasCv"
-            :guest="isGuest"
-            :empty-title="viewMode === 'applied' ? t('student.offers.emptyApplied.title') : undefined"
-            :empty-description="viewMode === 'applied' ? t('student.offers.emptyApplied.description') : undefined"
-          />
+          <template v-if="displayMode === 'list'">
+            <OffersList
+              :offers="paginatedOffers"
+              :has-cv="hasCv"
+              :guest="isGuest"
+              :empty-title="viewMode === 'applied' ? t('student.offers.emptyApplied.title') : undefined"
+              :empty-description="viewMode === 'applied' ? t('student.offers.emptyApplied.description') : undefined"
+            />
+            <ClientPagination v-model:current-page="currentPage" :total-pages="totalPages" />
+          </template>
 
-          <ClientPagination v-model:current-page="currentPage" :total-pages="totalPages" />
+          <template v-else>
+            <OfferMap
+              :offers="filteredOffers"
+              :has-cv="hasCv"
+              :guest="isGuest"
+            />
+          </template>
         </section>
       </div>
     </div>

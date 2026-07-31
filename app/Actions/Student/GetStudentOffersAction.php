@@ -41,6 +41,8 @@ class GetStudentOffersAction
                         "logo_path" => $offer->company->logo_path,
                         "is_verified" => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,
                     ],
+                    "longitude" => $offer->longitude,
+                    "latitude" => $offer->latitude,
                 ];
             });
     }
