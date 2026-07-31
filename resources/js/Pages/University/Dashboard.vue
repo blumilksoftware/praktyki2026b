@@ -23,12 +23,10 @@ const { t } = useI18n()
 <template>
   <Head :title="t('university.dashboard.title')" />
 
-  <UniversityLayout
-    active-page="dashboard"
-  >
+  <UniversityLayout active-page="dashboard">
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h1 class="text-2xl font-bold text-text">
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900">
           {{ t('university.dashboard.title') }}
         </h1>
 

@@ -67,6 +67,9 @@ export const ROUTES = {
   COMPANY_PROFILE: "/company/profile",
   UNIVERSITY_PROFILE: "/university/profile",
 
+  //University routes
+  UNIVERSITY_DASHBOARD: "/university/dashboard",
+
   // General
   APPLICATIONS: "/applications",
   TEAM: "/team",
