@@ -132,13 +132,13 @@ function confirmWithdraw() {
           </div>
 
           <div class="min-w-0">
-            <div class="flex flex-wrap items-center gap-2">
-              <p class="text-sm font-semibold text-additional">
+            <div class="flex items-center gap-2">
+              <p class="min-w-0 truncate text-sm font-semibold text-additional">
                 {{ offer.company.name }}
               </p>
               <span
                 v-if="offer.company.is_verified"
-                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-success"
+                class="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-success"
                 :aria-label="t('student.offers.card.verifiedAriaLabel')"
               >
                 <IconCheck class="h-3.5 w-3.5" stroke-width="2" aria-hidden="true" />

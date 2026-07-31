@@ -71,7 +71,7 @@ const offersCount = computed(() => props.offers.length)
       </section>
 
       <section class="bg-white shadow-[0_14px_40px_rgba(11,26,48,0.08)] mx-auto mt-6 p-6 sm:p-8 border border-slate-200 rounded-3xl max-w-7xl">
-        <div class="flex justify-between items-end gap-4">
+        <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p class="font-medium text-slate-500 text-sm">{{ t('student.dashboard.previewTitle') }}</p>
             <h2 class="mt-1 font-semibold text-slate-900 text-2xl tracking-tight">{{ t('student.dashboard.previewDescription') }}</h2>
