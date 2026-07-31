@@ -1,6 +1,6 @@
 import { computed, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconHome, IconUserCircle} from '@tabler/icons-vue'
+import { IconHome, IconUserCircle } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 
 export function useCompanyPanelMenu(activePage) {
