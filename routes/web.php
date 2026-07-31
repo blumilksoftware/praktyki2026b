@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\ProfileRedirectController;
 use App\Http\Controllers\SettingsRedirectController;
@@ -61,22 +62,27 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
 Route::middleware(["auth", "can:access-student-panel"])
     ->prefix("student")
     ->group(function (): void {
+        Route::get("/dashboard", [StudentController::class, "index"])->name("student.dashboard");
+
+        Route::get("/profile", [StudentController::class, "profile"])->name("student.profile");
+    });
+
+Route::middleware(["auth", "can:access-student-panel"])
+    ->prefix("student")
+    ->group(function (): void {
         Route::get("/cv", [StudentController::class, "previewCv"])->name("student.cv.preview");
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
         Route::post("/offers/{offer}/withdraw", [StudentController::class, "withdraw"])->name("student.offers.withdraw");
-        Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");        
         Route::post("/offers/{offer}/favourite", [StudentController::class, "saveOffer"])->name("student.offers.favourite.save");
-        Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])
-            ->name("student.offers.favourite.delete")
-            ->withTrashed();
-        Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");
+        Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])->name("student.offers.favourite.delete")->withTrashed();
+        Route::get("/favourites", [StudentController::class, "favourites"])->name("student.favourites");
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
         Route::get("/universities/search", [StudentController::class, "searchUniversities"])->name("student.universities.search");
         Route::patch("/university", [StudentController::class, "linkUniversity"])->name("student.university.update");
-        Route::get("/profile/photo", [StudentController::class, "showPhoto"])->name("student.profile.photo.show");
         Route::post("/profile/photo", [StudentController::class, "uploadPhoto"])->name("student.profile.photo.upload");
+        Route::get("/profile/photo", [StudentController::class, "showPhoto"])->name("student.profile.photo.show");
         Route::delete("/profile/photo", [StudentController::class, "deletePhoto"])->name("student.profile.photo.delete");
         Route::put("/password", [StudentController::class, "changePassword"])->name("student.password.update");
         Route::patch("/email", [StudentController::class, "changeEmail"])->name("student.email.update");
@@ -87,6 +93,12 @@ Route::middleware(["auth"])
     ->prefix("onboarding")
     ->group(function (): void {
         Route::post("/dismiss", [OnboardingController::class, "dismiss"])->name("onboarding.dismiss");
+    });
+
+Route::middleware(["auth"])
+    ->prefix("notifications")
+    ->group(function (): void {
+        Route::patch("/read-all", [NotificationController::class, "markAllAsRead"])->name("notifications.read-all");
     });
 
 Route::middleware(["role:superAdmin"])

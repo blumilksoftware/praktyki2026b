@@ -1,5 +1,12 @@
 {
   "onboarding": {
+    "layout": {
+      "skipToContent": "Przejdź do treści",
+      "nav": {
+        "ariaLabel": "Nawigacja studenta",
+        "mobileAriaLabel": "Nawigacja mobilna studenta"
+      }
+    },
     "banner": {
       "title": "Uzupełnij swój profil",
       "description": "Wypełnij dane profilu, aby w pełni korzystać z Applikuj.",
@@ -332,11 +339,14 @@
   },
   "student": {
     "layout": {
-      "title": "Panel studenta",
       "skipToContent": "Przejdź do treści",
       "nav": {
         "dashboard": "Panel",
         "profile": "Profil",
+        "offers": "Oferty",
+        "favorites": "Ulubione",
+        "ariaLabel": "Nawigacja studenta",
+        "mobileAriaLabel": "Nawigacja mobilna studenta",
         "applications": "Aplikacje"
       }
     },
@@ -361,12 +371,20 @@
         "confirm": "Wycofaj aplikację"
       }
     },
-    "dashboard": {
-      "comingSoon": {
-        "title": "Panel studenta jest w przygotowaniu.",
-        "applications": "Wkrótce pojawi się tu przegląd Twoich aplikacji (T-062, BE: T-061).",
-        "offersAndFavourites": "Szukanie ofert i ulubione dojdą wraz z milestone’ami M3/M4 (T-046, T-066)."
-      }
+      "dashboard": {
+          "title": "Panel główny studenta",
+          "heading": "Twoje centrum ofert",
+          "description": "Przeglądaj oferty, wracaj do ulubionych i przechodź między widokami jednym kliknięciem.",
+          "primaryAction": "Przejdź do ofert",
+          "secondaryAction": "Zobacz ulubione",
+          "previewTitle": "Najnowsze oferty",
+          "previewDescription": "Krótki podgląd najświeższych pozycji.",
+          "cards": {
+              "offersTitle": "Wszystkie oferty",
+              "offersDescription": "Przejdź do pełnej listy z filtrami.",
+              "favoritesTitle": "Ulubione oferty",
+              "favoritesDescription": "Sprawdź zapisane pozycje w jednym miejscu."
+          }
     },
     "cv": {
       "title": "Twoje CV (tylko PDF)",
@@ -387,7 +405,6 @@
       }
     },
     "profile": {
-      "title": "Profil",
       "modal": {
         "close": "Zamknij"
       },
@@ -465,12 +482,7 @@
       "workMode": {
         "title": "Oczekiwany tryb pracy",
         "modalTitle": "Edytuj oczekiwany tryb pracy",
-        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić.",
-        "options": {
-          "onsite": "Stacjonarnie",
-          "remote": "Zdalnie",
-          "hybrid": "Hybrydowo"
-        }
+        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić."
       },
       "applications": {
         "title": "Zapisane i wysłane aplikacje",
@@ -508,36 +520,93 @@
         "confirm": "Usuń konto na stałe",
         "cancel": "Anuluj"
       }
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "profile": "Profil",
+      "offers": "Oferty",
+      "favorites": "Ulubione"
+    },
+    "workModes": {
+      "remote": "Zdalnie",
+      "hybrid": "Hybrydowo",
+      "onsite": "Stacjonarnie",
+      "onSite": "Stacjonarnie"
+    },
+    "favorites": {
+      "heading": "Twoje zapisane oferty",
+      "description": "Tu trafiają oferty oznaczone sercem. Możesz je potem odhaczyć albo wrócić do pełnej listy.",
+      "backToOffers": "Wróć do ofert",
+      "backToDashboard": "Wróć do panelu głównego",
+      "empty": {
+        "title": "Nie masz jeszcze ulubionych ofert",
+        "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj."
+      }
+    },
+    "offers": {
+      "tabs": {
+        "all": "Wszystkie oferty",
+        "applied": "Zaaplikowane",
+        "notApplied": "Niezaaplikowane"
+      },
+      "filters": {
+        "kicker": "Filtry",
+        "title": "Tablica ofert",
+        "reset": "Resetuj",
+        "resetAriaLabel": "Wyczyść wszystkie filtry",
+        "search": "Szukaj",
+        "searchPlaceholder": "Firma, stanowisko lub miasto",
+        "city": "Miasto",
+        "allCities": "Wszystkie miasta",
+        "workMode": "Tryb pracy",
+        "allWorkModes": "Wszystkie tryby",
+        "verifiedOnly": "Tylko zweryfikowane firmy",
+        "studyFields": {
+          "label": "Kierunki studiów",
+          "placeholder": "Wybierz kierunki z listy"
+        },
+        "dateRange": {
+          "label": "Zakres dat praktyk",
+          "from": "Od",
+          "to": "Do"
+        },
+        "dateRangeInvalid": "Data „Do” musi być taka sama lub późniejsza niż data „Od”."
+      },
+      "results": {
+        "caption": "Liczba ofert",
+        "count": "{count} ofert"
+      },
+      "pagination": {
+        "perPage": "Ofert na stronie"
+      },
+      "empty": {
+        "title": "Brak ofert spełniających filtry",
+        "description": "Spróbuj wyczyścić filtry albo rozszerzyć wyszukiwanie."
+      },
+      "emptyApplied": {
+        "title": "Nie zaaplikowałeś jeszcze do żadnej oferty",
+        "description": "Oferty, na które zaaplikujesz, pojawią się tutaj."
+      },
+      "card": {
+        "logoAlt": "Logo firmy {company}",
+        "verified": "Zweryfikowana",
+        "verifiedAriaLabel": "Firma zweryfikowana",
+        "dateRange": "Zakres dat",
+        "remainingSpots": "Pozostałe miejsca",
+        "showOnMap": "Pokaż na mapie",
+        "applyNow": "Aplikuj teraz",
+        "addToFavorites": "Dodaj do ulubionych",
+        "removeFromFavorites": "Usuń z ulubionych",
+        "mapComingSoon": "Mapa pojawi się w osobnej podstronie",
+        "loginToApply": "Zaloguj się, aby aplikować"
+      }
     }
   },
   "offers": {
+    "browseCta": "Przeglądaj oferty",
     "search": {
       "title": "Praktyki i oferty",
-      "subtitle": "Przeglądaj oferty i dopasuj wyniki do swoich preferencji.",
-      "resultsTitle": "Wyniki",
-      "empty": "Brak ofert spełniających wybrane kryteria.",
-      "resultsCount": "Wyświetlono {count} ofert na tej stronie."
-    },
-    "filters": {
-      "title": "Filtry",
-      "clearAll": "Wyczyść filtry",
-      "studyFields": {
-        "label": "Kierunki studiów",
-        "placeholder": "Wybierz kierunki z listy"
-      },
-      "workMode": {
-        "label": "Tryb pracy",
-        "all": "Wszystkie",
-        "onSite": "Stacjonarnie",
-        "hybrid": "Hybrydowo",
-        "remote": "Zdalnie"
-      },
-      "dateRange": {
-        "label": "Zakres dat praktyk",
-        "from": "Od",
-        "to": "Do"
-      },
-      "dateRangeInvalid": "Data „Do” musi być taka sama lub późniejsza niż data „Od”."
+      "subtitle": "Przeglądaj oferty i dopasuj wyniki do swoich preferencji."
     }
   },
   "company": {
@@ -627,6 +696,5 @@
       "suggestions": "Sugestie",
       "clearAll": "Wyczyść wszystkie elementy z listy"
     }
-
   }
 }

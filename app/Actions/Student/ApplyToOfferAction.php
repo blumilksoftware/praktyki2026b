@@ -9,8 +9,10 @@ use App\Enums\OfferStatus;
 use App\Models\Application;
 use App\Models\Offer;
 use App\Models\User;
+use App\Notifications\NewApplicationNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -47,7 +49,7 @@ class ApplyToOfferAction
             ]);
         }
 
-        return DB::transaction(function () use ($student, $offer): Application {
+        $application = DB::transaction(function () use ($student, $offer): Application {
             $updated = DB::table("offers")
                 ->where("id", $offer->id)
                 ->where("spots", ">", 0)
@@ -91,5 +93,12 @@ class ApplyToOfferAction
                 "cv_path" => $copied ? $newPath : null,
             ]);
         });
+
+        $application->setRelation("student", $student);
+        $application->loadMissing("offer.company");
+
+        Notification::send($application->offer->company->users, new NewApplicationNotification($application));
+
+        return $application;
     }
 }

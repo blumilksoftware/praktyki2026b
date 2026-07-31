@@ -10,14 +10,16 @@ use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use App\Models\Company;
 use App\Models\User;
+use App\Notifications\NewVerificationRequestNotification;
 use App\Services\EmailVerificationService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class CreateCompanyAccount
 {
     public function execute(CompanyRegistrationData $data): User
     {
-        return DB::transaction(function () use ($data): User {
+        $user = DB::transaction(function () use ($data): User {
             $company = Company::create([
                 "name" => $data->companyName,
                 "nip" => preg_replace("/\D/", "", $data->nip),
@@ -42,5 +44,12 @@ class CreateCompanyAccount
 
             return $user;
         });
+
+        Notification::send(
+            User::where("role", UserRole::SuperAdmin)->get(),
+            new NewVerificationRequestNotification($user->company),
+        );
+
+        return $user;
     }
 }
