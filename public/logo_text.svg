@@ -38,21 +38,21 @@
     <path
        d="M 42.2386,5.77173 80.4771,27.5761 42.2386,49.3804 4,27.5761 Z"
        stroke="#fffacc"
-       stroke-width="8"
+       stroke-width="5"
        stroke-linecap="round"
        stroke-linejoin="round"
        id="path1" />
     <path
        d="M 22.7838,40.4023 V 52.305 c 0,8.9269 38.2386,8.9269 38.2386,0 V 40.4023"
        stroke="#fffacc"
-       stroke-width="8"
+       stroke-width="5"
        stroke-linecap="round"
        stroke-linejoin="round"
        id="path2" />
     <path
        d="M 42.2385,26.9348 H 80.3932 L 85.8439,52.587"
-       stroke="#044389"
-       stroke-width="8"
+       stroke="#3B82C4"
+       stroke-width="5"
        stroke-linecap="round"
        stroke-linejoin="round"
        id="path3" />
