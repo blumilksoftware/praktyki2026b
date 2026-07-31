@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { IconEye, IconEyeOff } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
-import { useTogglePassword } from '@/composables/useTogglePassword'
+import { useTogglePassword } from '@/Composables/useTogglePassword.ts'
 
 const props = defineProps({
   id: { type: String, required: true },
@@ -14,7 +14,7 @@ const props = defineProps({
   required: { type: Boolean, default: false },
   maxlength: { type: [Number, String], default: undefined },
   compact: { type: Boolean, default: false },
-  stacked: { type: Boolean, default: false },
+  stacked: { type: Boolean, default: true },
   placeholder: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
 })
@@ -43,11 +43,8 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
     <label
       v-if="stacked"
       :for="id"
-      class="mb-1 block text-additional text-sm"
-      :class="[
-        hasError ? 'text-error' : '',
-        disabled ? 'opacity-60 cursor-not-allowed' : ''
-      ]"
+      class="mb-1 block text-base font-medium text-additional"
+      :class="{ 'text-error': hasError }"
     >
       {{ label }}
     </label>
@@ -60,11 +57,10 @@ const wrapperClass = computed(() => (props.compact ? 'pt-5' : 'pt-6'))
         :autocomplete="autocomplete"
         :required="required"
         :maxlength="maxlength"
-        :disabled="disabled"
         :aria-invalid="hasError ? true : undefined"
         :aria-describedby="error ? `${id}-error` : undefined"
         :placeholder="stacked ? placeholder : ' '"
-        class="w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text transition-all focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:bg-gray-50 disabled:text-additional disabled:cursor-not-allowed disabled:border-border/50"
+        class="w-full rounded-lg border border-border bg-white px-4 py-3 transition-all focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30"
         :class="[
           hasError ? 'border-error focus:border-error focus:ring-error/30' : '',
           isPassword ? 'pr-11' : '',

@@ -1,321 +1,39 @@
-<script setup>
-import { computed, ref } from 'vue'
-import { IconSettings, IconLogout, IconMenu, IconX, IconUser, IconLanguage, IconChevronDown } from '@tabler/icons-vue'
-import { useI18n } from 'vue-i18n'
-import LanguageDropdown from '../Common/LanguageDropdown.vue'
-import { ROUTES } from '@/Helpers/routes'
-
-const props = defineProps({
-  activePage: { type: String, default: '' },
-  navItems: { type: Array, default: () => [] },
-  minimalHeader: { type: Boolean, default: false },
-})
-
-const { t, locale } = useI18n()
-
-const isMobileMenuOpen = ref(false)
-const isDesktopMenuOpen = ref(false)
-const isDesktopLanguageOpen = ref(false)
-
-const currentLanguage = computed(() => (locale.value || 'pl').toUpperCase())
-
-/** @param {string} lang */
-function setLanguage(lang) {
-  locale.value = lang
-  localStorage.setItem('locale', lang)
-}
-
-const navItems = computed(() => props.navItems.length > 0 
-  ? props.navItems 
-  : [])
-</script>
-
 <template>
-  <div
-    class="flex flex-col min-h-screen text-text bg-background"
-  >
-    <a
-      href="#main-content"
-      class="sr-only focus:not-sr-only focus:z-50 focus:absolute focus:bg-white focus:m-3 focus:px-3 focus:py-2 focus:rounded-md focus:font-medium focus:text-primary focus:text-sm"
-    >
-      {{ t('admin.layout.skipToContent') }}
-    </a>
+  <div class="min-h-screen bg-background flex flex-col">
+    <BaseNavbar
+      :show-hamburger="true"
+      :menu-items="menuItems"
+    />
 
-    <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
-      <div class="flex justify-between items-center px-4 md:px-6 py-4">
-        <a
-          :href="ROUTES.HOME"
-          class="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 transition"
-        >
-          <div class="flex-1">
-            <img
-              src="/logo.svg"
-              alt="Applikuj logo"
-              class="brightness-0 invert rounded-lg w-auto h-10"
-            >
-          </div>
-        </a>
-
-        <nav
-          v-if="!props.minimalHeader"
-          :aria-label="t('admin.layout.nav.ariaLabel')"
-          class="hidden left-1/2 absolute md:flex items-center gap-1 -translate-x-1/2"
-        >
-          <a
-            v-for="item in navItems"
-            :key="item.key"
-            :href="item.href"
-            :aria-current="item.key === props.activePage ? 'page' : undefined"
-            class="flex items-center gap-2 px-4 py-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 transition"
-            :class="item.key === props.activePage
-              ? 'bg-primary/80 text-white font-medium hover:bg-primary/30'
-              : 'text-white/70 hover:bg-white/10 hover:text-white'"
-          >
-            <component
-              :is="item.icon"
-              class="w-5 h-5"
-              :class="item.key === props.activePage ? 'text-secondary' : 'text-white/70'"
-              aria-hidden="true"
-            />
-            {{ item.label }}
-          </a>
-        </nav>
-
-        <div v-if="props.minimalHeader" class="ml-auto flex items-center gap-3">
-          <slot name="header-actions" />
-        </div>
-
-        <div v-if="!props.minimalHeader" class="flex items-center gap-3">
-          <button
-            class="md:hidden flex justify-center items-center hover:bg-white/10 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 w-9 h-9 text-white/90 hover:text-white transition"
-            :aria-label="isMobileMenuOpen ? t('admin.layout.nav.closeMenu') : t('admin.layout.nav.openMenu')"
-            :aria-expanded="isMobileMenuOpen"
-            @click="isMobileMenuOpen = true"
-          >
-            <IconMenu class="w-5 h-5" aria-hidden="true" />
-          </button>
-
-          <img
-            class="hidden md:block rounded-full ring-2 ring-primary/10 w-10 h-10"
-            src="https://www.gravatar.com/avatar?d=mp&s=48"
-            alt=""
-          >
-          <div class="hidden md:block">
-            <p class="font-medium text-white text-sm">TestAdmin</p>
-            <p class="text-white/70 text-xs">{{ t('admin.layout.userRole') }}</p>
-          </div>
-
-          <div class="hidden md:block relative">
-            <button
-              class="flex justify-center items-center hover:bg-white/10 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 w-9 h-9 text-white/90 hover:text-white transition"
-              :aria-label="isDesktopMenuOpen ? t('admin.layout.nav.closeMenu') : t('admin.layout.nav.openMenu')"
-              :aria-expanded="isDesktopMenuOpen"
-              @click="isDesktopMenuOpen = !isDesktopMenuOpen"
-            >
-              <IconMenu v-if="!isDesktopMenuOpen" class="w-5 h-5" aria-hidden="true" />
-              <IconX v-else class="w-5 h-5" aria-hidden="true" />
-            </button>
-
-            <div
-              v-if="isDesktopMenuOpen"
-              class="top-full right-0 z-50 absolute bg-white shadow-lg mt-2 py-1 rounded-lg ring-1 ring-black/5 min-w-40"
-            >
-              <a
-                class="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 text-gray-700 hover:text-gray-900 text-sm transition"
-                :href="ROUTES.ADMIN_PROFILE"
-                @click="isDesktopMenuOpen = false"
-              >
-                <IconUser class="w-4 h-4" aria-hidden="true" />
-                {{ t('admin.layout.nav.profile') }}
-              </a>
-              
-              <a
-                class="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 text-gray-700 hover:text-gray-900 text-sm transition"
-                :href="ROUTES.ADMIN_SETTINGS"
-                @click="isDesktopMenuOpen = false"
-              >
-                <IconSettings class="w-4 h-4" aria-hidden="true" />
-                {{ t('admin.layout.nav.settings') }}
-              </a>
-
-              <div class="relative">
-                <button
-                  class="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 w-full text-gray-700 hover:text-gray-900 text-sm text-left transition"
-                  @click="isDesktopLanguageOpen = !isDesktopLanguageOpen"
-                >
-                  <IconLanguage class="w-4 h-4" aria-hidden="true" />
-                  {{ t('admin.layout.language') }}: {{ currentLanguage }}
-                  <IconChevronDown class="ml-auto w-3 h-3" aria-hidden="true" />
-                </button>
-                <div
-                  v-if="isDesktopLanguageOpen"
-                  class="top-full right-0 z-50 absolute bg-white shadow-lg mt-1 py-1 rounded-lg ring-1 ring-black/5 min-w-20"
-                >
-                  <button
-                    class="flex items-center hover:bg-gray-100 px-3 py-2 w-full text-gray-700 text-sm text-left transition"
-                    :class="locale === 'pl' ? 'text-primary font-medium' : ''"
-                    @click="setLanguage('pl'); isDesktopLanguageOpen = false; isDesktopMenuOpen = false"
-                  >
-                    PL
-                  </button>
-                  <button
-                    class="flex items-center hover:bg-gray-100 px-3 py-2 w-full text-gray-700 text-sm text-left transition"
-                    :class="locale === 'en' ? 'text-primary font-medium' : ''"
-                    @click="setLanguage('en'); isDesktopLanguageOpen = false; isDesktopMenuOpen = false"
-                  >
-                    EN
-                  </button>
-                </div>
-              </div>
-
-              <a
-                class="flex items-center gap-2 hover:bg-red-50 px-3 py-2 text-red-600 hover:text-red-700 text-sm transition"
-                :href="ROUTES.ADMIN_LOGOUT"
-                @click="isDesktopMenuOpen = false"
-              >
-                <IconLogout class="w-4 h-4" aria-hidden="true" />
-                {{ t('admin.layout.logout') }}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <Transition
-      v-if="!props.minimalHeader"
-      enter-active-class="transition duration-200 ease-out"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-active-class="transition duration-150 ease-in"
-      leave-from-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
-      <div
-        v-if="isMobileMenuOpen"
-        class="md:hidden z-40 fixed inset-0"
-        role="dialog"
-        aria-modal="true"
-        :aria-label="t('admin.layout.nav.mobileAriaLabel')"
-      >
-        <div
-          class="absolute inset-0 bg-black/50 backdrop-blur-sm"
-          @click="isMobileMenuOpen = false"
-        />
-
-        <Transition
-          enter-active-class="transition duration-200 ease-out"
-          enter-from-class="-translate-y-4 opacity-0"
-          enter-to-class="translate-y-0 opacity-100"
-          leave-active-class="transition duration-150 ease-in"
-          leave-from-class="translate-y-0 opacity-100"
-          leave-to-class="-translate-y-4 opacity-0"
-        >
-          <div
-            v-if="isMobileMenuOpen"
-            class="relative bg-text shadow-2xl mx-4 mt-4 rounded-2xl ring-1 ring-white/10 overflow-hidden"
-          >
-            <div class="flex justify-between items-center px-5 py-4 border-white/10 border-b">
-              <img
-                src="/logo.svg"
-                alt="Applikuj logo"
-                class="brightness-0 invert rounded-lg w-auto h-8"
-              >
-              <button
-                class="flex justify-center items-center hover:bg-white/10 rounded-lg w-9 h-9 text-white/80 hover:text-white transition"
-                :aria-label="t('admin.layout.nav.closeMenu')"
-                @click="isMobileMenuOpen = false"
-              >
-                <IconX class="w-5 h-5" aria-hidden="true" />
-              </button>
-            </div>
-
-            <nav class="px-4 pt-4" :aria-label="t('admin.layout.nav.mobileAriaLabel')">
-              <ul class="flex flex-col gap-1">
-                <li v-for="item in navItems" :key="`mobile-${item.key}`">
-                  <a
-                    :href="item.href"
-                    :aria-current="item.key === props.activePage ? 'page' : undefined"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition"
-                    :class="item.key === props.activePage
-                      ? 'bg-primary/80 text-white'
-                      : 'text-white/70 hover:bg-white/10 hover:text-white'"
-                    @click="isMobileMenuOpen = false"
-                  >
-                    <component
-                      :is="item.icon"
-                      class="w-5 h-5 shrink-0"
-                      :class="item.key === props.activePage ? 'text-white' : 'text-white/50'"
-                      aria-hidden="true"
-                    />
-                    {{ item.label }}
-                  </a>
-                </li>
-              </ul>
-            </nav>
-
-            <div class="mx-4 my-3 border-white/10 border-t" />
-
-            <div class="flex flex-col gap-1 px-4 pb-4">
-              <div class="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-xl">
-                <img
-                  class="rounded-full ring-2 ring-primary/30 w-10 h-10 shrink-0"
-                  src="https://www.gravatar.com/avatar?d=mp&s=48"
-                  alt="admin"
-                >
-                <div>
-                  <p class="font-semibold text-white text-sm">TestAdmin</p>
-                  <p class="text-white/50 text-xs">{{ t('admin.layout.userRole') }}</p>
-                </div>
-                <div class="ml-auto">
-                  <LanguageDropdown />
-                </div>
-              </div>
-
-              <a
-                class="flex items-center gap-3 hover:bg-white/10 px-4 py-3 rounded-xl font-medium text-white/70 hover:text-white text-sm transition"
-                :href="ROUTES.ADMIN_PROFILE"
-                @click="isMobileMenuOpen = false"
-              >
-                <IconUser class="w-5 h-5 text-white/40 shrink-0" aria-hidden="true" />
-                {{ t('admin.layout.nav.profile') }}
-              </a>
-              
-              <a
-                class="flex items-center gap-3 hover:bg-white/10 px-4 py-3 rounded-xl font-medium text-white/70 hover:text-white text-sm transition"
-                :href="ROUTES.ADMIN_SETTINGS"
-                @click="isMobileMenuOpen = false"
-              >
-                <IconSettings class="w-5 h-5 text-white/40 shrink-0" aria-hidden="true" />
-                {{ t('admin.layout.nav.settings') }}
-              </a>
-              
-              <a
-                class="flex items-center gap-3 hover:bg-red-500/20 px-4 py-3 rounded-xl font-medium text-red-400 hover:text-red-300 text-sm transition"
-                :href="ROUTES.ADMIN_LOGOUT"
-                @click="isMobileMenuOpen = false"
-              >
-                <IconLogout class="w-5 h-5 shrink-0" aria-hidden="true" />
-                {{ t('admin.layout.logout') }}
-              </a>
-            </div>
-          </div>
-        </Transition>
-      </div>
-    </Transition>
-
-    <main id="main-content" class="relative flex flex-col flex-1 justify-start items-stretch p-4 md:p-6 overflow-y-auto">
-      <div class="z-10 relative flex flex-col gap-8 mx-auto w-full max-w-7xl">
-        <slot />
-      </div>
+    <main class="flex-1">
+      <slot />
     </main>
   </div>
 </template>
 
-<style scoped>
-.admin-panel-dots {
-  background-image: radial-gradient(rgba(4, 67, 137, 0.11) 1px, transparent 1px);
-  background-size: 22px 22px;
-  mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 20%, transparent 100%);
-}
-</style>
+<script setup>
+import { computed } from 'vue'
+import { usePage } from '@inertiajs/vue3'
+import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
+
+const page = usePage()
+
+const props = defineProps({
+  activePage: {
+    type: String,
+    default: null,
+  },
+  navItems: {
+    type: Array,
+    default: () => [],
+  },
+})
+
+const menuItems = computed(() => {
+  return props.navItems.map(item => ({
+    ...item,
+    isActive: item.key === props.activePage ||
+              (item.href && page.url === item.href),
+  }))
+})
+</script>
