@@ -228,7 +228,9 @@
     "collapseTags": "Collapse tags",
     "myProfile": "My profile",
     "settings": "Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "load_more": "Load more",
+    "loading": "Loading..."
   },
 
   "table": {

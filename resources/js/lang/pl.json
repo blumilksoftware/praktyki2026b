@@ -197,8 +197,8 @@
           "no_university": "Brak danych uczelni",
           "applied_for": "Aplikuje na:",
           "statuses": {
-            "pending": "Oczekujące",
-            "reviewed": "Zweryfikowane",
+            "pending": "Oczekująca",
+            "reviewed": "Zrecenzowana",
             "accepted": "Zaakceptowana",
             "rejected": "Odrzucona"
           }
@@ -226,7 +226,9 @@
     "collapseTags": "Zwiń tagi",
     "myProfile": "Mój profil",
     "settings": "Ustawienia",
-    "logout": "Wyloguj się"
+    "logout": "Wyloguj się",
+    "load_more": "Załaduj więcej",
+    "loading": "Ładowanie..."
   },
 
   "table": {

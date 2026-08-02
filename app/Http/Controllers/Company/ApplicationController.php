@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateApplicationStatusRequest;
 use App\Models\Application;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,7 @@ class ApplicationController extends Controller
         private readonly UpdateApplicationStatusAction $updateApplicationStatusAction,
     ) {}
 
-    public function index(Request $request): Response
+    public function index(Request $request): Response|JsonResponse 
     {
         $company = Auth::user()->company;
         $offerId = $request->query("offer");
@@ -37,7 +38,7 @@ class ApplicationController extends Controller
             ->when($status, fn(Builder $query): Builder => $query->where("applications.status", $status))
             ->with(["student", "offer"])
             ->orderBy("created_at", "desc")
-            ->paginate(15)
+            ->paginate(6)
             ->withQueryString()
             ->through(fn(Application $app): array => [
                 "id" => $app->id,
@@ -48,6 +49,10 @@ class ApplicationController extends Controller
                 "offer_title" => $app->offer->title,
                 "cv_url" => $app->cv_path ? route("company.applications.cv", $app) : null,
             ]);
+
+        if ($request->wantsJson()) {
+            return response()->json($applications);
+        }
 
         $offers = $company->offers()
             ->select("id", "title")

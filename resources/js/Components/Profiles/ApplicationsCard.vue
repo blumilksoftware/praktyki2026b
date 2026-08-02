@@ -67,7 +67,8 @@ const onStatusChange = (event) => {
     <div class="flex items-center gap-4 lg:w-1/3 lg:justify-end">
       
       <select
-        :value="application.status"
+      :aria-label="t('profiles.company.applications.filters.status')"
+      :value="application.status"
         @change="onStatusChange"
         :disabled="['accepted', 'rejected'].includes(application.status)"
         class="rounded-full py-1.5 pl-4 pr-8 text-sm font-semibold shadow-sm focus:ring-0 appearance-none disabled:cursor-not-allowed disabled:opacity-75 transition-all"
