@@ -10,6 +10,7 @@ import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Offers from '@/Components/Profiles/Offers.vue'
 import Menu from '@/Components/Profiles/Menu.vue'
+import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
 import { IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
@@ -18,7 +19,7 @@ const { t } = useI18n()
 
 const companyMenu = computed(() => [
   { label: t('profiles.company.myOffers'), href: ROUTES.COMPANY_MY_OFFERS, icon: IconSearch },
-  { label: t('profiles.company.candidateApplications'), href: ROUTES.APPLICATIONS, icon: IconClipboardText },
+  { label: t('profiles.company.candidateApplications'), href: ROUTES.COMPANY_APPLICATIONS, icon: IconClipboardText },
   { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle, isActive: true },
   { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
 ])
@@ -32,7 +33,14 @@ const goToEdit = () => {
 }
 
 defineProps({
-  company: { type: Object, default: () => ({}) },
+  company: { 
+    type: Object, 
+    default: () => ({}), 
+  },
+  canEdit: { 
+    type: Boolean, 
+    default: false, 
+  },
 })
 </script>
 
@@ -40,7 +48,7 @@ defineProps({
   <Head :title="company.name" />
   
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar show-hamburger :menu-items="companyMenu" />
+    <BaseNavbar show-hamburger :menu-items="canEdit ? companyMenu : []" />
   
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
@@ -50,7 +58,8 @@ defineProps({
           <IconArrowLeft stroke="2.5" class="w-4 h-4" />
           {{ t('buttons.back') }}
         </a>
-        <div>
+        
+        <div v-if="canEdit">
           <Menu :items="companyMenu" />
         </div>
       </div>
@@ -64,11 +73,17 @@ defineProps({
               class="flex flex-col items-center w-full"
             />
 
-            <div class="text-sm text-slate-500 mt-2 flex items-center gap-2">
+            <div v-if="company.verification_status === 'verified'" class="mt-3 flex items-center justify-center gap-1.5">
+              <VerifiedBadge :verified="true" size="md" />
+              <span class="text-sm font-medium text-slate-700">{{ t('profiles.company.verified') }}</span>
+            </div>
+
+            <div class="text-sm text-slate-500 mt-3 flex items-center gap-2">
               <Tags :tags="company.tags" />
             </div>
 
             <BaseButton
+              v-if="canEdit"
               class="w-full bg-[#0f172a] hover:bg-slate-800 text-white py-2.5 mt-6 text-sm font-semibold rounded-lg transition-all"
               @click="goToEdit"
             >

@@ -37,6 +37,7 @@ class GetStudentOffersAction
                     "is_favorite" => in_array($offer->id, $favoriteOfferIds, true),
                     "study_field_ids" => $offer->studyFields->pluck("id")->all(),
                     "company" => [
+                        "id" => $offer->company->id,
                         "name" => $offer->company->name,
                         "logo_path" => $offer->company->logo_path,
                         "is_verified" => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,

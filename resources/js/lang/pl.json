@@ -185,7 +185,8 @@
       "noOffers": "Firma nie ma obecnie otwartych rekrutacji.",
       "noContactInfo": "Firma nie podała danych kontaktowych.",
       "noDescription": "Firma nie dodała jeszcze opisu.",
-      "noTags": "Firma nie dodała jeszcze tagów."
+      "noTags": "Firma nie dodała jeszcze tagów.",
+      "verified": "Zweryfikowana firma"
     },
     "university": {
       "recruitmentAndSystem": "Rekrutacja i system",

@@ -177,7 +177,8 @@
       "noOffers": "The company does not have any open job postings.",
       "noContactInfo": "The company has not provided contact information.",
       "noDescription": "The company has not provided a description yet.",
-      "noTags": "The company has not provided any tags."
+      "noTags": "The company has not provided any tags.",
+      "verified": "Verified company"
     },
     "university": {
       "recruitmentAndSystem": "Recruitment and system",

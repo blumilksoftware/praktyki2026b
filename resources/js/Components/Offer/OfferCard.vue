@@ -121,21 +121,30 @@ function confirmWithdraw() {
     <div class="p-5 sm:p-6">
       <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div class="min-w-0 flex gap-3">
-          <img
-            v-if="offer.company.logo_path"
-            :src="offer.company.logo_path"
-            :alt="t('student.offers.card.logoAlt', { company: offer.company.name })"
-            class="h-10 w-10 shrink-0 rounded-xl object-cover"
+          <Link
+            :href="ROUTES.COMPANY_SHOW.replace('{company}', offer.company.id)"
+            class="shrink-0 transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-xl"
           >
-          <div v-else class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-background text-sm font-semibold text-additional">
-            {{ companyInitial }}
-          </div>
+            <img
+              v-if="offer.company.logo_path"
+              :src="offer.company.logo_path"
+              :alt="t('student.offers.card.logoAlt', { company: offer.company.name })"
+              class="h-10 w-10 rounded-xl object-cover"
+            >
+            <div v-else class="flex h-10 w-10 items-center justify-center rounded-xl bg-background text-sm font-semibold text-additional">
+              {{ companyInitial }}
+            </div>
+          </Link>
 
           <div class="min-w-0">
             <div class="flex items-center gap-2">
-              <p class="min-w-0 truncate text-sm font-semibold text-additional">
+              <Link
+                :href="ROUTES.COMPANY_SHOW.replace('{company}', offer.company.id)"
+                class="min-w-0 truncate text-sm font-semibold text-additional transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+              >
                 {{ offer.company.name }}
-              </p>
+              </Link>
+              
               <span
                 v-if="offer.company.is_verified"
                 class="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-success"
@@ -150,7 +159,6 @@ function confirmWithdraw() {
             </h3>
           </div>
         </div>
-
         <div class="flex flex-wrap gap-2 sm:justify-end">
           <span class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary">{{ offer.city }}</span>
           <span class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary">{{ workModeLabel }}</span>
