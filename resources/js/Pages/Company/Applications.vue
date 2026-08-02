@@ -69,8 +69,8 @@ const loadMore = async () => {
   try {
     const response = await axios.get(nextPageUrl.value, {
       headers: {
-        'Accept': 'application/json'
-      }
+        'Accept': 'application/json',
+      },
     })
 
     displayedApplications.value.push(...response.data.data)
@@ -131,8 +131,8 @@ const statusOptions = ['pending', 'reviewed', 'accepted', 'rejected']
 
         <div class="flex flex-col sm:flex-row gap-4">
           <BaseSelect
-            :aria-label="t('profiles.company.applications.filters.offer')"
             v-model="currentFilters.offer"
+            :aria-label="t('profiles.company.applications.filters.offer')"
             class="w-full sm:w-64"
           >
             <option value="">{{ t('profiles.company.applications.filters.all_offers') }}</option>
@@ -142,8 +142,8 @@ const statusOptions = ['pending', 'reviewed', 'accepted', 'rejected']
           </BaseSelect>
 
           <BaseSelect
-            :aria-label="t('profiles.company.applications.filters.status')"
             v-model="currentFilters.status"
+            :aria-label="t('profiles.company.applications.filters.status')"
             class="w-full sm:w-64"
           >
             <option value="">{{ t('profiles.company.applications.filters.all_statuses') }}</option>

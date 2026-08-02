@@ -6,7 +6,7 @@ const props = defineProps({
   application: {
     type: Object,
     required: true,
-  }
+  },
 })
 
 const emit = defineEmits(['update-status'])
@@ -65,11 +65,9 @@ const onStatusChange = (event) => {
     </div>
 
     <div class="flex items-center gap-4 lg:w-1/3 lg:justify-end">
-      
       <select
-      :aria-label="t('profiles.company.applications.filters.status')"
-      :value="application.status"
-        @change="onStatusChange"
+        :aria-label="t('profiles.company.applications.filters.status')"
+        :value="application.status"
         :disabled="['accepted', 'rejected'].includes(application.status)"
         class="rounded-full py-1.5 pl-4 pr-8 text-sm font-semibold shadow-sm focus:ring-0 appearance-none disabled:cursor-not-allowed disabled:opacity-75 transition-all"
         :class="{
@@ -78,6 +76,7 @@ const onStatusChange = (event) => {
           'bg-green-50 text-green-700 border-green-300': application.status === 'accepted',
           'bg-red-50 text-red-700 border-red-200': application.status === 'rejected'
         }"
+        @change="onStatusChange"
       >
         <option value="pending" :disabled="application.status !== 'pending'">
           {{ t('profiles.company.applications.statuses.pending') }}
@@ -105,7 +104,6 @@ const onStatusChange = (event) => {
       <span v-else class="italic text-slate-400 text-sm px-4 py-2">
         {{ t('profiles.company.applications.no_cv') }}
       </span>
-      
     </div>
   </div>
 </template>

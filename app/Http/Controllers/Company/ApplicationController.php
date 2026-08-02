@@ -27,7 +27,7 @@ class ApplicationController extends Controller
         private readonly UpdateApplicationStatusAction $updateApplicationStatusAction,
     ) {}
 
-    public function index(Request $request): Response|JsonResponse 
+    public function index(Request $request): Response|JsonResponse
     {
         $company = Auth::user()->company;
         $offerId = $request->query("offer");

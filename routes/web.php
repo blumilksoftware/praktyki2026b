@@ -37,8 +37,6 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->group(function (): void {
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
-        Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications.index");
-        Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
         Route::get("/profile/edit", [CompanyController::class, "edit"])->name("company.profile.edit");
         Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
     });
