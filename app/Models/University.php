@@ -59,6 +59,14 @@ class University extends Model
         return $this->hasMany(Faculty::class);
     }
 
+    /**
+     * @return HasMany<Partnership, $this>
+     */
+    public function partnerships(): HasMany
+    {
+        return $this->hasMany(Partnership::class);
+    }
+
     public function scopeNeedingVerification($query)
     {
         return $query->where("verification_status", VerificationStatus::Pending);

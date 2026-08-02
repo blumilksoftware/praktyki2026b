@@ -10,7 +10,6 @@ const props = defineProps({
   phone: { type: String, default: null },
   website: { type: String, default: null },
   street: { type: String, default: null },
-  buildingNumber: { type: String, default: null },
   postalCode: { type: String, default: null },
   city: { type: String, default: null },
   nip: { type: String, default: null },
@@ -20,9 +19,7 @@ const fullAddress = computed(() => {
   const parts = []
   
   if (props.street) {
-    let streetPart = props.street
-    if (props.buildingNumber) streetPart += ` ${props.buildingNumber}`
-    parts.push(streetPart)
+    parts.push(props.street)
   }
   
   let cityPart = ''

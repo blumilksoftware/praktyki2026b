@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconWorld, IconMapPin, IconPhone, IconMail } from '@tabler/icons-vue'
+import { IconWorld, IconMapPin, IconPhone, IconId } from '@tabler/icons-vue'
 import BaseInput from '@/Components/Base/BaseInput.vue' 
 
 const { t } = useI18n()
@@ -10,23 +10,21 @@ const props = defineProps({
   website: { type: String, default: '' },
   phone: { type: String, default: '' },
   street: { type: String, default: '' },
-  buildingNumber: { type: String, default: '' },
   postalCode: { type: String, default: '' },
   city: { type: String, default: '' },
-  nip: { type: String, default: '' },
-  errors: { type: Object, default: () => ({}) }, 
+  nip: { type: String, default: null },
+  errors: { type: Object, default: () => ({}) },
 })
 
 const emit = defineEmits([
   'update:website', 
-  'update:phone', 
-  'update:street', 
-  'update:buildingNumber', 
-  'update:postalCode', 
-  'update:city', 
+  'update:phone',
+  'update:street',
+  'update:postalCode',
+  'update:city',
 ])
 
-const requiredFields = ['city', 'postalCode', 'street', 'buildingNumber', 'phone']
+const requiredFields = ['city', 'postalCode', 'street', 'phone']
 
 const getTranslatedError = (field) => {
   if (props.errors && props.errors[field]) {
@@ -62,10 +60,6 @@ const postalCodeModel = computed({
 const streetModel = computed({
   get: () => props.street,
   set: (val) => emit('update:street', val),
-})
-const buildingNumberModel = computed({
-  get: () => props.buildingNumber,
-  set: (val) => emit('update:buildingNumber', val),
 })
 </script>
 
@@ -109,27 +103,14 @@ const buildingNumberModel = computed({
       </div>
 
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
-        <div class="hidden sm:block w-7 h-7 shrink-0" /> 
-        <div class="w-full flex flex-col sm:flex-row gap-3">
-          <div class="w-full sm:w-3/4">
-            <BaseInput
-              id="street"
-              v-model="streetModel"
-              :label="t('auth.register.company.street')"
-              :error="getTranslatedError('street')"
-              required
-            />
-          </div>
-          <div class="w-full sm:w-1/4">
-            <BaseInput
-              id="buildingNumber"
-              v-model="buildingNumberModel"
-              :label="t('auth.register.company.buildingNumber')"
-              :error="getTranslatedError('buildingNumber')"
-              required
-            />
-          </div>
-        </div>
+        <div class="hidden sm:block w-7 h-7 shrink-0" />
+        <BaseInput
+          id="street"
+          v-model="streetModel"
+          :label="t('auth.register.company.street')"
+          :error="getTranslatedError('street')"
+          required
+        />
       </div>
 
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
@@ -141,6 +122,12 @@ const buildingNumberModel = computed({
           :error="getTranslatedError('phone')"
           required
         />
+      </div>
+
+      <div v-if="nip" class="flex items-center gap-4 sm:gap-6">
+        <IconId class="hidden sm:block w-7 h-7 text-black shrink-0" />
+        <span class="font-bold text-text text-sm">{{ t('profiles.nip') }}:</span>
+        <span class="text-gray-700 font-medium wrap-break-word">{{ nip }}</span>
       </div>
     </div>
   </div>

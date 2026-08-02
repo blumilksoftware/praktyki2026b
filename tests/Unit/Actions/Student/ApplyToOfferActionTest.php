@@ -7,10 +7,14 @@ namespace Tests\Unit\Actions\Student;
 use App\Actions\Student\ApplyToOfferAction;
 use App\Enums\ApplicationStatus;
 use App\Enums\OfferStatus;
+use App\Enums\UserRole;
 use App\Models\Application;
+use App\Models\Company;
 use App\Models\Offer;
 use App\Models\User;
+use App\Notifications\NewApplicationNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
@@ -46,6 +50,33 @@ class ApplyToOfferActionTest extends TestCase
 
         $offer->refresh();
         $this->assertEquals(2, $offer->spots);
+    }
+
+    public function testSuccessfulApplicationNotifiesCompanyAdmins(): void
+    {
+        Notification::fake();
+
+        $company = Company::factory()->create();
+        $companyAdmin = User::factory()->create([
+            "role" => UserRole::CompanyAdmin,
+            "organization_id" => $company->id,
+        ]);
+        $student = User::factory()->create([
+            "cv_path" => "cvs/test_cv.pdf",
+        ]);
+        $offer = Offer::factory()->create([
+            "company_id" => $company->id,
+            "status" => OfferStatus::Published,
+            "spots" => 3,
+        ]);
+
+        $application = $this->action->execute($student, $offer);
+
+        Notification::assertSentTo(
+            $companyAdmin,
+            NewApplicationNotification::class,
+            fn(NewApplicationNotification $notification): bool => $notification->toArray($companyAdmin)["application_id"] === $application->id,
+        );
     }
 
     public function testApplyingWithoutUploadedCvIsRejected(): void

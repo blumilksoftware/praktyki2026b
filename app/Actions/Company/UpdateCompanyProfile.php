@@ -36,7 +36,6 @@ class UpdateCompanyProfile
             "website" => $data->website,
             "phone" => $data->phone,
             "street" => $data->street,
-            "building_number" => $data->building_number,
             "postal_code" => $data->postal_code,
             "city" => $data->city,
             "nip" => $data->nip,

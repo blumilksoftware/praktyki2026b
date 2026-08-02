@@ -12,6 +12,7 @@ use App\Actions\Student\DeleteStudentAccount;
 use App\Actions\Student\DeleteStudentPhotoAction;
 use App\Actions\Student\GetFavourites;
 use App\Actions\Student\GetStudentApplicationsAction;
+use App\Actions\Student\GetStudentOffersAction;
 use App\Actions\Student\LinkStudentToUniversity;
 use App\Actions\Student\RequestEmailChange;
 use App\Actions\Student\SaveOfferAction;
@@ -58,6 +59,7 @@ class StudentController extends Controller
         private readonly GetFavourites $getFavourites,
         private readonly BuildStudentProfileData $buildStudentProfileData,
         private readonly GetStudentApplicationsAction $getStudentApplicationsAction,
+        private readonly GetStudentOffersAction $getStudentOffersAction,
         private readonly SearchUniversities $searchUniversities,
         private readonly LinkStudentToUniversity $linkStudentToUniversity,
     ) {}
@@ -67,6 +69,18 @@ class StudentController extends Controller
         $user = Auth::user();
 
         return inertia("Student/Dashboard", [
+            "applications" => $this->getStudentApplicationsAction->execute($user),
+            "offers" => $this->getStudentOffersAction->execute($user)->take(3)->values(),
+            "hasCv" => $user->cv_path !== null,
+            "favoritesCount" => $user->favourites()->count(),
+        ]);
+    }
+
+    public function applications(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Student/Applications", [
             "applications" => $this->getStudentApplicationsAction->execute($user),
         ]);
     }
@@ -83,6 +97,17 @@ class StudentController extends Controller
         $user = Auth::user();
 
         return inertia("Student/ProfileEdit", $this->buildStudentProfileData->execute($user));
+    }
+
+    public function settings(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Student/Settings", [
+            "email" => $user->email,
+            "emailVerifiedAt" => $user->email_verified_at?->toIso8601String(),
+            "pendingEmail" => $user->pending_email,
+        ]);
     }
 
     public function showPhoto(): StreamedResponse

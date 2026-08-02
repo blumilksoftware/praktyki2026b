@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\WorkMode;
 use App\Rules\PostalCodeRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateStudentProfileRequest extends FormRequest
 {
@@ -31,6 +33,10 @@ class UpdateStudentProfileRequest extends FormRequest
             "study_field_ids.*" => ["string", "uuid", "exists:study_fields,id"],
             "preferred_cities" => ["nullable", "array", "max:10"],
             "preferred_cities.*" => ["required", "string", "max:255"],
+            "skills" => ["nullable", "array", "max:15"],
+            "skills.*" => ["string", "max:50", "distinct:ignore_case"],
+            "work_modes" => ["nullable", "array", "max:3"],
+            "work_modes.*" => [Rule::enum(WorkMode::class), "distinct"],
         ];
     }
 
@@ -44,6 +50,7 @@ class UpdateStudentProfileRequest extends FormRequest
             "study_year.min" => __("validation.profile_study_year_min"),
             "study_year.max" => __("validation.profile_study_year_max"),
             "preferred_cities.max" => __("validation.profile_preferred_cities_max"),
+            "skills.max" => __("validation.profile_skills_max"),
         ];
     }
 
@@ -62,6 +69,8 @@ class UpdateStudentProfileRequest extends FormRequest
             "specialization" => $this->input("specialization"),
             "study_field_ids" => $this->input("study_field_ids", []),
             "preferred_cities" => $this->input("preferred_cities", []),
+            "skills" => $this->input("skills", []),
+            "work_modes" => $this->input("work_modes", []),
         ];
     }
 
