@@ -43,6 +43,8 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/dashboard", [CompanyController::class, "index"])->name("company.dashboard");
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
+        Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
+        Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
         Route::get("/offers", [CompanyOfferController::class, "index"])->name("company.offers");
     });
 
