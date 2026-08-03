@@ -17,6 +17,8 @@ import { ROUTES } from '@/Helpers/routes'
 const props = defineProps({
   user: { type: Object, required: true },
   studyFields: { type: Array, default: () => [] },
+  university_organization: {type: Object, default: null},
+  university_suggested: {type: Object, default: null}
 })
 
 const { t } = useI18n()
