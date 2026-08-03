@@ -4,6 +4,7 @@ import { usePage, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
 import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
+import NotificationBell from '@/Components/Navigation/NotificationBell.vue'
 import ProfileIcon from '@/Components/Navigation/ProfileIcon.vue'
 import { IconMenu2, IconX, IconUserCircle, IconSettings, IconLogout, IconSearch } from '@tabler/icons-vue'
 import { useMobileMenu } from '@/Composables/useMobileMenu'
@@ -78,6 +79,7 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
           <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" />
         </button>
         <LanguageSwitcher />
+        <NotificationBell v-if="showProfileIcon" />
         <ProfileIcon v-if="showProfileIcon" class="hidden lg:inline-block" />
       </div>
     </div>
