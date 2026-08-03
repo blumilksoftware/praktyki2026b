@@ -16,8 +16,8 @@ import { IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@
 const { t } = useI18n()
 
 const companyMenu = computed(() => [
-  { label: t('profiles.company.myOffers'), href: ROUTES.COMPANY_MY_OFFERS, icon: IconSearch },
-  { label: t('profiles.company.candidateApplications'), href: ROUTES.APPLICATIONS, icon: IconClipboardText },
+  { label: t('profiles.company.myOffers'), href: ROUTES.OFFERS, icon: IconSearch },
+  { label: t('profiles.company.candidateApplications'), href: ROUTES.COMPANY_APPLICATIONS, icon: IconClipboardText },
   { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle, isActive: true },
   { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
 ])

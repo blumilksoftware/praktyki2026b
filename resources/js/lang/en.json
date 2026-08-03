@@ -177,7 +177,39 @@
       "noOffers": "The company does not have any open job postings.",
       "noContactInfo": "The company has not provided contact information.",
       "noDescription": "The company has not provided a description yet.",
-      "noTags": "The company has not provided any tags."
+            "noTags": "Firma nie dodała jeszcze tagów.",
+        "applications": {
+          "title": "Candidate applications",
+          "empty": "No applications matching the specified criteria.",
+          "no_cv": "No CV available",
+          "filters": {
+            "offer": "Offer",
+            "all_offers": "All offers",
+            "status": "Status",
+            "all_statuses": "All statuses"
+          },
+          "table": {
+            "candidate": "Candidate",
+            "offer": "Offer",
+            "status": "Status",
+            "actions": "Actions"
+          },
+          "actions": {
+            "download_cv": "Download CV"
+          },
+          "date": {
+            "today": "Submitted: Today, {time}",
+            "exact": "Submitted: {date}"
+          },
+          "no_university": "No university data available",
+          "applied_for": "Applied for:",
+          "statuses": {
+            "pending": "Pending",
+            "reviewed": "Reviewed",
+            "accepted": "Accepted",
+            "rejected": "Rejected"
+          }
+     }
     },
     "university": {
       "recruitmentAndSystem": "Recruitment and system",
@@ -212,6 +244,8 @@
     "myProfile": "My profile",
     "settings": "Settings",
     "logout": "Logout",
+    "load_more": "Load more",
+    "loading": "Loading...",
     "apply": {
       "noCvMessage": "To apply for this position, you must add a CV to your profile.",
       "uploadCvPrompt": "Go to profile edit and upload your CV",

@@ -65,8 +65,10 @@ export const ROUTES = {
   COMPANY_PROFILE: "/company/profile",
   UNIVERSITY_PROFILE: "/university/profile",
 
-  // General
-  APPLICATIONS: "/applications",
+
+  COMPANY_APPLICATIONS: "/company/applications",
+  COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
+  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",  
   TEAM: "/team",
   LANGUAGE_SWITCH: "/language/{locale}",
   SETTINGS: "/settings",
