@@ -78,17 +78,14 @@ const onStatusChange = (event) => {
         }"
         @change="onStatusChange"
       >
-        <option value="pending" :disabled="application.status !== 'pending'">
-          {{ t(`student.applications.status.pending`) }}
-        </option>
-        <option value="reviewed">
-          {{ t(`student.applications.status.reviewed`) }}
-        </option>
-        <option value="accepted">
-          {{ t(`student.applications.status.accepted`) }}
-        </option>
-        <option value="rejected">
-          {{ t(`student.applications.status.rejected`) }}
+        <option 
+          v-for="status in ['pending', 'reviewed', 'accepted', 'rejected']" 
+          :key="status"
+          :value="status"
+          :disabled="status === 'pending' && application.status !== 'pending'"
+          class="bg-background text-text"
+        >
+          {{ t(`student.applications.status.${status}`) }}
         </option>
       </select>
 
