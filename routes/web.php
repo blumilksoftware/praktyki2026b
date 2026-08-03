@@ -73,6 +73,7 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
         Route::patch("/profile", [UniversityController::class, "update"])->name("university.profile.update");
         Route::get("/profile/edit", [UniversityController::class, "edit"])->name("university.profile.edit");
         Route::post("/companies/{company}/partnership", [UniversityCompanyController::class, "addPartner"])->name("university.companies.partnership.store");
+        Route::delete("/companies/{company}/partnership", [UniversityCompanyController::class, "removePartner"])->name("university.companies.partnership.destroy");
     });
 
 Route::middleware(["auth", "can:access-student-panel"])

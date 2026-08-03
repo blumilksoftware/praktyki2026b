@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\University;
 
 use App\Actions\University\AddPartnerAction;
+use App\Actions\University\RemovePartnerAction;
 use App\Actions\University\SearchCompanies;
 use App\DTO\University\SearchCompaniesData;
 use App\Http\Controllers\Controller;
@@ -19,6 +20,7 @@ class CompanyController extends Controller
     public function __construct(
         private readonly SearchCompanies $searchCompanies,
         private readonly AddPartnerAction $addPartnerAction,
+        private readonly RemovePartnerAction $removePartnerAction,
     ) {}
 
     public function index(SearchCompaniesRequest $request): Response
@@ -41,6 +43,15 @@ class CompanyController extends Controller
         $university = Auth::user()->universityOrganization;
 
         $this->addPartnerAction->execute($university, $company);
+
+        return back();
+    }
+
+    public function removePartner(Company $company): RedirectResponse
+    {
+        $university = Auth::user()->universityOrganization;
+
+        $this->removePartnerAction->execute($university, $company);
 
         return back();
     }
