@@ -49,7 +49,7 @@ export const ROUTES = {
   STUDENT_SETTINGS: "/student/settings",
   STUDENT_ACCOUNT_DELETE: "/student/account",
   STUDENT_UNIVERISTY_SEARCH: "/student/university/search",
-  STUDENT_UNIVERSITY_UPDATE: "/student/university"
+  STUDENT_UNIVERSITY_UPDATE: "/student/university",
 
   // Student CV
   STUDENT_CV_PREVIEW: "/student/cv",

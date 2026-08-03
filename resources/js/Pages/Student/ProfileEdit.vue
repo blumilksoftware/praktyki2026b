@@ -25,13 +25,20 @@ const { t } = useI18n()
 const photoUpload = ref(null)
 const pendingPhoto = ref(null)
 
-const universityOptions = [
-  'Collegium Witelona',
-  'Politechnika Wrocławska',
-  'Uniwersytet Wrocławski',
-  'Uniwersytet Ekonomiczny we Wrocławiu',
-  'Akademia Nauk Stosowanych Angelusa Silesiusa',
-]
+const universityOptions = computed(() => {
+  const base = [
+    'Collegium Witelona',
+    'Politechnika Wrocławska',
+    'Uniwersytet Wrocławski',
+    'Uniwersytet Ekonomiczny we Wrocławiu',
+    'Akademia Nauk Stosowanych Angelusa Silesiusa',
+  ]
+  if (props.university_suggested &&
+    !base.includes(props.university_suggested.name)) {
+    return [props.university_suggested.name, ...base]
+  }
+  return base
+})
 
 const photoForm = useForm({ photo: null })
 
