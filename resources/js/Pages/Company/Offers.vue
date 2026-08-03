@@ -7,13 +7,20 @@ import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { ROUTES } from '@/Helpers/routes'
 
-defineProps({
-  offers: { type: Array, default: () => [] },
+const props = defineProps({
+  offers: { type: [Array, Object], default: () => [] },
   isCompanyVerified: { type: Boolean, default: false },
 })
 
 const { t } = useI18n()
 const companyMenu = useCompanyPanelMenu('offers')
+
+const offersList = computed(() => {
+  if (Array.isArray(props.offers)) {
+    return props.offers
+  }
+  return props.offers?.data ?? []
+})
 
 const statusBadgeClass = computed(() => (status) => ({
   draft: 'bg-slate-100 text-slate-600',
@@ -61,7 +68,7 @@ function publish(offerId) {
       </div>
 
       <div
-        v-if="offers.length === 0"
+        v-if="offersList.length === 0"
         class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-white px-8 py-16 text-center"
         role="status"
       >
@@ -75,7 +82,7 @@ function publish(offerId) {
 
       <ul v-else class="flex flex-col gap-3">
         <li
-          v-for="offer in offers"
+          v-for="offer in offersList"
           :key="offer.id"
           class="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
         >
