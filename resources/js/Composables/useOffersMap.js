@@ -16,7 +16,8 @@ const DEFAULT_MAP_VIEW = {
 
 const INDIVIDUAL_ZOOM_THRESHOLD = 11
 
-export function useOffersMap(offersRef, mapboxToken) {
+// Добавляем параметр initialOfferId
+export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null)) {
   const mapContainer = ref(null)
   const selectedCity = ref(null)
   const selectedOfferId = ref(null)
@@ -74,6 +75,32 @@ export function useOffersMap(offersRef, mapboxToken) {
     }
   }
 
+  const selectAndFocusOffer = (offerId) => {
+    if (!offerId || !offersRef.value.length) return
+
+    const offer = offersRef.value.find((o) => String(o.id) === String(offerId))
+    if (!offer) return
+
+    const cityName = offer.city
+    const cityOffers = groupedOffers.value[cityName] || []
+    const fallbackCityCoords = getCityCoordinates(cityName, cityOffers)
+    const offerIndex = cityOffers.findIndex((o) => String(o.id) === String(offerId))
+
+    const offerCoords = getJitteredCoordinates(offer, offerIndex >= 0 ? offerIndex : 0, fallbackCityCoords)
+
+    selectedCity.value = cityName
+    selectedOfferId.value = offer.id
+
+    if (map && offerCoords) {
+      currentZoom.value = 12
+      map.flyTo({
+        center: offerCoords,
+        zoom: 14,
+        speed: 2.5,
+      })
+    }
+  }
+
   const buildClusterPinElement = (cityName, count, isSelected) => {
     const el = document.createElement('button')
     el.type = 'button'
@@ -82,18 +109,18 @@ export function useOffersMap(offersRef, mapboxToken) {
 
     el.innerHTML = `
       <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full shadow-lg border text-xs font-bold transition-all duration-200 transform hover:scale-105 cursor-pointer ${
-      isSelected
-        ? 'bg-primary text-white border-primary ring-4 ring-primary/20 scale-110 z-10'
-        : 'bg-white text-text border-border hover:border-primary/50'
-    }">
+  isSelected
+    ? 'bg-primary text-white border-primary ring-4 ring-primary/20 scale-110 z-10'
+    : 'bg-white text-text border-border hover:border-primary/50'
+}">
         <svg class="w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-primary'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
         <span>${cityName}</span>
         <span class="ml-0.5 px-1.5 py-0.5 rounded-full text-[10px] ${
-      isSelected ? 'bg-white/20 text-white' : 'bg-background text-additional'
-    }">${count}</span>
+  isSelected ? 'bg-white/20 text-white' : 'bg-background text-additional'
+}">${count}</span>
       </div>
     `
     return el
@@ -107,10 +134,10 @@ export function useOffersMap(offersRef, mapboxToken) {
 
     el.innerHTML = `
       <div class="flex items-center justify-center rounded-full shadow-lg border-2 transition-all duration-200 transform hover:scale-110 cursor-pointer ${
-      isSelected
-        ? 'bg-primary border-white ring-4 ring-primary/25 scale-125 w-9 h-9 z-10'
-        : 'bg-white border-primary/30 hover:border-primary/60 w-8 h-8'
-    }">
+  isSelected
+    ? 'bg-primary border-white ring-4 ring-primary/25 scale-125 w-9 h-9 z-10'
+    : 'bg-white border-primary/30 hover:border-primary/60 w-8 h-8'
+}">
         <svg class="w-4 h-4 ${isSelected ? 'text-white' : 'text-primary'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -154,7 +181,7 @@ export function useOffersMap(offersRef, mapboxToken) {
 
       cityOffers.forEach((offer, index) => {
         const coords = getJitteredCoordinates(offer, index, cityFallback)
-        const isSelected = selectedOfferId.value === offer.id
+        const isSelected = String(selectedOfferId.value) === String(offer.id)
 
         const el = buildDotElement(offer, isSelected)
 
@@ -211,10 +238,18 @@ export function useOffersMap(offersRef, mapboxToken) {
       map.addControl(new mapboxgl.NavigationControl(), 'top-right')
 
       map.on('load', () => {
-        renderMarkersForZoom(true)
         map.resize()
-        map.setCenter(initialView.center)
-        map.setZoom(initialView.zoom)
+
+        // Если передан initialOfferId, фокусируемся на нем
+        const rawInitialId = typeof initialOfferId === 'object' ? initialOfferId.value : initialOfferId
+        if (rawInitialId) {
+          selectAndFocusOffer(rawInitialId)
+          renderMarkersForZoom(false)
+        } else {
+          renderMarkersForZoom(true)
+          map.setCenter(initialView.center)
+          map.setZoom(initialView.zoom)
+        }
       })
 
       map.on('zoomend', () => {
@@ -245,5 +280,6 @@ export function useOffersMap(offersRef, mapboxToken) {
     selectedOfferId,
     selectedCityOffers,
     clearSelection,
+    selectAndFocusOffer,
   }
 }

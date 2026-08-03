@@ -66,9 +66,6 @@ function toggleFavorite() {
       favoritedLocally.value = !wasFavorite
       unfavoritedLocally.value = wasFavorite
     },
-    onFinish: () => {
-      isTogglingFavorite.value = false
-    },
   }
 
   isTogglingFavorite.value = true
@@ -104,6 +101,16 @@ function confirmWithdraw() {
     onFinish: () => {
       isWithdrawing.value = false
     },
+  })
+}
+
+function showOnMap() {
+  router.get(ROUTES.OFFERS, {
+    view: 'map',
+    offerId: props.offer.id,
+  }, {
+    preserveState: false,
+    preserveScroll: true,
   })
 }
 </script>
@@ -170,9 +177,8 @@ function confirmWithdraw() {
         <div class="mt-5 flex flex-wrap items-center gap-3">
           <button
             type="button"
-            class="inline-flex items-center justify-center rounded-xl border border-border cursor-pointer bg-white px-4 py-2.5 text-sm font-semibold text-text opacity-60 transition cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-            aria-disabled="true"
-            :title="t('student.offers.card.mapComingSoon')"
+            class="inline-flex items-center justify-center rounded-xl border border-border cursor-pointer bg-white px-4 py-2.5 text-sm font-semibold text-text hover:border-primary/40 hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            @click="showOnMap"
           >
             {{ t('student.offers.card.showOnMap') }}
           </button>

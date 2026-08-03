@@ -11,9 +11,13 @@ const props = defineProps({
   hasCv: { type: Boolean, default: true },
   guest: { type: Boolean, default: false },
   mapboxToken: { type: String, default: '' },
+  initialOfferId: { type: [Number, String], default: null },
 })
 
 const { t } = useI18n()
+
+const offersRef = toRef(props, 'offers')
+const initialOfferIdRef = toRef(props, 'initialOfferId')
 
 const {
   mapContainer,
@@ -21,13 +25,13 @@ const {
   selectedOfferId,
   selectedCityOffers,
   clearSelection,
-} = useOffersMap(toRef(props, 'offers'), props.mapboxToken)
+} = useOffersMap(offersRef, props.mapboxToken, initialOfferIdRef)
 </script>
 
 <template>
   <div class="space-y-4 py-4 sm:px-4 sm:py-6">
     <div class="relative w-full h-[450px] rounded-3xl overflow-hidden border border-border shadow-sm">
-      <div ref="mapContainer" class="w-full h-full"></div>
+      <div ref="mapContainer" class="w-full h-full" />
 
       <SelectedCityBadge
         v-if="selectedCity"

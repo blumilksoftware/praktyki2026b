@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
@@ -25,6 +25,7 @@ const layoutComponent = computed(() => (props.isGuest ? BaseLayout : StudentPane
 const layoutProps = computed(() => (props.isGuest ? {} : { activePage: 'offers' }))
 
 const displayMode = ref('list')
+const targetOfferId = ref(null)
 
 const query = ref('')
 const city = ref('')
@@ -99,6 +100,18 @@ const resetFilters = () => {
   dateTo.value = ''
   currentPage.value = 1
 }
+
+onMounted(() => {
+  const urlParams = new URLSearchParams(window.location.search)
+
+  if (urlParams.get('view') === 'map') {
+    displayMode.value = 'map'
+  }
+
+  if (urlParams.get('offerId')) {
+    targetOfferId.value = Number(urlParams.get('offerId')) || urlParams.get('offerId')
+  }
+})
 </script>
 
 <template>
@@ -327,6 +340,7 @@ const resetFilters = () => {
               :offers="filteredOffers"
               :has-cv="hasCv"
               :guest="isGuest"
+              :initial-offer-id="targetOfferId"
             />
           </template>
         </section>
