@@ -549,6 +549,15 @@
         "applied": "Zaaplikowane",
         "notApplied": "Niezaaplikowane"
       },
+        "map": {
+            "selectPinHint": "Wybierz punkt na mapie, aby zobaczyć dostępne oferty",
+            "cityOffersTitle": "Oferty w {city}",
+            "showAll": "Pokaż wszystkie oferty",
+            "viewSwitcher": {
+                "mapView": "Widok mapy",
+                "listView": "Widok listy"
+            }
+        },
       "filters": {
         "kicker": "Filtry",
         "title": "Tablica ofert",

@@ -413,6 +413,15 @@
         "applied": "Applied",
         "notApplied": "Not applied"
       },
+    "map": {
+        "selectPinHint": "Select a pin on the map to view available offers",
+        "cityOffersTitle": "Offers in {city}",
+        "showAll": "Show all offers",
+        "viewSwitcher":{
+            "mapView": "Map view",
+            "listView": "List view"
+        }
+    },
       "filters": {
         "kicker": "Filters",
         "title": "Offer board",
