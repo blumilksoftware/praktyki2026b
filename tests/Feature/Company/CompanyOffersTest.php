@@ -49,8 +49,8 @@ class CompanyOffersTest extends TestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("Company/Offers")
-                    ->has("offers", 1)
-                    ->where("offers.0.id", $offer->id)
+                    ->has("offers.data", 1)
+                    ->where("offers.data.0.id", $offer->id)
                     ->where("isCompanyVerified", false),
             );
     }
