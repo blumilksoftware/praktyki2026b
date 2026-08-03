@@ -21,6 +21,22 @@ class DemoSeeder extends Seeder
 {
     public function run(): void
     {
+        // A EXAMPLE TO TEST AN AUTO-DETECTED METHOD IN UNIVERSITY AFFILATION FIELD //
+        $prExampleUniversity = University::factory()->approved()->create([
+            "name" => "Politechnika Wrocławska",
+            "domain" => "pwr.edu.pl",
+        ]);
+
+        User::factory()->create([
+            "first_name" => "Jan",
+            "last_name" => "Kowalski",
+            "email" => "jan.kowalski@pwr.edu.pl",
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "organization_id" => null,
+        ]);
+        // IT ENDS HERE - WE CAN DELETE IT LATER//
+
         User::factory()->create([
             "first_name" => "Super",
             "last_name" => "Admin",
