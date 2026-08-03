@@ -328,7 +328,6 @@ onMounted(() => {
             </button>
           </div>
 
-          <!-- Отображение списка + пагинации -->
           <template v-if="displayMode === 'list'">
             <OffersList
               :offers="paginatedOffers"
@@ -356,7 +355,6 @@ onMounted(() => {
             <ClientPagination v-model:current-page="currentPage" :total-pages="totalPages" />
           </template>
 
-          <!-- Отображение карты -->
           <template v-else>
             <OfferMap
               :offers="filteredOffers"

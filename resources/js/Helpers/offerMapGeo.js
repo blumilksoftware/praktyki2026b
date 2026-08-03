@@ -30,9 +30,6 @@ export function getOfferCoordinates(offer) {
     const lng = Number(offer.longitude)
     const lat = Number(offer.latitude)
 
-    // (0, 0) — практически всегда не реальная локация, а незаполненное
-    // значение по умолчанию в БД ("Null Island"). Считаем невалидным,
-    // чтобы такие офисы не портили fitBounds/центрирование карты.
     if (lng === 0 && lat === 0) {
       return null
     }

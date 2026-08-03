@@ -129,7 +129,6 @@ function showOnMap() {
 <template>
   <article class="group overflow-hidden bg-white transition sm:rounded-3xl sm:border sm:border-border sm:shadow-[0_8px_30px_rgba(11,26,48,0.08)] sm:hover:-translate-y-0.5 sm:hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
     <div class="p-5 sm:p-6">
-      <!-- Header -->
       <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div class="min-w-0 flex gap-3">
           <img
@@ -168,14 +167,12 @@ function showOnMap() {
         </div>
       </div>
 
-      <!-- Dates & Spots -->
       <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-additional">
         <span>{{ t('student.offers.card.dateRange') }}: {{ formattedDateRange }}</span>
         <span aria-hidden="true">&middot;</span>
         <span>{{ t('student.offers.card.remainingSpots') }}: {{ offer.remaining_spots }}</span>
       </div>
 
-      <!-- Actions -->
       <div class="mt-5 flex flex-wrap items-center gap-3">
         <button
           type="button"
@@ -233,7 +230,6 @@ function showOnMap() {
         </template>
       </div>
 
-      <!-- Errors -->
       <p v-if="applyError" class="mt-3 text-error text-sm" role="alert">
         {{ applyError }}
       </p>

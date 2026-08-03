@@ -16,7 +16,6 @@ const DEFAULT_MAP_VIEW = {
 
 const INDIVIDUAL_ZOOM_THRESHOLD = 11
 
-// Добавляем параметр initialOfferId
 export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null)) {
   const mapContainer = ref(null)
   const selectedCity = ref(null)
@@ -240,7 +239,6 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
       map.on('load', () => {
         map.resize()
 
-        // Если передан initialOfferId, фокусируемся на нем
         const rawInitialId = typeof initialOfferId === 'object' ? initialOfferId.value : initialOfferId
         if (rawInitialId) {
           selectAndFocusOffer(rawInitialId)
