@@ -26,6 +26,7 @@ return [
     "offer_publish_requires_verification" => "Your company must be verified before you can publish offers. Save it as a draft instead.",
     "offer_publish_invalid_status" => "This offer cannot be published.",
     "application_status_invalid_transition" => "The application status cannot be changed to the selected.",
+    "already_partner" => "This company is already a partner.",
 
     "salary_min.required_if" => "Enter minimum salary when the offer is paid.",
     "salary_max.required_if" => "Enter maximum salary when the offer is paid.",
