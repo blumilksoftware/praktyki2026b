@@ -368,7 +368,8 @@
               "acceptedShare": "% zaakceptowanych",
               "empty": "Brak danych dla wybranego okresu",
               "unknown": "Bez wydziału",
-              "showingResults" : "Wyświetlono {from}–{to} z {total}"
+              "showingResults" : "Wyświetlono {from}–{to} z {total}",
+              "searchPlaceholder": "Szukaj..."
           }
       }
   },
