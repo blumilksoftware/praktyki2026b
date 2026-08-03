@@ -29,19 +29,19 @@ class GetStudentsBreakdownByField
     ): LengthAwarePaginatorContract {
         $grouped = $students
             ->groupBy("study_field")
-            ->map(static fn(Collection $group) => [
+            ->map(static fn(Collection $group): array => [
                 "fieldId" => $group->first()->study_field,
                 "fieldName" => $group->first()->studyField?->name,
                 "linkedStudents" => $group->count(),
-                "applicationsSubmitted" => (int)$group->sum("applications_submitted_count"),
-                "acceptedPlacements" => (int)$group->sum("accepted_placements_count"),
+                "applicationsSubmitted" => $group->sum("applications_submitted_count"),
+                "acceptedPlacements" => $group->sum("accepted_placements_count"),
             ])
             ->values();
 
         if ($search !== null && $search !== "") {
             $needle = Str::lower($search);
             $grouped = $grouped->filter(
-                static fn(array $row) => $row["fieldName"] !== null
+                static fn(array $row): bool => $row["fieldName"] !== null
                     && str_contains(Str::lower($row["fieldName"]), $needle),
             )->values();
         }
@@ -51,7 +51,7 @@ class GetStudentsBreakdownByField
 
         $grouped = $grouped
             ->sortBy(
-                static fn(array $row) => $row[$sortBy],
+                static fn(array $row): string|int|null => $row[$sortBy],
                 SORT_REGULAR,
                 $descending,
             )

@@ -29,20 +29,20 @@ class GetStudentsBreakdownByFaculty
         string $sortDirection = "asc",
     ): LengthAwarePaginatorContract {
         $grouped = $students
-            ->groupBy(static fn(User $student) => $student->studyField?->faculty_id ?? "unknown")
-            ->map(static fn(Collection $group) => [
+            ->groupBy(static fn(User $student): string => $student->studyField?->faculty_id ?? "unknown")
+            ->map(static fn(Collection $group): array => [
                 "facultyId" => $group->first()->studyField?->faculty_id,
                 "facultyName" => $group->first()->studyField?->faculty?->name,
                 "linkedStudents" => $group->count(),
-                "applicationsSubmitted" => (int)$group->sum("applications_submitted_count"),
-                "acceptedPlacements" => (int)$group->sum("accepted_placements_count"),
+                "applicationsSubmitted" => $group->sum("applications_submitted_count"),
+                "acceptedPlacements" => $group->sum("accepted_placements_count"),
             ])
             ->values();
 
         if ($search !== null && $search !== "") {
             $needle = Str::lower($search);
             $grouped = $grouped->filter(
-                static fn(array $row) => $row["facultyName"] !== null
+                static fn(array $row): bool => $row["facultyName"] !== null
                     && str_contains(Str::lower($row["facultyName"]), $needle),
             )->values();
         }
@@ -52,7 +52,7 @@ class GetStudentsBreakdownByFaculty
 
         $grouped = $grouped
             ->sortBy(
-                static fn(array $row) => $row[$sortBy],
+                static fn(array $row): int|string|null => $row[$sortBy],
                 SORT_REGULAR,
                 $descending,
             )

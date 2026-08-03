@@ -34,8 +34,8 @@ class GetStudentsStatistics
 
         return [
             "linkedStudents" => $linkedStudents->count(),
-            "applicationsSubmitted" => (int)$linkedStudents->sum("applications_submitted_count"),
-            "acceptedPlacements" => (int)$linkedStudents->sum("accepted_placements_count"),
+            "applicationsSubmitted" => $linkedStudents->sum("applications_submitted_count"),
+            "acceptedPlacements" => $linkedStudents->sum("accepted_placements_count"),
             "breakdownByFaculty" => $this->getBreakdownByFaculty->execute(
                 students: $linkedStudents,
                 perPage: $facultyPerPage,

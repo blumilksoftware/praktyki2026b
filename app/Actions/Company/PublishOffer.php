@@ -17,7 +17,7 @@ class PublishOffer
             throw ValidationException::withMessages([
                 "status" => __("validation.offer_publish_invalid_status"),
             ]);
-        } 
+        }
 
         if ($offer->company->verification_status !== VerificationStatus::Verified) {
             throw ValidationException::withMessages([
