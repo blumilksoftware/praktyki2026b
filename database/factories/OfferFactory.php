@@ -8,9 +8,7 @@ use App\Enums\OfferStatus;
 use App\Enums\WorkMode;
 use App\Models\Company;
 use App\Models\Offer;
-use App\Services\MapboxGeocodingService;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Throwable;
 
 /**
  * @extends Factory<Offer>
@@ -23,25 +21,14 @@ class OfferFactory extends Factory
         $isPaid = fake()->boolean();
         $salaryMin = $isPaid ? fake()->numberBetween(3000, 6000) : null;
 
-        $city = fake()->city();
-
-        try {
-            $coords = app(MapboxGeocodingService::class)->geocode($city);
-            $lat = $coords["latitude"];
-            $lng = $coords["longitude"];
-        } catch (Throwable $e) {
-            $lat = 52.2297;
-            $lng = 21.0122;
-        }
-
         return [
             "company_id" => Company::factory(),
             "title" => fake()->jobTitle(),
             "description" => fake()->paragraph(5),
             "spots" => fake()->numberBetween(1, 10),
             "city" => fake()->city(),
-            "latitude" => $lat,
-            "longitude" => $lng,
+            "latitude" => fake()->latitude(49, 55),
+            "longitude" => fake()->longitude(14, 24),
             "start_date" => $startDate,
             "end_date" => fake()->dateTimeBetween($startDate, $startDate->format("Y-m-d") . " +3 months"),
             "work_mode" => fake()->randomElement(WorkMode::cases()),
