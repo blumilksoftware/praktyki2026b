@@ -21,7 +21,7 @@ const props = defineProps({
     type: String,
     default: () => `multiselect-${Math.random().toString(36).substr(2, 9)}`,
   },
-  stacked: { type: Boolean, default: false },
+  stacked: { type: Boolean, default: true },
 
 })
 

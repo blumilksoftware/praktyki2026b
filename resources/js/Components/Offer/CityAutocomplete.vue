@@ -10,7 +10,7 @@ const props = defineProps({
   placeholder: { type: String, default: '' },
   error: { type: String, default: null },
   required: { type: Boolean, default: false },
-  stacked: { type: Boolean, default: false },
+  stacked: { type: Boolean, default: true },
 })
 
 const emit = defineEmits(['update:modelValue', 'select'])

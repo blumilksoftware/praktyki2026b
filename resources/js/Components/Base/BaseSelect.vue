@@ -8,7 +8,7 @@ const props = defineProps({
   error: { type: String, default: undefined },
   required: { type: Boolean, default: false },
   placeholder: { type: String, default: undefined },
-  stacked: { type: Boolean, default: false },
+  stacked: { type: Boolean, default: true },
 })
 
 const model = defineModel({ type: String, required: true })

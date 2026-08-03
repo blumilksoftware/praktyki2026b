@@ -9,7 +9,7 @@ const props = defineProps({
   startError: { type: String, default: undefined },
   endError: { type: String, default: undefined },
   required: { type: Boolean, default: false },
-  stacked: { type: Boolean, default: false },
+  stacked: { type: Boolean, default: true },
 })
 
 const start = defineModel('start', { type: String, required: true })
