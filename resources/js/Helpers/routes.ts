@@ -13,6 +13,14 @@ export const ROUTES = {
   REGISTER_UNIVERSITY: "/register/university",
   REGISTER_COMPANY: "/register/company",
 
+  COMPANY_DASHBOARD: "/company/dashboard",
+  COMPANY_OFFERS_INDEX: "/company/offers",
+  COMPANY_OFFERS_CREATE: "/company/offers/create",
+  COMPANY_OFFERS_STORE: "/company/offers",
+  COMPANY_OFFERS_UPDATE: (id: number | string) => `/company/offers/${id}`,
+  COMPANY_OFFERS_EDIT: (id: number | string) => `/company/offers/${id}/edit`,
+  COMPANY_OFFERS_PUBLISH: (id: number | string) => `/company/offers/${id}/publish`,
+
   // Authentication - Password & Email
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password/{token}",
@@ -52,14 +60,12 @@ export const ROUTES = {
   STUDENT_OFFER_FAVOURITE: "/student/offers/{offer}/favourite",
   STUDENT_APPLICATIONS: "/student/applications",
   STUDENT_FAVORITES: "/student/favourites",
-  COMPANY_APPLICATIONS: "/company/applications",
 
   // Offers & Search
   OFFERS: "/offers",
   OFFER_SHOW: `/offers/{offer}`,
   COMPANY_OFFERS: "/search?company_id={companyId}",
-  COMPANY_OFFERS_STORE: "/company/offers",
-  COMPANY_DASHBOARD: "/company/dashboard",
+  COMPANY_MY_OFFERS: "/company/offers",
 
   // Profiles
   PROFILE: "/profile",
@@ -67,6 +73,11 @@ export const ROUTES = {
   COMPANY_PROFILE: "/company/profile",
   UNIVERSITY_PROFILE: "/university/profile",
 
+
+  COMPANY_APPLICATIONS: "/company/applications",
+  COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
+  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
+  COMPANY_SHOW: '/companies/{company}',
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",
 
@@ -75,6 +86,9 @@ export const ROUTES = {
   TEAM: "/team",
   LANGUAGE_SWITCH: "/language/{locale}",
   SETTINGS: "/settings",
+
+  NOTIFICATIONS_READ_ALL: "/notifications/read-all",
+  NOTIFICATIONS_READ: "/notifications/{notification}/read",
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]
@@ -85,6 +99,10 @@ export function studentOfferApply(offerId: string): string {
 
 export function studentOfferWithdraw(offerId: string): string {
   return ROUTES.STUDENT_OFFER_WITHDRAW.replace("{offer}", offerId)
+}
+
+export function notificationRead(notificationId: string): string {
+  return ROUTES.NOTIFICATIONS_READ.replace("{notification}", notificationId)
 }
 
 export function studentOfferFavourite(offerId: string): string {

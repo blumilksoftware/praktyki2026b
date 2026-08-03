@@ -33,14 +33,36 @@ class CompanyOffersTest extends TestCase
         $this->actingAs($student)->get(route("company.offers"))->assertStatus(403);
     }
 
-    public function testUnverifiedCompanyCannotAccessOffersList(): void
+    public function testUnverifiedCompanyCanAccessOffersListToSeeItsDrafts(): void
     {
         $company = Company::factory()->pending()->create();
         $user = $this->makeCompanyAdmin($company);
 
+        $offer = Offer::factory()->create([
+            "company_id" => $company->id,
+            "status" => "draft",
+        ]);
+
         $this->actingAs($user)
             ->get(route("company.offers"))
-            ->assertRedirect(route("company.verification.pending"));
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Company/Offers")
+                    ->has("offers", 1)
+                    ->where("offers.0.id", $offer->id)
+                    ->where("isCompanyVerified", false),
+            );
+    }
+
+    public function testPendingUserAccountCannotAccessOffersList(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = User::factory()->pendingCompanyAdmin()->create([
+            "organization_id" => $company->id,
+        ]);
+
+        $this->actingAs($user)->get(route("company.offers"))->assertForbidden();
     }
 
     public function testCompanyAdminCanAccessOffersListWithSummaryData(): void
@@ -67,7 +89,8 @@ class CompanyOffersTest extends TestCase
                     ->where("offers.0.title", "Backend Internship")
                     ->where("offers.0.status", "published")
                     ->where("offers.0.spots", 3)
-                    ->where("offers.0.applications_count", 2),
+                    ->where("offers.0.applications_count", 2)
+                    ->where("isCompanyVerified", true),
             );
     }
 

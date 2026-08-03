@@ -47,9 +47,9 @@ class DeleteOfferTest extends TestCase
         $user = $this->makeCompanyAdmin($company);
         $offer = Offer::factory()->published()->create(["company_id" => $company->id]);
 
-        $response = $this->actingAs($user)->delete("/company/offers/{$offer->id}");
+        $response = $this->actingAs($user)->from("/company/offers")->delete("/company/offers/{$offer->id}");
 
-        $response->assertRedirect("/company/dashboard");
+        $response->assertRedirect("/company/offers");
         $this->assertSoftDeleted("offers", ["id" => $offer->id]);
     }
 

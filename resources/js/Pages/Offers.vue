@@ -138,7 +138,7 @@ const resetFilters = () => {
         <aside aria-labelledby="offers-filters-heading" class="lg:top-6 lg:sticky bg-white/90 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm p-5 border border-border/80 rounded-3xl">
           <div class="flex justify-between items-start gap-3">
             <div>
-              <p class="font-semibold text-additional text-xs uppercase tracking-[0.24em]">{{ t('student.offers.filters.kicker') }}</p>
+              <p class="font-medium text-additional text-sm">{{ t('student.offers.filters.kicker') }}</p>
               <h2 id="offers-filters-heading" class="mt-2 font-semibold text-text text-2xl tracking-tight">
                 {{ t('student.offers.filters.title') }}
               </h2>

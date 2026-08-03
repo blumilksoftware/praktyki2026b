@@ -63,7 +63,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="dropdownRef" class="relative inline-block text-left">
+  <div ref="dropdownRef" class="relative text-left">
     <div
       class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-secondary p-0 text-accent transition-all hover:cursor-pointer hover:ring-2 hover:ring-link hover:ring-offset-2 hover:ring-offset-background focus:outline-none"
       :aria-expanded="isOpen"
