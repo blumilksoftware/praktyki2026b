@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Inertia\Response;
 
 class UniversityController extends Controller
@@ -33,20 +34,36 @@ class UniversityController extends Controller
         $filters = $request->validate([
             "from" => ["nullable", "date_format:Y-m-d"],
             "to" => ["nullable", "date_format:Y-m-d", "after_or_equal:from"],
+
             "fieldPage" => ["nullable", "integer", "min:1"],
+            "fieldSearch" => ["nullable", "string", "max:255"],
+            "fieldSort" => ["nullable", "string", Rule::in(["fieldName", "linkedStudents", "applicationsSubmitted", "acceptedPlacements"])],
+            "fieldDirection" => ["nullable", "string", Rule::in(["asc", "desc"])],
+
+            "facultyPage" => ["nullable", "integer", "min:1"],
+            "facultySearch" => ["nullable", "string", "max:255"],
+            "facultySort" => ["nullable", "string", Rule::in(["facultyName", "linkedStudents", "applicationsSubmitted", "acceptedPlacements"])],
+            "facultyDirection" => ["nullable", "string", Rule::in(["asc", "desc"])],
         ]);
 
         $from = isset($filters["from"]) ? Carbon::parse($filters["from"])->startOfDay() : null;
         $to = isset($filters["to"]) ? Carbon::parse($filters["to"])->endOfDay() : null;
-        $fieldPage = (int)($filters["fieldPage"] ?? 1);
 
         return inertia("University/Dashboard", [
             "data" => $this->getStudentsStatistics->execute(
                 university: $university,
                 from: $from,
                 to: $to,
-                fieldPage: $fieldPage,
+                fieldPage: (int)($filters["fieldPage"] ?? 1),
                 fieldPerPage: 10,
+                fieldSearch: $filters["fieldSearch"] ?? null,
+                fieldSortBy: $filters["fieldSort"] ?? "fieldName",
+                fieldSortDirection: $filters["fieldDirection"] ?? "asc",
+                facultyPage: (int)($filters["facultyPage"] ?? 1),
+                facultyPerPage: 10,
+                facultySearch: $filters["facultySearch"] ?? null,
+                facultySortBy: $filters["facultySort"] ?? "facultyName",
+                facultySortDirection: $filters["facultyDirection"] ?? "asc",
             ),
             "filters" => $filters,
         ]);
