@@ -328,14 +328,6 @@
       "title": "Company search"
     }
   },
-  "company": {
-    "layout": {
-      "title": "Company"
-    },
-    "profile": {
-      "title": "Profile"
-    }
-  },
   "student": {
     "layout": {
       "title": "Student panel",

@@ -11,7 +11,7 @@ import BaseInput from '@/Components/Base/BaseInput.vue'
 import ClientPagination from '@/Components/Common/ClientPagination.vue'
 import { ROUTES } from '@/Helpers/routes'
 
-const OFFERS_PER_PAGE = 6
+const PER_PAGE_OPTIONS = [6, 12, 24, 48]
 
 const props = defineProps({
   offers: { type: Array, default: () => [] },
@@ -51,7 +51,6 @@ const matchesDateRange = (offer) => {
   if (dateRangeError.value) return true
   if (dateFrom.value && offer.end_date && offer.end_date < dateFrom.value) return false
   return !(dateTo.value && offer.start_date && offer.start_date > dateTo.value)
-
 }
 
 const filteredOffers = computed(() => props.offers.filter((offer) => {
@@ -78,15 +77,20 @@ const availableCities = computed(() => {
 })
 
 const currentPage = ref(1)
+const perPage = ref(PER_PAGE_OPTIONS[0])
 
-const totalPages = computed(() => Math.max(1, Math.ceil(filteredOffers.value.length / OFFERS_PER_PAGE)))
+const totalPages = computed(() => Math.max(1, Math.ceil(filteredOffers.value.length / perPage.value)))
 
 const paginatedOffers = computed(() => {
-  const start = (currentPage.value - 1) * OFFERS_PER_PAGE
-  return filteredOffers.value.slice(start, start + OFFERS_PER_PAGE)
+  const start = (currentPage.value - 1) * perPage.value
+  return filteredOffers.value.slice(start, start + perPage.value)
 })
 
 watch(filteredOffers, () => {
+  currentPage.value = 1
+})
+
+watch(perPage, () => {
   currentPage.value = 1
 })
 
@@ -257,7 +261,7 @@ onMounted(() => {
         </aside>
 
         <section aria-labelledby="offers-list-heading" class="-mx-4 sm:mx-0 sm:rounded-3xl sm:border sm:border-border/80 sm:bg-white/90 sm:p-6 sm:shadow-[0_14px_40px_rgba(11,26,48,0.08)] sm:backdrop-blur-sm">
-          <div class="flex flex-wrap justify-between items-end gap-4 mb-5 px-4 pt-5 sm:px-0 sm:pt-0">
+          <div class="flex justify-between items-end gap-4 mb-5 px-4 pt-5 sm:px-0 sm:pt-0">
             <div>
               <p class="font-medium text-additional text-sm">{{ t('student.offers.results.caption') }}</p>
               <h2 id="offers-list-heading" class="mt-1 font-semibold text-text text-3xl tracking-tight" aria-live="polite">
@@ -324,6 +328,7 @@ onMounted(() => {
             </button>
           </div>
 
+          <!-- Отображение списка + пагинации -->
           <template v-if="displayMode === 'list'">
             <OffersList
               :offers="paginatedOffers"
@@ -332,9 +337,26 @@ onMounted(() => {
               :empty-title="viewMode === 'applied' ? t('student.offers.emptyApplied.title') : undefined"
               :empty-description="viewMode === 'applied' ? t('student.offers.emptyApplied.description') : undefined"
             />
+
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm text-additional sm:justify-end">
+              <label class="flex items-center gap-2" for="offers-per-page">
+                {{ t('student.offers.pagination.perPage') }}
+                <select
+                  id="offers-per-page"
+                  v-model.number="perPage"
+                  class="rounded-lg border border-border bg-white py-1.5 pl-3 pr-8 text-text outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                >
+                  <option v-for="size in PER_PAGE_OPTIONS" :key="size" :value="size">
+                    {{ size }}
+                  </option>
+                </select>
+              </label>
+            </div>
+
             <ClientPagination v-model:current-page="currentPage" :total-pages="totalPages" />
           </template>
 
+          <!-- Отображение карты -->
           <template v-else>
             <OfferMap
               :offers="filteredOffers"
