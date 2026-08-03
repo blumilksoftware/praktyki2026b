@@ -18,7 +18,7 @@ const props = defineProps({
   user: { type: Object, required: true },
   studyFields: { type: Array, default: () => [] },
   university_organization: {type: Object, default: null},
-  university_suggested: {type: Object, default: null}
+  suggested_university: {type: Object, default: null}
 })
 
 const { t } = useI18n()
@@ -33,9 +33,9 @@ const universityOptions = computed(() => {
     'Uniwersytet Ekonomiczny we Wrocławiu',
     'Akademia Nauk Stosowanych Angelusa Silesiusa',
   ]
-  if (props.university_suggested &&
-    !base.includes(props.university_suggested.name)) {
-    return [props.university_suggested.name, ...base]
+  if (props.suggested_university &&
+    !base.includes(props.suggested_university.name)) {
+    return [props.suggested_university.name, ...base]
   }
   return base
 })
@@ -58,6 +58,17 @@ const profileForm = useForm({
   skills: [...(props.user.skills ?? [])],
   work_modes: [...(props.user.work_modes ?? [])],
 })
+
+if (!profileForm.university && props.suggested_university) {
+  profileForm.university = props.suggested_university.name
+}
+
+const isUniversitySuggested = computed(() =>
+  !props.university_organization
+  && props.suggested_university !== null
+  && profileForm.university === props.suggested_university.name,
+)
+
 
 const hasPhotoPending = computed(() => Boolean(pendingPhoto.value))
 const fieldError = (field) => profileForm.errors[field]
@@ -260,6 +271,13 @@ function saveAll() {
                   {{ university }}
                 </option>
               </select>
+              <p
+                v-if="isUniversitySuggested"
+                class="mt-1 text-primary text-xs"
+              >
+                *{{ t('student.profile.edit.universitySuggestedNote') }}
+              </p>
+
               <p
                 v-if="fieldError('university')"
                 id="edit_university-error"
