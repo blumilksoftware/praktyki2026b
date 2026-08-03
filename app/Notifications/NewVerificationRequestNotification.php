@@ -26,6 +26,7 @@ class NewVerificationRequestNotification extends Notification
             "entity_type" => $this->entity instanceof Company ? "company" : "university",
             "entity_id" => $this->entity->id,
             "entity_name" => $this->entity->name,
+            "url" => route("admin.applications"),
         ];
     }
 }

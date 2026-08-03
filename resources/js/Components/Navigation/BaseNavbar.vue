@@ -4,6 +4,7 @@ import { usePage, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
 import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
+import NotificationBell from '@/Components/Navigation/NotificationBell.vue'
 import ProfileIcon from '@/Components/Navigation/ProfileIcon.vue'
 import BaseNavigationButtons from '@/Components/Navigation/BaseNavigationButtons.vue'
 import { IconMenu2, IconX, IconUserCircle, IconSettings, IconLogout, IconSearch } from '@tabler/icons-vue'
@@ -125,10 +126,9 @@ const hasProfileInMenu = computed(() => (
           />
         </div>
 
-        <div class="flex items-center gap-4">
-          <LanguageSwitcher />
-          <ProfileIcon v-if="showProfileIcon" class="hidden lg:inline-block" />
-        </div>
+        <LanguageSwitcher />
+        <ProfileIcon v-if="showProfileIcon" class="hidden lg:inline-block" />
+        <NotificationBell v-if="showProfileIcon" />
       </div>
     </div>
   </nav>

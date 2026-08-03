@@ -11,7 +11,9 @@ use App\Models\Offer;
 use App\Models\User;
 use App\Observers\OfferObserver;
 use App\Policies\ApplicationPolicy;
+use App\Policies\NotificationPolicy;
 use App\Policies\OfferPolicy;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(Application::class, ApplicationPolicy::class);
         Gate::policy(Offer::class, OfferPolicy::class);
+        Gate::policy(DatabaseNotification::class, NotificationPolicy::class);
 
         Offer::observe(OfferObserver::class);
 

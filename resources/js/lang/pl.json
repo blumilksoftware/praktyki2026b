@@ -746,5 +746,20 @@
       "suggestions": "Sugestie",
       "clearAll": "Wyczyść wszystkie elementy z listy"
     }
+
+  },
+  "notifications": {
+    "bell": {
+      "ariaLabel": "Powiadomienia",
+      "unreadAriaLabel": "{count} nieprzeczytanych powiadomień"
+    },
+    "empty": "Nie masz jeszcze żadnych powiadomień.",
+    "markAllAsRead": "Oznacz wszystkie jako przeczytane",
+    "types": {
+      "verificationRequest": "Nowy wniosek weryfikacyjny od {name}",
+      "newApplication": "{student} zaaplikował(a) na {offer}",
+      "statusChanged": "Status Twojej aplikacji na {offer} zmienił się na {status}",
+      "fallback": "Nowe powiadomienie"
+    }
   }
 }
