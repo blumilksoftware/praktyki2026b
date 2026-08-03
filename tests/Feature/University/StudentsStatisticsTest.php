@@ -53,8 +53,12 @@ class StudentsStatisticsTest extends TestCase
                 ->where("data.linkedStudents", 1)
                 ->where("data.applicationsSubmitted", 1)
                 ->where("data.acceptedPlacements", 1)
-                ->has("data.breakdownByFaculty", 1)
+                ->has("data.breakdownByFaculty.data", 1)
+                ->where("data.breakdownByFaculty.data.0.facultyId", $faculty->id)
+                ->where("data.breakdownByFaculty.data.0.linkedStudents", 1)
                 ->has("data.breakdownByField.data", 1)
+                ->where("data.breakdownByField.data.0.fieldId", $studyField->id)
+                ->where("data.breakdownByField.data.0.linkedStudents", 1)
                 ->where("filters.from", "2026-02-01")
                 ->where("filters.to", "2026-02-28"));
     }
@@ -72,5 +76,91 @@ class StudentsStatisticsTest extends TestCase
             ->get(route("university.dashboard", ["from" => "2026-03-01", "to" => "2026-02-01"]))
             ->assertRedirect()
             ->assertSessionHasErrors("to");
+    }
+
+    public function testDashboardSearchesBreakdownByFieldName(): void
+    {
+        $university = University::factory()->approved()->create(["domain" => "example.edu"]);
+        $faculty = Faculty::factory()->for($university)->create();
+
+        $matchingField = StudyField::factory()->for($faculty)->create(["name" => "Computer Science"]);
+        $otherField = StudyField::factory()->for($faculty)->create(["name" => "Philosophy"]);
+
+        $admin = User::factory()->create([
+            "role" => UserRole::UniversityAdmin,
+            "status" => UserStatus::Active,
+            "organization_id" => $university->id,
+        ]);
+
+        User::factory()->create([
+            "email" => "cs-student@example.edu",
+            "study_field" => $matchingField->id,
+        ]);
+        User::factory()->create([
+            "email" => "phil-student@example.edu",
+            "study_field" => $otherField->id,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route("university.dashboard", ["fieldSearch" => "computer"]))
+            ->assertOk()
+            ->assertInertia(fn(Assert $page) => $page
+                ->component("University/Dashboard")
+                ->has("data.breakdownByField.data", 1)
+                ->where("data.breakdownByField.data.0.fieldId", $matchingField->id)
+                ->where("filters.fieldSearch", "computer"));
+    }
+
+    public function testDashboardSortsBreakdownByFacultyDescending(): void
+    {
+        $university = University::factory()->approved()->create(["domain" => "example.edu"]);
+
+        $facultyA = Faculty::factory()->for($university)->create(["name" => "Alpha Faculty"]);
+        $facultyZ = Faculty::factory()->for($university)->create(["name" => "Zeta Faculty"]);
+
+        $fieldA = StudyField::factory()->for($facultyA)->create();
+        $fieldZ = StudyField::factory()->for($facultyZ)->create();
+
+        $admin = User::factory()->create([
+            "role" => UserRole::UniversityAdmin,
+            "status" => UserStatus::Active,
+            "organization_id" => $university->id,
+        ]);
+
+        User::factory()->create([
+            "email" => "student-a@example.edu",
+            "study_field" => $fieldA->id,
+        ]);
+        User::factory()->create([
+            "email" => "student-z@example.edu",
+            "study_field" => $fieldZ->id,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route("university.dashboard", [
+                "facultySort" => "facultyName",
+                "facultyDirection" => "desc",
+            ]))
+            ->assertOk()
+            ->assertInertia(fn(Assert $page) => $page
+                ->component("University/Dashboard")
+                ->has("data.breakdownByFaculty.data", 2)
+                ->where("data.breakdownByFaculty.data.0.facultyId", $facultyZ->id)
+                ->where("data.breakdownByFaculty.data.1.facultyId", $facultyA->id));
+    }
+
+    public function testDashboardRejectsInvalidSortColumn(): void
+    {
+        $university = University::factory()->approved()->create();
+        $admin = User::factory()->create([
+            "role" => UserRole::UniversityAdmin,
+            "status" => UserStatus::Active,
+            "organization_id" => $university->id,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route("university.dashboard", ["fieldSort" => "not-a-real-column"]))
+            ->assertRedirect()
+            ->assertSessionHasErrors("fieldSort");
     }
 }
