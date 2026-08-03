@@ -49,7 +49,7 @@ class DeleteOfferTest extends TestCase
 
         $response = $this->from("/company/dashboard")->actingAs($user)->delete("/company/offers/{$offer->id}");
 
-        $response->assertRedirect("/company/dashboard");
+        $response->assertRedirect("/company/offers");
         $this->assertSoftDeleted("offers", ["id" => $offer->id]);
     }
 

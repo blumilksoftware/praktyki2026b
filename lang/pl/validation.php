@@ -170,6 +170,10 @@ return [
     "offer_publish_invalid_status" => "Tej oferty nie można opublikować.",
     "application_status_invalid_transition" => "Nie można zmienić statusu aplikacji na wybrany.",
 
+    "salary_min.required_if" => "Podaj minimalne wynagrodzenie, gdy oferta jest płatna.",
+    "salary_max.required_if" => "Podaj maksymalne wynagrodzenie, gdy oferta jest płatna.",
+    "salary_max.gte" => "Maksymalne wynagrodzenie musi być większe lub równe minimalnemu.",
+
     "profile_age_integer" => "Wpisz poprawny wiek — liczbę całkowitą.",
     "profile_age_min" => "Wiek musi być większy od 0.",
     "profile_age_max" => "Wpisz poprawny wiek.",

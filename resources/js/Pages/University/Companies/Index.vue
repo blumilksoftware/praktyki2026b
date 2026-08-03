@@ -26,8 +26,6 @@ const navItems = [
 <template>
   <Head :title="t('university.companies.title')" />
   <BaseLayout active-page="companies" :nav-items="navItems">
-    <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('university.companies.title') }}</h1>
-    </div>
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('university.companies.title') }}</h1>
   </BaseLayout>
 </template>

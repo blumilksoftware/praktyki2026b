@@ -34,7 +34,7 @@ class PublishOfferTest extends TestCase
 
         $response = $this->from("/company/dashboard")->actingAs($user)->patch("/company/offers/{$offer->id}/publish");
 
-        $response->assertRedirect("/company/dashboard");
+        $response->assertRedirect("/company/offers");
         $this->assertDatabaseHas("offers", [
             "id" => $offer->id,
             "status" => OfferStatus::Published->value,

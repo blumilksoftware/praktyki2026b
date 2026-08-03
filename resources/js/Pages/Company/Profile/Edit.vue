@@ -1,6 +1,6 @@
 <script setup>
 import { Head, useForm, router } from '@inertiajs/vue3'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { IconArrowLeft } from '@tabler/icons-vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
@@ -9,18 +9,12 @@ import TagsEdit from '@/Components/Profiles/Edit/TagsEdit.vue'
 import AboutEdit from '@/Components/Profiles/Edit/AboutEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
 import Menu from '@/Components/Profiles/Menu.vue'
-import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
-import { IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
+import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 
 const { t } = useI18n()
 
-const companyMenu = computed(() => [
-  { label: t('profiles.company.myOffers'), href: ROUTES.COMPANY_MY_OFFERS, icon: IconSearch },
-  { label: t('profiles.company.candidateApplications'), href: ROUTES.APPLICATIONS, icon: IconClipboardText },
-  { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle, isActive: true },
-  { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
-])
+const companyMenu = useCompanyPanelMenu('profile')
 
 const goBack = () => {
   window.history.back()
