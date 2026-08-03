@@ -663,6 +663,21 @@
     "profile": {
       "title": "Profile"
     },
+    "offer": {
+      "delete": {
+        "modalTitle": "Delete offer?",
+        "confirmation": "Are you sure you want to delete the offer “{title}”? This cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Delete offer"
+      },
+      "unpublish": {
+        "modalTitle": "Unpublish offer?",
+        "confirmation": "The offer “{title}” will be removed from the public offer board and closed for new applications. Candidates who already applied will keep their applications.",
+        "irreversibleNotice": "This action cannot be undone. A closed offer cannot be published again.",
+        "cancel": "Cancel",
+        "confirm": "Unpublish offer"
+      }
+    },
     "offers": {
       "index": {
         "title": "My offers",
@@ -670,12 +685,23 @@
           "title": "You haven't created any offers yet",
           "description": "Create your first offer to start receiving applications."
         },
+        "noResults": {
+          "title": "No offers match your filters",
+          "description": "Try a different search term or status."
+        },
+        "searchPlaceholder": "Search offers by title",
+        "tabs": {
+          "all": "All"
+        },
         "createAction": "Create offer",
         "editAction": "Edit",
         "publishAction": "Publish",
         "publishing": "Publishing…",
-        "applicationsCount": "{count} applications",
-        "spotsLabel": "{count} spots",
+        "unpublishAction": "Unpublish",
+        "unpublishing": "Unpublishing…",
+        "deleteAction": "Delete",
+        "applicationsCount": "Applications: {count}",
+        "spotsLabel": "Spots: {count}",
         "verificationRequiredHint": "Your company must be verified before this can be published.",
         "status": {
           "draft": "Draft",
@@ -788,6 +814,11 @@
       "verificationRequest": "New verification request from {name}",
       "newApplication": "{student} applied to {offer}",
       "statusChanged": "Your application to {offer} is now {status}",
+      "offerUnavailable": {
+        "closed": "The offer “{offer}” you applied to has been closed by the company.",
+        "expired": "The offer “{offer}” you applied to has expired.",
+        "deleted": "The offer “{offer}” you applied to has been removed by the company."
+      },
       "fallback": "New notification"
     }
   }

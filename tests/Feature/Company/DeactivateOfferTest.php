@@ -12,6 +12,7 @@ use App\Models\Application;
 use App\Models\Company;
 use App\Models\Offer;
 use App\Models\User;
+use App\Notifications\OfferUnavailableNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -92,6 +93,25 @@ class DeactivateOfferTest extends TestCase
             OfferUnavailableMail::class,
             fn(OfferUnavailableMail $mail): bool => $mail->hasTo($student->email) && $mail->reason === "closed",
         );
+    }
+
+    public function testDeactivatingOfferCreatesInAppNotificationForApplicants(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+        $offer = Offer::factory()->published()->create(["company_id" => $company->id]);
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+        Application::factory()->create(["offer_id" => $offer->id, "student_id" => $student->id]);
+
+        $this->actingAs($user)->patch("/company/offers/{$offer->id}/deactivate");
+
+        $this->assertDatabaseHas("notifications", [
+            "notifiable_id" => $student->id,
+            "type" => OfferUnavailableNotification::class,
+        ]);
     }
 
     public function testStudentCannotDeactivateOffer(): void

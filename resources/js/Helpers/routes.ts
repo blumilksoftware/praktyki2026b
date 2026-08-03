@@ -20,6 +20,8 @@ export const ROUTES = {
   COMPANY_OFFERS_UPDATE: (id: number | string) => `/company/offers/${id}`,
   COMPANY_OFFERS_EDIT: (id: number | string) => `/company/offers/${id}/edit`,
   COMPANY_OFFERS_PUBLISH: (id: number | string) => `/company/offers/${id}/publish`,
+  COMPANY_OFFERS_DEACTIVATE: (id: number | string) => `/company/offers/${id}/deactivate`,
+  COMPANY_OFFERS_DELETE: (id: number | string) => `/company/offers/${id}`,
 
   // Authentication - Password & Email
   FORGOT_PASSWORD: "/forgot-password",
@@ -75,7 +77,7 @@ export const ROUTES = {
 
   COMPANY_APPLICATIONS: "/company/applications",
   COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
-  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status", 
+  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
   COMPANY_SHOW: '/companies/{company}',
   TEAM: "/team",
   LANGUAGE_SWITCH: "/language/{locale}",
