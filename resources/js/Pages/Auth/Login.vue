@@ -67,9 +67,8 @@ const authError = computed(() => form.errors.email)
                 :label="t('auth.login.email')"
                 type="email"
                 autocomplete="email"
-                :invalid="!!authError" 
+                :invalid="!!authError"
                 required
-                floating
               />
             </div> 
             
@@ -82,7 +81,6 @@ const authError = computed(() => form.errors.email)
                 autocomplete="current-password"
                 :invalid="!!authError"
                 required
-                floating
               />
             </div>
 

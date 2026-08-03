@@ -6,6 +6,7 @@ import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
 import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
 import NotificationBell from '@/Components/Navigation/NotificationBell.vue'
 import ProfileIcon from '@/Components/Navigation/ProfileIcon.vue'
+import BaseNavigationButtons from '@/Components/Navigation/BaseNavigationButtons.vue'
 import { IconMenu2, IconX, IconUserCircle, IconSettings, IconLogout, IconSearch } from '@tabler/icons-vue'
 import { useMobileMenu } from '@/Composables/useMobileMenu'
 import { ROUTES } from '@/Helpers/routes'
@@ -22,7 +23,22 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  showNavigationButtons: {
+    type: Boolean,
+    default: false,
+  },
+  navigationButtons: {
+    type: Array,
+    default: () => [],
+  },
+  navigationVariant: {
+    type: String,
+    default: 'default',
+    validator: (value) => ['default', 'outline', 'ghost'].includes(value),
+  },
 })
+
+const emit = defineEmits(['navigationClick'])
 
 const user = computed(() => page.props?.auth?.user)
 const isAuthenticated = computed(() => !!user.value)
@@ -39,6 +55,25 @@ const settingsLabel = computed(() => (
 ))
 
 const { isMobileMenuOpen, toggle, close } = useMobileMenu()
+
+const handleNavigationClick = (item) => {
+  emit('navigationClick', item)
+}
+
+// navigationButtons and menuItems are always the same list on pages that use both
+// (a desktop button row + a mobile menu list) — avoid rendering it twice on mobile.
+const mobileMenuItems = computed(() => (
+  props.navigationButtons.length > 0 ? props.navigationButtons : props.menuItems
+))
+
+const hasSettingsInMenu = computed(() => (
+  mobileMenuItems.value.some(item => item.href === ROUTES.SETTINGS)
+))
+
+const roleProfileRoutes = [ROUTES.COMPANY_PROFILE, ROUTES.STUDENT_PROFILE, ROUTES.UNIVERSITY_PROFILE]
+const hasProfileInMenu = computed(() => (
+  mobileMenuItems.value.some(item => roleProfileRoutes.includes(item.href))
+))
 </script>
 
 <template>
@@ -46,41 +81,54 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
     <div class="h-full flex items-center justify-between px-4 sm:px-6">
       <BaseLogo />
 
-      <div class="flex items-center gap-3 sm:gap-4">
-        <Link
-          v-if="!isAuthenticated"
-          :href="ROUTES.OFFERS"
-          class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-        >
-          {{ t('offers.browseCta') }}
-        </Link>
-        <template v-if="!isAuthenticated && !isAuthPage">
+      <div class="flex items-center gap-3 sm:gap-4 lg:gap-6">
+        <div class="flex items-center gap-3 sm:gap-4">
           <Link
-            :href="ROUTES.LOGIN"
+            v-if="!isAuthenticated"
+            :href="ROUTES.OFFERS"
             class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
           >
-            {{ t('auth.login.submit') }}
+            {{ t('offers.browseCta') }}
           </Link>
-          <Link
-            :href="ROUTES.REGISTER_STUDENT"
-            class="hidden lg:inline-block rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+          <template v-if="!isAuthenticated && !isAuthPage">
+            <Link
+              :href="ROUTES.LOGIN"
+              class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+            >
+              {{ t('auth.login.submit') }}
+            </Link>
+            <Link
+              :href="ROUTES.REGISTER_STUDENT"
+              class="hidden lg:inline-block rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+            >
+              {{ t('auth.register.submit') }}
+            </Link>
+          </template>
+          <button
+            v-if="showHamburger"
+            type="button"
+            class="lg:hidden flex items-center justify-center text-white hover:text-white/80 transition-colors focus:outline-none"
+            :aria-label="t('profiles.navMenu')"
+            :aria-expanded="isMobileMenuOpen"
+            @click="toggle"
           >
-            {{ t('auth.register.submit') }}
-          </Link>
-        </template>
-        <button
-          v-if="showHamburger"
-          type="button"
-          class="lg:hidden flex items-center justify-center text-white hover:text-white/80 transition-colors focus:outline-none"
-          :aria-label="t('profiles.navMenu')"
-          :aria-expanded="isMobileMenuOpen"
-          @click="toggle"
-        >
-          <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" />
-        </button>
+            <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" />
+          </button>
+        </div>
+
+        <div class="hidden lg:flex lg:items-center lg:gap-2">
+          <BaseNavigationButtons
+            v-if="showNavigationButtons && navigationButtons.length > 0"
+            :show-buttons="true"
+            :variant="navigationVariant"
+            :buttons="navigationButtons"
+            @button-click="handleNavigationClick"
+          />
+        </div>
+
         <LanguageSwitcher />
-        <NotificationBell v-if="showProfileIcon" />
         <ProfileIcon v-if="showProfileIcon" class="hidden lg:inline-block" />
+        <NotificationBell v-if="showProfileIcon" />
       </div>
     </div>
   </nav>
@@ -116,7 +164,7 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
         <span class="font-bold text-white text-sm uppercase tracking-wider">
           {{ t('profiles.navMenu') }}
         </span>
-        <button 
+        <button
           class="text-white hover:text-white/80 transition-colors focus:outline-none flex items-center justify-center p-1"
           @click="close"
         >
@@ -158,9 +206,9 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
               </Link>
             </li>
           </template>
-          <li v-for="item in menuItems" :key="item.href">
+          <li v-for="item in mobileMenuItems" :key="item.id || item.key || item.href">
             <Link
-              :href="item.href"
+              :href="item.href || '#'"
               class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold transition-colors"
               :class="item.isActive
                 ? 'border border-primary/30 bg-primary/5 text-primary'
@@ -168,7 +216,7 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
               :aria-current="item.isActive ? 'page' : undefined"
               @click="close"
             >
-              <component :is="item.icon" stroke="2" class="w-6 h-6 shrink-0" />
+              <component :is="item.icon" v-if="item.icon" stroke="2" class="w-6 h-6 shrink-0" />
               {{ item.label }}
             </Link>
           </li>
@@ -177,7 +225,7 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
         <template v-if="showProfileIcon">
           <hr class="my-4 border-border">
           <ul class="flex flex-col gap-2">
-            <li>
+            <li v-if="!hasProfileInMenu">
               <Link
                 :href="ROUTES.PROFILE"
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
@@ -187,7 +235,7 @@ const { isMobileMenuOpen, toggle, close } = useMobileMenu()
                 {{ t('buttons.myProfile') }}
               </Link>
             </li>
-            <li>
+            <li v-if="!hasSettingsInMenu">
               <Link
                 :href="ROUTES.SETTINGS"
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"

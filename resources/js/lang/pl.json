@@ -55,27 +55,27 @@
   },
   "auth": {
     "verification": {
-  "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
-  "resendMessage": "Nowy link weryfikacyjny został wysłany. Sprawdź swoją skrzynkę odbiorczą.",
-  "notVerified": "Twój adres e-mail nie został zweryfikowany.",
-  "resendVerification": "Wyślij ponownie link weryfikacyjny",
-  "result": {
-    "title": "Weryfikacja e-mail",
-    "backToLogin": "Przejdź do logowania",
-    "success": {
-      "heading": "E-mail zweryfikowany pomyślnie",
-      "message": "Twoje konto zostało aktywowane. Możesz się teraz zalogować."
+      "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
+      "resendMessage": "Nowy link weryfikacyjny został wysłany. Sprawdź swoją skrzynkę odbiorczą.",
+      "notVerified": "Twój adres e-mail nie został zweryfikowany.",
+      "resendVerification": "Wyślij ponownie link weryfikacyjny",
+      "result": {
+        "title": "Weryfikacja e-mail",
+        "backToLogin": "Przejdź do logowania",
+        "success": {
+          "heading": "E-mail zweryfikowany pomyślnie",
+          "message": "Twoje konto zostało aktywowane. Możesz się teraz zalogować."
+        },
+        "already_verified": {
+          "heading": "E-mail już zweryfikowany",
+          "message": "Ten adres e-mail został już wcześniej potwierdzony. Możesz się zalogować."
+        },
+        "invalid": {
+          "heading": "Nieprawidłowy link",
+          "message": "Ten link weryfikacyjny jest nieprawidłowy lub wygasł. Poproś o nowy link ze strony logowania."
+        }
+      }
     },
-    "already_verified": {
-      "heading": "E-mail już zweryfikowany",
-      "message": "Ten adres e-mail został już wcześniej potwierdzony. Możesz się zalogować."
-    },
-    "invalid": {
-      "heading": "Nieprawidłowy link",
-      "message": "Ten link weryfikacyjny jest nieprawidłowy lub wygasł. Poproś o nowy link ze strony logowania."
-    }
-  }
-},
     "login": {
       "title": "Logowanie",
       "adminTitle": "Logowanie do panelu administratora",
@@ -116,7 +116,7 @@
       "email": "E-mail",
       "password": "Hasło",
       "passwordConfirmation": "Powtórz hasło",
-      "optionalUniversity": "Uczelnia (opcjonalnie)",
+      "optionalUniversity": "Uczelnia",
       "termsPrefix": "Oświadczam, że zapoznałem się z",
       "termsLink": "warunkami regulaminu",
       "submit": "Zarejestruj się",
@@ -139,7 +139,7 @@
         "city": "Miejscowość",
         "street": "Ulica i numer",
         "phone": "Numer telefonu",
-        "website": "Link do strony firmy (opcjonalnie)",
+        "website": "Link do strony firmy",
         "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
       },
       "university": {
@@ -151,7 +151,7 @@
         "postalCode": "Kod pocztowy",
         "city": "Miejscowość",
         "phone": "Numer telefonu",
-        "website": "Link do strony uczelni (opcjonalnie)",
+        "website": "Link do strony uczelni",
         "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
       }
     }
@@ -185,7 +185,40 @@
       "noOffers": "Firma nie ma obecnie otwartych rekrutacji.",
       "noContactInfo": "Firma nie podała danych kontaktowych.",
       "noDescription": "Firma nie dodała jeszcze opisu.",
-      "noTags": "Firma nie dodała jeszcze tagów."
+      "noTags": "Firma nie dodała jeszcze tagów.",
+      "verified": "Zweryfikowana firma",
+        "applications": {
+          "title": "Aplikacje kandydatów",
+          "empty": "Brak aplikacji spełniających podane kryteria.",
+          "no_cv": "Brak CV",
+          "filters": {
+            "offer": "Oferta",
+            "all_offers": "Wszystkie oferty",
+            "status": "Status",
+            "all_statuses": "Wszystkie statusy"
+          },
+          "table": {
+            "candidate": "Kandydat",
+            "offer": "Oferta",
+            "status": "Status",
+            "actions": "Akcje"
+          },
+          "actions": {
+            "download_cv": "Pobierz CV"
+          },
+          "date": {
+            "today": "Złożono: Dzisiaj, {time}",
+            "exact": "Złożono: {date}"
+          },
+          "no_university": "Brak danych uczelni",
+          "applied_for": "Aplikuje na:",
+          "statuses": {
+            "pending": "Oczekująca",
+            "reviewed": "Zrecenzowana",
+            "accepted": "Zaakceptowana",
+            "rejected": "Odrzucona"
+          }
+     }
     },
     "university": {
       "recruitmentAndSystem": "Rekrutacja i system",
@@ -220,6 +253,8 @@
     "myProfile": "Mój profil",
     "settings": "Ustawienia",
     "logout": "Wyloguj się",
+    "load_more": "Załaduj więcej",
+    "loading": "Ładowanie...",
     "apply": {
       "noCvMessage": "Aby zaaplikować na to stanowisko, musisz dodać CV do swojego profilu.",
       "uploadCvPrompt": "Przejdź do edycji profilu i wgraj CV",
@@ -405,6 +440,7 @@
       }
     },
     "profile": {
+      "title": "Profil",
       "modal": {
         "close": "Zamknij"
       },
@@ -482,7 +518,12 @@
       "workMode": {
         "title": "Oczekiwany tryb pracy",
         "modalTitle": "Edytuj oczekiwany tryb pracy",
-        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić."
+        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić.",
+        "options": {
+          "onsite": "Stacjonarnie",
+          "remote": "Zdalnie",
+          "hybrid": "Hybrydowo"
+        }
       },
       "applications": {
         "title": "Zapisane i wysłane aplikacje",
@@ -621,10 +662,95 @@
   },
   "company": {
     "layout": {
-      "title": "Firma"
+      "title": "Firma",
+      "nav": {
+        "dashboard": "Panel",
+        "offers": "Moje oferty",
+        "applications": "Zgłoszenia",
+        "profile": "Profil",
+        "settings": "Ustawienia"
+      }
+    },
+    "dashboard": {
+      "createOfferCard": {
+        "title": "Masz nową ofertę praktyk do dodania?",
+        "description": "Opublikuj ofertę albo zapisz ją jako szkic, żeby dokończyć później.",
+        "action": "Utwórz ofertę"
+      }
     },
     "profile": {
       "title": "Profil"
+    },
+    "offers": {
+      "index": {
+        "title": "Moje oferty",
+        "empty": {
+          "title": "Nie utworzyłeś jeszcze żadnej oferty",
+          "description": "Utwórz swoją pierwszą ofertę, aby zacząć otrzymywać zgłoszenia."
+        },
+        "createAction": "Utwórz ofertę",
+        "editAction": "Edytuj",
+        "publishAction": "Opublikuj",
+        "publishing": "Publikowanie…",
+        "applicationsCount": "{count} zgłoszeń",
+        "spotsLabel": "{count} miejsc",
+        "verificationRequiredHint": "Twoja firma musi zostać zweryfikowana, zanim będzie można to opublikować.",
+        "status": {
+          "draft": "Szkic",
+          "published": "Opublikowana",
+          "closed": "Zamknięta",
+          "expired": "Wygasła"
+        }
+      },
+      "create": {
+        "title": "Utwórz ofertę",
+        "heading": "Utwórz nową ofertę"
+      },
+      "edit": {
+        "title": "Edytuj ofertę"      },
+      "form": {
+        "title": "Tytuł",
+        "startDate": "Data rozpoczęcia",
+        "endDate": "Data zakończenia",
+        "workMode": "Tryb pracy",
+        "workModePlaceholder": "Wybierz tryb pracy",
+        "workModeOptions": {
+          "onSite": "Stacjonarnie",
+          "hybrid": "Hybrydowo",
+          "remote": "Zdalnie"
+        },
+        "spots": "Liczba miejsc",
+        "spotsMaxHint": "Maksymalna liczba miejsc: 1000",
+        "city": "Miasto",
+        "cityPlaceholder": "Zacznij pisać nazwę miasta...",
+        "preferredFields": "Preferowane kierunki studiów",
+        "preferredFieldsPlaceholder": "Szukaj kierunków studiów",
+        "preferredUniversities": "Preferowane uczelnie",
+        "preferredUniversitiesPlaceholder": "Szukaj uczelni",
+        "noMoreOptions": "Brak kolejnych opcji",
+        "description": "Opis",
+        "isPaid": "To płatny staż",
+        "salaryMin": "Minimalne wynagrodzenie",
+        "salaryMax": "Maksymalne wynagrodzenie",
+        "section": {
+          "status": "Status oferty",
+          "details": "Szczegóły oferty",
+          "detailsHint": "Najpierw wprowadź podstawowe dane oferty.",
+          "preferences": "Preferencje kandydatów",
+          "preferencesHint": "Wybierz preferowane kierunki studiów i uczelnie.",
+          "description": "Opis oferty",
+          "descriptionHint": "Opisz staż tak, aby studenci wiedzieli, czego mogą się spodziewać.",
+          "compensation": "Wynagrodzenie",
+          "compensationHint": "Podaj kwotę, jeśli oferta jest płatna.",
+          "requirementsHint" : "Dodaj wymagania, aby przyciągnąć odpowiednich kandydatów.",
+          "requirements": "Wymagania"
+        },
+        "draft": "Zapisz jako szkic",
+        "published": "Opublikuj od razu",
+        "draftHint": "Szkice są widoczne tylko dla Ciebie. Publikacja wymaga zweryfikowanego konta firmy.",
+        "submitCreate": "Utwórz ofertę",
+        "submitEdit": "Zapisz zmiany"
+      }
     }
   },
   "pending": {
@@ -632,7 +758,12 @@
     "description": "Dziękujemy za rejestrację. Aby dbać o bezpieczeństwo studentów, każde konto uczelni lub firmy musi zostać ręcznie zatwierdzone przez naszego administratora.",
     "status": "Zazwyczaj trwa to {time} godzin. Gdy weryfikacja przebiegnie pomyślnie, odblokujemy Twój dostęp do panelu i wyślemy Ci wiadomość e-mail z potwierdzeniem.",
     "contact": "Jeśli masz jakiekolwiek pytania, skontaktuj się z nami pod adresem {email}",
-    "log_out": "Wyloguj się"
+    "log_out": "Wyloguj się",
+    "createDraftOffer": {
+      "title": "Przygotuj się z wyprzedzeniem",
+      "description": "W czasie oczekiwania możesz przygotować ofertę jako szkic. Szkice widzisz tylko Ty — publikacja odblokuje się po weryfikacji konta.",
+      "action": "Utwórz szkic oferty"
+    }
   },
   "dynamicList": {
     "noResults": "Brak wyników",
