@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\University;
 
+use App\Actions\University\AddPartnerAction;
 use App\Actions\University\SearchCompanies;
 use App\DTO\University\SearchCompaniesData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchCompaniesRequest;
+use App\Models\Company;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 
@@ -15,6 +18,7 @@ class CompanyController extends Controller
 {
     public function __construct(
         private readonly SearchCompanies $searchCompanies,
+        private readonly AddPartnerAction $addPartnerAction,
     ) {}
 
     public function index(SearchCompaniesRequest $request): Response
@@ -30,5 +34,14 @@ class CompanyController extends Controller
             "companies" => $companies,
             "filters" => $request->validated(),
         ]);
+    }
+
+    public function addPartner(Company $company): RedirectResponse
+    {
+        $university = Auth::user()->universityOrganization;
+
+        $this->addPartnerAction->execute($university, $company);
+
+        return back();
     }
 }

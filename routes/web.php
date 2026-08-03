@@ -12,6 +12,7 @@ use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\ProfileRedirectController;
 use App\Http\Controllers\SettingsRedirectController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\University\CompanyController as UniversityCompanyController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
@@ -71,6 +72,7 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
         Route::get("/profile", [UniversityController::class, "profile"])->name("university.profile");
         Route::patch("/profile", [UniversityController::class, "update"])->name("university.profile.update");
         Route::get("/profile/edit", [UniversityController::class, "edit"])->name("university.profile.edit");
+        Route::post("/companies/{company}/partnership", [UniversityCompanyController::class, "addPartner"])->name("university.companies.partnership.store");
     });
 
 Route::middleware(["auth", "can:access-student-panel"])
