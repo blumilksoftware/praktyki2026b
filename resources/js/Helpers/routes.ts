@@ -72,6 +72,9 @@ export const ROUTES = {
   TEAM: "/team",
   LANGUAGE_SWITCH: "/language/{locale}",
   SETTINGS: "/settings",
+
+  NOTIFICATIONS_READ_ALL: "/notifications/read-all",
+  NOTIFICATIONS_READ: "/notifications/{notification}/read",
 } as const
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES]
@@ -82,6 +85,10 @@ export function studentOfferApply(offerId: string): string {
 
 export function studentOfferWithdraw(offerId: string): string {
   return ROUTES.STUDENT_OFFER_WITHDRAW.replace("{offer}", offerId)
+}
+
+export function notificationRead(notificationId: string): string {
+  return ROUTES.NOTIFICATIONS_READ.replace("{notification}", notificationId)
 }
 
 export function studentOfferFavourite(offerId: string): string {

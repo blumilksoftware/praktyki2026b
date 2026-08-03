@@ -98,6 +98,7 @@ Route::middleware(["auth"])
     ->prefix("notifications")
     ->group(function (): void {
         Route::patch("/read-all", [NotificationController::class, "markAllAsRead"])->name("notifications.read-all");
+        Route::patch("/{notification}/read", [NotificationController::class, "markAsRead"])->name("notifications.read");
     });
 
 Route::middleware(["role:superAdmin"])

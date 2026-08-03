@@ -683,5 +683,19 @@
       "clearAll": "Clear all items from the list"
     }
 
+  },
+  "notifications": {
+    "bell": {
+      "ariaLabel": "Notifications",
+      "unreadAriaLabel": "{count} unread notifications"
+    },
+    "empty": "You have no notifications yet.",
+    "markAllAsRead": "Mark all as read",
+    "types": {
+      "verificationRequest": "New verification request from {name}",
+      "newApplication": "{student} applied to {offer}",
+      "statusChanged": "Your application to {offer} is now {status}",
+      "fallback": "New notification"
+    }
   }
 }
