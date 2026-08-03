@@ -10,7 +10,7 @@ import {
 import { tryDetectUserLocation } from '@/Helpers/getUserLocation.js'
 
 const DEFAULT_MAP_VIEW = {
-  center: [15, 50 ],
+  center: [15, 50],
   zoom: 4,
 }
 
@@ -24,7 +24,6 @@ export function useOffersMap(offersRef, mapboxToken) {
 
   let map = null
   let markers = []
-  let resizeObserver = null
 
   const groupedOffers = computed(() => groupOffersByCity(offersRef.value))
 
@@ -40,25 +39,6 @@ export function useOffersMap(offersRef, mapboxToken) {
   const clearMarkers = () => {
     markers.forEach((marker) => marker.remove())
     markers = []
-  }
-
-  function waitForContainerSize(el) {
-    return new Promise((resolve) => {
-      const rect = el.getBoundingClientRect()
-      if (rect.width > 0 && rect.height > 0) {
-        resolve()
-        return
-      }
-
-      const observer = new ResizeObserver((entries) => {
-        const entry = entries[0]
-        if (entry.contentRect.width > 0 && entry.contentRect.height > 0) {
-          observer.disconnect()
-          resolve()
-        }
-      })
-      observer.observe(el)
-    })
   }
 
   const scrollToOfferCard = (offerId) => {
@@ -97,16 +77,16 @@ export function useOffersMap(offersRef, mapboxToken) {
   const buildClusterPinElement = (cityName, count, isSelected) => {
     const el = document.createElement('button')
     el.type = 'button'
-    el.className = 'custom-map-pin'
+    el.className = 'custom-map-pin focus:outline-none'
     el.setAttribute('aria-label', `${cityName}: ${count}`)
 
     el.innerHTML = `
-      <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full shadow-lg border text-xs font-bold transition transform hover:scale-105 cursor-pointer ${
+      <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full shadow-lg border text-xs font-bold transition-all duration-200 transform hover:scale-105 cursor-pointer ${
       isSelected
-        ? 'bg-primary text-white border-primary ring-4 ring-primary/20 scale-110'
+        ? 'bg-primary text-white border-primary ring-4 ring-primary/20 scale-110 z-10'
         : 'bg-white text-text border-border hover:border-primary/50'
     }">
-        <svg class="w-3.5 h-3.5 text-primary ${isSelected ? 'text-white' : ''}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-primary'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
@@ -122,21 +102,21 @@ export function useOffersMap(offersRef, mapboxToken) {
   const buildDotElement = (offer, isSelected) => {
     const el = document.createElement('button')
     el.type = 'button'
-    el.className = 'custom-map-dot'
+    el.className = 'custom-map-dot focus:outline-none'
     el.setAttribute('aria-label', offer.company_name || offer.title || '')
 
     el.innerHTML = `
-    <div class="flex items-center justify-center rounded-full shadow-lg border-2 transition transform hover:scale-110 cursor-pointer ${
+      <div class="flex items-center justify-center rounded-full shadow-lg border-2 transition-all duration-200 transform hover:scale-110 cursor-pointer ${
       isSelected
-        ? 'bg-primary border-white ring-4 ring-primary/25 scale-110 w-9 h-9'
+        ? 'bg-primary border-white ring-4 ring-primary/25 scale-125 w-9 h-9 z-10'
         : 'bg-white border-primary/30 hover:border-primary/60 w-8 h-8'
     }">
-      <svg class="w-4 h-4 ${isSelected ? 'text-white' : 'text-primary'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-    </div>
-  `
+        <svg class="w-4 h-4 ${isSelected ? 'text-white' : 'text-primary'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </div>
+    `
     return el
   }
 
@@ -151,11 +131,8 @@ export function useOffersMap(offersRef, mapboxToken) {
       bounds.extend(coords)
       hasValidBounds = true
 
-      const el = buildClusterPinElement(
-        cityName,
-        cityOffers.length,
-        selectedCity.value === cityName,
-      )
+      const isSelected = selectedCity.value === cityName
+      const el = buildClusterPinElement(cityName, cityOffers.length, isSelected)
 
       el.addEventListener('click', () => {
         flyToCity(cityName, cityOffers, coords)
@@ -177,7 +154,9 @@ export function useOffersMap(offersRef, mapboxToken) {
 
       cityOffers.forEach((offer, index) => {
         const coords = getJitteredCoordinates(offer, index, cityFallback)
-        const el = buildDotElement(offer, selectedOfferId.value === offer.id)
+        const isSelected = selectedOfferId.value === offer.id
+
+        const el = buildDotElement(offer, isSelected)
 
         el.addEventListener('click', () => {
           selectedCity.value = cityName
@@ -256,7 +235,7 @@ export function useOffersMap(offersRef, mapboxToken) {
     }
   }, { deep: true })
 
-  watch(selectedCity, () => renderMarkersForZoom(false))
+  watch([selectedCity, selectedOfferId], () => renderMarkersForZoom(false))
 
   watch(viewMode, () => renderMarkersForZoom(false))
 

@@ -51,12 +51,3 @@ const {
     </div>
   </div>
 </template>
-
-<style scoped>
-.custom-map-dot {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-</style>
