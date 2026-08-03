@@ -26,6 +26,7 @@ class NewApplicationNotification extends Notification
             "offer_id" => $this->application->offer_id,
             "offer_title" => $this->application->offer->title,
             "student_name" => $this->application->student->fullName(),
+            "url" => route("company.applications"),
         ];
     }
 }
