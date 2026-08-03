@@ -1,6 +1,5 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
-import { computed } from 'vue'
 import { IconArrowLeft } from '@tabler/icons-vue'
 import Header from '@/Components/Profiles/Header.vue'
 import Tags from '@/Components/Profiles/Tags.vue'
@@ -13,16 +12,11 @@ import Menu from '@/Components/Profiles/Menu.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
-import { IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
+import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 
 const { t } = useI18n()
 
-const companyMenu = computed(() => [
-  { label: t('profiles.company.myOffers'), href: ROUTES.COMPANY_MY_OFFERS, icon: IconSearch },
-  { label: t('profiles.company.candidateApplications'), href: ROUTES.COMPANY_APPLICATIONS, icon: IconClipboardText },
-  { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle, isActive: true },
-  { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
-])
+const companyMenu = useCompanyPanelMenu('profile')
 
 const goBack = () => {
   window.history.back()

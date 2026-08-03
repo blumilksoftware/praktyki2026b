@@ -13,6 +13,14 @@ export const ROUTES = {
   REGISTER_UNIVERSITY: "/register/university",
   REGISTER_COMPANY: "/register/company",
 
+  COMPANY_DASHBOARD: "/company/dashboard",
+  COMPANY_OFFERS_INDEX: "/company/offers",
+  COMPANY_OFFERS_CREATE: "/company/offers/create",
+  COMPANY_OFFERS_STORE: "/company/offers",
+  COMPANY_OFFERS_UPDATE: (id: number | string) => `/company/offers/${id}`,
+  COMPANY_OFFERS_EDIT: (id: number | string) => `/company/offers/${id}/edit`,
+  COMPANY_OFFERS_PUBLISH: (id: number | string) => `/company/offers/${id}/publish`,
+
   // Authentication - Password & Email
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password/{token}",
@@ -57,7 +65,6 @@ export const ROUTES = {
   OFFERS: "/offers",
   OFFER_SHOW: `/offers/{offer}`,
   COMPANY_OFFERS: "/search?company_id={companyId}",
-  COMPANY_MY_OFFERS: "/company/offers",
 
   // Profiles
   PROFILE: "/profile",

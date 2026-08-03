@@ -15,7 +15,7 @@ const { t } = useI18n()
 
 <template>
   <Head :title="t('student.profile.account.title')" />
-  <StudentPanelLayout :show-menu-row="false">
+  <StudentPanelLayout>
     <StudentAccountSettingsSection
       :email="email"
       :email-verified-at="emailVerifiedAt"

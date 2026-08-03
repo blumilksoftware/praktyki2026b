@@ -12,7 +12,8 @@ class OfferPolicy
 {
     public function create(User $user): bool
     {
-        return $user->status === UserStatus::Active && $user->company !== null;
+        return $user->status === UserStatus::Active
+            && $user->company !== null;
     }
 
     public function update(User $user, Offer $offer): bool

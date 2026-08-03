@@ -101,6 +101,16 @@ function updateStatus(applicationId, newStatus) {
 }
 
 const statusOptions = ['pending', 'reviewed', 'accepted', 'rejected']
+
+const offerFilterOptions = computed(() => [
+  { value: '', label: t('profiles.company.applications.filters.all_offers') },
+  ...props.offers.map((offer) => ({ value: offer.id, label: offer.title })),
+])
+
+const statusFilterOptions = computed(() => [
+  { value: '', label: t('profiles.company.applications.filters.all_statuses') },
+  ...statusOptions.map((status) => ({ value: status, label: t(`profiles.company.applications.statuses.${status}`) })),
+])
 </script>
 
 <template>
@@ -131,26 +141,22 @@ const statusOptions = ['pending', 'reviewed', 'accepted', 'rejected']
 
         <div class="flex flex-col sm:flex-row gap-4">
           <BaseSelect
+            id="applications-filter-offer"
             v-model="currentFilters.offer"
-            :aria-label="t('profiles.company.applications.filters.offer')"
+            :label="t('profiles.company.applications.filters.offer')"
+            :options="offerFilterOptions"
+            :stacked="false"
             class="w-full sm:w-64"
-          >
-            <option value="">{{ t('profiles.company.applications.filters.all_offers') }}</option>
-            <option v-for="offer in offers" :key="offer.id" :value="offer.id">
-              {{ offer.title }}
-            </option>
-          </BaseSelect>
+          />
 
           <BaseSelect
+            id="applications-filter-status"
             v-model="currentFilters.status"
-            :aria-label="t('profiles.company.applications.filters.status')"
+            :label="t('profiles.company.applications.filters.status')"
+            :options="statusFilterOptions"
+            :stacked="false"
             class="w-full sm:w-64"
-          >
-            <option value="">{{ t('profiles.company.applications.filters.all_statuses') }}</option>
-            <option v-for="status in statusOptions" :key="status" :value="status">
-              {{ t(`profiles.company.applications.statuses.${status}`) }}
-            </option>
-          </BaseSelect>
+          />
         </div>
         
         <div class="flex flex-col gap-4 mt-2">

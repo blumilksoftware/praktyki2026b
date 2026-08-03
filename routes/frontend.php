@@ -13,6 +13,7 @@ use App\Http\Controllers\University\CompanyController as UniversityCompanyContro
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
@@ -45,7 +46,21 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
         Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
+    });
+
+Route::middleware(["auth", "can:create," . Offer::class])
+    ->prefix("company")
+    ->group(function (): void {
         Route::get("/offers", [CompanyOfferController::class, "index"])->name("company.offers");
+        Route::get("/offers/create", [CompanyOfferController::class, "create"])->name("company.offers.create");
+    });
+
+Route::middleware(["auth"])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::get("/offers/{offer}/edit", [CompanyOfferController::class, "edit"])
+            ->middleware("can:update,offer")
+            ->name("company.offers.edit");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])

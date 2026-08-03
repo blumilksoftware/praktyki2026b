@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
+use App\Http\Controllers\Company\CityGeocodingController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
 use App\Http\Controllers\NotificationController;
@@ -44,10 +45,24 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
 Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
-        Route::post("/offers", [OfferController::class, "store"])->name("company.offers.store");
-        Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])->name("company.offers.publish");
-        Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])->name("company.offers.deactivate");
-        Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");
+        Route::post("/offers", [OfferController::class, "store"])
+            ->name("company.offers.store");
+
+        Route::patch("/offers/{offer}", [OfferController::class, "update"])
+            ->name("company.offers.update");
+
+        Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])
+            ->name("company.offers.publish");
+
+        Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])
+            ->name("company.offers.deactivate");
+
+        Route::delete("/offers/{offer}", [OfferController::class, "destroy"])
+            ->name("company.offers.destroy");
+
+        Route::get("/geocoding/cities", [CityGeocodingController::class, "suggest"])
+            ->name("company.geocoding.cities")
+            ->middleware("throttle:30,1");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])

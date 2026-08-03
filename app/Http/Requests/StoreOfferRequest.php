@@ -11,7 +11,7 @@ use App\Enums\WorkMode;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateOfferRequest extends FormRequest
+class StoreOfferRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -27,15 +27,15 @@ class CreateOfferRequest extends FormRequest
         return [
             "title" => ["required", "string", "max:255"],
             "description" => ["required", "string", "max:10000"],
-            "spots" => ["required", "integer", "min:1"],
+            "spots" => ["required", "integer", "min:1", "max:1000"],
             "city" => ["required", "string", "max:255"],
             "start_date" => ["required", "date"],
             "end_date" => ["required", "date", "after:start_date"],
             "work_mode" => ["required", Rule::enum(WorkMode::class)],
             "status" => ["required", Rule::enum(OfferStatus::class)],
             "is_paid" => ["required", "boolean"],
-            "salary_min" => ["nullable", "required_if:is_paid,true", "integer", "min:0"],
-            "salary_max" => ["nullable", "required_if:is_paid,true", "integer", "min:0", "gte:salary_min"],
+            "salary_min" => ["nullable", "required_if:is_paid,true", "integer", "min:0", "max:2147483647"],
+            "salary_max" => ["nullable", "required_if:is_paid,true", "integer", "min:0", "max:2147483647", "gte:salary_min"],
             "study_field_ids" => ["sometimes", "array"],
             "study_field_ids.*" => ["uuid", "exists:study_fields,id"],
             "university_ids" => ["sometimes", "array"],

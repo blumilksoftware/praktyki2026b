@@ -3,10 +3,16 @@
     <BaseNavbar
       :show-hamburger="true"
       :menu-items="menuItems"
+      :show-navigation-buttons="true"
+      :navigation-buttons="navigationButtons"
+      :navigation-variant="navigationVariant || 'default'"
+      @navigation-click="handleNavigationClick"
     />
 
     <main class="flex-1">
-      <slot />
+      <div class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <slot />
+      </div>
     </main>
   </div>
 </template>
@@ -27,7 +33,17 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  navigationButtons: {
+    type: Array,
+    default: () => [],
+  },
+  navigationVariant: {
+    type: String,
+    default: 'default',
+  },
 })
+
+const emit = defineEmits(['navigationClick'])
 
 const menuItems = computed(() => {
   return props.navItems.map(item => ({
@@ -36,4 +52,8 @@ const menuItems = computed(() => {
               (item.href && page.url === item.href),
   }))
 })
+
+const handleNavigationClick = (item) => {
+  emit('navigationClick', item)
+}
 </script>
