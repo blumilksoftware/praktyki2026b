@@ -18,6 +18,7 @@ const props = defineProps({
   hasCv: { type: Boolean, default: false },
   studyFields: { type: Array, default: () => [] },
   isGuest: { type: Boolean, default: false },
+  mapboxToken: { type: String, default: '' },
 })
 const { t } = useI18n()
 
@@ -269,7 +270,7 @@ onMounted(() => {
               </h2>
             </div>
 
-            <div class="flex bg-background p-1 border border-border rounded-2xl" role="group" :aria-label="t('student.offers.viewSwitcher.label')">
+            <div class="flex bg-background p-1 border border-border rounded-2xl" role="group">
               <button
                 type="button"
                 class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer"
@@ -361,6 +362,7 @@ onMounted(() => {
               :has-cv="hasCv"
               :guest="isGuest"
               :initial-offer-id="targetOfferId"
+              :mapbox-token="mapboxToken"
             />
           </template>
         </section>

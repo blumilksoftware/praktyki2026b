@@ -26,6 +26,7 @@ const {
   selectedCityOffers,
   clearSelection,
 } = useOffersMap(offersRef, props.mapboxToken, initialOfferIdRef)
+
 </script>
 
 <template>

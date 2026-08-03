@@ -39,6 +39,7 @@ class OfferController extends Controller
             "hasCv" => $isStudent && $user->cv_path !== null,
             "studyFields" => $studyFields,
             "isGuest" => !$isStudent,
+            "mapboxToken" => config("services.mapbox.access_token"),
         ]);
     }
 }

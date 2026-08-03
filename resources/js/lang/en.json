@@ -405,6 +405,9 @@
         "applied": "Applied",
         "notApplied": "Not applied"
       },
+        "pagination": {
+            "perPage": "Offers per page"
+        },
     "map": {
         "selectPinHint": "Select a pin on the map to view available offers",
         "cityOffersTitle": "Offers in {city}",

@@ -549,6 +549,9 @@
         "applied": "Zaaplikowane",
         "notApplied": "Niezaaplikowane"
       },
+        "pagination": {
+            "perPage": "Ofert na stronie"
+        },
         "map": {
             "selectPinHint": "Wybierz punkt na mapie, aby zobaczyć dostępne oferty",
             "cityOffersTitle": "Oferty w {city}",

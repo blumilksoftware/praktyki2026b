@@ -1,3 +1,4 @@
+
 import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import {
@@ -214,7 +215,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
   onMounted(() => {
     if (!mapContainer.value) return
 
-    const token = mapboxToken || import.meta.env.VITE_MAPBOX_TOKEN
+    const token = typeof mapboxToken === 'object' ? mapboxToken.value : mapboxToken
 
     if (!token) {
       console.error('Mapbox API Token is missing!')
