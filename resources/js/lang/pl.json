@@ -186,6 +186,7 @@
       "noContactInfo": "Firma nie podała danych kontaktowych.",
       "noDescription": "Firma nie dodała jeszcze opisu.",
       "noTags": "Firma nie dodała jeszcze tagów.",
+      "verified": "Zweryfikowana firma"
         "applications": {
           "title": "Aplikacje kandydatów",
           "empty": "Brak aplikacji spełniających podane kryteria.",
