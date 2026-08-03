@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, router} from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconPlus } from '@tabler/icons-vue'
 import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
@@ -11,7 +11,7 @@ import { useOffersFilters } from '@/Composables/useOffersFilters'
 import { useOfferActions } from '@/Composables/useOfferActions'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { ROUTES } from '@/Helpers/routes'
-import BaseLayout from "@/Components/Layouts/BaseLayout.vue";
+import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 
 const { t } = useI18n()
 
