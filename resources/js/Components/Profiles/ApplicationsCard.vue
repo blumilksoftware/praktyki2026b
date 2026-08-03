@@ -11,7 +11,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update-status'])
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const getInitials = (name) => {
   if (!name) return ''
@@ -29,11 +29,11 @@ const formatDate = (isoString) => {
                   date.getFullYear() === today.getFullYear()
 
   if (isToday) {
-    const time = date.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' })
+    const time = date.toLocaleTimeString(locale.value, { hour: '2-digit', minute: '2-digit' })
     return t('profiles.company.applications.date.today', { time })
   }
   
-  const dateString = date.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' })
+  const dateString = date.toLocaleDateString(locale.value, { day: '2-digit', month: '2-digit', year: 'numeric' })
   return t('profiles.company.applications.date.exact', { date: dateString })
 }
 
@@ -71,24 +71,24 @@ const onStatusChange = (event) => {
         :disabled="['accepted', 'rejected'].includes(application.status)"
         class="rounded-full py-1.5 pl-4 pr-8 text-sm font-semibold shadow-sm focus:ring-0 appearance-none disabled:cursor-not-allowed disabled:opacity-75 transition-all"
         :class="{
-          'bg-blue-50 text-blue-700 border-blue-200 cursor-pointer hover:bg-blue-100': application.status === 'pending',
-          'bg-yellow-50 text-yellow-700 border-yellow-300 cursor-pointer hover:bg-yellow-100': application.status === 'reviewed',
-          'bg-green-50 text-green-700 border-green-300': application.status === 'accepted',
-          'bg-red-50 text-red-700 border-red-200': application.status === 'rejected'
+          'bg-sky-50 text-sky-900 ring-1 ring-sky-200 border-sky-300 cursor-pointer hover:bg-sky-100': application.status === 'reviewed',
+          'bg-amber-50 text-amber-900 ring-1 ring-amber-200 border-amber-300 cursor-pointer hover:bg-amber-100': application.status === 'pending',
+          'bg-green-50 text-green-900 ring-1 ring-green-200 border-green-300': application.status === 'accepted',
+          'bg-red-50 text-red-900 ring-1 ring-red-200 border-red-300': application.status === 'rejected'
         }"
         @change="onStatusChange"
       >
         <option value="pending" :disabled="application.status !== 'pending'">
-          {{ t('profiles.company.applications.statuses.pending') }}
+          {{ t(`student.applications.status.pending`) }}
         </option>
         <option value="reviewed">
-          {{ t('profiles.company.applications.statuses.reviewed') }}
+          {{ t(`student.applications.status.reviewed`) }}
         </option>
         <option value="accepted">
-          {{ t('profiles.company.applications.statuses.accepted') }}
+          {{ t(`student.applications.status.accepted`) }}
         </option>
         <option value="rejected">
-          {{ t('profiles.company.applications.statuses.rejected') }}
+          {{ t(`student.applications.status.rejected`) }}
         </option>
       </select>
 
