@@ -48,6 +48,8 @@ export const ROUTES = {
   STUDENT_EMAIL_UPDATE: "/student/email",
   STUDENT_SETTINGS: "/student/settings",
   STUDENT_ACCOUNT_DELETE: "/student/account",
+  STUDENT_UNIVERISTY_SEARCH: "/student/university/search",
+  STUDENT_UNIVERSITY_UPDATE: "/student/university"
 
   // Student CV
   STUDENT_CV_PREVIEW: "/student/cv",
@@ -75,7 +77,7 @@ export const ROUTES = {
 
   COMPANY_APPLICATIONS: "/company/applications",
   COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
-  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status", 
+  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
   COMPANY_SHOW: '/companies/{company}',
   TEAM: "/team",
   LANGUAGE_SWITCH: "/language/{locale}",
