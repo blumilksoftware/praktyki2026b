@@ -25,6 +25,19 @@ class PartnerManagementTest extends TestCase
             ->assertRedirect(route("login"));
     }
 
+    public function testNonUniversityRoleCannotAddPartner(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+        $company = Company::factory()->create();
+
+        $this->actingAs($user)
+            ->post(route("university.companies.partnership.store", $company))
+            ->assertForbidden();
+    }
+
     public function testVerifiedUniversityAdminCanAddPartner(): void
     {
         $university = University::factory()->approved()->create();
@@ -72,6 +85,40 @@ class PartnerManagementTest extends TestCase
 
         $this->assertDatabaseMissing("partnerships", [
             "university_id" => $university->id,
+            "company_id" => $company->id,
+        ]);
+    }
+
+    public function testNonUniversityRoleCannotRemovePartner(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+        $company = Company::factory()->create();
+
+        $this->actingAs($user)
+            ->delete(route("university.companies.partnership.destroy", $company))
+            ->assertForbidden();
+    }
+
+    public function testUniversityAdminCannotRemovePartnerBelongingToAnotherUniversity(): void
+    {
+        $university = University::factory()->approved()->create();
+        $user = $this->makeUniversityAdmin($university);
+        $otherUniversity = University::factory()->approved()->create();
+        $company = Company::factory()->approved()->create();
+        Partnership::factory()->create([
+            "university_id" => $otherUniversity->id,
+            "company_id" => $company->id,
+        ]);
+
+        $this->actingAs($user)
+            ->delete(route("university.companies.partnership.destroy", $company))
+            ->assertRedirect();
+
+        $this->assertDatabaseHas("partnerships", [
+            "university_id" => $otherUniversity->id,
             "company_id" => $company->id,
         ]);
     }
