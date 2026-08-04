@@ -69,6 +69,7 @@ const onKeydown = (event) => {
 </script>
 
 <template>
+  <div class="relative">
   <BaseInput
     :id="id" :model-value="displayValue" :label="label"
     :placeholder="placeholder" :error="error"
@@ -88,4 +89,5 @@ const onKeydown = (event) => {
       {{ university.name }}
     </li>
   </ul>
+  </div>
 </template>
