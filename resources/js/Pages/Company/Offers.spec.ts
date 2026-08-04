@@ -6,14 +6,14 @@ import en from '@/lang/en.json'
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en } })
 
-const { routerPatch } = vi.hoisted(() => ({ routerPatch: vi.fn() }))
+const { routerPatch, routerGet } = vi.hoisted(() => ({ routerPatch: vi.fn(), routerGet: vi.fn() }))
 
 vi.mock('@inertiajs/vue3', async () => {
   const actual = await vi.importActual('@inertiajs/vue3')
   return {
     ...actual,
     Head: { template: '<div />' },
-    router: { patch: routerPatch },
+    router: { patch: routerPatch, get: routerGet },
   }
 })
 
@@ -33,8 +33,24 @@ const publishedOffer = {
   applications_count: 7,
 }
 
+const paginate = (data: unknown[]) => ({
+  data,
+  links: [],
+  last_page: 1,
+  from: data.length > 0 ? 1 : null,
+  to: data.length,
+  total: data.length,
+})
+
 const mountOffers = (props = {}) => mount(Offers, {
-  props: { offers: [], isCompanyVerified: true, ...props },
+  props: {
+    offers: paginate([]),
+    isCompanyVerified: true,
+    search: '',
+    status: '',
+    statusCounts: {},
+    ...props,
+  },
   global: {
     plugins: [i18n],
     stubs: {
@@ -59,7 +75,7 @@ describe('Company/Offers', () => {
   })
 
   it('renders offer title, status, spots and application count', () => {
-    const wrapper = mountOffers({ offers: [publishedOffer] })
+    const wrapper = mountOffers({ offers: paginate([publishedOffer]), statusCounts: { published: 1 } })
     const text = wrapper.text()
 
     expect(text).toContain('Frontend Internship')
@@ -75,7 +91,7 @@ describe('Company/Offers', () => {
   }
 
   it('links the edit action to the offer edit route', async () => {
-    const wrapper = mountOffers({ offers: [publishedOffer] })
+    const wrapper = mountOffers({ offers: paginate([publishedOffer]), statusCounts: { published: 1 } })
 
     const row = await openActionsMenu(wrapper, '2')
     const editLink = row.findAll('a').find((a) => a.text() === en.company.offers.index.editAction)
@@ -84,7 +100,7 @@ describe('Company/Offers', () => {
 
   it('shows a publish action for a verified company\'s draft offer and publishes it', async () => {
     routerPatch.mockClear()
-    const wrapper = mountOffers({ offers: [draftOffer], isCompanyVerified: true })
+    const wrapper = mountOffers({ offers: paginate([draftOffer]), statusCounts: { draft: 1 }, isCompanyVerified: true })
 
     const row = await openActionsMenu(wrapper, '1')
     const publishButton = row.findAll('button').find((btn) => btn.text() === en.company.offers.index.publishAction)
@@ -97,7 +113,7 @@ describe('Company/Offers', () => {
   })
 
   it('hides the publish action and shows a verification hint for an unverified company\'s draft offer', async () => {
-    const wrapper = mountOffers({ offers: [draftOffer], isCompanyVerified: false })
+    const wrapper = mountOffers({ offers: paginate([draftOffer]), statusCounts: { draft: 1 }, isCompanyVerified: false })
 
     const row = await openActionsMenu(wrapper, '1')
     expect(row.findAll('button').some((btn) => btn.text() === en.company.offers.index.publishAction)).toBe(false)
@@ -105,7 +121,11 @@ describe('Company/Offers', () => {
   })
 
   it('shows an unpublish action only for published offers and opens the confirmation modal with the offer details', async () => {
-    const wrapper = mountOffers({ offers: [draftOffer, publishedOffer], isCompanyVerified: true })
+    const wrapper = mountOffers({
+      offers: paginate([draftOffer, publishedOffer]),
+      statusCounts: { draft: 1, published: 1 },
+      isCompanyVerified: true,
+    })
 
     const draftRow = await openActionsMenu(wrapper, '1')
     expect(draftRow.findAll('button').some((btn) => btn.text() === en.company.offers.index.unpublishAction)).toBe(false)
@@ -120,7 +140,7 @@ describe('Company/Offers', () => {
   })
 
   it('opens the delete confirmation modal with the offer details', async () => {
-    const wrapper = mountOffers({ offers: [publishedOffer], isCompanyVerified: true })
+    const wrapper = mountOffers({ offers: paginate([publishedOffer]), statusCounts: { published: 1 }, isCompanyVerified: true })
 
     const row = await openActionsMenu(wrapper, '2')
     const deleteButton = row.findAll('button').find((btn) => btn.text() === en.company.offers.index.deleteAction)
@@ -133,14 +153,14 @@ describe('Company/Offers', () => {
 
   it('always offers the delete action regardless of offer status', async () => {
     const closedOffer = { ...publishedOffer, id: '3', status: 'closed' }
-    const wrapper = mountOffers({ offers: [closedOffer], isCompanyVerified: true })
+    const wrapper = mountOffers({ offers: paginate([closedOffer]), statusCounts: { closed: 1 }, isCompanyVerified: true })
 
     const row = await openActionsMenu(wrapper, '3')
     expect(row.findAll('button').some((btn) => btn.text() === en.company.offers.index.deleteAction)).toBe(true)
   })
 
   it('closes the actions menu when clicking outside of it', async () => {
-    const wrapper = mountOffers({ offers: [publishedOffer], isCompanyVerified: true })
+    const wrapper = mountOffers({ offers: paginate([publishedOffer]), statusCounts: { published: 1 }, isCompanyVerified: true })
 
     const row = await openActionsMenu(wrapper, '2')
     expect(row.find('[role="menu"]').exists()).toBe(true)
@@ -151,17 +171,27 @@ describe('Company/Offers', () => {
     expect(wrapper.find('[role="menu"]').exists()).toBe(false)
   })
 
-  it('filters the offer list by search query', async () => {
-    const wrapper = mountOffers({ offers: [draftOffer, publishedOffer], isCompanyVerified: true })
+  it('requests filtered offers from the server when searching', async () => {
+    vi.useFakeTimers()
+    routerGet.mockClear()
+    const wrapper = mountOffers({ offers: paginate([publishedOffer]), statusCounts: { published: 1 } })
 
     await wrapper.find('input[type="search"]').setValue('front')
+    vi.advanceTimersByTime(400)
+    await wrapper.vm.$nextTick()
 
-    expect(wrapper.text()).toContain('Frontend Internship')
-    expect(wrapper.text()).not.toContain('Backend Internship')
+    expect(routerGet).toHaveBeenCalledTimes(1)
+    expect(routerGet.mock.calls[0][0]).toBe('/company/offers')
+    expect(routerGet.mock.calls[0][1]).toEqual({ search: 'front', status: undefined })
+    vi.useRealTimers()
   })
 
-  it('shows a tab per status with counts and filters when a tab is selected', async () => {
-    const wrapper = mountOffers({ offers: [draftOffer, publishedOffer], isCompanyVerified: true })
+  it('shows a tab per status with counts and requests the filtered status when a tab is selected', async () => {
+    routerGet.mockClear()
+    const wrapper = mountOffers({
+      offers: paginate([draftOffer, publishedOffer]),
+      statusCounts: { draft: 1, published: 1 },
+    })
 
     const tabs = wrapper.findAll('[role="tab"]')
     expect(tabs.map((tab) => tab.text())).toEqual([
@@ -175,16 +205,40 @@ describe('Company/Offers', () => {
     const publishedTab = tabs.find((tab) => tab.text().startsWith(en.company.offers.index.status.published))
     await publishedTab!.trigger('click')
 
-    expect(wrapper.text()).toContain('Frontend Internship')
-    expect(wrapper.text()).not.toContain('Backend Internship')
+    expect(routerGet).toHaveBeenCalledTimes(1)
+    expect(routerGet.mock.calls[0][1]).toEqual({ search: undefined, status: 'published' })
   })
 
-  it('shows a distinct no-results state when filters exclude every offer', async () => {
-    const wrapper = mountOffers({ offers: [publishedOffer], isCompanyVerified: true })
-
-    await wrapper.find('input[type="search"]').setValue('nonexistent offer')
+  it('shows a distinct no-results state when the current filters exclude every offer', () => {
+    const wrapper = mountOffers({ offers: paginate([]), statusCounts: { published: 1 }, search: 'nonexistent offer' })
 
     expect(wrapper.text()).toContain(en.company.offers.index.noResults.title)
     expect(wrapper.text()).not.toContain(en.company.offers.index.empty.title)
+  })
+
+  it('shows pagination controls when there is more than one page', async () => {
+    const wrapper = mountOffers({
+      offers: {
+        data: [publishedOffer],
+        links: [
+          { url: null, label: '&laquo; Previous', active: false },
+          { url: '/company/offers?page=1', label: '1', active: true },
+          { url: '/company/offers?page=2', label: '2', active: false },
+          { url: '/company/offers?page=2', label: 'Next &raquo;', active: false },
+        ],
+        last_page: 2,
+        from: 1,
+        to: 1,
+        total: 2,
+      },
+      statusCounts: { published: 2 },
+    })
+
+    const pageTwo = wrapper.findAll('button').find((btn) => btn.text() === '2')
+    expect(pageTwo).toBeTruthy()
+
+    await pageTwo!.trigger('click')
+
+    expect(routerGet).toHaveBeenCalledWith('/company/offers?page=2', {}, { preserveState: true, preserveScroll: true, replace: true })
   })
 })

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconPlus, IconUsers, IconClipboardText, IconDotsVertical } from '@tabler/icons-vue'
@@ -10,14 +10,19 @@ import CompanyOfferDeleteModal from '@/Components/Company/CompanyOfferDeleteModa
 import CompanyOfferUnpublishModal from '@/Components/Company/CompanyOfferUnpublishModal.vue'
 
 const props = defineProps({
-  offers: { type: Array, default: () => [] },
+  offers: { type: [Array, Object], default: () => [] },
   isCompanyVerified: { type: Boolean, default: false },
+  search: { type: String, default: '' },
+  status: { type: String, default: '' },
+  statusCounts: { type: Object, default: () => ({}) },
 })
 
 const { t } = useI18n()
 const companyMenu = useCompanyPanelMenu('offers')
 const isOfferDeleteModalOpen = ref(false)
 const isOfferUnpublishModalOpen = ref(false)
+
+const offersList = computed(() => (Array.isArray(props.offers) ? props.offers : props.offers?.data ?? []))
 
 const statusBadgeClass = computed(() => (status) => ({
   draft: 'bg-slate-100 text-slate-600',
@@ -30,39 +35,64 @@ const processingOfferId = ref(null)
 const deleteOfferId = ref(null)
 const unpublishOfferId = ref(null)
 
-const query = ref('')
-const statusFilter = ref('all')
+const query = ref(props.search)
+const statusFilter = ref(props.status || 'all')
 const statusTabs = ['all', 'draft', 'published', 'closed', 'expired']
 
-const offerCountByStatus = computed(() => {
-  const counts = { all: props.offers.length, draft: 0, published: 0, closed: 0, expired: 0 }
+const offerCountByStatus = computed(() => ({
+  all: Object.values(props.statusCounts).reduce((sum, count) => sum + count, 0),
+  draft: props.statusCounts.draft ?? 0,
+  published: props.statusCounts.published ?? 0,
+  closed: props.statusCounts.closed ?? 0,
+  expired: props.statusCounts.expired ?? 0,
+}))
 
-  props.offers.forEach((offer) => {
-    if (counts[offer.status] !== undefined) {
-      counts[offer.status] += 1
-    }
-  })
+let searchDebounceTimer = null
 
-  return counts
+function applyFilters() {
+  router.get(
+    ROUTES.COMPANY_OFFERS_INDEX,
+    {
+      search: query.value || undefined,
+      status: statusFilter.value === 'all' ? undefined : statusFilter.value,
+    },
+    { preserveState: true, preserveScroll: true, replace: true },
+  )
+}
+
+watch(query, () => {
+  clearTimeout(searchDebounceTimer)
+  searchDebounceTimer = setTimeout(applyFilters, 350)
 })
 
-const filteredOffers = computed(() => {
-  const queryValue = query.value.trim().toLowerCase()
+function selectStatusTab(tab) {
+  statusFilter.value = tab
+  applyFilters()
+}
 
-  return props.offers.filter((offer) => {
-    const matchesQuery = !queryValue || offer.title.toLowerCase().includes(queryValue)
-    const matchesStatus = statusFilter.value === 'all' || offer.status === statusFilter.value
+const paginationLinks = computed(() => (
+  !Array.isArray(props.offers) && props.offers?.last_page > 1 ? props.offers.links : []
+))
 
-    return matchesQuery && matchesStatus
-  })
+function paginationLabel(label) {
+  return label.replace(/&laquo;/g, '«').replace(/&raquo;/g, '»')
+}
+
+function goToPage(url) {
+  if (!url) return
+  router.get(url, {}, { preserveState: true, preserveScroll: true, replace: true })
+}
+
+onUnmounted(() => {
+  clearTimeout(searchDebounceTimer)
 })
 
 const deleteOfferTitle = computed(
-  () => props.offers.find((offer) => offer.id === deleteOfferId.value)?.title ?? '',
+  () => offersList.value.find((offer) => offer.id === deleteOfferId.value)?.title ?? '',
 )
 
 const unpublishOfferTitle = computed(
-  () => props.offers.find((offer) => offer.id === unpublishOfferId.value)?.title ?? '',
+  () => offersList.value.find((offer) => offer.id === unpublishOfferId.value)?.title ?? '',
 )
 
 function publish(offerId) {
@@ -148,7 +178,7 @@ onUnmounted(() => {
         </Link>
       </div>
 
-      <div v-if="offers.length > 0" class="flex flex-col gap-4">
+      <div v-if="offerCountByStatus.all > 0" class="flex flex-col gap-4">
         <div class="relative w-full sm:max-w-sm">
           <input
             v-model="query"
@@ -168,7 +198,7 @@ onUnmounted(() => {
             :aria-selected="statusFilter === tab"
             class="shrink-0 cursor-pointer whitespace-nowrap border-b-2 px-3 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
             :class="statusFilter === tab ? 'border-primary text-primary' : 'border-transparent text-additional hover:text-text'"
-            @click="statusFilter = tab"
+            @click="selectStatusTab(tab)"
           >
             {{ tab === 'all' ? t('company.offers.index.tabs.all') : t(`company.offers.index.status.${tab}`) }}
             <span class="ml-1 text-xs text-additional">({{ offerCountByStatus[tab] }})</span>
@@ -177,21 +207,21 @@ onUnmounted(() => {
       </div>
 
       <div
-        v-if="filteredOffers.length === 0"
+        v-if="offersList.length === 0"
         class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-white px-8 py-16 text-center"
         role="status"
       >
         <p class="font-medium text-text text-base">
-          {{ offers.length === 0 ? t('company.offers.index.empty.title') : t('company.offers.index.noResults.title') }}
+          {{ offerCountByStatus.all === 0 ? t('company.offers.index.empty.title') : t('company.offers.index.noResults.title') }}
         </p>
         <p class="mt-1 text-additional text-sm">
-          {{ offers.length === 0 ? t('company.offers.index.empty.description') : t('company.offers.index.noResults.description') }}
+          {{ offerCountByStatus.all === 0 ? t('company.offers.index.empty.description') : t('company.offers.index.noResults.description') }}
         </p>
       </div>
 
       <ul v-else class="flex flex-col gap-3">
         <li
-          v-for="offer in filteredOffers"
+          v-for="offer in offersList"
           :key="offer.id"
           class="rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-5"
         >
@@ -285,6 +315,24 @@ onUnmounted(() => {
           </p>
         </li>
       </ul>
+
+      <div v-if="paginationLinks.length > 0" class="flex flex-wrap items-center justify-center gap-1">
+        <button
+          v-for="(link, index) in paginationLinks"
+          :key="index"
+          type="button"
+          :disabled="!link.url"
+          class="min-w-[2rem] rounded-md px-2.5 py-1 text-xs font-medium transition"
+          :class="link.active
+            ? 'bg-primary text-white'
+            : link.url
+              ? 'cursor-pointer text-text hover:bg-background'
+              : 'cursor-not-allowed text-additional/50'"
+          @click="goToPage(link.url)"
+        >
+          {{ paginationLabel(link.label) }}
+        </button>
+      </div>
     </div>
 
     <CompanyOfferDeleteModal
