@@ -193,93 +193,96 @@ onUnmounted(() => {
         <li
           v-for="offer in filteredOffers"
           :key="offer.id"
-          class="flex flex-col gap-4 rounded-2xl border border-border bg-white px-6 py-5 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+          class="rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-5"
         >
-          <div class="min-w-0">
-            <div class="flex flex-wrap items-center gap-2">
-              <span
-                class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold tracking-wide"
-                :class="statusBadgeClass(offer.status)"
-              >
-                {{ t(`company.offers.index.status.${offer.status}`) }}
-              </span>
-              <h2 class="truncate font-semibold text-text text-base">
-                {{ offer.title }}
-              </h2>
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <span
+                  class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold tracking-wide"
+                  :class="statusBadgeClass(offer.status)"
+                >
+                  {{ t(`company.offers.index.status.${offer.status}`) }}
+                </span>
+                <h2 class="min-w-0 truncate font-semibold text-text text-base">
+                  {{ offer.title }}
+                </h2>
+              </div>
             </div>
-            <div class="mt-1 flex flex-wrap items-center gap-3 text-additional text-sm">
-              <span class="inline-flex items-center gap-1">
-                <IconUsers class="h-4 w-4" aria-hidden="true" />
-                {{ t('company.offers.index.spotsLabel', { count: offer.spots }) }}
-              </span>
-              <span class="inline-flex items-center gap-1">
-                <IconClipboardText class="h-4 w-4" aria-hidden="true" />
-                {{ t('company.offers.index.applicationsCount', { count: offer.applications_count }) }}
-              </span>
-            </div>
-            <p v-if="offer.status === 'draft' && !isCompanyVerified" class="mt-1 text-amber-600 text-xs">
-              {{ t('company.offers.index.verificationRequiredHint') }}
-            </p>
-          </div>
 
-          <div class="relative shrink-0 self-end sm:self-auto" :data-offer-menu="offer.id">
-            <button
-              type="button"
-              class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-additional transition hover:bg-background hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-              :aria-label="t('company.offers.index.actionsMenu')"
-              aria-haspopup="true"
-              :aria-expanded="openMenuOfferId === offer.id"
-              @click="toggleMenu(offer.id)"
-            >
-              <IconDotsVertical class="h-5 w-5" stroke="2" aria-hidden="true" />
-            </button>
-
-            <div
-              v-if="openMenuOfferId === offer.id"
-              class="absolute right-0 z-10 mt-2 w-48 overflow-hidden rounded-lg border border-border bg-white py-1 shadow-md"
-              role="menu"
-            >
-              <Link
-                :href="ROUTES.COMPANY_OFFERS_EDIT(offer.id)"
-                role="menuitem"
-                class="block px-4 py-2 text-left text-sm font-medium text-text transition hover:bg-background"
-                @click="closeMenu"
-              >
-                {{ t('company.offers.index.editAction') }}
-              </Link>
-
-              <button
-                v-if="offer.status === 'draft' && isCompanyVerified"
-                type="button"
-                role="menuitem"
-                :disabled="processingOfferId === offer.id"
-                class="block w-full cursor-pointer px-4 py-2 text-left text-sm font-medium text-text transition hover:bg-background disabled:cursor-not-allowed disabled:opacity-60"
-                @click="publish(offer.id); closeMenu()"
-              >
-                {{ processingOfferId === offer.id ? t('company.offers.index.publishing') : t('company.offers.index.publishAction') }}
-              </button>
-
-              <button
-                v-if="offer.status === 'published'"
-                type="button"
-                role="menuitem"
-                class="block w-full cursor-pointer px-4 py-2 text-left text-sm font-medium text-text transition hover:bg-background"
-                @click="openUnpublishConfirmationModal(offer.id); closeMenu()"
-              >
-                {{ t('company.offers.index.unpublishAction') }}
-              </button>
-
+            <div class="relative shrink-0" :data-offer-menu="offer.id">
               <button
                 type="button"
-                role="menuitem"
-                :disabled="processingOfferId === offer.id"
-                class="block w-full cursor-pointer px-4 py-2 text-left text-sm font-medium text-error transition hover:bg-error/10 disabled:cursor-not-allowed disabled:opacity-60"
-                @click="openDeleteConfirmationModal(offer.id); closeMenu()"
+                class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-additional transition hover:bg-background hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                :aria-label="t('company.offers.index.actionsMenu')"
+                aria-haspopup="true"
+                :aria-expanded="openMenuOfferId === offer.id"
+                @click="toggleMenu(offer.id)"
               >
-                {{ t('company.offers.index.deleteAction') }}
+                <IconDotsVertical class="h-5 w-5" stroke="2" aria-hidden="true" />
               </button>
+
+              <div
+                v-if="openMenuOfferId === offer.id"
+                class="absolute right-0 z-10 mt-2 w-48 max-w-[calc(100vw-2rem)] overflow-hidden rounded-lg border border-border bg-white py-1 shadow-md"
+                role="menu"
+              >
+                <Link
+                  :href="ROUTES.COMPANY_OFFERS_EDIT(offer.id)"
+                  role="menuitem"
+                  class="block px-4 py-2 text-left text-sm font-medium text-text transition hover:bg-background"
+                  @click="closeMenu"
+                >
+                  {{ t('company.offers.index.editAction') }}
+                </Link>
+
+                <button
+                  v-if="offer.status === 'draft' && isCompanyVerified"
+                  type="button"
+                  role="menuitem"
+                  :disabled="processingOfferId === offer.id"
+                  class="block w-full cursor-pointer px-4 py-2 text-left text-sm font-medium text-text transition hover:bg-background disabled:cursor-not-allowed disabled:opacity-60"
+                  @click="publish(offer.id); closeMenu()"
+                >
+                  {{ processingOfferId === offer.id ? t('company.offers.index.publishing') : t('company.offers.index.publishAction') }}
+                </button>
+
+                <button
+                  v-if="offer.status === 'published'"
+                  type="button"
+                  role="menuitem"
+                  class="block w-full cursor-pointer px-4 py-2 text-left text-sm font-medium text-text transition hover:bg-background"
+                  @click="openUnpublishConfirmationModal(offer.id); closeMenu()"
+                >
+                  {{ t('company.offers.index.unpublishAction') }}
+                </button>
+
+                <button
+                  type="button"
+                  role="menuitem"
+                  :disabled="processingOfferId === offer.id"
+                  class="block w-full cursor-pointer px-4 py-2 text-left text-sm font-medium text-error transition hover:bg-error/10 disabled:cursor-not-allowed disabled:opacity-60"
+                  @click="openDeleteConfirmationModal(offer.id); closeMenu()"
+                >
+                  {{ t('company.offers.index.deleteAction') }}
+                </button>
+              </div>
             </div>
           </div>
+
+          <div class="mt-2 flex flex-wrap items-center gap-3 text-additional text-sm">
+            <span class="inline-flex items-center gap-1">
+              <IconUsers class="h-4 w-4" aria-hidden="true" />
+              {{ t('company.offers.index.spotsLabel', { count: offer.spots }) }}
+            </span>
+            <span class="inline-flex items-center gap-1">
+              <IconClipboardText class="h-4 w-4" aria-hidden="true" />
+              {{ t('company.offers.index.applicationsCount', { count: offer.applications_count }) }}
+            </span>
+          </div>
+          <p v-if="offer.status === 'draft' && !isCompanyVerified" class="mt-1 text-amber-600 text-xs">
+            {{ t('company.offers.index.verificationRequiredHint') }}
+          </p>
         </li>
       </ul>
     </div>
