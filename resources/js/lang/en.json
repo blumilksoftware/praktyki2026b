@@ -432,7 +432,10 @@
       "empty": {
         "title": "You do not have any favorite offers yet",
         "description": "Add an offer to favorites from a card and it will appear here."
-      }
+      },
+        "status": {
+            "expired": "Expired"
+        }
     },
     "offers": {
       "tabs": {
