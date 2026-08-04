@@ -108,3 +108,11 @@ export function notificationRead(notificationId: string): string {
 export function studentOfferFavourite(offerId: string): string {
   return ROUTES.STUDENT_OFFER_FAVOURITE.replace("{offer}", offerId)
 }
+
+export function offerShow(offerId: string): string {
+  return ROUTES.OFFER_SHOW.replace("{offer}", offerId)
+}
+
+export function companyShow(companyId: string): string {
+  return ROUTES.COMPANY_SHOW.replace("{company}", companyId)
+}

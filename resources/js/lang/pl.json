@@ -676,6 +676,29 @@
         "removeFromFavorites": "Usuń z ulubionych",
         "mapComingSoon": "Mapa pojawi się w osobnej podstronie",
         "loginToApply": "Zaloguj się, aby aplikować"
+      },
+      "detail": {
+        "backToOffers": "Wróć do ofert",
+        "description": "Opis",
+        "preferredUniversities": "Preferowane uczelnie",
+        "preferredUniversitiesEmpty": "Brak wskazanych uczelni.",
+        "studyFields": "Kierunki studiów",
+        "studyFieldsEmpty": "Brak wskazanych kierunków.",
+        "spots": "Miejsca",
+        "internshipPeriod": "Okres praktyk",
+        "internshipPeriodValue": "od {start} do {end}",
+        "remainingSpots": "Wolne miejsca",
+        "remainingSpotsValue": "pozostało {remaining} z {total}",
+        "remainingSpotsNone": "brak wolnych miejsc ({total} zajętych)",
+        "compensation": "Wynagrodzenie",
+        "paid": "Płatna",
+        "unpaid": "Bezpłatna",
+        "salaryRange": "od {min} do {max} PLN",
+        "closedMessage": "Oferta nie przyjmuje już aplikacji",
+        "expiredMessage": "Ta oferta wygasła",
+        "companyProfileAria": "Zobacz profil firmy: {company}",
+        "similarOffers": "Podobne oferty",
+        "similarOfferAria": "Zobacz ofertę {title} w firmie {company}"
       }
     }
   },

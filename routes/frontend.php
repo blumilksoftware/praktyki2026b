@@ -20,6 +20,9 @@ use Inertia\Response;
 Route::get("/", fn() => redirect()->route("login"));
 
 Route::get("/offers", [OfferController::class, "index"])->name("offers.index");
+Route::get("/offers/{offer}", [OfferController::class, "show"])
+    ->name("offers.show")
+    ->whereUuid("offer");
 
 Route::get("/companies/{company}", [CompanyProfileController::class, "show"])->name("companies.show")->whereUuid("company");
 

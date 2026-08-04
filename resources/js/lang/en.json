@@ -527,6 +527,29 @@
         "removeFromFavorites": "Remove from favorites",
         "mapComingSoon": "The map will appear on a separate page",
         "loginToApply": "Log in to apply"
+      },
+      "detail": {
+        "backToOffers": "Back to offers",
+        "description": "Description",
+        "preferredUniversities": "Preferred universities",
+        "preferredUniversitiesEmpty": "No preferred universities listed.",
+        "studyFields": "Fields of study",
+        "studyFieldsEmpty": "No fields of study listed.",
+        "spots": "Spots",
+        "internshipPeriod": "Internship period",
+        "internshipPeriodValue": "from {start} to {end}",
+        "remainingSpots": "Available spots",
+        "remainingSpotsValue": "{remaining} of {total} still open",
+        "remainingSpotsNone": "No spots left ({total} filled)",
+        "compensation": "Compensation",
+        "paid": "Paid",
+        "unpaid": "Unpaid",
+        "salaryRange": "from {min} to {max} PLN",
+        "closedMessage": "No longer accepting applications",
+        "expiredMessage": "This offer has expired",
+        "companyProfileAria": "View company profile: {company}",
+        "similarOffers": "Similar offers",
+        "similarOfferAria": "View offer {title} at {company}"
       }
     },
     "cv": {
