@@ -8,9 +8,11 @@ use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\Company;
 use App\Models\Offer;
+use App\Models\University;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class CreateOfferTest extends TestCase
@@ -60,7 +62,7 @@ class CreateOfferTest extends TestCase
             "status" => "draft",
         ]);
 
-        $response->assertRedirect("/company/dashboard");
+        $response->assertRedirect("/company/offers");
         $this->assertDatabaseHas("offers", [
             "company_id" => $company->id,
             "status" => "draft",
@@ -89,7 +91,7 @@ class CreateOfferTest extends TestCase
 
         $response = $this->actingAs($user)->post("/company/offers", $this->validPayload());
 
-        $response->assertRedirect("/company/dashboard");
+        $response->assertRedirect("/company/offers");
         $this->assertDatabaseHas("offers", [
             "company_id" => $company->id,
             "title" => "Backend Developer Intern",
@@ -104,6 +106,45 @@ class CreateOfferTest extends TestCase
         $offer = Offer::where("company_id", $company->id)->firstOrFail();
         $this->assertEqualsWithDelta(52.2297, $offer->latitude, 0.0001);
         $this->assertEqualsWithDelta(21.0122, $offer->longitude, 0.0001);
+    }
+
+    public function testCreateFormExposesVerifiedCompanyStatus(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+
+        $response = $this->actingAs($user)->get("/company/offers/create");
+
+        $response->assertOk();
+        $response->assertInertia(fn(Assert $page) => $page
+            ->where("isCompanyVerified", true));
+    }
+
+    public function testCreateFormExposesPendingCompanyStatus(): void
+    {
+        $company = Company::factory()->pending()->create();
+        $user = $this->makeCompanyAdmin($company);
+
+        $response = $this->actingAs($user)->get("/company/offers/create");
+
+        $response->assertOk();
+        $response->assertInertia(fn(Assert $page) => $page
+            ->where("isCompanyVerified", false));
+    }
+
+    public function testCreateFormOnlyOffersVerifiedUniversitiesAsPreferredOptions(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+        $verified = University::factory()->approved()->create(["name" => "Verified University"]);
+        University::factory()->pending()->create(["name" => "Pending University"]);
+
+        $response = $this->actingAs($user)->get("/company/offers/create");
+
+        $response->assertOk();
+        $response->assertInertia(fn(Assert $page) => $page
+            ->has("universities", 1)
+            ->where("universities.0.id", $verified->id));
     }
 
     public function testOfferIsCreatedUnderAuthenticatedCompanyRegardlessOfSubmittedCompanyId(): void
@@ -157,6 +198,19 @@ class CreateOfferTest extends TestCase
         $response = $this->actingAs($user)->post("/company/offers", [
             ...$this->validPayload(),
             "spots" => 0,
+        ]);
+
+        $response->assertSessionHasErrors("spots");
+    }
+
+    public function testValidationFailsWhenSpotsExceedsMaximum(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+
+        $response = $this->actingAs($user)->post("/company/offers", [
+            ...$this->validPayload(),
+            "spots" => 1001,
         ]);
 
         $response->assertSessionHasErrors("spots");
@@ -218,7 +272,7 @@ class CreateOfferTest extends TestCase
             "salary_max" => null,
         ]);
 
-        $response->assertRedirect("/company/dashboard");
+        $response->assertRedirect("/company/offers");
         $this->assertDatabaseHas("offers", [
             "company_id" => $company->id,
             "is_paid" => false,

@@ -12,6 +12,7 @@ use App\Actions\Student\DeleteStudentAccount;
 use App\Actions\Student\DeleteStudentPhotoAction;
 use App\Actions\Student\GetFavourites;
 use App\Actions\Student\GetStudentApplicationsAction;
+use App\Actions\Student\GetStudentOffersAction;
 use App\Actions\Student\LinkStudentToUniversity;
 use App\Actions\Student\RequestEmailChange;
 use App\Actions\Student\SaveOfferAction;
@@ -22,7 +23,6 @@ use App\Actions\Student\UploadStudentPhotoAction;
 use App\Actions\Student\WithdrawOfferAction;
 use App\Actions\University\SearchUniversities;
 use App\DTO\Student\UpdateStudentProfileData;
-use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangeEmailRequest;
 use App\Http\Requests\ChangePasswordRequest;
@@ -35,7 +35,6 @@ use App\Http\Requests\UploadStudentPhotoRequest;
 use App\Models\Offer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
@@ -60,46 +59,22 @@ class StudentController extends Controller
         private readonly GetFavourites $getFavourites,
         private readonly BuildStudentProfileData $buildStudentProfileData,
         private readonly GetStudentApplicationsAction $getStudentApplicationsAction,
+        private readonly GetStudentOffersAction $getStudentOffersAction,
         private readonly SearchUniversities $searchUniversities,
         private readonly LinkStudentToUniversity $linkStudentToUniversity,
     ) {}
 
-public function index(): Response
-{
-    $user = Auth::user();
-
-    return inertia("Student/Dashboard", [
-        "applications" => $this->getStudentApplicationsAction->execute($user),
-        "offers" => $this->buildStudentOffers()->take(3)->values(),
-    ]);
-}
-
-    public function offers(): Response
+    public function index(): Response
     {
-        return inertia("Student/Offers", [
-            "offers" => $this->buildStudentOffers()->values(),
-        ]);
-    }
-
-    public function favorites(): Response
-    {
-//        return inertia("Student/Favorites", [
-//            "offers" => $this->buildStudentOffers()->values(),
-//        ]);
         $user = Auth::user();
 
-        $offers = $user->favourites()
-            ->with(["company", "applications"])
-            ->get()
-            ->map(fn(Offer $offer) => $this->mapOfferForCard($offer))
-            ->values();
-
-        return inertia("Student/Favorites", [
-            "offers" => $offers
+        return inertia("Student/Dashboard", [
+            "applications" => $this->getStudentApplicationsAction->execute($user),
+            "offers" => $this->getStudentOffersAction->execute($user)->take(3)->values(),
+            "hasCv" => $user->cv_path !== null,
+            "favoritesCount" => $user->favourites()->count(),
         ]);
     }
-
-
 
     public function applications(): Response
     {
@@ -308,32 +283,5 @@ public function index(): Response
         $request->session()->regenerateToken();
 
         return redirect("/");
-    }
-
-    private function mapOfferForCard(Offer $offer): array {
-        return [
-            "id" => $offer->id,
-            "title" => $offer->title,
-            "city" => $offer->city,
-            "work_mode" => $offer->work_mode,
-            "start_date" => $offer->start_date?->toDateString(),
-            "end_date" => $offer->end_date?->toDateString(),
-            "spots" => $offer->spots,
-            "remaining_spots" => max(0, $offer->spots - $offer->applications()->count()),
-            "status" => $offer->status->value,
-            "company" => [
-                "name" => $offer->company->name,
-                "logo_path" => $offer->company->logo_path,
-                "is_verified" => ($offer->company->verification_status ?? null) === VerificationStatus::Verified,
-            ],
-        ];
-    }
-
-    private function buildStudentOffers(): Collection
-    {
-        return Offer::published()
-            ->with(["company", "applications"])
-            ->get()
-            ->map(fn(Offer $offer) => $this->mapOfferForCard($offer));
     }
 }

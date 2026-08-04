@@ -24,7 +24,7 @@ export function useStudentPanelMenu(activePage) {
       },
       {
         label: t('student.layout.nav.offers'),
-        href: ROUTES.STUDENT_OFFERS,
+        href: ROUTES.OFFERS,
         icon: IconBriefcase,
         isActive: current === 'offers',
       },
@@ -33,6 +33,12 @@ export function useStudentPanelMenu(activePage) {
         href: ROUTES.STUDENT_FAVORITES,
         icon: IconHeart,
         isActive: current === 'favorites',
+      },
+      {
+        label: t('student.layout.nav.applications'),
+        href: ROUTES.STUDENT_APPLICATIONS,
+        icon: IconBriefcase,
+        isActive: current === 'applications',
       },
     ]
   })

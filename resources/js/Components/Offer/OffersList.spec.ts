@@ -1,88 +1,69 @@
 import { mount } from '@vue/test-utils'
-import { createI18n } from 'vue-i18n'
 import { describe, expect, it, vi } from 'vitest'
 import OffersList from '@/Components/Offer/OffersList.vue'
-import en from '@/lang/en.json'
 
-vi.mock('@inertiajs/vue3', () => ({
-  Link: { template: '<a><slot /></a>' },
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({ t: (key: string) => key }),
 }))
 
-const i18n = createI18n({ legacy: false, locale: 'en', messages: { en } })
+vi.mock('@inertiajs/vue3', () => ({
+  Link: {
+    props: ['href', 'method', 'as'],
+    template: '<a :href="href"><slot /></a>',
+  },
+}))
 
-function makeOffer(id: string, overrides = {}) {
-  return {
-    id,
-    title: `Offer ${id}`,
-    city: 'Warszawa',
-    work_mode: 'remote',
-    status: 'published',
-    start_date: '2026-09-01',
-    end_date: '2026-10-01',
-    remaining_spots: 2,
-    company: { name: 'Blumilk', logo_path: null, is_verified: false },
-    ...overrides,
-  }
-}
+const generateOffers = (count: number) => Array.from({ length: count }, (_, i) => ({
+  id: i + 1,
+  title: `Offer ${i + 1}`,
+  city: 'Wrocław',
+  work_mode: 'remote',
+  start_date: '2026-09-01',
+  end_date: '2026-12-01',
+  spots: 5,
+  remaining_spots: 5,
+  company: { name: `Company ${i + 1}`, logo_path: null, is_verified: false },
+}))
 
-function mountList(props = {}) {
-  return mount(OffersList, {
-    props: {
-      offers: [],
-      favoriteIds: [],
-      ...props,
-    },
-    global: {
-      plugins: [i18n],
-    },
-  })
-}
+describe('OffersList.vue', () => {
+  it('renders a card for every offer', () => {
+    const offers = generateOffers(3)
+    const wrapper = mount(OffersList, { props: { offers } })
 
-describe('OffersList', () => {
-  it('shows the default empty state when there are no offers', () => {
-    const wrapper = mountList()
-
-    expect(wrapper.text()).toContain('No offers match the filters')
-  })
-
-  it('shows a custom empty state when provided', () => {
-    const wrapper = mountList({
-      emptyTitle: 'No favorites yet',
-      emptyDescription: 'Save an offer to see it here.',
-    })
-
-    expect(wrapper.text()).toContain('No favorites yet')
-    expect(wrapper.text()).toContain('Save an offer to see it here.')
-  })
-
-  it('renders one card per offer', () => {
-    const wrapper = mountList({
-      offers: [makeOffer('1'), makeOffer('2'), makeOffer('3')],
-    })
-
+    expect(wrapper.findAll('article').length).toBe(3)
     expect(wrapper.text()).toContain('Offer 1')
-    expect(wrapper.text()).toContain('Offer 2')
     expect(wrapper.text()).toContain('Offer 3')
   })
 
-  it('marks only offers included in favoriteIds as saved', () => {
-    const wrapper = mountList({
-      offers: [makeOffer('1'), makeOffer('2')],
-      favoriteIds: ['2'],
-    })
+  it('shows the empty state when there are no offers', () => {
+    const wrapper = mount(OffersList, { props: { offers: [] } })
 
-    const buttons = wrapper.findAll('button[aria-pressed]')
-    expect(buttons[0].attributes('aria-pressed')).toBe('false')
-    expect(buttons[1].attributes('aria-pressed')).toBe('true')
+    expect(wrapper.findAll('article').length).toBe(0)
+    expect(wrapper.text()).toContain('student.offers.empty.title')
+    expect(wrapper.text()).toContain('student.offers.empty.description')
   })
 
-  it('re-emits toggle-favorite from a card with the offer id', async () => {
-    const wrapper = mountList({
-      offers: [makeOffer('1')],
+  it('allows overriding the empty state copy', () => {
+    const wrapper = mount(OffersList, {
+      props: {
+        offers: [],
+        emptyTitle: 'No favourites yet',
+        emptyDescription: 'Save an offer to see it here.',
+      },
     })
 
-    await wrapper.find('button[aria-pressed]').trigger('click')
+    expect(wrapper.text()).toContain('No favourites yet')
+    expect(wrapper.text()).toContain('Save an offer to see it here.')
+  })
 
-    expect(wrapper.emitted('toggle-favorite')).toEqual([['1']])
+  it('marks offers as favorite based on their is_favorite field', () => {
+    const offers = generateOffers(2).map((offer, index) => ({ ...offer, is_favorite: index === 1 }))
+    const wrapper = mount(OffersList, {
+      props: { offers },
+    })
+
+    const favoriteButtons = wrapper.findAll('button').filter((btn) => btn.attributes('aria-pressed') !== undefined)
+    expect(favoriteButtons[0].attributes('aria-pressed')).toBe('false')
+    expect(favoriteButtons[1].attributes('aria-pressed')).toBe('true')
   })
 })

@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconWorld, IconMapPin, IconPhone } from '@tabler/icons-vue'
+import { IconWorld, IconMapPin, IconPhone, IconId } from '@tabler/icons-vue'
 import BaseInput from '@/Components/Base/BaseInput.vue' 
 
 const { t } = useI18n()
@@ -12,7 +12,8 @@ const props = defineProps({
   street: { type: String, default: '' },
   postalCode: { type: String, default: '' },
   city: { type: String, default: '' },
-  errors: { type: Object, default: () => ({}) }, 
+  nip: { type: String, default: null },
+  errors: { type: Object, default: () => ({}) },
 })
 
 const emit = defineEmits([
@@ -121,6 +122,12 @@ const streetModel = computed({
           :error="getTranslatedError('phone')"
           required
         />
+      </div>
+
+      <div v-if="nip" class="flex items-center gap-4 sm:gap-6">
+        <IconId class="hidden sm:block w-7 h-7 text-black shrink-0" />
+        <span class="font-bold text-text text-sm">{{ t('profiles.nip') }}:</span>
+        <span class="text-gray-700 font-medium wrap-break-word">{{ nip }}</span>
       </div>
     </div>
   </div>

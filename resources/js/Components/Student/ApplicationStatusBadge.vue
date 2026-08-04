@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { useApplicationStatus } from '@/composables/useApplicationStatus'
+import { useApplicationStatus } from '@/Composables/useApplicationStatus.ts'
 
 const props = defineProps({
   status: { type: String, required: true },

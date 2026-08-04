@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
+use App\Http\Controllers\Company\CityGeocodingController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
 use App\Http\Controllers\NotificationController;
@@ -14,7 +15,6 @@ use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
-use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -38,7 +38,6 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->group(function (): void {
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
-        Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
         Route::get("/profile/edit", [CompanyController::class, "edit"])->name("company.profile.edit");
         Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
     });
@@ -46,10 +45,24 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
 Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
-        Route::post("/offers", [OfferController::class, "store"])->name("company.offers.store");
-        Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])->name("company.offers.publish");
-        Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])->name("company.offers.deactivate");
-        Route::delete("/offers/{offer}", [OfferController::class, "destroy"])->name("company.offers.destroy");
+        Route::post("/offers", [OfferController::class, "store"])
+            ->name("company.offers.store");
+
+        Route::patch("/offers/{offer}", [OfferController::class, "update"])
+            ->name("company.offers.update");
+
+        Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])
+            ->name("company.offers.publish");
+
+        Route::patch("/offers/{offer}/deactivate", [OfferController::class, "deactivate"])
+            ->name("company.offers.deactivate");
+
+        Route::delete("/offers/{offer}", [OfferController::class, "destroy"])
+            ->name("company.offers.destroy");
+
+        Route::get("/geocoding/cities", [CityGeocodingController::class, "suggest"])
+            ->name("company.geocoding.cities")
+            ->middleware("throttle:30,1");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
@@ -63,18 +76,9 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
 Route::middleware(["auth", "can:access-student-panel"])
     ->prefix("student")
     ->group(function (): void {
-        Route::get("/dashboard", [StudentController::class, "index"])->name('student.dashboard');
-        Route::get("/offers", [StudentController::class, "offers"])->name('student.offers.index');
-        Route::get("/favorites", [StudentController::class, "favorites"])->name('student.favorites.index');
+        Route::get("/dashboard", [StudentController::class, "index"])->name("student.dashboard");
 
-        Route::get("/profile", function () {
-            $user = auth()->user();
-
-            return inertia('Student/Profile', [
-                'user' => $user->load(['applications.offer.company', 'preferredStudyFields', 'preferredCities']),
-                'studyFields' => \App\Models\StudyField::query()->orderBy('name')->get(['id', 'name']),
-            ]);
-        })->name('student.profile');
+        Route::get("/profile", [StudentController::class, "profile"])->name("student.profile");
     });
 
 Route::middleware(["auth", "can:access-student-panel"])
@@ -84,8 +88,10 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::post("/cv", [StudentController::class, "uploadCv"])->name("student.cv.upload");
         Route::delete("/cv", [StudentController::class, "deleteCv"])->name("student.cv.delete");
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
-        Route::post("/offers/{offer}/favorite", [StudentController::class, "saveOffer"])->name("student.offers.favorite.save");
-        Route::delete("/offers/{offer}/favorite", [StudentController::class, "unsaveOffer"])->name("student.offers.favorite.delete")->withTrashed();
+        Route::post("/offers/{offer}/withdraw", [StudentController::class, "withdraw"])->name("student.offers.withdraw");
+        Route::post("/offers/{offer}/favourite", [StudentController::class, "saveOffer"])->name("student.offers.favourite.save");
+        Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])->name("student.offers.favourite.delete")->withTrashed();
+        Route::get("/favourites", [StudentController::class, "favourites"])->name("student.favourites");
         Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
         Route::get("/universities/search", [StudentController::class, "searchUniversities"])->name("student.universities.search");
         Route::patch("/university", [StudentController::class, "linkUniversity"])->name("student.university.update");
@@ -107,6 +113,7 @@ Route::middleware(["auth"])
     ->prefix("notifications")
     ->group(function (): void {
         Route::patch("/read-all", [NotificationController::class, "markAllAsRead"])->name("notifications.read-all");
+        Route::patch("/{notification}/read", [NotificationController::class, "markAsRead"])->name("notifications.read");
     });
 
 Route::middleware(["role:superAdmin"])

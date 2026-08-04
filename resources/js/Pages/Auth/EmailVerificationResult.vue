@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import LanguageDropdown from '@/Components/Common/LanguageDropdown.vue'
+import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
 
 const props = defineProps({
   status: {
@@ -23,13 +23,13 @@ const message = computed(() => t(`auth.verification.result.${props.status}.messa
   <Head :title="t('auth.verification.result.title')" />
 
   <header class="top-4 right-4 z-10 absolute shadow p-2 rounded-lg">
-    <LanguageDropdown :mobile="true" variant="light" />
+    <LanguageSwitcher :mobile="true" variant="light" />
   </header>
 
   <main class="flex flex-col justify-center items-center bg-slate-50 px-6 py-16 min-h-screen">
     <section class="bg-white shadow-sm p-8 md:p-12 rounded-2xl w-full max-w-3xl">
       <div class="flex justify-center items-center p-4 rounded-lg w-full">
-        <img src="/logo.svg" alt="Applikuj" class="mb-8 w-auto h-10 md:h-12">
+        <img src="/logo.svg" alt="Applikuj" class="mb-8 w-auto h-10 md:h-12 brightness-0">
       </div>
 
       <div class="space-y-8">

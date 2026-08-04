@@ -39,4 +39,56 @@ class MapboxGeocodingService
             },
         );
     }
+
+    /**
+     * @return list<array{name: string, fullName: string, latitude: float, longitude: float}>
+     */
+    public function suggestCities(string $query): array
+    {
+        $normalized = mb_strtolower(trim($query));
+
+        if (mb_strlen($normalized) < 2) {
+            return [];
+        }
+
+        $cacheKey = "mapbox:suggest:{$normalized}";
+        $cached = Cache::get($cacheKey);
+
+        if ($cached !== null) {
+            return $cached;
+        }
+
+        $response = Http::timeout(5)->get(
+            "https://api.mapbox.com/geocoding/v5/mapbox.places/" . rawurlencode($query) . ".json",
+            [
+                "access_token" => config("services.mapbox.access_token"),
+                "types" => "place",
+                "language" => "pl",
+                "country" => config("services.mapbox.country", "pl"),
+                "limit" => 5,
+            ],
+        );
+
+        if ($response->failed()) {
+            return [];
+        }
+
+        $features = $response->json("features") ?? [];
+
+        $results = array_map(
+            static fn(array $feature): array => [
+                "name" => $feature["text"],
+                "fullName" => $feature["place_name"],
+                "latitude" => (float)$feature["center"][1],
+                "longitude" => (float)$feature["center"][0],
+            ],
+            $features,
+        );
+
+        if ($results !== []) {
+            Cache::put($cacheKey, $results, now()->addHours(6));
+        }
+
+        return $results;
+    }
 }
