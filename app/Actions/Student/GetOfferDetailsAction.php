@@ -8,9 +8,9 @@ use App\Enums\OfferStatus;
 use App\Enums\UserRole;
 use App\Enums\VerificationStatus;
 use App\Models\Offer;
-use App\Models\User;
-use App\Models\University;
 use App\Models\StudyField;
+use App\Models\University;
+use App\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GetOfferDetailsAction
