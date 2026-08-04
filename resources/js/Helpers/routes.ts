@@ -65,6 +65,7 @@ export const ROUTES = {
   OFFERS: "/offers",
   OFFER_SHOW: `/offers/{offer}`,
   COMPANY_OFFERS: "/search?company_id={companyId}",
+  COMPANY_MY_OFFERS: "/company/offers",
 
   // Profiles
   PROFILE: "/profile",
@@ -77,6 +78,11 @@ export const ROUTES = {
   COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
   COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
   COMPANY_SHOW: '/companies/{company}',
+  //University routes
+  UNIVERSITY_DASHBOARD: "/university/dashboard",
+
+  // General
+  APPLICATIONS: "/applications",
   TEAM: "/team",
   LANGUAGE_SWITCH: "/language/{locale}",
   SETTINGS: "/settings",
