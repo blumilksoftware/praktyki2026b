@@ -19,6 +19,15 @@ use Illuminate\Database\Seeder;
 
 class DemoSeeder extends Seeder
 {
+    private array $citiesWithCoordinates = [
+        "Warszawa" => ["lat" => 52.2297, "lng" => 21.0122],
+        "Kraków" => ["lat" => 50.0647, "lng" => 19.9450],
+        "Wrocław" => ["lat" => 51.1100, "lng" => 17.0385],
+        "Poznań" => ["lat" => 52.4064, "lng" => 16.9299],
+        "Gdańsk" => ["lat" => 54.3520, "lng" => 18.6466],
+        "Łódź" => ["lat" => 51.7592, "lng" => 19.4560],
+    ];
+
     public function run(): void
     {
         User::factory()->create([
@@ -149,19 +158,28 @@ class DemoSeeder extends Seeder
 
         $studyFields = StudyField::factory()->for($faculty)->count(20)->create();
 
-        $cities = ["Warszawa", "Kraków", "Wrocław", "Poznań", "Gdańsk", "Łódź"];
         $workModes = WorkMode::cases();
+        $cityNames = array_keys($this->citiesWithCoordinates);
 
-        foreach ($cities as $index => $city) {
-            $offer = Offer::factory()->create([
-                "company_id" => $approvedCompany->id,
-                "city" => $city,
-                "work_mode" => $workModes[$index % count($workModes)],
-            ]);
+        foreach ($cityNames as $index => $cityName) {
+            for ($i = 0; $i < 2; $i++) {
+                $coords = $this->citiesWithCoordinates[$cityName];
 
-            $offer->studyFields()->attach(
-                $studyFields->random(random_int(1, 2))->pluck("id"),
-            );
+                $latJitter = mt_rand(-15, 15) / 1000;
+                $lngJitter = mt_rand(-15, 15) / 1000;
+
+                $offer = Offer::factory()->create([
+                    "company_id" => $approvedCompany->id,
+                    "city" => $cityName,
+                    "latitude" => $coords["lat"] + $latJitter,
+                    "longitude" => $coords["lng"] + $lngJitter,
+                    "work_mode" => $workModes[$index % count($workModes)],
+                ]);
+
+                $offer->studyFields()->attach(
+                    $studyFields->random(random_int(1, 2))->pluck("id"),
+                );
+            }
         }
 
         $domainLinkedStudents = User::factory()->count(20)->create([

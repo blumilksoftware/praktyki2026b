@@ -626,6 +626,18 @@
         "applied": "Zaaplikowane",
         "notApplied": "Niezaaplikowane"
       },
+        "pagination": {
+            "perPage": "Ofert na stronie"
+        },
+        "map": {
+            "selectPinHint": "Wybierz punkt na mapie, aby zobaczyć dostępne oferty",
+            "cityOffersTitle": "Oferty w {city}",
+            "showAll": "Pokaż wszystkie oferty",
+            "viewSwitcher": {
+                "mapView": "Widok mapy",
+                "listView": "Widok listy"
+            }
+        },
       "filters": {
         "kicker": "Filtry",
         "title": "Tablica ofert",
@@ -653,9 +665,6 @@
         "caption": "Liczba ofert",
         "count": "{count} ofert"
       },
-      "pagination": {
-        "perPage": "Ofert na stronie"
-      },
       "empty": {
         "title": "Brak ofert spełniających filtry",
         "description": "Spróbuj wyczyścić filtry albo rozszerzyć wyszukiwanie."
@@ -670,6 +679,7 @@
         "verifiedAriaLabel": "Firma zweryfikowana",
         "dateRange": "Zakres dat",
         "remainingSpots": "Pozostałe miejsca",
+        "location": "Lokalizacja",
         "showOnMap": "Pokaż na mapie",
         "applyNow": "Aplikuj teraz",
         "addToFavorites": "Dodaj do ulubionych",
