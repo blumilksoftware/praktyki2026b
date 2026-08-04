@@ -352,10 +352,14 @@
       }
     }
   },
-  "university": {
-    "layout": {
-      "title": "University"
-    },
+    "university": {
+        "layout": {
+            "title": "Uczelnia",
+            "nav": {
+                "dashboard": "Dashboard",
+                "profile": "Profile"
+            }
+        },
     "profile": {
       "title": "Profile"
     },
