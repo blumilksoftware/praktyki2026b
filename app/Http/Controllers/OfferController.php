@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\Student\GetOfferDetailsAction;
 use App\Actions\Student\GetStudentOffersAction;
 use App\Enums\UserRole;
+use App\Models\Offer;
 use App\Models\StudyField;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,6 +19,7 @@ class OfferController extends Controller
 {
     public function __construct(
         private readonly GetStudentOffersAction $getStudentOffersAction,
+        private readonly GetOfferDetailsAction $getOfferDetailsAction,
     ) {}
 
     public function index(): Response
@@ -38,6 +42,18 @@ class OfferController extends Controller
             "offers" => $this->getStudentOffersAction->execute($isStudent ? $user : null)->values(),
             "hasCv" => $isStudent && $user->cv_path !== null,
             "studyFields" => $studyFields,
+            "isGuest" => !$isStudent,
+        ]);
+    }
+
+    public function show(Request $request, Offer $offer): Response
+    {
+        $user = $request->user();
+        $isStudent = $user !== null && $user->role === UserRole::Student;
+
+        return inertia("Offers/Show", [
+            "offer" => $this->getOfferDetailsAction->execute($offer, $isStudent ? $user : null),
+            "hasCv" => $isStudent && $user->cv_path !== null,
             "isGuest" => !$isStudent,
         ]);
     }
