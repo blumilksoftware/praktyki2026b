@@ -20,7 +20,7 @@ class GetProfileStepsAction
                 new ProfileStep("university", filled($user->university)),
                 new ProfileStep("cv", filled($user->cv_path)),
             ],
-            UserRole::CompanyAdmin => [
+            UserRole::CompanyAdmin, UserRole::CompanyMember => [
                 new ProfileStep("logo", filled($user->company?->logo_path)),
                 new ProfileStep("description", filled($user->company?->description)),
                 new ProfileStep("tags", filled($user->company?->tags)),

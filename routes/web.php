@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
+use App\Http\Controllers\Company\TeamInvitationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\ProfileRedirectController;
 use App\Http\Controllers\SettingsRedirectController;
@@ -39,6 +40,8 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
         Route::get("/profile/edit", [CompanyController::class, "edit"])->name("company.profile.edit");
         Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
+        Route::post("/team/invitations", [TeamInvitationController::class, "store"])->name("company.team.invitations.store");
+        Route::delete("/team/invitations/{invitation}", [TeamInvitationController::class, "destroy"])->name("company.team.invitations.destroy");
     });
 
 Route::middleware(["auth"])

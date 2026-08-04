@@ -26,6 +26,7 @@ return [
     "offer_publish_requires_verification" => "Your company must be verified before you can publish offers. Save it as a draft instead.",
     "offer_publish_invalid_status" => "This offer cannot be published.",
     "application_status_invalid_transition" => "The application status cannot be changed to the selected.",
+    "invitation_already_processed" => "This invitation has already been accepted or revoked.",
 
     "profile_age_integer" => "Enter a valid age — a whole number.",
     "profile_age_min" => "Age must be greater than 0.",
