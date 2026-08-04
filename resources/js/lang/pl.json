@@ -363,14 +363,50 @@
   },
   "university": {
     "layout": {
-      "title": "Uczelnia"
+      "title": "Uczelnia",
+        "nav": {
+            "dashboard": "Panel",
+            "profile": "Profil"
+        }
     },
     "profile": {
       "title": "Profil"
     },
     "companies": {
       "title": "Wyszukiwarka firm"
-    }
+    },
+      "dashboard": {
+          "title": "Statystyki studentów",
+          "filter": {
+              "title": "Okres",
+              "from": "Od",
+              "to": "Do",
+              "apply": "Zastosuj",
+              "reset": "Wyczyść"
+          },
+          "stats": {
+              "linkedStudents": "Powiązani studenci",
+              "applicationsSubmitted": "Złożone wnioski",
+              "acceptedPlacements": "Zaakceptowane praktyki",
+              "acceptanceRate": "Konwersja {rate}%"
+          },
+          "breakdown": {
+              "title": "Statystyki wydziałów i kierunków",
+              "subtitle": "Szczegółowy podział aktywności studentów, złożonych aplikacji i przyjęć według jednostek uczelni",
+              "byFaculty": "Według wydziału",
+              "byField": "Według kierunku",
+              "field": "Kierunek",
+              "faculty": "Wydział",
+              "students": "Studenci",
+              "applications": "Wnioski",
+              "accepted": "Zaakceptowane",
+              "acceptedShare": "% zaakceptowanych",
+              "empty": "Brak danych dla wybranego okresu",
+              "unknown": "Bez wydziału",
+              "showingResults" : "Wyświetlono {from}–{to} z {total}",
+              "searchPlaceholder": "Szukaj..."
+          }
+      }
   },
   "student": {
     "layout": {
@@ -689,7 +725,47 @@
         "title": "Masz nową ofertę praktyk do dodania?",
         "description": "Opublikuj ofertę albo zapisz ją jako szkic, żeby dokończyć później.",
         "action": "Utwórz ofertę"
-      }
+      },
+        "offers": {
+            "title": "Oferty",
+            "subtitle": "Zarządzaj ofertami pracy i aplikacjami kandydatów",
+            "noOffers": "Brak ofert",
+            "confirmDelete": "Czy na pewno chcesz usunąć tę ofertę?",
+            "status": {
+                "published": "Opublikowana",
+                "draft": "Szkic",
+                "closed": "Zamknięta",
+                "expired": "Wygasła"
+            },
+            "table": {
+                "offer": "Oferta",
+                "status": "Status",
+                "spots": "Miejsca",
+                "applications": "Zgłoszenia",
+                "actions": "Akcje"
+            },
+            "actions": {
+                "menu": "Otwórz menu akcji",
+                "edit": "Edytuj",
+                "activate": "Aktywuj",
+                "deactivate": "Dezaktywuj",
+                "delete": "Usuń"
+            },
+            "pagination": {
+                "summary": "Wyświetlono {from}–{to} z {total}"
+            },
+            "search": {
+                "placeholder": "Szukaj ofert",
+                "clear": "Wyczyść wyszukiwanie"
+            },
+            "filters": {
+                "allStatuses": "Wszystkie",
+                "published": "Opublikowane",
+                "draft": "Szkice",
+                "closed": "Zamknięte",
+                "expired": "Wygasłe"
+            }
+        }
     },
     "profile": {
       "title": "Profil"

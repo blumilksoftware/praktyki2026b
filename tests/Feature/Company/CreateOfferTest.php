@@ -57,7 +57,7 @@ class CreateOfferTest extends TestCase
         $company = Company::factory()->pending()->create();
         $user = $this->makeCompanyAdmin($company);
 
-        $response = $this->actingAs($user)->post("/company/offers", [
+        $response = $this->from("/company/dashboard")->actingAs($user)->post("/company/offers", [
             ...$this->validPayload(),
             "status" => "draft",
         ]);
@@ -89,7 +89,7 @@ class CreateOfferTest extends TestCase
         $company = Company::factory()->approved()->create();
         $user = $this->makeCompanyAdmin($company);
 
-        $response = $this->actingAs($user)->post("/company/offers", $this->validPayload());
+        $response = $this->from("/company/dashboard")->actingAs($user)->post("/company/offers", $this->validPayload());
 
         $response->assertRedirect("/company/offers");
         $this->assertDatabaseHas("offers", [
@@ -265,7 +265,7 @@ class CreateOfferTest extends TestCase
         $company = Company::factory()->approved()->create();
         $user = $this->makeCompanyAdmin($company);
 
-        $response = $this->actingAs($user)->post("/company/offers", [
+        $response = $this->from("/company/dashboard")->actingAs($user)->post("/company/offers", [
             ...$this->validPayload(),
             "is_paid" => false,
             "salary_min" => null,

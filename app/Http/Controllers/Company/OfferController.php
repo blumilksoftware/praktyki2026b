@@ -110,7 +110,7 @@ class OfferController extends Controller
 
         $offer->update(["status" => OfferStatus::Closed]);
 
-        return $this->redirectAfterOfferAction();
+        return back();
     }
 
     public function destroy(Offer $offer): RedirectResponse
@@ -119,7 +119,7 @@ class OfferController extends Controller
 
         $offer->delete();
 
-        return $this->redirectAfterOfferAction();
+        return back();
     }
 
     private function redirectAfterOfferAction(): RedirectResponse
