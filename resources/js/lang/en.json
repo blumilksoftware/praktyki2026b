@@ -695,6 +695,7 @@
         },
         "createAction": "Create offer",
         "editAction": "Edit",
+        "actionsMenu": "More actions",
         "publishAction": "Publish",
         "publishing": "Publishing…",
         "unpublishAction": "Unpublish",

@@ -68,18 +68,26 @@ describe('Company/Offers', () => {
     expect(text).toContain('7')
   })
 
-  it('links the edit action to the offer edit route', () => {
+  const openActionsMenu = async (wrapper: ReturnType<typeof mountOffers>, offerId: string) => {
+    const row = wrapper.find(`[data-offer-menu="${offerId}"]`)
+    await row.find('button').trigger('click')
+    return row
+  }
+
+  it('links the edit action to the offer edit route', async () => {
     const wrapper = mountOffers({ offers: [publishedOffer] })
 
-    const editLink = wrapper.findAll('a').find((a) => a.text() === en.company.offers.index.editAction)
+    const row = await openActionsMenu(wrapper, '2')
+    const editLink = row.findAll('a').find((a) => a.text() === en.company.offers.index.editAction)
     expect(editLink!.attributes('href')).toBe('/company/offers/2/edit')
   })
 
-  it('shows a publish button for a verified company\'s draft offer and publishes it', async () => {
+  it('shows a publish action for a verified company\'s draft offer and publishes it', async () => {
     routerPatch.mockClear()
     const wrapper = mountOffers({ offers: [draftOffer], isCompanyVerified: true })
 
-    const publishButton = wrapper.findAll('button').find((btn) => btn.text() === en.company.offers.index.publishAction)
+    const row = await openActionsMenu(wrapper, '1')
+    const publishButton = row.findAll('button').find((btn) => btn.text() === en.company.offers.index.publishAction)
     expect(publishButton).toBeTruthy()
 
     await publishButton!.trigger('click')
@@ -88,20 +96,23 @@ describe('Company/Offers', () => {
     expect(routerPatch.mock.calls[0][0]).toBe('/company/offers/1/publish')
   })
 
-  it('hides the publish button and shows a verification hint for an unverified company\'s draft offer', () => {
+  it('hides the publish action and shows a verification hint for an unverified company\'s draft offer', async () => {
     const wrapper = mountOffers({ offers: [draftOffer], isCompanyVerified: false })
 
-    expect(wrapper.findAll('button').some((btn) => btn.text() === en.company.offers.index.publishAction)).toBe(false)
+    const row = await openActionsMenu(wrapper, '1')
+    expect(row.findAll('button').some((btn) => btn.text() === en.company.offers.index.publishAction)).toBe(false)
     expect(wrapper.text()).toContain(en.company.offers.index.verificationRequiredHint)
   })
 
-  it('shows an unpublish button only for published offers and opens the confirmation modal with the offer details', async () => {
+  it('shows an unpublish action only for published offers and opens the confirmation modal with the offer details', async () => {
     const wrapper = mountOffers({ offers: [draftOffer, publishedOffer], isCompanyVerified: true })
 
-    const unpublishButtons = wrapper.findAll('button').filter((btn) => btn.text() === en.company.offers.index.unpublishAction)
-    expect(unpublishButtons).toHaveLength(1)
+    const draftRow = await openActionsMenu(wrapper, '1')
+    expect(draftRow.findAll('button').some((btn) => btn.text() === en.company.offers.index.unpublishAction)).toBe(false)
 
-    await unpublishButtons[0].trigger('click')
+    const publishedRow = await openActionsMenu(wrapper, '2')
+    const unpublishButton = publishedRow.findAll('button').find((btn) => btn.text() === en.company.offers.index.unpublishAction)
+    await unpublishButton!.trigger('click')
 
     const modal = wrapper.find('.stub-unpublish-modal')
     expect(modal.exists()).toBe(true)
@@ -111,12 +122,33 @@ describe('Company/Offers', () => {
   it('opens the delete confirmation modal with the offer details', async () => {
     const wrapper = mountOffers({ offers: [publishedOffer], isCompanyVerified: true })
 
-    const deleteButton = wrapper.findAll('button').find((btn) => btn.text() === en.company.offers.index.deleteAction)
+    const row = await openActionsMenu(wrapper, '2')
+    const deleteButton = row.findAll('button').find((btn) => btn.text() === en.company.offers.index.deleteAction)
     await deleteButton!.trigger('click')
 
     const modal = wrapper.find('.stub-delete-modal')
     expect(modal.exists()).toBe(true)
     expect(modal.text()).toBe('2:Frontend Internship')
+  })
+
+  it('always offers the delete action regardless of offer status', async () => {
+    const closedOffer = { ...publishedOffer, id: '3', status: 'closed' }
+    const wrapper = mountOffers({ offers: [closedOffer], isCompanyVerified: true })
+
+    const row = await openActionsMenu(wrapper, '3')
+    expect(row.findAll('button').some((btn) => btn.text() === en.company.offers.index.deleteAction)).toBe(true)
+  })
+
+  it('closes the actions menu when clicking outside of it', async () => {
+    const wrapper = mountOffers({ offers: [publishedOffer], isCompanyVerified: true })
+
+    const row = await openActionsMenu(wrapper, '2')
+    expect(row.find('[role="menu"]').exists()).toBe(true)
+
+    document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.find('[role="menu"]').exists()).toBe(false)
   })
 
   it('filters the offer list by search query', async () => {

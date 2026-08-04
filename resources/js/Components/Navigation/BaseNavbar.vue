@@ -60,8 +60,6 @@ const handleNavigationClick = (item) => {
   emit('navigationClick', item)
 }
 
-// navigationButtons and menuItems are always the same list on pages that use both
-// (a desktop button row + a mobile menu list) — avoid rendering it twice on mobile.
 const mobileMenuItems = computed(() => (
   props.navigationButtons.length > 0 ? props.navigationButtons : props.menuItems
 ))

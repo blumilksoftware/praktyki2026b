@@ -703,6 +703,7 @@
         },
         "createAction": "Utwórz ofertę",
         "editAction": "Edytuj",
+        "actionsMenu": "Więcej opcji",
         "publishAction": "Opublikuj",
         "publishing": "Publikowanie…",
         "unpublishAction": "Wycofaj publikację",

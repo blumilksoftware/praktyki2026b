@@ -1,8 +1,8 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconPlus, IconUsers, IconClipboardText } from '@tabler/icons-vue'
+import { IconPlus, IconUsers, IconClipboardText, IconDotsVertical } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { ROUTES } from '@/Helpers/routes'
@@ -85,6 +85,43 @@ function openUnpublishConfirmationModal(offerId) {
   unpublishOfferId.value = offerId
   isOfferUnpublishModalOpen.value = true
 }
+
+const openMenuOfferId = ref(null)
+
+function toggleMenu(offerId) {
+  openMenuOfferId.value = openMenuOfferId.value === offerId ? null : offerId
+}
+
+function closeMenu() {
+  openMenuOfferId.value = null
+}
+
+function handleClickOutside(event) {
+  if (openMenuOfferId.value === null) {
+    return
+  }
+
+  const openMenu = event.target.closest(`[data-offer-menu="${openMenuOfferId.value}"]`)
+  if (!openMenu) {
+    closeMenu()
+  }
+}
+
+function handleKeydown(event) {
+  if (event.key === 'Escape' && openMenuOfferId.value !== null) {
+    closeMenu()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('mousedown', handleClickOutside)
+  document.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('mousedown', handleClickOutside)
+  document.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <template>
@@ -161,7 +198,7 @@ function openUnpublishConfirmationModal(offerId) {
           <div class="min-w-0">
             <div class="flex flex-wrap items-center gap-2">
               <span
-                class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-wide"
+                class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold tracking-wide"
                 :class="statusBadgeClass(offer.status)"
               >
                 {{ t(`company.offers.index.status.${offer.status}`) }}
@@ -185,40 +222,63 @@ function openUnpublishConfirmationModal(offerId) {
             </p>
           </div>
 
-          <div class="flex w-full flex-col gap-2 sm:w-auto sm:shrink-0 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
-            <Link
-              :href="ROUTES.COMPANY_OFFERS_EDIT(offer.id)"
-              class="inline-flex w-full items-center justify-center rounded-lg border border-border px-4 py-2 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 sm:w-auto"
+          <div class="relative shrink-0 self-end sm:self-auto" :data-offer-menu="offer.id">
+            <button
+              type="button"
+              class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-additional transition hover:bg-background hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              :aria-label="t('company.offers.index.actionsMenu')"
+              aria-haspopup="true"
+              :aria-expanded="openMenuOfferId === offer.id"
+              @click="toggleMenu(offer.id)"
             >
-              {{ t('company.offers.index.editAction') }}
-            </Link>
+              <IconDotsVertical class="h-5 w-5" stroke="2" aria-hidden="true" />
+            </button>
 
-            <button
-              v-if="offer.status === 'published' || offer.status === 'draft' && isCompanyVerified"
-              type="button"
-              :disabled="processingOfferId === offer.id"
-              class="inline-flex w-full items-center justify-center rounded-lg bg-secondary hover:cursor-pointer px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-              @click="openDeleteConfirmationModal(offer.id)"
+            <div
+              v-if="openMenuOfferId === offer.id"
+              class="absolute right-0 z-10 mt-2 w-48 overflow-hidden rounded-lg border border-border bg-white py-1 shadow-md"
+              role="menu"
             >
-              {{ t('company.offers.index.deleteAction') }}
-            </button>
-            <button
-              v-if="offer.status === 'draft' && isCompanyVerified"
-              type="button"
-              :disabled="processingOfferId === offer.id"
-              class="inline-flex w-full items-center justify-center rounded-lg bg-primary hover:cursor-pointer px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-              @click="publish(offer.id)"
-            >
-              {{ processingOfferId === offer.id ? t('company.offers.index.publishing') : t('company.offers.index.publishAction') }}
-            </button>
-            <button
-              v-if="offer.status === 'published'"
-              type="button"
-              class="inline-flex w-full items-center justify-center rounded-lg border border-border hover:cursor-pointer px-4 py-2 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 sm:w-auto"
-              @click="openUnpublishConfirmationModal(offer.id)"
-            >
-              {{ t('company.offers.index.unpublishAction') }}
-            </button>
+              <Link
+                :href="ROUTES.COMPANY_OFFERS_EDIT(offer.id)"
+                role="menuitem"
+                class="block px-4 py-2 text-left text-sm font-medium text-text transition hover:bg-background"
+                @click="closeMenu"
+              >
+                {{ t('company.offers.index.editAction') }}
+              </Link>
+
+              <button
+                v-if="offer.status === 'draft' && isCompanyVerified"
+                type="button"
+                role="menuitem"
+                :disabled="processingOfferId === offer.id"
+                class="block w-full cursor-pointer px-4 py-2 text-left text-sm font-medium text-text transition hover:bg-background disabled:cursor-not-allowed disabled:opacity-60"
+                @click="publish(offer.id); closeMenu()"
+              >
+                {{ processingOfferId === offer.id ? t('company.offers.index.publishing') : t('company.offers.index.publishAction') }}
+              </button>
+
+              <button
+                v-if="offer.status === 'published'"
+                type="button"
+                role="menuitem"
+                class="block w-full cursor-pointer px-4 py-2 text-left text-sm font-medium text-text transition hover:bg-background"
+                @click="openUnpublishConfirmationModal(offer.id); closeMenu()"
+              >
+                {{ t('company.offers.index.unpublishAction') }}
+              </button>
+
+              <button
+                type="button"
+                role="menuitem"
+                :disabled="processingOfferId === offer.id"
+                class="block w-full cursor-pointer px-4 py-2 text-left text-sm font-medium text-error transition hover:bg-error/10 disabled:cursor-not-allowed disabled:opacity-60"
+                @click="openDeleteConfirmationModal(offer.id); closeMenu()"
+              >
+                {{ t('company.offers.index.deleteAction') }}
+              </button>
+            </div>
           </div>
         </li>
       </ul>
