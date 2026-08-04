@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Company;
 
 use App\Actions\Company\CreateOffer;
 use App\Actions\Company\GetOffersSummary;
+use App\Actions\Company\GetOfferStatusCounts;
 use App\Actions\Company\PublishOffer;
 use App\Actions\Company\UpdateOffer;
 use App\DTO\Offer\CreateOfferData;
@@ -21,7 +22,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Inertia\Inertia;
 use Inertia\Response;
 
 class OfferController extends Controller
@@ -31,6 +31,7 @@ class OfferController extends Controller
         private readonly UpdateOffer $updateOffer,
         private readonly PublishOffer $publishOffer,
         private readonly GetOffersSummary $getOffersSummary,
+        private readonly GetOfferStatusCounts $getOfferStatusCounts,
     ) {}
 
     public function index(Request $request): Response
@@ -45,15 +46,12 @@ class OfferController extends Controller
             $request->string("search")->toString() ?: null,
         );
 
-        return Inertia::render("Company/Offers", [
+        return inertia("Company/Offers", [
             "offers" => $offers,
             "isCompanyVerified" => $company->verification_status === VerificationStatus::Verified,
             "search" => $request->string("search")->toString(),
             "status" => $request->string("status")->toString(),
-            "statusCounts" => $company->offers()
-                ->selectRaw("status, count(*) as count")
-                ->groupBy("status")
-                ->pluck("count", "status"),
+            "statusCounts" => $this->getOfferStatusCounts->execute($company),
         ]);
     }
 

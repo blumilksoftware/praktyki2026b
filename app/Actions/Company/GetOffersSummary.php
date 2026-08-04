@@ -47,6 +47,7 @@ class GetOffersSummary
                 "title" => $offer->title,
                 "status" => $offer->status->value,
                 "spots" => $offer->spots,
+                "remaining_spots" => max(0, $offer->spots - $offer->applications_count),
                 "applications_count" => $offer->applications_count,
             ]);
     }

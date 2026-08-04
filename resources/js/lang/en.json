@@ -352,16 +352,52 @@
       }
     }
   },
-  "university": {
-    "layout": {
-      "title": "University"
-    },
+    "university": {
+        "layout": {
+            "title": "Uczelnia",
+            "nav": {
+                "dashboard": "Dashboard",
+                "profile": "Profile"
+            }
+        },
     "profile": {
       "title": "Profile"
     },
     "companies": {
       "title": "Company search"
-    }
+    },
+      "dashboard": {
+          "title": "Student Statistics",
+          "filter": {
+              "title": "Period",
+              "from": "From",
+              "to": "To",
+              "apply": "Apply",
+              "reset": "Clear"
+          },
+          "stats": {
+              "linkedStudents": "Linked Students",
+              "applicationsSubmitted": "Applications Submitted",
+              "acceptedPlacements": "Accepted Placements",
+              "acceptanceRate": "Conversion {rate}%"
+          },
+          "breakdown": {
+              "title": "Faculty and Field Statistics",
+              "subtitle": "Detailed breakdown of student activity, submitted applications, and accepted placements by university faculties and fields of study",
+              "byFaculty": "By Faculty",
+              "byField": "By Field of Study",
+              "field": "Field of Study",
+              "faculty": "Faculty",
+              "students": "Students",
+              "applications": "Applications",
+              "accepted": "Accepted",
+              "acceptedShare": "% Accepted",
+              "empty": "No data available for the selected period",
+              "unknown": "No Faculty",
+              "showingResults": "Showing {from}–{to} of {total}",
+              "searchPlaceholder": "Search..."
+          }
+      }
   },
   "student": {
     "layout": {
@@ -440,6 +476,18 @@
         "applied": "Applied",
         "notApplied": "Not applied"
       },
+        "pagination": {
+            "perPage": "Offers per page"
+        },
+    "map": {
+        "selectPinHint": "Select a pin on the map to view available offers",
+        "cityOffersTitle": "Offers in {city}",
+        "showAll": "Show all offers",
+        "viewSwitcher":{
+            "mapView": "Map view",
+            "listView": "List view"
+        }
+    },
       "filters": {
         "kicker": "Filters",
         "title": "Offer board",
@@ -468,9 +516,6 @@
         "count": "{count} offers",
         "helper": "Scrollable tile list, one offer per tile"
       },
-      "pagination": {
-        "perPage": "Offers per page"
-      },
       "empty": {
         "title": "No offers match the filters",
         "description": "Try clearing the filters or broadening your search."
@@ -485,12 +530,36 @@
         "verifiedAriaLabel": "Verified company",
         "dateRange": "Date range",
         "remainingSpots": "Remaining spots",
+        "location": "Location",
         "showOnMap": "Show on map",
         "applyNow": "Apply now",
         "addToFavorites": "Add to favorites",
         "removeFromFavorites": "Remove from favorites",
         "mapComingSoon": "The map will appear on a separate page",
         "loginToApply": "Log in to apply"
+      },
+      "detail": {
+        "backToOffers": "Back to offers",
+        "description": "Description",
+        "preferredUniversities": "Preferred universities",
+        "preferredUniversitiesEmpty": "No preferred universities listed.",
+        "studyFields": "Fields of study",
+        "studyFieldsEmpty": "No fields of study listed.",
+        "spots": "Spots",
+        "internshipPeriod": "Internship period",
+        "internshipPeriodValue": "from {start} to {end}",
+        "remainingSpots": "Available spots",
+        "remainingSpotsValue": "{remaining} of {total} still open",
+        "remainingSpotsNone": "No spots left ({total} filled)",
+        "compensation": "Compensation",
+        "paid": "Paid",
+        "unpaid": "Unpaid",
+        "salaryRange": "from {min} to {max} PLN",
+        "closedMessage": "No longer accepting applications",
+        "expiredMessage": "This offer has expired",
+        "companyProfileAria": "View company profile: {company}",
+        "similarOffers": "Similar offers",
+        "similarOfferAria": "View offer {title} at {company}"
       }
     },
     "cv": {
@@ -911,16 +980,16 @@
     "dblClickToEdit": "Double click to edit",
     "clearAll": "Clear all",
         "accessibility": {
-      "inputLabel": "Dynamic list input",
-      "addItem": "Add a new item to the list",
-      "removeItem": "Remove item {item} from the list",
-      "editItem": "Edit item {item} in the list",
-      "openMenu": "Open options menu for item {item}",
-      "label": "Dynamic list with {count} items. Use arrow keys to navigate items. Press Enter to edit the selected item.",
-      "closeMenu": "Close options menu for item {item}",
-      "suggestions": "Suggestions",
-      "clearAll": "Clear all items from the list"
-    }
+            "inputLabel": "Dynamic list input",
+            "addItem": "Add a new item to the list",
+            "removeItem": "Remove item {item} from the list",
+            "editItem": "Edit item {item} in the list",
+            "openMenu": "Open options menu for item {item}",
+            "label": "Dynamic list with {count} items. Use arrow keys to navigate items. Press Enter to edit the selected item.",
+            "closeMenu": "Close options menu for item {item}",
+            "suggestions": "Suggestions",
+            "clearAll": "Clear all items from the list"
+        }
 
   },
   "notifications": {

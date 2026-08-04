@@ -303,7 +303,7 @@ onUnmounted(() => {
           <div class="mt-2 flex flex-wrap items-center gap-3 text-additional text-sm">
             <span class="inline-flex items-center gap-1">
               <IconUsers class="h-4 w-4" aria-hidden="true" />
-              {{ t('company.offers.index.spotsLabel', { count: offer.spots }) }}
+              {{ t('company.offers.index.spotsLabel', { count: offer.remaining_spots }) }}
             </span>
             <span class="inline-flex items-center gap-1">
               <IconClipboardText class="h-4 w-4" aria-hidden="true" />

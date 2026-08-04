@@ -22,6 +22,7 @@ const draftOffer = {
   title: 'Backend Internship',
   status: 'draft',
   spots: 5,
+  remaining_spots: 5,
   applications_count: 2,
 }
 
@@ -29,7 +30,8 @@ const publishedOffer = {
   id: '2',
   title: 'Frontend Internship',
   status: 'published',
-  spots: 3,
+  spots: 10,
+  remaining_spots: 3,
   applications_count: 7,
 }
 
@@ -82,6 +84,13 @@ describe('Company/Offers', () => {
     expect(text).toContain(en.company.offers.index.status.published)
     expect(text).toContain('3')
     expect(text).toContain('7')
+  })
+
+  it('shows remaining spots rather than the total number of spots', () => {
+    const wrapper = mountOffers({ offers: paginate([publishedOffer]), statusCounts: { published: 1 } })
+
+    expect(wrapper.text()).toContain(en.company.offers.index.spotsLabel.replace('{count}', '3'))
+    expect(wrapper.text()).not.toContain(en.company.offers.index.spotsLabel.replace('{count}', '10'))
   })
 
   const openActionsMenu = async (wrapper: ReturnType<typeof mountOffers>, offerId: string) => {
