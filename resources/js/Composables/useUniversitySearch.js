@@ -1,8 +1,7 @@
 import { ref } from 'vue'
 import { ROUTES } from '@/Helpers/routes'
-import {data} from "autoprefixer";
 
-export function useMapboxGeocoding() {
+export function useUniversitySearch() {
   const suggestions = ref([])
   const isLoading = ref(false)
   let debounceTimer = null
@@ -24,14 +23,16 @@ export function useMapboxGeocoding() {
 
       isLoading.value = true
       try {
-        const url = new URL(ROUTES.STUDENT_UNIVERSITY_SEARCH, window.location.origin)
+        const url = new URL(ROUTES.STUDENT_UNIVERSITY_SEARCH,
+          window.location.origin)
         url.searchParams.set('query', query)
 
         const response = await fetch(url, {
           signal: abortController.signal,
           headers: { Accept: 'application/json' },
         })
-
+        const data = response.ok ? await response.json() : { universities: []
+        }
         suggestions.value = data.universities
       } catch (error) {
         if (error.name !== 'AbortError') {

@@ -3,7 +3,6 @@ import { computed, nextTick, onMounted, ref } from 'vue'
 import { Head, Link, router, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconArrowLeft, IconHome, IconUser, IconBriefcase, IconHeart } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import ProfileTagInput from '@/Components/Profile/ProfileTagInput.vue'
@@ -12,6 +11,7 @@ import ProfilePhotoUpload from '@/Components/Student/ProfilePhotoUpload.vue'
 import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
 import CvUploadSection from '@/Components/Student/CvUploadSection.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
+import UniversityAutocomplete from '@/Components/Profile/UniversityAutocomplete.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -24,21 +24,6 @@ const props = defineProps({
 const { t } = useI18n()
 const photoUpload = ref(null)
 const pendingPhoto = ref(null)
-
-const universityOptions = computed(() => {
-  const base = [
-    'Collegium Witelona',
-    'Politechnika Wrocławska',
-    'Uniwersytet Wrocławski',
-    'Uniwersytet Ekonomiczny we Wrocławiu',
-    'Akademia Nauk Stosowanych Angelusa Silesiusa',
-  ]
-  if (props.suggested_university &&
-    !base.includes(props.suggested_university.name)) {
-    return [props.suggested_university.name, ...base]
-  }
-  return base
-})
 
 const photoForm = useForm({ photo: null })
 
@@ -69,6 +54,7 @@ const isUniversitySuggested = computed(() =>
   && profileForm.university === props.suggested_university.name,
 )
 
+const selectedUniversityId = ref(props.suggested_university?.id ?? null)
 
 const hasPhotoPending = computed(() => Boolean(pendingPhoto.value))
 const fieldError = (field) => profileForm.errors[field]
@@ -253,24 +239,13 @@ function saveAll() {
           </h2>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div class="sm:col-span-2">
-              <label for="edit_university" class="mb-1 block text-additional text-sm">
-                {{ t('student.profile.edit.university') }}
-              </label>
-              <select
+              <UniversityAutocomplete
                 id="edit_university"
                 v-model="profileForm.university"
-                class="w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text transition-all focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30"
-                :aria-invalid="fieldError('university') ? true : undefined"
-                :aria-describedby="fieldError('university') ? 'edit_university-error' : undefined"
-              >
-                <option
-                  v-for="university in universityOptions"
-                  :key="university"
-                  :value="university"
-                >
-                  {{ university }}
-                </option>
-              </select>
+                :label="t('student.profile.edit.university')"
+                @select="(university) => { selectedUniversityId = university.id }"
+              />
+
               <p
                 v-if="isUniversitySuggested"
                 class="mt-1 text-primary text-xs"

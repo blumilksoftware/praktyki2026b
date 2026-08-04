@@ -48,7 +48,7 @@ export const ROUTES = {
   STUDENT_EMAIL_UPDATE: "/student/email",
   STUDENT_SETTINGS: "/student/settings",
   STUDENT_ACCOUNT_DELETE: "/student/account",
-  STUDENT_UNIVERISTY_SEARCH: "/student/university/search",
+  STUDENT_UNIVERSITY_SEARCH: "/student/universities/search",
   STUDENT_UNIVERSITY_UPDATE: "/student/university",
 
   // Student CV
