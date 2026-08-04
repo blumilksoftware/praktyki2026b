@@ -511,7 +511,9 @@
         "salaryRange": "from {min} to {max} PLN",
         "closedMessage": "No longer accepting applications",
         "expiredMessage": "This offer has expired",
-        "companyProfileAria": "View company profile: {company}"
+        "companyProfileAria": "View company profile: {company}",
+        "similarOffers": "Similar offers",
+        "similarOfferAria": "View offer {title} at {company}"
       }
     },
     "cv": {

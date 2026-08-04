@@ -9,6 +9,7 @@ import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
+import SimilarOfferCard from '@/Components/Offer/SimilarOfferCard.vue'
 import {
   ROUTES,
   companyShow,
@@ -19,6 +20,7 @@ import {
 
 const props = defineProps({
   offer: { type: Object, required: true },
+  similarOffers: { type: Array, default: () => [] },
   hasCv: { type: Boolean, default: false },
   isGuest: { type: Boolean, default: true },
 })
@@ -172,7 +174,7 @@ function confirmWithdraw() {
 
   <component :is="layoutComponent" v-bind="layoutProps">
     <div class="bg-background min-h-screen py-6">
-      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <Link
           :href="ROUTES.OFFERS"
           class="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
@@ -181,7 +183,8 @@ function confirmWithdraw() {
           {{ t('student.offers.detail.backToOffers') }}
         </Link>
 
-        <article class="mt-6 rounded-3xl border border-border bg-white p-5 shadow-sm sm:p-8">
+        <div class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
+          <article class="rounded-3xl border border-border bg-white p-5 shadow-sm sm:p-8">
           <div class="flex flex-wrap items-center gap-2">
             <component
               :is="companyHref ? Link : 'p'"
@@ -357,7 +360,29 @@ function confirmWithdraw() {
           <p v-if="applyError" class="mt-3 text-error text-sm" role="alert">
             {{ applyError }}
           </p>
-        </article>
+          </article>
+
+          <aside
+            v-if="similarOffers.length > 0"
+            class="rounded-3xl border border-border bg-white p-5 shadow-sm lg:sticky lg:top-6"
+            aria-labelledby="similar-offers-heading"
+          >
+            <h2
+              id="similar-offers-heading"
+              class="text-lg font-semibold text-text"
+            >
+              {{ t('student.offers.detail.similarOffers') }}
+            </h2>
+            <ul class="mt-4 flex flex-col gap-3">
+              <li
+                v-for="similarOffer in similarOffers"
+                :key="similarOffer.id"
+              >
+                <SimilarOfferCard :offer="similarOffer" />
+              </li>
+            </ul>
+          </aside>
+        </div>
       </div>
     </div>
 

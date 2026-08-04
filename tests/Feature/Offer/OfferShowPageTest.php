@@ -99,4 +99,37 @@ class OfferShowPageTest extends TestCase
                     ->where("offer.status", OfferStatus::Closed->value),
             );
     }
+
+    public function testShowIncludesSimilarOffersFromSameCity(): void
+    {
+        $offer = Offer::factory()->published()->create([
+            "city" => "Wrocław",
+            "title" => "Main Offer",
+        ]);
+        $similar = Offer::factory()->published()->create([
+            "city" => "Wrocław",
+            "title" => "Similar City Offer",
+        ]);
+
+        $this->get(route("offers.show", $offer))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Offers/Show")
+                    ->has("similarOffers")
+                    ->where(
+                        "similarOffers",
+                        function ($offers) use ($offer, $similar): bool {
+                            $items = collect($offers);
+                            $ids = $items->pluck("id");
+                            $first = $items->first();
+
+                            return $ids->contains($similar->id)
+                                && !$ids->contains($offer->id)
+                                && $items->count() <= 4
+                                && (is_array($first) ? !array_key_exists("description", $first) : true);
+                        },
+                    ),
+            );
+    }
 }

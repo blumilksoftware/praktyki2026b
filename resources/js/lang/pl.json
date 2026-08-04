@@ -660,7 +660,9 @@
         "salaryRange": "od {min} do {max} PLN",
         "closedMessage": "Oferta nie przyjmuje już aplikacji",
         "expiredMessage": "Ta oferta wygasła",
-        "companyProfileAria": "Zobacz profil firmy: {company}"
+        "companyProfileAria": "Zobacz profil firmy: {company}",
+        "similarOffers": "Podobne oferty",
+        "similarOfferAria": "Zobacz ofertę {title} w firmie {company}"
       }
     }
   },

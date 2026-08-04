@@ -53,6 +53,7 @@ function mountShow(props = {}) {
   return mount(OfferShow, {
     props: {
       offer: baseOffer,
+      similarOffers: [],
       hasCv: true,
       isGuest: false,
       ...props,
@@ -65,6 +66,10 @@ function mountShow(props = {}) {
         VerifiedBadge: {
           props: ['verified'],
           template: '<span v-if="verified" data-testid="verified-badge" />',
+        },
+        SimilarOfferCard: {
+          props: ['offer'],
+          template: '<a :href="`/offers/${offer.id}`" data-testid="similar-offer">{{ offer.title }}</a>',
         },
         BaseApplyButton: {
           props: ['hasCv', 'isApplied', 'appliedDate', 'isLoading'],
@@ -175,6 +180,34 @@ describe('Offers/Show', () => {
     })
 
     expect(wrapper.text()).toContain('Applied 2026-08-01')
+  })
+
+  it('renders similar offers sidebar when related offers are provided', () => {
+    const wrapper = mountShow({
+      similarOffers: [
+        {
+          id: 'similar-1',
+          title: 'Related Backend Intern',
+          city: 'Wrocław',
+          work_mode: 'remote',
+          company: {
+            id: 'company-2',
+            name: 'Other Corp',
+            logo_path: null,
+            is_verified: false,
+          },
+        },
+      ],
+    })
+
+    expect(wrapper.text()).toContain('Similar offers')
+    expect(wrapper.find('[data-testid="similar-offer"]').text()).toContain('Related Backend Intern')
+  })
+
+  it('hides similar offers section when the list is empty', () => {
+    const wrapper = mountShow({ similarOffers: [] })
+
+    expect(wrapper.text()).not.toContain('Similar offers')
   })
 })
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\Student\GetOfferDetailsAction;
+use App\Actions\Student\GetSimilarOffersAction;
 use App\Actions\Student\GetStudentOffersAction;
 use App\Enums\UserRole;
 use App\Models\Offer;
@@ -20,6 +21,7 @@ class OfferController extends Controller
     public function __construct(
         private readonly GetStudentOffersAction $getStudentOffersAction,
         private readonly GetOfferDetailsAction $getOfferDetailsAction,
+        private readonly GetSimilarOffersAction $getSimilarOffersAction,
     ) {}
 
     public function index(): Response
@@ -53,6 +55,7 @@ class OfferController extends Controller
 
         return inertia("Offers/Show", [
             "offer" => $this->getOfferDetailsAction->execute($offer, $isStudent ? $user : null),
+            "similarOffers" => $this->getSimilarOffersAction->execute($offer),
             "hasCv" => $isStudent && $user->cv_path !== null,
             "isGuest" => !$isStudent,
         ]);
