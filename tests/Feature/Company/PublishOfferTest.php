@@ -32,7 +32,7 @@ class PublishOfferTest extends TestCase
         $user = $this->makeCompanyAdmin($company);
         $offer = Offer::factory()->draft()->create(["company_id" => $company->id]);
 
-        $response = $this->actingAs($user)->patch("/company/offers/{$offer->id}/publish");
+        $response = $this->from("/company/dashboard")->actingAs($user)->patch("/company/offers/{$offer->id}/publish");
 
         $response->assertRedirect("/company/offers");
         $this->assertDatabaseHas("offers", [

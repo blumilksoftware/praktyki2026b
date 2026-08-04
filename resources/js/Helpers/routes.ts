@@ -75,7 +75,7 @@ export const ROUTES = {
 
   COMPANY_APPLICATIONS: "/company/applications",
   COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
-  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status", 
+  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
   COMPANY_SHOW: '/companies/{company}',
   TEAM: "/team",
   LANGUAGE_SWITCH: "/language/{locale}",
