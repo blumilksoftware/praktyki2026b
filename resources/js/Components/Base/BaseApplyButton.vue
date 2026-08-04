@@ -6,25 +6,25 @@ import { IconLoader2, IconCheck } from '@tabler/icons-vue'
 const { t } = useI18n()
 
 const props = defineProps({
-  hasCv: { 
-    type: Boolean, 
-    required: true, 
+  hasCv: {
+    type: Boolean,
+    required: true,
   },
-  isApplied: { 
-    type: Boolean, 
-    default: false, 
+  isApplied: {
+    type: Boolean,
+    default: false,
   },
-  appliedDate: { 
-    type: String, 
-    default: null, 
+  appliedDate: {
+    type: String,
+    default: null,
   },
-  isLoading: { 
-    type: Boolean, 
-    default: false, 
+  isLoading: {
+    type: Boolean,
+    default: false,
   },
-  disabled: { 
-    type: Boolean, 
-    default: false, 
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 })
 

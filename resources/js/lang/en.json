@@ -476,6 +476,18 @@
         "applied": "Applied",
         "notApplied": "Not applied"
       },
+        "pagination": {
+            "perPage": "Offers per page"
+        },
+    "map": {
+        "selectPinHint": "Select a pin on the map to view available offers",
+        "cityOffersTitle": "Offers in {city}",
+        "showAll": "Show all offers",
+        "viewSwitcher":{
+            "mapView": "Map view",
+            "listView": "List view"
+        }
+    },
       "filters": {
         "kicker": "Filters",
         "title": "Offer board",
@@ -504,9 +516,6 @@
         "count": "{count} offers",
         "helper": "Scrollable tile list, one offer per tile"
       },
-      "pagination": {
-        "perPage": "Offers per page"
-      },
       "empty": {
         "title": "No offers match the filters",
         "description": "Try clearing the filters or broadening your search."
@@ -521,6 +530,7 @@
         "verifiedAriaLabel": "Verified company",
         "dateRange": "Date range",
         "remainingSpots": "Remaining spots",
+        "location": "Location",
         "showOnMap": "Show on map",
         "applyNow": "Apply now",
         "addToFavorites": "Add to favorites",
