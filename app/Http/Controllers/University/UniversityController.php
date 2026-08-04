@@ -46,8 +46,8 @@ class UniversityController extends Controller
             "facultyDirection" => ["nullable", "string", Rule::in(["asc", "desc"])],
         ]);
 
-        $from = isset($filters["from"]) ? Carbon::parse($filters["from"])->startOfDay() : null;
-        $to = isset($filters["to"]) ? Carbon::parse($filters["to"])->endOfDay() : null;
+        $from = isset($filters["from"]) ? Carbon::parse($filters["from"])->startOfDay() : Carbon::now()->startOfMonth();
+        $to = isset($filters["to"]) ? Carbon::parse($filters["to"])->endOfDay() : Carbon::now()->endOfMonth();
 
         return inertia("University/Dashboard", [
             "data" => $this->getStudentsStatistics->execute(
@@ -65,7 +65,11 @@ class UniversityController extends Controller
                 facultySortBy: $filters["facultySort"] ?? "facultyName",
                 facultySortDirection: $filters["facultyDirection"] ?? "asc",
             ),
-            "filters" => $filters,
+            "filters" => [
+                ...$filters,
+                "from" => $from->toDateString(),
+                "to" => $to->toDateString(),
+            ],
         ]);
     }
 

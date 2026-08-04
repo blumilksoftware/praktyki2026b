@@ -12,14 +12,30 @@ const props = defineProps({
 
 const { t } = useI18n()
 
-const from = ref(props.filters.from || '')
-const to = ref(props.filters.to || '')
+const toDateStr = (date) => {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
+const getCurrentMonthRange = () => {
+  const now = new Date()
+  const start = new Date(now.getFullYear(), now.getMonth(), 1)
+  const end = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+  return { start: toDateStr(start), end: toDateStr(end) }
+}
+
+const defaultRange = getCurrentMonthRange()
+
+const from = ref(props.filters.from || defaultRange.start)
+const to = ref(props.filters.to || defaultRange.end)
 
 watch(
   () => props.filters,
   (newFilters) => {
-    from.value = newFilters.from || ''
-    to.value = newFilters.to || ''
+    from.value = newFilters.from || defaultRange.start
+    to.value = newFilters.to || defaultRange.end
   },
   { deep: true },
 )
@@ -41,8 +57,8 @@ const applyFilter = () => {
 }
 
 const clearFilter = () => {
-  from.value = ''
-  to.value = ''
+  from.value = defaultRange.start
+  to.value = defaultRange.end
   router.get(
     window.location.pathname,
     {},
@@ -72,7 +88,6 @@ const clearFilter = () => {
         :placeholder="t('university.dashboard.filter.to')"
       >
     </div>
-
     <button
       type="button"
       class="px-3 py-1.5 text-sm font-semibold bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors"
@@ -80,9 +95,8 @@ const clearFilter = () => {
     >
       {{ t('university.dashboard.filter.apply') }}
     </button>
-
     <button
-      v-if="from || to"
+      v-if="from !== defaultRange.start || to !== defaultRange.end"
       type="button"
       class="px-3 py-1.5 text-sm font-medium text-additional hover:text-text transition-colors"
       @click="clearFilter"
