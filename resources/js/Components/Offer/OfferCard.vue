@@ -6,7 +6,7 @@ import { IconCheck, IconHeart, IconHeartFilled } from '@tabler/icons-vue'
 import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
-import { ROUTES, studentOfferApply, studentOfferFavourite, studentOfferWithdraw } from '@/Helpers/routes'
+import { ROUTES, studentOfferApply, studentOfferFavourite, studentOfferWithdraw, offerShow } from '@/Helpers/routes'
 
 const props = defineProps({
   offer: { type: Object, required: true },
@@ -155,7 +155,12 @@ function confirmWithdraw() {
               </span>
             </div>
             <h3 class="mt-1 text-xl font-semibold tracking-tight text-text sm:text-2xl">
-              {{ offer.title }}
+              <Link
+                :href="offerShow(offer.id)"
+                class="transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+              >
+                {{ offer.title }}
+              </Link>
             </h3>
           </div>
         </div>
