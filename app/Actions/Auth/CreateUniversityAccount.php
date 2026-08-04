@@ -10,8 +10,10 @@ use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use App\Models\University;
 use App\Models\User;
+use App\Notifications\NewVerificationRequestNotification;
 use App\Services\EmailVerificationService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class CreateUniversityAccount
 {
@@ -41,6 +43,11 @@ class CreateUniversityAccount
         });
 
         app(EmailVerificationService::class)->sendVerificationEmail($user);
+
+        Notification::send(
+            User::where("role", UserRole::SuperAdmin)->get(),
+            new NewVerificationRequestNotification($user->universityOrganization),
+        );
 
         return $user;
     }

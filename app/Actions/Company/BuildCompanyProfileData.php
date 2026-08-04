@@ -28,6 +28,7 @@ class BuildCompanyProfileData
                 ->select("id", "title", "description", "spots")
                 ->latest()
                 ->get(),
+            "verification_status" => $company->verification_status,
         ];
     }
 }

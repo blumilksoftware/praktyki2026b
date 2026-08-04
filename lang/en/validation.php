@@ -28,6 +28,10 @@ return [
     "application_status_invalid_transition" => "The application status cannot be changed to the selected.",
     "invitation_already_processed" => "This invitation has already been accepted or revoked.",
 
+    "salary_min.required_if" => "Enter minimum salary when the offer is paid.",
+    "salary_max.required_if" => "Enter maximum salary when the offer is paid.",
+    "salary_max.gte" => "Maximum salary must be greater than or equal to minimum salary.",
+
     "profile_age_integer" => "Enter a valid age — a whole number.",
     "profile_age_min" => "Age must be greater than 0.",
     "profile_age_max" => "Enter a valid age.",

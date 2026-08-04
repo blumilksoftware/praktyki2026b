@@ -35,9 +35,9 @@ class DeactivateOfferTest extends TestCase
         $user = $this->makeCompanyAdmin($company);
         $offer = Offer::factory()->published()->create(["company_id" => $company->id]);
 
-        $response = $this->actingAs($user)->patch("/company/offers/{$offer->id}/deactivate");
+        $response = $this->from("/company/offers")->actingAs($user)->patch("/company/offers/{$offer->id}/deactivate");
 
-        $response->assertRedirect("/company/dashboard");
+        $response->assertRedirect("/company/offers");
         $this->assertDatabaseHas("offers", [
             "id" => $offer->id,
             "status" => OfferStatus::Closed->value,

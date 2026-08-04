@@ -8,7 +8,6 @@ return [
         "resend_message" => "Nowy link weryfikacyjny został wysłany.",
         "not_verified" => "Twój adres e-mail nie został zweryfikowany.",
         "not_admin" => "To konto nie ma uprawnień administratora.",
-        "admin_restricted" => "Użyj logowania dla administratorów.",
     ],
     "invitation" => [
         "invalid_link" => "Nieprawidłowy lub wygasły link z zaproszeniem.",

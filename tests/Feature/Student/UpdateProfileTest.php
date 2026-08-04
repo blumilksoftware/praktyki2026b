@@ -298,7 +298,7 @@ class UpdateProfileTest extends TestCase
         $this->assertEquals([WorkMode::Remote->value, WorkMode::Hybrid->value], $user->work_modes);
     }
 
-    public function testMoreThanTwentySkillsIsRejected(): void
+    public function testMoreThanFifteenSkillsIsRejected(): void
     {
         $user = User::factory()->create([
             "role" => UserRole::Student,
@@ -306,7 +306,7 @@ class UpdateProfileTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
-            "skills" => array_map(fn(int $i): string => "Skill{$i}", range(1, 21)),
+            "skills" => array_map(fn(int $i): string => "Skill{$i}", range(1, 16)),
         ]));
 
         $response->assertInvalid("skills");

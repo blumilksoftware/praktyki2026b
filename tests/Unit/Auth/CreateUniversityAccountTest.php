@@ -9,6 +9,8 @@ use App\DTO\Auth\UniversityRegistrationData;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
+use App\Models\User;
+use App\Notifications\NewVerificationRequestNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -20,6 +22,8 @@ class CreateUniversityAccountTest extends TestCase
     public function testItCreatesUniversityAccountAndProfileWithCorrectFields(): void
     {
         Notification::fake();
+
+        $superAdmin = User::factory()->create(["role" => UserRole::SuperAdmin]);
 
         $action = new CreateUniversityAccount();
         $data = new UniversityRegistrationData(
@@ -53,5 +57,12 @@ class CreateUniversityAccountTest extends TestCase
         $this->assertEquals("123456789", $university->phone);
         $this->assertEquals("https://example.com", $university->website);
         $this->assertEquals(VerificationStatus::Pending, $university->verification_status);
+
+        Notification::assertSentTo(
+            $superAdmin,
+            NewVerificationRequestNotification::class,
+            fn(NewVerificationRequestNotification $notification): bool => $notification->toArray($superAdmin)["entity_type"] === "university" &&
+                $notification->toArray($superAdmin)["entity_id"] === $university->id,
+        );
     }
 }

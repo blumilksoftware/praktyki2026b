@@ -7,6 +7,7 @@ import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   mobile: { type: Boolean, default: false },
+  variant: { type: String, default: 'dark' },
 })
 
 const { t, locale } = useI18n()
@@ -48,9 +49,12 @@ onUnmounted(() => document.removeEventListener('click', closeDropdown))
     <button
       :class="[
         'flex items-center gap-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 transition-colors hover:cursor-pointer',
-        props.mobile 
-          ? 'bg-white/10 hover:bg-white/20 px-3 py-2 text-white/70 hover:text-white focus-visible:ring-white/30 font-medium text-sm'
-          : 'hover:bg-white/10 px-2 py-1.5 text-slate-300 hover:text-white focus-visible:ring-white/30'
+        props.mobile ? 'px-3 py-2 font-medium text-sm' : 'px-2 py-1.5',
+        props.variant === 'light'
+          ? 'bg-white border border-border hover:bg-background text-text hover:text-primary focus-visible:ring-primary/30 shadow-sm'
+          : props.mobile
+            ? 'bg-white/10 hover:bg-white/20 text-white/70 hover:text-white focus-visible:ring-white/30'
+            : 'hover:bg-white/10 text-slate-300 hover:text-white focus-visible:ring-white/30'
       ]"
       @click="isOpen = !isOpen"
     >

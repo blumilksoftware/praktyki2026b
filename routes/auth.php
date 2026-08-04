@@ -12,6 +12,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\StudentRegistrationController;
 use App\Http\Controllers\Auth\UniversityRegistrationController;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
@@ -49,3 +52,12 @@ Route::get("/email/change/confirm/{id}/{token}", [EmailVerificationController::c
 
 Route::get("/auth/google/redirect", [GoogleOAuthController::class, "redirect"])->name("auth.google.redirect");
 Route::get("/auth/google/callback", [GoogleOAuthController::class, "callback"])->name("auth.google.callback");
+
+Route::post("/logout", function (Request $request): RedirectResponse {
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect("/");
+})->middleware("auth")->name("logout");

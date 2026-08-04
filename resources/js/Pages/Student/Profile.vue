@@ -42,13 +42,7 @@ const workModeOptions = computed(() => [
   { value: 'hybrid', label: t('student.profile.workMode.options.hybrid') },
 ])
 
-const workModeLabels = computed(() => Object.fromEntries(
-  workModeOptions.value.map((option) => [option.value, option.label]),
-))
-
-const displayWorkModes = computed(() => profileUser.value.work_modes.map(
-  (mode) => workModeLabels.value[mode] ?? mode,
-))
+const displayWorkModes = computed(() => profileUser.value.work_modes)
 
 watch(() => props.user, () => {
   skills.value = [...(props.user.skills ?? [])]
@@ -135,21 +129,23 @@ function saveWorkModes() {
 <template>
   <Head :title="t('student.profile.title')" />
   <StudentPanelLayout active-page="profile">
-    <OnboardingBanner />
+    <div class="space-y-6">
+      <OnboardingBanner />
 
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-      <StudentProfileSidebar :user="profileUser" />
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <StudentProfileSidebar :user="profileUser" />
 
-      <div class="flex flex-col gap-6 lg:col-span-2">
-        <StudentProfileSkillsSection
-          :skills="profileUser.skills ?? []"
-          @manage="openSkillsModal"
-        />
-        <StudentProfileWorkModeSection
-          :work-modes="displayWorkModes"
-          @manage="openWorkModeModal"
-        />
-        <StudentProfileApplicationsSection :applications="profileUser.applications ?? []" />
+        <div class="flex flex-col gap-6 lg:col-span-2">
+          <StudentProfileSkillsSection
+            :skills="profileUser.skills ?? []"
+            @manage="openSkillsModal"
+          />
+          <StudentProfileWorkModeSection
+            :work-modes="displayWorkModes"
+            @manage="openWorkModeModal"
+          />
+          <StudentProfileApplicationsSection :applications="profileUser.applications ?? []" />
+        </div>
       </div>
     </div>
 
@@ -164,6 +160,7 @@ function saveWorkModes() {
         v-model="skillsDraft"
         :label="t('student.profile.skills.title')"
         :placeholder="t('student.profile.skills.placeholder')"
+        :max="15"
         :error="skillsError"
       />
       <div class="mt-6 flex justify-end gap-3">

@@ -60,7 +60,7 @@ class LoginController extends Controller
             $request->session()->regenerateToken();
 
             throw ValidationException::withMessages([
-                "email" => __("auth.verification.admin_restricted"),
+                "email" => __("auth.failed"),
             ]);
         }
 

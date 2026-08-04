@@ -5,20 +5,21 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
-use App\Http\Controllers\Company\OfferController;
+use App\Http\Controllers\Company\OfferController as CompanyOfferController;
 use App\Http\Controllers\CompanyProfileController;
-use App\Http\Controllers\OfferSearchController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\University\CompanyController as UniversityCompanyController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
 use Inertia\Response;
 
 Route::get("/", fn() => redirect()->route("login"));
 
-Route::get("/offers", [OfferSearchController::class, "search"])->name("offers.search");
+Route::get("/offers", [OfferController::class, "index"])->name("offers.index");
 
 Route::get("/companies/{company}", [CompanyProfileController::class, "show"])->name("companies.show")->whereUuid("company");
 
@@ -43,7 +44,23 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/dashboard", [CompanyController::class, "index"])->name("company.dashboard");
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
-        Route::get("/offers", [OfferController::class, "index"])->name("company.offers");
+        Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
+        Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
+    });
+
+Route::middleware(["auth", "can:create," . Offer::class])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::get("/offers", [CompanyOfferController::class, "index"])->name("company.offers");
+        Route::get("/offers/create", [CompanyOfferController::class, "create"])->name("company.offers.create");
+    });
+
+Route::middleware(["auth"])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::get("/offers/{offer}/edit", [CompanyOfferController::class, "edit"])
+            ->middleware("can:update,offer")
+            ->name("company.offers.edit");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])
@@ -58,6 +75,7 @@ Route::middleware(["auth", "can:access-student-panel"])
     ->prefix("student")
     ->group(function (): void {
         Route::get("/dashboard", [StudentController::class, "index"])->name("student.dashboard");
+        Route::get("/applications", [StudentController::class, "applications"])->name("student.applications");
         Route::get("/profile", [StudentController::class, "profile"])->name("student.profile");
         Route::get("/profile/edit", [StudentController::class, "editProfile"])->name("student.profile.edit");
         Route::get("/settings", [StudentController::class, "settings"])->name("student.settings");
