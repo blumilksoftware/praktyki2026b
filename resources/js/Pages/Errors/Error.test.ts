@@ -38,6 +38,10 @@ describe('Error.vue', () => {
     expect(mountError(403, 'companyAdmin').find('a').attributes('href')).toBe('/company/dashboard')
   })
 
+  it('links to /company/dashboard for companyMember', () => {
+    expect(mountError(403, 'companyMember').find('a').attributes('href')).toBe('/company/dashboard')
+  })
+
   it('links to /university/dashboard for universityAdmin', () => {
     expect(mountError(403, 'universityAdmin').find('a').attributes('href')).toBe('/university/dashboard')
   })
