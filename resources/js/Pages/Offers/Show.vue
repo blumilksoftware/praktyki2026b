@@ -185,181 +185,181 @@ function confirmWithdraw() {
 
         <div class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
           <article class="rounded-3xl border border-border bg-white p-5 shadow-sm sm:p-8">
-          <div class="flex flex-wrap items-center gap-2">
-            <component
-              :is="companyHref ? Link : 'p'"
-              v-bind="companyHref
-                ? {
-                  href: companyHref,
-                  class: 'text-sm font-semibold text-additional transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded',
-                  'aria-label': t('student.offers.detail.companyProfileAria', { company: offer.company.name }),
-                }
-                : { class: 'text-sm font-semibold text-additional' }"
-            >
-              {{ offer.company.name }}
-            </component>
-            <VerifiedBadge :verified="Boolean(offer.company.is_verified)" />
-          </div>
-
-          <h1 class="mt-3 text-3xl font-semibold tracking-tight text-text sm:text-4xl">
-            {{ offer.title }}
-          </h1>
-
-          <div class="mt-4 flex flex-wrap gap-2">
-            <span class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary">
-              {{ offer.city }}
-            </span>
-            <span class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary">
-              {{ workModeLabel }}
-            </span>
-          </div>
-
-          <dl class="mt-6 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-2xl border border-border bg-background/60 px-4 py-3">
-              <dt class="text-xs font-semibold uppercase tracking-wide text-additional">
-                {{ t('student.offers.detail.internshipPeriod') }}
-              </dt>
-              <dd class="mt-1 text-sm font-medium text-text">{{ internshipPeriodLabel }}</dd>
+            <div class="flex flex-wrap items-center gap-2">
+              <component
+                :is="companyHref ? Link : 'p'"
+                v-bind="companyHref
+                  ? {
+                    href: companyHref,
+                    class: 'text-sm font-semibold text-additional transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded',
+                    'aria-label': t('student.offers.detail.companyProfileAria', { company: offer.company.name }),
+                  }
+                  : { class: 'text-sm font-semibold text-additional' }"
+              >
+                {{ offer.company.name }}
+              </component>
+              <VerifiedBadge :verified="Boolean(offer.company.is_verified)" />
             </div>
-            <div class="rounded-2xl border border-border bg-background/60 px-4 py-3">
-              <dt class="text-xs font-semibold uppercase tracking-wide text-additional">
-                {{ t('student.offers.detail.remainingSpots') }}
-              </dt>
-              <dd class="mt-1 text-sm font-medium text-text">{{ remainingSpotsLabel }}</dd>
+
+            <h1 class="mt-3 text-3xl font-semibold tracking-tight text-text sm:text-4xl">
+              {{ offer.title }}
+            </h1>
+
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary">
+                {{ offer.city }}
+              </span>
+              <span class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary">
+                {{ workModeLabel }}
+              </span>
             </div>
-            <div class="rounded-2xl border border-border bg-background/60 px-4 py-3">
-              <dt class="text-xs font-semibold uppercase tracking-wide text-additional">
-                {{ t('student.offers.detail.compensation') }}
-              </dt>
-              <dd class="mt-1 text-sm font-medium text-text">{{ compensationLabel }}</dd>
-            </div>
-          </dl>
 
-          <section class="mt-8">
-            <h2 class="text-lg font-semibold text-text">
-              {{ t('student.offers.detail.description') }}
-            </h2>
-            <p class="mt-3 whitespace-pre-wrap text-sm leading-7 text-additional">
-              {{ offer.description }}
-            </p>
-          </section>
+            <dl class="mt-6 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-2xl border border-border bg-background/60 px-4 py-3">
+                <dt class="text-xs font-semibold uppercase tracking-wide text-additional">
+                  {{ t('student.offers.detail.internshipPeriod') }}
+                </dt>
+                <dd class="mt-1 text-sm font-medium text-text">{{ internshipPeriodLabel }}</dd>
+              </div>
+              <div class="rounded-2xl border border-border bg-background/60 px-4 py-3">
+                <dt class="text-xs font-semibold uppercase tracking-wide text-additional">
+                  {{ t('student.offers.detail.remainingSpots') }}
+                </dt>
+                <dd class="mt-1 text-sm font-medium text-text">{{ remainingSpotsLabel }}</dd>
+              </div>
+              <div class="rounded-2xl border border-border bg-background/60 px-4 py-3">
+                <dt class="text-xs font-semibold uppercase tracking-wide text-additional">
+                  {{ t('student.offers.detail.compensation') }}
+                </dt>
+                <dd class="mt-1 text-sm font-medium text-text">{{ compensationLabel }}</dd>
+              </div>
+            </dl>
 
-          <section class="mt-8">
-            <h2 class="text-lg font-semibold text-text">
-              {{ t('student.offers.detail.preferredUniversities') }}
-            </h2>
-            <ul
-              v-if="offer.preferred_universities?.length"
-              class="mt-3 flex flex-col gap-2"
-            >
-              <li
-                v-for="university in offer.preferred_universities"
-                :key="university.id"
-                class="rounded-xl border border-border bg-background/60 px-4 py-2 text-sm text-text"
+            <section class="mt-8">
+              <h2 class="text-lg font-semibold text-text">
+                {{ t('student.offers.detail.description') }}
+              </h2>
+              <p class="mt-3 whitespace-pre-wrap text-sm leading-7 text-additional">
+                {{ offer.description }}
+              </p>
+            </section>
+
+            <section class="mt-8">
+              <h2 class="text-lg font-semibold text-text">
+                {{ t('student.offers.detail.preferredUniversities') }}
+              </h2>
+              <ul
+                v-if="offer.preferred_universities?.length"
+                class="mt-3 flex flex-col gap-2"
               >
-                {{ university.name }}
-              </li>
-            </ul>
-            <p
-              v-else
-              class="mt-3 text-sm text-additional"
-              role="status"
-            >
-              {{ t('student.offers.detail.preferredUniversitiesEmpty') }}
-            </p>
-          </section>
-
-          <section class="mt-8">
-            <h2 class="text-lg font-semibold text-text">
-              {{ t('student.offers.detail.studyFields') }}
-            </h2>
-            <ul
-              v-if="offer.study_fields?.length"
-              class="mt-3 flex flex-wrap gap-2"
-            >
-              <li
-                v-for="field in offer.study_fields"
-                :key="field.id"
-                class="inline-flex items-center rounded-full border border-border bg-white px-3 py-1 text-sm text-text"
-              >
-                {{ field.name }}
-              </li>
-            </ul>
-            <p
-              v-else
-              class="mt-3 text-sm text-additional"
-              role="status"
-            >
-              {{ t('student.offers.detail.studyFieldsEmpty') }}
-            </p>
-          </section>
-
-          <div class="mt-8 flex flex-wrap items-center gap-3 border-t border-border pt-6">
-            <p
-              v-if="isClosed"
-              class="rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium text-text"
-              role="status"
-            >
-              {{
-                offer.status === 'expired'
-                  ? t('student.offers.detail.expiredMessage')
-                  : t('student.offers.detail.closedMessage')
-              }}
-            </p>
-
-            <template v-else>
-              <button
-                v-if="!isGuest"
-                type="button"
-                class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
-                :class="isFavorite
-                  ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
-                  : 'border-border bg-white text-text hover:border-primary/40 hover:bg-background'"
-                :disabled="isTogglingFavorite"
-                :aria-pressed="isFavorite"
-                :aria-label="isFavorite
-                  ? t('student.offers.card.removeFromFavorites')
-                  : t('student.offers.card.addToFavorites')"
-                @click="toggleFavorite"
-              >
-                <component :is="isFavorite ? IconHeartFilled : IconHeart" class="h-4 w-4" aria-hidden="true" />
-                {{ isFavorite ? t('student.offers.card.removeFromFavorites') : t('student.offers.card.addToFavorites') }}
-              </button>
-
-              <Link
-                v-if="isGuest"
-                :href="ROUTES.LOGIN"
-                class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-              >
-                {{ t('student.offers.card.loginToApply') }}
-              </Link>
-
-              <template v-else-if="acceptsApplications">
-                <BaseApplyButton
-                  :has-cv="hasCv"
-                  :is-applied="isApplied"
-                  :applied-date="appliedDate"
-                  :is-loading="isApplying"
-                  @apply="applyToOffer"
-                  @upload-cv="goToUploadCv"
-                />
-
-                <BaseButton
-                  v-if="isApplied"
-                  type="button"
-                  variant="secondary"
-                  :disabled="isWithdrawing"
-                  @click="openWithdrawModal"
+                <li
+                  v-for="university in offer.preferred_universities"
+                  :key="university.id"
+                  class="rounded-xl border border-border bg-background/60 px-4 py-2 text-sm text-text"
                 >
-                  {{ t('student.applications.withdraw.action') }}
-                </BaseButton>
-              </template>
-            </template>
-          </div>
+                  {{ university.name }}
+                </li>
+              </ul>
+              <p
+                v-else
+                class="mt-3 text-sm text-additional"
+                role="status"
+              >
+                {{ t('student.offers.detail.preferredUniversitiesEmpty') }}
+              </p>
+            </section>
 
-          <p v-if="applyError" class="mt-3 text-error text-sm" role="alert">
-            {{ applyError }}
-          </p>
+            <section class="mt-8">
+              <h2 class="text-lg font-semibold text-text">
+                {{ t('student.offers.detail.studyFields') }}
+              </h2>
+              <ul
+                v-if="offer.study_fields?.length"
+                class="mt-3 flex flex-wrap gap-2"
+              >
+                <li
+                  v-for="field in offer.study_fields"
+                  :key="field.id"
+                  class="inline-flex items-center rounded-full border border-border bg-white px-3 py-1 text-sm text-text"
+                >
+                  {{ field.name }}
+                </li>
+              </ul>
+              <p
+                v-else
+                class="mt-3 text-sm text-additional"
+                role="status"
+              >
+                {{ t('student.offers.detail.studyFieldsEmpty') }}
+              </p>
+            </section>
+
+            <div class="mt-8 flex flex-wrap items-center gap-3 border-t border-border pt-6">
+              <p
+                v-if="isClosed"
+                class="rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium text-text"
+                role="status"
+              >
+                {{
+                  offer.status === 'expired'
+                    ? t('student.offers.detail.expiredMessage')
+                    : t('student.offers.detail.closedMessage')
+                }}
+              </p>
+
+              <template v-else>
+                <button
+                  v-if="!isGuest"
+                  type="button"
+                  class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+                  :class="isFavorite
+                    ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
+                    : 'border-border bg-white text-text hover:border-primary/40 hover:bg-background'"
+                  :disabled="isTogglingFavorite"
+                  :aria-pressed="isFavorite"
+                  :aria-label="isFavorite
+                    ? t('student.offers.card.removeFromFavorites')
+                    : t('student.offers.card.addToFavorites')"
+                  @click="toggleFavorite"
+                >
+                  <component :is="isFavorite ? IconHeartFilled : IconHeart" class="h-4 w-4" aria-hidden="true" />
+                  {{ isFavorite ? t('student.offers.card.removeFromFavorites') : t('student.offers.card.addToFavorites') }}
+                </button>
+
+                <Link
+                  v-if="isGuest"
+                  :href="ROUTES.LOGIN"
+                  class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                >
+                  {{ t('student.offers.card.loginToApply') }}
+                </Link>
+
+                <template v-else-if="acceptsApplications">
+                  <BaseApplyButton
+                    :has-cv="hasCv"
+                    :is-applied="isApplied"
+                    :applied-date="appliedDate"
+                    :is-loading="isApplying"
+                    @apply="applyToOffer"
+                    @upload-cv="goToUploadCv"
+                  />
+
+                  <BaseButton
+                    v-if="isApplied"
+                    type="button"
+                    variant="secondary"
+                    :disabled="isWithdrawing"
+                    @click="openWithdrawModal"
+                  >
+                    {{ t('student.applications.withdraw.action') }}
+                  </BaseButton>
+                </template>
+              </template>
+            </div>
+
+            <p v-if="applyError" class="mt-3 text-error text-sm" role="alert">
+              {{ applyError }}
+            </p>
           </article>
 
           <aside
