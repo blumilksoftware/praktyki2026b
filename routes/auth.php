@@ -40,7 +40,7 @@ Route::middleware("guest")->group(function (): void {
     Route::post("/reset-password", [ResetPasswordController::class, "store"])->name("password.update");
 
     Route::get("/invitations/{token}", [InvitationAcceptController::class, "show"])->name("invitations.show");
-    Route::post("/invitations/{token}", [InvitationAcceptController::class, "store"])->name("invitations.store");
+    Route::post("/invitations/{token}", [InvitationAcceptController::class, "store"])->middleware("throttle:10,15")->name("invitations.store");
 });
 
 Route::get("/admin/login", [AdminLoginController::class, "show"])->name("admin.login");

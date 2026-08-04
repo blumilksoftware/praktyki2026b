@@ -1,6 +1,6 @@
 <script setup>
 defineProps({
-  token: { type: String, default: "" },
+  token: { type: String, default: '' },
 })
 </script>
 

@@ -41,7 +41,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
         Route::get("/profile/edit", [CompanyController::class, "edit"])->name("company.profile.edit");
         Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
-        Route::post("/team/invitations", [TeamInvitationController::class, "store"])->name("company.team.invitations.store");
+        Route::post("/team/invitations", [TeamInvitationController::class, "store"])->middleware("throttle:10,15")->name("company.team.invitations.store");
         Route::delete("/team/invitations/{invitation}", [TeamInvitationController::class, "destroy"])->name("company.team.invitations.destroy");
     });
 
