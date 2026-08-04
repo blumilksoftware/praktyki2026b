@@ -49,8 +49,8 @@ class CompanyOffersTest extends TestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("Company/Offers")
-                    ->has("offers", 1)
-                    ->where("offers.0.id", $offer->id)
+                    ->has("offers.data", 1)
+                    ->where("offers.data.0.id", $offer->id)
                     ->where("isCompanyVerified", false),
             );
     }
@@ -84,12 +84,12 @@ class CompanyOffersTest extends TestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("Company/Offers")
-                    ->has("offers", 1)
-                    ->where("offers.0.id", $offer->id)
-                    ->where("offers.0.title", "Backend Internship")
-                    ->where("offers.0.status", "published")
-                    ->where("offers.0.spots", 3)
-                    ->where("offers.0.applications_count", 2)
+                    ->has("offers.data", 1)
+                    ->where("offers.data.0.id", $offer->id)
+                    ->where("offers.data.0.title", "Backend Internship")
+                    ->where("offers.data.0.status", "published")
+                    ->where("offers.data.0.spots", 3)
+                    ->where("offers.data.0.applications_count", 2)
                     ->where("isCompanyVerified", true),
             );
     }
@@ -108,7 +108,7 @@ class CompanyOffersTest extends TestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("Company/Offers")
-                    ->has("offers", 0),
+                    ->has("offers.data", 0),
             );
     }
 
@@ -126,7 +126,7 @@ class CompanyOffersTest extends TestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("Company/Offers")
-                    ->has("offers", 0),
+                    ->has("offers.data", 0),
             );
     }
 

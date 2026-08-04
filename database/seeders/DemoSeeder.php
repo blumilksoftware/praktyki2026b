@@ -117,7 +117,7 @@ class DemoSeeder extends Seeder
             ]);
         });
 
-        $offers = Offer::factory()->count(4)->create([
+        $offers = Offer::factory()->count(15)->create([
             "company_id" => $approvedCompany->id,
             "spots" => 5,
         ]);

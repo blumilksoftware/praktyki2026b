@@ -1,117 +1,73 @@
 <script setup>
-import { Head, Link, router  } from '@inertiajs/vue3'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconPlus } from '@tabler/icons-vue'
-import {
-  IconHome,
-  IconUser,
-  IconDotsVertical,
-  IconPencil,
-  IconPlayerPause,
-  IconPlayerPlay,
-  IconTrash,
-} from '@tabler/icons-vue'
-
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
+import OffersToolbar from '@/Components/Company/Offers/OffersToolbar.vue'
+import OffersTable from '@/Components/Company/Offers/OffersTable.vue'
+import OffersCards from '@/Components/Company/Offers/OffersCards.vue'
+import OffersPagination from '@/Components/Company/Offers/OffersPagination.vue'
+import { useOffersFilters } from '@/Composables/useOffersFilters'
+import { useOfferActions } from '@/Composables/useOfferActions'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { ROUTES } from '@/Helpers/routes'
+import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 
 const { t } = useI18n()
-const companyMenu = useCompanyPanelMenu('dashboard')
 
 const props = defineProps({
   offers: {
-    type: Array,
+    type: Object,
     required: true,
+  },
+  sort: {
+    type: String,
+    default: 'created_at',
+  },
+  direction: {
+    type: String,
+    default: 'desc',
+  },
+  search: {
+    type: String,
+    default: '',
+  },
+  status: {
+    type: String,
+    default: '',
   },
 })
 
-const navItems = [
-  {
-    key: 'dashboard',
-    label: 'Dashboard',
-    href: '/company/dashboard',
-    icon: IconHome,
-  },
-  {
-    key: 'profile',
-    label: 'Profile',
-    href: '/company/profile',
-    icon: IconUser,
-  },
-]
+const {
+  searchQuery,
+  statusFilter,
+  applyQuery,
+  onStatusFilterChange,
+  sortBy,
+  sortIcon,
+} = useOffersFilters({
+  search: props.search,
+  status: props.status,
+  sort: props.sort,
+  direction: props.direction,
+})
 
-const statusClasses = {
-  published: 'bg-green-100 text-green-700',
-  draft: 'bg-gray-100 text-gray-700',
-  closed: 'bg-red-100 text-red-700',
-  expired: 'bg-orange-100 text-orange-700',
-}
-
-const applicationsHref = (offerId) => `${ROUTES.COMPANY_APPLICATIONS}?offer=${offerId}`
+const {
+  openMenuId,
+  toggleMenu,
+  editOffer,
+  toggleStatusOffer,
+  deleteOffer,
+} = useOfferActions({
+  t,
+  onMutated: () => applyQuery(),
+})
 
 function goToApplications(event, offerId) {
   event.preventDefault()
-  router.visit(applicationsHref(offerId))
+  router.visit(`${ROUTES.COMPANY_APPLICATIONS}?offer=${offerId}`)
 }
-
-const openMenuId = ref(null)
-
-function toggleMenu(offerId) {
-  openMenuId.value =
-    openMenuId.value === offerId ? null : offerId
-}
-
-function closeMenu() {
-  openMenuId.value = null
-}
-
-function handleClickOutside(event) {
-  if (!event.target.closest('[data-offer-menu]')) {
-    closeMenu()
-  }
-}
-
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
-
-
-function editOffer(offer) {
-  router.visit(`${ROUTES.COMPANY_OFFERS_STORE}/${offer.id}/edit`)
-  closeMenu()
-}
-
-function publishOffer(offer) {
-  router.patch(`${ROUTES.COMPANY_OFFERS_STORE}/${offer.id}/publish`)
-  closeMenu()
-}
-
-function deactivateOffer(offer) {
-  router.patch(`${ROUTES.COMPANY_OFFERS_STORE}/${offer.id}/deactivate`)
-  closeMenu()
-}
-
-function toggleStatusOffer(offer) {
-  if (offer.status === 'closed') return
-  offer.status === 'published' ? deactivateOffer(offer) : publishOffer(offer)
-}
-
-function deleteOffer(offer) {
-  closeMenu()
-  if (!confirm(t('company.dashboard.offers.confirmDelete'))) {
-    return
-  }
-  router.delete(`${ROUTES.COMPANY_OFFERS_STORE}/${offer.id}`)
-}
+const companyMenu = useCompanyPanelMenu('dashboard')
 </script>
 
 <template>
@@ -144,227 +100,58 @@ function deleteOffer(offer) {
         </Link>
       </div>
     </div>
-    <div class="p-4 sm:p-6 space-y-6">
+    <div class="p-5 sm:p-6 space-y-6">
       <header class="mb-6">
         <h1 class="font-semibold text-text text-xl sm:text-2xl">
-          {{ t('company.dashboard.offers.title') }}
-        </h1>
-        <p class="mt-1 text-additional text-sm">
           {{ t('company.dashboard.offers.subtitle') }}
-        </p>
+        </h1>
       </header>
 
-      <div class="rounded-xl border border-border bg-white shadow-sm overflow-visible">
-        <div class="px-4 py-3 border-b border-border">
+      <div class="rounded-xl border border-border bg-white shadow-sm overflow-visible mt-10">
+        <div class="px-4 py-3 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <h2 class="font-medium text-text">
             {{ t('company.dashboard.offers.title') }}
           </h2>
+
+          <OffersToolbar
+            v-model:search="searchQuery"
+            v-model:status="statusFilter"
+            @status-change="onStatusFilterChange"
+          />
         </div>
 
-        <div v-if="offers.length === 0" class="px-4 py-6 text-center text-additional text-sm">
+        <div
+          v-if="offers.data.length === 0"
+          class="px-4 py-6 text-center text-additional text-sm"
+        >
           {{ t('company.dashboard.offers.noOffers') }}
         </div>
 
-        <!-- Desktop table -->
-        <div v-else class="hidden md:block overflow-visible">
-          <table class="w-full text-sm">
-            <thead class="bg-gray-50 text-additional">
-              <tr>
-                <th class="px-4 py-3 text-left font-medium">
-                  {{ t('company.dashboard.offers.table.offer') }}
-                </th>
-                <th class="px-4 py-3 text-center font-medium">
-                  {{ t('company.dashboard.offers.table.status') }}
-                </th>
-                <th class="px-4 py-3 text-center font-medium">
-                  {{ t('company.dashboard.offers.table.spots') }}
-                </th>
-                <th class="px-4 py-3 text-center font-medium">
-                  {{ t('company.dashboard.offers.table.applications') }}
-                </th>
-                <th class="px-4 py-3 text-right font-medium">
-                  {{ t('company.dashboard.offers.table.actions') }}
-                </th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-border">
-              <tr
-                v-for="offer in offers"
-                :key="offer.id"
-                class="hover:bg-gray-50"
-              >
-                <td class="px-4 py-3 text-text">
-                  {{ offer.title }}
-                </td>
-                <td class="px-4 py-3 text-center">
-                  <span
-                    class="px-2 py-1 rounded-full text-xs font-medium"
-                    :class="statusClasses[offer.status]?? 'bg-gray-100 text-gray-700'"
-                  >
-                    {{ offer.status }}
-                  </span>
-                </td>
-                <td class="px-4 py-3 text-center text-text">
-                  {{ offer.spots }}
-                </td>
-                <td class="px-4 py-3 text-center">
-                  <a
-                    :href="applicationsHref(offer.id)"
-                    class="text-primary hover:underline"
-                    @click="goToApplications($event, offer.id)"
-                  >
-                    {{ offer.applications_count }}
-                  </a>
-                </td>
-                <td class="px-4 py-3 text-right">
-                  <div
-                    class="relative inline-block text-left"
-                    data-offer-menu
-                  >
-                    <button
-                      type="button"
-                      class="p-1.5 rounded-md text-additional hover:bg-gray-100 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                      :aria-label="t('company.dashboard.offers.actions.menu')"
-                      @click="toggleMenu(offer.id)"
-                    >
-                      <IconDotsVertical class="w-4 h-4" />
-                    </button>
+        <template v-else>
+          <OffersTable
+            :offers="offers.data"
+            :sort-icon="sortIcon"
+            :open-menu-id="openMenuId"
+            @sort="sortBy"
+            @toggle-menu="toggleMenu"
+            @edit="editOffer"
+            @toggle-status="toggleStatusOffer"
+            @delete="deleteOffer"
+            @go-to-applications="goToApplications"
+          />
 
-                    <div v-if="openMenuId === offer.id" class="absolute right-0 z-50 mt-1 w-40 rounded-lg border border-border bg-white shadow-lg py-1">
-                      <button
-                        type="button"
-                        class="flex items-center gap-2 w-full px-3 py-2 text-left text-text hover:bg-gray-50 cursor-pointer"
-                        @click="editOffer(offer)"
-                      >
-                        <IconPencil class="w-4 h-4" />
-                        {{ t('company.dashboard.offers.actions.edit') }}
-                      </button>
+          <OffersCards
+            :offers="offers.data"
+            :open-menu-id="openMenuId"
+            @toggle-menu="toggleMenu"
+            @edit="editOffer"
+            @toggle-status="toggleStatusOffer"
+            @delete="deleteOffer"
+            @go-to-applications="goToApplications"
+          />
+        </template>
 
-                      <button
-                        type="button"
-                        class="flex items-center gap-2 w-full px-3 py-2 text-left"
-                        :class="offer.status === 'closed'
-                          ? 'text-gray-400 cursor-not-allowed'
-                          : 'text-text hover:bg-gray-50 cursor-pointer'"
-                        :disabled="offer.status === 'closed'"
-                        @click="toggleStatusOffer(offer)"
-                      >
-                        <IconPlayerPause v-if="offer.status === 'published'" class="w-4 h-4" />
-                        <IconPlayerPlay v-else class="w-4 h-4" />
-
-                        {{
-                          offer.status === 'published'
-                            ? t('company.dashboard.offers.actions.deactivate')
-                            : t('company.dashboard.offers.actions.activate')
-                        }}
-                      </button>
-
-                      <button
-                        type="button"
-                        class="flex items-center gap-2 w-full px-3 py-2 text-left text-red-600 hover:bg-red-50 cursor-pointer"
-                        @click="deleteOffer(offer)"
-                      >
-                        <IconTrash class="w-4 h-4" />
-                        {{ t('company.dashboard.offers.actions.delete') }}
-                      </button>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Mobile card list -->
-        <div v-if="offers.length > 0" class="md:hidden divide-y divide-border">
-          <div
-            v-for="offer in offers"
-            :key="offer.id"
-            class="p-4 space-y-3"
-          >
-            <div class="flex items-start justify-between gap-2">
-              <div class="font-medium text-text break-words pr-2">
-                {{ offer.title }}
-              </div>
-
-              <div
-                class="relative shrink-0"
-                data-offer-menu
-              >
-                <button
-                  type="button"
-                  class="p-1.5 rounded-md text-additional hover:bg-gray-100 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                  :aria-label="
-                    t('company.dashboard.offers.actions.menu')
-                  "
-                  @click="toggleMenu(offer.id)"
-                >
-                  <IconDotsVertical class="w-4 h-4" />
-                </button>
-
-                <div v-if="openMenuId === offer.id" class="absolute right-0 z-50 mt-1 w-44 rounded-lg border border-border bg-white shadow-lg py-1">
-                  <button
-                    type="button"
-                    class="flex items-center gap-2 w-full px-3 py-2 text-left text-text hover:bg-gray-50 cursor-pointer"
-                    @click="editOffer(offer)"
-                  >
-                    <IconPencil class="w-4 h-4" />
-                    {{ t('company.dashboard.offers.actions.edit') }}
-                  </button>
-
-                  <button
-                    type="button"
-                    class="flex items-center gap-2 w-full px-3 py-2 text-left"
-                    :class="offer.status === 'closed'
-                      ? 'text-gray-400 cursor-not-allowed'
-                      : 'text-text hover:bg-gray-50 cursor-pointer'"
-                    :disabled="offer.status === 'closed'"
-                    @click="toggleStatusOffer(offer)"
-                  >
-                    <IconPlayerPause v-if="offer.status === 'published'" class="w-4 h-4" />
-                    <IconPlayerPlay v-else class="w-4 h-4" />
-                    {{
-                      offer.status === 'published'
-                        ? t('company.dashboard.offers.actions.deactivate')
-                        : t('company.dashboard.offers.actions.activate')
-                    }}
-                  </button>
-
-                  <button
-                    type="button"
-                    class="flex items-center gap-2 w-full px-3 py-2 text-left text-red-600 hover:bg-red-50 cursor-pointer"
-                    @click="deleteOffer(offer)"
-                  >
-                    <IconTrash class="w-4 h-4" />
-                    {{ t('company.dashboard.offers.actions.delete') }}
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-              <span
-                class="px-2 py-1 rounded-full text-xs font-medium"
-                :class="statusClasses[offer.status] ?? 'bg-gray-100 text-gray-700'"
-              >
-                {{ offer.status }}
-              </span>
-
-              <span class="text-additional">
-                {{ t('company.dashboard.offers.table.spots') }}:
-                <span class="text-text font-medium">{{ offer.spots }}</span>
-              </span>
-
-              <a
-                :href="applicationsHref(offer.id)"
-                class="text-primary hover:underline"
-                @click="goToApplications($event, offer.id)"
-              >
-                {{ t('company.dashboard.offers.table.applications') }}: {{ offer.applications_count }}
-              </a>
-            </div>
-          </div>
-        </div>
+        <OffersPagination :offers="offers" />
       </div>
     </div>
   </BaseLayout>
