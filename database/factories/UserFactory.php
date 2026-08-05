@@ -55,4 +55,12 @@ class UserFactory extends Factory
             "status" => UserStatus::Pending,
         ]);
     }
+
+    public function companyMember(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "role" => UserRole::CompanyMember,
+            "status" => UserStatus::Active,
+        ]);
+    }
 }

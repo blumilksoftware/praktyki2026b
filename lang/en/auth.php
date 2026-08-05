@@ -9,4 +9,7 @@ return [
         "not_verified" => "Your email address has not been verified.",
         "not_admin" => "This account does not have administrator privileges.",
     ],
+    "invitation" => [
+        "invalid_link" => "Invalid or expired invitation link.",
+    ],
 ];

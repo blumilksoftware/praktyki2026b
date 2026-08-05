@@ -108,6 +108,24 @@ class CreateOfferTest extends TestCase
         $this->assertEqualsWithDelta(21.0122, $offer->longitude, 0.0001);
     }
 
+    public function testVerifiedCompanyMemberCanCreateOffer(): void
+    {
+        $this->fakeSuccessfulGeocoding();
+
+        $company = Company::factory()->approved()->create();
+        $user = User::factory()->companyMember()->create([
+            "organization_id" => $company->id,
+        ]);
+
+        $response = $this->from("/company/dashboard")->actingAs($user)->post("/company/offers", $this->validPayload());
+
+        $response->assertRedirect("/company/offers");
+        $this->assertDatabaseHas("offers", [
+            "company_id" => $company->id,
+            "title" => "Backend Developer Intern",
+        ]);
+    }
+
     public function testCreateFormExposesVerifiedCompanyStatus(): void
     {
         $company = Company::factory()->approved()->create();
