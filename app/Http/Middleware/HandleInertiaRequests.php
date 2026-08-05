@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Actions\Onboarding\GetProfileStepsAction;
+use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Middleware;
-use App\Enums\UserRole;
+
 
 class HandleInertiaRequests extends Middleware
 {

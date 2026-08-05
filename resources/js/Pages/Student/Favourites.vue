@@ -13,7 +13,7 @@ const favourites = ref(props.favourites)
 const removingId = ref(null)
 
 function isExpired(offer){
-  return offer.status === "expired" || offer.deleted_at !== null
+  return offer.status === 'expired' || offer.deleted_at !== null
 }
 
 function removeFavourite(offerId) {
@@ -54,15 +54,16 @@ function removeFavourite(offerId) {
           >
             <div>
               <div class="flex items-center gap-2">
-              <h3 class="font-semibold text-lg text-slate-900">{{ offer.title }}</h3>
+                <h3 class="font-semibold text-lg text-slate-900">{{ offer.title }}</h3>
                 <span
                   v-if="isExpired(offer)"
                   class="inline-flex items-center rounded-full bg-slate-200 px-2.5 py-0.5 text-xs font-semibold text-slate-600"
                 >
-                {{ t('student.favorites.status.expired') }}
+                  {{ t('student.favorites.status.expired') }}
                 </span>
               </div>
-              <p class="text-slate-500 text-sm mt-1">{{ offer.company_name }} &middot;
+              <p class="text-slate-500 text-sm mt-1">
+                {{ offer.company_name }} &middot;
                 {{ offer.city }}
               </p>
             </div>
