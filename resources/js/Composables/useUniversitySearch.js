@@ -33,8 +33,7 @@ export function useUniversitySearch() {
         })
         const data = response.ok
           ? await response.json()
-          : { universities: [],
-        }
+          : { universities: [] }
         suggestions.value = data.universities
       } catch (error) {
         if (error.name !== 'AbortError') {
