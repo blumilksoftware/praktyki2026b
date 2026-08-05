@@ -17,7 +17,7 @@ class SettingsRedirectController extends Controller
             return redirect()->route("student.settings");
         }
 
-        if ($user->role === userRole::CompanyAdmin) {
+        if (in_array($user->role, [userRole::CompanyAdmin, userRole::CompanyMember], true)) {
             return redirect()->route("company.profile");
         }
 

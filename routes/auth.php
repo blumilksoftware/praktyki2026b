@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\CompanyRegistrationController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\GoogleOAuthController;
+use App\Http\Controllers\Auth\InvitationAcceptController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\StudentRegistrationController;
@@ -20,7 +21,6 @@ use Inertia\Response;
 Route::middleware("guest")->group(function (): void {
     Route::get("/register/company", fn(): Response => inertia("Auth/RegisterCompany"))->name("register.company.show");
     Route::post("/register/company", CompanyRegistrationController::class)->middleware("throttle:10,15")->name("register.company");
-    Route::get("/register/company", fn(): Response => inertia("Auth/RegisterCompany"))->name("register.company.show");
 
     Route::post("/register/university", UniversityRegistrationController::class)->middleware("throttle:10,15")->name("register.university");
     Route::get("/register/university", fn(): Response => inertia("Auth/RegisterUniversity"))->name("register.university.show");
@@ -38,6 +38,9 @@ Route::middleware("guest")->group(function (): void {
 
     Route::get("/reset-password/{token}", [ResetPasswordController::class, "show"])->name("password.reset");
     Route::post("/reset-password", [ResetPasswordController::class, "store"])->name("password.update");
+
+    Route::get("/invitations/{token}", [InvitationAcceptController::class, "show"])->name("invitations.show");
+    Route::post("/invitations/{token}", [InvitationAcceptController::class, "store"])->middleware("throttle:10,15")->name("invitations.store");
 });
 
 Route::get("/admin/login", [AdminLoginController::class, "show"])->name("admin.login");

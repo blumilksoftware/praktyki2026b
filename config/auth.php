@@ -33,4 +33,7 @@ return [
     "verification" => [
         "expire" => 1440,
     ],
+    "invitation" => [
+        "expire" => 10080,
+    ],
 ];

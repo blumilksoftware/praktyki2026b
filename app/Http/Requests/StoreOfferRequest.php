@@ -18,7 +18,7 @@ class StoreOfferRequest extends FormRequest
         $user = $this->user();
 
         return $user !== null
-            && $user->role === UserRole::CompanyAdmin 
+            && in_array($user->role, [UserRole::CompanyAdmin, UserRole::CompanyMember], true)
             && $user->status === UserStatus::Active;
     }
 

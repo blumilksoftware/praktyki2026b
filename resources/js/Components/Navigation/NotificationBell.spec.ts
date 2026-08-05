@@ -68,7 +68,7 @@ describe("NotificationBell", () => {
     await wrapper.find("button").trigger("click")
 
     expect(mockReload).toHaveBeenCalledTimes(1)
-    expect(mockReload.mock.calls[0][0]).toMatchObject({ only: ["notifications"] })
+    expect(mockReload.mock.calls[0][0]).toMatchObject({ only: ["notifications", "notificationsUnreadCount"] })
   })
 
   it("shows an empty state when there are no notifications", async () => {

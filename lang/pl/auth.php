@@ -9,6 +9,9 @@ return [
         "not_verified" => "Twój adres e-mail nie został zweryfikowany.",
         "not_admin" => "To konto nie ma uprawnień administratora.",
     ],
+    "invitation" => [
+        "invalid_link" => "Nieprawidłowy lub wygasły link z zaproszeniem.",
+    ],
     "failed" => "Podane dane logowania są nieprawidłowe.",
     "password" => "Podane hasło jest nieprawidłowe.",
     "throttle" => "Zbyt wiele prób logowania. Spróbuj ponownie za :seconds sekund.",

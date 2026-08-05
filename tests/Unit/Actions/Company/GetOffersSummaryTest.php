@@ -37,7 +37,24 @@ class GetOffersSummaryTest extends TestCase
         $this->assertSame("Data Analyst Internship", $summary["title"]);
         $this->assertSame(OfferStatus::Closed->value, $summary["status"]);
         $this->assertSame(5, $summary["spots"]);
+        $this->assertSame(2, $summary["remaining_spots"]);
         $this->assertSame(3, $summary["applications_count"]);
+    }
+
+    public function testRemainingSpotsNeverGoesBelowZero(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $offer = Offer::factory()->create([
+            "company_id" => $company->id,
+            "spots" => 2,
+        ]);
+
+        Application::factory()->count(5)->create(["offer_id" => $offer->id]);
+
+        $action = new GetOffersSummary();
+        $result = $action->execute($company);
+
+        $this->assertSame(0, $result->first()["remaining_spots"]);
     }
 
     public function testItOnlyReturnsOffersBelongingToTheGivenCompany(): void

@@ -6,7 +6,7 @@ import { IconCheck, IconHeart, IconHeartFilled } from '@tabler/icons-vue'
 import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
-import { ROUTES, studentOfferApply, studentOfferFavourite, studentOfferWithdraw } from '@/Helpers/routes'
+import { ROUTES, studentOfferApply, studentOfferFavourite, studentOfferWithdraw, offerShow } from '@/Helpers/routes'
 
 const props = defineProps({
   offer: { type: Object, required: true },
@@ -114,6 +114,16 @@ function confirmWithdraw() {
     },
   })
 }
+
+function showOnMap() {
+  router.get(ROUTES.OFFERS, {
+    view: 'map',
+    offerId: props.offer.id,
+  }, {
+    preserveState: false,
+    preserveScroll: true,
+  })
+}
 </script>
 
 <template>
@@ -155,7 +165,12 @@ function confirmWithdraw() {
               </span>
             </div>
             <h3 class="mt-1 text-xl font-semibold tracking-tight text-text sm:text-2xl">
-              {{ offer.title }}
+              <Link
+                :href="offerShow(offer.id)"
+                class="transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+              >
+                {{ offer.title }}
+              </Link>
             </h3>
           </div>
         </div>
@@ -174,9 +189,8 @@ function confirmWithdraw() {
       <div class="mt-5 flex flex-wrap items-center gap-3">
         <button
           type="button"
-          class="inline-flex items-center justify-center rounded-xl border border-border cursor-pointer bg-white px-4 py-2.5 text-sm font-semibold text-text opacity-60 transition cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-          aria-disabled="true"
-          :title="t('student.offers.card.mapComingSoon')"
+          class="inline-flex items-center justify-center rounded-xl border border-border cursor-pointer bg-white px-4 py-2.5 text-sm font-semibold text-text hover:border-primary/40 hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          @click="showOnMap"
         >
           {{ t('student.offers.card.showOnMap') }}
         </button>

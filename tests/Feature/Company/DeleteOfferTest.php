@@ -11,6 +11,7 @@ use App\Models\Application;
 use App\Models\Company;
 use App\Models\Offer;
 use App\Models\User;
+use App\Notifications\OfferUnavailableNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -47,7 +48,7 @@ class DeleteOfferTest extends TestCase
         $user = $this->makeCompanyAdmin($company);
         $offer = Offer::factory()->published()->create(["company_id" => $company->id]);
 
-        $response = $this->actingAs($user)->delete("/company/offers/{$offer->id}");
+        $response = $this->from("/company/offers")->actingAs($user)->delete("/company/offers/{$offer->id}");
 
         $response->assertRedirect("/company/offers");
         $this->assertSoftDeleted("offers", ["id" => $offer->id]);
@@ -98,6 +99,25 @@ class DeleteOfferTest extends TestCase
             OfferUnavailableMail::class,
             fn(OfferUnavailableMail $mail): bool => $mail->hasTo($student->email) && $mail->reason === "deleted",
         );
+    }
+
+    public function testDeletingOfferCreatesInAppNotificationForApplicants(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+        $offer = Offer::factory()->published()->create(["company_id" => $company->id]);
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+        Application::factory()->create(["offer_id" => $offer->id, "student_id" => $student->id]);
+
+        $this->actingAs($user)->delete("/company/offers/{$offer->id}");
+
+        $this->assertDatabaseHas("notifications", [
+            "notifiable_id" => $student->id,
+            "type" => OfferUnavailableNotification::class,
+        ]);
     }
 
     private function makeCompanyAdmin(Company $company): User

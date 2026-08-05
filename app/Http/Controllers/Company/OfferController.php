@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Company;
 
 use App\Actions\Company\CreateOffer;
 use App\Actions\Company\GetOffersSummary;
+use App\Actions\Company\GetOfferStatusCounts;
 use App\Actions\Company\PublishOffer;
 use App\Actions\Company\UpdateOffer;
 use App\DTO\Offer\CreateOfferData;
@@ -18,9 +19,9 @@ use App\Models\Offer;
 use App\Models\StudyField;
 use App\Models\University;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Inertia\Inertia;
 use Inertia\Response;
 
 class OfferController extends Controller
@@ -30,15 +31,27 @@ class OfferController extends Controller
         private readonly UpdateOffer $updateOffer,
         private readonly PublishOffer $publishOffer,
         private readonly GetOffersSummary $getOffersSummary,
+        private readonly GetOfferStatusCounts $getOfferStatusCounts,
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $company = Auth::user()->company;
 
-        return Inertia::render("Company/Offers", [
-            "offers" => $this->getOffersSummary->execute($company),
+        $offers = $this->getOffersSummary->execute(
+            $company,
+            $request->string("sort", "created_at")->toString(),
+            $request->string("direction", "desc")->toString(),
+            OfferStatus::tryFrom($request->string("status")->toString()),
+            $request->string("search")->toString() ?: null,
+        );
+
+        return inertia("Company/Offers", [
+            "offers" => $offers,
             "isCompanyVerified" => $company->verification_status === VerificationStatus::Verified,
+            "search" => $request->string("search")->toString(),
+            "status" => $request->string("status")->toString(),
+            "statusCounts" => $this->getOfferStatusCounts->execute($company),
         ]);
     }
 
@@ -110,7 +123,7 @@ class OfferController extends Controller
 
         $offer->update(["status" => OfferStatus::Closed]);
 
-        return $this->redirectAfterOfferAction();
+        return back();
     }
 
     public function destroy(Offer $offer): RedirectResponse
@@ -119,7 +132,7 @@ class OfferController extends Controller
 
         $offer->delete();
 
-        return $this->redirectAfterOfferAction();
+        return back();
     }
 
     private function redirectAfterOfferAction(): RedirectResponse

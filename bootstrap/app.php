@@ -32,7 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo(function (): string {
             return match (auth()->user()?->role) {
                 UserRole::SuperAdmin => route("admin.dashboard"),
-                UserRole::CompanyAdmin => route("company.dashboard"),
+                UserRole::CompanyAdmin, UserRole::CompanyMember => route("company.dashboard"),
                 UserRole::UniversityAdmin => route("university.dashboard"),
                 UserRole::Student => route("student.dashboard"),
                 default => route("login"),

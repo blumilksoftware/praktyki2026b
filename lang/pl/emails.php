@@ -84,4 +84,13 @@ return [
         "reason_expired" => "jej termin minął",
         "reason_deleted" => "została usunięta przez firmę",
     ],
+
+    "team_invitation" => [
+        "subject" => "Zaproszenie do zespołu :company w Applikuj",
+        "title" => "Zaproszenie do zespołu",
+        "body" => "Zostałeś zaproszony do dołączenia do zespołu firmy :company w serwisie Applikuj.",
+        "expiration_message" => "Pamiętaj, że zaproszenie wygasa za :count dni.",
+        "button" => "Akceptuj zaproszenie",
+        "ignore_notice" => "Jeśli nie spodziewałeś się tego zaproszenia, możesz zignorować tę wiadomość.",
+    ],
 ];

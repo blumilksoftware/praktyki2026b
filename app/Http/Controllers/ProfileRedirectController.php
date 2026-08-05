@@ -13,7 +13,7 @@ class ProfileRedirectController extends Controller
     {
         $user = $request->user();
 
-        if ($user->role === userRole::CompanyAdmin) {
+        if (in_array($user->role, [userRole::CompanyAdmin, userRole::CompanyMember], true)) {
             return redirect()->route("company.profile");
         }
 
@@ -32,7 +32,7 @@ class ProfileRedirectController extends Controller
     {
         $user = $request->user();
 
-        if ($user->role === userRole::CompanyAdmin) {
+        if (in_array($user->role, [userRole::CompanyAdmin, userRole::CompanyMember], true)) {
             return redirect()->route("company.profile.edit");
         }
 
@@ -51,7 +51,7 @@ class ProfileRedirectController extends Controller
     {
         $user = $request->user();
 
-        if ($user->role === userRole::CompanyAdmin) {
+        if (in_array($user->role, [userRole::CompanyAdmin, userRole::CompanyMember], true)) {
             return redirect()->route("company.profile.update", [], 307);
         }
 
