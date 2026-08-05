@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\Unit\Actions\Auth;
 
 use App\Actions\Auth\AcceptInvitation;
-use App\Enums\CompanyInvitationStatus;
+use App\Enums\InvitationStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\Company;
-use App\Models\CompanyInvitation;
+use App\Models\OrganizationInvitation;
+use App\Models\University;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -30,8 +31,8 @@ class AcceptInvitationTest extends TestCase
     public function testItCreatesCompanyMemberAndMarksInvitationAccepted(): void
     {
         $company = Company::factory()->approved()->create();
-        $invitation = CompanyInvitation::factory()->create([
-            "company_id" => $company->id,
+        $invitation = OrganizationInvitation::factory()->create([
+            "organization_id" => $company->id,
             "email" => "invitee@example.com",
             "token" => hash("sha256", "plain-token"),
         ]);
@@ -48,8 +49,46 @@ class AcceptInvitationTest extends TestCase
         $this->assertTrue(Hash::check("Password123!", $user->password));
 
         $invitation->refresh();
-        $this->assertEquals(CompanyInvitationStatus::Accepted, $invitation->status);
+        $this->assertEquals(InvitationStatus::Accepted, $invitation->status);
         $this->assertNotNull($invitation->accepted_at);
+    }
+
+    public function testItCreatesUniversityMemberForUniversityInvitation(): void
+    {
+        $university = University::factory()->approved()->create();
+        OrganizationInvitation::factory()->forUniversity()->create([
+            "organization_id" => $university->id,
+            "email" => "invitee@example.com",
+            "token" => hash("sha256", "plain-token"),
+        ]);
+
+        $user = $this->action->execute("plain-token", "Jan", "Kowalski", "Password123!");
+
+        $this->assertEquals(UserRole::UniversityMember, $user->role);
+        $this->assertEquals($university->id, $user->organization_id);
+    }
+
+    public function testItRevokesOtherPendingInvitationsForTheSameEmail(): void
+    {
+        OrganizationInvitation::factory()->create([
+            "email" => "invitee@example.com",
+            "token" => hash("sha256", "plain-token"),
+        ]);
+
+        $otherOrganization = OrganizationInvitation::factory()->forUniversity()->create([
+            "email" => "invitee@example.com",
+        ]);
+        $otherEmail = OrganizationInvitation::factory()->create([
+            "email" => "someone-else@example.com",
+        ]);
+
+        $this->action->execute("plain-token", "Jan", "Kowalski", "Password123!");
+
+        $otherOrganization->refresh();
+        $this->assertEquals(InvitationStatus::Revoked, $otherOrganization->status);
+        $this->assertNotNull($otherOrganization->revoked_at);
+
+        $this->assertEquals(InvitationStatus::Pending, $otherEmail->fresh()->status);
     }
 
     public function testItRejectsUnknownToken(): void
@@ -61,7 +100,7 @@ class AcceptInvitationTest extends TestCase
 
     public function testItRejectsExpiredToken(): void
     {
-        CompanyInvitation::factory()->expired()->create([
+        OrganizationInvitation::factory()->expired()->create([
             "token" => hash("sha256", "plain-token"),
         ]);
 
@@ -72,7 +111,7 @@ class AcceptInvitationTest extends TestCase
 
     public function testItRejectsRevokedToken(): void
     {
-        CompanyInvitation::factory()->revoked()->create([
+        OrganizationInvitation::factory()->revoked()->create([
             "token" => hash("sha256", "plain-token"),
         ]);
 
@@ -83,7 +122,7 @@ class AcceptInvitationTest extends TestCase
 
     public function testItRejectsAlreadyAcceptedToken(): void
     {
-        CompanyInvitation::factory()->accepted()->create([
+        OrganizationInvitation::factory()->accepted()->create([
             "token" => hash("sha256", "plain-token"),
         ]);
 

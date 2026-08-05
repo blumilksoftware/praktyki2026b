@@ -1,7 +1,7 @@
 <x-mail::message>
 # {{ __('emails.team_invitation.title') }}
 
-{{ __('emails.team_invitation.body', ['company' => $companyName]) }}
+{{ __('emails.team_invitation.body', ['organization' => $organizationName]) }}
 
 {{ __('emails.team_invitation.expiration_message', ['count' => config('auth.invitation.expire', 10080) / 60 / 24]) }}
 

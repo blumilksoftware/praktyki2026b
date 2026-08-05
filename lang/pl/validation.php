@@ -170,6 +170,7 @@ return [
     "offer_publish_invalid_status" => "Tej oferty nie można opublikować.",
     "application_status_invalid_transition" => "Nie można zmienić statusu aplikacji na wybrany.",
     "invitation_already_processed" => "To zaproszenie zostało już zaakceptowane lub cofnięte.",
+    "last_organization_admin" => "To ostatni administrator organizacji i nie można go usunąć.",
     "already_partner" => "Ta firma jest już partnerem.",
 
     "salary_min.required_if" => "Podaj minimalne wynagrodzenie, gdy oferta jest płatna.",

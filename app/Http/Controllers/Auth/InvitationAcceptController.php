@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Actions\Auth\AcceptInvitation;
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AcceptInvitationRequest;
 use Illuminate\Http\RedirectResponse;
@@ -37,6 +38,6 @@ class InvitationAcceptController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->route("company.dashboard");
+        return redirect()->route($user->role === UserRole::UniversityMember ? "university.dashboard" : "company.dashboard");
     }
 }
