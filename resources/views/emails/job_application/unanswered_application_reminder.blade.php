@@ -5,8 +5,6 @@
 
 {{ __('emails.job_application.reminder.line_2') }}
 
-{{ $applicationUrl }}
-
 <x-mail::button :url="$applicationUrl">
 {{ __('emails.job_application.reminder.action') }}
 </x-mail::button>
