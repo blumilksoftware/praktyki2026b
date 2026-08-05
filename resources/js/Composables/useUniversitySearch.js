@@ -31,7 +31,9 @@ export function useUniversitySearch() {
           signal: abortController.signal,
           headers: { Accept: 'application/json' },
         })
-        const data = response.ok ? await response.json() : { universities: []
+        const data = response.ok
+          ? await response.json()
+          : { universities: [],
         }
         suggestions.value = data.universities
       } catch (error) {

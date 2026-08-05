@@ -68,26 +68,29 @@ const onKeydown = (event) => {
 }
 </script>
 
+
+
 <template>
   <div class="relative">
-  <BaseInput
-    :id="id" :model-value="displayValue" :label="label"
-    :placeholder="placeholder" :error="error"
-    dropdown :dropdown-open="isOpen" autocomplete="off"
-    @update:model-value="onInput" @focus="isOpen = true" @blur="onBlur"
-    @keydown="onKeydown"
-  />
-  <ul v-if="showDropdown" class="absolute z-20 mt-1 w-full overflow-hidden
-  rounded-xl border border-border bg-white shadow-lg">
-    <li
-      v-for="(university, index) in suggestions" :key="university.id"
-      class="cursor-pointer px-4 py-2 text-sm"
-      :class="index === highlightedIndex ? 'bg-secondary/10' :
-  'hover:bg-secondary/5'"
-      @mousedown.prevent="selectUniversity(university)"
+    <BaseInput
+      :id="id" :model-value="displayValue" :label="label"
+      :placeholder="placeholder" :error="error"
+      dropdown :dropdown-open="isOpen" autocomplete="off"
+      @update:model-value="onInput" @focus="isOpen = true" @blur="onBlur"
+      @keydown="onKeydown"
+    />
+    <ul v-if="showDropdown" class="absolute z-20 mt-1 w-full overflow-hidden
+  rounded-xl border border-border bg-white shadow-lg"
     >
-      {{ university.name }}
-    </li>
-  </ul>
+      <li
+        v-for="(university, index) in suggestions" :key="university.id"
+        class="cursor-pointer px-4 py-2 text-sm"
+        :class="index === highlightedIndex ? 'bg-secondary/10' :
+          'hover:bg-secondary/5'"
+        @mousedown.prevent="selectUniversity(university)"
+      >
+        {{ university.name }}
+      </li>
+    </ul>
   </div>
 </template>
