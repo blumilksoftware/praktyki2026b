@@ -68,8 +68,6 @@ const onKeydown = (event) => {
 }
 </script>
 
-
-
 <template>
   <div class="relative">
     <BaseInput

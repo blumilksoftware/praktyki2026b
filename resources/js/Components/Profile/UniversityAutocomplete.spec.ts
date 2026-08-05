@@ -10,7 +10,7 @@ const i18n = createI18n({ legacy: false, locale: 'en', messages: { en } })
 const suggestions = ref<{ id: string, name: string }[]>([])
 const fetchSuggestions = vi.fn((query: string) => {
   suggestions.value = query.length >= 2
-    ? [{ id: 'uni-1', name: 'Politechnika Wrocławska' }, { id: 'uni-2', name: 'Uniwersytet Wrocławski' }]
+    ? [{ id: 'uni-1', name: 'Institute of Technology' }, { id: 'uni-2', name: 'State University' }]
     : []
 })
 const clearSuggestions = vi.fn(() => { suggestions.value = [] })
@@ -40,8 +40,8 @@ describe('UniversityAutocomplete.vue', () => {
     await wrapper.find('input').setValue('Poli')
     await wrapper.find('input').trigger('focus')
 
-    expect(wrapper.text()).toContain('Politechnika Wrocławska')
-    expect(wrapper.text()).toContain('Uniwersytet Wrocławski')
+    expect(wrapper.text()).toContain('Institute of Technology')
+    expect(wrapper.text()).toContain('State University')
   })
 
   it('emits update:modelValue and select with the full university object on click', async () => {
@@ -51,8 +51,8 @@ describe('UniversityAutocomplete.vue', () => {
     await wrapper.find('input').trigger('focus')
     await wrapper.findAll('li')[0].trigger('mousedown')
 
-    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['Politechnika Wrocławska'])
-    expect(wrapper.emitted('select')?.at(-1)).toEqual([{ id: 'uni-1', name: 'Politechnika Wrocławska' }])
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['Institute of Technology'])
+    expect(wrapper.emitted('select')?.at(-1)).toEqual([{ id: 'uni-1', name: 'Institute of Technology' }])
   })
 
   it('shows no dropdown when there are no matches', async () => {

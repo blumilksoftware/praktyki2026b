@@ -17,8 +17,8 @@ import { ROUTES } from '@/Helpers/routes'
 const props = defineProps({
   user: { type: Object, required: true },
   studyFields: { type: Array, default: () => [] },
-  universityOrganization: { type: Object, default: null },
-  suggestedUniversity: { type: Object, default: null },
+  university_organization: { type: Object, default: null },
+  suggested_university: { type: Object, default: null },
 })
 
 const { t } = useI18n()
@@ -44,17 +44,17 @@ const profileForm = useForm({
   work_modes: [...(props.user.work_modes ?? [])],
 })
 
-if (!profileForm.university && props.suggestedUniversity) {
-  profileForm.university = props.suggestedUniversity.name
+if (!profileForm.university && props.suggested_university) {
+  profileForm.university = props.suggested_university.name
 }
 
 const isUniversitySuggested = computed(() =>
-  !props.universityOrganization
-  && props.suggestedUniversity !== null
-  && profileForm.university === props.suggestedUniversity.name,
+  !props.university_organization
+  && props.suggested_university !== null
+  && profileForm.university === props.suggested_university.name,
 )
 
-const selectedUniversityId = ref(props.suggestedUniversity?.id ?? null)
+const selectedUniversityId = ref(props.suggested_university?.id ?? null)
 
 const hasPhotoPending = computed(() => Boolean(pendingPhoto.value))
 const fieldError = (field) => profileForm.errors[field]
