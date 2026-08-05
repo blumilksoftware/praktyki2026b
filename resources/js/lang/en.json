@@ -807,50 +807,64 @@
         "description": "Publish an offer or save it as a draft to finish later.",
         "action": "Create offer"
       },
-        "offers": {
-            "title": "Offers",
-            "subtitle": "Manage your job postings and applications",
-            "noOffers": "No offers yet",
-            "confirmDelete": "Are you sure you want to delete this offer?",
-            "status": {
-                "published": "Published",
-                "draft": "Draft",
-                "closed": "Closed",
-                "expired": "Expired"
-            },
-            "table": {
-                "offer": "Offer",
-                "status": "Status",
-                "spots": "Spots",
-                "applications": "Applications",
-                "actions": "Actions"
-            },
-            "search": {
-                "placeholder": "Search offers",
-                "clear": "Clear search"
-            },
-            "actions": {
-                "menu": "Open actions menu",
-                "edit": "Edit",
-                "activate": "Activate",
-                "deactivate": "Deactivate",
-                "delete": "Delete"
-            },
-            "pagination": {
-                "summary": "Showing {from}–{to} of {total}"
-            },
-            "filters": {
-                "allStatuses": "All",
-                "published": "Published",
-                "draft": "Draft",
-                "closed": "Closed",
-                "expired": "Expired"
-            }
+      "offers": {
+        "title": "Offers",
+        "subtitle": "Manage your job postings and applications",
+        "noOffers": "No offers yet",
+        "confirmDelete": "Are you sure you want to delete this offer?",
+        "search": {
+          "placeholder": "Search offers",
+          "clear": "Clear search"
+        },
+        "filters": {
+          "allStatuses": "All",
+          "published": "Published",
+          "draft": "Draft",
+          "closed": "Closed",
+          "expired": "Expired"
+        },
+        "status": {
+          "published": "Published",
+          "draft": "Draft",
+          "closed": "Closed",
+          "expired": "Expired"
+        },
+        "table": {
+          "offer": "Offer",
+          "status": "Status",
+          "spots": "Spots",
+          "applications": "Applications",
+          "actions": "Actions"
+        },
+        "actions": {
+          "menu": "Open actions menu",
+          "edit": "Edit",
+          "activate": "Activate",
+          "deactivate": "Deactivate",
+          "delete": "Delete"
+        },
+        "pagination": {
+          "summary": "Showing {from}–{to} of {total}"
         }
+      }
     },
     "profile": {
-      "title": "Profile",
-        "subtitle": "Browse offers and narrow results to match your preferences."
+      "title": "Profile"
+    },
+    "offer": {
+      "delete": {
+        "modalTitle": "Delete offer?",
+        "confirmation": "Are you sure you want to delete the offer “{title}”? This cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Delete offer"
+      },
+      "unpublish": {
+        "modalTitle": "Unpublish offer?",
+        "confirmation": "The offer “{title}” will be removed from the public offer board and closed for new applications. Candidates who already applied will keep their applications.",
+        "irreversibleNotice": "This action cannot be undone. A closed offer cannot be published again.",
+        "cancel": "Cancel",
+        "confirm": "Unpublish offer"
+      }
     },
     "offers": {
       "index": {
@@ -859,12 +873,24 @@
           "title": "You haven't created any offers yet",
           "description": "Create your first offer to start receiving applications."
         },
+        "noResults": {
+          "title": "No offers match your filters",
+          "description": "Try a different search term or status."
+        },
+        "searchPlaceholder": "Search offers by title",
+        "tabs": {
+          "all": "All"
+        },
         "createAction": "Create offer",
         "editAction": "Edit",
+        "actionsMenu": "More actions",
         "publishAction": "Publish",
         "publishing": "Publishing…",
-        "applicationsCount": "{count} applications",
-        "spotsLabel": "{count} spots",
+        "unpublishAction": "Unpublish",
+        "unpublishing": "Unpublishing…",
+        "deleteAction": "Delete",
+        "applicationsCount": "Applications: {count}",
+        "spotsLabel": "Spots: {count}",
         "verificationRequiredHint": "Your company must be verified before this can be published.",
         "status": {
           "draft": "Draft",
@@ -977,6 +1003,11 @@
       "verificationRequest": "New verification request from {name}",
       "newApplication": "{student} applied to {offer}",
       "statusChanged": "Your application to {offer} is now {status}",
+      "offerUnavailable": {
+        "closed": "The offer “{offer}” you applied to has been closed by the company.",
+        "expired": "The offer “{offer}” you applied to has expired.",
+        "deleted": "The offer “{offer}” you applied to has been removed by the company."
+      },
       "fallback": "New notification"
     }
   }

@@ -20,6 +20,8 @@ export const ROUTES = {
   COMPANY_OFFERS_UPDATE: (id: number | string) => `/company/offers/${id}`,
   COMPANY_OFFERS_EDIT: (id: number | string) => `/company/offers/${id}/edit`,
   COMPANY_OFFERS_PUBLISH: (id: number | string) => `/company/offers/${id}/publish`,
+  COMPANY_OFFERS_DEACTIVATE: (id: number | string) => `/company/offers/${id}/deactivate`,
+  COMPANY_OFFERS_DELETE: (id: number | string) => `/company/offers/${id}`,
 
   // Authentication - Password & Email
   FORGOT_PASSWORD: "/forgot-password",

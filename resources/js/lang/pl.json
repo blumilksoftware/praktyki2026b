@@ -780,6 +780,21 @@
     "profile": {
       "title": "Profil"
     },
+    "offer": {
+      "delete": {
+        "modalTitle": "Usunąć ofertę?",
+        "confirmation": "Czy na pewno chcesz usunąć ofertę „{title}”? Tej operacji nie można cofnąć.",
+        "cancel": "Anuluj",
+        "confirm": "Usuń ofertę"
+      },
+      "unpublish": {
+        "modalTitle": "Wycofać ofertę z publikacji?",
+        "confirmation": "Oferta „{title}” zostanie usunięta z publicznej tablicy ofert i zamknięta dla nowych zgłoszeń. Kandydaci, którzy już aplikowali, zachowają swoje zgłoszenia.",
+        "irreversibleNotice": "Tej operacji nie można cofnąć. Zamkniętej oferty nie da się opublikować ponownie.",
+        "cancel": "Anuluj",
+        "confirm": "Wycofaj ofertę"
+      }
+    },
     "offers": {
       "index": {
         "title": "Moje oferty",
@@ -787,12 +802,24 @@
           "title": "Nie utworzyłeś jeszcze żadnej oferty",
           "description": "Utwórz swoją pierwszą ofertę, aby zacząć otrzymywać zgłoszenia."
         },
+        "noResults": {
+          "title": "Brak ofert pasujących do filtrów",
+          "description": "Spróbuj innej frazy wyszukiwania lub statusu."
+        },
+        "searchPlaceholder": "Szukaj ofert po nazwie",
+        "tabs": {
+          "all": "Wszystkie"
+        },
         "createAction": "Utwórz ofertę",
         "editAction": "Edytuj",
+        "actionsMenu": "Więcej opcji",
         "publishAction": "Opublikuj",
         "publishing": "Publikowanie…",
-        "applicationsCount": "{count} zgłoszeń",
-        "spotsLabel": "{count} miejsc",
+        "unpublishAction": "Wycofaj publikację",
+        "unpublishing": "Wycofywanie…",
+        "deleteAction": "Usuń",
+        "applicationsCount": "Zgłoszenia: {count}",
+        "spotsLabel": "Miejsca: {count}",
         "verificationRequiredHint": "Twoja firma musi zostać zweryfikowana, zanim będzie można to opublikować.",
         "status": {
           "draft": "Szkic",
@@ -849,6 +876,11 @@
         "draftHint": "Szkice są widoczne tylko dla Ciebie. Publikacja wymaga zweryfikowanego konta firmy.",
         "submitCreate": "Utwórz ofertę",
         "submitEdit": "Zapisz zmiany"
+      },
+      "delete": {
+        "modalTitle": "Usuń ofertę",
+        "cancel": "Anuluj",
+        "confirm": "Usuń ofertę"
       }
     }
   },
@@ -903,6 +935,11 @@
       "verificationRequest": "Nowy wniosek weryfikacyjny od {name}",
       "newApplication": "{student} zaaplikował(a) na {offer}",
       "statusChanged": "Status Twojej aplikacji na {offer} zmienił się na {status}",
+      "offerUnavailable": {
+        "closed": "Oferta „{offer}”, na którą aplikowałeś, została zamknięta przez firmę.",
+        "expired": "Oferta „{offer}”, na którą aplikowałeś, wygasła.",
+        "deleted": "Oferta „{offer}”, na którą aplikowałeś, została usunięta przez firmę."
+      },
       "fallback": "Nowe powiadomienie"
     }
   }

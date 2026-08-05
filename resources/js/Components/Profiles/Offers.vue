@@ -38,31 +38,36 @@ const viewAllOffers = () => {
   <div class="flex flex-col gap-6">
     <h2 class="text-xl font-bold text-text">{{ t('profiles.currentOffers') }}</h2>
 
-    <div v-if="offers && offers.length > 0" class="flex flex-col gap-4">
-      <div 
-        v-for="offer in visibleOffers" 
+    <div v-if="offers && offers.length > 0" class="flex flex-col gap-3">
+      <div
+        v-for="offer in visibleOffers"
         :key="offer.id"
-        class="border border-border rounded-2xl p-5 hover:border-primary transition-colors bg-white shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 sm:gap-6 group cursor-pointer"
+        class="rounded-2xl border border-border bg-white p-4 shadow-sm transition-colors hover:border-primary/40 sm:p-5"
       >
-        <div class="flex-1 flex items-start gap-4 sm:gap-5 w-full">
-          <div class="flex items-center justify-center bg-gray-50 border border-gray-100 rounded-xl p-3 shrink-0 text-gray-700">
-            <IconBriefcase2Filled class="w-6 h-6" />
-          </div>
-
-          <div class="flex flex-col pt-0.5">
-            <h3 class="font-semibold text-lg text-text group-hover:text-primary transition-colors">
-              {{ offer.title }}
-            </h3>
-            <p class="text-gray-500 text-sm mt-1.5 line-clamp-2">
+        <div class="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-green-700">
+                {{ t('company.offers.index.status.published') }}
+              </span>
+              <h3 class="min-w-0 truncate font-semibold text-text text-base">
+                {{ offer.title }}
+              </h3>
+            </div>
+            <div class="mt-2 flex flex-wrap items-center gap-3 text-additional text-sm">
+              <span class="inline-flex items-center gap-1">
+                <IconBriefcase2Filled class="h-4 w-4" aria-hidden="true" />
+                {{ t('profiles.spots') }}: {{ offer.spots }}
+              </span>
+            </div>
+            <p v-if="offer.description" class="mt-2 line-clamp-2 text-additional text-sm">
               {{ offer.description }}
             </p>
           </div>
-        </div>
 
-        <div class="shrink-0 w-full sm:w-auto mt-2 sm:mt-0">
           <BaseButton
             variant="primary"
-            class="px-6 py-2.5 text-sm font-medium shadow-sm w-full sm:w-auto"
+            class="w-full shrink-0 px-6 py-2.5 text-sm font-medium shadow-sm sm:w-auto"
             @click="viewOffer(offer.id)"
           >
             {{ t('buttons.view') }}

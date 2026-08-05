@@ -19,7 +19,7 @@ const bellAriaLabel = computed(() => (hasUnread.value
 
 function loadNotifications() {
   router.reload({
-    only: ['notifications'],
+    only: ['notifications', 'notificationsUnreadCount'],
     preserveScroll: true,
     preserveState: true,
   })
@@ -54,6 +54,8 @@ function notificationLabel(item) {
       offer: data.offer_title,
       status: t(`student.applications.status.${data.status}`),
     })
+  case 'offer_unavailable':
+    return t(`notifications.types.offerUnavailable.${data.reason}`, { offer: data.offer_title })
   default:
     return t('notifications.types.fallback')
   }
