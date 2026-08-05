@@ -74,6 +74,13 @@ return [
             "accepted" => "zaakceptowana",
             "rejected" => "odrzucona",
         ],
+        'reminder_subject' => 'Przypomnienie: Aplikacja na stanowisko ":job_title" czeka na rozpatrzenie już :days dni',
+        'reminder' => [
+            'greeting' => 'Dzień dobry, :company_name!',
+            'line_1' => 'Aplikacja na stanowisko :job_title oczekuje na Twoją reakcję już od :days dni.',
+            'line_2' => 'Prosimy o poświęcenie chwili na zapoznanie się z profilem kandydata i zaktualizowanie statusu.',
+            'action' => 'Zobacz aplikację',
+        ],
     ],
 
     "offer" => [

@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $offer_id
  * @property string $student_id
  * @property ApplicationStatus $status
+ * @property ?Carbon $reminder_14_sent_at
+ * @property ?Carbon $reminder_28_sent_at
  * @property ?string $cv_path
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -30,6 +32,8 @@ class Application extends Model
         "student_id",
         "status",
         "cv_path",
+        "reminder_14_sent_at",
+        "reminder_28_sent_at"
     ];
 
     /**
@@ -52,6 +56,8 @@ class Application extends Model
     {
         return [
             "status" => ApplicationStatus::class,
+            "reminder_14_sent_at" => "datetime",
+            "reminder_28_sent_at" => "datetime",
         ];
     }
 }
