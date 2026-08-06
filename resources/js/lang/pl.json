@@ -618,7 +618,11 @@
       "empty": {
         "title": "Nie masz jeszcze ulubionych ofert",
         "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj."
-      }
+      },
+        "status": {
+            "expired": "Wygasła"
+        }
+
     },
     "offers": {
       "tabs": {
