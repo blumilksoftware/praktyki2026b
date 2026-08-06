@@ -53,14 +53,33 @@ class SendApplicationReminderJobTest extends TestCase
         Mail::assertNothingSent();
     }
 
-    public function testItAbortsIfOfferOrCompanyIsMissing(): void
+    public function testItAbortsIfOfferIsMissing(): void
     {
         Mail::fake();
+
         $application = Mockery::mock(Application::class)->makePartial();
         $application->shouldReceive("refresh")->andReturnSelf();
         $application->shouldReceive("getAttribute")->with("status")->andReturn(ApplicationStatus::Pending);
-
         $application->shouldReceive("getAttribute")->with("offer")->andReturn(null);
+
+        $job = new SendApplicationReminderJob($application, 14);
+        $job->handle();
+
+        Mail::assertNothingQueued();
+        Mail::assertNothingSent();
+    }
+
+    public function testItAbortsIfCompanyIsMissing(): void
+    {
+        Mail::fake();
+
+        $offer = Mockery::mock(Offer::class)->makePartial();
+        $offer->shouldReceive("getAttribute")->with("company")->andReturn(null);
+
+        $application = Mockery::mock(Application::class)->makePartial();
+        $application->shouldReceive("refresh")->andReturnSelf();
+        $application->shouldReceive("getAttribute")->with("status")->andReturn(ApplicationStatus::Pending);
+        $application->shouldReceive("getAttribute")->with("offer")->andReturn($offer);
 
         $job = new SendApplicationReminderJob($application, 14);
         $job->handle();

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Mail;
+namespace Tests\Unit\Mail;
 
 use App\Mail\JobApplication\UnansweredApplicationReminderMail;
 use ReflectionClass;

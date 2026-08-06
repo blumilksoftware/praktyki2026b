@@ -35,11 +35,6 @@ class SendApplicationReminderJob implements ShouldQueue
             return;
         }
 
-        $url = route("company.applications", [
-            "offer" => $offer->id,
-            "status" => "pending",
-        ]);
-
         Mail::to($company->email)->send(
             new UnansweredApplicationReminderMail(
                 jobTitle: $offer->title,

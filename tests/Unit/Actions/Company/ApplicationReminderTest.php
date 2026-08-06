@@ -76,8 +76,111 @@ class ApplicationReminderTest extends TestCase
             "reminder_14_sent_at" => now(),
         ]);
 
+        Application::factory()->create([
+            "status" => ApplicationStatus::Pending,
+            "created_at" => now()->subDays(28),
+            "reminder_14_sent_at" => now()->subDays(14),
+            "reminder_28_sent_at" => now(),
+        ]);
+
         (new ApplicationReminder())->execute();
 
         Queue::assertNothingPushed();
+    }
+
+    public function testItDoesNotDispatchBeforeThreshold(): void
+    {
+        Queue::fake();
+
+        $tooEarly14 = Application::factory()->create([
+            "status" => ApplicationStatus::Pending,
+            "created_at" => now()->subDays(13),
+            "reminder_14_sent_at" => null,
+        ]);
+        $tooEarly28 = Application::factory()->create([
+            "status" => ApplicationStatus::Pending,
+            "created_at" => now()->subDays(27),
+            "reminder_14_sent_at" => now()->subDays(13),
+            "reminder_28_sent_at" => null,
+        ]);
+
+        (new ApplicationReminder())->execute();
+
+        Queue::assertNotPushed(SendApplicationReminderJob::class, fn($job) => $job->application->id === $tooEarly14->id);
+        Queue::assertNotPushed(SendApplicationReminderJob::class, fn($job) => $job->application->id === $tooEarly28->id && $job->days === 28);
+        $this->assertNull($tooEarly14->refresh()->reminder_14_sent_at);
+        $this->assertNull($tooEarly28->refresh()->reminder_28_sent_at);
+    }
+
+    public function testItDispatchesBothThresholdsIndependentlyForSameApplication(): void
+    {
+        Queue::fake();
+        $app = Application::factory()->create([
+            "status" => ApplicationStatus::Pending,
+            "created_at" => now()->subDays(30),
+            "reminder_14_sent_at" => null,
+            "reminder_28_sent_at" => null,
+        ]);
+
+        (new ApplicationReminder())->execute();
+
+        Queue::assertPushed(SendApplicationReminderJob::class, fn($job) => $job->application->id === $app->id && $job->days === 14);
+        Queue::assertPushed(SendApplicationReminderJob::class, fn($job) => $job->application->id === $app->id && $job->days === 28);
+        $this->assertNotNull($app->refresh()->reminder_14_sent_at);
+        $this->assertNotNull($app->refresh()->reminder_28_sent_at);
+    }
+
+    public function testItDoesNothingWhenNoApplicationsExist(): void
+    {
+        Queue::fake();
+
+        (new ApplicationReminder())->execute();
+
+        Queue::assertNothingPushed();
+    }
+
+    public function testItDoesNothingWhenEmptyThresholdsPassed(): void
+    {
+        Queue::fake();
+
+        Application::factory()->create([
+            'status' => ApplicationStatus::Pending,
+            'created_at' => now()->subDays(14),
+        ]);
+
+        (new ApplicationReminder())->execute([]);
+
+        Queue::assertNothingPushed();
+    }
+
+    public function testItOnlyDispatchesForMatchingApplicationsAmongMixedData(): void
+    {
+        Queue::fake();
+
+        $due = Application::factory()->create([
+            "status" => ApplicationStatus::Pending,
+            "created_at" => now()->subDays(14),
+            "reminder_14_sent_at" => null,
+        ]);
+        $wrongStatus = Application::factory()->create([
+            "status" => ApplicationStatus::Accepted,
+            "created_at" => now()->subDays(14),
+            "reminder_14_sent_at" => null,
+        ]);
+        $notDueYet = Application::factory()->create([
+            "status" => ApplicationStatus::Pending,
+            "created_at" => now()->subDays(1),
+            "reminder_14_sent_at" => null,
+        ]);
+        $alreadySent = Application::factory()->create([
+            "status" => ApplicationStatus::Pending,
+            "created_at" => now()->subDays(14),
+            "reminder_14_sent_at" => now(),
+        ]);
+
+        (new ApplicationReminder())->execute();
+
+        Queue::assertPushed(SendApplicationReminderJob::class, 1);
+        Queue::assertPushed(SendApplicationReminderJob::class, fn($job) => $job->application->id === $due->id);
     }
 }

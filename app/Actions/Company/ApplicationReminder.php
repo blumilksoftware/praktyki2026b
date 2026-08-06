@@ -7,6 +7,7 @@ namespace App\Actions\Company;
 use App\Enums\ApplicationStatus;
 use App\Jobs\SendApplicationReminderJob;
 use App\Models\Application;
+use Illuminate\Support\Facades\DB;
 
 class ApplicationReminder
 {
@@ -20,6 +21,7 @@ class ApplicationReminder
         }
     }
 
+
     private function dispatchReminders(int $days, string $column): void
     {
         Application::query()
@@ -27,9 +29,10 @@ class ApplicationReminder
             ->where("created_at", "<=", now()->subDays($days))
             ->whereNull($column)
             ->each(function (Application $application) use ($days, $column): void {
-                $application->update([$column => now()]);
-
-                SendApplicationReminderJob::dispatch($application, $days);
+                DB::transaction(function () use ($application, $days, $column) {
+                    $application->update([$column => now()]);
+                    SendApplicationReminderJob::dispatch($application, $days);
+                });
             });
     }
 }
