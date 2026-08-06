@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Enums\ApplicationStatus;
-use App\Enums\OfferStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Enums\WorkMode;

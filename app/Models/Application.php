@@ -33,7 +33,7 @@ class Application extends Model
         "status",
         "cv_path",
         "reminder_14_sent_at",
-        "reminder_28_sent_at"
+        "reminder_28_sent_at",
     ];
 
     /**

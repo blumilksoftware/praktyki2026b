@@ -62,12 +62,12 @@ return [
             "accepted" => "accepted",
             "rejected" => "rejected",
         ],
-        'reminder_subject' => 'Reminder: Application for ":job_title" has been pending for :days days',
-        'reminder' => [
-            'greeting' => 'Hello, :company_name!',
-            'line_1' => 'An application for the position :job_title has been awaiting your review for :days days.',
-            'line_2' => 'Please take a moment to review the candidate’s profile and update the status.',
-            'action' => 'View Application',
+        "reminder_subject" => 'Reminder: Application for ":job_title" has been pending for :days days',
+        "reminder" => [
+            "greeting" => "Hello, :company_name!",
+            "line_1" => "An application for the position :job_title has been awaiting your review for :days days.",
+            "line_2" => "Please take a moment to review the candidate’s profile and update the status.",
+            "action" => "View Application",
         ],
     ],
 
