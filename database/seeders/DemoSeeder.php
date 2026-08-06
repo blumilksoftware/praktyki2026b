@@ -22,15 +22,6 @@ class DemoSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create([
-            "first_name" => "Jan",
-            "last_name" => "Kowalski",
-            "email" => "jan.kowalski@example.com",
-            "role" => UserRole::Student,
-            "status" => UserStatus::Active,
-            "organization_id" => null,
-        ]);
-
-        User::factory()->create([
             "first_name" => "Super",
             "last_name" => "Admin",
             "email" => "admin@example.com",
