@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\University;
 
 use App\Actions\University\AddPartnerAction;
+use App\Actions\University\GetCompanyFilterOptions;
 use App\Actions\University\RemovePartnerAction;
 use App\Actions\University\SearchCompanies;
 use App\DTO\University\SearchCompaniesData;
@@ -21,6 +22,7 @@ class CompanyController extends Controller
         private readonly SearchCompanies $searchCompanies,
         private readonly AddPartnerAction $addPartnerAction,
         private readonly RemovePartnerAction $removePartnerAction,
+        private readonly GetCompanyFilterOptions $getCompanyFilterOptions,
     ) {}
 
     public function index(SearchCompaniesRequest $request): Response
@@ -32,9 +34,13 @@ class CompanyController extends Controller
             $universityId,
         );
 
+        $filterOptions = $this->getCompanyFilterOptions->execute();
+
         return inertia("University/Companies/Index", [
             "companies" => $companies,
             "filters" => $request->validated(),
+            "cityOptions" => $filterOptions["cities"],
+            "tagOptions" => $filterOptions["tags"],
         ]);
     }
 
