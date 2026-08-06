@@ -1,25 +1,24 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { computed, onMounted, ref, watch, reactive } from 'vue'
+import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
+import debounce from 'lodash/debounce'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import OfferMap from '@/Components/Offer/Map/OfferMap.vue'
-import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
-import BaseInput from '@/Components/Base/BaseInput.vue'
-import ClientPagination from '@/Components/Common/ClientPagination.vue'
+import OffersFilters from '@/Components/Offer/OffersFilters.vue'
 import { ROUTES } from '@/Helpers/routes'
 
-const PER_PAGE_OPTIONS = [6, 12, 24, 48]
-
 const props = defineProps({
-  offers: { type: Array, default: () => [] },
+  offers: { type: Object, required: true },
+  filters: { type: Object, default: () => ({}) },
   hasCv: { type: Boolean, default: false },
   studyFields: { type: Array, default: () => [] },
   isGuest: { type: Boolean, default: false },
   mapboxToken: { type: String, default: '' },
 })
+
 const { t } = useI18n()
 
 const layoutComponent = computed(() => (props.isGuest ? BaseLayout : StudentPanelLayout))
@@ -28,82 +27,57 @@ const layoutProps = computed(() => (props.isGuest ? {} : { activePage: 'offers' 
 const displayMode = ref('list')
 const targetOfferId = ref(null)
 
-const query = ref('')
-const city = ref('')
-const workMode = ref('')
-const verifiedOnly = ref(false)
-const viewMode = ref('all')
-const studyFieldIds = ref([])
-const dateFrom = ref('')
-const dateTo = ref('')
+const studyFieldValueToLabel = (value) => props.studyFields.find((f) => f.value === value)?.label
+const studyFieldLabelToValue = (label) => props.studyFields.find((f) => f.label === label)?.value
 
-const workModes = ['remote', 'hybrid', 'onSite']
-
-const workModeLabel = (mode) => t(`student.workModes.${mode}`)
-
-const dateRangeError = computed(() => {
-  if (dateFrom.value && dateTo.value && dateTo.value < dateFrom.value) {
-    return 'student.offers.filters.dateRangeInvalid'
-  }
-  return null
+const filters = reactive({
+  search: props.filters.search || '',
+  cities: props.filters.cities || [],
+  workModes: props.filters.work_modes || [],
+  dateFrom: props.filters.date_from || '',
+  dateTo: props.filters.date_to || '',
+  studyFieldLabels: (props.filters.study_fields || [])
+    .map(studyFieldValueToLabel)
+    .filter((label) => label !== undefined),
 })
 
-const matchesDateRange = (offer) => {
-  if (dateRangeError.value) return true
-  if (dateFrom.value && offer.end_date && offer.end_date < dateFrom.value) return false
-  return !(dateTo.value && offer.start_date && offer.start_date > dateTo.value)
+const fetchOffers = () => {
+  router.get(
+    window.location.pathname,
+    {
+      search: filters.search || undefined,
+      cities: filters.cities.length ? filters.cities : undefined,
+      work_modes: filters.workModes.length ? filters.workModes : undefined,
+      date_from: filters.dateFrom || undefined,
+      date_to: filters.dateTo || undefined,
+      study_fields: filters.studyFieldLabels.length
+        ? filters.studyFieldLabels.map(studyFieldLabelToValue).filter((value) => value !== undefined)
+        : undefined,
+      view: displayMode.value === 'map' ? 'map' : undefined,
+    },
+    {
+      preserveState: true,
+      preserveScroll: true,
+      replace: true,
+    },
+  )
 }
 
-const filteredOffers = computed(() => props.offers.filter((offer) => {
-  const queryValue = query.value.trim().toLowerCase()
-  const matchesQuery = !queryValue || [offer.title, offer.company?.name, offer.city]
-    .filter(Boolean)
-    .some((value) => String(value).toLowerCase().includes(queryValue))
+watch(
+  filters,
+  debounce(fetchOffers, 300),
+  { deep: true },
+)
 
-  const matchesCity = !city.value || offer.city === city.value
-  const matchesWorkMode = !workMode.value || offer.work_mode === workMode.value
-  const matchesVerified = !verifiedOnly.value || Boolean(offer.company?.is_verified)
-  const matchesStudyFields = studyFieldIds.value.length === 0
-    || studyFieldIds.value.some((id) => (offer.study_field_ids ?? []).includes(id))
-  const matchesView = props.isGuest || viewMode.value === 'all'
-    || (viewMode.value === 'applied' && Boolean(offer.has_applied))
-    || (viewMode.value === 'notApplied' && !offer.has_applied)
-
-  return matchesQuery && matchesCity && matchesWorkMode && matchesVerified
-    && matchesStudyFields && matchesDateRange(offer) && matchesView
-}))
-
-const availableCities = computed(() => {
-  return [...new Set(props.offers.map((offer) => offer.city).filter(Boolean))].sort()
-})
-
-const currentPage = ref(1)
-const perPage = ref(PER_PAGE_OPTIONS[0])
-
-const totalPages = computed(() => Math.max(1, Math.ceil(filteredOffers.value.length / perPage.value)))
-
-const paginatedOffers = computed(() => {
-  const start = (currentPage.value - 1) * perPage.value
-  return filteredOffers.value.slice(start, start + perPage.value)
-})
-
-watch(filteredOffers, () => {
-  currentPage.value = 1
-})
-
-watch(perPage, () => {
-  currentPage.value = 1
-})
+watch(displayMode, fetchOffers)
 
 const resetFilters = () => {
-  query.value = ''
-  city.value = ''
-  workMode.value = ''
-  verifiedOnly.value = false
-  studyFieldIds.value = []
-  dateFrom.value = ''
-  dateTo.value = ''
-  currentPage.value = 1
+  filters.search = ''
+  filters.cities = []
+  filters.workModes = []
+  filters.dateFrom = ''
+  filters.dateTo = ''
+  filters.studyFieldLabels = []
 }
 
 onMounted(() => {
@@ -151,122 +125,18 @@ onMounted(() => {
       </header>
 
       <div class="flex flex-col lg:items-start gap-6 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <aside aria-labelledby="offers-filters-heading" class="lg:top-6 lg:sticky bg-white/90 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm p-5 border border-border/80 rounded-3xl">
-          <div class="flex justify-between items-start gap-3">
-            <div>
-              <p class="font-medium text-additional text-sm">{{ t('student.offers.filters.kicker') }}</p>
-              <h2 id="offers-filters-heading" class="mt-2 font-semibold text-text text-2xl tracking-tight">
-                {{ t('student.offers.filters.title') }}
-              </h2>
-            </div>
-            <button
-              type="button"
-              class="hover:bg-background px-3 py-1.5 border border-border cursor-pointer hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-xs transition"
-              :aria-label="t('student.offers.filters.reset')"
-              @click="resetFilters"
-            >
-              {{ t('student.offers.filters.reset') }}
-            </button>
-          </div>
-
-          <div class="space-y-4 mt-6">
-            <label class="block" for="offers-filter-search">
-              <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.search') }}</span>
-              <input
-                id="offers-filter-search"
-                v-model="query"
-                type="search"
-                :placeholder="t('student.offers.filters.searchPlaceholder')"
-                class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text placeholder:text-additional text-sm transition"
-              >
-            </label>
-
-            <DynamicMultiSelect
-              id="offers-filter-study-fields"
-              v-model="studyFieldIds"
-              :label="t('student.offers.filters.studyFields.label')"
-              :placeholder="t('student.offers.filters.studyFields.placeholder')"
-              :options="studyFields"
-              :allow-custom="false"
-            />
-
-            <label class="block" for="offers-filter-city">
-              <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.city') }}</span>
-              <select
-                id="offers-filter-city"
-                v-model="city"
-                class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text text-sm transition"
-              >
-                <option value="">{{ t('student.offers.filters.allCities') }}</option>
-                <option v-for="availableCity in availableCities" :key="availableCity" :value="availableCity">
-                  {{ availableCity }}
-                </option>
-              </select>
-            </label>
-
-            <label class="block" for="offers-filter-work-mode">
-              <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.workMode') }}</span>
-              <select
-                id="offers-filter-work-mode"
-                v-model="workMode"
-                class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text text-sm transition"
-              >
-                <option value="">{{ t('student.offers.filters.allWorkModes') }}</option>
-                <option v-for="mode in workModes" :key="mode" :value="mode">
-                  {{ workModeLabel(mode) }}
-                </option>
-              </select>
-            </label>
-
-            <div>
-              <p class="mb-2 font-medium text-text text-sm">
-                {{ t('student.offers.filters.dateRange.label') }}
-              </p>
-              <div class="grid grid-cols-1 gap-3">
-                <BaseInput
-                  id="offers-filter-date-from"
-                  v-model="dateFrom"
-                  type="date"
-                  stacked
-                  :label="t('student.offers.filters.dateRange.from')"
-                />
-                <BaseInput
-                  id="offers-filter-date-to"
-                  v-model="dateTo"
-                  type="date"
-                  stacked
-                  :label="t('student.offers.filters.dateRange.to')"
-                />
-              </div>
-              <p
-                v-if="dateRangeError"
-                class="mt-2 text-error text-sm"
-                role="alert"
-              >
-                {{ t(dateRangeError) }}
-              </p>
-            </div>
-
-            <div class="bg-background px-4 py-3 border border-border rounded-2xl">
-              <label class="flex items-center gap-3 text-text text-sm" for="offers-filter-verified-only">
-                <input
-                  id="offers-filter-verified-only"
-                  v-model="verifiedOnly"
-                  type="checkbox"
-                  class="border-border cursor-pointer rounded focus:ring-primary/30 w-4 h-4 text-primary"
-                >
-                <span>{{ t('student.offers.filters.verifiedOnly') }}</span>
-              </label>
-            </div>
-          </div>
-        </aside>
+        <OffersFilters
+          v-model="filters"
+          :study-fields="studyFields"
+          @reset="resetFilters"
+        />
 
         <section aria-labelledby="offers-list-heading" class="-mx-4 sm:mx-0 sm:rounded-3xl sm:border sm:border-border/80 sm:bg-white/90 sm:p-6 sm:shadow-[0_14px_40px_rgba(11,26,48,0.08)] sm:backdrop-blur-sm">
           <div class="flex justify-between items-end gap-4 mb-5 px-4 pt-5 sm:px-0 sm:pt-0">
             <div>
               <p class="font-medium text-additional text-sm">{{ t('student.offers.results.caption') }}</p>
               <h2 id="offers-list-heading" class="mt-1 font-semibold text-text text-3xl tracking-tight" aria-live="polite">
-                {{ t('student.offers.results.count', { count: filteredOffers.length }) }}
+                {{ t('student.offers.results.count', { count: offers.total || offers.data.length }) }}
               </h2>
             </div>
 
@@ -296,69 +166,17 @@ onMounted(() => {
             </div>
           </div>
 
-          <div v-if="!isGuest" role="tablist" class="mb-5 flex gap-2 overflow-x-auto border-b border-border px-4 sm:px-0" :aria-label="t('student.offers.filters.title')">
-            <button
-              type="button"
-              role="tab"
-              :aria-selected="viewMode === 'all'"
-              class="shrink-0 cursor-pointer whitespace-nowrap border-b-2 px-3 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-              :class="viewMode === 'all' ? 'border-primary text-primary' : 'border-transparent text-additional hover:text-text'"
-              @click="viewMode = 'all'"
-            >
-              {{ t('student.offers.tabs.all') }}
-            </button>
-            <button
-              type="button"
-              role="tab"
-              :aria-selected="viewMode === 'applied'"
-              class="shrink-0 cursor-pointer whitespace-nowrap border-b-2 px-3 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-              :class="viewMode === 'applied' ? 'border-primary text-primary' : 'border-transparent text-additional hover:text-text'"
-              @click="viewMode = 'applied'"
-            >
-              {{ t('student.offers.tabs.applied') }}
-            </button>
-            <button
-              type="button"
-              role="tab"
-              :aria-selected="viewMode === 'notApplied'"
-              class="shrink-0 cursor-pointer whitespace-nowrap border-b-2 px-3 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-              :class="viewMode === 'notApplied' ? 'border-primary text-primary' : 'border-transparent text-additional hover:text-text'"
-              @click="viewMode = 'notApplied'"
-            >
-              {{ t('student.offers.tabs.notApplied') }}
-            </button>
-          </div>
-
           <template v-if="displayMode === 'list'">
             <OffersList
-              :offers="paginatedOffers"
+              :offers="offers"
               :has-cv="hasCv"
               :guest="isGuest"
-              :empty-title="viewMode === 'applied' ? t('student.offers.emptyApplied.title') : undefined"
-              :empty-description="viewMode === 'applied' ? t('student.offers.emptyApplied.description') : undefined"
             />
-
-            <div class="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm text-additional sm:justify-end">
-              <label class="flex items-center gap-2" for="offers-per-page">
-                {{ t('student.offers.pagination.perPage') }}
-                <select
-                  id="offers-per-page"
-                  v-model.number="perPage"
-                  class="rounded-lg border border-border bg-white py-1.5 pl-3 pr-8 text-text outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                >
-                  <option v-for="size in PER_PAGE_OPTIONS" :key="size" :value="size">
-                    {{ size }}
-                  </option>
-                </select>
-              </label>
-            </div>
-
-            <ClientPagination v-model:current-page="currentPage" :total-pages="totalPages" />
           </template>
 
           <template v-else>
             <OfferMap
-              :offers="filteredOffers"
+              :offers="offers.data"
               :has-cv="hasCv"
               :guest="isGuest"
               :initial-offer-id="targetOfferId"
