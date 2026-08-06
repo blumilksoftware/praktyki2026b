@@ -10,6 +10,7 @@ use App\Models\Application;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\HtmlString;
 
 class SendApplicationReminderJob implements ShouldQueue
 {
@@ -35,9 +36,9 @@ class SendApplicationReminderJob implements ShouldQueue
             return;
         }
 
-        $url = route("company.applications", [
-            "offer" => $offer->id,
-            "status" => "pending",
+        $url = route('company.applications', [
+            'offer' => $offer->id,
+            'status' => 'pending',
         ]);
 
         Mail::to($company->email)->send(
@@ -45,9 +46,9 @@ class SendApplicationReminderJob implements ShouldQueue
                 jobTitle: $offer->title,
                 companyName: $company->name,
                 daysPending: $this->days,
-                applicationUrl: route("company.applications", [
-                    "offer" => $offer->id,
-                    "status" => "pending",
+                applicationUrl: route('company.applications', [
+                    'offer' => $offer->id,
+                    'status' => 'pending',
                 ]),
             ),
         );

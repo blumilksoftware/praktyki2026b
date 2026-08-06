@@ -9,13 +9,13 @@ use Illuminate\Console\Command;
 
 class SendApplicationRemindersCommand extends Command
 {
-    protected $signature = "send-application-reminders";
-    protected $description = "Send 14 and 28 day reminder emails for pending applications";
+    protected $signature = 'send-application-reminders';
+    protected $description = 'Send 14 and 28 day reminder emails for pending applications';
 
     public function handle(ApplicationReminder $reminder): void
     {
         $reminder->execute();
 
-        $this->info("Reminder jobs dispatched successfully.");
+        $this->info('Reminder jobs dispatched successfully.');
     }
 }

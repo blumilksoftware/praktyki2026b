@@ -12,6 +12,6 @@ Artisan::command("inspire", function (): void {
 
 Schedule::command("offers:expire")->daily();
 
-Schedule::command("send-application-reminders")
+Schedule::command('send-application-reminders')
     ->daily()
     ->withoutOverlapping();
