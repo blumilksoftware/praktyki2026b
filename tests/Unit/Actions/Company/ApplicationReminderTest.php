@@ -144,8 +144,8 @@ class ApplicationReminderTest extends TestCase
         Queue::fake();
 
         Application::factory()->create([
-            'status' => ApplicationStatus::Pending,
-            'created_at' => now()->subDays(14),
+            "status" => ApplicationStatus::Pending,
+            "created_at" => now()->subDays(14),
         ]);
 
         (new ApplicationReminder())->execute([]);

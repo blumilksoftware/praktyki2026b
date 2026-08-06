@@ -21,7 +21,6 @@ class ApplicationReminder
         }
     }
 
-
     private function dispatchReminders(int $days, string $column): void
     {
         Application::query()
@@ -29,7 +28,7 @@ class ApplicationReminder
             ->where("created_at", "<=", now()->subDays($days))
             ->whereNull($column)
             ->each(function (Application $application) use ($days, $column): void {
-                DB::transaction(function () use ($application, $days, $column) {
+                DB::transaction(function () use ($application, $days, $column): void {
                     $application->update([$column => now()]);
                     SendApplicationReminderJob::dispatch($application, $days);
                 });
