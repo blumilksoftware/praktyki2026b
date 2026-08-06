@@ -56,10 +56,34 @@ class UserFactory extends Factory
         ]);
     }
 
+    public function companyAdmin(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "role" => UserRole::CompanyAdmin,
+            "status" => UserStatus::Active,
+        ]);
+    }
+
     public function companyMember(): static
     {
         return $this->state(fn(array $attributes): array => [
             "role" => UserRole::CompanyMember,
+            "status" => UserStatus::Active,
+        ]);
+    }
+
+    public function universityAdmin(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "role" => UserRole::UniversityAdmin,
+            "status" => UserStatus::Active,
+        ]);
+    }
+
+    public function universityMember(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "role" => UserRole::UniversityMember,
             "status" => UserStatus::Active,
         ]);
     }

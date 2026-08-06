@@ -86,9 +86,9 @@ return [
     ],
 
     "team_invitation" => [
-        "subject" => "Zaproszenie do zespołu :company w Applikuj",
+        "subject" => "Zaproszenie do zespołu :organization w Applikuj",
         "title" => "Zaproszenie do zespołu",
-        "body" => "Zostałeś zaproszony do dołączenia do zespołu firmy :company w serwisie Applikuj.",
+        "body" => "Zostałeś zaproszony do dołączenia do zespołu organizacji :organization w serwisie Applikuj.",
         "expiration_message" => "Pamiętaj, że zaproszenie wygasa za :count dni.",
         "button" => "Akceptuj zaproszenie",
         "ignore_notice" => "Jeśli nie spodziewałeś się tego zaproszenia, możesz zignorować tę wiadomość.",

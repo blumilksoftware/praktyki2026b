@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\CompanyInvitationStatus;
+use App\Enums\InvitationStatus;
+use App\Enums\OrganizationType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,24 +14,26 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property string $id
- * @property string $company_id
+ * @property string $organization_id
+ * @property OrganizationType $organization_type
  * @property string $email
  * @property ?string $invited_by
  * @property string $token
- * @property CompanyInvitationStatus $status
+ * @property InvitationStatus $status
  * @property ?Carbon $accepted_at
  * @property ?Carbon $revoked_at
  * @property Carbon $expires_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class CompanyInvitation extends Model
+class OrganizationInvitation extends Model
 {
     use HasFactory;
     use HasUuids;
 
     protected $fillable = [
-        "company_id",
+        "organization_id",
+        "organization_type",
         "email",
         "invited_by",
         "token",
@@ -39,14 +42,6 @@ class CompanyInvitation extends Model
         "revoked_at",
         "expires_at",
     ];
-
-    /**
-     * @return BelongsTo<Company, $this>
-     */
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
-    }
 
     /**
      * @return BelongsTo<User, $this>
@@ -64,7 +59,8 @@ class CompanyInvitation extends Model
     protected function casts(): array
     {
         return [
-            "status" => CompanyInvitationStatus::class,
+            "organization_type" => OrganizationType::class,
+            "status" => InvitationStatus::class,
             "accepted_at" => "datetime",
             "revoked_at" => "datetime",
             "expires_at" => "datetime",

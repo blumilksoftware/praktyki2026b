@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -15,8 +14,14 @@ class InviteTeamMemberRequest extends FormRequest
     {
         $user = $this->user();
 
-        return $user !== null
-            && $user->role === UserRole::CompanyAdmin
+        if ($user === null) {
+            return false;
+        }
+
+        $organizationType = $user->role->organizationType();
+
+        return $organizationType !== null
+            && $user->role === $organizationType->adminRole()
             && $user->status === UserStatus::Active;
     }
 

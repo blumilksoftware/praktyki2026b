@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
-use App\Enums\CompanyInvitationStatus;
+use App\Enums\InvitationStatus;
 use App\Enums\UserRole;
 use App\Models\Company;
-use App\Models\CompanyInvitation;
+use App\Models\OrganizationInvitation;
+use App\Models\University;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -26,11 +27,11 @@ class AcceptInvitationTest extends TestCase
                 ->where("token", "some-token"));
     }
 
-    public function testAcceptingInvitationLogsUserInAndRedirectsToDashboard(): void
+    public function testAcceptingCompanyInvitationLogsUserInAndRedirectsToCompanyDashboard(): void
     {
         $company = Company::factory()->approved()->create();
-        $invitation = CompanyInvitation::factory()->create([
-            "company_id" => $company->id,
+        $invitation = OrganizationInvitation::factory()->create([
+            "organization_id" => $company->id,
             "email" => "invitee@example.com",
             "token" => hash("sha256", "plain-token"),
         ]);
@@ -46,7 +47,30 @@ class AcceptInvitationTest extends TestCase
         ]);
 
         $invitation->refresh();
-        $this->assertEquals(CompanyInvitationStatus::Accepted, $invitation->status);
+        $this->assertEquals(InvitationStatus::Accepted, $invitation->status);
+    }
+
+    public function testAcceptingUniversityInvitationLogsUserInAndRedirectsToUniversityDashboard(): void
+    {
+        $university = University::factory()->approved()->create();
+        $invitation = OrganizationInvitation::factory()->forUniversity()->create([
+            "organization_id" => $university->id,
+            "email" => "invitee@example.com",
+            "token" => hash("sha256", "plain-token"),
+        ]);
+
+        $this->post("/invitations/plain-token", $this->validPayload())
+            ->assertRedirect(route("university.dashboard"));
+
+        $this->assertAuthenticated();
+        $this->assertDatabaseHas("users", [
+            "email" => "invitee@example.com",
+            "role" => UserRole::UniversityMember->value,
+            "organization_id" => $university->id,
+        ]);
+
+        $invitation->refresh();
+        $this->assertEquals(InvitationStatus::Accepted, $invitation->status);
     }
 
     public function testAcceptingWithUnknownTokenFails(): void
@@ -60,7 +84,7 @@ class AcceptInvitationTest extends TestCase
 
     public function testAcceptingWithExpiredTokenFails(): void
     {
-        CompanyInvitation::factory()->expired()->create([
+        OrganizationInvitation::factory()->expired()->create([
             "token" => hash("sha256", "plain-token"),
         ]);
 
@@ -73,7 +97,7 @@ class AcceptInvitationTest extends TestCase
 
     public function testAcceptingWithRevokedTokenFails(): void
     {
-        CompanyInvitation::factory()->revoked()->create([
+        OrganizationInvitation::factory()->revoked()->create([
             "token" => hash("sha256", "plain-token"),
         ]);
 
@@ -86,7 +110,7 @@ class AcceptInvitationTest extends TestCase
 
     public function testReSubmittingAnAlreadyAcceptedTokenFails(): void
     {
-        CompanyInvitation::factory()->accepted()->create([
+        OrganizationInvitation::factory()->accepted()->create([
             "token" => hash("sha256", "plain-token"),
         ]);
 
@@ -100,8 +124,8 @@ class AcceptInvitationTest extends TestCase
     public function testAcceptingWhenEmailAlreadyRegisteredFails(): void
     {
         $company = Company::factory()->approved()->create();
-        $invitation = CompanyInvitation::factory()->create([
-            "company_id" => $company->id,
+        $invitation = OrganizationInvitation::factory()->create([
+            "organization_id" => $company->id,
             "email" => "invitee@example.com",
             "token" => hash("sha256", "plain-token"),
         ]);
@@ -114,7 +138,7 @@ class AcceptInvitationTest extends TestCase
         $this->assertGuest();
 
         $invitation->refresh();
-        $this->assertEquals(CompanyInvitationStatus::Pending, $invitation->status);
+        $this->assertEquals(InvitationStatus::Pending, $invitation->status);
     }
 
     private function validPayload(array $overrides = []): array

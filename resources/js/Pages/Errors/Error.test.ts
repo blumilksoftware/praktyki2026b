@@ -46,6 +46,10 @@ describe('Error.vue', () => {
     expect(mountError(403, 'universityAdmin').find('a').attributes('href')).toBe('/university/dashboard')
   })
 
+  it('links to /university/dashboard for universityMember', () => {
+    expect(mountError(403, 'universityMember').find('a').attributes('href')).toBe('/university/dashboard')
+  })
+
   it('links to / for guest', () => {
     expect(mountError(401, null).find('a').attributes('href')).toBe('/')
   })

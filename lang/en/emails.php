@@ -74,9 +74,9 @@ return [
     ],
 
     "team_invitation" => [
-        "subject" => "You've been invited to join :company on Applikuj",
+        "subject" => "You've been invited to join :organization on Applikuj",
         "title" => "Team invitation",
-        "body" => "You have been invited to join :company on Applikuj as a team member.",
+        "body" => "You have been invited to join :organization on Applikuj as a team member.",
         "expiration_message" => "Remember that this invitation expires in :count days.",
         "button" => "Accept invitation",
         "ignore_notice" => "If you weren't expecting this invitation, you can safely ignore this email.",

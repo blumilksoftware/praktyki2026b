@@ -4,28 +4,39 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\CompanyInvitationStatus;
+use App\Enums\InvitationStatus;
+use App\Enums\OrganizationType;
 use App\Models\Company;
-use App\Models\CompanyInvitation;
+use App\Models\OrganizationInvitation;
+use App\Models\University;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends Factory<CompanyInvitation>
+ * @extends Factory<OrganizationInvitation>
  */
-class CompanyInvitationFactory extends Factory
+class OrganizationInvitationFactory extends Factory
 {
-    protected $model = CompanyInvitation::class;
+    protected $model = OrganizationInvitation::class;
 
     public function definition(): array
     {
         return [
-            "company_id" => Company::factory(),
+            "organization_id" => Company::factory(),
+            "organization_type" => OrganizationType::Company,
             "email" => fake()->unique()->safeEmail(),
             "token" => hash("sha256", Str::random(64)),
-            "status" => CompanyInvitationStatus::Pending,
+            "status" => InvitationStatus::Pending,
             "expires_at" => now()->addDays(7),
         ];
+    }
+
+    public function forUniversity(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "organization_id" => University::factory(),
+            "organization_type" => OrganizationType::University,
+        ]);
     }
 
     public function expired(): static
@@ -38,7 +49,7 @@ class CompanyInvitationFactory extends Factory
     public function accepted(): static
     {
         return $this->state(fn(array $attributes): array => [
-            "status" => CompanyInvitationStatus::Accepted,
+            "status" => InvitationStatus::Accepted,
             "accepted_at" => now(),
         ]);
     }
@@ -46,7 +57,7 @@ class CompanyInvitationFactory extends Factory
     public function revoked(): static
     {
         return $this->state(fn(array $attributes): array => [
-            "status" => CompanyInvitationStatus::Revoked,
+            "status" => InvitationStatus::Revoked,
             "revoked_at" => now(),
         ]);
     }

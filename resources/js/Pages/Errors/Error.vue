@@ -13,7 +13,7 @@ const { t } = useI18n()
 const homeUrl = computed(() => {
   if (props.role === 'superAdmin') return '/admin/dashboard'
   if (props.role === 'companyAdmin' || props.role === 'companyMember') return '/company/dashboard'
-  if (props.role === 'universityAdmin') return '/university/dashboard'
+  if (props.role === 'universityAdmin' || props.role === 'universityMember') return '/university/dashboard'
   return '/'
 })
 </script>
