@@ -21,11 +21,6 @@ class DemoSeeder extends Seeder
 {
     public function run(): void
     {
-        $wroclawUniversity = University::factory()->approved()->create([
-            "name" => "Politechnika Wrocławska",
-            "domain" => "pwr.edu.pl",
-        ]);
-
         User::factory()->create([
             "first_name" => "Jan",
             "last_name" => "Kowalski",
