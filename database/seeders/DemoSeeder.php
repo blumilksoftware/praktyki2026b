@@ -24,7 +24,7 @@ class DemoSeeder extends Seeder
         User::factory()->create([
             "first_name" => "Jan",
             "last_name" => "Kowalski",
-            "email" => "jan.kowalski@pwr.edu.pl",
+            "email" => "jan.kowalski@example.com",
             "role" => UserRole::Student,
             "status" => UserStatus::Active,
             "organization_id" => null,
