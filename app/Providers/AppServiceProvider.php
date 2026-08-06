@@ -7,10 +7,12 @@ namespace App\Providers;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\Application;
+use App\Models\CompanyInvitation;
 use App\Models\Offer;
 use App\Models\User;
 use App\Observers\OfferObserver;
 use App\Policies\ApplicationPolicy;
+use App\Policies\CompanyInvitationPolicy;
 use App\Policies\NotificationPolicy;
 use App\Policies\OfferPolicy;
 use Illuminate\Notifications\DatabaseNotification;
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(Application::class, ApplicationPolicy::class);
         Gate::policy(Offer::class, OfferPolicy::class);
+        Gate::policy(CompanyInvitation::class, CompanyInvitationPolicy::class);
         Gate::policy(DatabaseNotification::class, NotificationPolicy::class);
 
         Offer::observe(OfferObserver::class);

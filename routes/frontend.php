@@ -20,6 +20,9 @@ use Inertia\Response;
 Route::get("/", fn() => redirect()->route("login"));
 
 Route::get("/offers", [OfferController::class, "index"])->name("offers.index");
+Route::get("/offers/{offer}", [OfferController::class, "show"])
+    ->name("offers.show")
+    ->whereUuid("offer");
 
 Route::get("/companies/{company}", [CompanyProfileController::class, "show"])->name("companies.show")->whereUuid("company");
 
@@ -45,7 +48,6 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
-        Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
     });
 
 Route::middleware(["auth", "can:create," . Offer::class])

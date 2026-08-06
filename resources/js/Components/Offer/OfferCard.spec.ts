@@ -15,6 +15,10 @@ const { routerPost, routerVisit, routerDelete } = vi.hoisted(() => ({
 }))
 
 vi.mock('@inertiajs/vue3', () => ({
+  Link: {
+    props: ['href'],
+    template: '<a :href="href"><slot /></a>',
+  },
   router: { post: routerPost, visit: routerVisit, delete: routerDelete },
 }))
 
@@ -28,6 +32,7 @@ const baseOffer = {
   spots: 5,
   remaining_spots: 3,
   company: {
+    id: 'company-1',
     name: 'Acme Corp',
     logo_path: null,
     is_verified: true,
@@ -52,7 +57,7 @@ describe('OfferCard.vue', () => {
     expect(text).toContain('Acme Corp')
     expect(text).toContain('Frontend Developer Intern')
     expect(text).toContain('Wrocław')
-    expect(text).toContain('2026-09-01 - 2026-12-01')
+    expect(text).toContain('01.09.2026 - 01.12.2026')
     expect(text).toContain('3')
   })
 
@@ -232,5 +237,13 @@ describe('OfferCard.vue', () => {
     expect(mapButton!.attributes('disabled')).toBeUndefined()
     expect(mapButton!.attributes('aria-disabled')).toBe('true')
     expect(mapButton!.attributes('title')).toBe('student.offers.card.mapComingSoon')
+  })
+
+  it('links the offer title to the offer detail page', () => {
+    const wrapper = createWrapper()
+    const titleLink = wrapper.find('a[href="/offers/42"]')
+
+    expect(titleLink.exists()).toBe(true)
+    expect(titleLink.text()).toContain('Frontend Developer Intern')
   })
 })

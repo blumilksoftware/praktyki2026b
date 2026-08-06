@@ -19,6 +19,15 @@ use Illuminate\Database\Seeder;
 
 class DemoSeeder extends Seeder
 {
+    private array $citiesWithCoordinates = [
+        "Warszawa" => ["lat" => 52.2297, "lng" => 21.0122],
+        "Kraków" => ["lat" => 50.0647, "lng" => 19.9450],
+        "Wrocław" => ["lat" => 51.1100, "lng" => 17.0385],
+        "Poznań" => ["lat" => 52.4064, "lng" => 16.9299],
+        "Gdańsk" => ["lat" => 54.3520, "lng" => 18.6466],
+        "Łódź" => ["lat" => 51.7592, "lng" => 19.4560],
+    ];
+
     public function run(): void
     {
         User::factory()->create([
@@ -117,7 +126,7 @@ class DemoSeeder extends Seeder
             ]);
         });
 
-        $offers = Offer::factory()->count(4)->create([
+        $offers = Offer::factory()->count(15)->create([
             "company_id" => $approvedCompany->id,
             "spots" => 5,
         ]);
@@ -147,21 +156,60 @@ class DemoSeeder extends Seeder
             "name" => "Wydział Informatyki",
         ]);
 
-        $studyFields = StudyField::factory()->for($faculty)->count(5)->create();
+        $studyFields = StudyField::factory()->for($faculty)->count(20)->create();
 
-        $cities = ["Warszawa", "Kraków", "Wrocław", "Poznań", "Gdańsk", "Łódź"];
         $workModes = WorkMode::cases();
+        $cityNames = array_keys($this->citiesWithCoordinates);
 
-        foreach ($cities as $index => $city) {
-            $offer = Offer::factory()->create([
-                "company_id" => $approvedCompany->id,
-                "city" => $city,
-                "work_mode" => $workModes[$index % count($workModes)],
+        foreach ($cityNames as $index => $cityName) {
+            for ($i = 0; $i < 2; $i++) {
+                $coords = $this->citiesWithCoordinates[$cityName];
+
+                $latJitter = mt_rand(-15, 15) / 1000;
+                $lngJitter = mt_rand(-15, 15) / 1000;
+
+                $offer = Offer::factory()->create([
+                    "company_id" => $approvedCompany->id,
+                    "city" => $cityName,
+                    "latitude" => $coords["lat"] + $latJitter,
+                    "longitude" => $coords["lng"] + $lngJitter,
+                    "work_mode" => $workModes[$index % count($workModes)],
+                ]);
+
+                $offer->studyFields()->attach(
+                    $studyFields->random(random_int(1, 2))->pluck("id"),
+                );
+            }
+        }
+
+        $domainLinkedStudents = User::factory()->count(20)->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "email" => fn() => fake()->unique()->userName() . "@" . $approvedUniversity->domain,
+            "study_field" => fn() => $studyFields->random()->id,
+        ]);
+
+        $explicitlyLinkedStudents = User::factory()->count(3)->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "organization_id" => $approvedUniversity->id,
+            "study_field" => fn() => $studyFields->random()->id,
+        ]);
+
+        User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+            "email" => "unrelated-student@example.com",
+        ]);
+
+        $allLinkedStudents = $domainLinkedStudents->merge($explicitlyLinkedStudents);
+
+        foreach ($allLinkedStudents as $index => $student) {
+            Application::factory()->create([
+                "offer_id" => $offers[$index % $offers->count()]->id,
+                "student_id" => $student->id,
+                "status" => $index % 3 === 0 ? ApplicationStatus::Accepted : ApplicationStatus::Pending,
             ]);
-
-            $offer->studyFields()->attach(
-                $studyFields->random(random_int(1, 2))->pluck("id"),
-            );
         }
     }
 }

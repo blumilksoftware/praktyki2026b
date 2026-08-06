@@ -352,16 +352,52 @@
       }
     }
   },
-  "university": {
-    "layout": {
-      "title": "University"
-    },
+    "university": {
+        "layout": {
+            "title": "Uczelnia",
+            "nav": {
+                "dashboard": "Dashboard",
+                "profile": "Profile"
+            }
+        },
     "profile": {
       "title": "Profile"
     },
     "companies": {
       "title": "Company search"
-    }
+    },
+      "dashboard": {
+          "title": "Student Statistics",
+          "filter": {
+              "title": "Period",
+              "from": "From",
+              "to": "To",
+              "apply": "Apply",
+              "reset": "Clear"
+          },
+          "stats": {
+              "linkedStudents": "Linked Students",
+              "applicationsSubmitted": "Applications Submitted",
+              "acceptedPlacements": "Accepted Placements",
+              "acceptanceRate": "Conversion {rate}%"
+          },
+          "breakdown": {
+              "title": "Faculty and Field Statistics",
+              "subtitle": "Detailed breakdown of student activity, submitted applications, and accepted placements by university faculties and fields of study",
+              "byFaculty": "By Faculty",
+              "byField": "By Field of Study",
+              "field": "Field of Study",
+              "faculty": "Faculty",
+              "students": "Students",
+              "applications": "Applications",
+              "accepted": "Accepted",
+              "acceptedShare": "% Accepted",
+              "empty": "No data available for the selected period",
+              "unknown": "No Faculty",
+              "showingResults": "Showing {from}–{to} of {total}",
+              "searchPlaceholder": "Search..."
+          }
+      }
   },
   "student": {
     "layout": {
@@ -440,6 +476,18 @@
         "applied": "Applied",
         "notApplied": "Not applied"
       },
+        "pagination": {
+            "perPage": "Offers per page"
+        },
+    "map": {
+        "selectPinHint": "Select a pin on the map to view available offers",
+        "cityOffersTitle": "Offers in {city}",
+        "showAll": "Show all offers",
+        "viewSwitcher":{
+            "mapView": "Map view",
+            "listView": "List view"
+        }
+    },
       "filters": {
         "kicker": "Filters",
         "title": "Offer board",
@@ -468,9 +516,6 @@
         "count": "{count} offers",
         "helper": "Scrollable tile list, one offer per tile"
       },
-      "pagination": {
-        "perPage": "Offers per page"
-      },
       "empty": {
         "title": "No offers match the filters",
         "description": "Try clearing the filters or broadening your search."
@@ -485,12 +530,36 @@
         "verifiedAriaLabel": "Verified company",
         "dateRange": "Date range",
         "remainingSpots": "Remaining spots",
+        "location": "Location",
         "showOnMap": "Show on map",
         "applyNow": "Apply now",
         "addToFavorites": "Add to favorites",
         "removeFromFavorites": "Remove from favorites",
         "mapComingSoon": "The map will appear on a separate page",
         "loginToApply": "Log in to apply"
+      },
+      "detail": {
+        "backToOffers": "Back to offers",
+        "description": "Description",
+        "preferredUniversities": "Preferred universities",
+        "preferredUniversitiesEmpty": "No preferred universities listed.",
+        "studyFields": "Fields of study",
+        "studyFieldsEmpty": "No fields of study listed.",
+        "spots": "Spots",
+        "internshipPeriod": "Internship period",
+        "internshipPeriodValue": "from {start} to {end}",
+        "remainingSpots": "Available spots",
+        "remainingSpotsValue": "{remaining} of {total} still open",
+        "remainingSpotsNone": "No spots left ({total} filled)",
+        "compensation": "Compensation",
+        "paid": "Paid",
+        "unpaid": "Unpaid",
+        "salaryRange": "from {min} to {max} PLN",
+        "closedMessage": "No longer accepting applications",
+        "expiredMessage": "This offer has expired",
+        "companyProfileAria": "View company profile: {company}",
+        "similarOffers": "Similar offers",
+        "similarOfferAria": "View offer {title} at {company}"
       }
     },
     "cv": {
@@ -640,6 +709,85 @@
     "browseCta": "Browse offers",
     "search": {
       "title": "Internships and offers",
+      "subtitle": "Browse offers and narrow results to match your preferences.",
+      "resultsTitle": "Results",
+      "empty": "No offers match the selected filters.",
+      "resultsCount": "Showing {count} offers on this page."
+    },
+    "filters": {
+      "title": "Filters",
+      "clearAll": "Clear filters",
+      "studyFields": {
+        "label": "Fields of study",
+        "placeholder": "Select fields from the list"
+      },
+      "workMode": {
+        "label": "Work mode",
+        "all": "All",
+        "onSite": "On-site",
+        "hybrid": "Hybrid",
+        "remote": "Remote"
+      },
+      "dateRange": {
+        "label": "Internship date range",
+        "from": "From",
+        "to": "To"
+      },
+      "dateRangeInvalid": "The end date must be on or after the start date."
+    }
+  },
+  "company": {
+    "layout": {
+        "title": "Company",
+        "nav": {
+            "dashboard": "Dashboard",
+            "profile": "Profile"
+        }
+    },
+      "dashboard": {
+          "offers": {
+              "title": "Offers",
+              "subtitle": "Manage your job postings and applications",
+              "noOffers": "No offers yet",
+              "confirmDelete": "Are you sure you want to delete this offer?",
+              "status": {
+                  "published": "Published",
+                  "draft": "Draft",
+                  "closed": "Closed",
+                  "expired": "Expired"
+              },
+              "table": {
+                  "offer": "Offer",
+                  "status": "Status",
+                  "spots": "Spots",
+                  "applications": "Applications",
+                  "actions": "Actions"
+              },
+              "search": {
+                  "placeholder": "Search offers",
+                  "clear": "Clear search"
+              },
+              "actions": {
+                  "menu": "Open actions menu",
+                  "edit": "Edit",
+                  "activate": "Activate",
+                  "deactivate": "Deactivate",
+                  "delete": "Delete"
+              },
+              "pagination": {
+                  "summary": "Showing {from}–{to} of {total}"
+              },
+              "filters": {
+                  "allStatuses": "All",
+                  "published": "Published",
+                  "draft": "Draft",
+                  "closed": "Closed",
+                  "expired": "Expired"
+              }
+          }
+      },
+    "profile": {
+      "title": "Profile",
       "subtitle": "Browse offers and narrow results to match your preferences."
     }
   },
@@ -659,10 +807,65 @@
         "title": "Have a new internship to offer?",
         "description": "Publish an offer or save it as a draft to finish later.",
         "action": "Create offer"
+      },
+      "offers": {
+        "title": "Offers",
+        "subtitle": "Manage your job postings and applications",
+        "noOffers": "No offers yet",
+        "confirmDelete": "Are you sure you want to delete this offer?",
+        "search": {
+          "placeholder": "Search offers",
+          "clear": "Clear search"
+        },
+        "filters": {
+          "allStatuses": "All",
+          "published": "Published",
+          "draft": "Draft",
+          "closed": "Closed",
+          "expired": "Expired"
+        },
+        "status": {
+          "published": "Published",
+          "draft": "Draft",
+          "closed": "Closed",
+          "expired": "Expired"
+        },
+        "table": {
+          "offer": "Offer",
+          "status": "Status",
+          "spots": "Spots",
+          "applications": "Applications",
+          "actions": "Actions"
+        },
+        "actions": {
+          "menu": "Open actions menu",
+          "edit": "Edit",
+          "activate": "Activate",
+          "deactivate": "Deactivate",
+          "delete": "Delete"
+        },
+        "pagination": {
+          "summary": "Showing {from}–{to} of {total}"
+        }
       }
     },
     "profile": {
       "title": "Profile"
+    },
+    "offer": {
+      "delete": {
+        "modalTitle": "Delete offer?",
+        "confirmation": "Are you sure you want to delete the offer “{title}”? This cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Delete offer"
+      },
+      "unpublish": {
+        "modalTitle": "Unpublish offer?",
+        "confirmation": "The offer “{title}” will be removed from the public offer board and closed for new applications. Candidates who already applied will keep their applications.",
+        "irreversibleNotice": "This action cannot be undone. A closed offer cannot be published again.",
+        "cancel": "Cancel",
+        "confirm": "Unpublish offer"
+      }
     },
     "offers": {
       "index": {
@@ -671,12 +874,24 @@
           "title": "You haven't created any offers yet",
           "description": "Create your first offer to start receiving applications."
         },
+        "noResults": {
+          "title": "No offers match your filters",
+          "description": "Try a different search term or status."
+        },
+        "searchPlaceholder": "Search offers by title",
+        "tabs": {
+          "all": "All"
+        },
         "createAction": "Create offer",
         "editAction": "Edit",
+        "actionsMenu": "More actions",
         "publishAction": "Publish",
         "publishing": "Publishing…",
-        "applicationsCount": "{count} applications",
-        "spotsLabel": "{count} spots",
+        "unpublishAction": "Unpublish",
+        "unpublishing": "Unpublishing…",
+        "deleteAction": "Delete",
+        "applicationsCount": "Applications: {count}",
+        "spotsLabel": "Spots: {count}",
         "verificationRequiredHint": "Your company must be verified before this can be published.",
         "status": {
           "draft": "Draft",
@@ -766,16 +981,16 @@
     "dblClickToEdit": "Double click to edit",
     "clearAll": "Clear all",
         "accessibility": {
-      "inputLabel": "Dynamic list input",
-      "addItem": "Add a new item to the list",
-      "removeItem": "Remove item {item} from the list",
-      "editItem": "Edit item {item} in the list",
-      "openMenu": "Open options menu for item {item}",
-      "label": "Dynamic list with {count} items. Use arrow keys to navigate items. Press Enter to edit the selected item.",
-      "closeMenu": "Close options menu for item {item}",
-      "suggestions": "Suggestions",
-      "clearAll": "Clear all items from the list"
-    }
+            "inputLabel": "Dynamic list input",
+            "addItem": "Add a new item to the list",
+            "removeItem": "Remove item {item} from the list",
+            "editItem": "Edit item {item} in the list",
+            "openMenu": "Open options menu for item {item}",
+            "label": "Dynamic list with {count} items. Use arrow keys to navigate items. Press Enter to edit the selected item.",
+            "closeMenu": "Close options menu for item {item}",
+            "suggestions": "Suggestions",
+            "clearAll": "Clear all items from the list"
+        }
 
   },
   "notifications": {
@@ -789,6 +1004,11 @@
       "verificationRequest": "New verification request from {name}",
       "newApplication": "{student} applied to {offer}",
       "statusChanged": "Your application to {offer} is now {status}",
+      "offerUnavailable": {
+        "closed": "The offer “{offer}” you applied to has been closed by the company.",
+        "expired": "The offer “{offer}” you applied to has expired.",
+        "deleted": "The offer “{offer}” you applied to has been removed by the company."
+      },
       "fallback": "New notification"
     }
   }

@@ -363,14 +363,50 @@
   },
   "university": {
     "layout": {
-      "title": "Uczelnia"
+      "title": "Uczelnia",
+        "nav": {
+            "dashboard": "Panel",
+            "profile": "Profil"
+        }
     },
     "profile": {
       "title": "Profil"
     },
     "companies": {
       "title": "Wyszukiwarka firm"
-    }
+    },
+      "dashboard": {
+          "title": "Statystyki studentów",
+          "filter": {
+              "title": "Okres",
+              "from": "Od",
+              "to": "Do",
+              "apply": "Zastosuj",
+              "reset": "Wyczyść"
+          },
+          "stats": {
+              "linkedStudents": "Powiązani studenci",
+              "applicationsSubmitted": "Złożone wnioski",
+              "acceptedPlacements": "Zaakceptowane praktyki",
+              "acceptanceRate": "Konwersja {rate}%"
+          },
+          "breakdown": {
+              "title": "Statystyki wydziałów i kierunków",
+              "subtitle": "Szczegółowy podział aktywności studentów, złożonych aplikacji i przyjęć według jednostek uczelni",
+              "byFaculty": "Według wydziału",
+              "byField": "Według kierunku",
+              "field": "Kierunek",
+              "faculty": "Wydział",
+              "students": "Studenci",
+              "applications": "Wnioski",
+              "accepted": "Zaakceptowane",
+              "acceptedShare": "% zaakceptowanych",
+              "empty": "Brak danych dla wybranego okresu",
+              "unknown": "Bez wydziału",
+              "showingResults" : "Wyświetlono {from}–{to} z {total}",
+              "searchPlaceholder": "Szukaj..."
+          }
+      }
   },
   "student": {
     "layout": {
@@ -591,6 +627,18 @@
         "applied": "Zaaplikowane",
         "notApplied": "Niezaaplikowane"
       },
+        "pagination": {
+            "perPage": "Ofert na stronie"
+        },
+        "map": {
+            "selectPinHint": "Wybierz punkt na mapie, aby zobaczyć dostępne oferty",
+            "cityOffersTitle": "Oferty w {city}",
+            "showAll": "Pokaż wszystkie oferty",
+            "viewSwitcher": {
+                "mapView": "Widok mapy",
+                "listView": "Widok listy"
+            }
+        },
       "filters": {
         "kicker": "Filtry",
         "title": "Tablica ofert",
@@ -618,9 +666,6 @@
         "caption": "Liczba ofert",
         "count": "{count} ofert"
       },
-      "pagination": {
-        "perPage": "Ofert na stronie"
-      },
       "empty": {
         "title": "Brak ofert spełniających filtry",
         "description": "Spróbuj wyczyścić filtry albo rozszerzyć wyszukiwanie."
@@ -635,12 +680,36 @@
         "verifiedAriaLabel": "Firma zweryfikowana",
         "dateRange": "Zakres dat",
         "remainingSpots": "Pozostałe miejsca",
+        "location": "Lokalizacja",
         "showOnMap": "Pokaż na mapie",
         "applyNow": "Aplikuj teraz",
         "addToFavorites": "Dodaj do ulubionych",
         "removeFromFavorites": "Usuń z ulubionych",
         "mapComingSoon": "Mapa pojawi się w osobnej podstronie",
         "loginToApply": "Zaloguj się, aby aplikować"
+      },
+      "detail": {
+        "backToOffers": "Wróć do ofert",
+        "description": "Opis",
+        "preferredUniversities": "Preferowane uczelnie",
+        "preferredUniversitiesEmpty": "Brak wskazanych uczelni.",
+        "studyFields": "Kierunki studiów",
+        "studyFieldsEmpty": "Brak wskazanych kierunków.",
+        "spots": "Miejsca",
+        "internshipPeriod": "Okres praktyk",
+        "internshipPeriodValue": "od {start} do {end}",
+        "remainingSpots": "Wolne miejsca",
+        "remainingSpotsValue": "pozostało {remaining} z {total}",
+        "remainingSpotsNone": "brak wolnych miejsc ({total} zajętych)",
+        "compensation": "Wynagrodzenie",
+        "paid": "Płatna",
+        "unpaid": "Bezpłatna",
+        "salaryRange": "od {min} do {max} PLN",
+        "closedMessage": "Oferta nie przyjmuje już aplikacji",
+        "expiredMessage": "Ta oferta wygasła",
+        "companyProfileAria": "Zobacz profil firmy: {company}",
+        "similarOffers": "Podobne oferty",
+        "similarOfferAria": "Zobacz ofertę {title} w firmie {company}"
       }
     }
   },
@@ -667,10 +736,65 @@
         "title": "Masz nową ofertę praktyk do dodania?",
         "description": "Opublikuj ofertę albo zapisz ją jako szkic, żeby dokończyć później.",
         "action": "Utwórz ofertę"
-      }
+      },
+        "offers": {
+            "title": "Oferty",
+            "subtitle": "Zarządzaj ofertami pracy i aplikacjami kandydatów",
+            "noOffers": "Brak ofert",
+            "confirmDelete": "Czy na pewno chcesz usunąć tę ofertę?",
+            "status": {
+                "published": "Opublikowana",
+                "draft": "Szkic",
+                "closed": "Zamknięta",
+                "expired": "Wygasła"
+            },
+            "table": {
+                "offer": "Oferta",
+                "status": "Status",
+                "spots": "Miejsca",
+                "applications": "Zgłoszenia",
+                "actions": "Akcje"
+            },
+            "actions": {
+                "menu": "Otwórz menu akcji",
+                "edit": "Edytuj",
+                "activate": "Aktywuj",
+                "deactivate": "Dezaktywuj",
+                "delete": "Usuń"
+            },
+            "pagination": {
+                "summary": "Wyświetlono {from}–{to} z {total}"
+            },
+            "search": {
+                "placeholder": "Szukaj ofert",
+                "clear": "Wyczyść wyszukiwanie"
+            },
+            "filters": {
+                "allStatuses": "Wszystkie",
+                "published": "Opublikowane",
+                "draft": "Szkice",
+                "closed": "Zamknięte",
+                "expired": "Wygasłe"
+            }
+        }
     },
     "profile": {
       "title": "Profil"
+    },
+    "offer": {
+      "delete": {
+        "modalTitle": "Usunąć ofertę?",
+        "confirmation": "Czy na pewno chcesz usunąć ofertę „{title}”? Tej operacji nie można cofnąć.",
+        "cancel": "Anuluj",
+        "confirm": "Usuń ofertę"
+      },
+      "unpublish": {
+        "modalTitle": "Wycofać ofertę z publikacji?",
+        "confirmation": "Oferta „{title}” zostanie usunięta z publicznej tablicy ofert i zamknięta dla nowych zgłoszeń. Kandydaci, którzy już aplikowali, zachowają swoje zgłoszenia.",
+        "irreversibleNotice": "Tej operacji nie można cofnąć. Zamkniętej oferty nie da się opublikować ponownie.",
+        "cancel": "Anuluj",
+        "confirm": "Wycofaj ofertę"
+      }
     },
     "offers": {
       "index": {
@@ -679,12 +803,24 @@
           "title": "Nie utworzyłeś jeszcze żadnej oferty",
           "description": "Utwórz swoją pierwszą ofertę, aby zacząć otrzymywać zgłoszenia."
         },
+        "noResults": {
+          "title": "Brak ofert pasujących do filtrów",
+          "description": "Spróbuj innej frazy wyszukiwania lub statusu."
+        },
+        "searchPlaceholder": "Szukaj ofert po nazwie",
+        "tabs": {
+          "all": "Wszystkie"
+        },
         "createAction": "Utwórz ofertę",
         "editAction": "Edytuj",
+        "actionsMenu": "Więcej opcji",
         "publishAction": "Opublikuj",
         "publishing": "Publikowanie…",
-        "applicationsCount": "{count} zgłoszeń",
-        "spotsLabel": "{count} miejsc",
+        "unpublishAction": "Wycofaj publikację",
+        "unpublishing": "Wycofywanie…",
+        "deleteAction": "Usuń",
+        "applicationsCount": "Zgłoszenia: {count}",
+        "spotsLabel": "Miejsca: {count}",
         "verificationRequiredHint": "Twoja firma musi zostać zweryfikowana, zanim będzie można to opublikować.",
         "status": {
           "draft": "Szkic",
@@ -741,6 +877,11 @@
         "draftHint": "Szkice są widoczne tylko dla Ciebie. Publikacja wymaga zweryfikowanego konta firmy.",
         "submitCreate": "Utwórz ofertę",
         "submitEdit": "Zapisz zmiany"
+      },
+      "delete": {
+        "modalTitle": "Usuń ofertę",
+        "cancel": "Anuluj",
+        "confirm": "Usuń ofertę"
       }
     }
   },
@@ -795,6 +936,11 @@
       "verificationRequest": "Nowy wniosek weryfikacyjny od {name}",
       "newApplication": "{student} zaaplikował(a) na {offer}",
       "statusChanged": "Status Twojej aplikacji na {offer} zmienił się na {status}",
+      "offerUnavailable": {
+        "closed": "Oferta „{offer}”, na którą aplikowałeś, została zamknięta przez firmę.",
+        "expired": "Oferta „{offer}”, na którą aplikowałeś, wygasła.",
+        "deleted": "Oferta „{offer}”, na którą aplikowałeś, została usunięta przez firmę."
+      },
       "fallback": "Nowe powiadomienie"
     }
   }

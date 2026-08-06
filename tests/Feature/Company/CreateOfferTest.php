@@ -57,7 +57,7 @@ class CreateOfferTest extends TestCase
         $company = Company::factory()->pending()->create();
         $user = $this->makeCompanyAdmin($company);
 
-        $response = $this->actingAs($user)->post("/company/offers", [
+        $response = $this->from("/company/dashboard")->actingAs($user)->post("/company/offers", [
             ...$this->validPayload(),
             "status" => "draft",
         ]);
@@ -89,7 +89,7 @@ class CreateOfferTest extends TestCase
         $company = Company::factory()->approved()->create();
         $user = $this->makeCompanyAdmin($company);
 
-        $response = $this->actingAs($user)->post("/company/offers", $this->validPayload());
+        $response = $this->from("/company/dashboard")->actingAs($user)->post("/company/offers", $this->validPayload());
 
         $response->assertRedirect("/company/offers");
         $this->assertDatabaseHas("offers", [
@@ -106,6 +106,24 @@ class CreateOfferTest extends TestCase
         $offer = Offer::where("company_id", $company->id)->firstOrFail();
         $this->assertEqualsWithDelta(52.2297, $offer->latitude, 0.0001);
         $this->assertEqualsWithDelta(21.0122, $offer->longitude, 0.0001);
+    }
+
+    public function testVerifiedCompanyMemberCanCreateOffer(): void
+    {
+        $this->fakeSuccessfulGeocoding();
+
+        $company = Company::factory()->approved()->create();
+        $user = User::factory()->companyMember()->create([
+            "organization_id" => $company->id,
+        ]);
+
+        $response = $this->from("/company/dashboard")->actingAs($user)->post("/company/offers", $this->validPayload());
+
+        $response->assertRedirect("/company/offers");
+        $this->assertDatabaseHas("offers", [
+            "company_id" => $company->id,
+            "title" => "Backend Developer Intern",
+        ]);
     }
 
     public function testCreateFormExposesVerifiedCompanyStatus(): void
@@ -265,7 +283,7 @@ class CreateOfferTest extends TestCase
         $company = Company::factory()->approved()->create();
         $user = $this->makeCompanyAdmin($company);
 
-        $response = $this->actingAs($user)->post("/company/offers", [
+        $response = $this->from("/company/dashboard")->actingAs($user)->post("/company/offers", [
             ...$this->validPayload(),
             "is_paid" => false,
             "salary_min" => null,

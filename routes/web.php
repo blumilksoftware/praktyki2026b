@@ -7,11 +7,13 @@ use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CityGeocodingController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
+use App\Http\Controllers\Company\TeamInvitationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\ProfileRedirectController;
 use App\Http\Controllers\SettingsRedirectController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\University\CompanyController as UniversityCompanyController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
@@ -40,6 +42,8 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::patch("/profile", [CompanyController::class, "update"])->name("company.profile.update");
         Route::get("/profile/edit", [CompanyController::class, "edit"])->name("company.profile.edit");
         Route::patch("/applications/{application}/status", [ApplicationController::class, "updateStatus"])->name("company.applications.status.update");
+        Route::post("/team/invitations", [TeamInvitationController::class, "store"])->middleware("throttle:10,15")->name("company.team.invitations.store");
+        Route::delete("/team/invitations/{invitation}", [TeamInvitationController::class, "destroy"])->name("company.team.invitations.destroy");
     });
 
 Route::middleware(["auth"])
@@ -71,6 +75,8 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
         Route::get("/profile", [UniversityController::class, "profile"])->name("university.profile");
         Route::patch("/profile", [UniversityController::class, "update"])->name("university.profile.update");
         Route::get("/profile/edit", [UniversityController::class, "edit"])->name("university.profile.edit");
+        Route::post("/companies/{company}/partnership", [UniversityCompanyController::class, "addPartner"])->name("university.companies.partnership.store");
+        Route::delete("/companies/{company}/partnership", [UniversityCompanyController::class, "removePartner"])->name("university.companies.partnership.destroy");
     });
 
 Route::middleware(["auth", "can:access-student-panel"])

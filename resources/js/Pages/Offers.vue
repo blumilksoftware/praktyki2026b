@@ -1,10 +1,11 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
+import OfferMap from '@/Components/Offer/Map/OfferMap.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import ClientPagination from '@/Components/Common/ClientPagination.vue'
@@ -17,11 +18,15 @@ const props = defineProps({
   hasCv: { type: Boolean, default: false },
   studyFields: { type: Array, default: () => [] },
   isGuest: { type: Boolean, default: false },
+  mapboxToken: { type: String, default: '' },
 })
 const { t } = useI18n()
 
 const layoutComponent = computed(() => (props.isGuest ? BaseLayout : StudentPanelLayout))
 const layoutProps = computed(() => (props.isGuest ? {} : { activePage: 'offers' }))
+
+const displayMode = ref('list')
+const targetOfferId = ref(null)
 
 const query = ref('')
 const city = ref('')
@@ -46,8 +51,7 @@ const dateRangeError = computed(() => {
 const matchesDateRange = (offer) => {
   if (dateRangeError.value) return true
   if (dateFrom.value && offer.end_date && offer.end_date < dateFrom.value) return false
-  if (dateTo.value && offer.start_date && offer.start_date > dateTo.value) return false
-  return true
+  return !(dateTo.value && offer.start_date && offer.start_date > dateTo.value)
 }
 
 const filteredOffers = computed(() => props.offers.filter((offer) => {
@@ -101,6 +105,18 @@ const resetFilters = () => {
   dateTo.value = ''
   currentPage.value = 1
 }
+
+onMounted(() => {
+  const urlParams = new URLSearchParams(window.location.search)
+
+  if (urlParams.get('view') === 'map') {
+    displayMode.value = 'map'
+  }
+
+  if (urlParams.get('offerId')) {
+    targetOfferId.value = Number(urlParams.get('offerId')) || urlParams.get('offerId')
+  }
+})
 </script>
 
 <template>
@@ -231,7 +247,7 @@ const resetFilters = () => {
               </p>
             </div>
 
-            <div class="bg-background px-4 py-3 border  border-border rounded-2xl">
+            <div class="bg-background px-4 py-3 border border-border rounded-2xl">
               <label class="flex items-center gap-3 text-text text-sm" for="offers-filter-verified-only">
                 <input
                   id="offers-filter-verified-only"
@@ -252,6 +268,31 @@ const resetFilters = () => {
               <h2 id="offers-list-heading" class="mt-1 font-semibold text-text text-3xl tracking-tight" aria-live="polite">
                 {{ t('student.offers.results.count', { count: filteredOffers.length }) }}
               </h2>
+            </div>
+
+            <div class="flex bg-background p-1 border border-border rounded-2xl" role="group">
+              <button
+                type="button"
+                class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer"
+                :class="displayMode === 'list' ? 'bg-white text-primary shadow-sm' : 'text-additional hover:text-text'"
+                @click="displayMode = 'list'"
+              >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+                {{ t('student.offers.map.viewSwitcher.listView') }}
+              </button>
+              <button
+                type="button"
+                class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer"
+                :class="displayMode === 'map' ? 'bg-white text-primary shadow-sm' : 'text-additional hover:text-text'"
+                @click="displayMode = 'map'"
+              >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                </svg>
+                {{ t('student.offers.map.viewSwitcher.mapView') }}
+              </button>
             </div>
           </div>
 
@@ -288,30 +329,42 @@ const resetFilters = () => {
             </button>
           </div>
 
-          <OffersList
-            :offers="paginatedOffers"
-            :has-cv="hasCv"
-            :guest="isGuest"
-            :empty-title="viewMode === 'applied' ? t('student.offers.emptyApplied.title') : undefined"
-            :empty-description="viewMode === 'applied' ? t('student.offers.emptyApplied.description') : undefined"
-          />
+          <template v-if="displayMode === 'list'">
+            <OffersList
+              :offers="paginatedOffers"
+              :has-cv="hasCv"
+              :guest="isGuest"
+              :empty-title="viewMode === 'applied' ? t('student.offers.emptyApplied.title') : undefined"
+              :empty-description="viewMode === 'applied' ? t('student.offers.emptyApplied.description') : undefined"
+            />
 
-          <div class="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm text-additional sm:justify-end">
-            <label class="flex items-center gap-2" for="offers-per-page">
-              {{ t('student.offers.pagination.perPage') }}
-              <select
-                id="offers-per-page"
-                v-model.number="perPage"
-                class="rounded-lg border border-border bg-white py-1.5 pl-3 pr-8 text-text outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-              >
-                <option v-for="size in PER_PAGE_OPTIONS" :key="size" :value="size">
-                  {{ size }}
-                </option>
-              </select>
-            </label>
-          </div>
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-2 text-sm text-additional sm:justify-end">
+              <label class="flex items-center gap-2" for="offers-per-page">
+                {{ t('student.offers.pagination.perPage') }}
+                <select
+                  id="offers-per-page"
+                  v-model.number="perPage"
+                  class="rounded-lg border border-border bg-white py-1.5 pl-3 pr-8 text-text outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                >
+                  <option v-for="size in PER_PAGE_OPTIONS" :key="size" :value="size">
+                    {{ size }}
+                  </option>
+                </select>
+              </label>
+            </div>
 
-          <ClientPagination v-model:current-page="currentPage" :total-pages="totalPages" />
+            <ClientPagination v-model:current-page="currentPage" :total-pages="totalPages" />
+          </template>
+
+          <template v-else>
+            <OfferMap
+              :offers="filteredOffers"
+              :has-cv="hasCv"
+              :guest="isGuest"
+              :initial-offer-id="targetOfferId"
+              :mapbox-token="mapboxToken"
+            />
+          </template>
         </section>
       </div>
     </div>
