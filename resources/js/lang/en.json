@@ -364,7 +364,42 @@
       "title": "Profile"
     },
     "companies": {
-      "title": "Company search"
+      "title": "Company search",
+      "filters": {
+        "name": "Company name",
+        "namePlaceholder": "Search by name",
+        "city": "City",
+        "cityPlaceholder": "Filter by city",
+        "tag": "Tag",
+        "tagPlaceholder": "Filter by tag",
+        "search": "Search"
+      },
+      "card": {
+        "logoAlt": "{company} logo",
+        "offersCount": "Active offers: {count}",
+        "addPartner": "Add partner",
+        "removePartner": "Remove partnership"
+      },
+      "cancel": "Cancel",
+      "addPartner": {
+        "modalTitle": "Add partner",
+        "confirmation": "Are you sure you want to start a partnership with {company}?",
+        "confirm": "Add partner"
+      },
+      "removePartner": {
+        "modalTitle": "Remove partnership",
+        "confirmation": "Are you sure you want to remove the partnership with {company}?",
+        "confirm": "Remove partnership"
+      },
+      "status": {
+        "none": "No partnership",
+        "pending": "Pending",
+        "active": "Partner",
+        "suspended": "Suspended"
+      },
+      "empty": {
+        "title": "No companies found"
+      }
     },
       "dashboard": {
           "title": "Student Statistics",

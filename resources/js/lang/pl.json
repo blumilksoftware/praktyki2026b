@@ -373,7 +373,42 @@
       "title": "Profil"
     },
     "companies": {
-      "title": "Wyszukiwarka firm"
+      "title": "Wyszukiwarka firm",
+      "filters": {
+        "name": "Nazwa firmy",
+        "namePlaceholder": "Szukaj po nazwie",
+        "city": "Miasto",
+        "cityPlaceholder": "Filtruj po mieście",
+        "tag": "Tag",
+        "tagPlaceholder": "Filtruj po tagu",
+        "search": "Szukaj"
+      },
+      "card": {
+        "logoAlt": "Logo firmy {company}",
+        "offersCount": "Aktywne oferty: {count}",
+        "addPartner": "Dodaj partnera",
+        "removePartner": "Usuń partnerstwo"
+      },
+      "cancel": "Anuluj",
+      "addPartner": {
+        "modalTitle": "Dodaj partnera",
+        "confirmation": "Czy na pewno chcesz nawiązać partnerstwo z firmą {company}?",
+        "confirm": "Dodaj partnera"
+      },
+      "removePartner": {
+        "modalTitle": "Usuń partnerstwo",
+        "confirmation": "Czy na pewno chcesz usunąć partnerstwo z firmą {company}?",
+        "confirm": "Usuń partnerstwo"
+      },
+      "status": {
+        "none": "Brak partnerstwa",
+        "pending": "Oczekujące",
+        "active": "Partner",
+        "suspended": "Zawieszone"
+      },
+      "empty": {
+        "title": "Nie znaleziono firm"
+      }
     },
       "dashboard": {
           "title": "Statystyki studentów",
