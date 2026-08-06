@@ -19,10 +19,14 @@ class SendApplicationReminderJobTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Mail::fake();
+    }
+
     public function testItSendsEmailToCompany(): void
     {
-        Mail::fake();
-
         $company = Company::factory()->create(["email" => "company@example.com"]);
         $offer = Offer::factory()->create(["company_id" => $company->id]);
         $application = Application::factory()->create([
@@ -39,8 +43,6 @@ class SendApplicationReminderJobTest extends TestCase
 
     public function testItAbortsIfStatusChangedBeforeExecution(): void
     {
-        Mail::fake();
-
         $application = Application::factory()->create(["status" => ApplicationStatus::Pending]);
 
         $job = new SendApplicationReminderJob($application, 14);
@@ -55,8 +57,6 @@ class SendApplicationReminderJobTest extends TestCase
 
     public function testItAbortsIfOfferIsMissing(): void
     {
-        Mail::fake();
-
         $application = Mockery::mock(Application::class)->makePartial();
         $application->shouldReceive("refresh")->andReturnSelf();
         $application->shouldReceive("getAttribute")->with("status")->andReturn(ApplicationStatus::Pending);
@@ -71,8 +71,6 @@ class SendApplicationReminderJobTest extends TestCase
 
     public function testItAbortsIfCompanyIsMissing(): void
     {
-        Mail::fake();
-
         $offer = Mockery::mock(Offer::class)->makePartial();
         $offer->shouldReceive("getAttribute")->with("company")->andReturn(null);
 

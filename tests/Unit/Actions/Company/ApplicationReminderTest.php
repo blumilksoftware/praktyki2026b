@@ -16,10 +16,14 @@ class ApplicationReminderTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Queue::fake();
+    }
+
     public function testItDispatchesJobsFor14And28DaysAndUpdatesColumns(): void
     {
-        Queue::fake();
-
         $app14 = Application::factory()->create([
             "status" => ApplicationStatus::Pending,
             "created_at" => now()->subDays(14),
@@ -53,8 +57,6 @@ class ApplicationReminderTest extends TestCase
 
     public function testItDoesNotDispatchForNonPendingStatus(): void
     {
-        Queue::fake();
-
         Application::factory()->create([
             "status" => ApplicationStatus::Accepted,
             "created_at" => now()->subDays(14),
@@ -68,8 +70,6 @@ class ApplicationReminderTest extends TestCase
 
     public function testItDoesNotDispatchIfReminderAlreadySent(): void
     {
-        Queue::fake();
-
         Application::factory()->create([
             "status" => ApplicationStatus::Pending,
             "created_at" => now()->subDays(14),
@@ -90,8 +90,6 @@ class ApplicationReminderTest extends TestCase
 
     public function testItDoesNotDispatchBeforeThreshold(): void
     {
-        Queue::fake();
-
         $tooEarly14 = Application::factory()->create([
             "status" => ApplicationStatus::Pending,
             "created_at" => now()->subDays(13),
@@ -114,7 +112,6 @@ class ApplicationReminderTest extends TestCase
 
     public function testItDispatchesBothThresholdsIndependentlyForSameApplication(): void
     {
-        Queue::fake();
         $app = Application::factory()->create([
             "status" => ApplicationStatus::Pending,
             "created_at" => now()->subDays(30),
@@ -132,8 +129,6 @@ class ApplicationReminderTest extends TestCase
 
     public function testItDoesNothingWhenNoApplicationsExist(): void
     {
-        Queue::fake();
-
         (new ApplicationReminder())->execute();
 
         Queue::assertNothingPushed();
@@ -141,8 +136,6 @@ class ApplicationReminderTest extends TestCase
 
     public function testItDoesNothingWhenEmptyThresholdsPassed(): void
     {
-        Queue::fake();
-
         Application::factory()->create([
             "status" => ApplicationStatus::Pending,
             "created_at" => now()->subDays(14),
@@ -155,8 +148,6 @@ class ApplicationReminderTest extends TestCase
 
     public function testItOnlyDispatchesForMatchingApplicationsAmongMixedData(): void
     {
-        Queue::fake();
-
         $due = Application::factory()->create([
             "status" => ApplicationStatus::Pending,
             "created_at" => now()->subDays(14),
