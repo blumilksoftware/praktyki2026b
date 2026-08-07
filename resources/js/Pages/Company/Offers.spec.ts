@@ -6,7 +6,7 @@ import en from '@/lang/en.json'
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en } })
 
-const { routerPatch, routerGet } = vi.hoisted(() => ({ routerPatch: vi.fn(), routerGet: vi.fn() }))
+const { routerPatch, routerGet, routerVisit } = vi.hoisted(() => ({ routerPatch: vi.fn(), routerGet: vi.fn(), routerVisit: vi.fn() }))
 const pageProps = { props: { flash: {} } }
 const usePage = vi.fn(() => pageProps)
 const baseToastShow = vi.fn()
@@ -16,7 +16,7 @@ vi.mock('@inertiajs/vue3', async () => {
   return {
     ...actual,
     Head: { template: '<div />' },
-    router: { patch: routerPatch, get: routerGet },
+    router: { patch: routerPatch, get: routerGet, visit: routerVisit },
     usePage,
   }
 })
@@ -82,6 +82,7 @@ beforeEach(() => {
   baseToastShow.mockClear()
   routerPatch.mockClear()
   routerGet.mockClear()
+  routerVisit.mockClear()
 })
 
 describe('Company/Offers', () => {
@@ -123,12 +124,14 @@ describe('Company/Offers', () => {
     return row
   }
 
-  it('links the edit action to the offer edit route', async () => {
+  it('navigates to the edit route when the edit action is clicked', async () => {
     const wrapper = mountOffers({ offers: paginate([publishedOffer]), statusCounts: { published: 1 } })
 
     const row = await openActionsMenu(wrapper, '2')
-    const editLink = row.findAll('a').find((a) => a.text() === en.company.offers.index.editAction)
-    expect(editLink!.attributes('href')).toBe('/company/offers/2/edit')
+    const editButton = row.findAll('button').find((btn) => btn.text() === en.company.offers.index.editAction)
+    await editButton!.trigger('click')
+
+    expect(routerVisit).toHaveBeenCalledWith('/company/offers/2/edit')
   })
 
   it.each(['closed', 'expired'])('disables the edit action for a %s offer', async (status) => {

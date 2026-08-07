@@ -19,17 +19,31 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showStatusAction: {
+    type: Boolean,
+    default: true,
+  },
+  labels: {
+    type: Object,
+    default: () => ({
+      menu: 'company.dashboard.offers.actions.menu',
+      edit: 'company.dashboard.offers.actions.edit',
+      activate: 'company.dashboard.offers.actions.activate',
+      deactivate: 'company.dashboard.offers.actions.deactivate',
+      delete: 'company.dashboard.offers.actions.delete',
+    }),
+  },
 })
 
 const emit = defineEmits(['toggle', 'edit', 'toggle-status', 'delete'])
 </script>
 
 <template>
-  <div class="relative inline-block text-left" data-offer-menu>
+  <div class="relative inline-block text-left" :data-offer-menu="offer.id">
     <button
       type="button"
       class="p-1.5 rounded-md text-additional hover:bg-gray-100 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-      :aria-label="t('company.dashboard.offers.actions.menu')"
+      :aria-label="t(props.labels.menu)"
       @click="emit('toggle', props.offer.id)"
     >
       <IconDotsVertical class="w-4 h-4" />
@@ -38,6 +52,7 @@ const emit = defineEmits(['toggle', 'edit', 'toggle-status', 'delete'])
     <div
       v-if="isOpen"
       class="absolute right-0 z-50 mt-1 w-40 rounded-lg border border-border bg-white shadow-lg py-1"
+      role="menu"
     >
       <button
         type="button"
@@ -49,10 +64,11 @@ const emit = defineEmits(['toggle', 'edit', 'toggle-status', 'delete'])
         @click="emit('edit', props.offer)"
       >
         <IconPencil class="w-4 h-4" />
-        {{ t('company.dashboard.offers.actions.edit') }}
+        {{ t(props.labels.edit) }}
       </button>
 
       <button
+        v-if="showStatusAction"
         type="button"
         class="flex items-center gap-2 w-full px-3 py-2 text-left"
         :class="offer.status === 'closed'
@@ -66,8 +82,8 @@ const emit = defineEmits(['toggle', 'edit', 'toggle-status', 'delete'])
 
         {{
           offer.status === 'published'
-            ? t('company.dashboard.offers.actions.deactivate')
-            : t('company.dashboard.offers.actions.activate')
+            ? t(props.labels.deactivate)
+            : t(props.labels.activate)
         }}
       </button>
 
@@ -77,7 +93,7 @@ const emit = defineEmits(['toggle', 'edit', 'toggle-status', 'delete'])
         @click="emit('delete', props.offer)"
       >
         <IconTrash class="w-4 h-4" />
-        {{ t('company.dashboard.offers.actions.delete') }}
+        {{ t(props.labels.delete) }}
       </button>
     </div>
   </div>
