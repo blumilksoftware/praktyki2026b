@@ -3,8 +3,7 @@ import { computed } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
-import AdminGlassSection from '@/Components/Admin/AdminGlassSection.vue'
-import AdminStatCard from '@/Components/Admin/AdminStatCard.vue'
+import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import VerificationTable from '@/Components/Admin/VerificationTable.vue'
 
 const { t } = useI18n()
@@ -33,9 +32,9 @@ const props = defineProps({
 })
 
 const stats = computed(() => [
-  { label: t('admin.verification.pending'), value: props.companyStats.pending + props.universityStats.pending, accent: 'border-t-primary' },
-  { label: t('admin.verification.verified'), value: props.companyStats.verified + props.universityStats.verified, accent: 'border-t-primary' },
-  { label: t('admin.verification.rejected'), value: props.companyStats.rejected + props.universityStats.rejected, accent: 'border-t-primary' },
+  { label: t('admin.verification.pending'), value: props.companyStats.pending + props.universityStats.pending },
+  { label: t('admin.verification.verified'), value: props.companyStats.verified + props.universityStats.verified },
+  { label: t('admin.verification.rejected'), value: props.companyStats.rejected + props.universityStats.rejected },
 ])
 </script>
 
@@ -48,26 +47,23 @@ const stats = computed(() => [
         <p class="mt-2 text-slate-600 text-sm">{{ t('admin.applications.description') }}</p>
       </div>
 
-      <AdminGlassSection class="px-4 md:px-8 py-5 md:py-6 text-center">
-        <p class="m-4 mt-2 text-slate-600 text-sm">{{ t('admin.applications.stats') }}</p>
+      <div>
+        <p class="mb-3 text-slate-600 text-sm">{{ t('admin.applications.stats') }}</p>
         <section class="gap-4 grid grid-cols-1 sm:grid-cols-3">
-          <AdminStatCard
-            v-for="stat in stats"
-            :key="stat.label"
-            :label="stat.label"
-            :value="stat.value"
-            :accent="stat.accent"
-          />
+          <ProfilePageCard v-for="stat in stats" :key="stat.label" centered>
+            <div class="font-medium text-additional text-sm">{{ stat.label }}</div>
+            <div class="mt-2 font-bold text-text text-3xl">{{ stat.value }}</div>
+          </ProfilePageCard>
         </section>
-      </AdminGlassSection>
+      </div>
 
-      <AdminGlassSection class="px-4 md:px-6 py-5 md:py-6">
+      <ProfilePageCard>
         <VerificationTable
           :companies="companies"
           :universities="universities"
           :filters="filters"
         />
-      </AdminGlassSection>
+      </ProfilePageCard>
     </div>
   </AdminLayout>
 </template>
