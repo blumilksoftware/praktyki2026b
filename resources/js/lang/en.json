@@ -944,11 +944,14 @@
           "compensationHint": "Enter salary details if the offer is paid.",
           "status": "Offer status"
         },
-        "draft": "Save as draft",
-        "published": "Publish immediately",
-        "draftHint": "Drafts are only visible to you. Publishing requires a verified company account.",
-        "submitCreate": "Create offer",
-        "submitEdit": "Save changes"
+          "published": "Publish immediately",
+          "draftHint": "Drafts are visible only to you. Publishing requires a verified company account.",
+          "submitCreate": "Create offer",
+          "submitCreateDraft": "Create draft",
+          "submitEdit": "Save changes",
+          "submitEditDraft": "Save as draft",
+          "publishDisabledTooltip": "To publish an offer, you must have a verified company account.",
+          "unsavedChangesConfirmation": "You have unsaved changes. Leave without saving?"
       }
     }
   },

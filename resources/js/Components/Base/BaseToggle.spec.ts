@@ -28,4 +28,15 @@ describe('BaseToggle', () => {
 
     expect(wrapper.text()).toContain('Paid internship')
   })
+
+  it('does not toggle when disabled', async () => {
+    const wrapper = mount(BaseToggle, {
+      props: { id: 'is-paid', modelValue: false, disabled: true },
+    })
+
+    await wrapper.find('button').trigger('click')
+
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.find('button').attributes('aria-disabled')).toBe('true')
+  })
 })
