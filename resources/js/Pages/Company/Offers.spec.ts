@@ -7,6 +7,9 @@ import en from '@/lang/en.json'
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en } })
 
 const { routerPatch, routerGet } = vi.hoisted(() => ({ routerPatch: vi.fn(), routerGet: vi.fn() }))
+const pageProps = { props: { flash: {} } }
+const usePage = vi.fn(() => pageProps)
+const baseToastShow = vi.fn()
 
 vi.mock('@inertiajs/vue3', async () => {
   const actual = await vi.importActual('@inertiajs/vue3')
@@ -14,6 +17,7 @@ vi.mock('@inertiajs/vue3', async () => {
     ...actual,
     Head: { template: '<div />' },
     router: { patch: routerPatch, get: routerGet },
+    usePage,
   }
 })
 
@@ -65,8 +69,19 @@ const mountOffers = (props = {}) => mount(Offers, {
         props: ['open', 'offerId', 'offerTitle'],
         template: '<div v-if="open" class="stub-unpublish-modal">{{ offerId }}:{{ offerTitle }}</div>',
       },
+      BaseToast: {
+        template: '<div />',
+        methods: { show: baseToastShow },
+      },
     },
   },
+})
+
+beforeEach(() => {
+  pageProps.props.flash = {}
+  baseToastShow.mockClear()
+  routerPatch.mockClear()
+  routerGet.mockClear()
 })
 
 describe('Company/Offers', () => {
@@ -74,6 +89,15 @@ describe('Company/Offers', () => {
     const wrapper = mountOffers()
 
     expect(wrapper.text()).toContain(en.company.offers.index.empty.title)
+  })
+
+  it('shows a toast message when the page has a flash status', async () => {
+    pageProps.props.flash = { status: 'Your offer changes were saved successfully.' }
+
+    const wrapper = mountOffers()
+    await wrapper.vm.$nextTick()
+
+    expect(baseToastShow).toHaveBeenCalledWith('Your offer changes were saved successfully.')
   })
 
   it('renders offer title, status, spots and application count', () => {
@@ -105,6 +129,17 @@ describe('Company/Offers', () => {
     const row = await openActionsMenu(wrapper, '2')
     const editLink = row.findAll('a').find((a) => a.text() === en.company.offers.index.editAction)
     expect(editLink!.attributes('href')).toBe('/company/offers/2/edit')
+  })
+
+  it.each(['closed', 'expired'])('disables the edit action for a %s offer', async (status) => {
+    const offer = { ...publishedOffer, id: '3', status }
+    const wrapper = mountOffers({ offers: paginate([offer]), statusCounts: { [status]: 1 }, isCompanyVerified: true })
+    const row = await openActionsMenu(wrapper, '3')
+
+    const editButton = row.findAll('button').find((btn) => btn.text() === en.company.offers.index.editAction)
+    expect(editButton).toBeTruthy()
+    expect(editButton!.attributes('disabled')).toBeDefined()
+    expect(editButton!.classes()).toContain('cursor-not-allowed')
   })
 
   it('shows a publish action for a verified company\'s draft offer and publishes it', async () => {

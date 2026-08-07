@@ -69,7 +69,8 @@ class OfferController extends Controller
 
         $this->createOffer->execute($company, $data);
 
-        return $this->redirectAfterOfferAction();
+        return $this->redirectAfterOfferAction()
+            ->with('status', __('company.offers.form.offerCreated'));
     }
 
     public function edit(Offer $offer): Response
@@ -105,7 +106,8 @@ class OfferController extends Controller
 
         $this->updateOffer->execute($offer, $data);
 
-        return $this->redirectAfterOfferAction();
+        return $this->redirectAfterOfferAction()
+            ->with('status', __('company.offers.form.saveSuccess'));
     }
 
     public function publish(Offer $offer): RedirectResponse

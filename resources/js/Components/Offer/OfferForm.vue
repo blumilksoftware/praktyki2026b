@@ -176,9 +176,9 @@ const submit = () => {
     .filter(id => id !== undefined)
 
   if (isEditing.value) {
-    form.patch(ROUTES.COMPANY_OFFERS_UPDATE(props.offer.id), { preserveScroll: true })
+    form.patch(ROUTES.COMPANY_OFFERS_UPDATE(props.offer.id))
   } else {
-    form.post(ROUTES.COMPANY_OFFERS_STORE, { preserveScroll: true })
+    form.post(ROUTES.COMPANY_OFFERS_STORE)
   }
 }
 </script>
