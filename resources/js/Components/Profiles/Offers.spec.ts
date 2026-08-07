@@ -15,8 +15,7 @@ vi.mock('@inertiajs/vue3', () => ({
 
 vi.mock('@/Helpers/routes', () => ({
   ROUTES: {
-    OFFER_SHOW: '/offers/{offer}',
-    COMPANY_OFFERS: '/company-offers'
+    OFFER_SHOW: '/offers/{offer}'
   }
 }))
 
@@ -36,36 +35,31 @@ describe('Offers.vue', () => {
     }
   }
 
+  const mountOffers = (count: number) => mount(Offers, {
+    props: { offers: generateMockOffers(count) },
+    global: { stubs: globalStubs }
+  })
+
+  const findLoadMoreButton = (wrapper: ReturnType<typeof mountOffers>) =>
+    wrapper.findAll('button').find(button => button.text().includes('buttons.load_more'))
+
   beforeEach(() => {
     mockRouterGet.mockClear()
   })
 
-  it('renders up to 4 offers and hides the "Show All" button if 4 or fewer', () => {
-    const offers = generateMockOffers(3)
-    const wrapper = mount(Offers, {
-      props: { offers },
-      global: { stubs: globalStubs }
-    })
+  it('renders every offer and hides the load more button when there are 4 or fewer', () => {
+    const wrapper = mountOffers(3)
 
-    const offerTitles = wrapper.findAll('h3')
-    expect(offerTitles.length).toBe(3)
-    
+    expect(wrapper.findAll('h3').length).toBe(3)
     expect(wrapper.text()).not.toContain('profiles.noOffers')
-    
-    expect(wrapper.text()).not.toContain('buttons.showAll')
+    expect(findLoadMoreButton(wrapper)).toBeUndefined()
   })
 
-  it('slices the array to render exactly 4 offers and shows the "Show All" button if more than 4', () => {
-    const offers = generateMockOffers(6)
-    const wrapper = mount(Offers, {
-      props: { offers },
-      global: { stubs: globalStubs }
-    })
+  it('renders the first 4 offers and shows the load more button when there are more', () => {
+    const wrapper = mountOffers(6)
 
-    const offerTitles = wrapper.findAll('h3')
-    expect(offerTitles.length).toBe(4)
-    
-    expect(wrapper.text()).toContain('buttons.showAll')
+    expect(wrapper.findAll('h3').length).toBe(4)
+    expect(findLoadMoreButton(wrapper)).toBeDefined()
   })
 
   it('renders a fallback message when the offers array is empty', () => {
@@ -79,11 +73,7 @@ describe('Offers.vue', () => {
   })
 
   it('navigates to the specific offer page when "View" is clicked', async () => {
-    const offers = generateMockOffers(1)
-    const wrapper = mount(Offers, {
-      props: { offers },
-      global: { stubs: globalStubs }
-    })
+    const wrapper = mountOffers(1)
 
     const viewButton = wrapper.findAll('button').find(b => b.text().includes('buttons.view'))
     await viewButton!.trigger('click')
@@ -92,20 +82,22 @@ describe('Offers.vue', () => {
     expect(mockRouterGet).toHaveBeenCalledWith('/offers/1', undefined)
   })
 
-  it('navigates to the company offers list when "Show All" is clicked', async () => {
-    const offers = generateMockOffers(6)
-    const wrapper = mount(Offers, {
-      props: { 
-        id: 99,
-        offers 
-      },
-      global: { stubs: globalStubs }
-    })
+  it('reveals the next batch on every click', async () => {
+    const wrapper = mountOffers(10)
 
-    const showAllButton = wrapper.findAll('button').find(b => b.text().includes('buttons.showAll'))
-    await showAllButton!.trigger('click')
+    await findLoadMoreButton(wrapper)!.trigger('click')
+    expect(wrapper.findAll('h3').length).toBe(8)
 
-    expect(mockRouterGet).toHaveBeenCalledTimes(1)
-    expect(mockRouterGet).toHaveBeenCalledWith('/company-offers', { company_id: 99 })
+    await findLoadMoreButton(wrapper)!.trigger('click')
+    expect(wrapper.findAll('h3').length).toBe(10)
+  })
+
+  it('hides the load more button once every offer is shown', async () => {
+    const wrapper = mountOffers(6)
+
+    await findLoadMoreButton(wrapper)!.trigger('click')
+
+    expect(wrapper.findAll('h3').length).toBe(6)
+    expect(findLoadMoreButton(wrapper)).toBeUndefined()
   })
 })

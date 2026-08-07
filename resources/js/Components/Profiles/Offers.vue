@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconBriefcase2Filled } from '@tabler/icons-vue'
@@ -9,28 +9,25 @@ import { ROUTES } from '@/Helpers/routes'
 const { t } = useI18n()
 
 const props = defineProps({
-  id: { type: [String, Number], default: null },
   title: { type: String, default: null },
   description: { type: String, default: null },
   spots: { type: Number, default: null },
   offers: { type: Array, default: () => [] },
 })
 
-const visibleOffers = computed(() => {
-  return props.offers.slice(0, 4)
-})
+const limit = 4
+const visibleCount = ref(limit)
 
-const hasMoreOffers = computed(() => {
-  return props.offers.length > 4
-})
+const visibleOffers = computed(() => props.offers.slice(0, visibleCount.value))
+const hasMoreOffers = computed(() => props.offers.length > visibleCount.value)
+
+const loadMore = () => {
+  visibleCount.value += limit
+}
 
 const viewOffer = (offerId) => {
   const url = ROUTES.OFFER_SHOW.replace('{offer}', String(offerId))
   router.get(url)
-}
-
-const viewAllOffers = () => {
-  router.get(ROUTES.COMPANY_OFFERS, { company_id: props.id })
 }
 </script>
 
@@ -75,15 +72,14 @@ const viewAllOffers = () => {
         </div>
       </div>
 
-      <div v-if="hasMoreOffers" class="flex justify-center mt-2">
-        <BaseButton
-          variant="secondary"
-          class="px-8 py-2.5 text-sm font-medium shadow-sm w-full sm:w-auto bg-gray-50 hover:bg-gray-100 text-secondary border border-gray-200"
-          @click="viewAllOffers"
-        >
-          {{ t('buttons.showAll') }}
-        </BaseButton>
-      </div>
+      <BaseButton
+        v-if="hasMoreOffers"
+        variant="secondary"
+        class="w-full justify-center mt-4"
+        @click="loadMore"
+      >
+        {{ t('buttons.load_more') }}
+      </BaseButton>
     </div>
 
     <div v-else class="text-gray-400 italic text-sm">
