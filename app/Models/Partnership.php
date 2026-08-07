@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\PartnershipInitiator;
 use App\Enums\PartnershipStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $company_id
  * @property string $university_id
  * @property PartnershipStatus $status
+ * @property ?PartnershipInitiator $requested_by
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -28,6 +30,7 @@ class Partnership extends Model
         "company_id",
         "university_id",
         "status",
+        "requested_by",
     ];
 
     /**
@@ -50,6 +53,7 @@ class Partnership extends Model
     {
         return [
             "status" => PartnershipStatus::class,
+            "requested_by" => PartnershipInitiator::class,
         ];
     }
 }
