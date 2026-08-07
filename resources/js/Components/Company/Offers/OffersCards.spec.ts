@@ -32,8 +32,7 @@ describe('OffersCards', () => {
     expect(wrapper.text()).toContain('Frontend Intern')
     expect(wrapper.text()).toContain('Backend Intern')
     expect(wrapper.text()).toContain('Spots')
-    expect(wrapper.text()).toContain('Applications')
-    expect(wrapper.text()).toContain('7')
+    expect(wrapper.text()).toContain('Applications: 7')
   })
 
   it('renders no cards when the offers list is empty', () => {
@@ -69,25 +68,14 @@ describe('OffersCards', () => {
     expect(badge.classes()).toContain('text-gray-700')
   })
 
-  it('links the title to the offer page and the counter to filtered applications', () => {
+  it('links the title to filtered applications and leaves the applications count as text', () => {
     const wrapper = mountCards()
     const links = wrapper.findAll('a')
 
-    expect(links[0].attributes('href')).toBe('/offers/o1')
-    expect(links[1].attributes('href')).toBe('/company/applications?offer=o1')
-    expect(links[2].attributes('href')).toBe('/offers/o2')
-    expect(links[3].attributes('href')).toBe('/company/applications?offer=o2')
-  })
-
-  it('emits go-to-offer with the click event and the offer id', async () => {
-    const wrapper = mountCards()
-
-    await wrapper.findAll('a')[2].trigger('click')
-
-    const emitted = wrapper.emitted('go-to-offer')
-    expect(emitted).toHaveLength(1)
-    expect(emitted?.[0][0]).toBeInstanceOf(Event)
-    expect(emitted?.[0][1]).toBe('o2')
+    expect(links).toHaveLength(2)
+    expect(links[0].attributes('href')).toBe('/company/applications?offer=o1')
+    expect(links[1].attributes('href')).toBe('/company/applications?offer=o2')
+    expect(wrapper.text()).toContain('Applications: 7')
   })
 
   it('emits go-to-applications with the click event and the offer id', async () => {

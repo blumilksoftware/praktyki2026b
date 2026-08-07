@@ -48,7 +48,7 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['toggle-menu', 'edit', 'toggle-status', 'delete', 'go-to-applications', 'go-to-offer'])
+const emit = defineEmits(['toggle-menu', 'edit', 'toggle-status', 'delete', 'go-to-applications'])
 
 const statusClasses = {
   draft: 'bg-slate-100 text-slate-600',
@@ -58,7 +58,6 @@ const statusClasses = {
 }
 
 const applicationsHref = (offerId) => `${ROUTES.COMPANY_APPLICATIONS}?offer=${offerId}`
-const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
 </script>
 
 <template>
@@ -79,9 +78,9 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
             </span>
             <h2 class="min-w-0 truncate font-semibold text-text text-base">
               <Link
-                :href="offerHref(offer.id)"
-                class="transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
-                @click="emit('go-to-offer', $event, offer.id)"
+                :href="applicationsHref(offer.id)"
+                class="block truncate transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+                @click="emit('go-to-applications', $event, offer.id)"
               >
                 {{ offer.title }}
               </Link>
@@ -118,13 +117,9 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
 
         <span class="inline-flex items-center gap-1">
           <IconClipboardText class="h-4 w-4" aria-hidden="true" />
-          <a
-            :href="applicationsHref(offer.id)"
-            class="text-primary hover:underline"
-            @click="emit('go-to-applications', $event, offer.id)"
-          >
-            {{ offer.applications_count }}
-          </a>
+          <span class="text-additional font-normal">
+            {{ t('company.offers.index.applicationsCount', { count: offer.applications_count }) }}
+          </span>
         </span>
       </div>
     </li>
