@@ -1,11 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref, onBeforeUnmount } from 'vue'
 
 const message = ref('')
 const visible = ref(false)
-const timeoutId = ref<number | null>(null)
-type ToastVariant = 'success' | 'fail' | 'warning' | 'info'
-const variant = ref<ToastVariant>('success')
+const timeoutId = ref(null)
+const variant = ref('success')
 
 const clearTimeoutIfSet = () => {
   if (timeoutId.value !== null) {
@@ -32,7 +31,7 @@ const buttonClasses = computed(() => {
   }[variant.value]
 })
 
-function show(text: string, duration = 3000, nextVariant: ToastVariant = 'success') {
+function show(text, duration = 3000, nextVariant = 'success') {
   clearTimeoutIfSet()
   message.value = text
   variant.value = nextVariant

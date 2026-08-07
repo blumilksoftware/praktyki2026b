@@ -27,7 +27,7 @@ const isOfferUnpublishModalOpen = ref(false)
 const toastRef = ref(null)
 
 const offersList = computed(() => (Array.isArray(props.offers) ? props.offers : props.offers?.data ?? []))
- 
+
 function editOffer(offer) {
   closeMenu()
   router.visit(ROUTES.COMPANY_OFFERS_EDIT(offer.id))
