@@ -154,7 +154,7 @@ function showOnMap() {
               >
                 {{ offer.company.name }}
               </Link>
-              
+
               <span
                 v-if="offer.company.is_verified"
                 class="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-success"

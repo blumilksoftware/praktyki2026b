@@ -26,6 +26,10 @@ describe('Error.vue', () => {
     expect(mountError(401).text()).toContain('Login required')
   })
 
+  it('shows 413 message', () => {
+    expect(mountError(413).text()).toContain('File too large')
+  })
+
   it('shows 500 message', () => {
     expect(mountError(500).text()).toContain('Server error')
   })

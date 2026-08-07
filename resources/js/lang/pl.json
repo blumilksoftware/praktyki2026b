@@ -47,6 +47,10 @@
       "title": "Nie znaleziono strony",
       "description": "Strona, której szukasz, nie istnieje lub została przeniesiona."
     },
+    "413": {
+      "title": "Plik jest za duży",
+      "description": "Plik, który próbujesz przesłać, jest za duży. Maksymalny rozmiar to 5 MB."
+    },
     "500": {
       "title": "Błąd serwera",
       "description": "Coś poszło nie tak. Spróbuj ponownie później."
@@ -618,7 +622,11 @@
       "empty": {
         "title": "Nie masz jeszcze ulubionych ofert",
         "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj."
-      }
+      },
+        "status": {
+            "expired": "Wygasła"
+        }
+
     },
     "offers": {
       "tabs": {

@@ -125,10 +125,8 @@ class GetStudentsStatisticsTest extends TestCase
         $university = University::factory()->create(["domain" => "example.edu"]);
         $faculty = Faculty::factory()->for($university)->create();
 
-        // Создаем 15 направлений
         $studyFields = StudyField::factory()->for($faculty)->count(15)->create();
 
-        // Создаем по студенту для каждого направления (привязаны к университету по домену email)
         foreach ($studyFields as $index => $field) {
             User::factory()->create([
                 "email" => "student{$index}@example.edu",

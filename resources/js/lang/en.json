@@ -40,6 +40,10 @@
       "title": "Page not found",
       "description": "The page you are looking for does not exist or has been moved."
     },
+    "413": {
+      "title": "File too large",
+      "description": "The file you tried to upload is too large. The maximum size is 5 MB."
+    },
     "500": {
       "title": "Server error",
       "description": "Something went wrong. Please try again later."
@@ -468,7 +472,10 @@
       "empty": {
         "title": "You do not have any favorite offers yet",
         "description": "Add an offer to favorites from a card and it will appear here."
-      }
+      },
+        "status": {
+            "expired": "Expired"
+        }
     },
     "offers": {
       "tabs": {

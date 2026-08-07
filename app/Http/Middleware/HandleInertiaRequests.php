@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Actions\Onboarding\GetProfileStepsAction;
+use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Middleware;
@@ -30,6 +31,7 @@ class HandleInertiaRequests extends Middleware
             "auth" => fn() => $request->user() ? [
                 "user" => $request->user(),
             ] : null,
+            "favoriteOfferIds" => fn() => $request->user()?->role === UserRole::Student ? $request->user()->favourites()->pluck("offers.id")->all() : [],
             "onboarding" => fn() => $request->user() ? $this->onboardingData($request) : null,
             "notificationsUnreadCount" => fn() => $request->user()?->unreadNotifications()->count() ?? 0,
             "notifications" => Inertia::optional(fn() => $request->user()

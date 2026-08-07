@@ -43,7 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->respond(function (Response $response, Throwable $_, Request $request): Response {
             $status = $response->getStatusCode();
 
-            if (!in_array($status, [401, 403, 404, 500], true)) {
+            if (!in_array($status, [401, 403, 404, 413, 500], true)) {
                 return $response;
             }
 
