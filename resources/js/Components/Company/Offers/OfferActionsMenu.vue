@@ -39,19 +39,19 @@ const emit = defineEmits(['toggle', 'edit', 'toggle-status', 'delete'])
 </script>
 
 <template>
-  <div class="relative inline-block text-left" :data-offer-menu="offer.id">
+  <div class="relative inline-flex items-center text-left" :data-offer-menu="offer.id">
     <button
       type="button"
-      class="p-1.5 rounded-md text-additional hover:bg-gray-100 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+      class="flex h-9 w-9 items-center justify-center rounded-lg text-additional hover:bg-gray-100 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
       :aria-label="t(props.labels.menu)"
       @click="emit('toggle', props.offer.id)"
     >
-      <IconDotsVertical class="w-4 h-4" />
+      <IconDotsVertical class="w-5 h-5" />
     </button>
 
     <div
       v-if="isOpen"
-      class="absolute right-0 z-50 mt-1 w-40 rounded-lg border border-border bg-white shadow-lg py-1"
+      class="absolute right-full top-0 z-50 mt-1 w-40 rounded-lg border border-border bg-white shadow-lg py-1"
       role="menu"
     >
       <button

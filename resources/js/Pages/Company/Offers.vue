@@ -2,13 +2,13 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconPlus, IconUsers, IconClipboardText} from '@tabler/icons-vue'
+import { IconPlus } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { ROUTES } from '@/Helpers/routes'
 import CompanyOfferDeleteModal from '@/Components/Company/CompanyOfferDeleteModal.vue'
 import CompanyOfferUnpublishModal from '@/Components/Company/CompanyOfferUnpublishModal.vue'
-import OfferActionsMenu from '@/Components/Company/Offers/OfferActionsMenu.vue'
+import OffersCards from '@/Components/Company/Offers/OffersCards.vue'
 import BaseToast from '@/Components/Base/BaseToast.vue'
 
 const props = defineProps({
@@ -27,14 +27,7 @@ const isOfferUnpublishModalOpen = ref(false)
 const toastRef = ref(null)
 
 const offersList = computed(() => (Array.isArray(props.offers) ? props.offers : props.offers?.data ?? []))
-
-const statusBadgeClass = computed(() => (status) => ({
-  draft: 'bg-slate-100 text-slate-600',
-  published: 'bg-green-100 text-green-700',
-  closed: 'bg-slate-200 text-slate-500',
-  expired: 'bg-slate-200 text-slate-500',
-}[status] ?? 'bg-slate-100 text-slate-600'))
-
+ 
 function editOffer(offer) {
   closeMenu()
   router.visit(ROUTES.COMPANY_OFFERS_EDIT(offer.id))
@@ -257,60 +250,27 @@ onUnmounted(() => {
         </p>
       </div>
 
-      <ul v-else class="flex flex-col gap-3">
-        <li
-          v-for="offer in offersList"
-          :key="offer.id"
-          class="rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-5"
-        >
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0 flex-1">
-              <div class="flex flex-wrap items-center gap-2">
-                <span
-                  class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold tracking-wide"
-                  :class="statusBadgeClass(offer.status)"
-                >
-                  {{ t(`company.offers.index.status.${offer.status}`) }}
-                </span>
-                <h2 class="min-w-0 truncate font-semibold text-text text-base">
-                  {{ offer.title }}
-                </h2>
-              </div>
-            </div>
-
-            <OfferActionsMenu
-              :offer="offer"
-              :is-open="openMenuOfferId === offer.id"
-              :show-status-action="offer.status === 'published' || (offer.status === 'draft' && isCompanyVerified)"
-              :labels="{
-                menu: 'company.offers.index.actionsMenu',
-                edit: 'company.offers.index.editAction',
-                activate: 'company.offers.index.publishAction',
-                deactivate: 'company.offers.index.unpublishAction',
-                delete: 'company.offers.index.deleteAction',
-              }"
-              @toggle="toggleMenu"
-              @edit="editOffer"
-              @toggle-status="toggleStatusOffer"
-              @delete="deleteOffer"
-            />
-          </div>
-
-          <div class="mt-2 flex flex-wrap items-center gap-3 text-additional text-sm">
-            <span class="inline-flex items-center gap-1">
-              <IconUsers class="h-4 w-4" aria-hidden="true" />
-              {{ t('company.offers.index.spotsLabel', { count: offer.remaining_spots }) }}
-            </span>
-            <span class="inline-flex items-center gap-1">
-              <IconClipboardText class="h-4 w-4" aria-hidden="true" />
-              {{ t('company.offers.index.applicationsCount', { count: offer.applications_count }) }}
-            </span>
-          </div>
-          <p v-if="offer.status === 'draft' && !isCompanyVerified" class="mt-1 text-amber-600 text-xs">
-            {{ t('company.offers.index.verificationRequiredHint') }}
-          </p>
-        </li>
-      </ul>
+      <OffersCards
+        v-else
+        :offers="offersList"
+        :open-menu-id="openMenuOfferId"
+        :hidden-on-md="false"
+        :is-company-verified="isCompanyVerified"
+        :show-verification-hint="true"
+        verification-hint-key="company.offers.index.verificationRequiredHint"
+        :labels="{
+          menu: 'company.offers.index.actionsMenu',
+          edit: 'company.offers.index.editAction',
+          activate: 'company.offers.index.publishAction',
+          deactivate: 'company.offers.index.unpublishAction',
+          delete: 'company.offers.index.deleteAction',
+        }"
+        :status-key-prefix="'company.offers.index.status'"
+        @toggle-menu="toggleMenu"
+        @edit="editOffer"
+        @toggle-status="toggleStatusOffer"
+        @delete="deleteOffer"
+      />
 
       <div v-if="paginationLinks.length > 0" class="flex flex-wrap items-center justify-center gap-1">
         <button

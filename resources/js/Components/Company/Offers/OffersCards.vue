@@ -1,5 +1,7 @@
 <script setup>
+import { Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
+import { IconUsers, IconClipboardText } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 import OfferActionsMenu from './OfferActionsMenu.vue'
 
@@ -14,15 +16,45 @@ defineProps({
     type: [String, Number, null],
     default: null,
   },
+  hiddenOnMd: {
+    type: Boolean,
+    default: true,
+  },
+  isCompanyVerified: {
+    type: Boolean,
+    default: true,
+  },
+  showVerificationHint: {
+    type: Boolean,
+    default: false,
+  },
+  verificationHintKey: {
+    type: String,
+    default: '',
+  },
+  labels: {
+    type: Object,
+    default: () => ({
+      menu: 'company.dashboard.offers.actions.menu',
+      edit: 'company.dashboard.offers.actions.edit',
+      activate: 'company.dashboard.offers.actions.activate',
+      deactivate: 'company.dashboard.offers.actions.deactivate',
+      delete: 'company.dashboard.offers.actions.delete',
+    }),
+  },
+  statusKeyPrefix: {
+    type: String,
+    default: 'company.dashboard.offers.status',
+  },
 })
 
 const emit = defineEmits(['toggle-menu', 'edit', 'toggle-status', 'delete', 'go-to-applications', 'go-to-offer'])
 
 const statusClasses = {
+  draft: 'bg-slate-100 text-slate-600',
   published: 'bg-green-100 text-green-700',
-  draft: 'bg-gray-100 text-gray-700',
-  closed: 'bg-red-100 text-red-700',
-  expired: 'bg-orange-100 text-orange-700',
+  closed: 'bg-slate-200 text-slate-500',
+  expired: 'bg-slate-200 text-slate-500',
 }
 
 const applicationsHref = (offerId) => `${ROUTES.COMPANY_APPLICATIONS}?offer=${offerId}`
@@ -30,54 +62,62 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
 </script>
 
 <template>
-  <div class="md:hidden divide-y divide-border">
-    <div
+  <ul :class="[hiddenOnMd ? 'md:hidden' : '', 'flex flex-col gap-3']">
+    <li
       v-for="offer in offers"
       :key="offer.id"
-      class="p-4 space-y-3"
+      class="relative rounded-2xl border border-border bg-white p-4 pr-12 shadow-sm sm:p-5 sm:pr-14"
     >
-      <div class="flex items-start justify-between gap-2">
+      <div class="flex items-start gap-3">
         <div class="min-w-0">
-          <p class="text-text font-medium truncate">
-            <a
-              :href="offerHref(offer.id)"
-              class="text-primary hover:underline"
-              @click="emit('go-to-offer', $event, offer.id)"
+          <div class="flex flex-wrap items-center gap-2">
+            <span
+              class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold tracking-wide"
+              :class="statusClasses[offer.status] ?? 'bg-gray-100 text-gray-700'"
             >
-              {{ offer.title }}
-            </a>
-          </p>
-          <span
-            class="mt-1 inline-block px-2 py-0.5 rounded-full text-xs font-medium"
-            :class="statusClasses[offer.status] ?? 'bg-gray-100 text-gray-700'"
-          >
-            {{ t(`company.dashboard.offers.status.${offer.status}`) }}
-          </span>
+              {{ t(`${statusKeyPrefix}.${offer.status}`) }}
+            </span>
+            <h2 class="min-w-0 truncate font-semibold text-text text-base">
+              <Link
+                :href="offerHref(offer.id)"
+                class="transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+                @click="emit('go-to-offer', $event, offer.id)"
+              >
+                {{ offer.title }}
+              </Link>
+            </h2>
+          </div>
         </div>
 
-        <OfferActionsMenu
-          class="shrink-0"
-          :offer="offer"
-          :is-open="openMenuId === offer.id"
-          @toggle="emit('toggle-menu', $event)"
-          @edit="emit('edit', $event)"
-          @toggle-status="emit('toggle-status', $event)"
-          @delete="emit('delete', $event)"
-        />
+        <div class="absolute right-4 inset-y-0 flex items-center">
+          <OfferActionsMenu
+            class="shrink-0"
+            :offer="offer"
+            :is-open="openMenuId === offer.id"
+            :show-status-action="offer.status === 'published' || (offer.status === 'draft' && isCompanyVerified)"
+            :labels="labels"
+            @toggle="emit('toggle-menu', $event)"
+            @edit="emit('edit', $event)"
+            @toggle-status="emit('toggle-status', $event)"
+            @delete="emit('delete', $event)"
+          />
+        </div>
       </div>
+      <p
+        v-if="showVerificationHint && offer.status === 'draft' && !isCompanyVerified && verificationHintKey"
+        class="mt-1 text-amber-600 text-xs"
+      >
+        {{ t(verificationHintKey) }}
+      </p>
 
-      <div class="flex items-center gap-4 text-sm">
-        <div class="flex flex-col">
-          <span class="text-xs text-additional">
-            {{ t('company.dashboard.offers.table.spots') }}
-          </span>
-          <span class="text-text">{{ offer.spots }}</span>
-        </div>
+      <div class="mt-2 flex flex-wrap items-center gap-3 text-additional text-sm">
+        <span class="inline-flex items-center gap-1">
+          <IconUsers class="h-4 w-4" aria-hidden="true" />
+          {{ t('company.offers.index.spotsLabel', { count: offer.remaining_spots ?? offer.spots }) }}
+        </span>
 
-        <div class="flex flex-col">
-          <span class="text-xs text-additional">
-            {{ t('company.dashboard.offers.table.applications') }}
-          </span>
+        <span class="inline-flex items-center gap-1">
+          <IconClipboardText class="h-4 w-4" aria-hidden="true" />
           <a
             :href="applicationsHref(offer.id)"
             class="text-primary hover:underline"
@@ -85,8 +125,8 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
           >
             {{ offer.applications_count }}
           </a>
-        </div>
+        </span>
       </div>
-    </div>
-  </div>
+    </li>
+  </ul>
 </template>
