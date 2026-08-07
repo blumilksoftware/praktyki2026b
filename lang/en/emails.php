@@ -73,6 +73,13 @@ return [
         "reason_deleted" => "it was removed by the company",
     ],
 
+    "partnership" => [
+        "requested_subject" => "New partnership proposal from :proposer_name",
+        "requested_title" => "New partnership proposal",
+        "requested_body" => ":proposer_name proposed a partnership with you on Applikuj.",
+        "requested_cta" => "Go to overview",
+    ],
+
     "team_invitation" => [
         "subject" => "You've been invited to join :company on Applikuj",
         "title" => "Team invitation",

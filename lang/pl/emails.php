@@ -85,6 +85,13 @@ return [
         "reason_deleted" => "została usunięta przez firmę",
     ],
 
+    "partnership" => [
+        "requested_subject" => "Nowa propozycja partnerstwa od :proposer_name",
+        "requested_title" => "Nowa propozycja partnerstwa",
+        "requested_body" => ":proposer_name zaproponował(a) Ci partnerstwo w Applikuj.",
+        "requested_cta" => "Przejdź do przeglądu",
+    ],
+
     "team_invitation" => [
         "subject" => "Zaproszenie do zespołu :company w Applikuj",
         "title" => "Zaproszenie do zespołu",
