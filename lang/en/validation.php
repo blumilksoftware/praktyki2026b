@@ -28,6 +28,9 @@ return [
     "application_status_invalid_transition" => "The application status cannot be changed to the selected.",
     "invitation_already_processed" => "This invitation has already been accepted or revoked.",
     "already_partner" => "This company is already a partner.",
+    "already_university_partner" => "This university is already a partner.",
+    "partnership_not_pending" => "This partnership is no longer awaiting acceptance.",
+    "cannot_accept_own_partnership_request" => "You cannot accept your own partnership request.",
 
     "salary_min.required_if" => "Enter minimum salary when the offer is paid.",
     "salary_max.required_if" => "Enter maximum salary when the offer is paid.",
