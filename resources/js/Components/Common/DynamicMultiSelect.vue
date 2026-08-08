@@ -320,7 +320,7 @@ const labelClasses = computed(() => {
               </span>
             </li>
             <li v-if="filteredOptions.length === 0" role="status" aria-live="polite" class="px-4 py-3 text-center text-additional text-sm">
-              {{ searchQuery ? t('dynamicList.noResults') : t('dynamicList.emptyState') }}
+              {{ searchQuery ? t('common.empty.noResults') : t('dynamicList.emptyState') }}
             </li>
           </ul>
         </div>
@@ -343,7 +343,7 @@ const labelClasses = computed(() => {
       :aria-label="t('dynamicList.accessibility.clearAll')"
       @click="emit('update:modelValue', [])"
     >
-      {{ t('dynamicList.clearAll') }}
+      {{ t('common.actions.clear') }}
     </button>
   </div>
 </template>

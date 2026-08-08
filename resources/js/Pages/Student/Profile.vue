@@ -127,7 +127,7 @@ function saveWorkModes() {
 </script>
 
 <template>
-  <Head :title="t('student.profile.title')" />
+  <Head :title="t('common.words.profile')" />
   <StudentPanelLayout active-page="profile">
     <div class="space-y-6">
       <OnboardingBanner />
@@ -158,17 +158,17 @@ function saveWorkModes() {
       <ProfileTagInput
         id="profile_skills"
         v-model="skillsDraft"
-        :label="t('student.profile.skills.title')"
+        :label="t('common.titles.technicalSkills')"
         :placeholder="t('student.profile.skills.placeholder')"
         :max="15"
         :error="skillsError"
       />
       <div class="mt-6 flex justify-end gap-3">
         <BaseButton type="button" variant="secondary" @click="isSkillsModalOpen = false">
-          {{ t('student.profile.actions.cancel') }}
+          {{ t('common.actions.cancel') }}
         </BaseButton>
         <BaseButton type="button" :disabled="isSkillsSaving" @click="saveSkills">
-          {{ t('student.profile.actions.save') }}
+          {{ t('common.actions.save') }}
         </BaseButton>
       </div>
     </BaseModal>
@@ -197,10 +197,10 @@ function saveWorkModes() {
       <p v-if="workModesError" class="mt-2 text-error text-sm" role="alert">{{ workModesError }}</p>
       <div class="mt-6 flex justify-end gap-3">
         <BaseButton type="button" variant="secondary" @click="isWorkModeModalOpen = false">
-          {{ t('student.profile.actions.cancel') }}
+          {{ t('common.actions.cancel') }}
         </BaseButton>
         <BaseButton type="button" :disabled="isWorkModesSaving" @click="saveWorkModes">
-          {{ t('student.profile.actions.save') }}
+          {{ t('common.actions.save') }}
         </BaseButton>
       </div>
     </BaseModal>

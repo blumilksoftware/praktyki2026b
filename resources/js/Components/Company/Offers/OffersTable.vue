@@ -44,13 +44,13 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
               class="inline-flex items-center gap-1 cursor-pointer hover:text-text"
               @click="emit('sort', 'title')"
             >
-              {{ t('company.dashboard.offers.table.offer') }}
+              {{ t('common.fields.offer') }}
               <component :is="sortIcon('title')" class="w-3.5 h-3.5" />
             </button>
           </th>
 
           <th class="px-4 py-3 text-center font-medium">
-            {{ t('company.dashboard.offers.table.status') }}
+            {{ t('common.fields.status') }}
           </th>
 
           <th class="px-4 py-3 text-center font-medium select-none">
@@ -59,7 +59,7 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
               class="inline-flex items-center gap-1 justify-center cursor-pointer hover:text-text"
               @click="emit('sort', 'spots')"
             >
-              {{ t('company.dashboard.offers.table.spots') }}
+              {{ t('common.fields.spots') }}
               <component :is="sortIcon('spots')" class="w-3.5 h-3.5" />
             </button>
           </th>
@@ -70,13 +70,13 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
               class="inline-flex items-center gap-1 justify-center cursor-pointer hover:text-text"
               @click="emit('sort', 'applications_count')"
             >
-              {{ t('company.dashboard.offers.table.applications') }}
+              {{ t('common.words.applications') }}
               <component :is="sortIcon('applications_count')" class="w-3.5 h-3.5" />
             </button>
           </th>
 
           <th class="px-4 py-3 text-right font-medium">
-            {{ t('company.dashboard.offers.table.actions') }}
+            {{ t('common.fields.actions') }}
           </th>
         </tr>
       </thead>

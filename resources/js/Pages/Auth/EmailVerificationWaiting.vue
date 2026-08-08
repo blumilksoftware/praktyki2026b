@@ -89,7 +89,7 @@ onMounted(() => {
           <BaseButton v-if="!isCooldownActive" type="button" variant="primary" :disabled="form.processing"
                       @click="resend"
           >
-            {{ t('auth.login.waiting.resend') }}
+            {{ t('auth.common.resendVerification') }}
           </BaseButton>
 
           <BaseButton v-else type="button" variant="primary" disabled>

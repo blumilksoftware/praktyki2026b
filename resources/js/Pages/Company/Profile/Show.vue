@@ -50,7 +50,7 @@ defineProps({
            @click="goBack"
         >
           <IconArrowLeft stroke="2.5" class="w-4 h-4" />
-          {{ t('buttons.back') }}
+          {{ t('common.actions.back') }}
         </a>
         
         <div v-if="canEdit">
@@ -81,7 +81,7 @@ defineProps({
               class="w-full bg-[#0f172a] hover:bg-slate-800 text-white py-2.5 mt-6 text-sm font-semibold rounded-lg transition-all"
               @click="goToEdit"
             >
-              {{ t('buttons.editProfile') }}
+              {{ t('common.actions.editProfile') }}
             </BaseButton>
           </div>
 

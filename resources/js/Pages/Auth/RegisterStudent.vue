@@ -38,7 +38,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
   <div class="min-h-screen flex flex-col bg-background">
     <BaseNavbar class="shrink-0" />
     <AuthLayout class="flex-1 min-h-0">
-      <Head :title="t('auth.register.title')" />
+      <Head :title="t('common.titles.register')" />
 
       <div class="mx-auto flex w-full max-w-3xl flex-col gap-6 px-2 sm:px-4">
         <RegisterAccountTypeTabs active-tab="student" />
@@ -54,7 +54,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             <BaseInput
               id="first_name"
               v-model="form.first_name"
-              :label="t('auth.register.firstName')"
+              :label="t('common.fields.firstName')"
               autocomplete="given-name"
               required
               :error="fieldError('first_name')"
@@ -62,7 +62,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             <BaseInput
               id="last_name"
               v-model="form.last_name"
-              :label="t('auth.register.lastName')"
+              :label="t('common.fields.lastName')"
               autocomplete="family-name"
               required
               :error="fieldError('last_name')"
@@ -71,7 +71,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           <BaseInput
             id="email"
             v-model="form.email"
-            :label="t('auth.register.email')"
+            :label="t('common.words.email')"
             type="email"
             autocomplete="email"
             required
@@ -80,7 +80,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           <BaseInput
             id="password"
             v-model="form.password"
-            :label="t('auth.register.password')"
+            :label="t('common.words.password')"
             type="password"
             autocomplete="new-password"
             required
@@ -89,7 +89,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           <BaseInput
             id="password_confirmation"
             v-model="form.password_confirmation"
-            :label="t('auth.register.passwordConfirmation')"
+            :label="t('common.fields.passwordConfirmation')"
             type="password"
             autocomplete="new-password"
             required
@@ -130,14 +130,14 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             class="mx-auto mt-1 w-fit px-12 py-3 text-base sm:text-lg font-medium"
             :disabled="form.processing"
           >
-            {{ t('auth.register.submit') }}
+            {{ t('auth.common.register') }}
           </BaseButton>
         </form>
 
         <div class="flex items-center gap-4">
           <div class="h-px flex-1 bg-text/20" />
           <span class="text-base sm:text-lg text-additional tracking-wide">
-            {{ t('auth.register.or') }}
+            {{ t('auth.common.or') }}
           </span>
           <div class="h-px flex-1 bg-text/20" />
         </div>
@@ -147,7 +147,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           class="mx-auto flex justify-center items-center gap-2 w-fit rounded-lg border border-text/20 bg-white px-12 py-3 sm:py-2.5 text-base sm:text-lg font-medium text-text hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 shadow-sm"
         >
           <GoogleSvg />
-          {{ t('auth.register.google') }}
+          {{ t('common.words.google') }}
         </a>
 
         <div class="h-px bg-text/20" />
@@ -158,7 +158,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             :href="ROUTES.LOGIN"
             class="inline-block text-base sm:text-lg font-medium text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded whitespace-nowrap"
           >
-            {{ t('auth.register.loginLink') }}
+            {{ t('auth.common.login') }}
           </Link>
         </p>
       </div>

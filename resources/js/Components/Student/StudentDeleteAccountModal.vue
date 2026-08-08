@@ -47,13 +47,13 @@ function submit() {
         id="delete_password"
         v-model="form.password"
         type="password"
-        :label="t('student.profile.delete.password')"
+        :label="t('common.words.password')"
         autocomplete="current-password"
         :error="fieldError('password')"
       />
       <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <BaseButton type="button" variant="secondary" @click="emit('close')">
-          {{ t('student.profile.delete.cancel') }}
+          {{ t('common.actions.cancel') }}
         </BaseButton>
         <BaseButton type="submit" :disabled="!canDelete || form.processing">
           {{ t('student.profile.delete.confirm') }}

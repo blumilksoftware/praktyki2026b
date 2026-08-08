@@ -28,14 +28,14 @@ function removeFavourite(offerId) {
 </script>
 
 <template>
-  <Head :title="t('student.nav.favorites')" />
+  <Head :title="t('common.nav.favorites')" />
 
   <StudentPanelLayout active-page="favorites">
     <div class="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <section class="mx-auto max-w-7xl rounded-3xl border border-slate-200/80 bg-white/90 p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:p-8">
-        <p class="text-sm font-medium text-slate-500">{{ t('student.nav.favorites') }}</p>
+        <p class="text-sm font-medium text-slate-500">{{ t('common.nav.favorites') }}</p>
         <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
-          {{ t('student.favorites.heading') }}
+          {{ t('common.titles.yourFavorites') }}
         </h1>
         <p class="mt-3 text-base leading-7 text-slate-500">
           {{ t('student.favorites.description') }}
@@ -69,7 +69,7 @@ function removeFavourite(offerId) {
             :href="ROUTES.OFFERS"
             class="mt-5 inline-flex items-center justify-center rounded-xl border border-primary bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
-            {{ t('student.favorites.backToOffers') }}
+            {{ t('common.actions.backToOffers') }}
           </Link>
         </div>
       </section>

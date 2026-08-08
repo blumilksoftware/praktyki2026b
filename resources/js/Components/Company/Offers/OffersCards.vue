@@ -69,14 +69,14 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
       <div class="flex items-center gap-4 text-sm">
         <div class="flex flex-col">
           <span class="text-xs text-additional">
-            {{ t('company.dashboard.offers.table.spots') }}
+            {{ t('common.fields.spots') }}
           </span>
           <span class="text-text">{{ offer.spots }}</span>
         </div>
 
         <div class="flex flex-col">
           <span class="text-xs text-additional">
-            {{ t('company.dashboard.offers.table.applications') }}
+            {{ t('common.words.applications') }}
           </span>
           <a
             :href="applicationsHref(offer.id)"

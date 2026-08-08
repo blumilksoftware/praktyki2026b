@@ -14,7 +14,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <Head :title="t('student.profile.account.title')" />
+  <Head :title="t('common.titles.accountSecurity')" />
   <StudentPanelLayout>
     <StudentAccountSettingsSection
       :email="email"

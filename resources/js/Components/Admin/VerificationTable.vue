@@ -54,28 +54,28 @@ const currentItems = computed(() => {
 })
 
 const companyDetailFields = [
-  { key: 'name', label: t('admin.verification.name') },
-  { key: 'nip', label: t('admin.verification.nip') },
-  { key: 'email', label: t('admin.verification.email'), type: 'email' },
-  { key: 'phone', label: t('admin.verification.phone'), type: 'tel' },
-  { key: 'street', label: t('admin.verification.street') },
-  { key: 'postal_code', label: t('admin.verification.postalCode') },
-  { key: 'city', label: t('admin.verification.city') },
-  { key: 'website', label: t('admin.verification.website'), type: 'url' },
-  { key: 'description', label: t('admin.verification.description') },
-  { key: 'tags', label: t('admin.verification.tags'), type: 'tags' },
+  { key: 'name', label: t('common.fields.name') },
+  { key: 'nip', label: t('common.fields.nip') },
+  { key: 'email', label: t('common.words.email'), type: 'email' },
+  { key: 'phone', label: t('common.fields.phone'), type: 'tel' },
+  { key: 'street', label: t('common.fields.street') },
+  { key: 'postal_code', label: t('common.fields.postalCode') },
+  { key: 'city', label: t('common.fields.city') },
+  { key: 'website', label: t('common.fields.website'), type: 'url' },
+  { key: 'description', label: t('common.words.description') },
+  { key: 'tags', label: t('common.fields.tags'), type: 'tags' },
 ]
 
 const universityDetailFields = [
-  { key: 'name', label: t('admin.verification.name') },
-  { key: 'domain', label: t('admin.verification.domain') },
-  { key: 'email', label: t('admin.verification.email'), type: 'email' },
-  { key: 'phone', label: t('admin.verification.phone'), type: 'tel' },
-  { key: 'street', label: t('admin.verification.street') },
-  { key: 'postal_code', label: t('admin.verification.postalCode') },
-  { key: 'city', label: t('admin.verification.city') },
-  { key: 'website', label: t('admin.verification.website'), type: 'url' },
-  { key: 'external_form_url', label: t('admin.verification.externalFormUrl'), type: 'url' },
+  { key: 'name', label: t('common.fields.name') },
+  { key: 'domain', label: t('common.fields.domain') },
+  { key: 'email', label: t('common.words.email'), type: 'email' },
+  { key: 'phone', label: t('common.fields.phone'), type: 'tel' },
+  { key: 'street', label: t('common.fields.street') },
+  { key: 'postal_code', label: t('common.fields.postalCode') },
+  { key: 'city', label: t('common.fields.city') },
+  { key: 'website', label: t('common.fields.website'), type: 'url' },
+  { key: 'external_form_url', label: t('common.fields.externalFormUrl'), type: 'url' },
 ]
 const detailFields = computed(() =>
   entityType.value === 'company' ? companyDetailFields : universityDetailFields,
@@ -140,23 +140,23 @@ watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
 }, { debounce: 300 })
 
 const companyColumns = [
-  { key: 'name', label: t('admin.verification.name'), sortable: true },
-  { key: 'nip', label: t('admin.verification.nip') },
-  { key: 'email', label: t('admin.verification.email'), sortable: true },
-  { key: 'city', label: t('admin.verification.city'), sortable: true },
+  { key: 'name', label: t('common.fields.name'), sortable: true },
+  { key: 'nip', label: t('common.fields.nip') },
+  { key: 'email', label: t('common.words.email'), sortable: true },
+  { key: 'city', label: t('common.fields.city'), sortable: true },
   { key: 'created_at', label: t('admin.verification.submittedAt'), sortable: true },
-  { key: 'verification_status', label: t('table.status'), sortable: true },
-  { key: 'actions', label: '', srLabel: t('admin.verification.actions'), align: 'right' },
+  { key: 'verification_status', label: t('common.fields.status'), sortable: true },
+  { key: 'actions', label: '', srLabel: t('common.fields.actions'), align: 'right' },
 ]
 
 const universityColumns = [
-  { key: 'name', label: t('admin.verification.name'), sortable: true },
-  { key: 'domain', label: t('admin.verification.domain'), sortable: true },
-  { key: 'email', label: t('admin.verification.email'), sortable: true },
-  { key: 'phone', label: t('admin.verification.phone') },
+  { key: 'name', label: t('common.fields.name'), sortable: true },
+  { key: 'domain', label: t('common.fields.domain'), sortable: true },
+  { key: 'email', label: t('common.words.email'), sortable: true },
+  { key: 'phone', label: t('common.fields.phone') },
   { key: 'created_at', label: t('admin.verification.submittedAt'), sortable: true },
-  { key: 'verification_status', label: t('table.status'), sortable: true },
-  { key: 'actions', label: '', srLabel: t('admin.verification.actions'), align: 'right' },
+  { key: 'verification_status', label: t('common.fields.status'), sortable: true },
+  { key: 'actions', label: '', srLabel: t('common.fields.actions'), align: 'right' },
 ]
 
 function acceptCompany(company) {
@@ -344,10 +344,10 @@ onUnmounted(() => {
           :aria-label="t('admin.verification.filterByStatusAriaLabel')"
           class="bg-white/40 px-4 py-2 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 text-slate-700 text-sm"
         >
-          <option value="all">{{ t('admin.verification.all') }}</option>
-          <option value="pending">{{ t('admin.verification.pending') }}</option>
+          <option value="all">{{ t('common.words.all') }}</option>
+          <option value="pending">{{ t('common.statuses.application.pending') }}</option>
           <option value="verified">{{ t('admin.verification.verified') }}</option>
-          <option value="rejected">{{ t('admin.verification.rejected') }}</option>
+          <option value="rejected">{{ t('common.statuses.application.rejected') }}</option>
         </select>
         <div class="relative">
           <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
@@ -356,7 +356,7 @@ onUnmounted(() => {
           <input
             v-model="searchQuery"
             type="text"
-            :placeholder="t('admin.verification.search')"
+            :placeholder="t('common.actions.search')"
             :aria-label="t('admin.verification.searchAriaLabel')"
             class="bg-white/40 px-4 py-2 pr-10 pl-9 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 w-full text-slate-700 text-sm"
           >
@@ -447,7 +447,7 @@ onUnmounted(() => {
     />
 
     <div v-if="currentItems.length === 0" class="py-12 text-slate-500 text-center">
-      {{ t('table.noData') }}
+      {{ t('components.table.noData') }}
     </div>
 
     <Teleport to="body">
@@ -491,7 +491,7 @@ onUnmounted(() => {
               class="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 rounded-xl font-medium text-slate-700 transition"
               @click="closeRejectModal"
             >
-              {{ t('admin.verification.cancel') }}
+              {{ t('common.actions.cancel') }}
             </button>
             <button
               class="flex-1 bg-red-500 hover:bg-red-600 disabled:opacity-50 px-5 py-2.5 rounded-xl font-medium text-white transition cursor-pointer disabled:cursor-not-allowed"
@@ -550,7 +550,7 @@ onUnmounted(() => {
               class="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 rounded-xl font-medium text-slate-700 transition cursor-pointer"
               @click="closeDetailsModal"
             >
-              {{ t('admin.verification.close') }}
+              {{ t('common.actions.close') }}
             </button>
           </div>
         </div>

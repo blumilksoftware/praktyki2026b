@@ -38,7 +38,7 @@ const hasMore = computed(() => props.tags && props.tags.length > limit)
         class="px-5 py-1.5 text-[13px] sm:text-sm font-semibold text-tag bg-tag-text border border-secondary rounded-full hover:bg-tag-text/90 transition-colors shadow-sm cursor-pointer"
         @click="isExpanded = true"
       >
-        {{ t('buttons.showAll') }} ({{ tags.length }})
+        {{ t('common.actions.showAll') }} ({{ tags.length }})
       </button>
     </div>
 

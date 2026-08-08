@@ -29,7 +29,7 @@ const emit = defineEmits(['toggle', 'edit', 'toggle-status', 'delete'])
     <button
       type="button"
       class="p-1.5 rounded-md text-additional hover:bg-gray-100 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-      :aria-label="t('company.dashboard.offers.actions.menu')"
+      :aria-label="t('common.actions.openActionMenu')"
       @click="emit('toggle', props.offer.id)"
     >
       <IconDotsVertical class="w-4 h-4" />
@@ -49,7 +49,7 @@ const emit = defineEmits(['toggle', 'edit', 'toggle-status', 'delete'])
         @click="emit('edit', props.offer)"
       >
         <IconPencil class="w-4 h-4" />
-        {{ t('company.dashboard.offers.actions.edit') }}
+        {{ t('common.actions.edit') }}
       </button>
 
       <button
@@ -66,8 +66,8 @@ const emit = defineEmits(['toggle', 'edit', 'toggle-status', 'delete'])
 
         {{
           offer.status === 'published'
-            ? t('company.dashboard.offers.actions.deactivate')
-            : t('company.dashboard.offers.actions.activate')
+            ? t('common.actions.deactivate')
+            : t('common.actions.activate')
         }}
       </button>
 
@@ -77,7 +77,7 @@ const emit = defineEmits(['toggle', 'edit', 'toggle-status', 'delete'])
         @click="emit('delete', props.offer)"
       >
         <IconTrash class="w-4 h-4" />
-        {{ t('company.dashboard.offers.actions.delete') }}
+        {{ t('common.actions.delete') }}
       </button>
     </div>
   </div>

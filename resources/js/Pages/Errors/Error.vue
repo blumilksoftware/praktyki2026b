@@ -46,7 +46,7 @@ const homeUrl = computed(() => {
           :href="homeUrl"
           class="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 mt-8 px-5 py-2.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 font-medium text-white text-sm transition"
         >
-          {{ t('errors.backToHome') }}
+          {{ t('common.errors.backToHome') }}
         </a>
       </div>
     </main>

@@ -48,7 +48,7 @@ const viewAllOffers = () => {
           <div class="min-w-0 flex-1">
             <div class="flex flex-wrap items-center gap-2">
               <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-green-700">
-                {{ t('company.offers.index.status.published') }}
+                {{ t('common.statuses.offer.published') }}
               </span>
               <h3 class="min-w-0 truncate font-semibold text-text text-base">
                 {{ offer.title }}
@@ -57,7 +57,7 @@ const viewAllOffers = () => {
             <div class="mt-2 flex flex-wrap items-center gap-3 text-additional text-sm">
               <span class="inline-flex items-center gap-1">
                 <IconBriefcase2Filled class="h-4 w-4" aria-hidden="true" />
-                {{ t('profiles.spots') }}: {{ offer.spots }}
+                {{ t('common.fields.spots') }}: {{ offer.spots }}
               </span>
             </div>
             <p v-if="offer.description" class="mt-2 line-clamp-2 text-additional text-sm">
@@ -70,7 +70,7 @@ const viewAllOffers = () => {
             class="w-full shrink-0 px-6 py-2.5 text-sm font-medium shadow-sm sm:w-auto"
             @click="viewOffer(offer.id)"
           >
-            {{ t('buttons.view') }}
+            {{ t('common.actions.view') }}
           </BaseButton>
         </div>
       </div>
@@ -81,13 +81,13 @@ const viewAllOffers = () => {
           class="px-8 py-2.5 text-sm font-medium shadow-sm w-full sm:w-auto bg-gray-50 hover:bg-gray-100 text-secondary border border-gray-200"
           @click="viewAllOffers"
         >
-          {{ t('buttons.showAll') }}
+          {{ t('common.actions.showAll') }}
         </BaseButton>
       </div>
     </div>
 
     <div v-else class="text-gray-400 italic text-sm">
-      {{ t('profiles.noOffers') }}
+      {{ t('common.empty.noOffers') }}
     </div>
   </div>
 </template>

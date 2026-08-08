@@ -33,7 +33,7 @@ function toggleExpanded() {
   <div v-if="steps.length > 0" class="rounded-2xl border border-slate-200 bg-white px-5 py-3 shadow-sm">
     <div class="flex items-center gap-3">
       <span class="font-medium text-text text-sm shrink-0">
-        {{ t('onboarding.progress.title') }}
+        {{ t('common.titles.onboarding') }}
       </span>
 
       <div

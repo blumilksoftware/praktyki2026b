@@ -12,7 +12,7 @@ const { t } = useI18n()
 
 <template>
   <ProfileSectionCard
-    :title="t('student.profile.skills.title')"
+    :title="t('common.titles.technicalSkills')"
     :description="t('student.profile.skills.description')"
   >
     <template #actions>
@@ -21,7 +21,7 @@ const { t } = useI18n()
         class="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-text transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         @click="emit('manage')"
       >
-        {{ t('student.profile.actions.add') }}
+        {{ t('common.actions.add') }}
       </button>
     </template>
     <div v-if="skills.length" class="flex flex-wrap gap-2">

@@ -88,7 +88,7 @@ const googleMapsUrl = computed(() => {
 
       <div v-if="nip" class="flex items-center gap-4 sm:gap-6">
         <span class="font-bold text-text text-sm shrink-0 w-7 flex justify-center">
-          {{ t('profiles.nip') }}:
+          {{ t('common.fields.nip') }}:
         </span>
         <div class="text-gray-700 font-medium wrap-break-word">
           {{ nip }}
@@ -96,7 +96,7 @@ const googleMapsUrl = computed(() => {
       </div>
 
       <div v-if="!fullAddress && !phone && !website && !nip" class="text-gray-400 italic text-sm text-center py-4">
-        {{ t('profiles.noContactInfo') }}
+        {{ t('common.empty.noContactInfo') }}
       </div>
     </div>
   </div>

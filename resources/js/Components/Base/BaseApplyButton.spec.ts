@@ -22,7 +22,7 @@ describe('BaseApplyButton.vue', () => {
     
     const button = wrapper.find('button')
     expect(button.exists()).toBe(true)
-    expect(button.text()).toBe('buttons.apply.applyNow')
+    expect(button.text()).toBe('common.actions.apply.applyNow')
     expect(button.attributes('disabled')).toBeUndefined()
   })
 
@@ -43,7 +43,7 @@ describe('BaseApplyButton.vue', () => {
     })
     
     const button = wrapper.find('button')
-    expect(button.text()).toContain('buttons.apply.loading')
+    expect(button.text()).toContain('common.actions.apply.loading')
     expect(button.element.disabled).toBe(true)
   })
 
@@ -69,10 +69,10 @@ describe('BaseApplyButton.vue', () => {
       props: { hasCv: false }
     })
     
-    expect(wrapper.html()).toContain('buttons.apply.noCvMessage')
+    expect(wrapper.html()).toContain('common.actions.apply.noCvMessage')
     
     const button = wrapper.find('button')
-    expect(button.text()).toContain('buttons.apply.uploadCvPrompt')
+    expect(button.text()).toContain('common.actions.apply.uploadCvPrompt')
   })
 
   it('emits "uploadCv" event when the prompt button is clicked', async () => {

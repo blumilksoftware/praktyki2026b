@@ -124,7 +124,7 @@ describe('Offers.vue', () => {
       await wrapper.find('input[type="checkbox"]').setValue(true)
       expect(wrapper.findAll('.stub-offer').length).toBe(0)
 
-      await wrapper.find('button[aria-label="student.offers.filters.reset"]').trigger('click')
+      await wrapper.find('button[aria-label="common.actions.clear"]').trigger('click')
 
       expect(wrapper.findAll('.stub-offer').length).toBe(3)
       expect((wrapper.find('input[type="search"]').element as HTMLInputElement).value).toBe('')

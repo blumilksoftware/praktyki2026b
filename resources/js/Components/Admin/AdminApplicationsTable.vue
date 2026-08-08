@@ -18,10 +18,10 @@ function statusClass(status) {
 }
 
 const columns = [
-  { key: 'id', label: t('table.id') },
-  { key: 'student', label: t('table.student') },
-  { key: 'company', label: t('table.company') },
-  { key: 'status', label: t('table.status'), align: 'right' },
+  { key: 'id', label: t('components.table.id') },
+  { key: 'student', label: t('common.words.student') },
+  { key: 'company', label: t('common.words.company') },
+  { key: 'status', label: t('common.fields.status'), align: 'right' },
 ]
 </script>
 

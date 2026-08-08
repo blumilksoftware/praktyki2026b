@@ -46,7 +46,7 @@ function dismiss() {
 
     <div class="flex-1 min-w-0">
       <p class="font-semibold text-text text-sm">
-        {{ t('onboarding.banner.title') }}
+        {{ t('common.titles.onboarding') }}
       </p>
       <p class="mt-0.5 text-slate-500 text-xs">
         {{ t('onboarding.banner.description') }}

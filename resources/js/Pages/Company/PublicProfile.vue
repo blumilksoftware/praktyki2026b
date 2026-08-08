@@ -37,7 +37,7 @@ const isStudent = computed(() => page.props.auth?.user?.role === 'student')
            @click="goBack"
         >
           <IconArrowLeft stroke="2.5" class="w-4 h-4" />
-          {{ t('buttons.back') }}
+          {{ t('common.actions.back') }}
         </a>
       </div>
 

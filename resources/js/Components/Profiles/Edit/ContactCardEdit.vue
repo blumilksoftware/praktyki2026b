@@ -73,7 +73,7 @@ const streetModel = computed({
         <BaseInput
           id="website"
           v-model="websiteModel"
-          :label="t('auth.register.company.website')"
+          :label="t('common.fields.website')"
           :error="getTranslatedError('website')"
         />
       </div>
@@ -85,7 +85,7 @@ const streetModel = computed({
             <BaseInput
               id="city"
               v-model="cityModel"
-              :label="t('auth.register.company.city')"
+              :label="t('common.fields.city')"
               :error="getTranslatedError('city')"
               required
             />
@@ -94,7 +94,7 @@ const streetModel = computed({
             <BaseInput
               id="postalCode"
               v-model="postalCodeModel"
-              :label="t('auth.register.company.postalCode')"
+              :label="t('common.fields.postalCode')"
               :error="getTranslatedError('postalCode')"
               required
             />
@@ -107,7 +107,7 @@ const streetModel = computed({
         <BaseInput
           id="street"
           v-model="streetModel"
-          :label="t('auth.register.company.street')"
+          :label="t('common.fields.street')"
           :error="getTranslatedError('street')"
           required
         />
@@ -118,7 +118,7 @@ const streetModel = computed({
         <BaseInput
           id="phone"
           v-model="phoneModel"
-          :label="t('auth.register.company.phone')"
+          :label="t('common.fields.phone')"
           :error="getTranslatedError('phone')"
           required
         />
@@ -126,7 +126,7 @@ const streetModel = computed({
 
       <div v-if="nip" class="flex items-center gap-4 sm:gap-6">
         <IconId class="hidden sm:block w-7 h-7 text-black shrink-0" />
-        <span class="font-bold text-text text-sm">{{ t('profiles.nip') }}:</span>
+        <span class="font-bold text-text text-sm">{{ t('common.fields.nip') }}:</span>
         <span class="text-gray-700 font-medium wrap-break-word">{{ nip }}</span>
       </div>
     </div>

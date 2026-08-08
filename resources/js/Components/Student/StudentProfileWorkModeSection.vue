@@ -11,14 +11,14 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <ProfileSectionCard :title="t('student.profile.workMode.title')">
+  <ProfileSectionCard :title="t('common.titles.workMode')">
     <template #actions>
       <button
         type="button"
         class="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-text transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         @click="emit('manage')"
       >
-        {{ t('student.profile.actions.edit') }}
+        {{ t('common.actions.edit') }}
       </button>
     </template>
     <div v-if="workModes.length" class="flex flex-wrap gap-2">

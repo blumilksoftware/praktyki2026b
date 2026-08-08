@@ -64,15 +64,15 @@ function resendVerification() {
   <component
     :is="embedded ? 'section' : ProfileSectionCard"
     v-bind="embedded
-      ? { 'aria-label': t('student.profile.account.title') }
+      ? { 'aria-label': t('common.titles.accountSecurity') }
       : {
-        title: t('student.profile.account.title'),
+        title: t('common.titles.accountSecurity'),
         description: t('student.profile.account.description'),
       }"
   >
     <header v-if="embedded" class="mb-4">
       <h2 class="font-semibold text-text text-base">
-        {{ t('student.profile.account.title') }}
+        {{ t('common.titles.accountSecurity') }}
       </h2>
       <p class="mt-1 text-additional text-sm">
         {{ t('student.profile.account.description') }}
@@ -81,14 +81,14 @@ function resendVerification() {
 
     <form class="flex flex-col gap-1 border-b border-border pb-6" novalidate @submit.prevent="submitPassword">
       <h3 class="font-medium text-text text-sm">
-        {{ t('student.profile.password.title') }}
+        {{ t('common.titles.changePassword') }}
       </h3>
       <BaseInput
         id="current_password"
         v-model="passwordForm.current_password"
         type="password"
         compact
-        :label="t('student.profile.password.current')"
+        :label="t('common.fields.currentPassword')"
         autocomplete="current-password"
         :error="passwordError('current_password')"
       />
@@ -97,7 +97,7 @@ function resendVerification() {
         v-model="passwordForm.password"
         type="password"
         compact
-        :label="t('student.profile.password.new')"
+        :label="t('common.fields.newPassword')"
         autocomplete="new-password"
         :error="passwordError('password')"
       />
@@ -106,20 +106,20 @@ function resendVerification() {
         v-model="passwordForm.password_confirmation"
         type="password"
         compact
-        :label="t('student.profile.password.confirmation')"
+        :label="t('common.fields.newPasswordConfirmation')"
         autocomplete="new-password"
         :error="passwordError('password_confirmation')"
       />
       <div class="flex justify-end pt-2">
         <BaseButton type="submit" :disabled="passwordForm.processing || !passwordForm.isDirty">
-          {{ t('student.profile.actions.save') }}
+          {{ t('common.actions.save') }}
         </BaseButton>
       </div>
     </form>
 
     <form class="mt-6 flex flex-col gap-1 border-b border-border pb-6" novalidate @submit.prevent="submitEmail">
       <h3 class="font-medium text-text text-sm">
-        {{ t('student.profile.email.title') }}
+        {{ t('common.titles.changeEmail') }}
       </h3>
       <p
         v-if="hasPendingEmail"
@@ -149,13 +149,13 @@ function resendVerification() {
         v-model="emailForm.current_password"
         type="password"
         compact
-        :label="t('student.profile.email.currentPassword')"
+        :label="t('common.fields.currentPassword')"
         autocomplete="current-password"
         :error="emailError('current_password')"
       />
       <div class="flex flex-col items-end gap-3 pt-2 sm:flex-row sm:justify-end">
         <BaseButton type="submit" :disabled="emailForm.processing || !emailForm.isDirty">
-          {{ t('student.profile.actions.save') }}
+          {{ t('common.actions.save') }}
         </BaseButton>
         <BaseButton
           v-if="isEmailUnverified && !hasPendingEmail"
@@ -164,14 +164,14 @@ function resendVerification() {
           :disabled="isSending"
           @click="resendVerification"
         >
-          {{ t('student.profile.email.resend') }}
+          {{ t('auth.common.resendVerification') }}
         </BaseButton>
       </div>
     </form>
 
     <div class="mt-6">
       <h3 class="font-medium text-text text-sm">
-        {{ t('student.profile.delete.title') }}
+        {{ t('common.titles.deleteAccount') }}
       </h3>
       <p class="mt-2 text-additional text-sm">
         {{ t('student.profile.delete.warning') }}
@@ -182,7 +182,7 @@ function resendVerification() {
         class="mt-3 border-error text-error"
         @click="showDeleteModal = true"
       >
-        {{ t('student.profile.delete.openModal') }}
+        {{ t('common.titles.deleteAccount') }}
       </BaseButton>
     </div>
   </component>

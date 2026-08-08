@@ -50,9 +50,9 @@ describe('Offers.vue', () => {
     const offerTitles = wrapper.findAll('h3')
     expect(offerTitles.length).toBe(3)
     
-    expect(wrapper.text()).not.toContain('profiles.noOffers')
+    expect(wrapper.text()).not.toContain('common.empty.noOffers')
     
-    expect(wrapper.text()).not.toContain('buttons.showAll')
+    expect(wrapper.text()).not.toContain('common.actions.showAll')
   })
 
   it('slices the array to render exactly 4 offers and shows the "Show All" button if more than 4', () => {
@@ -65,7 +65,7 @@ describe('Offers.vue', () => {
     const offerTitles = wrapper.findAll('h3')
     expect(offerTitles.length).toBe(4)
     
-    expect(wrapper.text()).toContain('buttons.showAll')
+    expect(wrapper.text()).toContain('common.actions.showAll')
   })
 
   it('renders a fallback message when the offers array is empty', () => {
@@ -74,7 +74,7 @@ describe('Offers.vue', () => {
       global: { stubs: globalStubs }
     })
 
-    expect(wrapper.text()).toContain('profiles.noOffers')
+    expect(wrapper.text()).toContain('common.empty.noOffers')
     expect(wrapper.findAll('h3').length).toBe(0)
   })
 
@@ -85,7 +85,7 @@ describe('Offers.vue', () => {
       global: { stubs: globalStubs }
     })
 
-    const viewButton = wrapper.findAll('button').find(b => b.text().includes('buttons.view'))
+    const viewButton = wrapper.findAll('button').find(b => b.text().includes('common.actions.view'))
     await viewButton!.trigger('click')
 
     expect(mockRouterGet).toHaveBeenCalledTimes(1)
@@ -102,7 +102,7 @@ describe('Offers.vue', () => {
       global: { stubs: globalStubs }
     })
 
-    const showAllButton = wrapper.findAll('button').find(b => b.text().includes('buttons.showAll'))
+    const showAllButton = wrapper.findAll('button').find(b => b.text().includes('common.actions.showAll'))
     await showAllButton!.trigger('click')
 
     expect(mockRouterGet).toHaveBeenCalledTimes(1)

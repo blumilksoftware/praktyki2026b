@@ -130,14 +130,14 @@ describe('OfferCard.vue', () => {
   it('prompts to upload a CV instead of showing an apply button when the student has none', () => {
     const wrapper = createWrapper({ hasCv: false })
 
-    expect(wrapper.text()).toContain('buttons.apply.noCvMessage')
-    expect(wrapper.findAll('button').some((btn) => btn.text() === 'buttons.apply.applyNow')).toBe(false)
+    expect(wrapper.text()).toContain('common.actions.apply.noCvMessage')
+    expect(wrapper.findAll('button').some((btn) => btn.text() === 'common.actions.apply.applyNow')).toBe(false)
   })
 
   it('posts to the offer apply endpoint when applying', async () => {
     const wrapper = createWrapper()
 
-    const applyButton = wrapper.findAll('button').find((btn) => btn.text() === 'buttons.apply.applyNow')
+    const applyButton = wrapper.findAll('button').find((btn) => btn.text() === 'common.actions.apply.applyNow')
     await applyButton!.trigger('click')
 
     expect(routerPost).toHaveBeenCalledTimes(1)
@@ -149,7 +149,7 @@ describe('OfferCard.vue', () => {
   it('shows the applied confirmation once the apply request succeeds', async () => {
     const wrapper = createWrapper()
 
-    const applyButton = wrapper.findAll('button').find((btn) => btn.text() === 'buttons.apply.applyNow')
+    const applyButton = wrapper.findAll('button').find((btn) => btn.text() === 'common.actions.apply.applyNow')
     await applyButton!.trigger('click')
 
     const options = routerPost.mock.calls[0][2]
@@ -157,7 +157,7 @@ describe('OfferCard.vue', () => {
     options.onFinish()
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.text()).toContain('buttons.apply.appliedOn')
+    expect(wrapper.text()).toContain('common.actions.apply.appliedOn')
   })
 
   it('shows a persisted applied state when the offer already has an application', () => {
@@ -165,13 +165,13 @@ describe('OfferCard.vue', () => {
       offer: { ...baseOffer, has_applied: true, applied_at: '2026-07-20' },
     })
 
-    expect(wrapper.text()).toContain('buttons.apply.appliedOn')
+    expect(wrapper.text()).toContain('common.actions.apply.appliedOn')
   })
 
   it('shows the server validation error when the apply request fails', async () => {
     const wrapper = createWrapper()
 
-    const applyButton = wrapper.findAll('button').find((btn) => btn.text() === 'buttons.apply.applyNow')
+    const applyButton = wrapper.findAll('button').find((btn) => btn.text() === 'common.actions.apply.applyNow')
     await applyButton!.trigger('click')
 
     const options = routerPost.mock.calls[0][2]
@@ -184,7 +184,7 @@ describe('OfferCard.vue', () => {
   it('navigates to the profile edit page when the upload CV prompt is clicked', async () => {
     const wrapper = createWrapper({ hasCv: false })
 
-    const uploadButton = wrapper.findAll('button').find((btn) => btn.text() === 'buttons.apply.uploadCvPrompt')
+    const uploadButton = wrapper.findAll('button').find((btn) => btn.text() === 'common.actions.apply.uploadCvPrompt')
     await uploadButton!.trigger('click')
 
     expect(routerVisit).toHaveBeenCalledWith('/student/profile/edit')
@@ -226,7 +226,7 @@ describe('OfferCard.vue', () => {
     options.onFinish()
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.text()).toContain('buttons.apply.applyNow')
+    expect(wrapper.text()).toContain('common.actions.apply.applyNow')
     expect(wrapper.findAll('button').some((btn) => btn.text() === 'student.applications.withdraw.action')).toBe(false)
   })
 

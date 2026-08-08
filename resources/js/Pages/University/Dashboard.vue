@@ -21,13 +21,13 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <Head :title="t('university.dashboard.title')" />
+  <Head :title="t('common.titles.studentStatistics')" />
 
   <UniversityLayout active-page="dashboard">
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 class="text-2xl font-bold tracking-tight text-gray-900">
-          {{ t('university.dashboard.title') }}
+          {{ t('common.titles.studentStatistics') }}
         </h1>
 
         <DateRangeFilter :filters="filters" />

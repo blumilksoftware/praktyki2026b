@@ -41,11 +41,11 @@ function validateLogo(file) {
     || name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png') || name.endsWith('.webp')
 
   if (!ok) {
-    localError.value = t('student.profile.photo.errors.invalidType')
+    localError.value = t('common.errors.upload.invalidType')
     return false
   }
   if (file.size > MAX_SIZE_BYTES) {
-    localError.value = t('student.profile.photo.errors.tooLarge')
+    localError.value = t('common.errors.upload.tooLarge')
     return false
   }
   return true

@@ -22,9 +22,9 @@ const inputWithError = ref('')
 const terms = ref(false)
 
 const companyMenu = computed(() => [
-  { label: t('profiles.company.myOffers'), href: ROUTES.COMPANY_OFFERS_INDEX, icon: IconSearch },
-  { label: t('profiles.company.candidateApplications'), href: ROUTES.APPLICATIONS, icon: IconClipboardText },
-  { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle, isActive: true },
+  { label: t('common.titles.myOffers'), href: ROUTES.COMPANY_OFFERS_INDEX, icon: IconSearch },
+  { label: t('common.titles.candidateApplications'), href: ROUTES.APPLICATIONS, icon: IconClipboardText },
+  { label: t('common.words.profile'), href: ROUTES.PROFILE, icon: IconUserCircle, isActive: true },
   { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
 ])
 

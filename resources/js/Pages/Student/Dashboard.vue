@@ -18,13 +18,13 @@ const offersCount = computed(() => props.offers.length)
 </script>
 
 <template>
-  <Head :title="t('student.dashboard.title')" />
+  <Head :title="t('common.titles.studentDashboard')" />
   <StudentPanelLayout active-page="dashboard">
     <div class="bg-slate-50 px-4 sm:px-6 lg:px-8 py-6 min-h-screen">
       <section class="bg-white shadow-[0_14px_40px_rgba(11,26,48,0.08)] mx-auto p-6 sm:p-8 border border-slate-200 rounded-3xl max-w-7xl">
         <div class="lg:items-center gap-6 grid lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.95fr)]">
           <div class="max-w-2xl">
-            <p class="font-medium text-slate-500 text-sm">{{ t('student.dashboard.title') }}</p>
+            <p class="font-medium text-slate-500 text-sm">{{ t('common.titles.studentDashboard') }}</p>
             <h1 class="mt-2 font-semibold text-slate-900 text-4xl sm:text-5xl tracking-tight">
               {{ t('student.dashboard.heading') }}
             </h1>
@@ -37,13 +37,13 @@ const offersCount = computed(() => props.offers.length)
                 :href="ROUTES.OFFERS"
                 class="inline-flex justify-center items-center bg-primary hover:bg-primary/90 px-5 py-3 border border-primary rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 font-semibold text-white text-sm transition"
               >
-                {{ t('student.dashboard.primaryAction') }}
+                {{ t('offers.browseCta') }}
               </Link>
               <Link
                 :href="ROUTES.STUDENT_FAVORITES"
                 class="inline-flex justify-center items-center bg-white hover:bg-slate-50 px-5 py-3 border border-slate-200 hover:border-primary/40 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-slate-900 text-sm transition"
               >
-                {{ t('student.dashboard.secondaryAction') }}
+                {{ t('common.nav.favorites') }}
               </Link>
             </div>
           </div>
@@ -62,7 +62,7 @@ const offersCount = computed(() => props.offers.length)
               :href="ROUTES.STUDENT_FAVORITES"
               class="bg-slate-50/80 hover:bg-white hover:shadow-[0_10px_28px_rgba(11,26,48,0.08)] p-4 border border-slate-200 hover:border-primary/30 rounded-2xl transition hover:-translate-y-0.5"
             >
-              <p class="font-semibold text-slate-500 text-xs uppercase tracking-wide">{{ t('student.nav.favorites') }}</p>
+              <p class="font-semibold text-slate-500 text-xs uppercase tracking-wide">{{ t('common.nav.favorites') }}</p>
               <p class="mt-2 font-semibold text-slate-900 text-3xl">{{ favoritesCount }}</p>
               <p class="mt-1 text-slate-500 text-sm">{{ t('student.dashboard.cards.favoritesDescription') }}</p>
             </Link>
@@ -80,7 +80,7 @@ const offersCount = computed(() => props.offers.length)
             :href="ROUTES.OFFERS"
             class="inline-flex items-center gap-2 font-semibold text-primary hover:text-primary/80 text-sm transition"
           >
-            {{ t('student.dashboard.primaryAction') }}
+            {{ t('offers.browseCta') }}
             <span aria-hidden="true">→</span>
           </Link>
         </div>

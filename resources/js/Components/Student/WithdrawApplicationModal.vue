@@ -25,7 +25,7 @@ const { t } = useI18n()
     </p>
     <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
       <BaseButton type="button" variant="secondary" :disabled="processing" @click="emit('close')">
-        {{ t('student.applications.withdraw.cancel') }}
+        {{ t('common.actions.cancel') }}
       </BaseButton>
       <BaseButton type="button" :disabled="processing" @click="emit('confirm')">
         {{ t('student.applications.withdraw.confirm') }}

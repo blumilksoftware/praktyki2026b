@@ -155,7 +155,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Head :title="t('company.offers.index.title')" />
+  <Head :title="t('common.titles.myOffers')" />
 
   <BaseLayout
     active-page="offers"
@@ -166,7 +166,7 @@ onUnmounted(() => {
     <div class="flex flex-col gap-6">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 class="font-semibold text-text text-2xl">
-          {{ t('company.offers.index.title') }}
+          {{ t('common.titles.myOffers') }}
         </h1>
 
         <Link
@@ -174,7 +174,7 @@ onUnmounted(() => {
           class="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 sm:w-auto"
         >
           <IconPlus class="h-4 w-4" aria-hidden="true" />
-          {{ t('company.offers.index.createAction') }}
+          {{ t('common.titles.createOffer') }}
         </Link>
       </div>
 
@@ -183,13 +183,13 @@ onUnmounted(() => {
           <input
             v-model="query"
             type="search"
-            :placeholder="t('company.offers.index.searchPlaceholder')"
-            :aria-label="t('company.offers.index.searchPlaceholder')"
+            :placeholder="t('common.fields.searchOffersPlaceholder')"
+            :aria-label="t('common.fields.searchOffersPlaceholder')"
             class="w-full rounded-lg border border-border bg-white px-4 py-2.5 text-sm text-text outline-none transition placeholder:text-additional focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
           >
         </div>
 
-        <div role="tablist" class="flex gap-2 overflow-x-auto border-b border-border" :aria-label="t('company.offers.index.title')">
+        <div role="tablist" class="flex gap-2 overflow-x-auto border-b border-border" :aria-label="t('common.titles.myOffers')">
           <button
             v-for="tab in statusTabs"
             :key="tab"
@@ -200,7 +200,7 @@ onUnmounted(() => {
             :class="statusFilter === tab ? 'border-primary text-primary' : 'border-transparent text-additional hover:text-text'"
             @click="selectStatusTab(tab)"
           >
-            {{ tab === 'all' ? t('company.offers.index.tabs.all') : t(`company.offers.index.status.${tab}`) }}
+            {{ tab === 'all' ? t('common.words.all') : t(`company.offers.index.status.${tab}`) }}
             <span class="ml-1 text-xs text-additional">({{ offerCountByStatus[tab] }})</span>
           </button>
         </div>
@@ -244,7 +244,7 @@ onUnmounted(() => {
               <button
                 type="button"
                 class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-additional transition hover:bg-background hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-                :aria-label="t('company.offers.index.actionsMenu')"
+                :aria-label="t('common.actions.moreOptions')"
                 aria-haspopup="true"
                 :aria-expanded="openMenuOfferId === offer.id"
                 @click="toggleMenu(offer.id)"
@@ -263,7 +263,7 @@ onUnmounted(() => {
                   class="block px-4 py-2 text-left text-sm font-medium text-text transition hover:bg-background"
                   @click="closeMenu"
                 >
-                  {{ t('company.offers.index.editAction') }}
+                  {{ t('common.actions.edit') }}
                 </Link>
 
                 <button
@@ -284,7 +284,7 @@ onUnmounted(() => {
                   class="block w-full cursor-pointer px-4 py-2 text-left text-sm font-medium text-text transition hover:bg-background"
                   @click="openUnpublishConfirmationModal(offer.id); closeMenu()"
                 >
-                  {{ t('company.offers.index.unpublishAction') }}
+                  {{ t('common.actions.unpublish') }}
                 </button>
 
                 <button
@@ -294,7 +294,7 @@ onUnmounted(() => {
                   class="block w-full cursor-pointer px-4 py-2 text-left text-sm font-medium text-error transition hover:bg-error/10 disabled:cursor-not-allowed disabled:opacity-60"
                   @click="openDeleteConfirmationModal(offer.id); closeMenu()"
                 >
-                  {{ t('company.offers.index.deleteAction') }}
+                  {{ t('common.actions.delete') }}
                 </button>
               </div>
             </div>

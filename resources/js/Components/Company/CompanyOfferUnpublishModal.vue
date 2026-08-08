@@ -40,10 +40,10 @@ function submit() {
       </p>
       <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <BaseButton type="button" variant="secondary" :disabled="form.processing" @click="emit('close')">
-          {{ t('company.offer.unpublish.cancel') }}
+          {{ t('common.actions.cancel') }}
         </BaseButton>
         <BaseButton type="submit" :disabled="form.processing">
-          {{ t('company.offer.unpublish.confirm') }}
+          {{ t('common.actions.unpublish') }}
         </BaseButton>
       </div>
     </form>

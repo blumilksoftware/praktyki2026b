@@ -51,7 +51,7 @@ const onStatusChange = (event) => {
       <div class="flex flex-col">
         <span class="font-bold text-[#0f172a] text-lg leading-tight">{{ application.student_name }}</span>
         <span class="text-sm text-slate-500 font-medium">
-          {{ application.university?.name || application.university || t('profiles.company.applications.no_university') }}
+          {{ application.university?.name || application.university || t('common.empty.noUniversity') }}
         </span>
         <span class="text-xs text-slate-400 mt-0.5">{{ formatDate(application.application_date) }}</span>
       </div>
@@ -66,7 +66,7 @@ const onStatusChange = (event) => {
 
     <div class="flex items-center gap-4 lg:w-1/3 lg:justify-end">
       <select
-        :aria-label="t('profiles.company.applications.filters.status')"
+        :aria-label="t('common.fields.status')"
         :value="application.status"
         :disabled="['accepted', 'rejected'].includes(application.status)"
         class="rounded-full py-1.5 pl-4 pr-8 text-sm font-semibold shadow-sm focus:ring-0 appearance-none disabled:cursor-not-allowed disabled:opacity-75 transition-all"
@@ -96,10 +96,10 @@ const onStatusChange = (event) => {
         class="inline-flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-4 py-2 font-semibold text-[#0f172a] text-sm transition-colors"
       >
         <IconDownload class="h-4 w-4 text-[#1e3a8a]" stroke="2.5" />
-        {{ t('profiles.company.applications.actions.download_cv') }}
+        {{ t('common.actions.view') }}
       </a>
       <span v-else class="italic text-slate-400 text-sm px-4 py-2">
-        {{ t('profiles.company.applications.no_cv') }}
+        {{ t('common.empty.noCv') }}
       </span>
     </div>
   </div>

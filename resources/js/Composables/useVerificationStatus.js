@@ -21,9 +21,9 @@ export function useVerificationStatus() {
     case 'verified':
       return t('admin.verification.verified')
     case 'rejected':
-      return t('admin.verification.rejected')
+      return t('common.statuses.application.rejected')
     case 'pending':
-      return t('admin.verification.pending')
+      return t('common.statuses.application.pending')
     default:
       return status
     }

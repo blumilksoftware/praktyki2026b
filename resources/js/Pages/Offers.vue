@@ -111,7 +111,7 @@ onMounted(() => {
           :href="ROUTES.STUDENT_FAVORITES"
           class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
         >
-          {{ t('student.nav.favorites') }}
+          {{ t('common.nav.favorites') }}
         </Link>
       </div>
 

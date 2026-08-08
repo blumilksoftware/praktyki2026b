@@ -33,9 +33,9 @@ const props = defineProps({
 })
 
 const stats = computed(() => [
-  { label: t('admin.verification.pending'), value: props.companyStats.pending + props.universityStats.pending, accent: 'border-t-primary' },
+  { label: t('common.statuses.application.pending'), value: props.companyStats.pending + props.universityStats.pending, accent: 'border-t-primary' },
   { label: t('admin.verification.verified'), value: props.companyStats.verified + props.universityStats.verified, accent: 'border-t-primary' },
-  { label: t('admin.verification.rejected'), value: props.companyStats.rejected + props.universityStats.rejected, accent: 'border-t-primary' },
+  { label: t('common.statuses.application.rejected'), value: props.companyStats.rejected + props.universityStats.rejected, accent: 'border-t-primary' },
 ])
 </script>
 

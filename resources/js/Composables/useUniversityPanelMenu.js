@@ -11,7 +11,7 @@ export function useUniversityPanelMenu(activePage) {
 
     return [
       {
-        label: t('university.layout.nav.dashboard'),
+        label: t('common.nav.dashboard'),
         href: ROUTES.UNIVERSITY_DASHBOARD,
         icon: IconHome,
         isActive: current === 'dashboard',

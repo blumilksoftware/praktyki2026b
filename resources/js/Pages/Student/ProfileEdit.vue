@@ -54,10 +54,10 @@ const hasPhotoPending = computed(() => Boolean(pendingPhoto.value))
 const fieldError = (field) => profileForm.errors[field]
 
 const navItems = computed(() => [
-  { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
+  { key: 'dashboard', label: t('common.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
   { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
   { key: 'offers', label: t('student.nav.offers'), href: ROUTES.OFFERS, icon: IconBriefcase },
-  { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
+  { key: 'favorites', label: t('common.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
 ])
 
 function scrollToFocusSection() {
@@ -104,7 +104,7 @@ function saveAll() {
 </script>
 
 <template>
-  <Head :title="t('student.profile.edit.title')" />
+  <Head :title="t('common.titles.editProfile')" />
   <StudentPanelLayout active-page="profile">
     <div class="mx-auto w-full max-w-3xl">
       <Link
@@ -112,11 +112,11 @@ function saveAll() {
         class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text"
       >
         <IconArrowLeft class="h-4 w-4" aria-hidden="true" />
-        {{ t('student.profile.edit.backToProfile') }}
+        {{ t('common.actions.back') }}
       </Link>
 
       <h1 class="mt-4 font-semibold text-text text-2xl">
-        {{ t('student.profile.edit.title') }}
+        {{ t('common.titles.editProfile') }}
       </h1>
 
       <div class="mt-6 flex w-full flex-col gap-6">
@@ -139,13 +139,13 @@ function saveAll() {
             <BaseInput
               id="edit_first_name"
               v-model="profileForm.first_name"
-              :label="t('student.profile.details.firstName')"
+              :label="t('common.fields.firstName')"
               :error="fieldError('first_name')"
             />
             <BaseInput
               id="edit_last_name"
               v-model="profileForm.last_name"
-              :label="t('student.profile.details.lastName')"
+              :label="t('common.fields.lastName')"
               :error="fieldError('last_name')"
             />
             <div class="sm:col-span-2">
@@ -165,7 +165,7 @@ function saveAll() {
                 v-model="profileForm.age"
                 class="max-w-36"
                 stacked
-                :label="t('student.profile.edit.ageLabel')"
+                :label="t('common.fields.age')"
                 :error="fieldError('age')"
               />
             </div>
@@ -176,13 +176,13 @@ function saveAll() {
                 mask="##-###"
                 inputmode="numeric"
                 autocomplete="postal-code"
-                :label="t('student.profile.edit.postalCode')"
+                :label="t('common.fields.postalCode')"
                 :error="fieldError('postal_code')"
               />
               <BaseInput
                 id="edit_city"
                 v-model="profileForm.city"
-                :label="t('student.profile.edit.city')"
+                :label="t('common.fields.city')"
                 autocomplete="address-level2"
                 :error="fieldError('city')"
               />
@@ -191,7 +191,7 @@ function saveAll() {
               <BaseInput
                 id="edit_street"
                 v-model="profileForm.street"
-                :label="t('student.profile.edit.street')"
+                :label="t('common.fields.street')"
                 autocomplete="street-address"
                 :error="fieldError('street')"
               />
@@ -210,7 +210,7 @@ function saveAll() {
             <DynamicMultiSelect
               id="edit_fields"
               v-model="profileForm.study_field_ids"
-              :label="t('student.profile.details.fields')"
+              :label="t('common.fields.industries')"
               :options="studyFields"
               :max="10"
               :placeholder="t('student.profile.details.fieldsPlaceholder')"
@@ -219,7 +219,7 @@ function saveAll() {
             <ProfileTagInput
               id="edit_cities"
               v-model="profileForm.preferred_cities"
-              :label="t('student.profile.details.cities')"
+              :label="t('common.fields.cities')"
               :placeholder="t('student.profile.details.citiesPlaceholder')"
               :max="10"
               :error="fieldError('preferred_cities')"
@@ -234,7 +234,7 @@ function saveAll() {
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div class="sm:col-span-2">
               <label for="edit_university" class="mb-1 block text-additional text-sm">
-                {{ t('student.profile.edit.university') }}
+                {{ t('common.words.university') }}
               </label>
               <select
                 id="edit_university"
@@ -263,20 +263,20 @@ function saveAll() {
             <BaseInput
               id="edit_study_field"
               v-model="profileForm.study_field"
-              :label="t('student.profile.edit.studyField')"
+              :label="t('common.fields.studyField')"
               :error="fieldError('study_field')"
             />
             <BaseInput
               id="edit_study_year"
               v-model="profileForm.study_year"
-              :label="t('student.profile.edit.studyYear')"
+              :label="t('common.fields.studyYear')"
               :error="fieldError('study_year')"
             />
             <BaseInput
               id="edit_specialization"
               v-model="profileForm.specialization"
               class="sm:col-span-2"
-              :label="t('student.profile.edit.specialization')"
+              :label="t('common.fields.specialization')"
               :error="fieldError('specialization')"
             />
           </div>
@@ -293,7 +293,7 @@ function saveAll() {
             class="flex-1 justify-center sm:flex-none"
             @click="router.visit(ROUTES.STUDENT_PROFILE)"
           >
-            {{ t('student.profile.actions.cancel') }}
+            {{ t('common.actions.cancel') }}
           </BaseButton>
           <BaseButton
             v-if="hasPhotoPending"
@@ -302,7 +302,7 @@ function saveAll() {
             class="w-full justify-center sm:w-auto"
             @click="photoUpload?.clearPending(); pendingPhoto = null"
           >
-            {{ t('student.profile.photo.cancelPreview') }}
+            {{ t('common.actions.cancel') }}
           </BaseButton>
           <BaseButton
             type="button"
@@ -310,7 +310,7 @@ function saveAll() {
             :disabled="profileForm.processing || photoForm.processing"
             @click="saveAll"
           >
-            {{ t('student.profile.edit.saveChanges') }}
+            {{ t('common.actions.save') }}
           </BaseButton>
         </div>
       </div>

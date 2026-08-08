@@ -50,7 +50,7 @@ const authError = computed(() => form.errors.email)
     <BaseNavbar class="shrink-0" />
   
     <AuthLayout class="flex-1 min-h-0">
-      <Head :title="t('auth.login.title')" />
+      <Head :title="t('common.titles.login')" />
 
       <div class="flex flex-col items-center justify-center w-full sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-20 ">
         <h1 class="text-3xl md:text-5xl font-normal mb-8 md:mb-10 text-center text-text">
@@ -65,7 +65,7 @@ const authError = computed(() => form.errors.email)
               <BaseInput
                 id="email"
                 v-model="form.email"
-                :label="t('auth.login.email')"
+                :label="t('common.words.email')"
                 type="email"
                 autocomplete="email"
                 :invalid="!!authError" 
@@ -78,7 +78,7 @@ const authError = computed(() => form.errors.email)
               <BaseInput
                 id="password"
                 v-model="form.password"
-                :label="t('auth.login.password')"
+                :label="t('common.words.password')"
                 type="password"
                 autocomplete="current-password"
                 :invalid="!!authError"
@@ -109,14 +109,14 @@ const authError = computed(() => form.errors.email)
               type="submit"
               :disabled="form.processing"
             >
-              {{ t('auth.login.submit') }}
+              {{ t('auth.common.login') }}
             </BaseButton>
           </form>
         
           <div class="flex items-center gap-4 sm:gap-5 my-6 sm:my-8 w-full">
             <div class="h-px flex-1 bg-text/20" />
             <span class="text-base sm:text-lg text-additional tracking-wide">
-              {{ t('auth.login.or') }}
+              {{ t('auth.common.or') }}
             </span>
             <div class="h-px flex-1 bg-text/20" />
           </div>
@@ -126,7 +126,7 @@ const authError = computed(() => form.errors.email)
             class="mx-auto flex justify-center items-center gap-2 w-fit rounded-lg border border-text/20 bg-white px-12 py-3 sm:py-2.5 text-base sm:text-lg font-medium text-text hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 shadow-sm"
           >
             <GoogleSvg />
-            {{ t('auth.login.google') }}
+            {{ t('common.words.google') }}
           </a>
 
           <div class="h-px bg-text/20 my-6 sm:my-8" />

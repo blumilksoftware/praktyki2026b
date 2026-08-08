@@ -69,7 +69,7 @@ const submit = () => {
            @click="goBack"
         >
           <IconArrowLeft stroke="2.5" class="w-4 h-4" />
-          {{ t('buttons.back') }}
+          {{ t('common.actions.back') }}
         </a>
         <div>
           <Menu :items="companyMenu" />
@@ -132,7 +132,7 @@ const submit = () => {
               variant="secondary"
               @click="goBack"
             >
-              {{ t('buttons.cancel') }}
+              {{ t('common.actions.cancel') }}
             </BaseButton>
               
             <BaseButton
@@ -141,7 +141,7 @@ const submit = () => {
               :disabled="form.processing"
               @click="submit"
             >
-              {{ form.processing ? t('buttons.saving') : t('buttons.save') }}
+              {{ form.processing ? t('buttons.saving') : t('common.actions.save') }}
             </BaseButton>
           </div>
         </div>

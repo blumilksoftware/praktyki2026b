@@ -351,7 +351,7 @@ function confirmWithdraw() {
                     :disabled="isWithdrawing"
                     @click="openWithdrawModal"
                   >
-                    {{ t('student.applications.withdraw.action') }}
+                    {{ t('common.actions.withdraw') }}
                   </BaseButton>
                 </template>
               </template>

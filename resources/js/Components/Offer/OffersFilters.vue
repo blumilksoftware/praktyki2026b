@@ -54,21 +54,21 @@ defineExpose({ studyFieldLabelToValue })
       <button
         type="button"
         class="hover:bg-background px-3 py-1.5 border border-border cursor-pointer hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-xs transition"
-        :aria-label="t('student.offers.filters.reset')"
+        :aria-label="t('common.actions.clear')"
         @click="emit('reset')"
       >
-        {{ t('student.offers.filters.reset') }}
+        {{ t('common.actions.clear') }}
       </button>
     </div>
 
     <div class="space-y-4 mt-6">
       <label class="block" for="offers-filter-search">
-        <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.search') }}</span>
+        <span class="block mb-2 font-medium text-text text-sm">{{ t('common.actions.search') }}</span>
         <input
           id="offers-filter-search"
-          v-model="filters.search"
+          v-model="common.actions.search"
           type="search"
-          :placeholder="t('student.offers.filters.city')"
+          :placeholder="t('common.fields.city')"
           class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text placeholder:text-additional text-sm transition"
         >
       </label>
@@ -85,14 +85,14 @@ defineExpose({ studyFieldLabelToValue })
       <DynamicMultiSelect
         id="offers-filter-cities"
         v-model="filters.cities"
-        :label="t('student.offers.filters.city')"
-        :placeholder="t('student.offers.filters.city')"
+        :label="t('common.fields.city')"
+        :placeholder="t('common.fields.city')"
         :options="[]"
         :allow-custom="true"
       />
 
       <div>
-        <span class="mb-2 block font-medium text-text text-sm">{{ t('student.offers.filters.workMode') }}</span>
+        <span class="mb-2 block font-medium text-text text-sm">{{ t('common.fields.workMode') }}</span>
         <div class="flex flex-wrap gap-2">
           <button
             v-for="mode in workModes"

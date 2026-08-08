@@ -39,13 +39,13 @@ const formattedAppliedDate = computed(() => {
 
 <template>
   <div v-if="!hasCv" class="justify-content items-center flex flex-col gap-2 p-4 border border-border rounded-xl bg-gray-50/50 text-sm w-fit">
-    <span class="text-text text-center font-medium">{{ t('buttons.apply.noCvMessage') }}</span>
+    <span class="text-text text-center font-medium">{{ t('common.actions.apply.noCvMessage') }}</span>
     <button
       type="button"
       class="text-link hover:text-link/80 font-bold underline underline-offset-4 text-left w-fit transition-colors hover:cursor-pointer"
       @click="$emit('uploadCv')"
     >
-      {{ t('buttons.apply.uploadCvPrompt') }}
+      {{ t('common.actions.apply.uploadCvPrompt') }}
     </button>
   </div>
 
@@ -63,16 +63,16 @@ const formattedAppliedDate = computed(() => {
   >
     <template v-if="isLoading">
       <IconLoader2 class="w-5 h-5 animate-spin" />
-      {{ t('buttons.apply.loading') }}
+      {{ t('common.actions.apply.loading') }}
     </template>
 
     <template v-else-if="isApplied">
       <IconCheck class="w-5 h-5" />
-      {{ t('buttons.apply.appliedOn', { date: formattedAppliedDate }) }}
+      {{ t('common.actions.apply.appliedOn', { date: formattedAppliedDate }) }}
     </template>
 
     <template v-else>
-      {{ t('buttons.apply.applyNow') }}
+      {{ t('common.actions.apply.applyNow') }}
     </template>
   </button>
 </template>
