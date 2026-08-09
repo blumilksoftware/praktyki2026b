@@ -800,7 +800,7 @@
         "applications": "Applications",
         "profile": "Profile",
         "settings": "Settings",
-          "teams": "Team"
+          "team": "Team"
       }
     },
     "dashboard": {

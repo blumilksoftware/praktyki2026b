@@ -40,7 +40,7 @@ defineProps({
   <Head :title="company.name" />
 
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar show-hamburger :menu-items="canEdit ? companyMenu : []" :navigation-buttons="canEdit ? companyMenu : []" navigation-variant="default"/>
+    <BaseNavbar show-hamburger :menu-items="canEdit ? companyMenu : []"show-navigation-buttons :navigation-buttons="canEdit ? companyMenu : []" navigation-variant="default"/>
 
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
