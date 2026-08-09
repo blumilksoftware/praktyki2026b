@@ -16,7 +16,7 @@ import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 
 const { t } = useI18n()
 
-const companyMenu = useCompanyPanelMenu('profile')
+const companyMenu = useCompanyPanelMenu('application')
 
 const goBack = () => {
   window.history.back()

@@ -38,13 +38,13 @@ export function useCompanyPanelMenu(activePage) {
         icon: IconUserCircle,
         isActive: current === 'profile',
       },*/
-      {
+      /*{
         key: 'settings',
         label: t('company.layout.nav.settings'),
         href: ROUTES.SETTINGS,
         icon: IconSettings,
         isActive: current === 'settings',
-      },
+      },*/
     ]
   })
 }
