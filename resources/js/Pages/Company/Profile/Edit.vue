@@ -48,7 +48,7 @@ const submit = () => {
     preserveScroll: true,
     onSuccess: () => {
       statusMessage.value = t('profiles.edit.successMessage')
-      
+
       setTimeout(() => {
         statusMessage.value = null
       }, 5000)
@@ -59,10 +59,10 @@ const submit = () => {
 
 <template>
   <Head :title="company.name" />
-  
+
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar show-hamburger :menu-items="companyMenu" />
-  
+    <BaseNavbar show-hamburger :menu-items="companyMenu" :navigation-buttons="companyMenu"/>
+
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
         <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
@@ -134,7 +134,7 @@ const submit = () => {
             >
               {{ t('buttons.cancel') }}
             </BaseButton>
-              
+
             <BaseButton
               class="bg-primary hover:bg-primary/90 text-white px-10 py-2.5 text-sm font-semibold rounded-xl shadow-sm transition-all"
               :class="{ 'opacity-50 cursor-not-allowed': form.processing }"

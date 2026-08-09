@@ -27,23 +27,23 @@ const goToEdit = () => {
 }
 
 defineProps({
-  company: { 
-    type: Object, 
-    default: () => ({}), 
+  company: {
+    type: Object,
+    default: () => ({}),
   },
-  canEdit: { 
-    type: Boolean, 
-    default: false, 
+  canEdit: {
+    type: Boolean,
+    default: false,
   },
 })
 </script>
 
 <template>
   <Head :title="company.name" />
-  
+
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar show-hamburger :menu-items="canEdit ? companyMenu : []" />
-  
+    <BaseNavbar show-hamburger :menu-items="canEdit ? companyMenu : []" :navigation-buttons="canEdit ? companyMenu : []" navigation-variant="default"/>
+
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
         <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
@@ -52,7 +52,7 @@ defineProps({
           <IconArrowLeft stroke="2.5" class="w-4 h-4" />
           {{ t('buttons.back') }}
         </a>
-        
+
         <div v-if="canEdit">
           <Menu :items="companyMenu" />
         </div>

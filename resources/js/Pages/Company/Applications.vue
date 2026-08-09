@@ -50,7 +50,7 @@ const isLoadingMore = ref(false)
 
 watch(currentFilters, (value) => {
   router.get(
-    ROUTES.COMPANY_APPLICATIONS, 
+    ROUTES.COMPANY_APPLICATIONS,
     { offer: value.offer, status: value.status },
     { preserveState: true, preserveScroll: true, replace: true },
   )
@@ -74,7 +74,7 @@ const loadMore = async () => {
     })
 
     displayedApplications.value.push(...response.data.data)
-    
+
     nextPageUrl.value = response.data.next_page_url
 
   } catch (error) {
@@ -86,7 +86,7 @@ const loadMore = async () => {
 
 function updateStatus(applicationId, newStatus) {
   const url = ROUTES.COMPANY_APPLICATIONS_STATUS_UPDATE.replace('{application}', applicationId)
-  
+
   const appIndex = displayedApplications.value.findIndex(a => a.id === applicationId)
   if (appIndex !== -1) {
     displayedApplications.value[appIndex].status = newStatus
@@ -117,7 +117,7 @@ const statusFilterOptions = computed(() => [
   <Head :title="t('profiles.company.applications.title')" />
 
   <div class="min-h-screen flex flex-col bg-slate-50/50">
-    <BaseNavbar show-hamburger :menu-items="companyMenu" />
+    <BaseNavbar show-hamburger :menu-items="companyMenu" :navigation-buttons="companyMenu" navigation-variant="default"/>
 
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
@@ -134,7 +134,7 @@ const statusFilterOptions = computed(() => [
 
       <div class="flex flex-col gap-6">
         <h1 class="text-3xl font-bold text-text">
-          {{ t('profiles.company.applications.title') }} 
+          {{ t('profiles.company.applications.title') }}
           <span v-if="applications.total">({{ applications.total }})</span>
           <span v-else>({{ displayedApplications.length }})</span>
         </h1>
@@ -158,15 +158,15 @@ const statusFilterOptions = computed(() => [
             class="w-full sm:w-64"
           />
         </div>
-        
+
         <div class="flex flex-col gap-4 mt-2">
           <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500 shadow-sm">
             {{ t('profiles.company.applications.empty') }}
           </div>
 
-          <ApplicationsCard 
-            v-for="application in displayedApplications" 
-            :key="application.id" 
+          <ApplicationsCard
+            v-for="application in displayedApplications"
+            :key="application.id"
             :application="application"
             @update-status="updateStatus"
           />

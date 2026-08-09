@@ -84,6 +84,7 @@ export const ROUTES = {
   COMPANY_SHOW: '/companies/{company}',
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",
+  UNIVERSITY_COMPANIES_INDEX: "/university/companies",
 
   // General
   APPLICATIONS: "/applications",

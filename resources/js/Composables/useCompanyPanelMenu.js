@@ -31,13 +31,13 @@ export function useCompanyPanelMenu(activePage) {
         icon: IconClipboardText,
         isActive: current === 'applications',
       },
-      {
+      /*{
         key: 'profile',
         label: t('company.layout.nav.profile'),
         href: ROUTES.COMPANY_PROFILE,
         icon: IconUserCircle,
         isActive: current === 'profile',
-      },
+      },*/
       {
         key: 'settings',
         label: t('company.layout.nav.settings'),

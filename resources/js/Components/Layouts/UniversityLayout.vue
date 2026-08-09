@@ -22,7 +22,7 @@ const panelMenu = useUniversityPanelMenu(computed(() => props.activePage))
 
 <template>
   <div class="min-h-screen bg-gray-50">
-    <BaseLayout :active-page="activePage" :nav-items="panelMenu">
+    <BaseLayout :active-page="activePage" :nav-items="panelMenu" :navigation-buttons="panelMenu">
       <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div
           v-if="showMenuRow"
