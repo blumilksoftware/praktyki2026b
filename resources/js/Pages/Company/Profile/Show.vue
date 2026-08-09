@@ -1,6 +1,5 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
-import { IconArrowLeft } from '@tabler/icons-vue'
 import Header from '@/Components/Profiles/Header.vue'
 import Tags from '@/Components/Profiles/Tags.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'

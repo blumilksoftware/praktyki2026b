@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n'
 import axios from 'axios'
 import { IconArrowLeft, IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
-
 import { ROUTES } from '@/Helpers/routes'
 import ApplicationsCard from '@/Components/Profiles/ApplicationsCard.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
