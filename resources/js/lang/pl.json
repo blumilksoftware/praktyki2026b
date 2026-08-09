@@ -728,7 +728,8 @@
         "offers": "Moje oferty",
         "applications": "Zgłoszenia",
         "profile": "Profil",
-        "settings": "Ustawienia"
+        "settings": "Ustawienia",
+          "team": "Zespół"
       }
     },
     "dashboard": {

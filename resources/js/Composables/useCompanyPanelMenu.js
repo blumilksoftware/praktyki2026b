@@ -1,6 +1,6 @@
 import { computed, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconBriefcase, IconClipboardText, IconHome, IconSettings, IconUserCircle } from '@tabler/icons-vue'
+import { IconBriefcase, IconClipboardText, IconHome, IconUsersGroup} from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 
 export function useCompanyPanelMenu(activePage) {
@@ -30,6 +30,13 @@ export function useCompanyPanelMenu(activePage) {
         href: ROUTES.COMPANY_APPLICATIONS,
         icon: IconClipboardText,
         isActive: current === 'applications',
+      },
+      {
+        key: 'team',
+        label: t('company.layout.nav.team'),
+        href: ROUTES.TEAM,
+        icon: IconUsersGroup,
+        isActive: current === 'team',
       },
     ]
   })

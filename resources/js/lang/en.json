@@ -799,7 +799,8 @@
         "offers": "My offers",
         "applications": "Applications",
         "profile": "Profile",
-        "settings": "Settings"
+        "settings": "Settings",
+          "teams": "Team"
       }
     },
     "dashboard": {

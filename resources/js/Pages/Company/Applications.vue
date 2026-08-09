@@ -3,7 +3,7 @@ import { ref, watch, computed } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import axios from 'axios'
-import { IconArrowLeft, IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
+import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import { ROUTES } from '@/Helpers/routes'
 import ApplicationsCard from '@/Components/Profiles/ApplicationsCard.vue'
@@ -27,12 +27,7 @@ const props = defineProps({
 
 const { t } = useI18n()
 
-const companyMenu = computed(() => [
-  { label: t('profiles.company.myOffers'), href: ROUTES.OFFERS, icon: IconSearch },
-  { label: t('profiles.company.candidateApplications'), href: ROUTES.COMPANY_APPLICATIONS, icon: IconClipboardText, isActive: true },
-  { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle },
-  { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
-])
+const companyMenu = useCompanyPanelMenu('applications')
 
 const goBack = () => {
   window.history.back()
