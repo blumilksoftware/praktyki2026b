@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 import axios from 'axios'
 import { IconArrowLeft, IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
-import Menu from '@/Components/Profiles/Menu.vue'
+
 import { ROUTES } from '@/Helpers/routes'
 import ApplicationsCard from '@/Components/Profiles/ApplicationsCard.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
@@ -120,17 +120,6 @@ const statusFilterOptions = computed(() => [
     <BaseNavbar show-hamburger :menu-items="companyMenu" show-navigation-buttons :navigation-buttons="companyMenu" navigation-variant="default" />
 
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="flex flex-row justify-between items-center w-full mb-6">
-        <a class="inline-flex items-center gap-2 text-slate-500 text-sm transition hover:text-slate-800 cursor-pointer"
-           @click="goBack"
-        >
-          <IconArrowLeft stroke="2.5" class="w-4 h-4" />
-          {{ t('buttons.back') }}
-        </a>
-        <div>
-          <Menu :items="companyMenu" />
-        </div>
-      </div>
 
       <div class="flex flex-col gap-6">
         <h1 class="text-3xl font-bold text-text">

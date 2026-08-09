@@ -8,7 +8,6 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Offers from '@/Components/Profiles/Offers.vue'
-import Menu from '@/Components/Profiles/Menu.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
@@ -45,18 +44,6 @@ defineProps({
     <BaseNavbar show-hamburger :menu-items="canEdit ? companyMenu : []" :navigation-buttons="canEdit ? companyMenu : []" navigation-variant="default"/>
 
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="flex flex-row justify-between items-center w-full mb-6">
-        <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
-           @click="goBack"
-        >
-          <IconArrowLeft stroke="2.5" class="w-4 h-4" />
-          {{ t('buttons.back') }}
-        </a>
-
-        <div v-if="canEdit">
-          <Menu :items="companyMenu" />
-        </div>
-      </div>
 
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div class="flex flex-col gap-6">
