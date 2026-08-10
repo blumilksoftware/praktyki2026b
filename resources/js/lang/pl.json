@@ -366,7 +366,8 @@
       "title": "Uczelnia",
         "nav": {
             "dashboard": "Panel",
-            "profile": "Profil"
+            "profile": "Profil",
+            "team": "Zespół"
         }
     },
     "profile": {

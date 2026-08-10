@@ -357,7 +357,8 @@
             "title": "Uczelnia",
             "nav": {
                 "dashboard": "Dashboard",
-                "profile": "Profile"
+                "profile": "Profile",
+                "team": "Teams"
             }
         },
     "profile": {

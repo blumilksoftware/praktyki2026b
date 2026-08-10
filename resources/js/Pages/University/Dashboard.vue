@@ -5,7 +5,6 @@ import DateRangeFilter from '@/Components/University/DateRangeFilter.vue'
 import StatsOverview from '@/Components/University/StatsOverview.vue'
 import BreakdownTabs from '@/Components/University/BreakdownTabs.vue'
 import UniversityLayout from '@/Components/Layouts/UniversityLayout.vue'
-import BaseLayout from "@/Components/Layouts/BaseLayout.vue";
 
 defineProps({
   data: {

@@ -18,7 +18,7 @@ export function useUniversityPanelMenu(activePage) {
       },
       {
         key: 'team',
-        label: t('company.layout.nav.team'),
+        label: t('university.layout.nav.team'),
         href: ROUTES.TEAM,
         icon: IconUsersGroup,
         isActive: current === 'team',
