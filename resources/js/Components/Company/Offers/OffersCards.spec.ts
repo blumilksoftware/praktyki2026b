@@ -78,6 +78,15 @@ describe('OffersCards', () => {
     expect(wrapper.text()).toContain('Applications: 7')
   })
 
+  it('links the title to the edit page when company is not verified', () => {
+    const wrapper = mountCards({ isCompanyVerified: false })
+    const links = wrapper.findAll('a')
+
+    expect(links).toHaveLength(2)
+    expect(links[0].attributes('href')).toBe('/company/offers/o1/edit')
+    expect(links[1].attributes('href')).toBe('/company/offers/o2/edit')
+  })
+
   it('emits go-to-applications with the click event and the offer id', async () => {
     const wrapper = mountCards()
 

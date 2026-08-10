@@ -7,7 +7,7 @@ import OfferActionsMenu from './OfferActionsMenu.vue'
 
 const { t } = useI18n()
 
-defineProps({
+const props = defineProps({
   offers: {
     type: Array,
     required: true,
@@ -57,13 +57,15 @@ const statusClasses = {
   expired: 'bg-slate-200 text-slate-500',
 }
 
-const applicationsHref = (offerId) => `${ROUTES.COMPANY_APPLICATIONS}?offer=${offerId}`
+const titleHref = (offerId) => props.isCompanyVerified
+  ? `${ROUTES.COMPANY_APPLICATIONS}?offer=${offerId}`
+  : ROUTES.COMPANY_OFFERS_EDIT(offerId)
 </script>
 
 <template>
-  <ul :class="[hiddenOnMd ? 'md:hidden' : '', 'flex flex-col gap-3']">
+  <ul :class="[props.hiddenOnMd ? 'md:hidden' : '', 'flex flex-col gap-3']">
     <li
-      v-for="offer in offers"
+      v-for="offer in props.offers"
       :key="offer.id"
       class="relative rounded-2xl border border-border bg-white p-4 pr-12 shadow-sm sm:p-5 sm:pr-14"
     >
@@ -74,11 +76,11 @@ const applicationsHref = (offerId) => `${ROUTES.COMPANY_APPLICATIONS}?offer=${of
               class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold tracking-wide"
               :class="statusClasses[offer.status] ?? 'bg-gray-100 text-gray-700'"
             >
-              {{ t(`${statusKeyPrefix}.${offer.status}`) }}
+              {{ t(`${props.statusKeyPrefix}.${offer.status}`) }}
             </span>
             <h2 class="min-w-0 truncate font-semibold text-text text-base">
               <Link
-                :href="applicationsHref(offer.id)"
+                :href="titleHref(offer.id)"
                 class="block truncate transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
                 @click="emit('go-to-applications', $event, offer.id)"
               >
@@ -92,9 +94,9 @@ const applicationsHref = (offerId) => `${ROUTES.COMPANY_APPLICATIONS}?offer=${of
           <OfferActionsMenu
             class="shrink-0"
             :offer="offer"
-            :is-open="openMenuId === offer.id"
-            :show-status-action="offer.status === 'published' || (offer.status === 'draft' && isCompanyVerified)"
-            :labels="labels"
+            :is-open="props.openMenuId === offer.id"
+            :show-status-action="offer.status === 'published' || (offer.status === 'draft' && props.isCompanyVerified)"
+            :labels="props.labels"
             @toggle="emit('toggle-menu', $event)"
             @edit="emit('edit', $event)"
             @toggle-status="emit('toggle-status', $event)"
@@ -103,10 +105,10 @@ const applicationsHref = (offerId) => `${ROUTES.COMPANY_APPLICATIONS}?offer=${of
         </div>
       </div>
       <p
-        v-if="showVerificationHint && offer.status === 'draft' && !isCompanyVerified && verificationHintKey"
+        v-if="props.showVerificationHint && offer.status === 'draft' && !props.isCompanyVerified && props.verificationHintKey"
         class="mt-1 text-amber-600 text-xs"
       >
-        {{ t(verificationHintKey) }}
+        {{ t(props.verificationHintKey) }}
       </p>
 
       <div class="mt-2 flex flex-wrap items-center gap-3 text-additional text-sm">
