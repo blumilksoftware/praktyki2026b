@@ -5,6 +5,7 @@ import DateRangeFilter from '@/Components/University/DateRangeFilter.vue'
 import StatsOverview from '@/Components/University/StatsOverview.vue'
 import BreakdownTabs from '@/Components/University/BreakdownTabs.vue'
 import UniversityLayout from '@/Components/Layouts/UniversityLayout.vue'
+import BaseLayout from "@/Components/Layouts/BaseLayout.vue";
 
 defineProps({
   data: {
@@ -18,11 +19,11 @@ defineProps({
 })
 
 const { t } = useI18n()
+
 </script>
 
 <template>
   <Head :title="t('university.dashboard.title')" />
-
   <UniversityLayout active-page="dashboard">
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

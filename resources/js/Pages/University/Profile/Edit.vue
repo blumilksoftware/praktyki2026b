@@ -9,6 +9,7 @@ import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
 import Menu from '@/Components/Profiles/Menu.vue'
 import InfoEdit from '@/Components/Profiles/Edit/InfoEdit.vue'
 import { ROUTES } from '@/Helpers/routes'
+import { useUniversityPanelMenu } from '@/Composables/useUniversityPanelMenu'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -48,21 +49,24 @@ const submit = () => {
     preserveScroll: true,
     onSuccess: () => {
       statusMessage.value = t('profiles.edit.successMessage')
-      
+
       setTimeout(() => {
         statusMessage.value = null
       }, 5000)
     },
   })
 }
+
+const universityMenu = useUniversityPanelMenu('edit')
+
 </script>
 
 <template>
   <Head :title="university.name" />
-  
+
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar />
-  
+    <BaseNavbar show-hamburger :menu-items="universityMenu" show-navigation-buttons :navigation-buttons="universityMenu", navigation-variant="default"/>
+
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
         <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
@@ -79,7 +83,7 @@ const submit = () => {
             :name="university.name"
             :logo-url="university.logoUrl"
             class="flex flex-col items-center w-full md:px-10"
-            @update:logo="form.logo = $event" 
+            @update:logo="form.logo = $event"
           />
         </div>
 
@@ -129,7 +133,7 @@ const submit = () => {
             >
               {{ t('buttons.cancel') }}
             </BaseButton>
-              
+
             <BaseButton
               class="bg-primary hover:bg-primary/90 text-white px-10 py-2.5 text-sm font-semibold rounded-xl shadow-sm transition-all"
               :class="{ 'opacity-50 cursor-not-allowed': form.processing }"

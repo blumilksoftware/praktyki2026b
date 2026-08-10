@@ -11,15 +11,18 @@ import Menu from '@/Components/Profiles/Menu.vue'
 import Info from '@/Components/Profiles/Info.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
+import { useUniversityPanelMenu } from '@/Composables/useUniversityPanelMenu'
 
 const { t } = useI18n()
+
+const universityMenu = useUniversityPanelMenu('profile')
 
 const goBack = () => {
   window.history.back()
 }
 
 const goToEdit = () => {
-  window.location.href = ROUTES.PROFILE_EDIT 
+  window.location.href = ROUTES.PROFILE_EDIT
 }
 
 defineProps({
@@ -29,10 +32,10 @@ defineProps({
 
 <template>
   <Head :title="university.name" />
-  
+
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar />
-  
+    <BaseNavbar show-hamburger :menu-items="universityMenu" show-navigation-buttons :navigation-buttons="universityMenu" navigation-variant="default"/>
+
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
         <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
@@ -75,10 +78,10 @@ defineProps({
             <h3 class="text-xl font-bold text-gray-900 mb-5">
               {{ t('profiles.university.recruitmentAndSystem') }}
             </h3>
-            
-            <Info 
-              :domain="university.domain" 
-              :external-form-url="university.externalFormUrl" 
+
+            <Info
+              :domain="university.domain"
+              :external-form-url="university.externalFormUrl"
             />
           </div>
         </div>
@@ -88,7 +91,7 @@ defineProps({
             <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
               {{ t('profiles.university.facultiesAndStudyFields') }}
             </h3>
-            
+
             <Faculties :faculties="university.faculties" />
           </div>
         </div>
