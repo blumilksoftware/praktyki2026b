@@ -2,8 +2,8 @@
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconPlus } from '@tabler/icons-vue'
-import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
 import { ROUTES } from '@/Helpers/routes'
+import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 
 defineProps({
   canCreateDraftOffer: { type: Boolean, default: false },
@@ -19,9 +19,8 @@ function logout() {
 <template>
   <Head :title="t('pending.title')" />
 
-  <header class="top-4 right-4 z-10 absolute shadow p-2 rounded-lg" aria-label="Language selection">
-    <LanguageSwitcher :mobile="true" variant="light" />
-  </header>
+  <BaseNavbar show-hamburger />
+
 
   <main class="flex flex-col justify-center items-center bg-slate-50 px-6 py-16 min-h-screen" role="main">
     <section class="bg-white shadow-sm p-8 md:p-12 rounded-2xl w-full max-w-3xl" aria-labelledby="pending-title">
