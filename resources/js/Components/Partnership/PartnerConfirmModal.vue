@@ -6,19 +6,20 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 
 const props = defineProps({
   open: { type: Boolean, required: true },
-  companyName: { type: String, default: '' },
+  partnerName: { type: String, default: '' },
   processing: { type: Boolean, default: false },
-  action: { type: String, default: 'remove' },
+  action: { type: String, default: 'propose' },
+  namespace: { type: String, required: true },
 })
 
 const emit = defineEmits(['close', 'confirm'])
 const { t } = useI18n()
 
-const title = computed(() => t(`university.companies.${props.action}Partner.modalTitle`))
-const confirmation = computed(() => t(`university.companies.${props.action}Partner.confirmation`, {
-  company: props.companyName,
+const title = computed(() => t(`${props.namespace}.${props.action}.modalTitle`))
+const confirmation = computed(() => t(`${props.namespace}.${props.action}.confirmation`, {
+  partner: props.partnerName,
 }))
-const confirmLabel = computed(() => t(`university.companies.${props.action}Partner.confirm`))
+const confirmLabel = computed(() => t(`${props.namespace}.${props.action}.confirm`))
 </script>
 
 <template>
@@ -33,7 +34,7 @@ const confirmLabel = computed(() => t(`university.companies.${props.action}Partn
     </p>
     <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
       <BaseButton type="button" variant="secondary" :disabled="processing" @click="emit('close')">
-        {{ t('university.companies.cancel') }}
+        {{ t(`${namespace}.cancelAction`) }}
       </BaseButton>
       <BaseButton type="button" :disabled="processing" @click="emit('confirm')">
         {{ confirmLabel }}

@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import { IconMapPin } from '@tabler/icons-vue'
-import FilterSuggestField from '@/Components/University/FilterSuggestField.vue'
+import FilterSuggestField from '@/Components/Partnership/FilterSuggestField.vue'
 
 const cities = ['Legnica', 'Lublin', 'Wrocław', 'Warszawa']
 
