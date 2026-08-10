@@ -166,6 +166,7 @@ return [
     "offer_inactive" => "Ta oferta nie jest już aktywna.",
     "no_spots_available" => "Brak wolnych miejsc na tę ofertę.",
     "city_geocoding_failed" => "Nie udało się znaleźć lokalizacji dla podanego miasta. Sprawdź pisownię i spróbuj ponownie.",
+    "city_suggestions_unavailable" => "Podpowiedzi miast są chwilowo niedostępne. Wpisz nazwę miasta ręcznie.",
     "offer_publish_requires_verification" => "Twoja firma musi zostać zweryfikowana, zanim będzie można publikować oferty. Zapisz ją jako szkic.",
     "offer_publish_invalid_status" => "Tej oferty nie można opublikować.",
     "application_status_invalid_transition" => "Nie można zmienić statusu aplikacji na wybrany.",

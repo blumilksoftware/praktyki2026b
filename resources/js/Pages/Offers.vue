@@ -27,6 +27,7 @@ const layoutProps = computed(() => (props.canApply ? { activePage: 'offers' } : 
 
 const displayMode = ref('list')
 const targetOfferId = ref(null)
+const offerMap = ref(null)
 
 const studyFieldValueToLabel = (value) => props.studyFields.find((f) => f.value === value)?.label
 const studyFieldLabelToValue = (label) => props.studyFields.find((f) => f.label === label)?.value
@@ -79,6 +80,7 @@ const resetFilters = () => {
   filters.dateFrom = ''
   filters.dateTo = ''
   filters.studyFieldLabels = []
+  offerMap.value?.resetView()
 }
 
 onMounted(() => {
@@ -190,6 +192,7 @@ onMounted(() => {
 
           <template v-else>
             <OfferMap
+              ref="offerMap"
               :offers="offers.data"
               :has-cv="hasCv"
               :guest="isGuest"

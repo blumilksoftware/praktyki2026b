@@ -25,9 +25,10 @@ const {
   selectedCity,
   selectedOfferId,
   selectedCityOffers,
-  clearSelection,
+  resetView,
 } = useOffersMap(offersRef, props.mapboxToken, initialOfferIdRef)
 
+defineExpose({ resetView })
 </script>
 
 <template>
@@ -39,7 +40,7 @@ const {
         v-if="selectedCity"
         :city="selectedCity"
         :count="selectedCityOffers.length"
-        @clear="clearSelection"
+        @clear="resetView"
       />
     </div>
 
