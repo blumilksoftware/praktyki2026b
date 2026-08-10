@@ -260,7 +260,7 @@
     "load_more": "Załaduj więcej",
     "loading": "Ładowanie...",
     "apply": {
-      "noCvMessage": "Aby zaaplikować na to stanowisko, musisz dodać CV do swojego profilu.",
+      "noCvMessage": "Aby aplikować, musisz dodać CV do swojego profilu.",
       "uploadCvPrompt": "Przejdź do edycji profilu i wgraj CV",
       "applyNow": "Aplikuj teraz",
       "loading": "Wysyłanie...",

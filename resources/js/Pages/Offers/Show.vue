@@ -23,12 +23,13 @@ const props = defineProps({
   similarOffers: { type: Array, default: () => [] },
   hasCv: { type: Boolean, default: false },
   isGuest: { type: Boolean, default: true },
+  canApply: { type: Boolean, default: false },
 })
 
 const { t } = useI18n()
 
-const layoutComponent = computed(() => (props.isGuest ? BaseLayout : StudentPanelLayout))
-const layoutProps = computed(() => (props.isGuest ? {} : { activePage: 'offers' }))
+const layoutComponent = computed(() => (props.canApply ? StudentPanelLayout : BaseLayout))
+const layoutProps = computed(() => (props.canApply ? { activePage: 'offers' } : {}))
 
 const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mode}`))
 const isClosed = computed(() => props.offer.status === 'closed' || props.offer.status === 'expired')
@@ -106,10 +107,6 @@ function applyToOffer() {
       isApplying.value = false
     },
   })
-}
-
-function goToUploadCv() {
-  router.visit(ROUTES.STUDENT_PROFILE_EDIT)
 }
 
 const isTogglingFavorite = ref(false)
@@ -309,7 +306,7 @@ function confirmWithdraw() {
 
               <template v-else>
                 <button
-                  v-if="!isGuest"
+                  v-if="canApply"
                   type="button"
                   class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
                   :class="isFavorite
@@ -334,14 +331,14 @@ function confirmWithdraw() {
                   {{ t('student.offers.card.loginToApply') }}
                 </Link>
 
-                <template v-else-if="acceptsApplications">
+                <template v-else-if="canApply && acceptsApplications">
                   <BaseApplyButton
+                    :id="`apply-offer-${offer.id}`"
                     :has-cv="hasCv"
                     :is-applied="isApplied"
                     :applied-date="appliedDate"
                     :is-loading="isApplying"
                     @apply="applyToOffer"
-                    @upload-cv="goToUploadCv"
                   />
 
                   <BaseButton
@@ -387,7 +384,7 @@ function confirmWithdraw() {
     </div>
 
     <WithdrawApplicationModal
-      v-if="!isGuest"
+      v-if="canApply"
       :open="isWithdrawModalOpen"
       :offer-title="offer.title"
       :processing="isWithdrawing"

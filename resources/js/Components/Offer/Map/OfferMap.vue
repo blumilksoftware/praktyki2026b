@@ -10,6 +10,7 @@ const props = defineProps({
   offers: { type: Array, default: () => [] },
   hasCv: { type: Boolean, default: true },
   guest: { type: Boolean, default: false },
+  canApply: { type: Boolean, default: false },
   mapboxToken: { type: String, default: '' },
   initialOfferId: { type: [Number, String], default: null },
 })
@@ -49,6 +50,7 @@ const {
       :selected-offer-id="selectedOfferId"
       :has-cv="hasCv"
       :guest="guest"
+      :can-apply="canApply"
     />
 
     <div v-else class="text-center py-6 text-additional text-sm bg-background/50 rounded-2xl border border-dashed border-border">
