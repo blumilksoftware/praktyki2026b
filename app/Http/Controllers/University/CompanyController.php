@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\University;
 
+use App\Actions\University\AcceptPartnershipAction;
 use App\Actions\University\AddPartnerAction;
 use App\Actions\University\GetCompanyFilterOptions;
 use App\Actions\University\RemovePartnerAction;
@@ -23,6 +24,7 @@ class CompanyController extends Controller
         private readonly AddPartnerAction $addPartnerAction,
         private readonly RemovePartnerAction $removePartnerAction,
         private readonly GetCompanyFilterOptions $getCompanyFilterOptions,
+        private readonly AcceptPartnershipAction $acceptPartnershipAction,
     ) {}
 
     public function index(SearchCompaniesRequest $request): Response
@@ -58,6 +60,15 @@ class CompanyController extends Controller
         $university = Auth::user()->universityOrganization;
 
         $this->removePartnerAction->execute($university, $company);
+
+        return back();
+    }
+
+    public function acceptPartner(Company $company): RedirectResponse
+    {
+        $university = Auth::user()->universityOrganization;
+
+        $this->acceptPartnershipAction->execute($university, $company);
 
         return back();
     }

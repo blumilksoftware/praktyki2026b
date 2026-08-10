@@ -84,6 +84,11 @@ export const ROUTES = {
   UNIVERSITY_DASHBOARD: "/university/dashboard",
   UNIVERSITY_COMPANIES: "/university/companies",
   UNIVERSITY_COMPANY_PARTNERSHIP: "/university/companies/{company}/partnership",
+  UNIVERSITY_COMPANY_PARTNERSHIP_ACCEPT: "/university/companies/{company}/partnership/accept",
+
+  COMPANY_UNIVERSITIES: "/company/universities",
+  COMPANY_UNIVERSITY_PARTNERSHIP: "/company/universities/{university}/partnership",
+  COMPANY_UNIVERSITY_PARTNERSHIP_ACCEPT: "/company/universities/{university}/partnership/accept",
 
   // General
   APPLICATIONS: "/applications",
@@ -123,4 +128,16 @@ export function companyShow(companyId: string): string {
 
 export function universityCompanyPartnership(companyId: string): string {
   return ROUTES.UNIVERSITY_COMPANY_PARTNERSHIP.replace("{company}", companyId)
+}
+
+export function universityCompanyPartnershipAccept(companyId: string): string {
+  return ROUTES.UNIVERSITY_COMPANY_PARTNERSHIP_ACCEPT.replace("{company}", companyId)
+}
+
+export function companyUniversityPartnership(universityId: string): string {
+  return ROUTES.COMPANY_UNIVERSITY_PARTNERSHIP.replace("{university}", universityId)
+}
+
+export function companyUniversityPartnershipAccept(universityId: string): string {
+  return ROUTES.COMPANY_UNIVERSITY_PARTNERSHIP_ACCEPT.replace("{university}", universityId)
 }
