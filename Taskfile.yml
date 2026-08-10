@@ -35,6 +35,7 @@ tasks:
       - cmd: "{{.DOCKER_EXEC_USER}} npm install"
       - cmd: "{{.DOCKER_EXEC_USER}} php artisan migrate"
       - cmd: "{{.DOCKER_EXEC_USER}} php artisan storage:link"
+      - task: docker:restart
 
   vite:
     desc: "Run Vite dev server"
