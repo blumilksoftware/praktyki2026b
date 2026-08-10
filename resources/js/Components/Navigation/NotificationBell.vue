@@ -52,7 +52,7 @@ function notificationLabel(item) {
   case 'application_status_changed':
     return t('common.notifications.types.statusChanged', {
       offer: data.offer_title,
-      status: t(`student.applications.status.${data.status}`),
+      status: t(`common.statuses.application.${data.status}`),
     })
   case 'offer_unavailable':
     return t(`common.notifications.types.offerUnavailable.${data.reason}`, { offer: data.offer_title })

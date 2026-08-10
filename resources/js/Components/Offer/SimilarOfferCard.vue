@@ -20,7 +20,7 @@ const detailHref = computed(() => offerShow(props.offer.id))
   <Link
     :href="detailHref"
     class="block rounded-2xl border border-border bg-white p-4 transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-    :aria-label="t('student.offers.detail.similarOfferAria', { title: offer.title, company: offer.company.name })"
+    :aria-label="t('offers.detail.similarOfferAria', { title: offer.title, company: offer.company.name })"
   >
     <div class="flex items-start gap-3">
       <div

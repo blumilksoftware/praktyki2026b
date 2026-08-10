@@ -19,7 +19,7 @@ defineProps({
       {{ description }}
     </div>
     <div v-else class="text-gray-400 italic text-sm">
-      {{ t('company.profile.noDescription') }}
+      {{ t('common.empty.noDescription') }}
     </div>
   </div>
 </template>

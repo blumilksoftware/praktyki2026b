@@ -17,7 +17,7 @@ const { t } = useI18n()
 <template>
   <div class="mt-6">
     <h3 class="font-semibold text-text text-lg mb-4">
-      {{ t('student.offers.map.cityOffersTitle', { city }) }}
+      {{ t('offers.map.cityOffersTitle', { city }) }}
     </h3>
     <div class="space-y-3 sm:space-y-4">
       <div

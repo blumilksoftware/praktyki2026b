@@ -49,9 +49,9 @@ let searchTimeout = null
 
 const columns = [
   { key: props.nameKey, label: props.nameLabel, align: 'left' },
-  { key: 'linkedStudents', label: t('university.dashboard.breakdown.students'), align: 'right' },
-  { key: 'applicationsSubmitted', label: t('university.dashboard.breakdown.applications'), align: 'right' },
-  { key: 'acceptedPlacements', label: t('university.dashboard.breakdown.accepted'), align: 'right' },
+  { key: 'linkedStudents', label: t('common.words.students'), align: 'right' },
+  { key: 'applicationsSubmitted', label: t('common.words.applications'), align: 'right' },
+  { key: 'acceptedPlacements', label: t('common.statuses.application.acceptedPlural'), align: 'right' },
 ]
 
 const visit = (params = {}) => {
@@ -128,7 +128,7 @@ const changePage = (page) => {
     </div>
 
     <div v-if="!rows.data || !rows.data.length" class="text-center py-8 text-additional text-sm">
-      {{ t('university.dashboard.breakdown.empty') }}
+      {{ t('common.empty.noDataForPeriod') }}
     </div>
 
     <template v-else>
@@ -170,7 +170,7 @@ const changePage = (page) => {
 
       <div v-if="rows.last_page > 1" class="flex items-center justify-between pt-4 border-t border-border">
         <span class="text-xs text-additional">
-          {{ t('university.dashboard.breakdown.showingResults', {
+          {{ t('common.pagination.summary', {
             from: rows.from || 1,
             to: rows.to || rows.data.length,
             total: rows.total

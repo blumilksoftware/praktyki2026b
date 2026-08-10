@@ -120,7 +120,7 @@ onBeforeUnmount(revokePreview)
       class="mt-2 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
       @click="openFileDialog"
     >
-      {{ t('profiles.uploadLogo') }}
+      {{ t('common.profile.uploadLogo') }}
     </button>
 
     <input
@@ -128,7 +128,7 @@ onBeforeUnmount(revokePreview)
       type="file"
       accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
       class="sr-only"
-      :aria-label="t('profiles.uploadLogo')"
+      :aria-label="t('common.profile.uploadLogo')"
       @change="onFileSelected"
     >
 

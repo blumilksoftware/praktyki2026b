@@ -4,8 +4,6 @@
       "backToDashboard": "Powrót do strony głównej",
       "caption": "Lista zgłoszeń kandydatów",
       "description": "Przeglądaj i weryfikuj najnowsze zgłoszenia.",
-      "heading": "Lista zgłoszeń",
-      "placeholder": "Strona w budowie",
       "stats": "Statystyki wszystkich zgłoszeń",
       "title": "Panel zgłoszeń"
     },
@@ -15,20 +13,7 @@
         "toEnglish": "Przełącz na angielski",
         "toPolish": "Przełącz na polski"
       },
-      "logout": "Wyloguj",
-      "nav": {
-        "applications": "Zgłoszenia",
-        "ariaLabel": "Nawigacja administratora",
-        "closeMenu": "Zamknij menu",
-        "dashboard": "Strona główna",
-        "mobileAriaLabel": "Nawigacja mobilna",
-        "openMenu": "Otwórz menu",
-        "profile": "Profil",
-        "settings": "Ustawienia"
-      },
-      "skipToContent": "Przejdź do treści",
       "subtitle": "Panel zarządzania",
-      "title": "Admin",
       "userRole": "Administrator"
     },
     "panel": {
@@ -48,28 +33,11 @@
     "verification": {
       "accept": "Akceptuj",
       "acceptAriaLabel": "Akceptuj zgłoszenie: {name}",
-      "actions": "Akcje",
-      "address": "Adres",
-      "all": "Wszystkie",
-      "cancel": "Anuluj",
-      "city": "Miasto",
-      "close": "Zamknij",
-      "closeModal": "Zamknij okno",
       "companies": "Firmy",
       "confirmReject": "Odrzuć zgłoszenie",
-      "description": "Opis",
-      "details": "Szczegóły",
       "detailsAriaLabel": "Szczegóły zgłoszenia: {name}",
-      "domain": "Domena",
-      "email": "E-mail",
-      "externalFormUrl": "Zewnętrzny formularz",
       "filterByStatusAriaLabel": "Filtruj zgłoszenia po statusie",
-      "name": "Nazwa",
-      "nip": "NIP",
       "noPending": "Brak oczekujących weryfikacji",
-      "pending": "Oczekujące",
-      "phone": "Telefon",
-      "postalCode": "Kod pocztowy",
       "reject": "Odrzuć",
       "rejectAriaLabel": "Odrzuć zgłoszenie: {name}",
       "rejectDescription": "Zamierzasz odrzucić zgłoszenie {name}. Ta operacja jest nieodwracalna.",
@@ -77,16 +45,11 @@
       "rejectReasonPlaceholder": "Wpisz powód tutaj...",
       "rejectReasonRequired": "Powód odrzucenia jest wymagany.",
       "rejectTitle": "Odrzuć zgłoszenie",
-      "rejected": "Odrzucone",
       "rejectionReason": "Powód odrzucenia",
-      "search": "Szukaj...",
       "searchAriaLabel": "Wyszukaj zgłoszenia",
-      "street": "Ulica i numer",
       "submittedAt": "Data zgłoszenia",
-      "tags": "Tagi",
       "universities": "Uczelnie",
-      "verified": "Zweryfikowane",
-      "website": "Strona www"
+      "verified": "Zweryfikowane"
     }
   },
   "auth": {
@@ -99,24 +62,14 @@
     },
     "login": {
       "adminTitle": "Logowanie do panelu administratora",
-      "email": "E-mail",
       "forgotPassword": "Nie pamiętasz hasła?",
       "forgotPasswordLink": "kliknij tutaj",
-      "google": "Google",
       "heading": "Witaj ponownie!",
       "noAccount": "Nie masz jeszcze konta? Zarejestruj się",
-      "or": "lub kontynuuj z",
-      "password": "Hasło",
-      "registerLink": "Zarejestruj się",
       "rememberMe": "Zapamiętaj mnie",
-      "resendVerification": "Wyślij ponownie link weryfikacyjny",
-      "submit": "Zaloguj się",
-      "title": "Logowanie",
       "waiting": {
-        "backToLogin": "Powrót do logowania",
         "expiresInfo": "Link jest ważny przez 24 godziny.",
         "heading": "Sprawdź swoją skrzynkę odbiorczą",
-        "resend": "Wyślij ponownie link weryfikacyjny",
         "resendCooldown": "Wyślij ponownie za {seconds} s",
         "resendSuccess": "Jeśli adres jest zarejestrowany i niezweryfikowany, wysłaliśmy nowy link.",
         "sentTo": "Wysłaliśmy link weryfikacyjny na adres:",
@@ -131,75 +84,37 @@
         "title": "Przygotuj się z wyprzedzeniem"
       },
       "description": "Dziękujemy za rejestrację. Aby dbać o bezpieczeństwo studentów, każde konto uczelni lub firmy musi zostać ręcznie zatwierdzone przez naszego administratora.",
-      "status": "Zazwyczaj trwa to {time} godzin. Gdy weryfikacja przebiegnie pomyślnie, odblokujemy Twój dostęp do panelu i wyślemy Ci wiadomość e-mail z potwierdzeniem."
+      "status": "Zazwyczaj trwa to {time} godzin. Gdy weryfikacja przebiegnie pomyślnie, odblokujemy Twój dostęp do panelu i wyślemy Ci wiadomość e-mail z potwierdzeniem.",
+      "title": "Konto w trakcie weryfikacji"
     },
     "register": {
       "accountTypeTabs": {
         "ariaLabel": "Wybór typu konta",
-        "company": "Firma",
-        "label": "Zarejestruj się jako",
-        "student": "Student",
-        "university": "Uczelnia"
+        "label": "Zarejestruj się jako"
       },
-      "company": {
-        "city": "Miejscowość",
-        "companyName": "Nazwa firmy",
-        "nip": "NIP",
-        "phone": "Numer telefonu",
-        "postalCode": "Kod pocztowy",
-        "street": "Ulica i numer",
-        "title": "Rejestracja firmy",
-        "website": "Link do strony firmy",
-        "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
-      },
-      "email": "E-mail",
-      "firstName": "Imię",
-      "google": "Google",
       "hasAccount": "Masz już konto?",
       "heading": "Dołącz do nas!",
-      "lastName": "Nazwisko",
-      "loginLink": "Zaloguj się",
-      "optionalUniversity": "Uczelnia",
-      "or": "lub kontynuuj z",
-      "password": "Hasło",
-      "passwordConfirmation": "Powtórz hasło",
-      "submit": "Zarejestruj się",
+      "optionalUniversity": "Uczelnia (opcjonalnie)",
       "termsLink": "warunkami regulaminu",
       "termsPrefix": "Oświadczam, że zapoznałem się z",
-      "title": "Rejestracja",
       "university": {
-        "city": "Miejscowość",
-        "domain": "Domena uczelni",
-        "domainHint": "Domena e-mail studentów, np. edu.pl (bez https://).",
-        "institutionName": "Nazwa uczelni",
-        "phone": "Numer telefonu",
-        "postalCode": "Kod pocztowy",
-        "street": "Ulica i numer",
-        "title": "Rejestracja uczelni",
-        "website": "Link do strony uczelni",
-        "websiteHint": "Możesz wpisać samą domenę, np. example.pl."
+        "domainHint": "Domena e-mail studentów, np. edu.pl (bez https://)."
       }
     },
     "verification": {
-      "invalidLink": "Nieprawidłowy lub wygasły link weryfikacyjny.",
+      "alreadyVerified": {
+        "heading": "E-mail już zweryfikowany",
+        "message": "Ten adres e-mail został już wcześniej potwierdzony. Możesz się zalogować."
+      },
+      "invalid": {
+        "heading": "Nieprawidłowy link",
+        "message": "Ten link weryfikacyjny jest nieprawidłowy lub wygasł. Poproś o nowy link ze strony logowania."
+      },
       "notVerified": "Twój adres e-mail nie został zweryfikowany.",
       "resendMessage": "Nowy link weryfikacyjny został wysłany. Sprawdź swoją skrzynkę odbiorczą.",
-      "resendVerification": "Wyślij ponownie link weryfikacyjny",
-      "result": {
-        "already_verified": {
-          "heading": "E-mail już zweryfikowany",
-          "message": "Ten adres e-mail został już wcześniej potwierdzony. Możesz się zalogować."
-        },
-        "backToLogin": "Przejdź do logowania",
-        "invalid": {
-          "heading": "Nieprawidłowy link",
-          "message": "Ten link weryfikacyjny jest nieprawidłowy lub wygasł. Poproś o nowy link ze strony logowania."
-        },
-        "success": {
-          "heading": "E-mail zweryfikowany pomyślnie",
-          "message": "Twoje konto zostało aktywowane. Możesz się teraz zalogować."
-        },
-        "title": "Weryfikacja e-mail"
+      "success": {
+        "heading": "E-mail zweryfikowany pomyślnie",
+        "message": "Twoje konto zostało aktywowane. Możesz się teraz zalogować."
       }
     }
   },
@@ -216,7 +131,8 @@
       },
       "applyFilter": "Zastosuj",
       "back": "Powrót",
-      "backToOffers": "Powrót do ofert",
+      "backToDashboard": "Wróć do panelu głównego",
+      "backToOffers": "Wróć do ofert",
       "cancel": "Anuluj",
       "clear": "Wyczyść",
       "clearSearch": "Wyczyść wyszukiwanie",
@@ -225,6 +141,7 @@
       "confirm": "Potwierdź",
       "deactivate": "Dezaktywuj",
       "delete": "Usuń",
+      "deleteAccountPermanently": "Usuń konto na stałe",
       "edit": "Edytuj",
       "editProfile": "Edytuj profil",
       "loadMore": "Załaduj więcej",
@@ -240,12 +157,15 @@
       "unpublish": "Wycofaj publikację",
       "unpublishing": "Wycofywanie…",
       "view": "Wyświetl",
-      "withdraw": "Wycofaj"
+      "withdraw": "Wycofaj",
+      "withdrawApplication": "Wycofaj aplikację"
     },
     "empty": {
       "noActiveTags": "Nie wybrano żadnych tagów",
       "noContactInfo": "Brak danych kontaktowych",
       "noCv": "Brak CV",
+      "noData": "Brak danych do wyświetlenia",
+      "noDataForPeriod": "Brak danych dla wybranego okresu",
       "noDescription": "Brak opisu",
       "noOffers": "Brak aktualnych ofert",
       "noPreferredUniversities": "Brak wskazanych uczelni.",
@@ -293,15 +213,17 @@
       "compensation": "Wynagrodzenie",
       "currentPassword": "Obecne hasło",
       "cv": "CV",
-      "description": "Opis",
       "domain": "Domena",
+      "email": "E-mail",
       "endDate": "Data zakończenia",
       "externalFormUrl": "URL formularza rekrutacyjnego",
       "faculties": "Wydziały",
       "faculty": "Wydział",
       "firstName": "Imię",
       "hidePassword": "Ukryj hasło",
+      "id": "ID",
       "industries": "Branże",
+      "institutionName": "Nazwa uczelni",
       "internshipPeriod": "Okres praktyk",
       "lastName": "Nazwisko",
       "location": "Lokalizacja",
@@ -380,18 +302,19 @@
       }
     },
     "pagination": {
+      "label": "Paginacja",
       "perPage": "Ofert na stronie",
       "summary": "Wyświetlono {from}–{to} z {total}"
     },
     "profile": {
       "aboutUs": "O nas",
       "activeTags": "Aktywne tagi",
-      "contact": "Dane kontaktowe",
+      "contact": "Kontakt",
       "currentOffers": "Aktualne oferty",
       "edit": {
         "successMessage": "Profil został pomyślnie zaktualizowany."
       },
-      "editSuccess": "Zapisano Zmiany Profilu",
+      "editSuccess": "Zapisano zmiany w profilu",
       "navMenu": "Menu nawigacji",
       "searchTags": "Szukaj tagów...",
       "uploadLogo": "Prześlij logo"
@@ -399,6 +322,7 @@
     "statuses": {
       "application": {
         "accepted": "Zaakceptowana",
+        "acceptedPlural": "Zaakceptowane",
         "pending": "Oczekująca",
         "rejected": "Odrzucona",
         "reviewed": "Rozpatrywana"
@@ -439,11 +363,12 @@
       "yourFavorites": "Twoje zapisane oferty"
     },
     "validation": {
-      "fillRequiredFields": "Wypełnij wszystkie wymagane pola",
+      "fillRequiredFields": "Proszę wypełnić wszystkie wymagane pola.",
       "requiredField": "To pole jest wymagane."
     },
     "verifiedBadge": "Konto zweryfikowane przez administratora",
     "words": {
+      "action": "Akcja",
       "all": "Wszystkie",
       "applications": "Wnioski",
       "company": "Firma",
@@ -459,125 +384,37 @@
       "profile": "Profil",
       "settings": "Ustawienia",
       "student": "Student",
+      "students": "Studenci",
       "university": "Uczelnia",
       "unpaid": "Bezpłatna"
     },
     "workModes": {
       "hybrid": "Hybrydowo",
       "onSite": "Stacjonarnie",
-      "onsite": "Stacjonarnie",
       "remote": "Zdalnie"
     }
   },
   "company": {
-    "applications": {
-      "applied_for": "Aplikuje na:",
-      "date": {
-        "exact": "Złożono: {date}",
-        "today": "Złożono: Dzisiaj, {time}"
-      },
-      "empty": "Brak aplikacji spełniających podane kryteria.",
-      "statuses": {
-        "accepted": "Zaakceptowana",
-        "pending": "Oczekująca",
-        "rejected": "Odrzucona",
-        "reviewed": "Rozpatrywana"
-      }
-    },
     "dashboard": {
       "createOfferCard": {
-        "action": "Utwórz ofertę",
         "description": "Opublikuj ofertę albo zapisz ją jako szkic, żeby dokończyć później.",
         "title": "Masz nową ofertę praktyk do dodania?"
       },
       "offers": {
-        "actions": {
-          "activate": "Aktywuj",
-          "deactivate": "Dezaktywuj",
-          "delete": "Usuń",
-          "edit": "Edytuj",
-          "menu": "Otwórz menu akcji"
-        },
-        "confirmDelete": "Czy na pewno chcesz usunąć tę ofertę?",
-        "filters": {
-          "allStatuses": "Wszystkie",
-          "closed": "Zamknięte",
-          "draft": "Szkice",
-          "expired": "Wygasłe",
-          "published": "Opublikowane"
-        },
-        "noOffers": "Brak ofert",
-        "pagination": {
-          "summary": "Wyświetlono {from}–{to} z {total}"
-        },
-        "search": {
-          "clear": "Wyczyść wyszukiwanie",
-          "placeholder": "Szukaj ofert"
-        },
-        "status": {
-          "closed": "Zamknięta",
-          "draft": "Szkic",
-          "expired": "Wygasła",
-          "published": "Opublikowana"
-        },
-        "subtitle": "Zarządzaj ofertami pracy i aplikacjami kandydatów",
-        "table": {
-          "actions": "Akcje",
-          "applications": "Zgłoszenia",
-          "offer": "Oferta",
-          "spots": "Miejsca",
-          "status": "Status"
-        },
-        "title": "Oferty"
+        "subtitle": "Zarządzaj ofertami pracy i aplikacjami kandydatów"
       }
     },
-    "layout": {
-      "nav": {
-        "applications": "Zgłoszenia",
-        "dashboard": "Panel",
-        "offers": "Moje oferty",
-        "profile": "Profil",
-        "settings": "Ustawienia"
-      },
-      "title": "Firma"
-    },
-    "offer": {
+    "offers": {
       "delete": {
         "cancel": "Anuluj",
         "confirm": "Usuń ofertę",
         "confirmation": "Czy na pewno chcesz usunąć ofertę „{title}”? Tej operacji nie można cofnąć.",
         "modalTitle": "Usunąć ofertę?"
       },
-      "unpublish": {
-        "cancel": "Anuluj",
-        "confirm": "Wycofaj ofertę",
-        "confirmation": "Oferta „{title}” zostanie usunięta z publicznej tablicy ofert i zamknięta dla nowych zgłoszeń. Kandydaci, którzy już aplikowali, zachowają swoje zgłoszenia.",
-        "irreversibleNotice": "Tej operacji nie można cofnąć. Zamkniętej oferty nie da się opublikować ponownie.",
-        "modalTitle": "Wycofać ofertę z publikacji?"
-      }
-    },
-    "offers": {
-      "create": {
-        "heading": "Utwórz nową ofertę",
-        "title": "Utwórz ofertę"
-      },
-      "delete": {
-        "cancel": "Anuluj",
-        "confirm": "Usuń ofertę",
-        "confirmation": "Czy na pewno chcesz usunąć ofertę „{title}”? Tego nie można cofnąć.",
-        "modalTitle": "Usuń ofertę"
-      },
-      "edit": {
-        "heading": "Edytuj \"{title}\"",
-        "title": "Edytuj ofertę"
-      },
       "form": {
-        "city": "Miasto",
         "cityPlaceholder": "Zacznij pisać nazwę miasta...",
-        "description": "Opis",
         "draft": "Zapisz jako szkic",
         "draftHint": "Szkice są widoczne tylko dla Ciebie. Publikacja wymaga zweryfikowanego konta firmy.",
-        "endDate": "Data zakończenia",
         "isPaid": "To płatny staż",
         "noMoreOptions": "Brak kolejnych opcji",
         "preferredFields": "Preferowane kierunki studiów",
@@ -601,29 +438,14 @@
           "requirementsHint": "Dodaj wymagania, aby przyciągnąć odpowiednich kandydatów.",
           "status": "Status oferty"
         },
-        "spots": "Liczba miejsc",
         "spotsMaxHint": "Maksymalna liczba miejsc: 1000",
-        "startDate": "Data rozpoczęcia",
-        "submitCreate": "Utwórz ofertę",
         "submitCreateDraft": "Utwórz szkic",
-        "submitEdit": "Zapisz zmiany",
         "submitEditDraft": "Zapisz jako szkic",
-        "title": "Tytuł",
         "unsavedChangesConfirmation": "Masz niezapisane zmiany. Opuścić stronę bez zapisywania?",
-        "workMode": "Tryb pracy",
-        "workModeOptions": {
-          "hybrid": "Hybrydowo",
-          "onSite": "Stacjonarnie",
-          "remote": "Zdalnie"
-        },
         "workModePlaceholder": "Wybierz tryb pracy"
       },
       "index": {
-        "actionsMenu": "Więcej opcji",
         "applicationsCount": "Zgłoszenia: {count}",
-        "createAction": "Utwórz ofertę",
-        "deleteAction": "Usuń",
-        "editAction": "Edytuj",
         "empty": {
           "description": "Utwórz swoją pierwszą ofertę, aby zacząć otrzymywać zgłoszenia.",
           "title": "Nie utworzyłeś jeszcze żadnej oferty"
@@ -632,31 +454,28 @@
           "description": "Spróbuj innej frazy wyszukiwania lub statusu.",
           "title": "Brak ofert pasujących do filtrów"
         },
-        "publishAction": "Opublikuj",
-        "publishing": "Publikowanie…",
-        "searchPlaceholder": "Szukaj ofert po nazwie",
         "spotsLabel": "Miejsca: {count}",
-        "status": {
-          "closed": "Zamknięta",
-          "draft": "Szkic",
-          "expired": "Wygasła",
-          "published": "Opublikowana"
-        },
-        "tabs": {
-          "all": "Wszystkie"
-        },
-        "title": "Moje oferty",
-        "unpublishAction": "Wycofaj publikację",
-        "unpublishing": "Wycofywanie…",
         "verificationRequiredHint": "Twoja firma musi zostać zweryfikowana, zanim będzie można to opublikować."
+      },
+      "unpublish": {
+        "cancel": "Anuluj",
+        "confirm": "Wycofaj ofertę",
+        "confirmation": "Oferta „{title}” zostanie usunięta z publicznej tablicy ofert i zamknięta dla nowych zgłoszeń. Kandydaci, którzy już aplikowali, zachowają swoje zgłoszenia.",
+        "irreversibleNotice": "Tej operacji nie można cofnąć. Zamkniętej oferty nie da się opublikować ponownie.",
+        "modalTitle": "Wycofać ofertę z publikacji?"
       }
     },
     "profile": {
-      "currentOffers": "Aktualne oferty",
-      "noDescription": "Firma nie dodała jeszcze opisu.",
+      "applications": {
+        "appliedFor": "Aplikuje na:",
+        "date": {
+          "exact": "Złożono: {date}",
+          "today": "Złożono: Dzisiaj, {time}"
+        },
+        "empty": "Brak aplikacji spełniających podane kryteria."
+      },
       "teamAndPermissions": "Zespół i uprawnienia",
-      "title": "Profil",
-      "verified": "Firma zweryfikowana"
+      "verified": "Zweryfikowana firma"
     }
   },
   "components": {
@@ -677,6 +496,7 @@
       "errors": {
         "empty": "Pole nie może być puste!",
         "exists": "Element już istnieje!",
+        "invalidSelection": "Nieprawidłowy wybór",
         "maxReached": "Osiągnięto maksymalną liczbę elementów ({max})",
         "tooLong": "Wpisana wartość jest za długa (maksymalnie {max} znaków)"
       },
@@ -691,6 +511,8 @@
       "companyProfileAria": "Zobacz profil firmy: {company}",
       "expiredMessage": "Ta oferta wygasła",
       "internshipPeriodValue": "od {start} do {end}",
+      "preferredUniversities": "Preferowane uczelnie",
+      "remainingSpots": "Wolne miejsca",
       "remainingSpotsNone": "brak wolnych miejsc ({total} zajętych)",
       "remainingSpotsValue": "pozostało {remaining} z {total}",
       "salaryRange": "od {min} do {max} PLN",
@@ -711,7 +533,6 @@
     "banner": {
       "action": "Uzupełnij profil",
       "description": "Wypełnij dane profilu, aby w pełni korzystać z Applikuj.",
-      "dismiss": "Zamknij",
       "title": "Uzupełnij swój profil"
     },
     "progress": {
@@ -728,17 +549,8 @@
       "empty": "Nie masz jeszcze żadnych aplikacji.",
       "listAriaLabel": "Lista aplikacji",
       "openHistory": "Zobacz historię aplikacji",
-      "status": {
-        "accepted": "Zaakceptowana",
-        "pending": "Oczekująca",
-        "rejected": "Odrzucona",
-        "reviewed": "Rozpatrywana"
-      },
       "subtitle": "Przeglądaj status swoich aplikacji na oferty praktyk.",
-      "title": "Historia aplikacji",
       "withdraw": {
-        "action": "Wycofaj",
-        "cancel": "Anuluj",
         "confirm": "Wycofaj aplikację",
         "confirmation": "Czy na pewno chcesz wycofać aplikację na ofertę „{title}”? Tego nie można cofnąć.",
         "modalTitle": "Wycofać aplikację?"
@@ -746,12 +558,7 @@
     },
     "cv": {
       "defaultFileName": "CV.pdf",
-      "delete": "Usuń plik",
       "dropzone": "lub przeciągnij go tutaj",
-      "errors": {
-        "invalidType": "Plik musi być w formacie PDF.",
-        "tooLarge": "Plik nie może być większy niż 5 MB."
-      },
       "hint": "Akceptowany format: PDF. Maksymalny rozmiar: 5 MB.",
       "openInNewTab": "Otwórz w nowej karcie",
       "preview": "Podgląd",
@@ -759,7 +566,6 @@
       "previewUnavailable": "Podgląd CV jest chwilowo niedostępny.",
       "replace": "Zamień",
       "selectFile": "Wybierz plik PDF",
-      "title": "Twoje CV (tylko PDF)",
       "uploading": "Przesyłanie... {progress}%"
     },
     "dashboard": {
@@ -772,49 +578,19 @@
       "description": "Przeglądaj oferty, wracaj do ulubionych i przechodź między widokami jednym kliknięciem.",
       "heading": "Twoje centrum ofert",
       "previewDescription": "Krótki podgląd najświeższych pozycji.",
-      "previewTitle": "Najnowsze oferty",
-      "primaryAction": "Przejdź do ofert",
-      "secondaryAction": "Zobacz ulubione",
-      "title": "Panel główny studenta"
+      "previewTitle": "Najnowsze oferty"
     },
     "favorites": {
-      "backToDashboard": "Wróć do panelu głównego",
-      "backToOffers": "Wróć do ofert",
       "description": "Tu trafiają oferty oznaczone sercem. Możesz je potem odhaczyć albo wrócić do pełnej listy.",
       "empty": {
         "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj.",
         "title": "Nie masz jeszcze ulubionych ofert"
-      },
-      "heading": "Twoje zapisane oferty",
-      "status": {
-        "expired": "Wygasła"
       }
-    },
-    "layout": {
-      "nav": {
-        "applications": "Aplikacje",
-        "ariaLabel": "Nawigacja studenta",
-        "dashboard": "Panel",
-        "favorites": "Ulubione",
-        "mobileAriaLabel": "Nawigacja mobilna studenta",
-        "offers": "Oferty",
-        "profile": "Profil"
-      },
-      "skipToContent": "Przejdź do treści",
-      "title": "Panel studenta"
-    },
-    "nav": {
-      "dashboard": "Dashboard",
-      "favorites": "Ulubione",
-      "offers": "Oferty",
-      "profile": "Profil"
     },
     "offers": {
       "card": {
         "addToFavorites": "Dodaj do ulubionych",
-        "applyNow": "Aplikuj teraz",
         "dateRange": "Zakres dat",
-        "location": "Lokalizacja",
         "loginToApply": "Zaloguj się, aby aplikować",
         "logoAlt": "Logo firmy {company}",
         "mapComingSoon": "Mapa pojawi się w osobnej podstronie",
@@ -823,29 +599,6 @@
         "showOnMap": "Pokaż na mapie",
         "verified": "Zweryfikowana",
         "verifiedAriaLabel": "Firma zweryfikowana"
-      },
-      "detail": {
-        "backToOffers": "Wróć do ofert",
-        "closedMessage": "Oferta nie przyjmuje już aplikacji",
-        "companyProfileAria": "Zobacz profil firmy: {company}",
-        "compensation": "Wynagrodzenie",
-        "description": "Opis",
-        "expiredMessage": "Ta oferta wygasła",
-        "internshipPeriod": "Okres praktyk",
-        "internshipPeriodValue": "od {start} do {end}",
-        "paid": "Płatna",
-        "preferredUniversities": "Preferowane uczelnie",
-        "preferredUniversitiesEmpty": "Brak wskazanych uczelni.",
-        "remainingSpots": "Wolne miejsca",
-        "remainingSpotsNone": "brak wolnych miejsc ({total} zajętych)",
-        "remainingSpotsValue": "pozostało {remaining} z {total}",
-        "salaryRange": "od {min} do {max} PLN",
-        "similarOfferAria": "Zobacz ofertę {title} w firmie {company}",
-        "similarOffers": "Podobne oferty",
-        "spots": "Miejsca",
-        "studyFields": "Kierunki studiów",
-        "studyFieldsEmpty": "Brak wskazanych kierunków.",
-        "unpaid": "Bezpłatna"
       },
       "empty": {
         "description": "Spróbuj wyczyścić filtry albo rozszerzyć wyszukiwanie.",
@@ -856,39 +609,17 @@
         "title": "Nie zaaplikowałeś jeszcze do żadnej oferty"
       },
       "filters": {
-        "allCities": "Wszystkie miasta",
-        "allWorkModes": "Wszystkie tryby",
-        "city": "Miasto",
         "dateRange": {
-          "from": "Od",
-          "label": "Zakres dat praktyk",
-          "to": "Do"
+          "label": "Zakres dat praktyk"
         },
         "dateRangeInvalid": "Data „Do” musi być taka sama lub późniejsza niż data „Od”.",
         "kicker": "Filtry",
-        "reset": "Resetuj",
-        "resetAriaLabel": "Wyczyść wszystkie filtry",
-        "search": "Szukaj",
         "searchPlaceholder": "Firma, stanowisko lub miasto",
         "studyFields": {
-          "label": "Kierunki studiów",
           "placeholder": "Wybierz kierunki z listy"
         },
         "title": "Tablica ofert",
-        "verifiedOnly": "Tylko zweryfikowane firmy",
-        "workMode": "Tryb pracy"
-      },
-      "map": {
-        "cityOffersTitle": "Oferty w {city}",
-        "selectPinHint": "Wybierz punkt na mapie, aby zobaczyć dostępne oferty",
-        "showAll": "Pokaż wszystkie oferty",
-        "viewSwitcher": {
-          "listView": "Widok listy",
-          "mapView": "Widok mapy"
-        }
-      },
-      "pagination": {
-        "perPage": "Ofert na stronie"
+        "verifiedOnly": "Tylko zweryfikowane firmy"
       },
       "results": {
         "caption": "Liczba ofert",
@@ -896,107 +627,55 @@
         "helper": "Przewijalna lista kafelków, jedna oferta na kafelek"
       },
       "tabs": {
-        "all": "Wszystkie oferty",
         "applied": "Zaaplikowane",
         "notApplied": "Niezaaplikowane"
       }
     },
     "profile": {
       "account": {
-        "description": "Hasło, adres e-mail i usuwanie konta.",
-        "title": "Konto i bezpieczeństwo"
-      },
-      "actions": {
-        "add": "Dodaj",
-        "cancel": "Anuluj",
-        "edit": "Edytuj",
-        "save": "Zapisz"
+        "description": "Hasło, adres e-mail i usuwanie konta."
       },
       "applications": {
-        "historyHint": "Sprawdź status swoich wysłanych aplikacji.",
-        "title": "Zapisane i wysłane aplikacje"
+        "historyHint": "Sprawdź status swoich wysłanych aplikacji."
       },
       "delete": {
-        "cancel": "Anuluj",
         "confirm": "Usuń konto na stałe",
         "confirmationLabel": "Rozumiem, że tej operacji nie można cofnąć",
         "modalTitle": "Potwierdź usunięcie konta",
-        "openModal": "Usuń konto",
-        "password": "Hasło",
-        "title": "Usuń konto",
         "warning": "Tej operacji nie można cofnąć."
       },
       "details": {
-        "cities": "Miasta",
         "citiesPlaceholder": "Wpisz miasto i naciśnij Enter",
-        "fields": "Branże",
-        "fieldsPlaceholder": "Wybierz branżę z listy",
-        "firstName": "Imię",
-        "lastName": "Nazwisko"
+        "industriesPlaceholder": "Wybierz branżę z listy"
       },
       "edit": {
-        "age": "Wiek (lata)",
-        "ageLabel": "Wiek",
         "agePlaceholder": "lata",
-        "backToProfile": "Wróć do profilu",
         "basicData": "Dane podstawowe",
-        "city": "Miasto",
         "education": "Edukacja",
         "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” (ikona profilu w pasku nawigacji).",
-        "location": "Lokalizacja (miasto, kraj)",
-        "locationLabel": "Lokalizacja",
         "locationPlaceholder": "miasto, kraj",
-        "postalCode": "Kod pocztowy",
-        "saveChanges": "Zapisz zmiany",
         "searchPreferences": "Preferencje wyszukiwania",
-        "searchPreferencesHint": "Wybierz branże i miasta, które Cię interesują — pomoże nam to dopasować oferty praktyk.",
-        "specialization": "Specjalność",
-        "street": "Ulica i numer",
-        "studyField": "Kierunek studiów",
-        "studyYear": "Rok studiów",
-        "title": "Edytuj profil",
-        "university": "Uczelnia"
+        "searchPreferencesHint": "Wybierz branże i miasta, które Cię interesują — pomoże nam to dopasować oferty praktyk."
       },
       "email": {
-        "currentPassword": "Obecne hasło",
-        "label": "Adres e-mail",
         "newAddress": "Nowy adres e-mail",
         "pendingNotice": "Nowy adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
-        "resend": "Wyślij ponownie link weryfikacyjny",
-        "title": "Zmiana adresu e-mail",
         "unverifiedNotice": "Adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail."
-      },
-      "modal": {
-        "close": "Zamknij"
-      },
-      "password": {
-        "confirmation": "Potwierdź nowe hasło",
-        "current": "Obecne hasło",
-        "new": "Nowe hasło",
-        "title": "Zmiana hasła"
       },
       "photo": {
         "cancelPreview": "Anuluj podgląd",
         "change": "Zmień zdjęcie profilowe",
         "changeButton": "Zmień",
         "dropzone": "Przeciągnij zdjęcie tutaj lub wybierz plik",
-        "errors": {
-          "invalidType": "Dozwolone formaty: JPG, PNG, WebP.",
-          "tooLarge": "Plik jest za duży (maks. 2 MB)."
-        },
         "formatHint": "PNG, JPG, WebP do 2 MB",
         "label": "Zdjęcie profilowe",
         "orDragDrop": " lub przeciągnij i upuść",
         "previewHint": "Podgląd — zapisz zmiany, aby wysłać zdjęcie na serwer.",
         "uploadAction": "Prześlij plik"
       },
-      "placeholder": {
-        "comingSoon": "Ta sekcja będzie dostępna wkrótce."
-      },
       "sidebar": {
         "age": "{count} lat",
         "cvUploaded": "CV przesłane",
-        "editProfile": "Edytuj profil",
         "verified": "Zweryfikowana uczelnia",
         "yearTag": "rok {year}"
       },
@@ -1004,87 +683,42 @@
         "description": "Technologie, narzędzia i języki programowania",
         "empty": "Brak dodanych umiejętności. Kliknij „Dodaj”, aby uzupełnić.",
         "modalTitle": "Dodaj umiejętności techniczne",
-        "placeholder": "Wpisz umiejętność i naciśnij Enter",
-        "title": "Umiejętności techniczne"
+        "placeholder": "Wpisz umiejętność i naciśnij Enter"
       },
       "tags": {
         "limitHint": "{count}/{max} tagów. Możesz dodać maksymalnie {max}.",
-        "limitReached": "Osiągnięto limit: maksymalnie {max} tagów.",
-        "remove": "Usuń tag"
+        "limitReached": "Osiągnięto limit: maksymalnie {max} tagów."
       },
-      "title": "Profil",
       "workMode": {
         "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić.",
-        "modalTitle": "Edytuj oczekiwany tryb pracy",
-        "options": {
-          "hybrid": "Hybrydowo",
-          "onsite": "Stacjonarnie",
-          "remote": "Zdalnie"
-        },
-        "title": "Oczekiwany tryb pracy"
+        "modalTitle": "Edytuj oczekiwany tryb pracy"
       }
-    },
-    "workModes": {
-      "hybrid": "Hybrydowo",
-      "onSite": "Stacjonarnie",
-      "onsite": "Stacjonarnie",
-      "remote": "Zdalnie"
     }
   },
   "university": {
-    "companies": {
-      "title": "Wyszukiwarka firm"
-    },
     "dashboard": {
       "breakdown": {
-        "accepted": "Zaakceptowane",
         "acceptedShare": "% zaakceptowanych",
-        "applications": "Wnioski",
         "byFaculty": "Według wydziału",
         "byField": "Według kierunku",
-        "empty": "Brak danych dla wybranego okresu",
-        "faculty": "Wydział",
-        "field": "Kierunek",
-        "searchPlaceholder": "Szukaj...",
-        "showingResults": "Wyświetlono {from}–{to} z {total}",
-        "students": "Studenci",
         "subtitle": "Szczegółowy podział aktywności studentów, złożonych aplikacji i przyjęć według jednostek uczelni",
-        "title": "Statystyki wydziałów i kierunków",
         "unknown": "Bez wydziału"
-      },
-      "filter": {
-        "apply": "Zastosuj",
-        "from": "Od",
-        "reset": "Wyczyść",
-        "title": "Okres",
-        "to": "Do"
       },
       "stats": {
         "acceptanceRate": "Konwersja {rate}%",
         "acceptedPlacements": "Zaakceptowane praktyki",
         "applicationsSubmitted": "Złożone wnioski",
         "linkedStudents": "Powiązani studenci"
-      },
-      "title": "Statystyki studentów"
-    },
-    "layout": {
-      "nav": {
-        "dashboard": "Panel",
-        "profile": "Profil"
-      },
-      "title": "Uczelnia"
+      }
     },
     "profile": {
-      "domain": "Domena",
-      "domainLockedHint": "Domena uczelni nie może być zmieniona.",
-      "externalFormUrl": "Link do formularza zewnętrznego",
-      "externalFormUrlPlaceholder": "Adres URL formularza zewnętrznego",
+      "domainLockedHint": "Domeny nie można zmienić. Skontaktuj się z administratorem.",
+      "externalFormUrlPlaceholder": "Link do systemu rekrutacyjnego (opcjonalnie)",
       "facultiesAndStudyFields": "Wydziały i kierunki studiów",
-      "noFaculties": "Brak dodanych wydziałów.",
-      "noStudyFields": "Brak przypisanych kierunków studiów.",
+      "noFaculties": "Uczelnia nie dodała jeszcze żadnych wydziałów.",
+      "noStudyFields": "Uczelnia nie dodała jeszcze żadnych kierunków studiów.",
       "recruitmentAndSystem": "Rekrutacja i system",
-      "systemInformation": "Informacje systemowe",
-      "universityDomain": "Domena uczelni"
+      "systemInformation": "Informacje systemowe"
     }
   }
 }

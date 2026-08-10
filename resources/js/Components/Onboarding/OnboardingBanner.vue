@@ -63,7 +63,7 @@ function dismiss() {
 
     <button
       class="flex items-center justify-center hover:bg-black/5 rounded-lg w-8 h-8 text-slate-400 hover:text-slate-600 transition shrink-0"
-      :aria-label="t('onboarding.banner.dismiss')"
+      :aria-label="t('common.actions.close')"
       @click="dismiss"
     >
       <IconX class="w-4 h-4" aria-hidden="true" />

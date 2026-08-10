@@ -418,7 +418,7 @@ onUnmounted(() => {
             :aria-label="t('admin.verification.detailsAriaLabel', { name: item.name })"
             @click="openDetailsModal(item, $event)"
           >
-            {{ t('admin.verification.details') }}
+            {{ t('common.words.details') }}
           </button>
           <button
             v-if="item.verification_status === 'pending'"
@@ -447,13 +447,13 @@ onUnmounted(() => {
     />
 
     <div v-if="currentItems.length === 0" class="py-12 text-slate-500 text-center">
-      {{ t('components.table.noData') }}
+      {{ t('common.empty.noData') }}
     </div>
 
     <Teleport to="body">
       <div
         v-if="showRejectModal && itemToReject"
-        class="z-[9999] fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-sm p-4"
+        class="z-9999 fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-sm p-4"
         role="dialog"
         aria-modal="true"
         :aria-labelledby="'reject-modal-title'"
@@ -508,7 +508,7 @@ onUnmounted(() => {
     <Teleport to="body">
       <div
         v-if="showDetailsModal && detailsItem"
-        class="z-[9999] fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-sm p-4"
+        class="z-9999 fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-sm p-4"
         role="dialog"
         aria-modal="true"
         aria-labelledby="details-modal-title"
@@ -526,7 +526,7 @@ onUnmounted(() => {
               class="gap-2 grid grid-cols-3"
             >
               <dt class="font-medium text-slate-500 text-sm">{{ field.label }}</dt>
-              <dd class="col-span-2 text-slate-800 text-sm break-words">
+              <dd class="col-span-2 text-slate-800 text-sm wrap-break-words">
                 <a v-if="field.type === 'email' && detailsItem[field.key]" :href="`mailto:${detailsItem[field.key]}`" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>
                 <a v-else-if="field.type === 'tel' && detailsItem[field.key]" :href="`tel:${detailsItem[field.key]}`" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>
                 <a v-else-if="field.type === 'url' && detailsItem[field.key]" :href="detailsItem[field.key]" target="_blank" rel="noopener" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>

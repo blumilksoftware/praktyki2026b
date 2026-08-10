@@ -17,7 +17,7 @@ export function useUniversityPanelMenu(activePage) {
         isActive: current === 'dashboard',
       },
       {
-        label: t('university.layout.nav.profile'),
+        label: t('common.nav.profile'),
         href: ROUTES.UNIVERSITY_PROFILE,
         icon: IconUserCircle,
         isActive: current === 'profile',

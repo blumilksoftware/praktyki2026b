@@ -17,7 +17,7 @@ function logout() {
 </script>
 
 <template>
-  <Head :title="t('pending.title')" />
+  <Head :title="t('auth.pending.title')" />
 
   <header class="top-4 right-4 z-10 absolute shadow p-2 rounded-lg" aria-label="Language selection">
     <LanguageSwitcher :mobile="true" variant="light" />
@@ -32,30 +32,30 @@ function logout() {
       </div>
       <div class="space-y-8">
         <h1 id="pending-title" class="font-semibold text-slate-900 text-4xl text-center">
-          {{ t('pending.title') }}
+          {{ t('auth.pending.title') }}
         </h1>
 
         <p class="text-slate-700 text-base text-center leading-7">
-          {{ t('pending.description') }}
+          {{ t('auth.pending.description') }}
         </p>
 
         <hr class="border-slate-200" aria-hidden="true">
 
         <p class="text-slate-500 text-base text-center leading-7">
-          {{ t('pending.status', { time: '2-15' }) }}
+          {{ t('auth.pending.status', { time: '2-15' }) }}
         </p>
 
         <p class="text-slate-500 text-base text-center leading-7">
-          {{ t('pending.contact', { email: $page.props.support_email }) }}
+          {{ t('auth.pending.contact', { email: $page.props.support_email }) }}
         </p>
 
         <div v-if="canCreateDraftOffer" class="flex flex-col items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-center sm:flex-row sm:justify-between sm:text-left">
           <div>
             <p class="font-semibold text-text text-sm">
-              {{ t('pending.createDraftOffer.title') }}
+              {{ t('auth.pending.createDraftOffer.title') }}
             </p>
             <p class="mt-0.5 text-slate-500 text-xs">
-              {{ t('pending.createDraftOffer.description') }}
+              {{ t('auth.pending.createDraftOffer.description') }}
             </p>
           </div>
 
@@ -64,7 +64,7 @@ function logout() {
             class="inline-flex shrink-0 items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
             <IconPlus class="h-4 w-4" aria-hidden="true" />
-            {{ t('pending.createDraftOffer.action') }}
+            {{ t('auth.pending.createDraftOffer.action') }}
           </Link>
         </div>
 
@@ -74,7 +74,7 @@ function logout() {
           aria-label="Log out"
           @click="logout"
         >
-          {{ t('pending.log_out') }}
+          {{ t('common.actions.logout') }}
         </button>
       </div>
     </section>

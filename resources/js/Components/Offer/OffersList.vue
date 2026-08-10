@@ -62,7 +62,7 @@ function goToPage(url) {
       v-if="lastPage > 1"
       class="mt-6 flex items-center justify-center gap-1 flex-wrap px-4 sm:px-0"
       role="navigation"
-      :aria-label="t('student.offers.pagination.label')"
+      :aria-label="t('common.pagination.label')"
     >
       <button
         v-for="(link, index) in links"

@@ -47,7 +47,7 @@ const submit = () => {
   })).post('/university/profile', {
     preserveScroll: true,
     onSuccess: () => {
-      statusMessage.value = t('profiles.edit.successMessage')
+      statusMessage.value = t('common.profile.edit.successMessage')
       
       setTimeout(() => {
         statusMessage.value = null
@@ -108,7 +108,7 @@ const submit = () => {
               class="bg-error/10 border border-error w-fit rounded-lg px-6 py-3 flex flex-col items-center justify-center shadow-sm gap-1.5"
             >
               <span class="text-error text-sm sm:text-base font-medium text-center">
-                {{ t('validation.fillRequiredFields') }}
+                {{ t('common.validation.fillRequiredFields') }}
               </span>
             </div>
 
@@ -136,7 +136,7 @@ const submit = () => {
               :disabled="form.processing"
               @click="submit"
             >
-              {{ form.processing ? t('buttons.saving') : t('common.actions.save') }}
+              {{ form.processing ? t('common.actions.saving') : t('common.actions.save') }}
             </BaseButton>
           </div>
         </div>

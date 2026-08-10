@@ -57,7 +57,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           <BaseInput
             id="university_name"
             v-model="form.university_name"
-            :label="t('auth.register.university.institutionName')"
+            :label="t('common.fields.institutionName')"
             autocomplete="organization"
             required
             :error="fieldError('university_name')"

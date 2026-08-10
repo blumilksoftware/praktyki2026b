@@ -49,7 +49,7 @@ function clearSearch() {
 
 <template>
   <div class="flex flex-col gap-4">
-    <h2 class="text-xl font-bold text-text">{{ t('profiles.activeTags') }}</h2>
+    <h2 class="text-xl font-bold text-text">{{ t('common.profile.activeTags') }}</h2>
 
     <p class="text-sm text-text/70">
       {{ selectedTags.length }} / {{ maxTags }}
@@ -76,7 +76,7 @@ function clearSearch() {
       <input
         v-model="searchQuery"
         type="text"
-        :placeholder="t('profiles.searchTags')"
+        :placeholder="t('common.profile.searchTags')"
         class="w-full rounded-lg border border-border bg-white py-2 pl-9 pr-9 text-sm text-text outline-none focus:border-primary"
       >
       <button

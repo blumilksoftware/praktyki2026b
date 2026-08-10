@@ -53,7 +53,7 @@ const offersCount = computed(() => props.offers.length)
               :href="ROUTES.OFFERS"
               class="bg-slate-50/80 hover:bg-white hover:shadow-[0_10px_28px_rgba(11,26,48,0.08)] p-4 border border-slate-200 hover:border-primary/30 rounded-2xl transition hover:-translate-y-0.5"
             >
-              <p class="font-semibold text-slate-500 text-xs uppercase tracking-wide">{{ t('student.nav.offers') }}</p>
+              <p class="font-semibold text-slate-500 text-xs uppercase tracking-wide">{{ t('common.nav.offers') }}</p>
               <p class="mt-2 font-semibold text-slate-900 text-3xl">{{ offersCount }}</p>
               <p class="mt-1 text-slate-500 text-sm">{{ t('student.dashboard.cards.offersDescription') }}</p>
             </Link>

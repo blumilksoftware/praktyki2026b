@@ -14,7 +14,7 @@ describe('About.vue', () => {
       props: { description: descriptionText }
     })
 
-    expect(wrapper.text()).toContain('profiles.aboutUs')
+    expect(wrapper.text()).toContain('common.profile.aboutUs')
     expect(wrapper.text()).toContain(descriptionText)
     expect(wrapper.text()).not.toContain('profiles.company.noDescription')
   })

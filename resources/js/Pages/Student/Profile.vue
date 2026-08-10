@@ -37,9 +37,9 @@ const profileUser = computed(() => ({
 }))
 
 const workModeOptions = computed(() => [
-  { value: 'onSite', label: t('student.profile.workMode.options.onsite') },
-  { value: 'remote', label: t('student.profile.workMode.options.remote') },
-  { value: 'hybrid', label: t('student.profile.workMode.options.hybrid') },
+  { value: 'onSite', label: t('common.workModes.onSite') },
+  { value: 'remote', label: t('common.workModes.remote') },
+  { value: 'hybrid', label: t('common.workModes.hybrid') },
 ])
 
 const displayWorkModes = computed(() => profileUser.value.work_modes)

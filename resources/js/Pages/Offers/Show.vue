@@ -45,17 +45,17 @@ function formatDate(dateString) {
   return `${day}.${month}.${year}`
 }
 
-const internshipPeriodLabel = computed(() => t('student.offers.detail.internshipPeriodValue', {
+const internshipPeriodLabel = computed(() => t('offers.detail.internshipPeriodValue', {
   start: formatDate(props.offer.start_date),
   end: formatDate(props.offer.end_date),
 }))
 
 const remainingSpotsLabel = computed(() => {
   if (props.offer.remaining_spots <= 0) {
-    return t('student.offers.detail.remainingSpotsNone', { total: props.offer.spots })
+    return t('offers.detail.remainingSpotsNone', { total: props.offer.spots })
   }
 
-  return t('student.offers.detail.remainingSpotsValue', {
+  return t('offers.detail.remainingSpotsValue', {
     remaining: props.offer.remaining_spots,
     total: props.offer.spots,
   })
@@ -63,17 +63,17 @@ const remainingSpotsLabel = computed(() => {
 
 const compensationLabel = computed(() => {
   if (!props.offer.is_paid) {
-    return t('student.offers.detail.unpaid')
+    return t('common.words.unpaid')
   }
 
   if (props.offer.salary_min != null && props.offer.salary_max != null) {
-    return t('student.offers.detail.salaryRange', {
+    return t('offers.detail.salaryRange', {
       min: props.offer.salary_min,
       max: props.offer.salary_max,
     })
   }
 
-  return t('student.offers.detail.paid')
+  return t('common.words.paid')
 })
 
 const companyHref = computed(() => (
@@ -177,7 +177,7 @@ function confirmWithdraw() {
           class="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
         >
           <span aria-hidden="true">←</span>
-          {{ t('student.offers.detail.backToOffers') }}
+          {{ t('common.actions.backToOffers') }}
         </Link>
 
         <div class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
@@ -189,7 +189,7 @@ function confirmWithdraw() {
                   ? {
                     href: companyHref,
                     class: 'text-sm font-semibold text-additional transition hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded',
-                    'aria-label': t('student.offers.detail.companyProfileAria', { company: offer.company.name }),
+                    'aria-label': t('offers.detail.companyProfileAria', { company: offer.company.name }),
                   }
                   : { class: 'text-sm font-semibold text-additional' }"
               >
@@ -214,19 +214,19 @@ function confirmWithdraw() {
             <dl class="mt-6 grid gap-4 sm:grid-cols-2">
               <div class="rounded-2xl border border-border bg-background/60 px-4 py-3">
                 <dt class="text-xs font-semibold uppercase tracking-wide text-additional">
-                  {{ t('student.offers.detail.internshipPeriod') }}
+                  {{ t('common.fields.internshipPeriod') }}
                 </dt>
                 <dd class="mt-1 text-sm font-medium text-text">{{ internshipPeriodLabel }}</dd>
               </div>
               <div class="rounded-2xl border border-border bg-background/60 px-4 py-3">
                 <dt class="text-xs font-semibold uppercase tracking-wide text-additional">
-                  {{ t('student.offers.detail.remainingSpots') }}
+                  {{ t('offers.detail.remainingSpots') }}
                 </dt>
                 <dd class="mt-1 text-sm font-medium text-text">{{ remainingSpotsLabel }}</dd>
               </div>
               <div class="rounded-2xl border border-border bg-background/60 px-4 py-3">
                 <dt class="text-xs font-semibold uppercase tracking-wide text-additional">
-                  {{ t('student.offers.detail.compensation') }}
+                  {{ t('common.fields.compensation') }}
                 </dt>
                 <dd class="mt-1 text-sm font-medium text-text">{{ compensationLabel }}</dd>
               </div>
@@ -234,7 +234,7 @@ function confirmWithdraw() {
 
             <section class="mt-8">
               <h2 class="text-lg font-semibold text-text">
-                {{ t('student.offers.detail.description') }}
+                {{ t('common.words.description') }}
               </h2>
               <p class="mt-3 whitespace-pre-wrap text-sm leading-7 text-additional">
                 {{ offer.description }}
@@ -243,7 +243,7 @@ function confirmWithdraw() {
 
             <section class="mt-8">
               <h2 class="text-lg font-semibold text-text">
-                {{ t('student.offers.detail.preferredUniversities') }}
+                {{ t('offers.detail.preferredUniversities') }}
               </h2>
               <ul
                 v-if="offer.preferred_universities?.length"
@@ -262,13 +262,13 @@ function confirmWithdraw() {
                 class="mt-3 text-sm text-additional"
                 role="status"
               >
-                {{ t('student.offers.detail.preferredUniversitiesEmpty') }}
+                {{ t('common.empty.noPreferredUniversities') }}
               </p>
             </section>
 
             <section class="mt-8">
               <h2 class="text-lg font-semibold text-text">
-                {{ t('student.offers.detail.studyFields') }}
+                {{ t('common.fields.studyFields') }}
               </h2>
               <ul
                 v-if="offer.study_fields?.length"
@@ -287,7 +287,7 @@ function confirmWithdraw() {
                 class="mt-3 text-sm text-additional"
                 role="status"
               >
-                {{ t('student.offers.detail.studyFieldsEmpty') }}
+                {{ t('common.empty.noStudyFields') }}
               </p>
             </section>
 
@@ -299,8 +299,8 @@ function confirmWithdraw() {
               >
                 {{
                   offer.status === 'expired'
-                    ? t('student.offers.detail.expiredMessage')
-                    : t('student.offers.detail.closedMessage')
+                    ? t('offers.detail.expiredMessage')
+                    : t('offers.detail.closedMessage')
                 }}
               </p>
 
@@ -368,7 +368,7 @@ function confirmWithdraw() {
               id="similar-offers-heading"
               class="text-lg font-semibold text-text"
             >
-              {{ t('student.offers.detail.similarOffers') }}
+              {{ t('offers.detail.similarOffers') }}
             </h2>
             <ul class="mt-4 flex flex-col gap-3">
               <li

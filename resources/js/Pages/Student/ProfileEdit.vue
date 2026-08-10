@@ -56,8 +56,8 @@ const fieldError = (field) => profileForm.errors[field]
 
 const navItems = computed(() => [
   { key: 'dashboard', label: t('common.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
-  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
-  { key: 'offers', label: t('student.nav.offers'), href: ROUTES.OFFERS, icon: IconBriefcase },
+  { key: 'profile', label: t('common.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
+  { key: 'offers', label: t('common.nav.offers'), href: ROUTES.OFFERS, icon: IconBriefcase },
   { key: 'favorites', label: t('common.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
 ])
 
@@ -151,7 +151,7 @@ function saveAll() {
             />
             <div class="sm:col-span-2">
               <p class="text-additional text-sm">
-                {{ t('student.profile.email.label') }}
+                {{ t('common.fields.email') }}
               </p>
               <p class="mt-1 rounded-lg border border-border bg-background px-4 py-3 text-additional text-sm">
                 {{ user.email }}
@@ -214,7 +214,7 @@ function saveAll() {
               :label="t('common.fields.industries')"
               :options="studyFields"
               :max="10"
-              :placeholder="t('student.profile.details.fieldsPlaceholder')"
+              :placeholder="t('common.filters.searchPlaceholder')"
               :error="fieldError('study_field_ids')"
             />
             <ProfileTagInput

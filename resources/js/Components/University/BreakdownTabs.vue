@@ -73,7 +73,7 @@ const activeTab = ref('faculty')
         name-key="facultyName"
         id-key="facultyId"
         :name-label="t('common.fields.faculty')"
-        :search-placeholder="t('university.dashboard.breakdown.searchPlaceholder')"
+        :search-placeholder="t('common.filters.searchPlaceholder')"
       />
 
       <BreakdownTable
@@ -84,7 +84,7 @@ const activeTab = ref('faculty')
         name-key="fieldName"
         id-key="fieldId"
         :name-label="t('common.fields.studyField')"
-        :search-placeholder="t('university.dashboard.breakdown.searchPlaceholder')"
+        :search-placeholder="t('common.filters.searchPlaceholder')"
       />
     </div>
   </ProfilePageCard>

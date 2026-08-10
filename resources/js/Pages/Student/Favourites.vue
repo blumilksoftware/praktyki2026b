@@ -59,7 +59,7 @@ function removeFavourite(offerId) {
                   v-if="isExpired(offer)"
                   class="inline-flex items-center rounded-full bg-slate-200 px-2.5 py-0.5 text-xs font-semibold text-slate-600"
                 >
-                  {{ t('student.favorites.status.expired') }}
+                  {{ t('common.statuses.offer.expired') }}
                 </span>
               </div>
               <p class="text-slate-500 text-sm mt-1">

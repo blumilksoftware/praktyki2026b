@@ -29,7 +29,7 @@ describe('HeaderEdit.vue', () => {
     })
 
     expect(wrapper.text()).toContain('Tech Innovators')
-    expect(wrapper.text()).toContain('profiles.uploadLogo')
+    expect(wrapper.text()).toContain('common.profile.uploadLogo')
     expect(wrapper.find('img').exists()).toBe(false)
   })
 

@@ -100,7 +100,7 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
               class="px-2 py-1 rounded-full text-xs font-medium"
               :class="statusClasses[offer.status] ?? 'bg-gray-100 text-gray-700'"
             >
-              {{ t(`company.dashboard.offers.status.${offer.status}`) }}
+              {{ t(`common.statuses.offer.${offer.status}`) }}
             </span>
           </td>
           <td class="px-4 py-3 text-center text-text">

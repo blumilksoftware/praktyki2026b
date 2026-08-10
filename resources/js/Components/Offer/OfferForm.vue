@@ -143,17 +143,17 @@ const submitLabel = computed(() => {
   if (isEditing.value) {
     return isDraft.value
       ? t('company.offers.form.submitEditDraft')
-      : t('company.offers.form.submitEdit')
+      : t('common.actions.save')
   }
   return isDraft.value
     ? t('company.offers.form.submitCreateDraft')
-    : t('company.offers.form.submitCreate')
+    : t('common.titles.createOffer')
 })
 
 const workModeOptions = computed(() => [
-  { value: 'onSite', label: t('company.offers.form.workModeOptions.onSite') },
-  { value: 'hybrid', label: t('company.offers.form.workModeOptions.hybrid') },
-  { value: 'remote', label: t('company.offers.form.workModeOptions.remote') },
+  { value: 'onSite', label: t('common.workModes.onSite') },
+  { value: 'hybrid', label: t('common.workModes.hybrid') },
+  { value: 'remote', label: t('common.workModes.remote') },
 ])
 
 const fieldError = (field) => {
@@ -281,7 +281,7 @@ const submit = () => {
         </div>
 
         <div class="max-w-[65ch]">
-          <BaseTextarea id="description" v-model="form.description" :label="t('common.fields.description')" required
+          <BaseTextarea id="description" v-model="form.description" :label="t('common.words.description')" required
                         :maxlength="10000" :rows="6" :error="fieldError('description')"
           />
         </div>

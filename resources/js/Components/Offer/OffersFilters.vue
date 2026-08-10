@@ -76,7 +76,7 @@ defineExpose({ studyFieldLabelToValue })
       <DynamicMultiSelect
         id="offers-filter-study-fields"
         v-model="filters.studyFieldLabels"
-        :label="t('student.offers.filters.studyFields.label')"
+        :label="t('common.fields.studyFields')"
         :placeholder="t('student.offers.filters.studyFields.placeholder')"
         :options="studyFieldLabels"
         :allow-custom="false"
@@ -120,14 +120,14 @@ defineExpose({ studyFieldLabelToValue })
             v-model="filters.dateFrom"
             type="date"
             stacked
-            :label="t('student.offers.filters.dateRange.from')"
+            :label="t('common.filters.from')"
           />
           <BaseInput
             id="offers-filter-date-to"
             v-model="filters.dateTo"
             type="date"
             stacked
-            :label="t('student.offers.filters.dateRange.to')"
+            :label="t('common.filters.to')"
           />
         </div>
         <p v-if="dateRangeError" class="mt-2 text-error text-sm" role="alert">

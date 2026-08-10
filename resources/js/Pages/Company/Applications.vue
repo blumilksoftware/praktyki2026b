@@ -109,7 +109,7 @@ const offerFilterOptions = computed(() => [
 
 const statusFilterOptions = computed(() => [
   { value: '', label: t('common.filters.allStatuses') },
-  ...statusOptions.map((status) => ({ value: status, label: t(`company.applications.statuses.${status}`) })),
+  ...statusOptions.map((status) => ({ value: status, label: t(`common.statuses.application.${status}`) })),
 ])
 </script>
 
@@ -152,7 +152,7 @@ const statusFilterOptions = computed(() => [
           <BaseSelect
             id="applications-filter-status"
             v-model="currentFilters.status"
-            :label="t('common.fields.status')"
+            :label="t('common.statuses.offer')"
             :options="statusFilterOptions"
             :stacked="false"
             class="w-full sm:w-64"
@@ -161,7 +161,7 @@ const statusFilterOptions = computed(() => [
         
         <div class="flex flex-col gap-4 mt-2">
           <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500 shadow-sm">
-            {{ t('company.applications.empty') }}
+            {{ t('common.empty.noResults') }}
           </div>
 
           <ApplicationsCard 

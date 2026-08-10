@@ -30,11 +30,11 @@ const formatDate = (isoString) => {
 
   if (isToday) {
     const time = date.toLocaleTimeString(locale.value, { hour: '2-digit', minute: '2-digit' })
-    return t('company.applications.date.today', { time })
+    return t('company.profile.applications.date.today', { time })
   }
   
   const dateString = date.toLocaleDateString(locale.value, { day: '2-digit', month: '2-digit', year: 'numeric' })
-  return t('company.applications.date.exact', { date: dateString })
+  return t('company.profile.applications.date.exact', { date: dateString })
 }
 
 const onStatusChange = (event) => {
@@ -59,14 +59,14 @@ const onStatusChange = (event) => {
 
     <div class="flex flex-col lg:w-1/3">
       <span class="text-xs text-slate-400 font-medium uppercase tracking-wide">
-        {{ t('company.applications.applied_for') }}
+        {{ t('company.profile.applications.appliedFor') }}
       </span>
       <span class="font-bold text-[#0f172a]">{{ application.offer_title }}</span>
     </div>
 
     <div class="flex items-center gap-4 lg:w-1/3 lg:justify-end">
       <select
-        :aria-label="t('common.fields.status')"
+        :aria-label="t('common.statuses.offer')"
         :value="application.status"
         :disabled="['accepted', 'rejected'].includes(application.status)"
         class="rounded-full py-1.5 pl-4 pr-8 text-sm font-semibold shadow-sm focus:ring-0 appearance-none disabled:cursor-not-allowed disabled:opacity-75 transition-all"
@@ -85,7 +85,7 @@ const onStatusChange = (event) => {
           :disabled="status === 'pending' && application.status !== 'pending'"
           class="bg-background text-text"
         >
-          {{ t(`student.applications.status.${status}`) }}
+          {{ t(`common.statuses.application.${status}`) }}
         </option>
       </select>
 

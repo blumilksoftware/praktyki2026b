@@ -41,13 +41,13 @@ watch(description, () => {
 
 <template>
   <div class="flex flex-col gap-4">
-    <h2 class="text-xl font-bold text-text">{{ t('profiles.aboutUs') }}</h2>
+    <h2 class="text-xl font-bold text-text">{{ t('common.profile.aboutUs') }}</h2>
     
     <div class="border border-border rounded-xl flex flex-col bg-white focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-shadow">
       <textarea
         ref="textareaRef"
         v-model="description"
-        :aria-label="t('profiles.aboutUs')"
+        :aria-label="t('common.profile.aboutUs')"
         :maxlength="maxLength"
         rows="6"
         class="w-full p-4 text-sm sm:text-base text-gray-700 bg-transparent border-none focus:ring-0 resize-none overflow-hidden min-h-37.5 outline-none"

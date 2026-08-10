@@ -235,7 +235,7 @@ function showOnMap() {
             :disabled="isWithdrawing"
             @click="openWithdrawModal"
           >
-            {{ t('student.action') }}
+            {{ t('common.words.action') }}
           </BaseButton>
         </template>
       </div>

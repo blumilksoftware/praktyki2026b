@@ -39,7 +39,7 @@ const externalFormUrlModel = computed({
         <BaseInput
           id="domain"
           v-model="domainModel"
-          :label="t('university.profile.domain')"
+          :label="t('common.fields.domain')"
           :disabled="isDomainLocked"
           :error="errors.domain"
         />

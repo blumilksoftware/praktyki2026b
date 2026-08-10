@@ -73,7 +73,7 @@ describe('ContactCardEdit.vue', () => {
     const cityInput = wrapper.find('[id="city"]')
     const websiteInput = wrapper.find('[id="website"]')
 
-    expect(cityInput.attributes('error')).toBe('validation.requiredField')
+    expect(cityInput.attributes('error')).toBe('common.common.common.common.common.validation.requiredField')
     
     expect(websiteInput.attributes('error')).toBeUndefined()
   })

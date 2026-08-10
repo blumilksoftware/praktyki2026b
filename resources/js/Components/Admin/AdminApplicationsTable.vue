@@ -18,7 +18,7 @@ function statusClass(status) {
 }
 
 const columns = [
-  { key: 'id', label: t('components.table.id') },
+  { key: 'id', label: t('common.fields.id') },
   { key: 'student', label: t('common.words.student') },
   { key: 'company', label: t('common.words.company') },
   { key: 'status', label: t('common.fields.status'), align: 'right' },

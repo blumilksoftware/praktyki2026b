@@ -33,7 +33,7 @@ describe('CompanyOfferUnpublishModal', () => {
     const wrapper = mountModal()
 
     expect(wrapper.text()).toContain('Backend Internship')
-    expect(wrapper.text()).toContain(en.company.offer.unpublish.irreversibleNotice)
+    expect(wrapper.text()).toContain(en.company.offers.unpublish.irreversibleNotice)
   })
 
   it('submits a deactivate request to the offer endpoint', async () => {

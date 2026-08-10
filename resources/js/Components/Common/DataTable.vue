@@ -24,7 +24,7 @@ function handleSort(col) {
 <template>
   <div class="space-y-3">
     <div v-if="props.items.length === 0" class="py-8 text-slate-500 text-center">
-      {{ t('components.table.noData') }}
+      {{ t('common.empty.noData') }}
     </div>
     <div v-else class="xl:hidden gap-4 grid grid-cols-1 md:grid-cols-2">
       <article

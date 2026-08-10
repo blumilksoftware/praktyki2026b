@@ -46,7 +46,7 @@ const resetFilters = () => {
 </script>
 
 <template>
-  <Head :title="t('student.nav.offers')" />
+  <Head :title="t('common.nav.offers')" />
 
   <StudentPanelLayout active-page="offers">
     <div class="bg-background px-4 sm:px-6 lg:px-8 py-6 min-h-screen">
@@ -56,14 +56,14 @@ const resetFilters = () => {
           class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
         >
           <span aria-hidden="true">←</span>
-          {{ t('student.favorites.backToDashboard') }}
+          {{ t('common.actions.backToDashboard') }}
         </Link>
 
         <Link
           :href="ROUTES.STUDENT_FAVORITES"
           class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
         >
-          {{ t('student.nav.favorites') }}
+          {{ t('common.nav.favorites') }}
         </Link>
       </div>
 
@@ -79,33 +79,33 @@ const resetFilters = () => {
             <button
               type="button"
               class="hover:bg-background px-3 py-1.5 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-xs transition"
-              :aria-label="t('student.offers.filters.resetAriaLabel')"
+              :aria-label="t('common.filters.resetAriaLabel')"
               @click="resetFilters"
             >
-              {{ t('student.offers.filters.reset') }}
+              {{ t('common.filters.reset') }}
             </button>
           </div>
 
           <div class="space-y-4 mt-6">
             <label class="block">
-              <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.search') }}</span>
+              <span class="block mb-2 font-medium text-text text-sm">{{ t('common.actions.search') }}</span>
               <input
                 v-model="query"
                 type="search"
                 :placeholder="t('student.offers.filters.searchPlaceholder')"
                 class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text placeholder:text-additional text-sm transition"
-                :aria-label="t('student.offers.filters.search')"
+                :aria-label="t('common.actions.search')"
               >
             </label>
 
             <label class="block">
-              <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.city') }}</span>
+              <span class="block mb-2 font-medium text-text text-sm">{{ t('common.fields.city') }}</span>
               <select
                 v-model="city"
                 class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text text-sm transition"
-                :aria-label="t('student.offers.filters.city')"
+                :aria-label="t('common.fields.city')"
               >
-                <option value="">{{ t('student.offers.filters.allCities') }}</option>
+                <option value="">{{ t('common.filters.allCities') }}</option>
                 <option v-for="availableCity in availableCities" :key="availableCity" :value="availableCity">
                   {{ availableCity }}
                 </option>
@@ -113,13 +113,13 @@ const resetFilters = () => {
             </label>
 
             <label class="block">
-              <span class="block mb-2 font-medium text-text text-sm">{{ t('student.offers.filters.workMode') }}</span>
+              <span class="block mb-2 font-medium text-text text-sm">{{ t('common.fields.workMode') }}</span>
               <select
                 v-model="workMode"
                 class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text text-sm transition"
-                :aria-label="t('student.offers.filters.workMode')"
+                :aria-label="t('common.fields.workMode')"
               >
-                <option value="">{{ t('student.offers.filters.allWorkModes') }}</option>
+                <option value="">{{ t('common.filters.allWorkModes') }}</option>
                 <option v-for="mode in workModes" :key="mode" :value="mode">
                   {{ workModeLabel(mode) }}
                 </option>

@@ -83,7 +83,7 @@ onMounted(() => {
 
         <div class="flex sm:flex-row flex-col justify-center items-center gap-4">
           <Link href="/login" class="font-medium text-link text-base hover:underline">
-            {{ t('auth.login.waiting.backToLogin') }}
+            {{ t('auth.common.backToLogin') }}
           </Link>
 
           <BaseButton v-if="!isCooldownActive" type="button" variant="primary" :disabled="form.processing"

@@ -54,7 +54,7 @@ const {
     />
 
     <div v-else class="text-center py-6 text-additional text-sm bg-background/50 rounded-2xl border border-dashed border-border">
-      {{ t('student.offers.map.selectPinHint') }}
+      {{ t('offers.map.selectPinHint') }}
     </div>
   </div>
 </template>

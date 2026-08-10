@@ -34,7 +34,7 @@ const getTranslatedError = (field) => {
   if (requiredFields.includes(field)) {
     const value = props[field]
     if (value === null || value === undefined || String(value).trim() === '') {
-      return t('validation.requiredField')
+      return t('common.validation.requiredField')
     }
   }
   
@@ -65,7 +65,7 @@ const streetModel = computed({
 
 <template>
   <div class="flex flex-col gap-5">
-    <h2 class="text-xl font-bold text-text">{{ t('profiles.contact') }}</h2>
+    <h2 class="text-xl font-bold text-text">{{ t('common.profile.contact') }}</h2>
     
     <div class="p-6 sm:p-8 bg-white flex flex-col gap-2">
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">

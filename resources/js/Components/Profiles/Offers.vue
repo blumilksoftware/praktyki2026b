@@ -33,7 +33,7 @@ const viewOffer = (offerId) => {
 
 <template>
   <div class="flex flex-col gap-6">
-    <h2 class="text-xl font-bold text-text">{{ t('company.profile.currentOffers') }}</h2>
+    <h2 class="text-xl font-bold text-text">{{ t('common.profile.currentOffers') }}</h2>
 
     <div v-if="offers && offers.length > 0" class="flex flex-col gap-3">
       <div

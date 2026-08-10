@@ -29,7 +29,7 @@ const { t } = useI18n()
       class="text-xs text-additional hover:text-text font-medium transition-colors cursor-pointer flex items-center gap-1"
       @click="$emit('clear')"
     >
-      {{ t('student.offers.map.showAll') }}
+      {{ t('offers.map.showAll') }}
     </button>
   </div>
 </template>

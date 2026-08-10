@@ -47,7 +47,7 @@ const submit = () => {
   })).post('/profile', {
     preserveScroll: true,
     onSuccess: () => {
-      statusMessage.value = t('common.profile.editSuccess')
+      statusMessage.value = t('common.profile.edit.successMessage')
       
       setTimeout(() => {
         statusMessage.value = null
