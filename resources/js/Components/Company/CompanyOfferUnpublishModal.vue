@@ -27,23 +27,23 @@ function submit() {
 <template>
   <BaseModal
     :open="open"
-    :title="t('company.offer.unpublish.modalTitle')"
+    :title="t('company.offers.unpublish.modalTitle')"
     max-width-class="max-w-lg"
     @close="emit('close')"
   >
     <form class="flex flex-col gap-6" novalidate @submit.prevent="submit">
       <p class="text-additional text-sm leading-relaxed">
-        {{ t('company.offer.unpublish.confirmation', { title: offerTitle }) }}
+        {{ t('company.offers.unpublish.confirmation', { title: offerTitle }) }}
       </p>
       <p class="rounded-lg border border-error/40 bg-error/10 px-3 py-2 text-error text-sm font-medium leading-relaxed">
-        {{ t('company.offer.unpublish.irreversibleNotice') }}
+        {{ t('company.offers.unpublish.irreversibleNotice') }}
       </p>
       <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <BaseButton type="button" variant="secondary" :disabled="form.processing" @click="emit('close')">
-          {{ t('company.offer.unpublish.cancel') }}
+          {{ t('common.actions.cancel') }}
         </BaseButton>
         <BaseButton type="submit" :disabled="form.processing">
-          {{ t('company.offer.unpublish.confirm') }}
+          {{ t('common.actions.unpublish') }}
         </BaseButton>
       </div>
     </form>

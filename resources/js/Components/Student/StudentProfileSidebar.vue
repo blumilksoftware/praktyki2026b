@@ -75,7 +75,7 @@ const hasCv = computed(() => Boolean(props.user.cv_path))
         :href="ROUTES.STUDENT_PROFILE_EDIT"
         class="mt-6 flex w-full justify-center rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white tracking-wide transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
       >
-        {{ t('student.profile.sidebar.editProfile') }}
+        {{ t('common.actions.editProfile') }}
       </Link>
     </ProfilePageCard>
 

@@ -19,14 +19,14 @@ const emit = defineEmits(['status-change'])
       <input
         v-model="searchQuery"
         type="text"
-        :placeholder="t('company.dashboard.offers.search.placeholder')"
+        :placeholder="t('common.fields.searchOffersPlaceholder')"
         class="w-full sm:w-56 pl-8 pr-8 py-1.5 text-sm rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/40"
       >
       <button
         v-if="searchQuery"
         type="button"
         class="absolute right-2 top-1/2 -translate-y-1/2 text-additional hover:text-text cursor-pointer"
-        :aria-label="t('company.dashboard.offers.search.clear')"
+        :aria-label="t('common.actions.clearSearch')"
         @click="searchQuery = ''"
       >
         <IconX class="w-3.5 h-3.5" />
@@ -39,14 +39,14 @@ const emit = defineEmits(['status-change'])
       @change="emit('status-change')"
     >
       <option value="">
-        {{ t('company.dashboard.offers.filters.allStatuses') }}
+        {{ t('common.filters.allStatuses') }}
       </option>
       <option
         v-for="option in statusOptions"
         :key="option"
         :value="option"
       >
-        {{ t(`company.dashboard.offers.filters.${option}`) }}
+        {{ t(`common.statuses.offer.${option}`) }}
       </option>
     </select>
   </div>

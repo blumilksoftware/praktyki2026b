@@ -35,7 +35,7 @@ const props = defineProps({
   labels: {
     type: Object,
     default: () => ({
-      menu: 'company.dashboard.offers.actions.menu',
+      menu: 'common.actions.openActionMenu',
       edit: 'company.dashboard.offers.actions.edit',
       activate: 'company.dashboard.offers.actions.activate',
       deactivate: 'company.dashboard.offers.actions.deactivate',
@@ -44,7 +44,7 @@ const props = defineProps({
   },
   statusKeyPrefix: {
     type: String,
-    default: 'company.dashboard.offers.status',
+    default: 'common.fields.status',
   },
 })
 
@@ -76,7 +76,7 @@ const titleHref = (offerId) => props.isCompanyVerified
               class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold tracking-wide"
               :class="statusClasses[offer.status] ?? 'bg-gray-100 text-gray-700'"
             >
-              {{ t(`${props.statusKeyPrefix}.${offer.status}`) }}
+              {{ t(`${props.statusKeyPrefix}`) }}
             </span>
             <h2 class="min-w-0 truncate font-semibold text-text text-base">
               <Link

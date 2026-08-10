@@ -20,7 +20,7 @@ const message = computed(() => t(`auth.verification.result.${props.status}.messa
 </script>
 
 <template>
-  <Head :title="t('auth.verification.result.title')" />
+  <Head :title="t('common.titles.verificationEmail')" />
 
   <header class="top-4 right-4 z-10 absolute shadow p-2 rounded-lg">
     <LanguageSwitcher :mobile="true" variant="light" />
@@ -67,7 +67,7 @@ const message = computed(() => t(`auth.verification.result.${props.status}.messa
             href="/login"
             class="bg-primary hover:bg-primary/90 px-4 py-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 w-fit font-semibold text-white text-sm text-center tracking-wide transition"
           >
-            {{ t('auth.verification.result.backToLogin') }}
+            {{ t('auth.common.backToLogin') }}
           </Link>
         </div>
       </div>

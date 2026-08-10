@@ -30,12 +30,12 @@ defineProps({
         </li>
       </ul>
       <div v-else class="text-sm text-gray-400 italic">
-        {{ t('profiles.university.noStudyFields') }}
+        {{ t('university.profile.noStudyFields') }}
       </div>
     </div>
   </div>
 
   <div v-else class="text-gray-500 italic">
-    {{ t('profiles.university.noFaculties') }}
+    {{ t('university.profile.noFaculties') }}
   </div>
 </template>

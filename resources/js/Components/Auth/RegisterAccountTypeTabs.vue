@@ -17,17 +17,17 @@ const { t } = useI18n()
 const tabs = computed(() => [
   {
     key: 'university',
-    label: t('auth.register.accountTypeTabs.university'),
+    label: t('common.words.university'),
     href: ROUTES.REGISTER_UNIVERSITY,
   },
   {
     key: 'company',
-    label: t('auth.register.accountTypeTabs.company'),
+    label: t('common.words.company'),
     href: ROUTES.REGISTER_COMPANY,
   },
   {
     key: 'student',
-    label: t('auth.register.accountTypeTabs.student'),
+    label: t('common.words.student'),
     href: ROUTES.REGISTER_STUDENT,
 
   },

@@ -32,7 +32,7 @@ const { t } = useI18n()
           <button
             type="button"
             class="flex h-9 w-9 items-center justify-center rounded-lg text-2xl leading-none text-additional hover:bg-background hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-            :aria-label="t('student.profile.modal.close')"
+            :aria-label="t('common.actions.close')"
             @click="emit('close')"
           >
             ×

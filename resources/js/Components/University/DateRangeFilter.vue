@@ -77,7 +77,7 @@ const clearFilter = () => {
         v-model="from"
         type="date"
         class="px-3 py-1.5 text-sm bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
-        :placeholder="t('university.dashboard.filter.from')"
+        :placeholder="t('common.filters.from')"
       >
       <span class="text-additional text-sm">—</span>
       <input
@@ -85,7 +85,7 @@ const clearFilter = () => {
         type="date"
         :min="from"
         class="px-3 py-1.5 text-sm bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
-        :placeholder="t('university.dashboard.filter.to')"
+        :placeholder="t('common.filters.to')"
       >
     </div>
     <button
@@ -93,7 +93,7 @@ const clearFilter = () => {
       class="px-3 py-1.5 text-sm font-semibold bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors"
       @click="applyFilter"
     >
-      {{ t('university.dashboard.filter.apply') }}
+      {{ t('common.actions.applyFilter') }}
     </button>
     <button
       v-if="from !== defaultRange.start || to !== defaultRange.end"
@@ -101,7 +101,7 @@ const clearFilter = () => {
       class="px-3 py-1.5 text-sm font-medium text-additional hover:text-text transition-colors"
       @click="clearFilter"
     >
-      {{ t('university.dashboard.filter.reset') }}
+      {{ t('common.actions.clear') }}
     </button>
   </div>
 </template>

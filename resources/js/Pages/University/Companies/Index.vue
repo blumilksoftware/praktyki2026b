@@ -24,8 +24,8 @@ const navItems = [
 </script>
 
 <template>
-  <Head :title="t('university.companies.title')" />
+  <Head :title="t('common.titles.companySearch')" />
   <BaseLayout active-page="companies" :nav-items="navItems">
-    <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('university.companies.title') }}</h1>
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('common.titles.companySearch') }}</h1>
   </BaseLayout>
 </template>

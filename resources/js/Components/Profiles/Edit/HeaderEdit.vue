@@ -41,11 +41,11 @@ function validateLogo(file) {
     || name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png') || name.endsWith('.webp')
 
   if (!ok) {
-    localError.value = t('student.profile.photo.errors.invalidType')
+    localError.value = t('common.errors.upload.invalidType')
     return false
   }
   if (file.size > MAX_SIZE_BYTES) {
-    localError.value = t('student.profile.photo.errors.tooLarge')
+    localError.value = t('common.errors.upload.tooLarge')
     return false
   }
   return true
@@ -120,7 +120,7 @@ onBeforeUnmount(revokePreview)
       class="mt-2 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
       @click="openFileDialog"
     >
-      {{ t('profiles.uploadLogo') }}
+      {{ t('common.profile.uploadLogo') }}
     </button>
 
     <input
@@ -128,7 +128,7 @@ onBeforeUnmount(revokePreview)
       type="file"
       accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
       class="sr-only"
-      :aria-label="t('profiles.uploadLogo')"
+      :aria-label="t('common.profile.uploadLogo')"
       @change="onFileSelected"
     >
 

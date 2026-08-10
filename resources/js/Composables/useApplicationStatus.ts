@@ -15,7 +15,7 @@ export function useApplicationStatus() {
   }
 
   function statusLabel(status: string): string {
-    return t(`student.applications.status.${status}`)
+    return t(`common.statuses.application.${status}`)
   }
 
   return { statusClass, statusLabel }

@@ -19,7 +19,7 @@ const homeUrl = computed(() => {
 </script>
 
 <template>
-  <Head :title="t(`errors.${status}.title`)" />
+  <Head :title="t(`common.errors.${status}.title`)" />
   <div class="flex flex-col min-h-screen bg-white text-text">
     <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
       <div class="flex items-center px-4 md:px-6 py-4">
@@ -37,16 +37,16 @@ const homeUrl = computed(() => {
           {{ status }}
         </p>
         <h1 class="mt-4 font-semibold text-text text-2xl">
-          {{ t(`errors.${status}.title`) }}
+          {{ t(`common.errors.${status}.title`) }}
         </h1>
         <p class="mt-2 text-slate-600 text-sm">
-          {{ t(`errors.${status}.description`) }}
+          {{ t(`common.errors.${status}.description`) }}
         </p>
         <a
           :href="homeUrl"
           class="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 mt-8 px-5 py-2.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 font-medium text-white text-sm transition"
         >
-          {{ t('errors.backToHome') }}
+          {{ t('common.errors.backToHome') }}
         </a>
       </div>
     </main>

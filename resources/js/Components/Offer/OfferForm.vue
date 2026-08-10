@@ -143,17 +143,17 @@ const submitLabel = computed(() => {
   if (isEditing.value) {
     return isDraft.value
       ? t('company.offers.form.submitEditDraft')
-      : t('company.offers.form.submitEdit')
+      : t('common.actions.save')
   }
   return isDraft.value
     ? t('company.offers.form.submitCreateDraft')
-    : t('company.offers.form.submitCreate')
+    : t('common.titles.createOffer')
 })
 
 const workModeOptions = computed(() => [
-  { value: 'onSite', label: t('company.offers.form.workModeOptions.onSite') },
-  { value: 'hybrid', label: t('company.offers.form.workModeOptions.hybrid') },
-  { value: 'remote', label: t('company.offers.form.workModeOptions.remote') },
+  { value: 'onSite', label: t('common.workModes.onSite') },
+  { value: 'hybrid', label: t('common.workModes.hybrid') },
+  { value: 'remote', label: t('common.workModes.remote') },
 ])
 
 const fieldError = (field) => {
@@ -196,24 +196,24 @@ const submit = () => {
           </p>
         </div>
 
-        <BaseInput id="title" v-model="form.title" :label="t('company.offers.form.title')" required :maxlength="255"
+        <BaseInput id="title" v-model="form.title" :label="t('common.fields.title')" required :maxlength="255"
                    :error="fieldError('title')"
         />
 
         <DateRangeField v-model:start="form.start_date" v-model:end="form.end_date" start-id="start_date"
-                        end-id="end_date" :start-label="t('company.offers.form.startDate')"
-                        :end-label="t('company.offers.form.endDate')" :start-error="fieldError('start_date')"
+                        end-id="end_date" :start-label="t('common.fields.startDate')"
+                        :end-label="t('common.fields.endDate')" :start-error="fieldError('start_date')"
                         :end-error="fieldError('end_date')" required stacked
         />
 
         <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
-          <BaseSelect id="work_mode" v-model="form.work_mode" :label="t('company.offers.form.workMode')"
+          <BaseSelect id="work_mode" v-model="form.work_mode" :label="t('common.fields.workMode')"
                       :options="workModeOptions" :placeholder="t('company.offers.form.workModePlaceholder')" required
                       :error="fieldError('work_mode')" stacked
           />
 
           <div>
-            <BaseInput id="spots" v-model="form.spots" type="number" :label="t('company.offers.form.spots')" required
+            <BaseInput id="spots" v-model="form.spots" type="number" :label="t('common.fields.spots')" required
                        :error="fieldError('spots')" max="1000"
             />
             <p class="mt-1 text-additional text-sm">
@@ -223,7 +223,7 @@ const submit = () => {
         </div>
 
         <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
-          <CityAutocomplete id="city" v-model="form.city" :label="t('company.offers.form.city')"
+          <CityAutocomplete id="city" v-model="form.city" :label="t('common.fields.city')"
                             :placeholder="t('company.offers.form.cityPlaceholder')" required
                             :error="fieldError('city')" stacked
           />
@@ -281,7 +281,7 @@ const submit = () => {
         </div>
 
         <div class="max-w-[65ch]">
-          <BaseTextarea id="description" v-model="form.description" :label="t('company.offers.form.description')" required
+          <BaseTextarea id="description" v-model="form.description" :label="t('common.words.description')" required
                         :maxlength="10000" :rows="6" :error="fieldError('description')"
           />
         </div>
@@ -348,7 +348,7 @@ const submit = () => {
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-3 sm:flex-row sm:justify-end sm:items-center">
         <BaseButton type="button" variant="secondary" class="w-full sm:w-auto" @click="cancel">
-          {{ t('buttons.cancel') }}
+          {{ t('common.actions.cancel') }}
         </BaseButton>
         <BaseButton type="submit" class="px-8 w-full sm:w-auto" :disabled="form.processing">
           {{ submitLabel }}

@@ -42,7 +42,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
   <div class="min-h-screen flex flex-col bg-background">
     <BaseNavbar class="shrink-0" />
     <AuthLayout class="flex-1 min-h-0">
-      <Head :title="t('auth.register.company.title')" />
+      <Head :title="t('common.titles.registerCompany')" />
 
       <div class="mx-auto flex w-full max-w-3xl flex-col gap-6 px-2 sm:px-4">
         <RegisterAccountTypeTabs active-tab="company" />
@@ -57,7 +57,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           <BaseInput
             id="company_name"
             v-model="form.company_name"
-            :label="t('auth.register.company.companyName')"
+            :label="t('common.fields.companyName')"
             autocomplete="organization"
             required
             :error="fieldError('company_name')"
@@ -65,7 +65,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           <BaseInput
             id="nip"
             v-model="form.nip"
-            :label="t('auth.register.company.nip')"
+            :label="t('common.fields.nip')"
             autocomplete="off"
             required
             :error="fieldError('nip')"
@@ -73,7 +73,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           <BaseInput
             id="email"
             v-model="form.email"
-            :label="t('auth.register.email')"
+            :label="t('common.words.email')"
             type="email"
             autocomplete="email"
             required
@@ -82,7 +82,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           <BaseInput
             id="password"
             v-model="form.password"
-            :label="t('auth.register.password')"
+            :label="t('common.words.password')"
             type="password"
             autocomplete="new-password"
             required
@@ -91,7 +91,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           <BaseInput
             id="password_confirmation"
             v-model="form.password_confirmation"
-            :label="t('auth.register.passwordConfirmation')"
+            :label="t('common.fields.passwordConfirmation')"
             type="password"
             autocomplete="new-password"
             required
@@ -105,14 +105,14 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
               mask="##-###"
               inputmode="numeric"
               autocomplete="postal-code"
-              :label="t('auth.register.company.postalCode')"
+              :label="t('common.fields.postalCode')"
               required
               :error="fieldError('postal_code')"
             />
             <BaseInput
               id="city"
               v-model="form.city"
-              :label="t('auth.register.company.city')"
+              :label="t('common.fields.city')"
               autocomplete="address-level2"
               required
               :error="fieldError('city')"
@@ -122,7 +122,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
           <BaseInput
             id="street"
             v-model="form.street"
-            :label="t('auth.register.company.street')"
+            :label="t('common.fields.street')"
             autocomplete="street-address"
             required
             :error="fieldError('street')"
@@ -135,20 +135,20 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             type="tel"
             inputmode="numeric"
             autocomplete="tel"
-            :label="t('auth.register.company.phone')"
+            :label="t('common.fields.phone')"
             required
             :error="fieldError('phone')"
           />
           <BaseInput
             id="website"
             v-model="form.website"
-            :label="t('auth.register.company.website')"
+            :label="t('common.fields.website')"
             type="url"
             autocomplete="url"
             :error="fieldError('website')"
           />
           <p class="-mt-2 text-sm text-additional">
-            {{ t('auth.register.company.websiteHint') }}
+            {{ t('common.fields.websiteHint') }}
           </p>
 
           <div>
@@ -178,7 +178,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             class="mx-auto mt-1 w-fit px-12 py-3 text-base sm:text-lg font-medium"
             :disabled="form.processing"
           >
-            {{ t('auth.register.submit') }}
+            {{ t('auth.common.register') }}
           </BaseButton>
         </form>
 
@@ -190,7 +190,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
             :href="ROUTES.LOGIN"
             class="inline-block text-base sm:text-lg font-medium text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded whitespace-nowrap"
           >
-            {{ t('auth.register.loginLink') }}
+            {{ t('auth.common.login') }}
           </Link>
         </p>
       </div>

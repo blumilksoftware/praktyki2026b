@@ -51,7 +51,7 @@ const showProfileIcon = computed(() => isAuthenticated.value && !isAuthPage.valu
 
 const isStudent = computed(() => user.value?.role === 'student')
 const settingsLabel = computed(() => (
-  isStudent.value ? t('student.profile.account.title') : t('buttons.settings')
+  isStudent.value ? t('common.titles.accountSecurity') : t('common.words.settings')
 ))
 
 const { isMobileMenuOpen, toggle, close } = useMobileMenu()
@@ -93,20 +93,20 @@ const hasProfileInMenu = computed(() => (
               :href="ROUTES.LOGIN"
               class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
             >
-              {{ t('auth.login.submit') }}
+              {{ t('auth.common.login') }}
             </Link>
             <Link
               :href="ROUTES.REGISTER_STUDENT"
               class="hidden lg:inline-block rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
             >
-              {{ t('auth.register.submit') }}
+              {{ t('auth.common.register') }}
             </Link>
           </template>
           <button
             v-if="showHamburger"
             type="button"
             class="lg:hidden flex items-center justify-center text-white hover:text-white/80 transition-colors focus:outline-none"
-            :aria-label="t('profiles.navMenu')"
+            :aria-label="t('common.profile.navMenu')"
             :aria-expanded="isMobileMenuOpen"
             @click="toggle"
           >
@@ -160,7 +160,7 @@ const hasProfileInMenu = computed(() => (
     >
       <div class="h-14 md:h-16 flex items-center justify-between px-6 border-b border-white/10 bg-primary shrink-0">
         <span class="font-bold text-white text-sm uppercase tracking-wider">
-          {{ t('profiles.navMenu') }}
+          {{ t('common.profile.navMenu') }}
         </span>
         <button
           class="text-white hover:text-white/80 transition-colors focus:outline-none flex items-center justify-center p-1"
@@ -190,7 +190,7 @@ const hasProfileInMenu = computed(() => (
                 @click="close"
               >
                 <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
-                {{ t('auth.login.submit') }}
+                {{ t('auth.common.login') }}
               </Link>
             </li>
             <li>
@@ -200,7 +200,7 @@ const hasProfileInMenu = computed(() => (
                 @click="close"
               >
                 <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
-                {{ t('auth.register.submit') }}
+                {{ t('auth.common.register') }}
               </Link>
             </li>
           </template>
@@ -230,7 +230,7 @@ const hasProfileInMenu = computed(() => (
                 @click="close"
               >
                 <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
-                {{ t('buttons.myProfile') }}
+                {{ t('common.nav.profile') }}
               </Link>
             </li>
             <li v-if="!hasSettingsInMenu">
@@ -252,7 +252,7 @@ const hasProfileInMenu = computed(() => (
                 @click="close"
               >
                 <IconLogout stroke="2" class="w-6 h-6 shrink-0" />
-                {{ t('buttons.logout') }}
+                {{ t('common.actions.logout') }}
               </Link>
             </li>
           </ul>

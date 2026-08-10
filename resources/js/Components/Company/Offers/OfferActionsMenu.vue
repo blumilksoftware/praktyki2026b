@@ -26,11 +26,11 @@ const props = defineProps({
   labels: {
     type: Object,
     default: () => ({
-      menu: 'company.dashboard.offers.actions.menu',
-      edit: 'company.dashboard.offers.actions.edit',
-      activate: 'company.dashboard.offers.actions.activate',
-      deactivate: 'company.dashboard.offers.actions.deactivate',
-      delete: 'company.dashboard.offers.actions.delete',
+      menu: 'common.actions.openActionMenu',
+      edit: 'common.actions.edit',
+      activate: 'common.actions.activate',
+      deactivate: 'common.actions.deactivate',
+      delete: 'common.actions.delete',
     }),
   },
 })

@@ -88,7 +88,7 @@ function confirmWithdraw() {
             :disabled="processing"
             @click="openWithdraw(application)"
           >
-            {{ t('student.applications.withdraw.action') }}
+            {{ t('common.actions.withdraw') }}
           </BaseButton>
         </div>
       </li>

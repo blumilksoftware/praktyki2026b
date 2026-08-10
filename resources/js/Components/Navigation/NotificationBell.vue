@@ -14,8 +14,8 @@ const notifications = computed(() => page.props.notifications ?? [])
 const hasUnread = computed(() => unreadCount.value > 0)
 const unreadBadge = computed(() => (unreadCount.value > 9 ? '9+' : String(unreadCount.value)))
 const bellAriaLabel = computed(() => (hasUnread.value
-  ? t('notifications.bell.unreadAriaLabel', { count: unreadCount.value })
-  : t('notifications.bell.ariaLabel')))
+  ? t('common.notifications.bell.unreadAriaLabel', { count: unreadCount.value })
+  : t('common.notifications.bell.ariaLabel')))
 
 function loadNotifications() {
   router.reload({
@@ -46,18 +46,18 @@ function notificationLabel(item) {
 
   switch (item.type) {
   case 'verification_request':
-    return t('notifications.types.verificationRequest', { name: data.entity_name })
+    return t('common.notifications.types.verificationRequest', { name: data.entity_name })
   case 'new_application':
-    return t('notifications.types.newApplication', { student: data.student_name, offer: data.offer_title })
+    return t('common.notifications.types.newApplication', { student: data.student_name, offer: data.offer_title })
   case 'application_status_changed':
-    return t('notifications.types.statusChanged', {
+    return t('common.notifications.types.statusChanged', {
       offer: data.offer_title,
-      status: t(`student.applications.status.${data.status}`),
+      status: t(`common.statuses.application.${data.status}`),
     })
   case 'offer_unavailable':
-    return t(`notifications.types.offerUnavailable.${data.reason}`, { offer: data.offer_title })
+    return t(`common.notifications.types.offerUnavailable.${data.reason}`, { offer: data.offer_title })
   default:
-    return t('notifications.types.fallback')
+    return t('common.notifications.types.fallback')
   }
 }
 
@@ -130,20 +130,20 @@ onUnmounted(() => {
         class="absolute right-0 z-50 mt-3 w-96 max-w-[90vw] origin-top-right overflow-hidden rounded-xl border border-border bg-white shadow-md focus:outline-none"
       >
         <div class="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
-          <span class="min-w-0 flex-1 truncate text-sm font-semibold text-text">{{ t('notifications.bell.ariaLabel') }}</span>
+          <span class="min-w-0 flex-1 truncate text-sm font-semibold text-text">{{ $t('common.notifications.bell.ariaLabel') }}</span>
           <button
             v-if="hasUnread"
             type="button"
             class="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-md border border-primary/30 px-2 py-1 text-xs font-medium text-primary hover:bg-primary/5"
             @click="markAllAsRead"
           >
-            {{ t('notifications.markAllAsRead') }}
+            {{ $t('common.notifications.markAllAsRead') }}
           </button>
         </div>
 
         <ul class="max-h-96 divide-y divide-border overflow-y-auto">
           <li v-if="notifications.length === 0" class="px-4 py-6 text-center text-sm text-additional">
-            {{ t('notifications.empty') }}
+            {{ $t('common.notifications.empty') }}
           </li>
 
           <li v-for="item in notifications" :key="item.id">

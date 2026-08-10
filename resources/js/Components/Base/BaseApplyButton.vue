@@ -54,7 +54,7 @@ function apply() {
       type="button"
       :aria-disabled="isBlocked || undefined"
       :aria-describedby="hasCv ? undefined : `${id}-reason`"
-      :title="hasCv ? undefined : t('buttons.apply.noCvMessage')"
+      :title="hasCv ? undefined : t('common.actions.apply.noCvMessage')"
       class="w-fit flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
       :class="[
         isApplied ? 'bg-success text-white' : 'bg-primary text-white',
@@ -64,19 +64,19 @@ function apply() {
     >
       <template v-if="isLoading">
         <IconLoader2 class="w-5 h-5 animate-spin" />
-        {{ t('buttons.apply.loading') }}
+        {{ t('common.actions.apply.loading') }}
       </template>
 
       <template v-else-if="isApplied">
         <IconCheck class="w-5 h-5" />
-        {{ t('buttons.apply.appliedOn', { date: formattedAppliedDate }) }}
+        {{ t('common.actions.apply.appliedOn', { date: formattedAppliedDate }) }}
       </template>
 
       <template v-else>
-        {{ t('buttons.apply.applyNow') }}
+        {{ t('common.actions.apply.applyNow') }}
       </template>
     </button>
 
-    <span v-if="!hasCv" :id="`${id}-reason`" class="sr-only">{{ t('buttons.apply.noCvMessage') }}</span>
+    <span v-if="!hasCv" :id="`${id}-reason`" class="sr-only">{{ t('common.actions.apply.noCvMessage') }}</span>
   </span>
 </template>

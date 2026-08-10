@@ -50,7 +50,7 @@ defineProps({
            @click="goBack"
         >
           <IconArrowLeft stroke="2.5" class="w-4 h-4" />
-          {{ t('buttons.back') }}
+          {{ t('common.actions.back') }}
         </a>
         
         <div v-if="canEdit">
@@ -69,7 +69,7 @@ defineProps({
 
             <div v-if="company.verification_status === 'verified'" class="mt-3 flex items-center justify-center gap-1.5">
               <VerifiedBadge :verified="true" size="md" />
-              <span class="text-sm font-medium text-slate-700">{{ t('profiles.company.verified') }}</span>
+              <span class="text-sm font-medium text-slate-700">{{ t('company.profile.verified') }}</span>
             </div>
 
             <div class="text-sm text-slate-500 mt-3 flex items-center gap-2">
@@ -81,7 +81,7 @@ defineProps({
               class="w-full bg-[#0f172a] hover:bg-slate-800 text-white py-2.5 mt-6 text-sm font-semibold rounded-lg transition-all"
               @click="goToEdit"
             >
-              {{ t('buttons.editProfile') }}
+              {{ t('common.actions.editProfile') }}
             </BaseButton>
           </div>
 

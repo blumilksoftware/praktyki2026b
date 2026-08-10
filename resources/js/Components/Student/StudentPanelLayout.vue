@@ -21,7 +21,7 @@ const panelMenu = useStudentPanelMenu(computed(() => props.activePage))
       href="#main-content"
       class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:text-primary"
     >
-      {{ t('student.layout.skipToContent') }}
+      {{ t('common.layout.skipToContent') }}
     </a>
 
     <BaseNavbar

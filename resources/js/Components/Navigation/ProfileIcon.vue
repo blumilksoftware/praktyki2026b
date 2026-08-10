@@ -34,8 +34,8 @@ const avatarUrl = computed(() => {
 
 const settingsLabel = computed(() => (
   isStudent.value
-    ? t('student.profile.account.title')
-    : t('buttons.settings')
+    ? t('common.titles.accountSecurity')
+    : t('common.words.settings')
 ))
 
 const isOnMyProfile = computed(() => (
@@ -106,7 +106,7 @@ onUnmounted(() => {
             :aria-current="isOnMyProfile ? 'page' : undefined"
             @click="isOpen = false"
           >
-            {{ t('buttons.myProfile') }}
+            {{ t('common.words.profile') }}
           </Link>
 
           <Link
@@ -130,7 +130,7 @@ onUnmounted(() => {
             class="block w-full px-4 py-2.5 text-left text-sm font-medium text-error transition-colors hover:bg-red-50 hover:text-error-dark"
             @click="isOpen = false"
           >
-            {{ t('buttons.logout') }}
+            {{ t('common.actions.logout') }}
           </Link>
         </div>
       </div>

@@ -22,7 +22,7 @@ describe('BaseApplyButton.vue', () => {
 
     const button = wrapper.find('button')
     expect(button.exists()).toBe(true)
-    expect(button.text()).toBe('buttons.apply.applyNow')
+    expect(button.text()).toBe('common.actions.apply.applyNow')
     expect(button.attributes('aria-disabled')).toBeUndefined()
   })
 
@@ -43,7 +43,7 @@ describe('BaseApplyButton.vue', () => {
     })
 
     const button = wrapper.find('button')
-    expect(button.text()).toContain('buttons.apply.loading')
+    expect(button.text()).toContain('common.actions.apply.loading')
     expect(button.attributes('aria-disabled')).toBe('true')
   })
 
@@ -60,7 +60,7 @@ describe('BaseApplyButton.vue', () => {
 
     const button = wrapper.find('button')
 
-    expect(button.text()).toContain(`buttons.apply.appliedOn ${testDate}`)
+    expect(button.text()).toContain(`common.actions.apply.appliedOn ${testDate}`)
     expect(button.attributes('aria-disabled')).toBe('true')
     expect(button.classes()).toContain('bg-success')
   })
@@ -71,11 +71,11 @@ describe('BaseApplyButton.vue', () => {
     })
 
     const button = wrapper.find('button')
-    expect(button.text()).toBe('buttons.apply.applyNow')
+    expect(button.text()).toBe('common.actions.apply.applyNow')
     expect(button.attributes('aria-disabled')).toBe('true')
     expect(button.attributes('disabled')).toBeUndefined()
     expect(button.attributes('aria-describedby')).toBe('apply-offer-1-reason')
-    expect(wrapper.find('#apply-offer-1-reason').text()).toBe('buttons.apply.noCvMessage')
+    expect(wrapper.find('#apply-offer-1-reason').text()).toBe('common.actions.apply.noCvMessage')
   })
 
   it('does not emit "apply" when the user has no CV', async () => {
@@ -96,3 +96,4 @@ describe('BaseApplyButton.vue', () => {
     expect(wrapper.find('button').attributes('aria-disabled')).toBe('true')
   })
 })
+

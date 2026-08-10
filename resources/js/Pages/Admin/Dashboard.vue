@@ -34,7 +34,7 @@ const stats = computed(() => [
 </script>
 
 <template>
-  <Head :title="t('admin.layout.title')" />
+  <Head :title="t('common.titles.admin')" />
   <AdminLayout active-page="dashboard" class="bg-slate-300">
     <AdminGlassSection class="px-4 md:px-8 py-5 md:py-6 text-center">
       <h1 class="font-semibold text-text text-2xl">

@@ -28,7 +28,7 @@ const activeTab = ref('faculty')
     <div class="border-b border-border px-6 pt-5 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
         <h2 class="text-base font-semibold text-text">
-          {{ t('university.dashboard.breakdown.title') }}
+          {{ t('common.titles.departmentStatistics') }}
         </h2>
         <p v-if="te('university.dashboard.breakdown.subtitle')" class="text-xs text-additional mt-0.5">
           {{ t('university.dashboard.breakdown.subtitle') }}
@@ -72,8 +72,8 @@ const activeTab = ref('faculty')
         param-prefix="faculty"
         name-key="facultyName"
         id-key="facultyId"
-        :name-label="t('university.dashboard.breakdown.faculty')"
-        :search-placeholder="t('university.dashboard.breakdown.searchPlaceholder')"
+        :name-label="t('common.fields.faculty')"
+        :search-placeholder="t('common.filters.searchPlaceholder')"
       />
 
       <BreakdownTable
@@ -83,8 +83,8 @@ const activeTab = ref('faculty')
         param-prefix="field"
         name-key="fieldName"
         id-key="fieldId"
-        :name-label="t('university.dashboard.breakdown.field')"
-        :search-placeholder="t('university.dashboard.breakdown.searchPlaceholder')"
+        :name-label="t('common.fields.studyField')"
+        :search-placeholder="t('common.filters.searchPlaceholder')"
       />
     </div>
   </ProfilePageCard>

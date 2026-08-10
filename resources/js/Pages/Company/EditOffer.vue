@@ -17,7 +17,7 @@ const companyMenu = useCompanyPanelMenu('offers')
 </script>
 
 <template>
-  <Head :title="t('company.offers.edit.title')" />
+  <Head :title="t('common.titles.editOffer')" />
   <BaseLayout
     active-page="offers"
     :nav-items="companyMenu"
@@ -28,7 +28,7 @@ const companyMenu = useCompanyPanelMenu('offers')
       <div class="bg-white shadow-sm mx-auto border border-border rounded-3xl w-full overflow-visible">
         <div class="px-6 sm:px-8 py-6 border-border border-b">
           <h1 class="font-semibold text-text text-2xl">
-            {{ t('company.offers.edit.title') }}
+            {{ t('common.titles.editOffer') }}
           </h1>
         </div>
 

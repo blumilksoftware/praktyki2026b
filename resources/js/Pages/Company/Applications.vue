@@ -29,10 +29,10 @@ const props = defineProps({
 const { t } = useI18n()
 
 const companyMenu = computed(() => [
-  { label: t('profiles.company.myOffers'), href: ROUTES.OFFERS, icon: IconSearch },
-  { label: t('profiles.company.candidateApplications'), href: ROUTES.COMPANY_APPLICATIONS, icon: IconClipboardText, isActive: true },
-  { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle },
-  { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
+  { label: t('common.titles.myOffers'), href: ROUTES.OFFERS, icon: IconSearch },
+  { label: t('common.titles.candidateApplications'), href: ROUTES.COMPANY_APPLICATIONS, icon: IconClipboardText, isActive: true },
+  { label: t('common.words.profile'), href: ROUTES.PROFILE, icon: IconUserCircle },
+  { label: t('company.profile.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
 ])
 
 const goBack = () => {
@@ -103,18 +103,18 @@ function updateStatus(applicationId, newStatus) {
 const statusOptions = ['pending', 'reviewed', 'accepted', 'rejected']
 
 const offerFilterOptions = computed(() => [
-  { value: '', label: t('profiles.company.applications.filters.all_offers') },
+  { value: '', label: t('common.filters.allOffers') },
   ...props.offers.map((offer) => ({ value: offer.id, label: offer.title })),
 ])
 
 const statusFilterOptions = computed(() => [
-  { value: '', label: t('profiles.company.applications.filters.all_statuses') },
-  ...statusOptions.map((status) => ({ value: status, label: t(`profiles.company.applications.statuses.${status}`) })),
+  { value: '', label: t('common.filters.allStatuses') },
+  ...statusOptions.map((status) => ({ value: status, label: t(`common.statuses.application.${status}`) })),
 ])
 </script>
 
 <template>
-  <Head :title="t('profiles.company.applications.title')" />
+  <Head :title="t('common.titles.candidateApplications')" />
 
   <div class="min-h-screen flex flex-col bg-slate-50/50">
     <BaseNavbar show-hamburger :menu-items="companyMenu" />
@@ -125,7 +125,7 @@ const statusFilterOptions = computed(() => [
            @click="goBack"
         >
           <IconArrowLeft stroke="2.5" class="w-4 h-4" />
-          {{ t('buttons.back') }}
+          {{ t('common.actions.back') }}
         </a>
         <div>
           <Menu :items="companyMenu" />
@@ -134,7 +134,7 @@ const statusFilterOptions = computed(() => [
 
       <div class="flex flex-col gap-6">
         <h1 class="text-3xl font-bold text-text">
-          {{ t('profiles.company.applications.title') }} 
+          {{ t('common.titles.candidateApplications') }} 
           <span v-if="applications.total">({{ applications.total }})</span>
           <span v-else>({{ displayedApplications.length }})</span>
         </h1>
@@ -143,7 +143,7 @@ const statusFilterOptions = computed(() => [
           <BaseSelect
             id="applications-filter-offer"
             v-model="currentFilters.offer"
-            :label="t('profiles.company.applications.filters.offer')"
+            :label="t('common.fields.offer')"
             :options="offerFilterOptions"
             :stacked="false"
             class="w-full sm:w-64"
@@ -152,7 +152,7 @@ const statusFilterOptions = computed(() => [
           <BaseSelect
             id="applications-filter-status"
             v-model="currentFilters.status"
-            :label="t('profiles.company.applications.filters.status')"
+            :label="t('common.statuses.offer')"
             :options="statusFilterOptions"
             :stacked="false"
             class="w-full sm:w-64"
@@ -161,7 +161,7 @@ const statusFilterOptions = computed(() => [
         
         <div class="flex flex-col gap-4 mt-2">
           <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500 shadow-sm">
-            {{ t('profiles.company.applications.empty') }}
+            {{ t('common.empty.noResults') }}
           </div>
 
           <ApplicationsCard 
@@ -178,7 +178,7 @@ const statusFilterOptions = computed(() => [
             :disabled="isLoadingMore"
             @click="loadMore"
           >
-            {{ isLoadingMore ? t('buttons.loading') : t('buttons.load_more') }}
+            {{ isLoadingMore ? t('common.actions.loading') : t('common.actions.loadMore') }}
           </BaseButton>
         </div>
       </div>

@@ -38,7 +38,7 @@ const hasMore = computed(() => props.tags && props.tags.length > limit)
         class="px-5 py-1.5 text-[13px] sm:text-sm font-semibold text-tag bg-tag-text border border-secondary rounded-full hover:bg-tag-text/90 transition-colors shadow-sm cursor-pointer"
         @click="isExpanded = true"
       >
-        {{ t('buttons.showAll') }} ({{ tags.length }})
+        {{ t('common.actions.showAll') }} ({{ tags.length }})
       </button>
     </div>
 
@@ -47,11 +47,11 @@ const hasMore = computed(() => props.tags && props.tags.length > limit)
       class="mt-5 text-xs font-bold text-gray-400 hover:text-gray-600 uppercase tracking-wider transition-colors"
       @click="isExpanded = false"
     >
-      {{ t('buttons.collapseTags') }}
+      {{ t('common.actions.collapseTags') }}
     </button>
   </div>
   
   <div v-else class="flex justify-center mt-6 text-sm text-gray-500 font-medium">
-    {{ t('profiles.company.noTags') }}
+    {{ t('common.empty.noTags') }}
   </div>
 </template>

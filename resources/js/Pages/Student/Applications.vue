@@ -29,11 +29,11 @@ function onWithdraw(application) {
 </script>
 
 <template>
-  <Head :title="t('student.applications.title')" />
+  <Head :title="t('common.titles.applicationsHistory')" />
   <StudentPanelLayout active-page="applications">
     <header class="mb-6">
       <h1 class="font-semibold text-text text-2xl">
-        {{ t('student.applications.title') }}
+        {{ t('common.titles.applicationsHistory') }}
       </h1>
       <p class="mt-1 text-additional text-sm">
         {{ t('student.applications.subtitle') }}

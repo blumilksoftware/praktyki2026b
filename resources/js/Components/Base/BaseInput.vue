@@ -105,8 +105,8 @@ const wrapperClass = computed(() => (
         :disabled="disabled"
         class="absolute right-3 top-1/2 -translate-y-1/2 rounded p-0.5 text-additional hover:text-text disabled:cursor-not-allowed disabled:opacity-50"
         :aria-label="showPassword
-          ? t('auth.fields.hidePassword')
-          : t('auth.fields.showPassword')"
+          ? t('common.fields.hidePassword')
+          : t('common.fields.showPassword')"
         @click="togglePassword"
       >
         <IconEyeOff v-if="showPassword" class="h-5 w-5" aria-hidden="true" />

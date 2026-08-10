@@ -71,12 +71,12 @@ function validateFile(file) {
   const isPdf = file.type === 'application/pdf' || fileName.endsWith('.pdf')
 
   if (!isPdf) {
-    localError.value = t('student.cv.errors.invalidType')
+    localError.value = t('common.errors.upload.invalidType')
     return false
   }
 
   if (file.size > MAX_SIZE_BYTES) {
-    localError.value = t('student.cv.errors.tooLarge')
+    localError.value = t('common.errors.upload.tooLarge')
     return false
   }
 
@@ -163,7 +163,7 @@ onBeforeUnmount(revokePreviewObjectUrl)
 <template>
   <section id="student-cv-section">
     <h3 class="mb-1 font-medium text-text text-sm">
-      {{ t('student.cv.title') }}
+      {{ t('common.titles.yourCv') }}
     </h3>
     <p class="mb-3 text-additional text-xs">
       {{ t('student.cv.hint') }}
@@ -238,7 +238,7 @@ onBeforeUnmount(revokePreviewObjectUrl)
               :disabled="form.processing"
               @click="deleteCv"
             >
-              {{ t('student.cv.delete') }}
+              {{ t('common.actions.delete') }}
             </button>
           </div>
           <BaseButton
@@ -248,7 +248,7 @@ onBeforeUnmount(revokePreviewObjectUrl)
             :disabled="form.processing"
             @click="openFilePicker"
           >
-            {{ t('student.cv.replace') }}
+            {{ t('common.actions.edit') }}
           </BaseButton>
         </div>
       </div>

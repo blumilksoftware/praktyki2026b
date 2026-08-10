@@ -28,7 +28,7 @@ describe('ContactCard.vue', () => {
     expect(text).toContain('+48 123 456 789')
     expect(text).toContain('Main Street 10A, 00-001 Warsaw')
     expect(text).toContain('1234567890')
-    expect(text).not.toContain('profiles.noContactInfo')
+    expect(text).not.toContain('common.empty.noContactInfo')
   })
 
   it('generates the correct Google Maps URL based on the address', () => {
@@ -57,7 +57,7 @@ describe('ContactCard.vue', () => {
       }
     })
 
-    expect(wrapper.text()).toContain('profiles.noContactInfo')
+    expect(wrapper.text()).toContain('common.empty.noContactInfo')
   })
 
   it('partially formats the address if some address props are missing', () => {

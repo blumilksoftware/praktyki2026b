@@ -33,7 +33,7 @@ const viewOffer = (offerId) => {
 
 <template>
   <div class="flex flex-col gap-6">
-    <h2 class="text-xl font-bold text-text">{{ t('profiles.currentOffers') }}</h2>
+    <h2 class="text-xl font-bold text-text">{{ t('common.profile.currentOffers') }}</h2>
 
     <div v-if="offers && offers.length > 0" class="flex flex-col gap-3">
       <div
@@ -45,7 +45,7 @@ const viewOffer = (offerId) => {
           <div class="min-w-0 flex-1">
             <div class="flex flex-wrap items-center gap-2">
               <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-green-700">
-                {{ t('company.offers.index.status.published') }}
+                {{ t('common.statuses.offer.published') }}
               </span>
               <h3 class="min-w-0 truncate font-semibold text-text text-base">
                 {{ offer.title }}
@@ -54,7 +54,7 @@ const viewOffer = (offerId) => {
             <div class="mt-2 flex flex-wrap items-center gap-3 text-additional text-sm">
               <span class="inline-flex items-center gap-1">
                 <IconBriefcase2Filled class="h-4 w-4" aria-hidden="true" />
-                {{ t('profiles.spots') }}: {{ offer.spots }}
+                {{ t('common.fields.spots') }}: {{ offer.spots }}
               </span>
             </div>
             <p v-if="offer.description" class="mt-2 line-clamp-2 text-additional text-sm">
@@ -67,7 +67,7 @@ const viewOffer = (offerId) => {
             class="w-full shrink-0 px-6 py-2.5 text-sm font-medium shadow-sm sm:w-auto"
             @click="viewOffer(offer.id)"
           >
-            {{ t('buttons.view') }}
+            {{ t('common.actions.view') }}
           </BaseButton>
         </div>
       </div>
@@ -78,12 +78,12 @@ const viewOffer = (offerId) => {
         class="w-full justify-center mt-4"
         @click="loadMore"
       >
-        {{ t('buttons.load_more') }}
+        {{ t('common.actions.loadMore') }}
       </BaseButton>
     </div>
 
     <div v-else class="text-gray-400 italic text-sm">
-      {{ t('profiles.noOffers') }}
+      {{ t('common.empty.noOffers') }}
     </div>
   </div>
 </template>

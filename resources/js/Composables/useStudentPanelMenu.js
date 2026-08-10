@@ -11,31 +11,31 @@ export function useStudentPanelMenu(activePage) {
 
     return [
       {
-        label: t('student.layout.nav.dashboard'),
+        label: t('common.nav.dashboard'),
         href: ROUTES.STUDENT_DASHBOARD,
         icon: IconHome,
         isActive: current === 'dashboard',
       },
       {
-        label: t('student.layout.nav.profile'),
+        label: t('common.words.profile'),
         href: ROUTES.STUDENT_PROFILE,
         icon: IconUserCircle,
         isActive: current === 'profile',
       },
       {
-        label: t('student.layout.nav.offers'),
+        label: t('common.nav.offers'),
         href: ROUTES.OFFERS,
         icon: IconBriefcase,
         isActive: current === 'offers',
       },
       {
-        label: t('student.layout.nav.favorites'),
+        label: t('common.nav.favorites'),
         href: ROUTES.STUDENT_FAVORITES,
         icon: IconHeart,
         isActive: current === 'favorites',
       },
       {
-        label: t('student.layout.nav.applications'),
+        label: t('common.nav.applications'),
         href: ROUTES.STUDENT_APPLICATIONS,
         icon: IconBriefcase,
         isActive: current === 'applications',

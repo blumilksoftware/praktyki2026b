@@ -60,7 +60,7 @@ const resendEmail = () => {
           class="text-error-dark underline cursor-pointer text-xs sm:text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/40 rounded transition-colors disabled:opacity-50 hover:text-error/90"
           @click="resendEmail"
         >
-          {{ t('auth.verification.resendVerification') }}
+          {{ t('auth.common.resendVerification') }}
         </button>
       </div>
     </template>

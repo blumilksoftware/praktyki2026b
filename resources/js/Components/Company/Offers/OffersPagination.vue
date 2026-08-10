@@ -29,7 +29,7 @@ function goToPage(url) {
     class="px-4 py-3 border-t border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
   >
     <span class="text-xs text-additional">
-      {{ t('company.dashboard.offers.pagination.summary', {
+      {{ t('common.pagination.summary', {
         from: offers.from,
         to: offers.to,
         total: offers.total

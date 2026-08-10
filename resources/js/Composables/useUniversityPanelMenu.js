@@ -11,13 +11,13 @@ export function useUniversityPanelMenu(activePage) {
 
     return [
       {
-        label: t('university.layout.nav.dashboard'),
+        label: t('common.nav.dashboard'),
         href: ROUTES.UNIVERSITY_DASHBOARD,
         icon: IconHome,
         isActive: current === 'dashboard',
       },
       {
-        label: t('university.layout.nav.profile'),
+        label: t('common.nav.profile'),
         href: ROUTES.UNIVERSITY_PROFILE,
         icon: IconUserCircle,
         isActive: current === 'profile',

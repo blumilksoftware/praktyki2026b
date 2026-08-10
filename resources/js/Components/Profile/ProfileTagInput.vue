@@ -59,7 +59,7 @@ function onKeydown(event) {
           <button
             type="button"
             class="shrink-0 rounded-md p-0.5 text-additional transition-colors hover:bg-red-500/10 hover:text-red-500"
-            :aria-label="t('student.profile.tags.remove')"
+            :aria-label="t('common.actions.delete')"
             @click="removeTag(index)"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

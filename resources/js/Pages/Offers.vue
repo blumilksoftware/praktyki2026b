@@ -95,7 +95,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Head :title="canApply ? t('student.nav.offers') : t('offers.search.title')" />
+  <Head :title="canApply ? t('common.nav.offers') : t('offers.search.title')" />
 
   <component :is="layoutComponent" v-bind="layoutProps">
     <div class="bg-background py-6 min-h-screen">
@@ -105,14 +105,14 @@ onMounted(() => {
           class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
         >
           <span aria-hidden="true">←</span>
-          {{ t('student.favorites.backToDashboard') }}
+          {{ t('common.actions.backToDashboard') }}
         </Link>
 
         <Link
           :href="ROUTES.STUDENT_FAVORITES"
           class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
         >
-          {{ t('student.nav.favorites') }}
+          {{ t('common.nav.favorites') }}
         </Link>
       </div>
 
@@ -127,12 +127,12 @@ onMounted(() => {
 
       <div v-if="canApply && !hasCv" class="mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
         <p class="flex flex-wrap items-center gap-2 rounded-xl border border-border bg-white px-4 py-3 text-sm font-medium text-text">
-          {{ t('buttons.apply.noCvMessage') }}
+          {{ t('common.actions.apply.noCvMessage') }}
           <Link
             :href="ROUTES.STUDENT_PROFILE_EDIT"
             class="font-bold text-link underline underline-offset-4 transition-colors hover:text-link/80"
           >
-            {{ t('buttons.apply.uploadCvPrompt') }}
+            {{ t('common.actions.apply.uploadCvPrompt') }}
           </Link>
         </p>
       </div>
@@ -163,7 +163,7 @@ onMounted(() => {
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                 </svg>
-                {{ t('student.offers.map.viewSwitcher.listView') }}
+                {{ t('common.words.listView') }}
               </button>
               <button
                 type="button"
@@ -174,7 +174,7 @@ onMounted(() => {
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                 </svg>
-                {{ t('student.offers.map.viewSwitcher.mapView') }}
+                {{ t('common.words.mapView') }}
               </button>
             </div>
           </div>

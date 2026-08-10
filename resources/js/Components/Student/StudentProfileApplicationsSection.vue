@@ -11,7 +11,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <ProfileSectionCard :title="t('student.profile.applications.title')">
+  <ProfileSectionCard :title="t('common.titles.applicationsHistory')">
     <p class="text-additional text-sm">
       {{ t('student.profile.applications.historyHint') }}
     </p>

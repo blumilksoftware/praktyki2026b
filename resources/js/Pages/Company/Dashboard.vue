@@ -71,7 +71,7 @@ const companyMenu = useCompanyPanelMenu('dashboard')
 </script>
 
 <template>
-  <Head :title="t('company.layout.title')" />
+  <Head :title="t('common.words.company')" />
   <BaseLayout
     active-page="dashboard"
     :nav-items="companyMenu"
@@ -96,7 +96,7 @@ const companyMenu = useCompanyPanelMenu('dashboard')
           class="inline-flex shrink-0 items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         >
           <IconPlus class="h-4 w-4" aria-hidden="true" />
-          {{ t('company.dashboard.createOfferCard.action') }}
+          {{ t('common.titles.createOffer') }}
         </Link>
       </div>
     </div>
@@ -110,7 +110,7 @@ const companyMenu = useCompanyPanelMenu('dashboard')
       <div class="rounded-xl border border-border bg-white shadow-sm overflow-visible mt-10">
         <div class="px-4 py-3 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <h2 class="font-medium text-text">
-            {{ t('company.dashboard.offers.title') }}
+            {{ t('common.words.offers') }}
           </h2>
 
           <OffersToolbar
@@ -124,7 +124,7 @@ const companyMenu = useCompanyPanelMenu('dashboard')
           v-if="offers.data.length === 0"
           class="px-4 py-6 text-center text-additional text-sm"
         >
-          {{ t('company.dashboard.offers.noOffers') }}
+          {{ t('common.empty.noOffers') }}
         </div>
 
         <template v-else>

@@ -41,7 +41,7 @@ describe('Offers.vue', () => {
   })
 
   const findLoadMoreButton = (wrapper: ReturnType<typeof mountOffers>) =>
-    wrapper.findAll('button').find(button => button.text().includes('buttons.load_more'))
+    wrapper.findAll('button').find(button => button.text().includes('common.actions.loadMore'))
 
   beforeEach(() => {
     mockRouterGet.mockClear()
@@ -51,7 +51,7 @@ describe('Offers.vue', () => {
     const wrapper = mountOffers(3)
 
     expect(wrapper.findAll('h3').length).toBe(3)
-    expect(wrapper.text()).not.toContain('profiles.noOffers')
+    expect(wrapper.text()).not.toContain('common.empty.noOffers')
     expect(findLoadMoreButton(wrapper)).toBeUndefined()
   })
 
@@ -68,14 +68,14 @@ describe('Offers.vue', () => {
       global: { stubs: globalStubs }
     })
 
-    expect(wrapper.text()).toContain('profiles.noOffers')
+    expect(wrapper.text()).toContain('common.empty.noOffers')
     expect(wrapper.findAll('h3').length).toBe(0)
   })
 
   it('navigates to the specific offer page when "View" is clicked', async () => {
     const wrapper = mountOffers(1)
 
-    const viewButton = wrapper.findAll('button').find(b => b.text().includes('buttons.view'))
+    const viewButton = wrapper.findAll('button').find(b => b.text().includes('common.actions.view'))
     await viewButton!.trigger('click')
 
     expect(mockRouterGet).toHaveBeenCalledTimes(1)

@@ -178,7 +178,7 @@ function showOnMap() {
       </div>
 
       <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-additional">
-        <span>{{ t('student.offers.card.dateRange') }}: {{ formattedDateRange }}</span>
+        <span>{{ t('common.fields.internshipPeriod') }}: {{ formattedDateRange }}</span>
         <span aria-hidden="true">&middot;</span>
         <span>{{ t('student.offers.card.remainingSpots') }}: {{ offer.remaining_spots }}</span>
       </div>
@@ -235,7 +235,7 @@ function showOnMap() {
             :disabled="isWithdrawing"
             @click="openWithdrawModal"
           >
-            {{ t('student.applications.withdraw.action') }}
+            {{ t('common.words.action') }}
           </BaseButton>
         </template>
       </div>

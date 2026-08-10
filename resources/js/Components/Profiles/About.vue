@@ -10,7 +10,7 @@ defineProps({
 
 <template>
   <div class="flex flex-col gap-4">
-    <h2 class="text-xl font-bold text-text">{{ t('profiles.aboutUs') }}</h2>
+    <h2 class="text-xl font-bold text-text">{{ t('common.profile.aboutUs') }}</h2>
     
     <div 
       v-if="description" 
@@ -19,7 +19,7 @@ defineProps({
       {{ description }}
     </div>
     <div v-else class="text-gray-400 italic text-sm">
-      {{ t('profiles.company.noDescription') }}
+      {{ t('common.empty.noDescription') }}
     </div>
   </div>
 </template>

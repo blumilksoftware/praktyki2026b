@@ -53,7 +53,7 @@ export function useOfferActions({ t }) {
 
   function deleteOffer(offer) {
     closeMenu()
-    if (!confirm(t('company.dashboard.offers.confirmDelete'))) {
+    if (!confirm(t('company.offers.delete.confirmation'))) {
       return
     }
     router.delete(`${ROUTES.COMPANY_OFFERS_STORE}/${offer.id}`, {
