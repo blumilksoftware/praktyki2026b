@@ -32,7 +32,7 @@ const companyMenu = computed(() => [
   { label: t('common.titles.myOffers'), href: ROUTES.OFFERS, icon: IconSearch },
   { label: t('common.titles.candidateApplications'), href: ROUTES.COMPANY_APPLICATIONS, icon: IconClipboardText, isActive: true },
   { label: t('common.words.profile'), href: ROUTES.PROFILE, icon: IconUserCircle },
-  { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
+  { label: t('company.profile.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
 ])
 
 const goBack = () => {
@@ -109,7 +109,7 @@ const offerFilterOptions = computed(() => [
 
 const statusFilterOptions = computed(() => [
   { value: '', label: t('common.filters.allStatuses') },
-  ...statusOptions.map((status) => ({ value: status, label: t(`profiles.company.applications.statuses.${status}`) })),
+  ...statusOptions.map((status) => ({ value: status, label: t(`company.applications.statuses.${status}`) })),
 ])
 </script>
 
@@ -161,7 +161,7 @@ const statusFilterOptions = computed(() => [
         
         <div class="flex flex-col gap-4 mt-2">
           <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500 shadow-sm">
-            {{ t('profiles.company.applications.empty') }}
+            {{ t('company.applications.empty') }}
           </div>
 
           <ApplicationsCard 

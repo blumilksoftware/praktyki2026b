@@ -73,7 +73,7 @@ defineProps({
 
           <div v-if="university.domain || university.externalFormUrl" class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6">
             <h3 class="text-xl font-bold text-gray-900 mb-5">
-              {{ t('profiles.university.recruitmentAndSystem') }}
+              {{ t('university.profile.recruitmentAndSystem') }}
             </h3>
             
             <Info 
@@ -86,7 +86,7 @@ defineProps({
         <div class="flex flex-col gap-6 lg:col-span-2">
           <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8 h-fit">
             <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-              {{ t('profiles.university.facultiesAndStudyFields') }}
+              {{ t('university.profile.facultiesAndStudyFields') }}
             </h3>
             
             <Faculties :faculties="university.faculties" />

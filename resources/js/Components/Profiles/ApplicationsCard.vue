@@ -30,11 +30,11 @@ const formatDate = (isoString) => {
 
   if (isToday) {
     const time = date.toLocaleTimeString(locale.value, { hour: '2-digit', minute: '2-digit' })
-    return t('profiles.company.applications.date.today', { time })
+    return t('company.applications.date.today', { time })
   }
   
   const dateString = date.toLocaleDateString(locale.value, { day: '2-digit', month: '2-digit', year: 'numeric' })
-  return t('profiles.company.applications.date.exact', { date: dateString })
+  return t('company.applications.date.exact', { date: dateString })
 }
 
 const onStatusChange = (event) => {
@@ -59,7 +59,7 @@ const onStatusChange = (event) => {
 
     <div class="flex flex-col lg:w-1/3">
       <span class="text-xs text-slate-400 font-medium uppercase tracking-wide">
-        {{ t('profiles.company.applications.applied_for') }}
+        {{ t('company.applications.applied_for') }}
       </span>
       <span class="font-bold text-[#0f172a]">{{ application.offer_title }}</span>
     </div>

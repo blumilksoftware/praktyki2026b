@@ -106,7 +106,7 @@ const hasProfileInMenu = computed(() => (
             v-if="showHamburger"
             type="button"
             class="lg:hidden flex items-center justify-center text-white hover:text-white/80 transition-colors focus:outline-none"
-            :aria-label="t('profiles.navMenu')"
+            :aria-label="t('common.profile.navMenu')"
             :aria-expanded="isMobileMenuOpen"
             @click="toggle"
           >
@@ -160,7 +160,7 @@ const hasProfileInMenu = computed(() => (
     >
       <div class="h-14 md:h-16 flex items-center justify-between px-6 border-b border-white/10 bg-primary shrink-0">
         <span class="font-bold text-white text-sm uppercase tracking-wider">
-          {{ t('profiles.navMenu') }}
+          {{ t('common.profile.navMenu') }}
         </span>
         <button
           class="text-white hover:text-white/80 transition-colors focus:outline-none flex items-center justify-center p-1"
@@ -230,7 +230,7 @@ const hasProfileInMenu = computed(() => (
                 @click="close"
               >
                 <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
-                {{ t('buttons.myProfile') }}
+                {{ t('common.nav.profile') }}
               </Link>
             </li>
             <li v-if="!hasSettingsInMenu">

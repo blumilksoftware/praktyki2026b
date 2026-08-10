@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class CvUploadTest extends TestCase
@@ -111,6 +112,27 @@ class CvUploadTest extends TestCase
         $response = $this->actingAs($user)->post(route("student.cv.upload"), ["cv" => $file]);
 
         $response->assertInvalid("cv");
+        $user->refresh();
+        $this->assertNull($user->cv_path);
+    }
+
+    public function testUploadExceedingPostMaxSizeRendersApplicationErrorPage(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+
+        $response = $this->actingAs($user)
+            ->withServerVariables(["CONTENT_LENGTH" => (string)(1024 * 1024 * 1024)])
+            ->post(route("student.cv.upload"));
+
+        $response->assertStatus(413);
+        $response->assertInertia(
+            fn(Assert $page) => $page
+                ->component("Errors/Error")
+                ->where("status", 413),
+        );
         $user->refresh();
         $this->assertNull($user->cv_path);
     }

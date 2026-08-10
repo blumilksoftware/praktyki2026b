@@ -83,7 +83,7 @@ function clearSearch() {
         v-if="searchQuery"
         type="button"
         class="absolute right-2 top-1/2 -translate-y-1/2 text-additional transition-colors hover:text-text"
-        :aria-label="t('dynamicList.accessibility.clearAll')"
+        :aria-label="t('components.dynamicList.accessibility.clearAll')"
         @click="clearSearch"
       >
         <IconX class="h-4 w-4" aria-hidden="true" />

@@ -14,8 +14,8 @@ const notifications = computed(() => page.props.notifications ?? [])
 const hasUnread = computed(() => unreadCount.value > 0)
 const unreadBadge = computed(() => (unreadCount.value > 9 ? '9+' : String(unreadCount.value)))
 const bellAriaLabel = computed(() => (hasUnread.value
-  ? $t('common.notifications.bell.unreadAriaLabel', { count: unreadCount.value })
-  : $t('common.notifications.bell.ariaLabel')))
+  ? t('common.notifications.bell.unreadAriaLabel', { count: unreadCount.value })
+  : t('common.notifications.bell.ariaLabel')))
 
 function loadNotifications() {
   router.reload({
@@ -46,16 +46,16 @@ function notificationLabel(item) {
 
   switch (item.type) {
   case 'verification_request':
-    return $t('common.notifications.types.verificationRequest', { name: data.entity_name })
+    return t('common.notifications.types.verificationRequest', { name: data.entity_name })
   case 'new_application':
-    return $t('common.notifications.types.newApplication', { student: data.student_name, offer: data.offer_title })
+    return t('common.notifications.types.newApplication', { student: data.student_name, offer: data.offer_title })
   case 'application_status_changed':
-    return $t('common.notifications.types.statusChanged', {
+    return t('common.notifications.types.statusChanged', {
       offer: data.offer_title,
       status: t(`student.applications.status.${data.status}`),
     })
   case 'offer_unavailable':
-    return t(`notifications.types.offerUnavailable.${data.reason}`, { offer: data.offer_title })
+    return t(`common.notifications.types.offerUnavailable.${data.reason}`, { offer: data.offer_title })
   default:
     return t('common.notifications.types.fallback')
   }

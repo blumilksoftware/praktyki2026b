@@ -8,9 +8,8 @@ vi.mock('vue-i18n', () => ({
   }),
 }))
 
-const { routerPost, routerVisit, routerDelete } = vi.hoisted(() => ({
+const { routerPost, routerDelete } = vi.hoisted(() => ({
   routerPost: vi.fn(),
-  routerVisit: vi.fn(),
   routerDelete: vi.fn(),
 }))
 
@@ -19,7 +18,7 @@ vi.mock('@inertiajs/vue3', () => ({
     props: ['href'],
     template: '<a :href="href"><slot /></a>',
   },
-  router: { post: routerPost, visit: routerVisit, delete: routerDelete },
+  router: { post: routerPost, delete: routerDelete },
 }))
 
 const baseOffer = {
@@ -41,12 +40,11 @@ const baseOffer = {
 
 describe('OfferCard.vue', () => {
   const createWrapper = (props = {}) => mount(OfferCard, {
-    props: { offer: baseOffer, ...props },
+    props: { offer: baseOffer, canApply: true, ...props },
   })
 
   beforeEach(() => {
     routerPost.mockClear()
-    routerVisit.mockClear()
     routerDelete.mockClear()
   })
 
@@ -127,11 +125,12 @@ describe('OfferCard.vue', () => {
     expect(favoriteButton!.attributes('aria-pressed')).toBe('true')
   })
 
-  it('prompts to upload a CV instead of showing an apply button when the student has none', () => {
+  it('blocks the apply button without hiding it when the student has no CV', () => {
     const wrapper = createWrapper({ hasCv: false })
 
-    expect(wrapper.text()).toContain('common.actions.apply.noCvMessage')
-    expect(wrapper.findAll('button').some((btn) => btn.text() === 'common.actions.apply.applyNow')).toBe(false)
+    const applyButton = wrapper.findAll('button').find((btn) => btn.text() === 'common.actions.apply.applyNow')
+    expect(applyButton!.attributes('aria-disabled')).toBe('true')
+    expect(applyButton!.attributes('disabled')).toBeUndefined()
   })
 
   it('posts to the offer apply endpoint when applying', async () => {
@@ -181,13 +180,24 @@ describe('OfferCard.vue', () => {
     expect(wrapper.text()).toContain('You have already applied to this offer.')
   })
 
-  it('navigates to the profile edit page when the upload CV prompt is clicked', async () => {
-    const wrapper = createWrapper({ hasCv: false })
+  it('shows neither the apply button nor the login link to a signed in user who cannot apply', () => {
+    const wrapper = createWrapper({ canApply: false })
 
-    const uploadButton = wrapper.findAll('button').find((btn) => btn.text() === 'common.actions.apply.uploadCvPrompt')
-    await uploadButton!.trigger('click')
+    expect(wrapper.findAll('button').some((btn) => btn.text() === 'common.actions.apply.applyNow')).toBe(false)
+    expect(wrapper.find('a[href="/login"]').exists()).toBe(false)
+  })
 
-    expect(routerVisit).toHaveBeenCalledWith('/student/profile/edit')
+  it('shows the login link instead of the apply button to a guest', () => {
+    const wrapper = createWrapper({ canApply: false, guest: true })
+
+    expect(wrapper.findAll('button').some((btn) => btn.text() === 'common.actions.apply.applyNow')).toBe(false)
+    expect(wrapper.find('a[href="/login"]').text()).toBe('student.offers.card.loginToApply')
+  })
+
+  it('hides the favourite button from users who cannot apply', () => {
+    const wrapper = createWrapper({ canApply: false })
+
+    expect(wrapper.findAll('button').some((btn) => btn.attributes('aria-pressed') !== undefined)).toBe(false)
   })
 
   it('does not show a withdraw button when the student has not applied', () => {
@@ -198,7 +208,7 @@ describe('OfferCard.vue', () => {
 
   it('withdraws the application after confirming in the modal', async () => {
     const wrapper = mount(OfferCard, {
-      props: { offer: { ...baseOffer, has_applied: true, applied_at: '2026-07-20' } },
+      props: { offer: { ...baseOffer, has_applied: true, applied_at: '2026-07-20' }, canApply: true },
       global: {
         stubs: {
           WithdrawApplicationModal: {

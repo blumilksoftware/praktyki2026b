@@ -31,7 +31,7 @@ const externalFormUrlModel = computed({
 <template>
   <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
     <h3 class="font-semibold text-gray-800 mb-4 text-lg">
-      {{ t('profiles.university.systemInformation') }}
+      {{ t('university.profile.systemInformation') }}
     </h3>
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -39,12 +39,12 @@ const externalFormUrlModel = computed({
         <BaseInput
           id="domain"
           v-model="domainModel"
-          :label="t('profiles.university.domain')"
+          :label="t('university.profile.domain')"
           :disabled="isDomainLocked"
           :error="errors.domain"
         />
         <span v-if="isDomainLocked" class="text-xs text-gray-500 font-medium px-1">
-          {{ t('profiles.university.domainLockedHint') }}
+          {{ t('university.profile.domainLockedHint') }}
         </span>
       </div>
 
@@ -52,7 +52,7 @@ const externalFormUrlModel = computed({
         <BaseInput
           id="external_form_url"
           v-model="externalFormUrlModel"
-          :label="t('profiles.university.externalFormUrlPlaceholder')"
+          :label="t('university.profile.externalFormUrlPlaceholder')"
           :error="errors.external_form_url"
         />
       </div>

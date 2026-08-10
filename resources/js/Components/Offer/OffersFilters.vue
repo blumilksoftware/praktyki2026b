@@ -66,9 +66,9 @@ defineExpose({ studyFieldLabelToValue })
         <span class="block mb-2 font-medium text-text text-sm">{{ t('common.actions.search') }}</span>
         <input
           id="offers-filter-search"
-          v-model="common.actions.search"
+          v-model="filters.search"
           type="search"
-          :placeholder="t('common.fields.city')"
+          :placeholder="t('student.offers.filters.searchPlaceholder')"
           class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text placeholder:text-additional text-sm transition"
         >
       </label>
