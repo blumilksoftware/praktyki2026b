@@ -27,6 +27,42 @@
   "common": {
     "verifiedBadge": "Account verified by an administrator"
   },
+  "organization": {
+    "team": {
+      "title": "Team",
+      "description": "Manage your organization's members and invitations.",
+      "membersTitle": "Current team members",
+      "membersDescription": "See all active members, their role, and join date.",
+      "noMembers": "No team members have been added yet.",
+      "invitationsTitle": "Pending invitations",
+      "invitationsDescription": "Invitations that are waiting for the recipient to accept.",
+      "pending": "Pending",
+      "noInvitations": "No pending invitations.",
+      "joinDate": "Joined on {date}",
+      "inviteButton": "Invite member",
+      "inviteModal": {
+        "title": "Invite a team member",
+        "emailLabel": "Email address",
+        "emailPlaceholder": "Enter email address",
+        "cancel": "Cancel",
+        "submit": "Send invitation"
+      },
+      "remove": "Remove",
+      "revoke": "Revoke",
+      "removeModal": {
+        "title": "Remove member",
+        "description": "Are you sure you want to remove {name} from the team?",
+        "cancel": "Cancel",
+        "confirm": "Remove member"
+      },
+      "roles": {
+        "companyAdmin": "Administrator",
+        "companyMember": "Member",
+        "universityAdmin": "Administrator",
+        "universityMember": "Member"
+      }
+    }
+  },
   "errors": {
     "401": {
       "title": "Login required",
@@ -149,6 +185,13 @@
         "phone": "Phone number",
         "website": "University website link",
         "websiteHint": "You can enter just the domain, e.g. example.pl."
+      }
+    }
+  },
+  "student": {
+    "profile": {
+      "modal": {
+        "close": "Close dialog"
       }
     }
   },
@@ -803,6 +846,7 @@
       "nav": {
         "dashboard": "Dashboard",
         "offers": "My offers",
+        "team": "Team",
         "applications": "Applications",
         "profile": "Profile",
         "settings": "Settings"

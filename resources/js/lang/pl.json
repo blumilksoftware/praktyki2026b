@@ -34,6 +34,42 @@
   "common": {
     "verifiedBadge": "Konto zweryfikowane przez administratora"
   },
+  "organization": {
+    "team": {
+      "title": "Zespół",
+      "description": "Zarządzaj członkami swojej organizacji oraz zaproszeniami.",
+      "membersTitle": "Obecni członkowie zespołu",
+      "membersDescription": "Zobacz wszystkich aktywnych członków, ich role i datę dołączenia.",
+      "noMembers": "Nie dodano jeszcze żadnych członków zespołu.",
+      "invitationsTitle": "Oczekujące zaproszenia",
+      "invitationsDescription": "Zaproszenia, które czekają na akceptację przez odbiorcę.",
+      "pending": "Oczekuje",
+      "noInvitations": "Brak oczekujących zaproszeń.",
+      "joinDate": "Dołączył(a) {date}",
+      "inviteButton": "Zaproś członka",
+      "inviteModal": {
+        "title": "Zaproś członka zespołu",
+        "emailLabel": "Adres e-mail",
+        "emailPlaceholder": "Wpisz adres e-mail",
+        "cancel": "Anuluj",
+        "submit": "Wyślij zaproszenie"
+      },
+      "remove": "Usuń",
+      "revoke": "Cofnij",
+      "removeModal": {
+        "title": "Usuń członka",
+        "description": "Czy na pewno chcesz usunąć {name} z zespołu?",
+        "cancel": "Anuluj",
+        "confirm": "Usuń członka"
+      },
+      "roles": {
+        "companyAdmin": "Administrator",
+        "companyMember": "Członek",
+        "universityAdmin": "Administrator",
+        "universityMember": "Członek"
+      }
+    }
+  },
   "errors": {
     "401": {
       "title": "Wymagane logowanie",
@@ -160,7 +196,14 @@
       }
     }
   },
-"profiles": {
+  "student": {
+    "profile": {
+      "modal": {
+        "close": "Zamknij okno dialogowe"
+      }
+    }
+  },
+  "profiles": {
     "navMenu": "Menu nawigacji",
     "profile": "Profil",
     "aboutUs": "O nas",
@@ -733,6 +776,7 @@
       "nav": {
         "dashboard": "Panel",
         "offers": "Moje oferty",
+          "team": "Zespół",
         "applications": "Zgłoszenia",
         "profile": "Profil",
         "settings": "Ustawienia"

@@ -53,6 +53,10 @@ class DemoSeeder extends Seeder
             "last_name" => null,
         ]);
 
+        User::factory()->count(4)->companyMember()->create([
+            "organization_id" => $approvedCompany->id,
+        ]);
+
         $pendingCompany = Company::factory()->pending()->create([
             "name" => "Pending Company Sp. z o.o.",
             "email" => "pending@example.com",
