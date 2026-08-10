@@ -883,7 +883,11 @@
         "published": "Opublikuj od razu",
         "draftHint": "Szkice są widoczne tylko dla Ciebie. Publikacja wymaga zweryfikowanego konta firmy.",
         "submitCreate": "Utwórz ofertę",
-        "submitEdit": "Zapisz zmiany"
+        "submitCreateDraft": "Utwórz szkic",
+        "submitEdit": "Zapisz zmiany",
+        "submitEditDraft": "Zapisz jako szkic",
+        "publishDisabledTooltip": "Aby opublikować ofertę, musisz mieć zweryfikowane konto firmy.",
+        "unsavedChangesConfirmation": "Masz niezapisane zmiany. Opuścić stronę bez zapisywania?"
       },
       "delete": {
         "modalTitle": "Usuń ofertę",

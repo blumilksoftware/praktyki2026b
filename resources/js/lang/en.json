@@ -744,61 +744,6 @@
   },
   "company": {
     "layout": {
-        "title": "Company",
-        "nav": {
-            "dashboard": "Dashboard",
-            "profile": "Profile"
-        }
-    },
-      "dashboard": {
-          "offers": {
-              "title": "Offers",
-              "subtitle": "Manage your job postings and applications",
-              "noOffers": "No offers yet",
-              "confirmDelete": "Are you sure you want to delete this offer?",
-              "status": {
-                  "published": "Published",
-                  "draft": "Draft",
-                  "closed": "Closed",
-                  "expired": "Expired"
-              },
-              "table": {
-                  "offer": "Offer",
-                  "status": "Status",
-                  "spots": "Spots",
-                  "applications": "Applications",
-                  "actions": "Actions"
-              },
-              "search": {
-                  "placeholder": "Search offers",
-                  "clear": "Clear search"
-              },
-              "actions": {
-                  "menu": "Open actions menu",
-                  "edit": "Edit",
-                  "activate": "Activate",
-                  "deactivate": "Deactivate",
-                  "delete": "Delete"
-              },
-              "pagination": {
-                  "summary": "Showing {from}–{to} of {total}"
-              },
-              "filters": {
-                  "allStatuses": "All",
-                  "published": "Published",
-                  "draft": "Draft",
-                  "closed": "Closed",
-                  "expired": "Expired"
-              }
-          }
-      },
-    "profile": {
-      "title": "Profile",
-      "subtitle": "Browse offers and narrow results to match your preferences."
-    }
-  },
-  "company": {
-    "layout": {
       "title": "Company",
       "nav": {
         "dashboard": "Dashboard",
@@ -951,11 +896,15 @@
           "compensationHint": "Enter salary details if the offer is paid.",
           "status": "Offer status"
         },
-        "draft": "Save as draft",
-        "published": "Publish immediately",
-        "draftHint": "Drafts are only visible to you. Publishing requires a verified company account.",
-        "submitCreate": "Create offer",
-        "submitEdit": "Save changes"
+          "draft": "Save as draft",
+          "published": "Publish immediately",
+          "draftHint": "Drafts are visible only to you. Publishing requires a verified company account.",
+          "submitCreate": "Create offer",
+          "submitCreateDraft": "Create draft",
+          "submitEdit": "Save changes",
+          "submitEditDraft": "Save as draft",
+          "publishDisabledTooltip": "To publish an offer, you must have a verified company account.",
+          "unsavedChangesConfirmation": "You have unsaved changes. Leave without saving?"
       }
     }
   },

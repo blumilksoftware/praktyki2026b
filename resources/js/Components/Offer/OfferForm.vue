@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { useForm } from '@inertiajs/vue3'
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
+import { router, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
@@ -103,7 +103,51 @@ watch(() => form.spots, (value) => {
 
 const isPublished = computed({
   get: () => form.status === 'published',
-  set: (value) => { form.status = value ? 'published' : 'draft' },
+  set: (value) => {
+    if (value && !props.isCompanyVerified) return
+    form.status = value ? 'published' : 'draft'
+  },
+})
+
+watch(() => props.isCompanyVerified, (verified) => {
+  if (!verified && form.status === 'published') {
+    form.status = 'draft'
+  }
+})
+
+const beforeUnloadHandler = (event) => {
+  if (!form.isDirty) return
+  event.preventDefault()
+  event.returnValue = ''
+}
+
+onMounted(() => {
+  window.addEventListener('beforeunload', beforeUnloadHandler)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('beforeunload', beforeUnloadHandler)
+})
+
+const cancel = () => {
+  if (form.isDirty && !window.confirm(t('company.offers.form.unsavedChangesConfirmation'))) {
+    return
+  }
+
+  router.visit(ROUTES.COMPANY_OFFERS_INDEX)
+}
+
+const isDraft = computed(() => form.status !== 'published')
+
+const submitLabel = computed(() => {
+  if (isEditing.value) {
+    return isDraft.value
+      ? t('company.offers.form.submitEditDraft')
+      : t('company.offers.form.submitEdit')
+  }
+  return isDraft.value
+    ? t('company.offers.form.submitCreateDraft')
+    : t('company.offers.form.submitCreate')
 })
 
 const workModeOptions = computed(() => [
@@ -132,16 +176,16 @@ const submit = () => {
     .filter(id => id !== undefined)
 
   if (isEditing.value) {
-    form.patch(ROUTES.COMPANY_OFFERS_UPDATE(props.offer.id), { preserveScroll: true })
+    form.patch(ROUTES.COMPANY_OFFERS_UPDATE(props.offer.id))
   } else {
-    form.post(ROUTES.COMPANY_OFFERS_STORE, { preserveScroll: true })
+    form.post(ROUTES.COMPANY_OFFERS_STORE)
   }
 }
 </script>
 
 <template>
   <form class="flex flex-col gap-6" novalidate @submit.prevent="submit">
-    <section class="bg-secondary/5 shadow-sm p-6 border border-border rounded-3xl">
+    <section class="bg-white shadow-sm p-6 border border-border rounded-3xl">
       <div class="flex flex-col gap-3">
         <div>
           <h2 class="text-xl font-bold text-text">
@@ -236,9 +280,11 @@ const submit = () => {
           </p>
         </div>
 
-        <BaseTextarea id="description" v-model="form.description" :label="t('company.offers.form.description')" required
-                      :maxlength="10000" :rows="6" :error="fieldError('description')"
-        />
+        <div class="max-w-[65ch]">
+          <BaseTextarea id="description" v-model="form.description" :label="t('company.offers.form.description')" required
+                        :maxlength="10000" :rows="6" :error="fieldError('description')"
+          />
+        </div>
       </div>
     </section>
 
@@ -279,19 +325,35 @@ const submit = () => {
           </p>
         </div>
 
-        <BaseToggle id="status" v-model="isPublished"
-                    :label="isPublished ? t('company.offers.form.published') : t('company.offers.form.draft')"
-        />
+        <div class="flex items-start gap-2">
+          <BaseToggle
+            id="status"
+            v-model="isPublished"
+            :disabled="!isCompanyVerified"
+            :title="!isCompanyVerified ? t('company.offers.form.publishDisabledTooltip') : undefined"
+            :label="isPublished ? t('company.offers.form.published') : t('company.offers.form.draft')"
+          />
+        </div>
+
+        <p v-if="!isCompanyVerified" class="text-additional text-sm">
+          {{ t('company.offers.form.publishDisabledTooltip') }}
+        </p>
+
         <p v-if="fieldError('status')" class="text-error text-sm" role="alert">
           {{ fieldError('status') }}
         </p>
       </div>
     </section>
 
-    <div class="flex justify-end">
-      <BaseButton type="submit" class="px-8 w-full sm:w-auto" :disabled="form.processing">
-        {{ isEditing ? t('company.offers.form.submitEdit') : t('company.offers.form.submitCreate') }}
-      </BaseButton>
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-3 sm:flex-row sm:justify-end sm:items-center">
+        <BaseButton type="button" variant="secondary" class="w-full sm:w-auto" @click="cancel">
+          {{ t('buttons.cancel') }}
+        </BaseButton>
+        <BaseButton type="submit" class="px-8 w-full sm:w-auto" :disabled="form.processing">
+          {{ submitLabel }}
+        </BaseButton>
+      </div>
     </div>
   </form>
 </template>
