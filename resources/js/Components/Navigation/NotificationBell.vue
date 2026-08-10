@@ -56,6 +56,10 @@ function notificationLabel(item) {
     })
   case 'offer_unavailable':
     return t(`notifications.types.offerUnavailable.${data.reason}`, { offer: data.offer_title })
+  case 'partnership_requested':
+    return t('notifications.types.partnershipRequested', { name: data.proposer_name })
+  case 'partnership_accepted':
+    return t('notifications.types.partnershipAccepted', { name: data.acceptor_name })
   default:
     return t('notifications.types.fallback')
   }

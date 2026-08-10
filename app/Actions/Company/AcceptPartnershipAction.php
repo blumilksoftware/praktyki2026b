@@ -8,6 +8,8 @@ use App\Enums\PartnershipInitiator;
 use App\Enums\PartnershipStatus;
 use App\Models\Company;
 use App\Models\University;
+use App\Notifications\PartnershipAcceptedNotification;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
 
 class AcceptPartnershipAction
@@ -29,5 +31,10 @@ class AcceptPartnershipAction
         }
 
         $partnership->update(["status" => PartnershipStatus::Active]);
+
+        Notification::send($university->users, new PartnershipAcceptedNotification(
+            acceptorName: $company->name,
+            url: route("university.companies.index"),
+        ));
     }
 }

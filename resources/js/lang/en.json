@@ -1043,6 +1043,8 @@
         "expired": "The offer “{offer}” you applied to has expired.",
         "deleted": "The offer “{offer}” you applied to has been removed by the company."
       },
+      "partnershipRequested": "{name} proposed a partnership with you",
+      "partnershipAccepted": "{name} accepted your partnership proposal",
       "fallback": "New notification"
     }
   }

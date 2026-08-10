@@ -975,6 +975,8 @@
         "expired": "Oferta „{offer}”, na którą aplikowałeś, wygasła.",
         "deleted": "Oferta „{offer}”, na którą aplikowałeś, została usunięta przez firmę."
       },
+      "partnershipRequested": "{name} zaproponował(a) Ci partnerstwo",
+      "partnershipAccepted": "{name} zaakceptował(a) Twoją propozycję partnerstwa",
       "fallback": "Nowe powiadomienie"
     }
   }
