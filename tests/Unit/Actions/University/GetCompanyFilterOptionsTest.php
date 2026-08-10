@@ -42,4 +42,16 @@ class GetCompanyFilterOptionsTest extends TestCase
         $this->assertEquals(["Kraków"], $options["cities"]);
         $this->assertEquals([], $options["tags"]);
     }
+
+    public function testItSortsPolishDiacriticsAlphabeticallyInsteadOfByByteValue(): void
+    {
+        Company::factory()->approved()->create(["city" => "Zabrze", "tags" => ["Żłobki"]]);
+        Company::factory()->approved()->create(["city" => "Łódź", "tags" => ["Laravel"]]);
+        Company::factory()->approved()->create(["city" => "Gdańsk", "tags" => ["Angular"]]);
+
+        $options = $this->action->execute();
+
+        $this->assertEquals(["Gdańsk", "Łódź", "Zabrze"], $options["cities"]);
+        $this->assertEquals(["Angular", "Laravel", "Żłobki"], $options["tags"]);
+    }
 }

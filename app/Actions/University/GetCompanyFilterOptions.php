@@ -6,6 +6,7 @@ namespace App\Actions\University;
 
 use App\Enums\VerificationStatus;
 use App\Models\Company;
+use Illuminate\Support\Str;
 
 class GetCompanyFilterOptions
 {
@@ -16,8 +17,8 @@ class GetCompanyFilterOptions
             ->get(["city", "tags"]);
 
         return [
-            "cities" => $companies->pluck("city")->filter()->unique()->sort()->values()->all(),
-            "tags" => $companies->pluck("tags")->flatten()->filter()->unique()->sort()->values()->all(),
+            "cities" => $companies->pluck("city")->filter()->unique()->sortBy(fn(string $city): string => Str::ascii($city))->values()->all(),
+            "tags" => $companies->pluck("tags")->flatten()->filter()->unique()->sortBy(fn(string $tag): string => Str::ascii($tag))->values()->all(),
         ];
     }
 }

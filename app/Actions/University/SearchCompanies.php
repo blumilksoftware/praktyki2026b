@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Actions\University;
 
 use App\DTO\University\SearchCompaniesData;
+use App\Enums\PartnershipInitiator;
+use App\Enums\PartnershipStatus;
 use App\Enums\VerificationStatus;
 use App\Models\Company;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -54,8 +56,23 @@ class SearchCompanies
                     "description" => $company->description,
                     "tags" => $company->tags ?? [],
                     "active_offers_count" => $company->offers_count,
-                    "partnership_status" => $partnership ? $partnership->status->value : "none",
+                    "partnership_status" => $this->resolveStatus($partnership),
                 ];
             });
+    }
+
+    private function resolveStatus(mixed $partnership): string
+    {
+        if ($partnership === null) {
+            return "none";
+        }
+
+        if ($partnership->status !== PartnershipStatus::Pending) {
+            return $partnership->status->value;
+        }
+
+        return $partnership->requested_by === PartnershipInitiator::University
+            ? "pending_outgoing"
+            : "pending_incoming";
     }
 }
