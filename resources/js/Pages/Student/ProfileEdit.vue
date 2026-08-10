@@ -12,6 +12,7 @@ import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
 import CvUploadSection from '@/Components/Student/CvUploadSection.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import UniversityAutocomplete from '@/Components/Profile/UniversityAutocomplete.vue'
+import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -58,13 +59,6 @@ const selectedUniversityId = ref(props.suggested_university?.id ?? null)
 
 const hasPhotoPending = computed(() => Boolean(pendingPhoto.value))
 const fieldError = (field) => profileForm.errors[field]
-
-const navItems = computed(() => [
-  { key: 'dashboard', label: t('student.nav.dashboard'), href: ROUTES.STUDENT_DASHBOARD, icon: IconHome },
-  { key: 'profile', label: t('student.nav.profile'), href: ROUTES.STUDENT_PROFILE, icon: IconUser },
-  { key: 'offers', label: t('student.nav.offers'), href: ROUTES.OFFERS, icon: IconBriefcase },
-  { key: 'favorites', label: t('student.nav.favorites'), href: ROUTES.STUDENT_FAVORITES, icon: IconHeart },
-])
 
 function scrollToFocusSection() {
   const section = new URLSearchParams(window.location.search).get('section')
@@ -113,13 +107,6 @@ function saveAll() {
   <Head :title="t('student.profile.edit.title')" />
   <StudentPanelLayout active-page="profile">
     <div class="mx-auto w-full max-w-3xl">
-      <Link
-        :href="ROUTES.STUDENT_PROFILE"
-        class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text"
-      >
-        <IconArrowLeft class="h-4 w-4" aria-hidden="true" />
-        {{ t('student.profile.edit.backToProfile') }}
-      </Link>
 
       <h1 class="mt-4 font-semibold text-text text-2xl">
         {{ t('student.profile.edit.title') }}
