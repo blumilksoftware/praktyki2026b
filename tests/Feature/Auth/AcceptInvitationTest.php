@@ -27,6 +27,16 @@ class AcceptInvitationTest extends TestCase
                 ->where("token", "some-token"));
     }
 
+    public function testUsedInvitationPageShowsErrorPage(): void
+    {
+        OrganizationInvitation::factory()->accepted()->create([
+            "token" => hash("sha256", "plain-token"),
+        ]);
+
+        $this->get("/invitations/plain-token")
+            ->assertNotFound();
+    }
+
     public function testAcceptingCompanyInvitationLogsUserInAndRedirectsToCompanyDashboard(): void
     {
         $company = Company::factory()->approved()->create();
