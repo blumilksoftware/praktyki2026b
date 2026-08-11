@@ -71,8 +71,8 @@ class BuildStudentProfileData
                 "work_modes" => $student->work_modes ?? [],
             ],
             "study_fields" => $studyFields,
-            "university_organization" => $student->universityOrganization ? $mapUniversity($student->universityOrganization) : null,
-            "suggested_university" => $suggestedUniversity ? $mapUniversity($suggestedUniversity) : null,
+            "universityOrganization" => $student->universityOrganization ? $mapUniversity($student->universityOrganization) : null,
+            "suggestedUniversity" => $suggestedUniversity ? $mapUniversity($suggestedUniversity) : null,
         ];
     }
 }
