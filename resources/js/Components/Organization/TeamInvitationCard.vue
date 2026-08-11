@@ -22,6 +22,7 @@ const props = defineProps({
 const emit = defineEmits(['revoke'])
 const invitationInitial = computed(() => props.invitation.email?.charAt(0)?.toUpperCase() || 'U')
 </script>
+
 <template>
   <article class="group overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
     <div class="p-5">

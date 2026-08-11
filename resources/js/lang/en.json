@@ -31,6 +31,9 @@
     "team": {
       "title": "Team",
       "description": "Manage your organization's members and invitations.",
+        "searchMembersPlaceholder": "Search members...",
+        "searchInvitationsPlaceholder": "Search invitations...",
+        "showingRange": "Showing {from}–{to} of {total}",
       "membersTitle": "Current team members",
       "membersDescription": "See all active members, their role, and join date.",
       "noMembers": "No team members have been added yet.",

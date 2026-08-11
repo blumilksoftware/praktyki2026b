@@ -38,6 +38,9 @@
     "team": {
       "title": "Zespół",
       "description": "Zarządzaj członkami swojej organizacji oraz zaproszeniami.",
+        "searchMembersPlaceholder": "Szukaj członków...",
+        "searchInvitationsPlaceholder": "Szukaj zaproszeń...",
+        "showingRange": "Wyświetlanie {from}–{to} z {total}",
       "membersTitle": "Obecni członkowie zespołu",
       "membersDescription": "Zobacz wszystkich aktywnych członków, ich role i datę dołączenia.",
       "noMembers": "Nie dodano jeszcze żadnych członków zespołu.",
