@@ -199,13 +199,6 @@
       }
     }
   },
-  "student": {
-    "profile": {
-      "modal": {
-        "close": "Zamknij okno dialogowe"
-      }
-    }
-  },
   "profiles": {
     "navMenu": "Menu nawigacji",
     "profile": "Profil",

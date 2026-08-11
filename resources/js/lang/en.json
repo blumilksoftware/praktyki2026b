@@ -191,13 +191,6 @@
       }
     }
   },
-  "student": {
-    "profile": {
-      "modal": {
-        "close": "Close dialog"
-      }
-    }
-  },
   "profiles": {
     "navMenu": "Navigation menu",
     "profile": "Profile",
