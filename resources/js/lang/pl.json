@@ -276,7 +276,6 @@
       "caption": "Lista zgłoszeń kandydatów",
       "title": "Panel zgłoszeń",
       "description": "Przeglądaj i weryfikuj najnowsze zgłoszenia.",
-      "stats": "Statystyki wszystkich zgłoszeń",
       "heading": "Lista zgłoszeń",
       "backToDashboard": "Powrót do strony głównej",
       "placeholder": "Strona w budowie"
@@ -335,7 +334,7 @@
         "activeOffers": "Aktywne oferty"
       },
       "pendingVerifications": "Oczekujące weryfikacje",
-      "verificationProgress": "Postęp weryfikacji",
+      "verificationProgressCount": "{completed} z {total} zakończonych",
       "verificationProgressAriaLabel": "Postęp weryfikacji"
     },
     "layout": {

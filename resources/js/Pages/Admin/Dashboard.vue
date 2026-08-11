@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
@@ -7,13 +7,7 @@ import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 
 const { t } = useI18n()
 
-const students = ref(1245)
-const approvedCompanies = ref(86)
-const approvedUniversities = ref(12)
-const activeOffers = ref(42)
-const pendingVerifications = ref(7)
-
-defineProps({
+const props = defineProps({
   companiesNeedingVerification: {
     type: Array,
     required: true,
@@ -22,14 +16,33 @@ defineProps({
     type: Array,
     required: true,
   },
+  stats: {
+    type: Object,
+    required: true,
+  },
+  pendingVerifications: {
+    type: Number,
+    required: true,
+  },
+  totalVerifications: {
+    type: Number,
+    required: true,
+  },
 })
 
 const stats = computed(() => [
-  { label: t('admin.panel.stats.activeStudents'), value: students.value },
-  { label: t('admin.panel.stats.approvedCompanies'), value: approvedCompanies.value },
-  { label: t('admin.panel.stats.approvedUniversities'), value: approvedUniversities.value },
-  { label: t('admin.panel.stats.activeOffers'), value: activeOffers.value },
+  { label: t('admin.panel.stats.activeStudents'), value: props.stats.activeStudents },
+  { label: t('admin.panel.stats.approvedCompanies'), value: props.stats.approvedCompanies },
+  { label: t('admin.panel.stats.approvedUniversities'), value: props.stats.approvedUniversities },
+  { label: t('admin.panel.stats.activeOffers'), value: props.stats.activeOffers },
 ])
+
+const completedVerifications = computed(() => props.totalVerifications - props.pendingVerifications)
+
+const verificationProgressPercent = computed(() => {
+  if (props.totalVerifications === 0) return 0
+  return Math.min((completedVerifications.value / props.totalVerifications) * 100, 100)
+})
 </script>
 
 <template>
@@ -71,18 +84,18 @@ const stats = computed(() => [
           <div
             class="bg-gray-100 rounded-full ring-1 ring-border w-full h-2.5 overflow-hidden"
             role="progressbar"
-            :aria-valuenow="Math.min((pendingVerifications / 20) * 100, 100)"
+            :aria-valuenow="verificationProgressPercent"
             aria-valuemin="0"
             aria-valuemax="100"
             aria-describedby="verification-progress-label"
           >
             <div
               class="bg-primary rounded-full h-2.5 transition-all duration-500"
-              :style="{ width: Math.min((pendingVerifications / 20) * 100, 100) + '%' }"
+              :style="{ width: verificationProgressPercent + '%' }"
             />
           </div>
           <p id="verification-progress-label" class="mt-2 text-slate-700 text-xs text-center md:text-right">
-            {{ t('admin.panel.verificationProgress') }}
+            {{ t('admin.panel.verificationProgressCount', { completed: completedVerifications, total: totalVerifications }) }}
           </p>
         </div>
       </ProfilePageCard>
