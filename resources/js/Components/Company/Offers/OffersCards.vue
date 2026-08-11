@@ -36,6 +36,7 @@ const props = defineProps({
     type: Object,
     default: () => ({
       menu: 'company.dashboard.offers.actions.menu',
+      preview: 'company.dashboard.offers.actions.preview',
       edit: 'company.dashboard.offers.actions.edit',
       activate: 'company.dashboard.offers.actions.activate',
       deactivate: 'company.dashboard.offers.actions.deactivate',
@@ -48,7 +49,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['toggle-menu', 'edit', 'toggle-status', 'delete', 'go-to-applications'])
+const emit = defineEmits(['toggle-menu', 'preview', 'edit', 'toggle-status', 'delete', 'go-to-applications'])
 
 const statusClasses = {
   draft: 'bg-slate-100 text-slate-600',
@@ -98,6 +99,7 @@ const titleHref = (offerId) => props.isCompanyVerified
             :show-status-action="offer.status === 'published' || (offer.status === 'draft' && props.isCompanyVerified)"
             :labels="props.labels"
             @toggle="emit('toggle-menu', $event)"
+            @preview="emit('preview', $event)"
             @edit="emit('edit', $event)"
             @toggle-status="emit('toggle-status', $event)"
             @delete="emit('delete', $event)"

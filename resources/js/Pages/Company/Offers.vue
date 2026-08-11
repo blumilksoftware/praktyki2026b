@@ -28,6 +28,11 @@ const toastRef = ref(null)
 
 const offersList = computed(() => (Array.isArray(props.offers) ? props.offers : props.offers?.data ?? []))
 
+function previewOffer(offer) {
+  closeMenu()
+  router.visit(ROUTES.OFFER_SHOW.replace('{offer}', offer.id))
+}
+
 function editOffer(offer) {
   closeMenu()
   router.visit(ROUTES.COMPANY_OFFERS_EDIT(offer.id))
@@ -259,14 +264,16 @@ onUnmounted(() => {
         :show-verification-hint="true"
         verification-hint-key="company.offers.index.verificationRequiredHint"
         :labels="{
-          menu: 'company.offers.index.actionsMenu',
-          edit: 'company.offers.index.editAction',
-          activate: 'company.offers.index.publishAction',
-          deactivate: 'company.offers.index.unpublishAction',
-          delete: 'company.offers.index.deleteAction',
-        }"
+    menu: 'company.offers.index.actionsMenu',
+    preview: 'company.offers.index.previewAction',
+    edit: 'company.offers.index.editAction',
+    activate: 'company.offers.index.publishAction',
+    deactivate: 'company.offers.index.unpublishAction',
+    delete: 'company.offers.index.deleteAction',
+  }"
         :status-key-prefix="'company.offers.index.status'"
         @toggle-menu="toggleMenu"
+        @preview="previewOffer"
         @edit="editOffer"
         @toggle-status="toggleStatusOffer"
         @delete="deleteOffer"

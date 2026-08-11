@@ -835,6 +835,7 @@
         },
         "createAction": "Create offer",
         "editAction": "Edit",
+          "previewAction": "Preview",
         "actionsMenu": "More actions",
         "publishAction": "Publish",
         "publishing": "Publishing…",
