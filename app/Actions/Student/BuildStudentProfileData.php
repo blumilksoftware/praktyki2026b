@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Student;
 
 use App\Actions\University\ResolveUniversityByDomain;
+use App\Enums\WorkMode;
 use App\Models\StudyField;
 use App\Models\University;
 use App\Models\User;
@@ -71,6 +72,7 @@ class BuildStudentProfileData
                 "work_modes" => $student->work_modes ?? [],
             ],
             "study_fields" => $studyFields,
+            "work_mode_options" => array_column(WorkMode::cases(), "value"),
             "university_organization" => $student->universityOrganization ? $mapUniversity($student->universityOrganization) : null,
             "suggested_university" => $suggestedUniversity ? $mapUniversity($suggestedUniversity) : null,
         ];

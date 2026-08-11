@@ -57,7 +57,7 @@ vi.mock("@inertiajs/vue3", async () => {
 
 describe("Student/Profile", () => {
   const mountProfile = () => mount(Profile, {
-    props: { user },
+    props: { user, work_mode_options: ["onSite", "hybrid", "remote"] },
     global: {
       plugins: [i18n],
       stubs: {

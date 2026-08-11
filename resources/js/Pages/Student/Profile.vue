@@ -16,6 +16,7 @@ import { ROUTES } from '@/Helpers/routes'
 const props = defineProps({
   user: { type: Object, required: true },
   studyFields: { type: Array, default: () => [] },
+  work_mode_options: { type: Array, required: true },
 })
 
 const { t } = useI18n()
@@ -35,12 +36,6 @@ const profileUser = computed(() => ({
   skills: skills.value,
   work_modes: workModes.value,
 }))
-
-const workModeOptions = computed(() => [
-  { value: 'onSite', label: t('student.profile.workMode.options.onsite') },
-  { value: 'remote', label: t('student.profile.workMode.options.remote') },
-  { value: 'hybrid', label: t('student.profile.workMode.options.hybrid') },
-])
 
 const displayWorkModes = computed(() => profileUser.value.work_modes)
 
@@ -181,15 +176,15 @@ function saveWorkModes() {
     >
       <div class="flex flex-wrap gap-2">
         <button
-          v-for="option in workModeOptions"
-          :key="option.value"
+          v-for="mode in work_mode_options"
+          :key="mode"
           type="button"
           class="rounded-full border px-4 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-          :class="workModesDraft.includes(option.value)
+          :class="workModesDraft.includes(mode)
             ? 'border-primary bg-primary text-white'
             : 'border-slate-400 bg-slate-100 text-text hover:bg-white'"
-          :aria-pressed="workModesDraft.includes(option.value)"
-          @click="toggleWorkMode(option.value)"
+          :aria-pressed="workModesDraft.includes(mode)"
+          @click="toggleWorkMode(mode)"
         >
           {{ t(`student.workModes.${mode}`) }}
         </button>
