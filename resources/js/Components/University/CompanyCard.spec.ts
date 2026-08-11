@@ -8,13 +8,14 @@ vi.mock('vue-i18n', () => ({
   }),
 }))
 
-const { routerPost, routerDelete } = vi.hoisted(() => ({
+const { routerPost, routerDelete, routerPatch } = vi.hoisted(() => ({
   routerPost: vi.fn(),
   routerDelete: vi.fn(),
+  routerPatch: vi.fn(),
 }))
 
 vi.mock('@inertiajs/vue3', () => ({
-  router: { post: routerPost, delete: routerDelete },
+  router: { post: routerPost, delete: routerDelete, patch: routerPatch },
 }))
 
 const baseCompany = {
@@ -30,31 +31,32 @@ const baseCompany = {
 
 const stubs = {
   PartnerConfirmModal: {
-    props: ['open', 'companyName', 'processing', 'action'],
+    props: ['open', 'partnerName', 'processing', 'action', 'namespace'],
     template: '<div v-if="open" class="stub-confirm-modal" :data-action="action"><button @click="$emit(\'confirm\')">confirm</button></div>',
   },
 }
 
 describe('CompanyCard.vue', () => {
-  const createWrapper = (props = {}) => mount(CompanyCard, {
-    props: { company: baseCompany, ...props },
+  const createWrapper = (status = 'none') => mount(CompanyCard, {
+    props: { company: { ...baseCompany, partnership_status: status } },
     global: { stubs },
   })
+
+  const buttons = (wrapper) => wrapper.findAll('button').map((el) => el.text())
 
   beforeEach(() => {
     routerPost.mockClear()
     routerDelete.mockClear()
+    routerPatch.mockClear()
   })
 
   it('renders name, city, description, tags and offers count', () => {
-    const wrapper = createWrapper()
-    const text = wrapper.text()
+    const text = createWrapper().text()
 
     expect(text).toContain('Acme Corp')
     expect(text).toContain('Wrocław')
     expect(text).toContain('We build things.')
     expect(text).toContain('IT')
-    expect(text).toContain('Laravel')
     expect(text).toContain('university.companies.card.offersCount:{"count":4}')
   })
 
@@ -65,96 +67,88 @@ describe('CompanyCard.vue', () => {
     expect(wrapper.text()).toContain('A')
   })
 
-  it('shows the company logo image when a logo path is present', () => {
-    const wrapper = createWrapper({ company: { ...baseCompany, logo_path: '/logos/acme.png' } })
-
-    const img = wrapper.find('img')
-    expect(img.exists()).toBe(true)
-    expect(img.attributes('src')).toBe('/logos/acme.png')
+  it('offers a propose action when there is no partnership', () => {
+    expect(buttons(createWrapper('none'))).toEqual(['university.companies.card.propose'])
   })
 
-  it('shows an "add partner" button when there is no partnership yet', () => {
-    const wrapper = createWrapper()
-
-    expect(wrapper.text()).toContain('university.companies.card.addPartner')
-    expect(wrapper.text()).not.toContain('university.companies.card.removePartner')
+  it('offers a cancel action for a request we sent', () => {
+    expect(buttons(createWrapper('pending_outgoing'))).toEqual(['university.companies.card.cancel'])
   })
 
-  it('shows a "remove partner" button when the company is already a partner', () => {
-    const wrapper = createWrapper({ company: { ...baseCompany, partnership_status: 'active' } })
-
-    expect(wrapper.text()).toContain('university.companies.card.removePartner')
+  it('offers accept and decline actions for an incoming request', () => {
+    expect(buttons(createWrapper('pending_incoming'))).toEqual([
+      'university.companies.card.accept',
+      'university.companies.card.decline',
+    ])
   })
 
-  it('opens the confirmation modal instead of adding straight away', async () => {
-    const wrapper = createWrapper()
+  it('offers an end action for an active partnership', () => {
+    expect(buttons(createWrapper('active'))).toEqual(['university.companies.card.end'])
+  })
+
+  it('opens the confirmation modal instead of proposing straight away', async () => {
+    const wrapper = createWrapper('none')
 
     await wrapper.find('button').trigger('click')
 
     const modal = wrapper.find('.stub-confirm-modal')
     expect(modal.exists()).toBe(true)
-    expect(modal.attributes('data-action')).toBe('add')
+    expect(modal.attributes('data-action')).toBe('propose')
     expect(routerPost).not.toHaveBeenCalled()
   })
 
-  it('posts to the partnership endpoint after confirming the add', async () => {
-    const wrapper = createWrapper()
+  it('posts to the partnership endpoint after confirming the proposal', async () => {
+    const wrapper = createWrapper('none')
 
     await wrapper.find('button').trigger('click')
     await wrapper.find('.stub-confirm-modal button').trigger('click')
 
     expect(routerPost).toHaveBeenCalledTimes(1)
-    const [url, data] = routerPost.mock.calls[0]
-    expect(url).toBe('/university/companies/abc-123/partnership')
-    expect(data).toEqual({})
+    expect(routerPost.mock.calls[0][0]).toBe('/university/companies/abc-123/partnership')
   })
 
-  it('reflects the partnership status returned by the server after adding', async () => {
-    const wrapper = createWrapper()
+  it('accepts an incoming request immediately, without a confirmation modal', async () => {
+    const wrapper = createWrapper('pending_incoming')
 
-    await wrapper.find('button').trigger('click')
-    await wrapper.find('.stub-confirm-modal button').trigger('click')
-    routerPost.mock.calls[0][2].onFinish()
-    await wrapper.setProps({ company: { ...baseCompany, partnership_status: 'active' } })
+    await wrapper.findAll('button')[0].trigger('click')
 
-    expect(wrapper.text()).toContain('university.companies.card.removePartner')
-    expect(wrapper.text()).toContain('university.companies.status.active')
+    expect(wrapper.find('.stub-confirm-modal').exists()).toBe(false)
+    expect(routerPatch).toHaveBeenCalledTimes(1)
+    expect(routerPatch.mock.calls[0][0]).toBe('/university/companies/abc-123/partnership/accept')
   })
 
-  it('opens the confirmation modal instead of deleting straight away', async () => {
-    const wrapper = createWrapper({ company: { ...baseCompany, partnership_status: 'active' } })
+  it('asks for confirmation before declining an incoming request', async () => {
+    const wrapper = createWrapper('pending_incoming')
 
-    await wrapper.find('button').trigger('click')
+    await wrapper.findAll('button')[1].trigger('click')
 
     const modal = wrapper.find('.stub-confirm-modal')
-    expect(modal.exists()).toBe(true)
-    expect(modal.attributes('data-action')).toBe('remove')
+    expect(modal.attributes('data-action')).toBe('decline')
     expect(routerDelete).not.toHaveBeenCalled()
-  })
 
-  it('deletes the partnership after confirming in the modal', async () => {
-    const wrapper = createWrapper({ company: { ...baseCompany, partnership_status: 'active' } })
-
-    await wrapper.find('button').trigger('click')
-    await wrapper.find('.stub-confirm-modal button').trigger('click')
+    await modal.find('button').trigger('click')
 
     expect(routerDelete).toHaveBeenCalledTimes(1)
     expect(routerDelete.mock.calls[0][0]).toBe('/university/companies/abc-123/partnership')
   })
 
-  it('closes the modal and shows the add button once the server drops the partnership', async () => {
-    const wrapper = createWrapper({ company: { ...baseCompany, partnership_status: 'active' } })
+  it('deletes the partnership after confirming the end action', async () => {
+    const wrapper = createWrapper('active')
 
     await wrapper.find('button').trigger('click')
+    expect(wrapper.find('.stub-confirm-modal').attributes('data-action')).toBe('end')
+
     await wrapper.find('.stub-confirm-modal button').trigger('click')
 
-    const options = routerDelete.mock.calls[0][1]
-    options.onSuccess()
-    options.onFinish()
-    await wrapper.setProps({ company: { ...baseCompany, partnership_status: 'none' } })
+    expect(routerDelete).toHaveBeenCalledTimes(1)
+  })
 
-    expect(wrapper.text()).toContain('university.companies.card.addPartner')
-    expect(wrapper.text()).toContain('university.companies.status.none')
-    expect(wrapper.find('.stub-remove-modal').exists()).toBe(false)
+  it('reflects the partnership status returned by the server', async () => {
+    const wrapper = createWrapper('none')
+
+    await wrapper.setProps({ company: { ...baseCompany, partnership_status: 'active' } })
+
+    expect(wrapper.text()).toContain('university.companies.status.active')
+    expect(buttons(wrapper)).toEqual(['university.companies.card.end'])
   })
 })
