@@ -23,6 +23,7 @@ return [
     "offer_inactive" => "This offer is no longer active.",
     "no_spots_available" => "No spots available for this offer.",
     "city_geocoding_failed" => "We could not find the location for this city. Please check the spelling and try again.",
+    "city_suggestions_unavailable" => "City suggestions are temporarily unavailable. Please type the city name manually.",
     "offer_publish_requires_verification" => "Your company must be verified before you can publish offers. Save it as a draft instead.",
     "offer_publish_invalid_status" => "This offer cannot be published.",
     "application_status_invalid_transition" => "The application status cannot be changed to the selected.",

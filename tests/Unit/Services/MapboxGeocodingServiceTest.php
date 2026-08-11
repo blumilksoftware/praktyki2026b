@@ -51,4 +51,40 @@ class MapboxGeocodingServiceTest extends TestCase
         $this->expectException(RuntimeException::class);
         $service->geocode("Warszawa");
     }
+
+    public function testSuggestCitiesDoesNotCallMapboxForShortQuery(): void
+    {
+        Http::fake();
+
+        $service = new MapboxGeocodingService();
+
+        $this->assertSame([], $service->suggestCities("wa"));
+        Http::assertNothingSent();
+    }
+
+    public function testSuggestCitiesThrowsExceptionWhenRequestFails(): void
+    {
+        Http::fake([
+            "api.mapbox.com/*" => Http::response(null, 401),
+        ]);
+
+        $service = new MapboxGeocodingService();
+
+        $this->expectException(RuntimeException::class);
+        $service->suggestCities("warszawa");
+    }
+
+    public function testSuggestCitiesCachesEmptyResult(): void
+    {
+        Http::fake([
+            "api.mapbox.com/*" => Http::response(["features" => []]),
+        ]);
+
+        $service = new MapboxGeocodingService();
+
+        $this->assertSame([], $service->suggestCities("nieznanemiasto"));
+        $this->assertSame([], $service->suggestCities("nieznanemiasto"));
+
+        Http::assertSentCount(1);
+    }
 }

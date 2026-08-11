@@ -2,7 +2,8 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { IconWorld, IconMapPin, IconPhone, IconId } from '@tabler/icons-vue'
-import BaseInput from '@/Components/Base/BaseInput.vue' 
+import BaseInput from '@/Components/Base/BaseInput.vue'
+import CityAutocomplete from '@/Components/Common/CityAutocomplete.vue'
 
 const { t } = useI18n()
 
@@ -82,7 +83,7 @@ const streetModel = computed({
         <IconMapPin class="hidden sm:block w-7 h-7 text-black shrink-0 mt-9" />
         <div class="w-full flex flex-col sm:flex-row gap-3">
           <div class="w-full sm:w-2/3">
-            <BaseInput
+            <CityAutocomplete
               id="city"
               v-model="cityModel"
               :label="t('auth.register.company.city')"

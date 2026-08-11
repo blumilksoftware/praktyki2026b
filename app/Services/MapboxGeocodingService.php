@@ -47,48 +47,39 @@ class MapboxGeocodingService
     {
         $normalized = mb_strtolower(trim($query));
 
-        if (mb_strlen($normalized) < 2) {
+        if (mb_strlen($normalized) < 3) {
             return [];
         }
 
-        $cacheKey = "mapbox:suggest:{$normalized}";
-        $cached = Cache::get($cacheKey);
+        return Cache::remember(
+            "mapbox:suggest:{$normalized}",
+            now()->addHours(6),
+            function () use ($query): array {
+                $response = Http::timeout(5)->get(
+                    "https://api.mapbox.com/geocoding/v5/mapbox.places/" . rawurlencode($query) . ".json",
+                    [
+                        "access_token" => config("services.mapbox.access_token"),
+                        "types" => "place",
+                        "language" => "pl",
+                        "country" => config("services.mapbox.country", "pl"),
+                        "limit" => 5,
+                    ],
+                );
 
-        if ($cached !== null) {
-            return $cached;
-        }
+                if ($response->failed()) {
+                    throw new RuntimeException("Failed to fetch city suggestions for: {$query}");
+                }
 
-        $response = Http::timeout(5)->get(
-            "https://api.mapbox.com/geocoding/v5/mapbox.places/" . rawurlencode($query) . ".json",
-            [
-                "access_token" => config("services.mapbox.access_token"),
-                "types" => "place",
-                "language" => "pl",
-                "country" => config("services.mapbox.country", "pl"),
-                "limit" => 5,
-            ],
+                return array_map(
+                    static fn(array $feature): array => [
+                        "name" => $feature["text"],
+                        "fullName" => $feature["place_name"],
+                        "latitude" => (float)$feature["center"][1],
+                        "longitude" => (float)$feature["center"][0],
+                    ],
+                    $response->json("features") ?? [],
+                );
+            },
         );
-
-        if ($response->failed()) {
-            return [];
-        }
-
-        $features = $response->json("features") ?? [];
-
-        $results = array_map(
-            static fn(array $feature): array => [
-                "name" => $feature["text"],
-                "fullName" => $feature["place_name"],
-                "latitude" => (float)$feature["center"][1],
-                "longitude" => (float)$feature["center"][0],
-            ],
-            $features,
-        );
-
-        if ($results !== []) {
-            Cache::put($cacheKey, $results, now()->addHours(6));
-        }
-
-        return $results;
     }
 }
