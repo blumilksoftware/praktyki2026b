@@ -7,9 +7,9 @@ import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
 import BaseTextarea from '@/Components/Base/BaseTextarea.vue'
 import BaseToggle from '@/Components/Base/BaseToggle.vue'
+import CityAutocomplete from '@/Components/Common/CityAutocomplete.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import DateRangeField from '@/Components/Offer/DateRangeField.vue'
-import CityAutocomplete from '@/Components/Offer/CityAutocomplete.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({

@@ -17,6 +17,7 @@ const props = defineProps({
   error: { type: String, default: undefined },
   max: { type: Number, default: null },
   allowCustom: { type: Boolean, default: false },
+  remote: { type: Boolean, default: false },
   id: {
     type: String,
     default: () => `multiselect-${Math.random().toString(36).substr(2, 9)}`,
@@ -25,7 +26,7 @@ const props = defineProps({
 
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'search'])
 
 const inputRef = ref(null)
 const itemRefs = ref([])
@@ -66,7 +67,7 @@ const hasError = computed(() => Boolean(props.error || errorMsg.value))
 const filteredOptions = computed(() => {
   const query = searchQuery.value.trim().toLowerCase()
   return normalizedOptions.value.filter((option) => {
-    const matchesSearch = String(option.label ?? '').toLowerCase().includes(query)
+    const matchesSearch = props.remote || String(option.label ?? '').toLowerCase().includes(query)
     const isAlreadySelected = props.modelValue.includes(option.value)
     return matchesSearch && !isAlreadySelected
   })
@@ -120,7 +121,13 @@ function selectOption(option) {
 
   emit('update:modelValue', [...props.modelValue, value])
   searchQuery.value = ''
+  emit('search', '')
   nextTick(() => inputRef.value?.focus())
+}
+
+function onSearchInput() {
+  isOpen.value = true
+  emit('search', searchQuery.value)
 }
 
 function onKeyDownArrow(direction) {
@@ -267,7 +274,7 @@ const labelClasses = computed(() => {
             class="min-w-32 flex-1 border-0 bg-transparent py-1 text-sm text-text outline-none placeholder:text-additional focus:ring-0"
             @focus="handleFocus"
             @blur="handleBlur"
-            @input="isOpen = true"
+            @input="onSearchInput"
             @keydown.down.prevent="onKeyDownArrow('down')"
             @keydown.up.prevent="onKeyDownArrow('up')"
             @keydown.enter.prevent="onKeyDownEnter"

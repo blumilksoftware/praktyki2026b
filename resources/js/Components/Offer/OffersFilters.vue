@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useMapboxGeocoding } from '@/Composables/useMapboxGeocoding'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 
@@ -13,6 +14,7 @@ const emit = defineEmits(['reset'])
 const filters = defineModel({ type: Object, required: true })
 
 const { t } = useI18n()
+const { cityOptions, fetchSuggestions: fetchCitySuggestions } = useMapboxGeocoding()
 
 const workModes = ['remote', 'hybrid', 'onSite']
 const workModeLabel = (mode) => t(`student.workModes.${mode}`)
@@ -87,8 +89,10 @@ defineExpose({ studyFieldLabelToValue })
         v-model="filters.cities"
         :label="t('student.offers.filters.city')"
         :placeholder="t('student.offers.filters.city')"
-        :options="[]"
+        :options="cityOptions"
         :allow-custom="true"
+        remote
+        @search="fetchCitySuggestions"
       />
 
       <div>

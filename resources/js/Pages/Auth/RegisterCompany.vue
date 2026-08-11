@@ -7,6 +7,7 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
+import CityAutocomplete from '@/Components/Common/CityAutocomplete.vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import RegisterAccountTypeTabs from '@/Components/Auth/RegisterAccountTypeTabs.vue'
 import { ROUTES } from '@/Helpers/routes'
@@ -109,11 +110,10 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
               required
               :error="fieldError('postal_code')"
             />
-            <BaseInput
+            <CityAutocomplete
               id="city"
               v-model="form.city"
               :label="t('auth.register.company.city')"
-              autocomplete="address-level2"
               required
               :error="fieldError('city')"
             />
