@@ -38,6 +38,18 @@ return [
         "already_rejected_university" => "University is already rejected.",
     ],
 
+    "registration" => [
+        "subject" => "Welcome to Applikuj!",
+        "greeting" => "Hi :name,",
+        "body" => "Thank you for creating a student account at Applikuj. Your account has been created successfully.",
+        "details_heading" => "Account details:",
+        "field_name" => "Full name",
+        "field_email" => "Email address",
+        "field_university" => "University",
+        "ignore_notice" => "If you didn't create this account, you can safely ignore this email.",
+        "all_rights_reserved" => "All rights reserved.",
+    ],
+
     "email_change" => [
         "subject" => "Confirm your new email address",
         "title" => "Confirm your new email address",
