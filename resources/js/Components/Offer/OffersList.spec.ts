@@ -59,7 +59,7 @@ describe('OffersList.vue', () => {
   it('marks offers as favorite based on their is_favorite field', () => {
     const offers = generateOffers(2).map((offer, index) => ({ ...offer, is_favorite: index === 1 }))
     const wrapper = mount(OffersList, {
-      props: { offers },
+      props: { offers, canApply: true },
     })
 
     const favoriteButtons = wrapper.findAll('button').filter((btn) => btn.attributes('aria-pressed') !== undefined)

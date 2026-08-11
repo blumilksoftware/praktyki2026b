@@ -62,6 +62,13 @@ return [
             "accepted" => "accepted",
             "rejected" => "rejected",
         ],
+        "reminder_subject" => 'Reminder: Application for ":job_title" has been pending for :days days',
+        "reminder" => [
+            "greeting" => "Hello, :company_name!",
+            "line_1" => "An application for the position :job_title has been awaiting your review for :days days.",
+            "line_2" => "Please take a moment to review the candidate’s profile and update the status.",
+            "action" => "View Application",
+        ],
     ],
 
     "offer" => [
@@ -81,9 +88,9 @@ return [
     ],
 
     "team_invitation" => [
-        "subject" => "You've been invited to join :company on Applikuj",
+        "subject" => "You've been invited to join :organization on Applikuj",
         "title" => "Team invitation",
-        "body" => "You have been invited to join :company on Applikuj as a team member.",
+        "body" => "You have been invited to join :organization on Applikuj as a team member.",
         "expiration_message" => "Remember that this invitation expires in :count days.",
         "button" => "Accept invitation",
         "ignore_notice" => "If you weren't expecting this invitation, you can safely ignore this email.",

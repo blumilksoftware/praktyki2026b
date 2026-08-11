@@ -24,11 +24,20 @@ class OfferController extends Controller
         private readonly GetSimilarOffersAction $getSimilarOffersAction,
     ) {}
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
         /** @var ?User $user */
         $user = Auth::user();
         $isStudent = $user !== null && $user->role === UserRole::Student;
+
+        $filters = $request->only([
+            "search",
+            "cities",
+            "work_modes",
+            "date_from",
+            "date_to",
+            "study_fields",
+        ]);
 
         $studyFields = StudyField::query()
             ->select(["id", "name"])
@@ -41,10 +50,12 @@ class OfferController extends Controller
             ->all();
 
         return Inertia::render("Offers", [
-            "offers" => $this->getStudentOffersAction->execute($isStudent ? $user : null)->values(),
+            "offers" => $this->getStudentOffersAction->execute($isStudent ? $user : null, $filters, 15),
+            "filters" => $filters,
             "hasCv" => $isStudent && $user->cv_path !== null,
             "studyFields" => $studyFields,
-            "isGuest" => !$isStudent,
+            "isGuest" => $user === null,
+            "canApply" => $isStudent,
             "mapboxToken" => config("services.mapbox.access_token"),
         ]);
     }
@@ -58,7 +69,8 @@ class OfferController extends Controller
             "offer" => $this->getOfferDetailsAction->execute($offer, $isStudent ? $user : null),
             "similarOffers" => $this->getSimilarOffersAction->execute($offer),
             "hasCv" => $isStudent && $user->cv_path !== null,
-            "isGuest" => !$isStudent,
+            "isGuest" => $user === null,
+            "canApply" => $isStudent,
         ]);
     }
 }

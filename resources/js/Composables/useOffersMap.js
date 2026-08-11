@@ -212,6 +212,12 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
     selectedOfferId.value = null
   }
 
+  const resetView = () => {
+    clearSelection()
+    currentZoom.value = DEFAULT_MAP_VIEW.zoom
+    renderMarkersForZoom(true)
+  }
+
   onMounted(() => {
     if (!mapContainer.value) return
 
@@ -278,7 +284,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
     selectedCity,
     selectedOfferId,
     selectedCityOffers,
-    clearSelection,
+    resetView,
     selectAndFocusOffer,
   }
 }

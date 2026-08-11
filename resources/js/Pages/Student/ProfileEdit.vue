@@ -2,11 +2,12 @@
 import { computed, nextTick, onMounted, ref } from 'vue'
 import { Head, Link, router, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
+import { useMapboxGeocoding } from '@/Composables/useMapboxGeocoding'
 import { IconArrowLeft, IconHome, IconUser, IconBriefcase, IconHeart } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
-import ProfileTagInput from '@/Components/Profile/ProfileTagInput.vue'
+import CityAutocomplete from '@/Components/Common/CityAutocomplete.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import ProfilePhotoUpload from '@/Components/Student/ProfilePhotoUpload.vue'
 import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
@@ -20,6 +21,7 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
+const { cityOptions, fetchSuggestions: fetchCitySuggestions } = useMapboxGeocoding()
 const photoUpload = ref(null)
 const pendingPhoto = ref(null)
 
@@ -179,11 +181,10 @@ function saveAll() {
                 :label="t('student.profile.edit.postalCode')"
                 :error="fieldError('postal_code')"
               />
-              <BaseInput
+              <CityAutocomplete
                 id="edit_city"
                 v-model="profileForm.city"
                 :label="t('student.profile.edit.city')"
-                autocomplete="address-level2"
                 :error="fieldError('city')"
               />
             </div>
@@ -216,13 +217,17 @@ function saveAll() {
               :placeholder="t('student.profile.details.fieldsPlaceholder')"
               :error="fieldError('study_field_ids')"
             />
-            <ProfileTagInput
+            <DynamicMultiSelect
               id="edit_cities"
               v-model="profileForm.preferred_cities"
               :label="t('student.profile.details.cities')"
               :placeholder="t('student.profile.details.citiesPlaceholder')"
+              :options="cityOptions"
               :max="10"
               :error="fieldError('preferred_cities')"
+              allow-custom
+              remote
+              @search="fetchCitySuggestions"
             />
           </div>
         </ProfilePageCard>

@@ -11,3 +11,7 @@ Artisan::command("inspire", function (): void {
 })->purpose("Display an inspiring quote")->hourly();
 
 Schedule::command("offers:expire")->daily();
+
+Schedule::command("send-application-reminders")
+    ->daily()
+    ->withoutOverlapping();

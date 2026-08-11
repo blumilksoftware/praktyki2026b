@@ -74,6 +74,13 @@ return [
             "accepted" => "zaakceptowana",
             "rejected" => "odrzucona",
         ],
+        "reminder_subject" => 'Przypomnienie: Aplikacja na stanowisko ":job_title" czeka na rozpatrzenie już :days dni',
+        "reminder" => [
+            "greeting" => "Dzień dobry, :company_name!",
+            "line_1" => "Aplikacja na stanowisko :job_title oczekuje na Twoją reakcję już od :days dni.",
+            "line_2" => "Prosimy o poświęcenie chwili na zapoznanie się z profilem kandydata i zaktualizowanie statusu.",
+            "action" => "Zobacz aplikację",
+        ],
     ],
 
     "offer" => [
@@ -93,9 +100,9 @@ return [
     ],
 
     "team_invitation" => [
-        "subject" => "Zaproszenie do zespołu :company w Applikuj",
+        "subject" => "Zaproszenie do zespołu :organization w Applikuj",
         "title" => "Zaproszenie do zespołu",
-        "body" => "Zostałeś zaproszony do dołączenia do zespołu firmy :company w serwisie Applikuj.",
+        "body" => "Zostałeś zaproszony do dołączenia do zespołu organizacji :organization w serwisie Applikuj.",
         "expiration_message" => "Pamiętaj, że zaproszenie wygasa za :count dni.",
         "button" => "Akceptuj zaproszenie",
         "ignore_notice" => "Jeśli nie spodziewałeś się tego zaproszenia, możesz zignorować tę wiadomość.",

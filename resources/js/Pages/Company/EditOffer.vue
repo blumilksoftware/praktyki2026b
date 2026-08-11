@@ -9,6 +9,7 @@ defineProps({
   studyFields: { type: Array, required: true },
   universities: { type: Array, required: true },
   offer: { type: Object, required: true },
+  isCompanyVerified: { type: Boolean, default: false },
 })
 
 const { t } = useI18n()
@@ -32,7 +33,7 @@ const companyMenu = useCompanyPanelMenu('offers')
         </div>
 
         <div class="px-4 sm:px-8 py-8">
-          <OfferForm :study-fields="studyFields" :universities="universities" :offer="offer" />
+          <OfferForm :study-fields="studyFields" :universities="universities" :offer="offer" :is-company-verified="isCompanyVerified" />
         </div>
       </div>
     </div>

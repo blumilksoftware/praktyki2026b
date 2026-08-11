@@ -47,6 +47,10 @@
       "title": "Nie znaleziono strony",
       "description": "Strona, której szukasz, nie istnieje lub została przeniesiona."
     },
+    "413": {
+      "title": "Plik jest za duży",
+      "description": "Plik, który próbujesz przesłać, jest za duży. Maksymalny rozmiar to 5 MB."
+    },
     "500": {
       "title": "Błąd serwera",
       "description": "Coś poszło nie tak. Spróbuj ponownie później."
@@ -256,7 +260,7 @@
     "load_more": "Załaduj więcej",
     "loading": "Ładowanie...",
     "apply": {
-      "noCvMessage": "Aby zaaplikować na to stanowisko, musisz dodać CV do swojego profilu.",
+      "noCvMessage": "Aby aplikować, musisz dodać CV do swojego profilu.",
       "uploadCvPrompt": "Przejdź do edycji profilu i wgraj CV",
       "applyNow": "Aplikuj teraz",
       "loading": "Wysyłanie...",
@@ -667,7 +671,11 @@
       "empty": {
         "title": "Nie masz jeszcze ulubionych ofert",
         "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj."
-      }
+      },
+        "status": {
+            "expired": "Wygasła"
+        }
+
     },
     "offers": {
       "tabs": {
@@ -973,7 +981,11 @@
         "published": "Opublikuj od razu",
         "draftHint": "Szkice są widoczne tylko dla Ciebie. Publikacja wymaga zweryfikowanego konta firmy.",
         "submitCreate": "Utwórz ofertę",
-        "submitEdit": "Zapisz zmiany"
+        "submitCreateDraft": "Utwórz szkic",
+        "submitEdit": "Zapisz zmiany",
+        "submitEditDraft": "Zapisz jako szkic",
+        "publishDisabledTooltip": "Aby opublikować ofertę, musisz mieć zweryfikowane konto firmy.",
+        "unsavedChangesConfirmation": "Masz niezapisane zmiany. Opuścić stronę bez zapisywania?"
       },
       "delete": {
         "modalTitle": "Usuń ofertę",

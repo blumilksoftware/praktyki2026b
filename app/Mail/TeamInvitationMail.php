@@ -10,14 +10,14 @@ use Illuminate\Mail\Mailables\Envelope;
 class TeamInvitationMail extends QueueableMailable
 {
     public function __construct(
-        public readonly string $companyName,
+        public readonly string $organizationName,
         public readonly string $token,
     ) {}
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: __("emails.team_invitation.subject", ["company" => $this->companyName]),
+            subject: __("emails.team_invitation.subject", ["organization" => $this->organizationName]),
         );
     }
 
@@ -26,7 +26,7 @@ class TeamInvitationMail extends QueueableMailable
         return new Content(
             markdown: "emails.team_invitation",
             with: [
-                "companyName" => $this->companyName,
+                "organizationName" => $this->organizationName,
                 "token" => $this->token,
             ],
         );
@@ -40,7 +40,7 @@ class TeamInvitationMail extends QueueableMailable
     protected function getLogProperties(): array
     {
         return [
-            "company_name" => $this->companyName,
+            "organization_name" => $this->organizationName,
         ];
     }
 }

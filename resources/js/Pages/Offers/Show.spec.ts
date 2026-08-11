@@ -56,6 +56,7 @@ function mountShow(props = {}) {
       similarOffers: [],
       hasCv: true,
       isGuest: false,
+      canApply: true,
       ...props,
     },
     global: {
@@ -73,7 +74,7 @@ function mountShow(props = {}) {
         },
         BaseApplyButton: {
           props: ['hasCv', 'isApplied', 'appliedDate', 'isLoading'],
-          emits: ['apply', 'uploadCv'],
+          emits: ['apply'],
           template: `
             <button type="button" data-testid="apply-button" @click="$emit('apply')">
               <span v-if="isApplied">Applied {{ appliedDate }}</span>
@@ -163,9 +164,17 @@ describe('Offers/Show', () => {
   })
 
   it('shows login CTA for guests', () => {
-    const wrapper = mountShow({ isGuest: true })
+    const wrapper = mountShow({ isGuest: true, canApply: false })
 
     expect(wrapper.text()).toContain('Log in to apply')
+    expect(wrapper.find('[data-testid="apply-button"]').exists()).toBe(false)
+    expect(wrapper.find('button[aria-pressed]').exists()).toBe(false)
+  })
+
+  it('hides apply, favourite and login CTA from signed in users who cannot apply', () => {
+    const wrapper = mountShow({ canApply: false })
+
+    expect(wrapper.text()).not.toContain('Log in to apply')
     expect(wrapper.find('[data-testid="apply-button"]').exists()).toBe(false)
     expect(wrapper.find('button[aria-pressed]').exists()).toBe(false)
   })
