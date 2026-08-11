@@ -6,8 +6,10 @@ namespace Tests\Feature\Auth;
 
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Mail\StudentRegistrationMail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\AbstractProvider;
@@ -41,6 +43,36 @@ class GoogleOAuthTest extends TestCase
 
         $user = User::where("email", "google@example.com")->first();
         $this->assertNotNull($user->email_verified_at);
+    }
+
+    public function testNewGoogleUserReceivesRegistrationMail(): void
+    {
+        Mail::fake();
+
+        $this->mockSocialiteCallback();
+
+        $this->get("/auth/google/callback");
+
+        Mail::assertQueued(
+            StudentRegistrationMail::class,
+            fn(StudentRegistrationMail $mail): bool => $mail->hasTo("google@example.com"),
+        );
+    }
+
+    public function testReturningGoogleUserDoesNotReceiveRegistrationMail(): void
+    {
+        Mail::fake();
+
+        User::factory()->create([
+            "email" => "google@example.com",
+            "google_id" => "google-123",
+        ]);
+
+        $this->mockSocialiteCallback();
+
+        $this->get("/auth/google/callback");
+
+        Mail::assertNothingQueued();
     }
 
     public function testExistingUserWithGoogleIdCanLogin(): void

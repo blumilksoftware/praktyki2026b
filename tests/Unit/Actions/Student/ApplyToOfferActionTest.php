@@ -8,12 +8,14 @@ use App\Actions\Student\ApplyToOfferAction;
 use App\Enums\ApplicationStatus;
 use App\Enums\OfferStatus;
 use App\Enums\UserRole;
+use App\Mail\JobApplication\NewJobApplicationMail;
 use App\Models\Application;
 use App\Models\Company;
 use App\Models\Offer;
 use App\Models\User;
 use App\Notifications\NewApplicationNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -77,6 +79,36 @@ class ApplyToOfferActionTest extends TestCase
             NewApplicationNotification::class,
             fn(NewApplicationNotification $notification): bool => $notification->toArray($companyAdmin)["application_id"] === $application->id,
         );
+    }
+
+    public function testSuccessfulApplicationMailsEveryCompanyUser(): void
+    {
+        Mail::fake();
+
+        $company = Company::factory()->create();
+        $companyUsers = User::factory()->count(2)->create([
+            "role" => UserRole::CompanyAdmin,
+            "organization_id" => $company->id,
+        ]);
+        $student = User::factory()->create([
+            "cv_path" => "cvs/test_cv.pdf",
+        ]);
+        $offer = Offer::factory()->create([
+            "company_id" => $company->id,
+            "status" => OfferStatus::Published,
+            "spots" => 3,
+        ]);
+
+        $this->action->execute($student, $offer);
+
+        foreach ($companyUsers as $companyUser) {
+            Mail::assertQueued(
+                NewJobApplicationMail::class,
+                fn(NewJobApplicationMail $mail): bool => $mail->hasTo($companyUser->email)
+                    && $mail->studentName === $student->fullName()
+                    && $mail->jobTitle === $offer->title,
+            );
+        }
     }
 
     public function testApplyingWithoutUploadedCvIsRejected(): void
