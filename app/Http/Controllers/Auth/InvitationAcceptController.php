@@ -27,8 +27,7 @@ class InvitationAcceptController extends Controller
             ->where("token", hash("sha256", $token))
             ->first();
 
-        if ($invitation !== null && ($invitation->status !== InvitationStatus::Pending || $invitation->isExpired()))
-        {
+        if ($invitation !== null && ($invitation->status !== InvitationStatus::Pending || $invitation->isExpired())) {
             abort(404);
         }
 
