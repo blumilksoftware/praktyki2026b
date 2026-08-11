@@ -6,6 +6,10 @@ import { IconLoader2, IconCheck } from '@tabler/icons-vue'
 const { t } = useI18n()
 
 const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+  },
   hasCv: {
     type: Boolean,
     required: true,
@@ -28,51 +32,51 @@ const props = defineProps({
   },
 })
 
-defineEmits(['apply', 'uploadCv'])
+const emit = defineEmits(['apply'])
+
+const isBlocked = computed(() => props.disabled || props.isLoading || props.isApplied || !props.hasCv)
 
 const formattedAppliedDate = computed(() => {
   if (!props.appliedDate) return ''
   const [year, month, day] = props.appliedDate.split('-')
   return `${day}.${month}.${year}`
 })
+
+function apply() {
+  if (isBlocked.value) return
+  emit('apply')
+}
 </script>
 
 <template>
-  <div v-if="!hasCv" class="justify-content items-center flex flex-col gap-2 p-4 border border-border rounded-xl bg-gray-50/50 text-sm w-fit">
-    <span class="text-text text-center font-medium">{{ t('buttons.apply.noCvMessage') }}</span>
+  <span class="inline-flex w-fit">
     <button
       type="button"
-      class="text-link hover:text-link/80 font-bold underline underline-offset-4 text-left w-fit transition-colors hover:cursor-pointer"
-      @click="$emit('uploadCv')"
+      :aria-disabled="isBlocked || undefined"
+      :aria-describedby="hasCv ? undefined : `${id}-reason`"
+      :title="hasCv ? undefined : t('buttons.apply.noCvMessage')"
+      class="w-fit flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+      :class="[
+        isApplied ? 'bg-success text-white' : 'bg-primary text-white',
+        isBlocked ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-primary/90',
+      ]"
+      @click="apply"
     >
-      {{ t('buttons.apply.uploadCvPrompt') }}
+      <template v-if="isLoading">
+        <IconLoader2 class="w-5 h-5 animate-spin" />
+        {{ t('buttons.apply.loading') }}
+      </template>
+
+      <template v-else-if="isApplied">
+        <IconCheck class="w-5 h-5" />
+        {{ t('buttons.apply.appliedOn', { date: formattedAppliedDate }) }}
+      </template>
+
+      <template v-else>
+        {{ t('buttons.apply.applyNow') }}
+      </template>
     </button>
-  </div>
 
-  <button
-    v-else
-    type="button"
-    :disabled="disabled || isLoading || isApplied"
-    class="w-fit flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-60"
-    :class="[
-      isApplied
-        ? 'bg-success text-white'
-        : 'bg-primary text-white hover:bg-primary/90 cursor-pointer'
-    ]"
-    @click="$emit('apply')"
-  >
-    <template v-if="isLoading">
-      <IconLoader2 class="w-5 h-5 animate-spin" />
-      {{ t('buttons.apply.loading') }}
-    </template>
-
-    <template v-else-if="isApplied">
-      <IconCheck class="w-5 h-5" />
-      {{ t('buttons.apply.appliedOn', { date: formattedAppliedDate }) }}
-    </template>
-
-    <template v-else>
-      {{ t('buttons.apply.applyNow') }}
-    </template>
-  </button>
+    <span v-if="!hasCv" :id="`${id}-reason`" class="sr-only">{{ t('buttons.apply.noCvMessage') }}</span>
+  </span>
 </template>

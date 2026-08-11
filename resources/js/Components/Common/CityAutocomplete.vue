@@ -15,7 +15,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'select'])
 
-const { suggestions, fetchSuggestions, clearSuggestions } = useMapboxGeocoding()
+const { suggestions, error: suggestionsError, fetchSuggestions, clearSuggestions } = useMapboxGeocoding()
 
 const isOpen = ref(false)
 const highlightedIndex = ref(-1)
@@ -86,5 +86,9 @@ const onKeydown = (event) => {
         {{ suggestion.fullName }}
       </li>
     </ul>
+
+    <p v-if="suggestionsError" class="mt-1 text-sm text-additional" role="status">
+      {{ suggestionsError }}
+    </p>
   </div>
 </template>

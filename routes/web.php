@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\CityGeocodingController;
 use App\Http\Controllers\Company\ApplicationController;
-use App\Http\Controllers\Company\CityGeocodingController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
 use App\Http\Controllers\NotificationController;
@@ -36,6 +36,10 @@ Route::get("/profile/edit", [ProfileRedirectController::class, "edit"])->name("p
 Route::patch("/profile", [ProfileRedirectController::class, "update"])->name("profile.update");
 Route::get("/settings", [SettingsRedirectController::class, "show"])->name("settings");
 
+Route::get("/geocoding/cities", [CityGeocodingController::class, "suggest"])
+    ->name("geocoding.cities")
+    ->middleware("throttle:30,1");
+
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
     ->prefix("company")
     ->group(function (): void {
@@ -66,10 +70,6 @@ Route::middleware(["auth"])
 
         Route::delete("/offers/{offer}", [OfferController::class, "destroy"])
             ->name("company.offers.destroy");
-
-        Route::get("/geocoding/cities", [CityGeocodingController::class, "suggest"])
-            ->name("company.geocoding.cities")
-            ->middleware("throttle:30,1");
     });
 
 Route::middleware(["auth", EnsureUniversityIsVerified::class])

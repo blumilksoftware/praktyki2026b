@@ -16,16 +16,18 @@ const props = defineProps({
   hasCv: { type: Boolean, default: false },
   studyFields: { type: Array, default: () => [] },
   isGuest: { type: Boolean, default: false },
+  canApply: { type: Boolean, default: false },
   mapboxToken: { type: String, default: '' },
 })
 
 const { t } = useI18n()
 
-const layoutComponent = computed(() => (props.isGuest ? BaseLayout : StudentPanelLayout))
-const layoutProps = computed(() => (props.isGuest ? {} : { activePage: 'offers' }))
+const layoutComponent = computed(() => (props.canApply ? StudentPanelLayout : BaseLayout))
+const layoutProps = computed(() => (props.canApply ? { activePage: 'offers' } : {}))
 
 const displayMode = ref('list')
 const targetOfferId = ref(null)
+const offerMap = ref(null)
 
 const studyFieldValueToLabel = (value) => props.studyFields.find((f) => f.value === value)?.label
 const studyFieldLabelToValue = (label) => props.studyFields.find((f) => f.label === label)?.value
@@ -78,6 +80,7 @@ const resetFilters = () => {
   filters.dateFrom = ''
   filters.dateTo = ''
   filters.studyFieldLabels = []
+  offerMap.value?.resetView()
 }
 
 onMounted(() => {
@@ -94,11 +97,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <Head :title="isGuest ? t('offers.search.title') : t('student.nav.offers')" />
+  <Head :title="canApply ? t('student.nav.offers') : t('offers.search.title')" />
 
   <component :is="layoutComponent" v-bind="layoutProps">
     <div class="bg-background py-6 min-h-screen">
-      <div v-if="!isGuest" class="flex flex-wrap justify-between items-center gap-3 mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div v-if="canApply" class="flex flex-wrap justify-between items-center gap-3 mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
         <Link
           :href="ROUTES.STUDENT_DASHBOARD"
           class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
@@ -123,6 +126,18 @@ onMounted(() => {
           {{ t('offers.search.subtitle') }}
         </p>
       </header>
+
+      <div v-if="canApply && !hasCv" class="mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <p class="flex flex-wrap items-center gap-2 rounded-xl border border-border bg-white px-4 py-3 text-sm font-medium text-text">
+          {{ t('buttons.apply.noCvMessage') }}
+          <Link
+            :href="ROUTES.STUDENT_PROFILE_EDIT"
+            class="font-bold text-link underline underline-offset-4 transition-colors hover:text-link/80"
+          >
+            {{ t('buttons.apply.uploadCvPrompt') }}
+          </Link>
+        </p>
+      </div>
 
       <div class="flex flex-col lg:items-start gap-6 lg:grid lg:grid-cols-[290px_minmax(0,1fr)] mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <OffersFilters
@@ -171,14 +186,17 @@ onMounted(() => {
               :offers="offers"
               :has-cv="hasCv"
               :guest="isGuest"
+              :can-apply="canApply"
             />
           </template>
 
           <template v-else>
             <OfferMap
+              ref="offerMap"
               :offers="offers.data"
               :has-cv="hasCv"
               :guest="isGuest"
+              :can-apply="canApply"
               :initial-offer-id="targetOfferId"
               :mapbox-token="mapboxToken"
             />

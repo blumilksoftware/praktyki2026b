@@ -8,6 +8,7 @@ const props = defineProps({
   offers: { type: Object, required: true },
   hasCv: { type: Boolean, default: true },
   guest: { type: Boolean, default: false },
+  canApply: { type: Boolean, default: false },
   emptyTitle: { type: String, default: undefined },
   emptyDescription: { type: String, default: undefined },
 })
@@ -54,6 +55,7 @@ function goToPage(url) {
         :offer="offer"
         :has-cv="hasCv"
         :guest="guest"
+        :can-apply="canApply"
       />
     </div>
     <div
