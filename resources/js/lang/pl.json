@@ -366,6 +366,7 @@
       "title": "Uczelnia",
         "nav": {
             "dashboard": "Panel",
+            "companies": "Firmy",
             "profile": "Profil"
         }
     },
@@ -380,29 +381,42 @@
         "city": "Miasto",
         "cityPlaceholder": "Filtruj po mieście",
         "tag": "Tag",
-        "tagPlaceholder": "Filtruj po tagu",
-        "search": "Szukaj"
+        "tagPlaceholder": "Filtruj po tagu"
       },
       "card": {
         "logoAlt": "Logo firmy {company}",
         "offersCount": "Aktywne oferty: {count}",
-        "addPartner": "Dodaj partnera",
-        "removePartner": "Usuń partnerstwo"
+        "propose": "Zaproponuj partnerstwo",
+        "cancel": "Anuluj propozycję",
+        "accept": "Akceptuj",
+        "decline": "Odrzuć",
+        "end": "Zakończ partnerstwo"
       },
-      "cancel": "Anuluj",
-      "addPartner": {
-        "modalTitle": "Dodaj partnera",
-        "confirmation": "Czy na pewno chcesz nawiązać partnerstwo z firmą {company}?",
-        "confirm": "Dodaj partnera"
+      "cancelAction": "Anuluj",
+      "propose": {
+        "modalTitle": "Zaproponuj partnerstwo",
+        "confirmation": "Czy na pewno chcesz zaproponować partnerstwo firmie {partner}? Firma będzie musiała je zaakceptować.",
+        "confirm": "Zaproponuj partnerstwo"
       },
-      "removePartner": {
-        "modalTitle": "Usuń partnerstwo",
-        "confirmation": "Czy na pewno chcesz usunąć partnerstwo z firmą {company}?",
-        "confirm": "Usuń partnerstwo"
+      "cancel": {
+        "modalTitle": "Anuluj propozycję",
+        "confirmation": "Czy na pewno chcesz anulować propozycję partnerstwa wysłaną do firmy {partner}?",
+        "confirm": "Anuluj propozycję"
+      },
+      "decline": {
+        "modalTitle": "Odrzuć propozycję",
+        "confirmation": "Czy na pewno chcesz odrzucić propozycję partnerstwa od firmy {partner}?",
+        "confirm": "Odrzuć propozycję"
+      },
+      "end": {
+        "modalTitle": "Zakończ partnerstwo",
+        "confirmation": "Czy na pewno chcesz zakończyć partnerstwo z firmą {partner}?",
+        "confirm": "Zakończ partnerstwo"
       },
       "status": {
         "none": "Brak partnerstwa",
-        "pending": "Oczekujące",
+        "pending_outgoing": "Wysłano propozycję",
+        "pending_incoming": "Oczekuje na Twoją odpowiedź",
         "active": "Partner",
         "suspended": "Zawieszone"
       },
@@ -761,8 +775,57 @@
         "dashboard": "Panel",
         "offers": "Moje oferty",
         "applications": "Zgłoszenia",
+        "universities": "Uczelnie",
         "profile": "Profil",
         "settings": "Ustawienia"
+      }
+    },
+    "universities": {
+      "title": "Wyszukiwarka uczelni",
+      "filters": {
+        "name": "Nazwa uczelni",
+        "namePlaceholder": "Szukaj po nazwie",
+        "city": "Miasto",
+        "cityPlaceholder": "Filtruj po mieście"
+      },
+      "card": {
+        "logoAlt": "Logo uczelni {university}",
+        "propose": "Zaproponuj partnerstwo",
+        "cancel": "Anuluj propozycję",
+        "accept": "Akceptuj",
+        "decline": "Odrzuć",
+        "end": "Zakończ partnerstwo"
+      },
+      "cancelAction": "Anuluj",
+      "propose": {
+        "modalTitle": "Zaproponuj partnerstwo",
+        "confirmation": "Czy na pewno chcesz zaproponować partnerstwo uczelni {partner}? Uczelnia będzie musiała je zaakceptować.",
+        "confirm": "Zaproponuj partnerstwo"
+      },
+      "cancel": {
+        "modalTitle": "Anuluj propozycję",
+        "confirmation": "Czy na pewno chcesz anulować propozycję partnerstwa wysłaną do uczelni {partner}?",
+        "confirm": "Anuluj propozycję"
+      },
+      "decline": {
+        "modalTitle": "Odrzuć propozycję",
+        "confirmation": "Czy na pewno chcesz odrzucić propozycję partnerstwa od uczelni {partner}?",
+        "confirm": "Odrzuć propozycję"
+      },
+      "end": {
+        "modalTitle": "Zakończ partnerstwo",
+        "confirmation": "Czy na pewno chcesz zakończyć partnerstwo z uczelnią {partner}?",
+        "confirm": "Zakończ partnerstwo"
+      },
+      "status": {
+        "none": "Brak partnerstwa",
+        "pending_outgoing": "Wysłano propozycję",
+        "pending_incoming": "Oczekuje na Twoją odpowiedź",
+        "active": "Partner",
+        "suspended": "Zawieszone"
+      },
+      "empty": {
+        "title": "Nie znaleziono uczelni"
       }
     },
     "dashboard": {
