@@ -2,10 +2,10 @@
 import { ref, watch } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHome, IconUser, IconSearch, IconMapPin, IconTag } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import { IconSearch, IconMapPin, IconTag } from '@tabler/icons-vue'
+import UniversityLayout from '@/Components/Layouts/UniversityLayout.vue'
 import CompanyCard from '@/Components/University/CompanyCard.vue'
-import FilterSuggestField from '@/Components/University/FilterSuggestField.vue'
+import FilterSuggestField from '@/Components/Partnership/FilterSuggestField.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
 import { ROUTES } from '@/Helpers/routes'
 
@@ -30,11 +30,6 @@ const props = defineProps({
   },
 })
 
-const navItems = [
-  { key: 'dashboard', label: 'Dashboard', href: '/university/dashboard', icon: IconHome },
-  { key: 'profile', label: 'Profile', href: '/university/profile', icon: IconUser },
-]
-
 const nameFilter = ref(props.filters.name || '')
 const cityFilter = ref(props.filters.city || '')
 const tagFilter = ref(props.filters.tag || '')
@@ -55,13 +50,10 @@ watch([nameFilter, cityFilter, tagFilter], search, { debounce: 300 })
 
 <template>
   <Head :title="t('university.companies.title')" />
-  <BaseLayout active-page="companies" :nav-items="navItems">
+  <UniversityLayout active-page="companies">
     <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('university.companies.title') }}</h1>
 
-    <form
-      class="mb-6 flex flex-col rounded-3xl border border-border/80 bg-white/90 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:flex-row sm:items-center"
-      @submit.prevent="search"
-    >
+    <div class="mb-6 flex flex-col rounded-3xl border border-border/80 bg-white/90 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:flex-row sm:items-center">
       <label class="flex flex-1 items-center gap-3 px-5 py-4 sm:border-r sm:border-border/80" for="companies-filter-name">
         <IconSearch class="h-5 w-5 shrink-0 text-additional" aria-hidden="true" />
         <input
@@ -92,14 +84,7 @@ watch([nameFilter, cityFilter, tagFilter], search, { debounce: 300 })
         :placeholder="t('university.companies.filters.tagPlaceholder')"
         :aria-label="t('university.companies.filters.tag')"
       />
-
-      <button
-        type="submit"
-        class="m-2 shrink-0 rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-      >
-        {{ t('university.companies.filters.search') }}
-      </button>
-    </form>
+    </div>
 
     <div v-if="companies.data.length > 0" class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       <CompanyCard
@@ -114,5 +99,5 @@ watch([nameFilter, cityFilter, tagFilter], search, { debounce: 300 })
     </div>
 
     <Pagination :meta="companies" />
-  </BaseLayout>
+  </UniversityLayout>
 </template>

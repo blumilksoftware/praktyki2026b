@@ -18,7 +18,7 @@ vi.mock('@inertiajs/vue3', () => ({
 }))
 
 const stubs = {
-  BaseLayout: { template: '<div><slot /></div>' },
+  UniversityLayout: { template: '<div><slot /></div>' },
   CompanyCard: {
     props: ['company'],
     template: '<div class="stub-company-card">{{ company.name }}</div>',
