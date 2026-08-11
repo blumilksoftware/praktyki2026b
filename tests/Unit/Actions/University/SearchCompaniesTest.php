@@ -129,4 +129,34 @@ class SearchCompaniesTest extends TestCase
         $this->assertEquals("active", $resultsMap->get("Partnered Co")["partnership_status"]);
         $this->assertEquals("none", $resultsMap->get("Non-Partnered Co")["partnership_status"]);
     }
+
+    public function testItMarksRequestSentByUniversityAsOutgoing(): void
+    {
+        $company = Company::factory()->approved()->create();
+
+        Partnership::factory()->pending()->requestedByUniversity()->create([
+            "company_id" => $company->id,
+            "university_id" => $this->university->id,
+        ]);
+
+        $data = new SearchCompaniesData(name: null, city: null, tag: null, perPage: 15);
+        $results = $this->action->execute($data, $this->university->id);
+
+        $this->assertEquals("pending_outgoing", $results->first()["partnership_status"]);
+    }
+
+    public function testItMarksRequestSentByCompanyAsIncoming(): void
+    {
+        $company = Company::factory()->approved()->create();
+
+        Partnership::factory()->pending()->requestedByCompany()->create([
+            "company_id" => $company->id,
+            "university_id" => $this->university->id,
+        ]);
+
+        $data = new SearchCompaniesData(name: null, city: null, tag: null, perPage: 15);
+        $results = $this->action->execute($data, $this->university->id);
+
+        $this->assertEquals("pending_incoming", $results->first()["partnership_status"]);
+    }
 }

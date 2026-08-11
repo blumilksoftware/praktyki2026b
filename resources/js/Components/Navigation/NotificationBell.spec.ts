@@ -102,6 +102,20 @@ describe("NotificationBell", () => {
         read_at: "2026-07-03T10:00:00.000000Z",
         created_at: "2026-07-03T09:00:00.000000Z",
       },
+      {
+        id: "n4",
+        type: "partnership_requested",
+        data: { proposer_name: "Politechnika Testowa" },
+        read_at: null,
+        created_at: "2026-07-04T10:00:00.000000Z",
+      },
+      {
+        id: "n5",
+        type: "partnership_accepted",
+        data: { acceptor_name: "Acme Corp" },
+        read_at: null,
+        created_at: "2026-07-05T10:00:00.000000Z",
+      },
     ]
     const wrapper = mountBell()
 
@@ -110,6 +124,8 @@ describe("NotificationBell", () => {
     expect(wrapper.text()).toContain("New verification request from Acme Corp")
     expect(wrapper.text()).toContain("Jan Kowalski applied to Frontend Intern")
     expect(wrapper.text()).toContain("Your application to Backend Intern is now Accepted")
+    expect(wrapper.text()).toContain("Politechnika Testowa proposed a partnership with you")
+    expect(wrapper.text()).toContain("Acme Corp accepted your partnership proposal")
   })
 
   it("calls mark-all-as-read when the button is clicked", async () => {
