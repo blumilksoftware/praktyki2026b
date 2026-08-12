@@ -2,15 +2,12 @@
 import { Head, useForm } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import { IconArrowLeft, IconUserCircle } from '@tabler/icons-vue'
-import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
-import Menu from '@/Components/Profiles/Menu.vue'
 import InfoEdit from '@/Components/Profiles/Edit/InfoEdit.vue'
-import { ROUTES } from '@/Helpers/routes'
-import { useUniversityPanelMenu } from '@/Composables/useUniversityPanelMenu'
 import { useI18n } from 'vue-i18n'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 
 const { t } = useI18n()
 
@@ -57,13 +54,12 @@ const submit = () => {
   })
 }
 
-const universityMenu = useUniversityPanelMenu('edit')
 
 </script>
 
 <template>
   <Head :title="university.name" />
-
+  <AppLayout active-page="edit">
   <div class="min-h-screen flex flex-col bg-background">
     <BaseNavbar show-hamburger :menu-items="universityMenu" show-navigation-buttons :navigation-buttons="universityMenu", navigation-variant="default"/>
 
@@ -147,4 +143,5 @@ const universityMenu = useUniversityPanelMenu('edit')
       </div>
     </div>
   </div>
+  </AppLayout>
 </template>

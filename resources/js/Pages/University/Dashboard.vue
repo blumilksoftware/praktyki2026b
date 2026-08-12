@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import DateRangeFilter from '@/Components/University/DateRangeFilter.vue'
 import StatsOverview from '@/Components/University/StatsOverview.vue'
 import BreakdownTabs from '@/Components/University/BreakdownTabs.vue'
-import UniversityLayout from '@/Components/Layouts/UniversityLayout.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 
 defineProps({
   data: {
@@ -23,7 +23,7 @@ const { t } = useI18n()
 
 <template>
   <Head :title="t('university.dashboard.title')" />
-  <UniversityLayout active-page="dashboard">
+  <AppLayout active-page="dashboard">
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 class="text-2xl font-bold tracking-tight text-gray-900">
@@ -45,5 +45,5 @@ const { t } = useI18n()
         :filters="filters"
       />
     </div>
-  </UniversityLayout>
+  </AppLayout>
 </template>

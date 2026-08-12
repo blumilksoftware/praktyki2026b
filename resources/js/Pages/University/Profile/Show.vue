@@ -3,19 +3,16 @@ import { Head } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import { IconArrowLeft, IconUserCircle } from '@tabler/icons-vue'
 import Header from '@/Components/Profiles/Header.vue'
-import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import Faculties from '@/Components/Profiles/Faculties.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
-import Menu from '@/Components/Profiles/Menu.vue'
 import Info from '@/Components/Profiles/Info.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
-import { useUniversityPanelMenu } from '@/Composables/useUniversityPanelMenu'
+
 
 const { t } = useI18n()
-
-const universityMenu = useUniversityPanelMenu('profile')
 
 const goBack = () => {
   window.history.back()
@@ -32,7 +29,7 @@ defineProps({
 
 <template>
   <Head :title="university.name" />
-
+  <AppLayout active-page="profile">
   <div class="min-h-screen flex flex-col bg-background">
     <BaseNavbar show-hamburger :menu-items="universityMenu" show-navigation-buttons :navigation-buttons="universityMenu" navigation-variant="default"/>
 
@@ -98,4 +95,5 @@ defineProps({
       </div>
     </div>
   </div>
+  </AppLayout>
 </template>
