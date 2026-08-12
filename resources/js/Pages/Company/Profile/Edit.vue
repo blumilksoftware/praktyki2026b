@@ -1,8 +1,7 @@
 <script setup>
 import { Head, useForm, router } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
-import BaseButton from '@/Components/Base/BaseButton.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
 import TagsEdit from '@/Components/Profiles/Edit/TagsEdit.vue'
 import AboutEdit from '@/Components/Profiles/Edit/AboutEdit.vue'
@@ -57,7 +56,7 @@ const submit = () => {
 
 <template>
   <Head :title="company.name" />
-
+  <AppLayout active-page="edit">
   <div class="min-h-screen flex flex-col bg-background">
     <BaseNavbar show-hamburger :menu-items="companyMenu" show-navigation-buttons :navigation-buttons="companyMenu", navigation-variant="default"/>
 
@@ -135,4 +134,5 @@ const submit = () => {
       </div>
     </div>
   </div>
+  </AppLayout>
 </template>

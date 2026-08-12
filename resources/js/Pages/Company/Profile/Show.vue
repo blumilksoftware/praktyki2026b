@@ -2,8 +2,7 @@
 import { Head } from '@inertiajs/vue3'
 import Header from '@/Components/Profiles/Header.vue'
 import Tags from '@/Components/Profiles/Tags.vue'
-import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
-import BaseButton from '@/Components/Base/BaseButton.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Offers from '@/Components/Profiles/Offers.vue'
@@ -38,7 +37,7 @@ defineProps({
 
 <template>
   <Head :title="company.name" />
-
+  <AppLayout active-page="profile">
   <div class="min-h-screen flex flex-col bg-background">
     <BaseNavbar show-hamburger :menu-items="canEdit ? companyMenu : []"show-navigation-buttons :navigation-buttons="canEdit ? companyMenu : []" navigation-variant="default"/>
 
@@ -96,4 +95,5 @@ defineProps({
       </div>
     </div>
   </div>
+  </AppLayout>
 </template>

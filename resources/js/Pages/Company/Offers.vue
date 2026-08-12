@@ -3,9 +3,8 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconPlus, IconUsers, IconClipboardText, IconDotsVertical } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { ROUTES } from '@/Helpers/routes'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import CompanyOfferDeleteModal from '@/Components/Company/CompanyOfferDeleteModal.vue'
 import CompanyOfferUnpublishModal from '@/Components/Company/CompanyOfferUnpublishModal.vue'
 
@@ -18,7 +17,6 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
-const companyMenu = useCompanyPanelMenu('offers')
 const isOfferDeleteModalOpen = ref(false)
 const isOfferUnpublishModalOpen = ref(false)
 
@@ -156,7 +154,7 @@ onUnmounted(() => {
 
 <template>
   <Head :title="t('company.offers.index.title')" />
-
+  <AppLayout active-page="offers">
   <BaseLayout
     active-page="offers"
     :nav-items="companyMenu"
@@ -349,6 +347,7 @@ onUnmounted(() => {
       @close="isOfferUnpublishModalOpen = false"
     />
   </BaseLayout>
+  </AppLayout>
 </template>
 
 

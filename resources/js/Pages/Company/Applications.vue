@@ -3,8 +3,7 @@ import { ref, watch, computed } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import axios from 'axios'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
-import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import { ROUTES } from '@/Helpers/routes'
 import ApplicationsCard from '@/Components/Profiles/ApplicationsCard.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
@@ -26,8 +25,6 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
-
-const companyMenu = useCompanyPanelMenu('applications')
 
 const goBack = () => {
   window.history.back()
@@ -109,7 +106,7 @@ const statusFilterOptions = computed(() => [
 
 <template>
   <Head :title="t('profiles.company.applications.title')" />
-
+  <AppLayout active-page="applications">
   <div class="min-h-screen flex flex-col bg-slate-50/50">
     <BaseNavbar show-hamburger :menu-items="companyMenu" show-navigation-buttons :navigation-buttons="companyMenu" navigation-variant="default" />
 
@@ -167,4 +164,5 @@ const statusFilterOptions = computed(() => [
       </div>
     </div>
   </div>
+  </AppLayout>
 </template>

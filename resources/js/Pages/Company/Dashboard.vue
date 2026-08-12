@@ -9,9 +9,8 @@ import OffersCards from '@/Components/Company/Offers/OffersCards.vue'
 import OffersPagination from '@/Components/Company/Offers/OffersPagination.vue'
 import { useOffersFilters } from '@/Composables/useOffersFilters'
 import { useOfferActions } from '@/Composables/useOfferActions'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import { ROUTES } from '@/Helpers/routes'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 
 const { t } = useI18n()
 
@@ -67,11 +66,12 @@ function goToApplications(event, offerId) {
   event.preventDefault()
   router.visit(`${ROUTES.COMPANY_APPLICATIONS}?offer=${offerId}`)
 }
-const companyMenu = useCompanyPanelMenu('dashboard')
+
 </script>
 
 <template>
   <Head :title="t('company.layout.title')" />
+  <AppLayout active-page="dashboard">
   <BaseLayout
     active-page="dashboard"
     :nav-items="companyMenu"
@@ -155,4 +155,5 @@ const companyMenu = useCompanyPanelMenu('dashboard')
       </div>
     </div>
   </BaseLayout>
+  </AppLayout>
 </template>
