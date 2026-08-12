@@ -77,7 +77,7 @@ class DemoSeeder extends Seeder
         $approvedUniversity = University::factory()->approved()->create([
             "name" => "Politechnika Przykładowa",
             "email" => "approved@university.example.com",
-            "domain" => "university.example.com",
+            "domain" => "example.com",
         ]);
 
         User::factory()->create([

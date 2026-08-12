@@ -621,6 +621,7 @@
         "postalCode": "Postal code",
         "city": "City",
         "university": "University",
+          "universitySuggestedNote": "Pre-selected automatically - detected from your university email address",
         "studyField": "Field of study",
         "studyYear": "Year of study",
         "specialization": "Specialization",

@@ -513,6 +513,7 @@
         "postalCode": "Kod pocztowy",
         "city": "Miasto",
         "university": "Uczelnia",
+          "universitySuggestedNote": "Wybrano automatycznie na podstawie adresu e-mail Twojej uczelni",
         "studyField": "Kierunek studiów",
         "studyYear": "Rok studiów",
         "specialization": "Specjalność",
