@@ -12,7 +12,7 @@ import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
 import CvUploadSection from '@/Components/Student/CvUploadSection.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import UniversityAutocomplete from '@/Components/Profile/UniversityAutocomplete.vue'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -105,7 +105,7 @@ function saveAll() {
 
 <template>
   <Head :title="t('student.profile.edit.title')" />
-  <StudentPanelLayout active-page="profile">
+  <AppLayout active-page="profile">
     <div class="mx-auto w-full max-w-3xl">
 
       <h1 class="mt-4 font-semibold text-text text-2xl">
@@ -304,5 +304,5 @@ function saveAll() {
         </div>
       </div>
     </div>
-  </StudentPanelLayout>
+  </AppLayout>
 </template>

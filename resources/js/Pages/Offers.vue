@@ -2,8 +2,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import OfferMap from '@/Components/Offer/Map/OfferMap.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
@@ -21,9 +20,6 @@ const props = defineProps({
   mapboxToken: { type: String, default: '' },
 })
 const { t } = useI18n()
-
-const layoutComponent = computed(() => (props.isGuest ? BaseLayout : StudentPanelLayout))
-const layoutProps = computed(() => (props.isGuest ? {} : { activePage: 'offers' }))
 
 const displayMode = ref('list')
 const targetOfferId = ref(null)
@@ -122,7 +118,7 @@ onMounted(() => {
 <template>
   <Head :title="isGuest ? t('offers.search.title') : t('student.nav.offers')" />
 
-  <component :is="layoutComponent" v-bind="layoutProps">
+  <AppLayout active-page="offers">
     <div class="bg-background py-6 min-h-screen">
       <div v-if="!isGuest" class="flex flex-wrap justify-between items-center gap-3 mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
         <Link
@@ -368,5 +364,5 @@ onMounted(() => {
         </section>
       </div>
     </div>
-  </component>
+  </AppLayout>
 </template>

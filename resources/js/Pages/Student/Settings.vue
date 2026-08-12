@@ -1,8 +1,8 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import StudentAccountSettingsSection from '@/Components/Student/StudentAccountSettingsSection.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 
 defineProps({
   email: { type: String, required: true },
@@ -15,11 +15,11 @@ const { t } = useI18n()
 
 <template>
   <Head :title="t('student.profile.account.title')" />
-  <StudentPanelLayout>
+  <AppLayout active-page="settings">
     <StudentAccountSettingsSection
       :email="email"
       :email-verified-at="emailVerifiedAt"
       :pending-email="pendingEmail"
     />
-  </StudentPanelLayout>
+  </AppLayout>
 </template>

@@ -3,8 +3,7 @@ import { computed, ref } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconHeart, IconHeartFilled } from '@tabler/icons-vue'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
@@ -26,9 +25,6 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
-
-const layoutComponent = computed(() => (props.isGuest ? BaseLayout : StudentPanelLayout))
-const layoutProps = computed(() => (props.isGuest ? {} : { activePage: 'offers' }))
 
 const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mode}`))
 const isClosed = computed(() => props.offer.status === 'closed' || props.offer.status === 'expired')
@@ -172,7 +168,7 @@ function confirmWithdraw() {
 <template>
   <Head :title="offer.title" />
 
-  <component :is="layoutComponent" v-bind="layoutProps">
+  <AppLayout active-page="offers">
     <div class="bg-background min-h-screen py-6">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <Link
@@ -394,5 +390,5 @@ function confirmWithdraw() {
       @close="closeWithdrawModal"
       @confirm="confirmWithdraw"
     />
-  </component>
+  </AppLayout>
 </template>
