@@ -13,6 +13,7 @@ use App\Models\StudyField;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -67,6 +68,22 @@ class OfferController extends Controller
 
         return inertia("Offers/Show", [
             "offer" => $this->getOfferDetailsAction->execute($offer, $isStudent ? $user : null),
+            "similarOffers" => $this->getSimilarOffersAction->execute($offer),
+            "hasCv" => $isStudent && $user->cv_path !== null,
+            "isGuest" => $user === null,
+            "canApply" => $isStudent,
+        ]);
+    }
+
+    public function preview(Request $request, Offer $offer): Response
+    {
+        Gate::authorize("update", $offer);
+
+        $user = $request->user();
+        $isStudent = $user !== null && $user->role === UserRole::Student;
+
+        return inertia("Offers/Show", [
+            "offer" => $this->getOfferDetailsAction->execute($offer, $isStudent ? $user : null, true),
             "similarOffers" => $this->getSimilarOffersAction->execute($offer),
             "hasCv" => $isStudent && $user->cv_path !== null,
             "isGuest" => $user === null,

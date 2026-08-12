@@ -20,6 +20,11 @@ use Inertia\Response;
 Route::get("/", fn() => redirect()->route("login"));
 
 Route::get("/offers", [OfferController::class, "index"])->name("offers.index");
+Route::get("/offers/{offer}/preview", [OfferController::class, "preview"])
+    ->middleware(["auth", "can:update,offer"])
+    ->name("offers.preview")
+    ->whereUuid("offer");
+
 Route::get("/offers/{offer}", [OfferController::class, "show"])
     ->name("offers.show")
     ->whereUuid("offer");
