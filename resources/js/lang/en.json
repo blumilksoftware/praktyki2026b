@@ -900,6 +900,7 @@
           "draft": "Save as draft",
           "published": "Publish immediately",
           "draftHint": "Drafts are visible only to you. Publishing requires a verified company account.",
+          "previewAction": "Preview",
           "submitCreate": "Create offer",
           "submitCreateDraft": "Create draft",
           "submitEdit": "Save changes",

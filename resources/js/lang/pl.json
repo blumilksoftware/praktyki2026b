@@ -883,6 +883,7 @@
         "draft": "Zapisz jako szkic",
         "published": "Opublikuj od razu",
         "draftHint": "Szkice są widoczne tylko dla Ciebie. Publikacja wymaga zweryfikowanego konta firmy.",
+        "previewAction": "Podgląd",
         "submitCreate": "Utwórz ofertę",
         "submitCreateDraft": "Utwórz szkic",
         "submitEdit": "Zapisz zmiany",
