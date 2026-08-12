@@ -108,21 +108,6 @@ class DemoSeeder extends Seeder
             "last_name" => null,
         ]);
 
-        $awaitingApprovalUniversity = University::factory()->pending()->create([
-            "name" => "Awaiting Approval University",
-            "email" => "awaiting-approval-university@example.com",
-            "domain" => "awaiting-approval-university.example.com",
-        ]);
-
-        User::factory()->create([
-            "email" => "university-awaiting-approval@example.com",
-            "role" => UserRole::UniversityAdmin,
-            "status" => UserStatus::Active,
-            "organization_id" => $awaitingApprovalUniversity->id,
-            "first_name" => null,
-            "last_name" => null,
-        ]);
-
         Company::factory()->count(30)->create()->each(function ($company): void {
             User::factory()->create([
                 "role" => UserRole::CompanyAdmin,
