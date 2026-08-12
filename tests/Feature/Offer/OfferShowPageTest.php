@@ -111,6 +111,49 @@ class OfferShowPageTest extends TestCase
             ->assertNotFound();
     }
 
+    public function testCompanyCanPreviewItsDraftOffer(): void
+    {
+        $company = Company::factory()->create();
+        $user = User::factory()->create([
+            "role" => UserRole::CompanyAdmin,
+            "status" => UserStatus::Active,
+            "organization_id" => $company->id,
+        ]);
+        $offer = Offer::factory()->draft()->create([
+            "company_id" => $company->id,
+            "description" => "Draft preview description.",
+        ]);
+
+        $this->actingAs($user)
+            ->get(route("offers.preview", $offer))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Offers/Show")
+                    ->where("isGuest", false)
+                    ->where("canApply", false)
+                    ->where("offer.id", $offer->id)
+                    ->where("offer.description", "Draft preview description.")
+                    ->where("offer.status", OfferStatus::Draft->value),
+            );
+    }
+
+    public function testStudentCannotPreviewDraftOffer(): void
+    {
+        $company = Company::factory()->create();
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+        $offer = Offer::factory()->draft()->create([
+            "company_id" => $company->id,
+        ]);
+
+        $this->actingAs($student)
+            ->get(route("offers.preview", $offer))
+            ->assertForbidden();
+    }
+
     public function testClosedOfferIsVisibleWithClosedStatus(): void
     {
         $offer = Offer::factory()->closed()->create();

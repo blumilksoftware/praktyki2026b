@@ -30,7 +30,7 @@ const offersList = computed(() => (Array.isArray(props.offers) ? props.offers : 
 
 function previewOffer(offer) {
   closeMenu()
-  router.visit(ROUTES.OFFER_SHOW.replace('{offer}', offer.id))
+  router.visit(ROUTES.OFFER_PREVIEW.replace('{offer}', offer.id))
 }
 
 function editOffer(offer) {
