@@ -14,7 +14,7 @@ const nextStep = computed(() => onboarding.value?.steps?.find((step) => !step.co
 
 const profileUrl = computed(() => {
   if (role.value === 'companyAdmin' || role.value === 'companyMember') return ROUTES.COMPANY_PROFILE
-  if (role.value === 'universityAdmin') return ROUTES.UNIVERSITY_PROFILE
+  if (role.value === 'universityAdmin' || role.value === 'universityMember') return ROUTES.UNIVERSITY_PROFILE
   if (role.value === 'student') {
     return nextStep.value
       ? `${ROUTES.STUDENT_PROFILE_EDIT}?section=${nextStep.value}`

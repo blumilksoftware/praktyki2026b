@@ -4,17 +4,12 @@ declare(strict_types=1);
 
 namespace App\Mail\JobApplication;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
+use App\Mail\QueueableMailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class NewJobApplicationMail extends Mailable
+class NewJobApplicationMail extends QueueableMailable
 {
-    use Queueable;
-    use SerializesModels;
-
     public function __construct(
         public readonly string $studentName,
         public readonly string $jobTitle,
@@ -38,5 +33,19 @@ class NewJobApplicationMail extends Mailable
                 "applicationUrl" => $this->applicationUrl,
             ],
         );
+    }
+
+    protected function getLogAction(): string
+    {
+        return "send_new_job_application_mail";
+    }
+
+    protected function getLogProperties(): array
+    {
+        return [
+            "student_name" => $this->studentName,
+            "job_title" => $this->jobTitle,
+            "application_url" => $this->applicationUrl,
+        ];
     }
 }

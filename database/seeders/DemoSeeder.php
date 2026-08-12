@@ -205,10 +205,20 @@ class DemoSeeder extends Seeder
         $allLinkedStudents = $domainLinkedStudents->merge($explicitlyLinkedStudents);
 
         foreach ($allLinkedStudents as $index => $student) {
+            $createdAt = match ($index % 3) {
+                0 => now()->subDays(15),
+                1 => now()->subDays(30),
+                default => now(),
+            };
+
             Application::factory()->create([
                 "offer_id" => $offers[$index % $offers->count()]->id,
                 "student_id" => $student->id,
-                "status" => $index % 3 === 0 ? ApplicationStatus::Accepted : ApplicationStatus::Pending,
+                "status" => ApplicationStatus::Pending,
+                "created_at" => $createdAt,
+                "updated_at" => $createdAt,
+                "reminder_14_sent_at" => null,
+                "reminder_28_sent_at" => null,
             ]);
         }
     }

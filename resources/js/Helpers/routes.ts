@@ -68,7 +68,6 @@ export const ROUTES = {
   // Offers & Search
   OFFERS: "/offers",
   OFFER_SHOW: `/offers/{offer}`,
-  COMPANY_OFFERS: "/search?company_id={companyId}",
   COMPANY_MY_OFFERS: "/company/offers",
 
   // Profiles

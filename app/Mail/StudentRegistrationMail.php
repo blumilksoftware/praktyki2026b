@@ -24,7 +24,7 @@ class StudentRegistrationMail extends QueueableMailable
     public function content(): Content
     {
         return new Content(
-            view: "emails.student_registration",
+            markdown: "emails.student_registration",
         );
     }
 

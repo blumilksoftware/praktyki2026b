@@ -99,4 +99,16 @@ describe('OfferActionsMenu', () => {
 
     expect(wrapper.emitted('toggle-status')).toBeUndefined()
   })
+
+  it.each(['closed', 'expired'])('disables the edit action for a %s offer', async (status) => {
+    const wrapper = mountMenu({ offer: { ...offer, status }, isOpen: true })
+    const editItem = menuItems(wrapper)[0]
+
+    expect(editItem.attributes('disabled')).toBeDefined()
+    expect(editItem.classes()).toContain('cursor-not-allowed')
+
+    await editItem.trigger('click')
+
+    expect(wrapper.emitted('edit')).toBeUndefined()
+  })
 })

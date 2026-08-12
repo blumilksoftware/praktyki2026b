@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Company;
+namespace App\Actions\Organization;
 
-use App\Enums\CompanyInvitationStatus;
-use App\Models\CompanyInvitation;
+use App\Enums\InvitationStatus;
+use App\Models\OrganizationInvitation;
 use Illuminate\Validation\ValidationException;
 
 class RevokeInvitation
 {
-    public function execute(CompanyInvitation $invitation): void
+    public function execute(OrganizationInvitation $invitation): void
     {
-        if ($invitation->status !== CompanyInvitationStatus::Pending) {
+        if ($invitation->status !== InvitationStatus::Pending) {
             throw ValidationException::withMessages([
                 "status" => __("validation.invitation_already_processed"),
             ]);
         }
 
         $invitation->forceFill([
-            "status" => CompanyInvitationStatus::Revoked,
+            "status" => InvitationStatus::Revoked,
             "revoked_at" => now(),
         ])->save();
     }

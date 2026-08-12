@@ -12,6 +12,7 @@ const props = defineProps({
   offer: { type: Object, required: true },
   hasCv: { type: Boolean, default: true },
   guest: { type: Boolean, default: false },
+  canApply: { type: Boolean, default: false },
 })
 
 const { t } = useI18n()
@@ -53,10 +54,6 @@ function applyToOffer() {
       isApplying.value = false
     },
   })
-}
-
-function goToUploadCv() {
-  router.visit(ROUTES.STUDENT_PROFILE_EDIT)
 }
 
 const isTogglingFavorite = ref(false)
@@ -154,7 +151,7 @@ function showOnMap() {
               >
                 {{ offer.company.name }}
               </Link>
-              
+
               <span
                 v-if="offer.company.is_verified"
                 class="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-success"
@@ -196,7 +193,7 @@ function showOnMap() {
         </button>
 
         <button
-          v-if="!guest"
+          v-if="canApply"
           type="button"
           class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 cursor-pointer text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
           :class="isFavorite
@@ -221,14 +218,14 @@ function showOnMap() {
           {{ t('student.offers.card.loginToApply') }}
         </Link>
 
-        <template v-else>
+        <template v-else-if="canApply">
           <BaseApplyButton
+            :id="`apply-offer-${offer.id}`"
             :has-cv="hasCv"
             :is-applied="isApplied"
             :applied-date="appliedDate"
             :is-loading="isApplying"
             @apply="applyToOffer"
-            @upload-cv="goToUploadCv"
           />
 
           <BaseButton
@@ -249,7 +246,7 @@ function showOnMap() {
     </div>
 
     <WithdrawApplicationModal
-      v-if="!guest"
+      v-if="canApply"
       :open="isWithdrawModalOpen"
       :offer-title="offer.title"
       :processing="isWithdrawing"

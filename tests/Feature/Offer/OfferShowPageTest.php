@@ -32,6 +32,7 @@ class OfferShowPageTest extends TestCase
                 fn(Assert $page) => $page
                     ->component("Offers/Show")
                     ->where("isGuest", true)
+                    ->where("canApply", false)
                     ->where("offer.id", $offer->id)
                     ->where("offer.description", "Build cool intern tools.")
                     ->where("offer.status", OfferStatus::Published->value),
@@ -62,12 +63,35 @@ class OfferShowPageTest extends TestCase
                 fn(Assert $page) => $page
                     ->component("Offers/Show")
                     ->where("isGuest", false)
+                    ->where("canApply", true)
                     ->where("offer.title", "Backend Intern")
                     ->where("offer.description", "Full internship description.")
                     ->has("offer.preferred_universities", 1)
                     ->where("offer.preferred_universities.0.name", "Test University")
                     ->where("offer.company.is_verified", true)
                     ->has("offer.company.id"),
+            );
+    }
+
+    public function testCompanyUserIsNeitherGuestNorAbleToApply(): void
+    {
+        $company = Company::factory()->create();
+        $user = User::factory()->create([
+            "role" => UserRole::CompanyAdmin,
+            "status" => UserStatus::Active,
+            "organization_id" => $company->id,
+        ]);
+        $offer = Offer::factory()->published()->create();
+
+        $this->actingAs($user)
+            ->get(route("offers.show", $offer))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Offers/Show")
+                    ->where("isGuest", false)
+                    ->where("canApply", false)
+                    ->where("hasCv", false),
             );
     }
 

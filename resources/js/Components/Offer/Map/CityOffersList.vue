@@ -8,6 +8,7 @@ defineProps({
   selectedOfferId: { type: [Number, String], default: null },
   hasCv: { type: Boolean, default: true },
   guest: { type: Boolean, default: false },
+  canApply: { type: Boolean, default: false },
 })
 
 const { t } = useI18n()
@@ -28,7 +29,7 @@ const { t } = useI18n()
           selectedOfferId === offer.id ? 'ring-2 ring-primary ring-offset-2' : '',
         ]"
       >
-        <OfferCard :offer="offer" :has-cv="hasCv" :guest="guest" />
+        <OfferCard :offer="offer" :has-cv="hasCv" :guest="guest" :can-apply="canApply" />
       </div>
     </div>
   </div>

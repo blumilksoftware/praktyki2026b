@@ -52,6 +52,9 @@ class Company extends Model
         "rejection_reason",
     ];
 
+    /**
+     * @return HasMany<User, $this>
+     */
     public function users(): HasMany
     {
         return $this->hasMany(User::class, "organization_id");
@@ -76,14 +79,6 @@ class Company extends Model
     public function partnerships(): HasMany
     {
         return $this->hasMany(Partnership::class);
-    }
-
-    /**
-     * @return HasMany<CompanyInvitation, $this>
-     */
-    public function invitations(): HasMany
-    {
-        return $this->hasMany(CompanyInvitation::class);
     }
 
     public function scopeNeedingVerification($query)

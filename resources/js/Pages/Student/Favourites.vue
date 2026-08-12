@@ -12,6 +12,10 @@ const { t } = useI18n()
 const favourites = ref(props.favourites)
 const removingId = ref(null)
 
+function isExpired(offer){
+  return offer.status === 'expired' || offer.deleted_at !== null
+}
+
 function removeFavourite(offerId) {
   removingId.value = offerId
 
@@ -46,10 +50,22 @@ function removeFavourite(offerId) {
             v-for="offer in favourites"
             :key="offer.id"
             class="border border-slate-200 rounded-2xl p-5 bg-white shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3"
+            :class="isExpired(offer) ? 'border-slate-200 bg-slate-50 opacity-70' : 'border-slate-200 bg-white'"
           >
             <div>
-              <h3 class="font-semibold text-lg text-slate-900">{{ offer.title }}</h3>
-              <p class="text-slate-500 text-sm mt-1">{{ offer.company_name }} &middot; {{ offer.city }}</p>
+              <div class="flex items-center gap-2">
+                <h3 class="font-semibold text-lg text-slate-900">{{ offer.title }}</h3>
+                <span
+                  v-if="isExpired(offer)"
+                  class="inline-flex items-center rounded-full bg-slate-200 px-2.5 py-0.5 text-xs font-semibold text-slate-600"
+                >
+                  {{ t('student.favorites.status.expired') }}
+                </span>
+              </div>
+              <p class="text-slate-500 text-sm mt-1">
+                {{ offer.company_name }} &middot;
+                {{ offer.city }}
+              </p>
             </div>
             <button
               type="button"
