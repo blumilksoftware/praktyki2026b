@@ -11,6 +11,7 @@ use App\Models\Company;
 use App\Models\University;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 
 class AdminController extends Controller
@@ -88,7 +89,7 @@ class AdminController extends Controller
             });
         }
 
-        $companiesQuery->orderBy($companySortKey, $sortDir); 
+        $companiesQuery->orderBy($companySortKey, $sortDir);
         $companies = $companiesQuery->paginate(20, ["*"], "companies_page")->appends([
             "status" => $statusFilter,
             "search" => $searchQuery,
@@ -213,5 +214,18 @@ class AdminController extends Controller
         }
 
         return null;
+    }
+
+    public function profile() : Response
+    {
+        $admin = Auth::user();
+
+        return inertia("Admin/Profile/Show", [
+            "admin" => [
+                "firstName" => $admin->first_name,
+                "lastName" => $admin->last_name,
+                "email" => $admin->email,
+            ],
+        ]);
     }
 }

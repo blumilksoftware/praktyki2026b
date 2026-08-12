@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\userRole;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 
 class ProfileRedirectController extends Controller
 {
     public function show(Request $request)
     {
         $user = $request->user();
+
+        if ($user->role === userRole::SuperAdmin) {
+            return redirect()->route("admin.profile");
+        }
 
         if (in_array($user->role, [userRole::CompanyAdmin, userRole::CompanyMember], true)) {
             return redirect()->route("company.profile");
