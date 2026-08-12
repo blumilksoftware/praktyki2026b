@@ -72,9 +72,9 @@ class BuildStudentProfileData
                 "work_modes" => $student->work_modes ?? [],
             ],
             "study_fields" => $studyFields,
-            "work_mode_options" => array_column(WorkMode::cases(), "value"),
-            "university_organization" => $student->universityOrganization ? $mapUniversity($student->universityOrganization) : null,
-            "suggested_university" => $suggestedUniversity ? $mapUniversity($suggestedUniversity) : null,
+            "workModeOptions" => array_column(WorkMode::cases(), "value"),
+            "universityOrganization" => $student->universityOrganization ? $mapUniversity($student->universityOrganization) : null,
+            "suggestedUniversity" => $suggestedUniversity ? $mapUniversity($suggestedUniversity) : null,
         ];
     }
 }

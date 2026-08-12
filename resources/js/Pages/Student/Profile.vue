@@ -16,7 +16,7 @@ import { ROUTES } from '@/Helpers/routes'
 const props = defineProps({
   user: { type: Object, required: true },
   studyFields: { type: Array, default: () => [] },
-  work_mode_options: { type: Array, required: true },
+  workModeOptions: { type: Array, required: true },
 })
 
 const { t } = useI18n()
@@ -176,7 +176,7 @@ function saveWorkModes() {
     >
       <div class="flex flex-wrap gap-2">
         <button
-          v-for="mode in work_mode_options"
+          v-for="mode in workModeOptions"
           :key="mode"
           type="button"
           class="rounded-full border px-4 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"

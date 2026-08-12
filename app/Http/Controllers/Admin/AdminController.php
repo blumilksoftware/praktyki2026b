@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Actions\Admin\VerifyEntityAction;
+use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Offer;
 use App\Models\University;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -24,9 +28,22 @@ class AdminController extends Controller
         $companiesNeedingVerification = Company::needingVerification()->oldest()->get();
         $universitiesNeedingVerification = University::needingVerification()->oldest()->get();
 
+        $totalCompanies = Company::count();
+        $totalUniversities = University::count();
+        $pendingVerifications = $companiesNeedingVerification->count() + $universitiesNeedingVerification->count();
+        $totalVerifications = $totalCompanies + $totalUniversities;
+
         return inertia("Admin/Dashboard", [
             "companiesNeedingVerification" => $companiesNeedingVerification,
             "universitiesNeedingVerification" => $universitiesNeedingVerification,
+            "stats" => [
+                "activeStudents" => User::where("role", UserRole::Student)->where("status", UserStatus::Active)->count(),
+                "approvedCompanies" => Company::where("verification_status", VerificationStatus::Verified)->count(),
+                "approvedUniversities" => University::where("verification_status", VerificationStatus::Verified)->count(),
+                "activeOffers" => Offer::published()->count(),
+            ],
+            "pendingVerifications" => $pendingVerifications,
+            "totalVerifications" => $totalVerifications,
             "meta" => [
                 "title" => "Admin Dashboard",
             ],
@@ -48,7 +65,7 @@ class AdminController extends Controller
         }
 
         $allowedCompanySorts = ["name", "email", "city", "created_at", "verification_status"];
-        $allowedUniversitySorts = ["name", "domain", "email", "created_at", "verification_status"];
+        $allowedUniversitySorts = ["name", "city", "email", "created_at", "verification_status"];
         $sortDir = $request->query("sort_dir", "asc") === "desc" ? "desc" : "asc";
 
         $companySortKey = $request->query("sort_key", "created_at");

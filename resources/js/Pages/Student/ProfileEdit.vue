@@ -4,7 +4,6 @@ import { Head, Link, router, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { useMapboxGeocoding } from '@/Composables/useMapboxGeocoding'
 import { IconArrowLeft, IconHome, IconUser, IconBriefcase, IconHeart } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import CityAutocomplete from '@/Components/Common/CityAutocomplete.vue'
@@ -13,25 +12,20 @@ import ProfilePhotoUpload from '@/Components/Student/ProfilePhotoUpload.vue'
 import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
 import CvUploadSection from '@/Components/Student/CvUploadSection.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
+import UniversityAutocomplete from '@/Components/Profile/UniversityAutocomplete.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   user: { type: Object, required: true },
   studyFields: { type: Array, default: () => [] },
+  universityOrganization: { type: Object, default: null },
+  suggestedUniversity: { type: Object, default: null },
 })
 
 const { t } = useI18n()
 const { cityOptions, fetchSuggestions: fetchCitySuggestions } = useMapboxGeocoding()
 const photoUpload = ref(null)
 const pendingPhoto = ref(null)
-
-const universityOptions = [
-  'Collegium Witelona',
-  'Politechnika Wrocławska',
-  'Uniwersytet Wrocławski',
-  'Uniwersytet Ekonomiczny we Wrocławiu',
-  'Akademia Nauk Stosowanych Angelusa Silesiusa',
-]
 
 const photoForm = useForm({ photo: null })
 
@@ -51,6 +45,18 @@ const profileForm = useForm({
   skills: [...(props.user.skills ?? [])],
   work_modes: [...(props.user.work_modes ?? [])],
 })
+
+if (!profileForm.university && props.suggestedUniversity) {
+  profileForm.university = props.suggestedUniversity.name
+}
+
+const isUniversitySuggested = computed(() =>
+  !props.universityOrganization
+  && props.suggestedUniversity !== null
+  && profileForm.university === props.suggestedUniversity.name,
+)
+
+const selectedUniversityId = ref(props.suggestedUniversity?.id ?? null)
 
 const hasPhotoPending = computed(() => Boolean(pendingPhoto.value))
 const fieldError = (field) => profileForm.errors[field]
@@ -238,24 +244,20 @@ function saveAll() {
           </h2>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div class="sm:col-span-2">
-              <label for="edit_university" class="mb-1 block text-additional text-sm">
-                {{ t('student.profile.edit.university') }}
-              </label>
-              <select
+              <UniversityAutocomplete
                 id="edit_university"
                 v-model="profileForm.university"
-                class="w-full rounded-lg border border-border bg-white px-4 py-3 text-base text-text transition-all focus:border-text focus:outline-none focus:ring-2 focus:ring-primary/30"
-                :aria-invalid="fieldError('university') ? true : undefined"
-                :aria-describedby="fieldError('university') ? 'edit_university-error' : undefined"
+                :label="t('student.profile.edit.university')"
+                @select="(university) => { selectedUniversityId = university.id }"
+              />
+
+              <p
+                v-if="isUniversitySuggested"
+                class="mt-1 text-primary text-xs"
               >
-                <option
-                  v-for="university in universityOptions"
-                  :key="university"
-                  :value="university"
-                >
-                  {{ university }}
-                </option>
-              </select>
+                *{{ t('student.profile.edit.universitySuggestedNote') }}
+              </p>
+
               <p
                 v-if="fieldError('university')"
                 id="edit_university-error"

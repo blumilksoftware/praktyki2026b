@@ -39,7 +39,7 @@ return [
     ],
 
     "registration" => [
-        "subject" => "Witaj w Applikuj! Potwierdź rejestrację",
+        "subject" => "Witaj w Applikuj!",
         "greeting" => "Witaj :name,",
         "body" => "Dziękujemy za założenie konta studenta w Applikuj. Twoje konto zostało pomyślnie utworzone.",
         "details_heading" => "Dane konta:",
@@ -70,7 +70,7 @@ return [
         "status_changed_body" => "Firma :company_name zmieniła status Twojej aplikacji na stanowisko :job_title na: :status.",
         "status_changed_cta" => "Przejdź do profilu",
         "status" => [
-            "reviewed" => "rozpatrzona",
+            "reviewed" => "rozpatrywana",
             "accepted" => "zaakceptowana",
             "rejected" => "odrzucona",
         ],

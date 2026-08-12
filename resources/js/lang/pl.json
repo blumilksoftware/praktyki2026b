@@ -280,7 +280,6 @@
       "caption": "Lista zgłoszeń kandydatów",
       "title": "Panel zgłoszeń",
       "description": "Przeglądaj i weryfikuj najnowsze zgłoszenia.",
-      "stats": "Statystyki wszystkich zgłoszeń",
       "heading": "Lista zgłoszeń",
       "backToDashboard": "Powrót do strony głównej",
       "placeholder": "Strona w budowie"
@@ -339,7 +338,7 @@
         "activeOffers": "Aktywne oferty"
       },
       "pendingVerifications": "Oczekujące weryfikacje",
-      "verificationProgress": "Postęp weryfikacji",
+      "verificationProgressCount": "{completed} z {total} zakończonych",
       "verificationProgressAriaLabel": "Postęp weryfikacji"
     },
     "layout": {
@@ -513,6 +512,7 @@
         "postalCode": "Kod pocztowy",
         "city": "Miasto",
         "university": "Uczelnia",
+          "universitySuggestedNote": "Wybrano automatycznie na podstawie adresu e-mail Twojej uczelni",
         "studyField": "Kierunek studiów",
         "studyYear": "Rok studiów",
         "specialization": "Specjalność",

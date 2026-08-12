@@ -121,11 +121,11 @@ class StudentProfilePagesTest extends TestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("Student/Profile")
-                    ->where("suggested_university", [
+                    ->where("suggestedUniversity", [
                         "id" => $university->id,
                         "name" => $university->name,
                     ])
-                    ->where("university_organization", null),
+                    ->where("universityOrganization", null),
             );
     }
 
@@ -151,8 +151,8 @@ class StudentProfilePagesTest extends TestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("Student/Profile")
-                    ->where("suggested_university", null)
-                    ->where("university_organization", [
+                    ->where("suggestedUniversity", null)
+                    ->where("universityOrganization", [
                         "id" => $linkedUniversity->id,
                         "name" => $linkedUniversity->name,
                     ]),
@@ -174,8 +174,8 @@ class StudentProfilePagesTest extends TestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("Student/Profile")
-                    ->where("suggested_university", null)
-                    ->where("university_organization", null),
+                    ->where("suggestedUniversity", null)
+                    ->where("universityOrganization", null),
             );
     }
 

@@ -272,7 +272,6 @@
       "caption": "List of candidate applications",
       "title": "Applications panel",
       "description": "Review and verify the latest applications.",
-      "stats": "All applications statistics",
       "heading": "Applications list",
       "backToDashboard": "Back to dashboard",
       "placeholder": "Page under construction"
@@ -330,7 +329,7 @@
         "activeOffers": "Active offers"
       },
       "pendingVerifications": "Pending verifications",
-      "verificationProgress": "Verification progress",
+      "verificationProgressCount": "{completed} of {total} completed",
       "verificationProgressAriaLabel": "Verification progress"
     },
     "layout": {
@@ -626,6 +625,7 @@
         "postalCode": "Postal code",
         "city": "City",
         "university": "University",
+          "universitySuggestedNote": "Pre-selected automatically - detected from your university email address",
         "studyField": "Field of study",
         "studyYear": "Year of study",
         "specialization": "Specialization",
