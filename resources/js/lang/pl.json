@@ -744,46 +744,64 @@
         "description": "Opublikuj ofertę albo zapisz ją jako szkic, żeby dokończyć później.",
         "action": "Utwórz ofertę"
       },
-        "offers": {
-            "title": "Oferty",
-            "subtitle": "Zarządzaj ofertami pracy i aplikacjami kandydatów",
-            "noOffers": "Brak ofert",
-            "confirmDelete": "Czy na pewno chcesz usunąć tę ofertę?",
-            "status": {
-                "published": "Opublikowana",
-                "draft": "Szkic",
-                "closed": "Zamknięta",
-                "expired": "Wygasła"
-            },
-            "table": {
-                "offer": "Oferta",
-                "status": "Status",
-                "spots": "Miejsca",
-                "applications": "Zgłoszenia",
-                "actions": "Akcje"
-            },
-            "actions": {
-                "menu": "Otwórz menu akcji",
-                "edit": "Edytuj",
-                "activate": "Aktywuj",
-                "deactivate": "Dezaktywuj",
-                "delete": "Usuń"
-            },
-            "pagination": {
-                "summary": "Wyświetlono {from}–{to} z {total}"
-            },
-            "search": {
-                "placeholder": "Szukaj ofert",
-                "clear": "Wyczyść wyszukiwanie"
-            },
-            "filters": {
-                "allStatuses": "Wszystkie",
-                "published": "Opublikowane",
-                "draft": "Szkice",
-                "closed": "Zamknięte",
-                "expired": "Wygasłe"
-            }
+      "stats": {
+        "totalOffers": "Wszystkie oferty",
+        "publishedOffers": "Opublikowane",
+        "draftOffers": "Szkice",
+        "applications": "Zgłoszenia"
+      },
+      "shortcuts": {
+        "unreadApplications": "Masz {count} nieprzeczytanych aktualizacji.",
+        "checkIt": "Sprawdź",
+        "myOffers": {
+          "title": "Moje oferty",
+          "description": "Przeglądaj, edytuj i zarządzaj wszystkimi ofertami w jednym miejscu."
+        },
+        "applications": {
+          "title": "Zgłoszenia",
+          "description": "Przejrzyj kandydatów i odpowiadaj na nowe zgłoszenia."
         }
+      },
+      "offers": {
+        "title": "Oferty",
+        "subtitle": "Zarządzaj ofertami pracy i aplikacjami kandydatów",
+        "noOffers": "Brak ofert",
+        "confirmDelete": "Czy na pewno chcesz usunąć tę ofertę?",
+        "status": {
+          "published": "Opublikowana",
+          "draft": "Szkic",
+          "closed": "Zamknięta",
+          "expired": "Wygasła"
+        },
+        "table": {
+          "offer": "Oferta",
+          "status": "Status",
+          "spots": "Miejsca",
+          "applications": "Zgłoszenia",
+          "actions": "Akcje"
+        },
+        "actions": {
+          "menu": "Otwórz menu akcji",
+          "edit": "Edytuj",
+          "activate": "Aktywuj",
+          "deactivate": "Dezaktywuj",
+          "delete": "Usuń"
+        },
+        "pagination": {
+          "summary": "Wyświetlono {from}–{to} z {total}"
+        },
+        "search": {
+          "placeholder": "Szukaj ofert",
+          "clear": "Wyczyść wyszukiwanie"
+        },
+        "filters": {
+          "allStatuses": "Wszystkie",
+          "published": "Opublikowane",
+          "draft": "Szkice",
+          "closed": "Zamknięte",
+          "expired": "Wygasłe"
+        }
+      }
     },
     "profile": {
       "title": "Profil"

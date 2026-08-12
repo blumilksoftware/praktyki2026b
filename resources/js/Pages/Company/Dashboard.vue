@@ -1,14 +1,9 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3'
+import { computed } from 'vue'
+import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconPlus } from '@tabler/icons-vue'
+import { IconPlus, IconBriefcase, IconFileText, IconBell, IconArrowUpRight } from '@tabler/icons-vue'
 import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
-import OffersToolbar from '@/Components/Company/Offers/OffersToolbar.vue'
-import OffersTable from '@/Components/Company/Offers/OffersTable.vue'
-import OffersCards from '@/Components/Company/Offers/OffersCards.vue'
-import OffersPagination from '@/Components/Company/Offers/OffersPagination.vue'
-import { useOffersFilters } from '@/Composables/useOffersFilters'
-import { useOfferActions } from '@/Composables/useOfferActions'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { ROUTES } from '@/Helpers/routes'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
@@ -16,57 +11,51 @@ import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 const { t } = useI18n()
 
 const props = defineProps({
-  offers: {
+  stats: {
     type: Object,
-    required: true,
-  },
-  sort: {
-    type: String,
-    default: 'created_at',
-  },
-  direction: {
-    type: String,
-    default: 'desc',
-  },
-  search: {
-    type: String,
-    default: '',
-  },
-  status: {
-    type: String,
-    default: '',
+    default: () => ({
+      total_offers: 0,
+      published_offers: 0,
+      draft_offers: 0,
+      applications_count: 0,
+      unread_notifications_count: 0,
+    }),
   },
 })
 
-const {
-  searchQuery,
-  statusFilter,
-  applyQuery,
-  onStatusFilterChange,
-  sortBy,
-  sortIcon,
-} = useOffersFilters({
-  search: props.search,
-  status: props.status,
-  sort: props.sort,
-  direction: props.direction,
-})
+const statsCards = computed(() => [
+  {
+    label: t('company.dashboard.stats.totalOffers'),
+    value: props.stats.total_offers,
+    accent: 'text-primary',
+    icon: IconBriefcase,
+    href: ROUTES.COMPANY_OFFERS_INDEX,
+  },
+  {
+    label: t('company.dashboard.stats.publishedOffers'),
+    value: props.stats.published_offers,
+    accent: 'text-emerald-600',
+    icon: IconFileText,
+    href: `${ROUTES.COMPANY_OFFERS_INDEX}?status=published`,
+  },
+  {
+    label: t('company.dashboard.stats.draftOffers'),
+    value: props.stats.draft_offers,
+    accent: 'text-amber-600',
+    icon: IconFileText,
+    href: `${ROUTES.COMPANY_OFFERS_INDEX}?status=draft`,
+  },
+  {
+    label: t('company.dashboard.stats.applications'),
+    value: props.stats.applications_count,
+    accent: 'text-sky-600',
+    icon: IconArrowUpRight,
+    href: ROUTES.COMPANY_APPLICATIONS,
+  },
+])
 
-const {
-  openMenuId,
-  toggleMenu,
-  editOffer,
-  toggleStatusOffer,
-  deleteOffer,
-} = useOfferActions({
-  t,
-  onMutated: () => applyQuery(),
-})
-
-function goToApplications(event, offerId) {
-  event.preventDefault()
-  router.visit(`${ROUTES.COMPANY_APPLICATIONS}?offer=${offerId}`)
-}
+const unreadAlertCount = computed(() => props.stats.unread_notifications_count)
+const unreadAlert = computed(() => unreadAlertCount.value > 0)
 const companyMenu = useCompanyPanelMenu('dashboard')
 </script>
 
@@ -80,6 +69,21 @@ const companyMenu = useCompanyPanelMenu('dashboard')
   >
     <div class="flex flex-col gap-6">
       <OnboardingBanner />
+
+      <div
+        v-if="unreadAlert"
+        class="flex flex-col gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div class="flex items-center gap-2">
+          <IconBell class="h-4 w-4" aria-hidden="true" />
+          <span>
+            {{ t('company.dashboard.shortcuts.unreadApplications', { count: unreadAlertCount }) }}
+          </span>
+        </div>
+        <Link :href="`${ROUTES.COMPANY_APPLICATIONS}?status=pending`" class="font-semibold underline underline-offset-4">
+          {{ t('company.dashboard.shortcuts.checkIt') }}
+        </Link>
+      </div>
 
       <div class="flex flex-col items-start gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
         <div>
@@ -99,59 +103,31 @@ const companyMenu = useCompanyPanelMenu('dashboard')
           {{ t('company.dashboard.createOfferCard.action') }}
         </Link>
       </div>
-    </div>
-    <div class="p-5 sm:p-6 space-y-6">
-      <header class="mb-6">
-        <h1 class="font-semibold text-text text-xl sm:text-2xl">
-          {{ t('company.dashboard.offers.subtitle') }}
-        </h1>
-      </header>
 
-      <div class="rounded-xl border border-border bg-white shadow-sm overflow-visible mt-10">
-        <div class="px-4 py-3 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <h2 class="font-medium text-text">
-            {{ t('company.dashboard.offers.title') }}
-          </h2>
-
-          <OffersToolbar
-            v-model:search="searchQuery"
-            v-model:status="statusFilter"
-            @status-change="onStatusFilterChange"
-          />
-        </div>
-
-        <div
-          v-if="offers.data.length === 0"
-          class="px-4 py-6 text-center text-additional text-sm"
+      <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <Link
+          v-for="card in statsCards"
+          :key="card.label"
+          :href="card.href"
+          class="group flex items-center justify-between rounded-2xl border border-border bg-white p-5 shadow-sm transition hover:border-primary/40 hover:shadow-md"
         >
-          {{ t('company.dashboard.offers.noOffers') }}
-        </div>
-
-        <template v-else>
-          <OffersTable
-            :offers="offers.data"
-            :sort-icon="sortIcon"
-            :open-menu-id="openMenuId"
-            @sort="sortBy"
-            @toggle-menu="toggleMenu"
-            @edit="editOffer"
-            @toggle-status="toggleStatusOffer"
-            @delete="deleteOffer"
-            @go-to-applications="goToApplications"
-          />
-
-          <OffersCards
-            :offers="offers.data"
-            :open-menu-id="openMenuId"
-            @toggle-menu="toggleMenu"
-            @edit="editOffer"
-            @toggle-status="toggleStatusOffer"
-            @delete="deleteOffer"
-            @go-to-applications="goToApplications"
-          />
-        </template>
-
-        <OffersPagination :offers="offers" />
+          <div class="flex items-center gap-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-background">
+              <component :is="card.icon" class="h-6 w-6" :class="card.accent" aria-hidden="true" />
+            </div>
+            <div>
+              <p class="text-[11px] font-medium uppercase tracking-[0.08em] text-additional">
+                {{ card.label }}
+              </p>
+              <p class="mt-1 text-3xl font-semibold text-text leading-none">
+                {{ card.value }}
+              </p>
+            </div>
+          </div>
+          <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-background text-additional transition group-hover:bg-primary/10 group-hover:text-primary">
+            <IconArrowUpRight class="h-4 w-4" aria-hidden="true" />
+          </span>
+        </Link>
       </div>
     </div>
   </BaseLayout>

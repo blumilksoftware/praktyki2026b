@@ -759,6 +759,24 @@
         "description": "Publish an offer or save it as a draft to finish later.",
         "action": "Create offer"
       },
+      "stats": {
+        "totalOffers": "Total offers",
+        "publishedOffers": "Published",
+        "draftOffers": "Drafts",
+        "applications": "Applications"
+      },
+      "shortcuts": {
+        "unreadApplications": "You have {count} unread update(s).",
+        "checkIt": "Check it",
+        "myOffers": {
+          "title": "My offers",
+          "description": "Review, edit and manage all your offers in one place."
+        },
+        "applications": {
+          "title": "Applications",
+          "description": "Review candidates and respond to new applications."
+        }
+      },
       "offers": {
         "title": "Offers",
         "subtitle": "Manage your job postings and applications",

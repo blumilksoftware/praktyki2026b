@@ -36,6 +36,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['toggle', 'preview', 'edit', 'toggle-status', 'delete'])
 </script>
+
 <template>
   <div class="relative inline-flex items-center text-left" :data-offer-menu="offer.id">
     <button

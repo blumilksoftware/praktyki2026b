@@ -264,13 +264,13 @@ onUnmounted(() => {
         :show-verification-hint="true"
         verification-hint-key="company.offers.index.verificationRequiredHint"
         :labels="{
-    menu: 'company.offers.index.actionsMenu',
-    preview: 'company.offers.index.previewAction',
-    edit: 'company.offers.index.editAction',
-    activate: 'company.offers.index.publishAction',
-    deactivate: 'company.offers.index.unpublishAction',
-    delete: 'company.offers.index.deleteAction',
-  }"
+          menu: 'company.offers.index.actionsMenu',
+          preview: 'company.offers.index.previewAction',
+          edit: 'company.offers.index.editAction',
+          activate: 'company.offers.index.publishAction',
+          deactivate: 'company.offers.index.unpublishAction',
+          delete: 'company.offers.index.deleteAction',
+        }"
         :status-key-prefix="'company.offers.index.status'"
         @toggle-menu="toggleMenu"
         @preview="previewOffer"

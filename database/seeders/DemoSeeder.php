@@ -15,7 +15,9 @@ use App\Models\Offer;
 use App\Models\StudyField;
 use App\Models\University;
 use App\Models\User;
+use App\Notifications\NewApplicationNotification;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Notification;
 
 class DemoSeeder extends Seeder
 {
@@ -150,6 +152,16 @@ class DemoSeeder extends Seeder
                 "student_id" => $student->id,
                 "status" => $status,
             ]);
+        }
+
+        $companyAdmin = User::query()->where("email", "company-approved@example.com")->firstOrFail();
+        $testApplications = Application::factory()->count(10)->create([
+            "offer_id" => $offers->first()->id,
+            "status" => ApplicationStatus::Pending,
+        ]);
+
+        foreach ($testApplications as $testApplication) {
+            Notification::send($companyAdmin, new NewApplicationNotification($testApplication));
         }
 
         $faculty = Faculty::factory()->for($approvedUniversity)->create([
