@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import AdminGlassSection from '@/Components/Admin/AdminGlassSection.vue'
 import AdminStatCard from '@/Components/Admin/AdminStatCard.vue'
 
@@ -35,7 +35,7 @@ const stats = computed(() => [
 
 <template>
   <Head :title="t('admin.layout.title')" />
-  <AdminLayout active-page="dashboard" class="bg-slate-300">
+  <AppLayout active-page="dashboard">
     <AdminGlassSection class="px-4 md:px-8 py-5 md:py-6 text-center">
       <h1 class="font-semibold text-text text-2xl">
         {{ t('admin.panel.greeting') }}
@@ -89,5 +89,5 @@ const stats = computed(() => [
         </p>
       </div>
     </AdminGlassSection>
-  </AdminLayout>
+  </AppLayout>
 </template>

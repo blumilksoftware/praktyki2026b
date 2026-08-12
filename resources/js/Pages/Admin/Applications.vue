@@ -6,6 +6,7 @@ import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
 import AdminGlassSection from '@/Components/Admin/AdminGlassSection.vue'
 import AdminStatCard from '@/Components/Admin/AdminStatCard.vue'
 import VerificationTable from '@/Components/Admin/VerificationTable.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 
 const { t } = useI18n()
 
@@ -41,7 +42,7 @@ const stats = computed(() => [
 
 <template>
   <Head :title="t('admin.applications.title')" />
-  <AdminLayout active-page="applications" class="bg-slate-300">
+  <AppLayout active-page="applications">
     <h1 class="font-semibold text-text text-2xl">{{ t('admin.applications.title') }}</h1>
     <p class="mt-2 text-slate-600 text-sm">{{ t('admin.applications.description') }}</p>
     <AdminGlassSection class="px-4 md:px-8 py-5 md:py-6 text-center">
@@ -66,5 +67,5 @@ const stats = computed(() => [
         :filters="filters"
       />
     </AdminGlassSection>
-  </AdminLayout>
+  </AppLayout>
 </template>
