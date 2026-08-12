@@ -31,8 +31,8 @@ const baseCompany = {
 
 const stubs = {
   PartnerConfirmModal: {
-    props: ['open', 'partnerName', 'processing', 'action', 'namespace'],
-    template: '<div v-if="open" class="stub-confirm-modal" :data-action="action"><button @click="$emit(\'confirm\')">confirm</button></div>',
+    props: ['open', 'partnerName', 'processing', 'action', 'namespace', 'error'],
+    template: '<div v-if="open" class="stub-confirm-modal" :data-action="action"><p v-if="error">{{ error }}</p><button @click="$emit(\'confirm\')">confirm</button></div>',
   },
 }
 
@@ -141,6 +141,31 @@ describe('CompanyCard.vue', () => {
     await wrapper.find('.stub-confirm-modal button').trigger('click')
 
     expect(routerDelete).toHaveBeenCalledTimes(1)
+  })
+
+  it('shows a validation error when the propose request fails', async () => {
+    const wrapper = createWrapper('none')
+
+    await wrapper.find('button').trigger('click')
+    await wrapper.find('.stub-confirm-modal button').trigger('click')
+
+    const options = routerPost.mock.calls[0][2]
+    options.onError({ company: 'Already partners.' })
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.text()).toContain('Already partners.')
+  })
+
+  it('shows a validation error when accepting fails', async () => {
+    const wrapper = createWrapper('pending_incoming')
+
+    await wrapper.findAll('button')[0].trigger('click')
+
+    const options = routerPatch.mock.calls[0][2]
+    options.onError({ company: 'Request no longer pending.' })
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.text()).toContain('Request no longer pending.')
   })
 
   it('reflects the partnership status returned by the server', async () => {

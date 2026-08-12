@@ -1064,6 +1064,9 @@
       },
       "partnershipRequested": "{name} proposed a partnership with you",
       "partnershipAccepted": "{name} accepted your partnership proposal",
+      "partnershipCancelled": "{name} cancelled their partnership proposal",
+      "partnershipDeclined": "{name} declined your partnership proposal",
+      "partnershipEnded": "{name} ended the partnership with you",
       "fallback": "New notification"
     }
   }

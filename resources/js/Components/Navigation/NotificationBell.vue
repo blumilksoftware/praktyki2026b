@@ -60,6 +60,12 @@ function notificationLabel(item) {
     return t('notifications.types.partnershipRequested', { name: data.proposer_name })
   case 'partnership_accepted':
     return t('notifications.types.partnershipAccepted', { name: data.acceptor_name })
+  case 'partnership_cancelled':
+    return t('notifications.types.partnershipCancelled', { name: data.canceller_name })
+  case 'partnership_declined':
+    return t('notifications.types.partnershipDeclined', { name: data.decliner_name })
+  case 'partnership_ended':
+    return t('notifications.types.partnershipEnded', { name: data.ender_name })
   default:
     return t('notifications.types.fallback')
   }

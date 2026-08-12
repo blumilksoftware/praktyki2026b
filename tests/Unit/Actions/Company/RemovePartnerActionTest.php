@@ -8,7 +8,12 @@ use App\Actions\Company\RemovePartnerAction;
 use App\Models\Company;
 use App\Models\Partnership;
 use App\Models\University;
+use App\Models\User;
+use App\Notifications\PartnershipCancelledNotification;
+use App\Notifications\PartnershipDeclinedNotification;
+use App\Notifications\PartnershipEndedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class RemovePartnerActionTest extends TestCase
@@ -21,12 +26,14 @@ class RemovePartnerActionTest extends TestCase
     {
         parent::setUp();
         $this->action = new RemovePartnerAction();
+        Notification::fake();
     }
 
     public function testCompanyCanCancelItsOwnPendingRequest(): void
     {
-        $company = Company::factory()->create();
+        $company = Company::factory()->create(["name" => "Acme Corp"]);
         $university = University::factory()->create();
+        $universityUser = User::factory()->create(["organization_id" => $university->id]);
 
         Partnership::factory()->pending()->requestedByCompany()->create([
             "company_id" => $company->id,
@@ -39,12 +46,18 @@ class RemovePartnerActionTest extends TestCase
             "company_id" => $company->id,
             "university_id" => $university->id,
         ]);
+
+        Notification::assertSentTo(
+            $universityUser,
+            fn(PartnershipCancelledNotification $notification): bool => $notification->toArray($universityUser)["canceller_name"] === "Acme Corp",
+        );
     }
 
     public function testCompanyCanDeclineIncomingRequest(): void
     {
-        $company = Company::factory()->create();
+        $company = Company::factory()->create(["name" => "Acme Corp"]);
         $university = University::factory()->create();
+        $universityUser = User::factory()->create(["organization_id" => $university->id]);
 
         Partnership::factory()->pending()->requestedByUniversity()->create([
             "company_id" => $company->id,
@@ -57,12 +70,18 @@ class RemovePartnerActionTest extends TestCase
             "company_id" => $company->id,
             "university_id" => $university->id,
         ]);
+
+        Notification::assertSentTo(
+            $universityUser,
+            fn(PartnershipDeclinedNotification $notification): bool => $notification->toArray($universityUser)["decliner_name"] === "Acme Corp",
+        );
     }
 
     public function testCompanyCanEndActivePartnership(): void
     {
-        $company = Company::factory()->create();
+        $company = Company::factory()->create(["name" => "Acme Corp"]);
         $university = University::factory()->create();
+        $universityUser = User::factory()->create(["organization_id" => $university->id]);
 
         Partnership::factory()->active()->create([
             "company_id" => $company->id,
@@ -75,6 +94,11 @@ class RemovePartnerActionTest extends TestCase
             "company_id" => $company->id,
             "university_id" => $university->id,
         ]);
+
+        Notification::assertSentTo(
+            $universityUser,
+            fn(PartnershipEndedNotification $notification): bool => $notification->toArray($universityUser)["ender_name"] === "Acme Corp",
+        );
     }
 
     public function testRemovingNonExistentPartnershipIsANoop(): void

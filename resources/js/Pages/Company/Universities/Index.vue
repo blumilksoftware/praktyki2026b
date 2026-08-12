@@ -54,7 +54,7 @@ watch([nameFilter, cityFilter], search, { debounce: 300 })
   >
     <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('company.universities.title') }}</h1>
 
-    <div class="mb-6 flex flex-col rounded-3xl border border-border/80 bg-white/90 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:flex-row sm:items-center">
+    <div class="mb-6 flex flex-col rounded-3xl border border-border/80 bg-white/90 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm transition focus-within:ring-2 focus-within:ring-primary/20 sm:flex-row sm:items-center">
       <label class="flex flex-1 items-center gap-3 px-5 py-4 sm:border-r sm:border-border/80" for="universities-filter-name">
         <IconSearch class="h-5 w-5 shrink-0 text-additional" aria-hidden="true" />
         <input

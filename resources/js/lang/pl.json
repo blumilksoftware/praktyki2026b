@@ -1052,6 +1052,9 @@
       },
       "partnershipRequested": "{name} zaproponował(a) Ci partnerstwo",
       "partnershipAccepted": "{name} zaakceptował(a) Twoją propozycję partnerstwa",
+      "partnershipCancelled": "{name} anulował(a) propozycję partnerstwa",
+      "partnershipDeclined": "{name} odrzucił(a) propozycję partnerstwa",
+      "partnershipEnded": "{name} zakończył(a) partnerstwo z Tobą",
       "fallback": "Nowe powiadomienie"
     }
   }

@@ -10,6 +10,7 @@ const props = defineProps({
   processing: { type: Boolean, default: false },
   action: { type: String, default: 'propose' },
   namespace: { type: String, required: true },
+  error: { type: String, default: null },
 })
 
 const emit = defineEmits(['close', 'confirm'])
@@ -31,6 +32,9 @@ const confirmLabel = computed(() => t(`${props.namespace}.${props.action}.confir
   >
     <p class="text-additional text-sm">
       {{ confirmation }}
+    </p>
+    <p v-if="error" class="mt-3 text-error text-sm" role="alert">
+      {{ error }}
     </p>
     <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
       <BaseButton type="button" variant="secondary" :disabled="processing" @click="emit('close')">
