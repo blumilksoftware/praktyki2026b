@@ -65,6 +65,12 @@
         "cancel": "Anuluj",
         "confirm": "Usuń członka"
       },
+      "memberPreview": {
+        "title": "Szczegóły członka",
+        "email": "E-mail",
+        "joined": "Dołączył(a)",
+        "close": "Zamknij"
+      },
       "roles": {
         "companyAdmin": "Administrator",
         "companyMember": "Członek",

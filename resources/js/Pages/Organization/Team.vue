@@ -7,6 +7,9 @@ import BaseModal from '@/Components/Common/BaseModal.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import TeamMemberCard from '@/Components/Organization/TeamMemberCard.vue'
 import TeamInvitationCard from '@/Components/Organization/TeamInvitationCard.vue'
+import TeamMemberPreviewModal from '@/Components/Organization/TeamMemberPreviewModal.vue'
+import TeamInviteModal from '@/Components/Organization/TeamInviteModal.vue'
+import TeamRemoveModal from '@/Components/Organization/TeamRemoveModal.vue'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { useUniversityPanelMenu } from '@/Composables/useUniversityPanelMenu'
 import Pagination from '@/Components/Common/Pagination.vue'
@@ -100,12 +103,16 @@ const invitationsPage = computed(() => {
   }
 })
 
+const currentUserId = computed(() => page.props.auth?.user?.id)
+
 const canManageInvitations = computed(() => {
   const role = page.props.auth?.user?.role
 
   return role === 'companyAdmin' || role === 'universityAdmin'
 })
 
+const activeTab = ref('members')
+const previewTarget = ref(null)
 const removeTarget = ref(null)
 const removeForm = useForm({})
 const revokeForm = useForm({})
@@ -194,7 +201,19 @@ function goToPage(url) {
   router.get(url, {}, { preserveState: true, preserveScroll: true, replace: true })
 }
 
+function openMemberPreview(member) {
+  previewTarget.value = member
+}
+
+function closeMemberPreview() {
+  previewTarget.value = null
+}
+
 function openRemoveModal(member) {
+  if (member?.id === currentUserId.value) {
+    return
+  }
+
   removeTarget.value = member
 }
 
@@ -203,7 +222,7 @@ function closeRemoveModal() {
 }
 
 function confirmRemove() {
-  if (!removeTarget.value) {
+  if (!removeTarget.value || removeTarget.value.id === currentUserId.value) {
     return
   }
 
@@ -264,15 +283,51 @@ function submitInvite() {
         </div>
       </section>
 
-      <div class="grid min-w-0 gap-6 lg:grid-cols-2">
-        <section class="min-w-0 rounded-2xl border border-border bg-white p-6 shadow-sm">
-          <div class="mb-4 flex items-start justify-between gap-4">
-            <h2 class="break-words font-semibold text-text text-lg">
+      <section class="min-w-0 rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-6">
+        <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div class="inline-flex rounded-xl border border-border bg-background p-1">
+            <button
+              type="button"
+              class="rounded-lg px-4 py-2 text-sm font-medium transition"
+              :class="activeTab === 'members'
+                ? 'bg-white text-text shadow-sm ring-1 ring-border'
+                : 'text-additional hover:text-text'"
+              @click="activeTab = 'members'"
+            >
               {{ t('organization.team.membersTitle') }}
-            </h2>
-            <p class="mt-1 break-words text-sm text-additional">
-              {{ t('organization.team.membersDescription') }}
-            </p>
+            </button>
+            <button
+              type="button"
+              class="rounded-lg px-4 py-2 text-sm font-medium transition"
+              :class="activeTab === 'invitations'
+                ? 'bg-white text-text shadow-sm ring-1 ring-border'
+                : 'text-additional hover:text-text'"
+              @click="activeTab = 'invitations'"
+            >
+              {{ t('organization.team.invitationsTitle') }}
+            </button>
+          </div>
+
+          <BaseButton
+            v-if="activeTab === 'invitations' && canManageInvitations"
+            type="button"
+            class="w-full sm:w-auto"
+            @click="openInviteModal"
+          >
+            {{ t('organization.team.inviteButton') }}
+          </BaseButton>
+        </div>
+
+        <div v-if="activeTab === 'members'" class="min-w-0">
+          <div class="mb-4 flex items-start justify-between gap-4">
+            <div class="min-w-0">
+              <h2 class="break-words font-semibold text-text text-lg">
+                {{ t('organization.team.membersTitle') }}
+              </h2>
+              <p class="mt-1 break-words text-sm text-additional">
+                {{ t('organization.team.membersDescription') }}
+              </p>
+            </div>
           </div>
 
           <div class="mb-4">
@@ -298,6 +353,8 @@ function submitInvite() {
               :join-date-label="t('organization.team.joinDate', { date: formatDate(member.joinedAt) })"
               :remove-label="t('organization.team.remove')"
               :can-remove="canManageInvitations"
+              :disable-remove="member.id === currentUserId"
+              @preview="openMemberPreview(member)"
               @remove="openRemoveModal(member)"
             />
           </div>
@@ -313,9 +370,9 @@ function submitInvite() {
 
             <Pagination :meta="membersPagination" />
           </div>
-        </section>
+        </div>
 
-        <section class="min-w-0 rounded-2xl border border-border bg-white p-6 shadow-sm">
+        <div v-else class="min-w-0">
           <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div class="min-w-0">
               <h2 class="break-words font-semibold text-text text-lg">
@@ -325,15 +382,6 @@ function submitInvite() {
                 {{ t('organization.team.invitationsDescription') }}
               </p>
             </div>
-
-            <BaseButton
-              v-if="canManageInvitations"
-              type="button"
-              class="w-full sm:w-auto"
-              @click="openInviteModal"
-            >
-              {{ t('organization.team.inviteButton') }}
-            </BaseButton>
           </div>
 
           <div class="mb-4">
@@ -373,64 +421,36 @@ function submitInvite() {
 
             <Pagination :meta="invitationsPagination" />
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   </BaseLayout>
 
-  <BaseModal
+  <TeamMemberPreviewModal
+    :open="Boolean(previewTarget)"
+    :title="t('organization.team.memberPreview.title')"
+    :member="previewTarget"
+    @close="closeMemberPreview"
+  />
+
+  <TeamInviteModal
     v-if="canManageInvitations"
     :open="isInviteModalOpen"
     :title="t('organization.team.inviteModal.title')"
+    :email="inviteForm.email"
+    :email-error="inviteForm.errors.email"
+    :processing="inviteForm.processing"
     @close="closeInviteModal"
-  >
-    <form class="flex flex-col gap-6" novalidate @submit.prevent="submitInvite">
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-medium text-text" for="team-invite-email">
-          {{ t('organization.team.inviteModal.emailLabel') }}
-        </label>
-        <input
-          id="team-invite-email"
-          v-model="inviteForm.email"
-          type="email"
-          autocomplete="email"
-          class="w-full rounded-lg border border-border bg-white px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
-          :placeholder="t('organization.team.inviteModal.emailPlaceholder')"
-        >
-        <p v-if="inviteForm.errors.email" class="text-sm text-error">
-          {{ inviteForm.errors.email }}
-        </p>
-      </div>
+    @submit="submitInvite"
+    @update:email="inviteForm.email = $event"
+  />
 
-      <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-        <BaseButton type="button" variant="secondary" :disabled="inviteForm.processing" @click="closeInviteModal">
-          {{ t('organization.team.inviteModal.cancel') }}
-        </BaseButton>
-        <BaseButton type="submit" :disabled="inviteForm.processing">
-          {{ t('organization.team.inviteModal.submit') }}
-        </BaseButton>
-      </div>
-    </form>
-  </BaseModal>
-
-  <BaseModal
+  <TeamRemoveModal
     :open="Boolean(removeTarget)"
     :title="t('organization.team.removeModal.title')"
+    :member-name="removeTarget?.name ?? removeTarget?.email ?? ''"
+    :processing="removeForm.processing"
     @close="closeRemoveModal"
-  >
-    <div class="flex flex-col gap-6">
-      <p class="text-sm leading-relaxed text-additional">
-        {{ t('organization.team.removeModal.description', { name: removeTarget?.name ?? '' }) }}
-      </p>
-
-      <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-        <BaseButton type="button" variant="secondary" :disabled="removeForm.processing" @click="closeRemoveModal">
-          {{ t('organization.team.removeModal.cancel') }}
-        </BaseButton>
-        <BaseButton type="button" :disabled="removeForm.processing" @click="confirmRemove">
-          {{ t('organization.team.removeModal.confirm') }}
-        </BaseButton>
-      </div>
-    </div>
-  </BaseModal>
+    @confirm="confirmRemove"
+  />
 </template>

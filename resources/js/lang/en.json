@@ -58,6 +58,12 @@
         "cancel": "Cancel",
         "confirm": "Remove member"
       },
+      "memberPreview": {
+        "title": "Member details",
+        "email": "Email",
+        "joined": "Joined",
+        "close": "Close"
+      },
       "roles": {
         "companyAdmin": "Administrator",
         "companyMember": "Member",

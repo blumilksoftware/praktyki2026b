@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
-import { IconX } from '@tabler/icons-vue'
+import { IconTrash } from '@tabler/icons-vue'
+
 const props = defineProps({
   member: {
     type: Object,
@@ -22,13 +23,47 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  disableRemove: {
+    type: Boolean,
+    default: false,
+  },
 })
-const emit = defineEmits(['remove'])
+
+const emit = defineEmits(['remove', 'preview'])
 const memberInitial = computed(() => props.member.name?.charAt(0) || 'U')
+const canRenderRemoveAction = computed(() => props.canRemove || props.disableRemove)
+const cardClass = computed(() => (props.canRemove || props.disableRemove
+  ? 'group cursor-pointer overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]'
+  : 'cursor-pointer overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition'))
+
+function handleRemove(event) {
+  event.stopPropagation()
+
+  if (props.disableRemove) {
+    return
+  }
+
+  emit('remove')
+}
+
+function handlePreview(event) {
+  if (event && event.target && event.target.closest('button')) {
+    return
+  }
+
+  emit('preview')
+}
 </script>
 
 <template>
-  <article class="group overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
+  <article
+    :class="cardClass"
+    tabindex="0"
+    role="button"
+    @click="handlePreview"
+    @keydown.enter.prevent="emit('preview')"
+    @keydown.space.prevent="emit('preview')"
+  >
     <div class="p-5">
       <div class="flex items-start justify-between gap-3">
         <div class="min-w-0 flex flex-1 gap-3">
@@ -45,13 +80,19 @@ const memberInitial = computed(() => props.member.name?.charAt(0) || 'U')
           </div>
         </div>
         <button
-          v-if="props.canRemove"
+          v-if="canRenderRemoveAction"
           type="button"
-          class="inline-flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg text-additional transition hover:bg-background hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          :disabled="props.disableRemove"
+          class="inline-flex items-center gap-1.5 rounded-lg border px-2 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          :class="props.disableRemove
+            ? 'cursor-not-allowed border-transparent bg-transparent text-additional opacity-55'
+            : 'cursor-pointer border-red-200 bg-red-50 text-red-600 hover:bg-red-100'"
           :aria-label="props.removeLabel"
-          @click="emit('remove')"
+          :aria-disabled="props.disableRemove ? true : undefined"
+          @click="handleRemove"
         >
-          <IconX class="h-4 w-4" aria-hidden="true" />
+          <IconTrash class="h-4 w-4" aria-hidden="true" />
+          <span>{{ props.removeLabel }}</span>
         </button>
       </div>
       <div class="mt-2 flex flex-wrap items-center justify-between gap-2 pl-[52px]">
