@@ -1,5 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { IconSelector, IconChevronUp, IconChevronDown } from '@tabler/icons-vue'
 
 const props = defineProps({
   items: { type: Array, default: () => [] },
@@ -19,6 +20,11 @@ function handleSort(col) {
   const newDir = props.sortKey === col.key && props.sortDir === 'asc' ? 'desc' : 'asc'
   emit('sort', { key: col.key, dir: newDir })
 }
+
+function sortIcon(col) {
+  if (props.sortKey !== col.key) return IconSelector
+  return props.sortDir === 'asc' ? IconChevronUp : IconChevronDown
+}
 </script>
 
 <template>
@@ -30,7 +36,7 @@ function handleSort(col) {
       <article
         v-for="item in props.items"
         :key="`mobile-${item[props.rowKey]}`"
-        class="bg-white/40 p-4 rounded-xl ring-1 ring-black/5"
+        class="bg-white p-4 rounded-xl border border-border"
       >
         <div class="flex justify-between items-center gap-3">
           <p class="font-semibold text-text text-sm">{{ item.name || item[props.rowKey] }}</p>
@@ -53,10 +59,10 @@ function handleSort(col) {
       </article>
     </div>
 
-    <div v-if="props.items.length > 0" class="hidden xl:block bg-white/35 rounded-xl ring-1 ring-black/5 overflow-x-auto">
+    <div v-if="props.items.length > 0" class="hidden xl:block overflow-x-auto">
       <table class="min-w-full text-sm">
         <caption class="sr-only">{{ props.caption || 'Data table' }}</caption>
-        <thead class="bg-white/50 font-semibold text-slate-600 text-xs uppercase tracking-wide">
+        <thead class="bg-gray-50 font-semibold text-slate-600 text-xs uppercase tracking-wide">
           <tr>
             <th
               v-for="col in props.columns"
@@ -64,7 +70,7 @@ function handleSort(col) {
               :class="[
                 'px-4 py-3',
                 col.align === 'right' ? 'text-right' : 'text-left',
-                col.sortable ? 'cursor-pointer select-none hover:bg-white/60 transition-colors' : '',
+                col.sortable ? 'cursor-pointer select-none hover:bg-gray-100 transition-colors' : '',
               ]"
               :aria-sort="col.sortable && sortKey === col.key
                 ? (sortDir === 'asc' ? 'ascending' : 'descending')
@@ -74,20 +80,19 @@ function handleSort(col) {
               <span v-if="col.srLabel" class="sr-only">{{ col.srLabel }}</span>
               <span class="inline-flex items-center gap-1">
                 {{ col.label }}
-                <span
+                <component
+                  :is="sortIcon(col)"
                   v-if="col.sortable"
-                  class="inline-flex flex-col text-[10px] leading-none"
+                  class="w-3.5 h-3.5"
+                  :class="sortKey === col.key ? 'text-primary' : 'text-slate-400'"
                   aria-hidden="true"
-                >
-                  <span :class="sortKey === col.key && sortDir === 'asc' ? 'text-primary' : 'text-slate-300'">▲</span>
-                  <span :class="sortKey === col.key && sortDir === 'desc' ? 'text-primary' : 'text-slate-300'">▼</span>
-                </span>
+                />
               </span>
             </th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="item in props.items" :key="item[props.rowKey]" class="border-white/60 border-t">
+        <tbody class="divide-y divide-border">
+          <tr v-for="item in props.items" :key="item[props.rowKey]" class="hover:bg-gray-50">
             <td
               v-for="col in props.columns"
               :key="col.key"
