@@ -30,7 +30,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['remove', 'preview'])
-const memberInitial = computed(() => props.member.name?.charAt(0) || 'U')
 const canRenderRemoveAction = computed(() => props.canRemove || props.disableRemove)
 const cardClass = computed(() => (props.canRemove || props.disableRemove
   ? 'group cursor-pointer overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]'
@@ -59,17 +58,14 @@ function handlePreview(event) {
   <article
     :class="cardClass"
     tabindex="0"
-    role="button"
+    role="region"
     @click="handlePreview"
     @keydown.enter.prevent="emit('preview')"
     @keydown.space.prevent="emit('preview')"
   >
     <div class="p-5">
       <div class="flex items-start justify-between gap-3">
-        <div class="min-w-0 flex flex-1 gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-background text-sm font-semibold text-additional">
-            {{ memberInitial }}
-          </div>
+        <div class="min-w-0 flex flex-1 items-center gap-3">
           <div class="min-w-0 flex flex-wrap items-center gap-2">
             <h3 class="min-w-0 break-words text-lg font-semibold tracking-tight text-text sm:text-2xl">
               {{ props.member.name }}
@@ -95,7 +91,7 @@ function handlePreview(event) {
           <span>{{ props.removeLabel }}</span>
         </button>
       </div>
-      <div class="mt-2 flex flex-wrap items-center justify-between gap-2 pl-[52px]">
+      <div class="mt-2 flex flex-wrap items-center justify-between gap-2">
         <p class="min-w-0 break-all text-sm font-semibold text-additional">
           {{ props.member.email }}
         </p>
