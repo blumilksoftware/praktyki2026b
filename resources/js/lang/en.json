@@ -160,6 +160,9 @@
     "noContactInfo": "No contact information",
     "currentOffers": "Current offers",
     "noOffers": "No current offers",
+    "partners": {
+      "title": "University partners"
+    },
     "nip": "NIP",
     "spots": "Spots",
     "uploadLogo": "Upload logo",

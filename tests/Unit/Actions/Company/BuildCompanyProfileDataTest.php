@@ -7,6 +7,8 @@ namespace Tests\Unit\Actions\Company;
 use App\Actions\Company\BuildCompanyProfileData;
 use App\Models\Company;
 use App\Models\Offer;
+use App\Models\Partnership;
+use App\Models\University;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -83,5 +85,43 @@ class BuildCompanyProfileDataTest extends TestCase
         $result = (new BuildCompanyProfileData())->execute($company);
 
         $this->assertCount(0, $result["offers"]);
+    }
+
+    public function testItReturnsOnlyActivePartnerUniversities(): void
+    {
+        $company = Company::factory()->approved()->create();
+
+        $activePartner = University::factory()->approved()->create(["name" => "Active Uni"]);
+        Partnership::factory()->active()->create([
+            "company_id" => $company->id,
+            "university_id" => $activePartner->id,
+        ]);
+
+        $pendingPartner = University::factory()->approved()->create(["name" => "Pending Uni"]);
+        Partnership::factory()->pending()->requestedByUniversity()->create([
+            "company_id" => $company->id,
+            "university_id" => $pendingPartner->id,
+        ]);
+
+        $result = (new BuildCompanyProfileData())->execute($company);
+
+        $this->assertCount(1, $result["partners"]);
+        $this->assertSame("Active Uni", $result["partners"]->first()["name"]);
+    }
+
+    public function testItExcludesOtherCompaniesPartners(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $otherCompany = Company::factory()->approved()->create();
+        $university = University::factory()->approved()->create();
+
+        Partnership::factory()->active()->create([
+            "company_id" => $otherCompany->id,
+            "university_id" => $university->id,
+        ]);
+
+        $result = (new BuildCompanyProfileData())->execute($company);
+
+        $this->assertCount(0, $result["partners"]);
     }
 }

@@ -168,6 +168,9 @@
     "noContactInfo": "Brak danych kontaktowych",
     "currentOffers": "Aktualne oferty",
     "noOffers": "Brak aktualnych ofert",
+    "partners": {
+      "title": "Partnerskie uczelnie"
+    },
     "nip": "NIP",
     "spots": "Miejsca",
     "uploadLogo": "Prześlij logo",
