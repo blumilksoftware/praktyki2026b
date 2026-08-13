@@ -1,4 +1,5 @@
 <script setup>
+import { Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconDownload } from '@tabler/icons-vue'
 
@@ -49,7 +50,14 @@ const onStatusChange = (event) => {
         {{ getInitials(application.student_name) }}
       </div>
       <div class="flex flex-col">
-        <span class="font-bold text-[#0f172a] text-lg leading-tight">{{ application.student_name }}</span>
+        <Link
+          v-if="application.profile_url"
+          :href="application.profile_url"
+          class="font-bold text-[#0f172a] text-lg leading-tight rounded transition-colors hover:text-[#1e3a8a] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+        >
+          {{ application.student_name }}
+        </Link>
+        <span v-else class="font-bold text-[#0f172a] text-lg leading-tight">{{ application.student_name }}</span>
         <span class="text-sm text-slate-500 font-medium">
           {{ application.university?.name || application.university || t('profiles.company.applications.no_university') }}
         </span>
