@@ -48,6 +48,7 @@ class ApplicationController extends Controller
                 "status" => $app->status->value,
                 "offer_title" => $app->offer->title,
                 "cv_url" => $app->cv_path ? route("company.applications.cv", $app) : null,
+                "profile_url" => route("company.students.show", $app->student),
             ]);
 
         if ($request->wantsJson()) {

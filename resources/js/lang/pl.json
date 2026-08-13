@@ -611,8 +611,12 @@
     "workModes": {
       "remote": "Zdalnie",
       "hybrid": "Hybrydowo",
-      "onsite": "Stacjonarnie",
       "onSite": "Stacjonarnie"
+    },
+    "publicProfile": {
+      "noSkills": "Kandydat nie dodał żadnych umiejętności technicznych.",
+      "noWorkModes": "Kandydat nie wybrał oczekiwanego trybu pracy.",
+      "noPreferences": "Kandydat nie określił preferencji wyszukiwania."
     },
     "favorites": {
       "heading": "Twoje zapisane oferty",
