@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import {
   IconDotsVertical,
-  IconEye,
+  IconClipboardText,
   IconPencil,
   IconPlayerPause,
   IconPlayerPlay,
@@ -26,7 +26,7 @@ const props = defineProps({
     type: Object,
     default: () => ({
       menu: 'company.dashboard.offers.actions.menu',
-      preview: 'company.dashboard.offers.actions.preview',
+      applications: 'company.dashboard.offers.actions.applications',
       edit: 'company.dashboard.offers.actions.edit',
       activate: 'company.dashboard.offers.actions.activate',
       deactivate: 'company.dashboard.offers.actions.deactivate',
@@ -34,7 +34,7 @@ const props = defineProps({
     }),
   },
 })
-const emit = defineEmits(['toggle', 'preview', 'edit', 'toggle-status', 'delete'])
+const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'delete'])
 </script>
 
 <template>
@@ -55,10 +55,10 @@ const emit = defineEmits(['toggle', 'preview', 'edit', 'toggle-status', 'delete'
       <button
         type="button"
         class="flex items-center gap-2 w-full px-3 py-2 text-left text-text hover:bg-gray-50 cursor-pointer"
-        @click="emit('preview', props.offer)"
+        @click="emit('applications', props.offer)"
       >
-        <IconEye class="w-4 h-4" />
-        {{ t(props.labels.preview) }}
+        <IconClipboardText class="w-4 h-4" />
+        {{ t(props.labels.applications) }}
       </button>
       <button
         type="button"
