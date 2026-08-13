@@ -5,6 +5,8 @@ import { useI18n } from 'vue-i18n'
 import { IconSearch } from '@tabler/icons-vue'
 import DataTable from '@/Components/Common/DataTable.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
+import VerificationActionsMenu from '@/Components/Admin/VerificationActionsMenu.vue'
+import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import { Teleport } from 'vue'
 import { useVerificationStatus } from '@/Composables/useVerificationStatus'
 
@@ -16,6 +18,14 @@ const props = defineProps({
   universities: {
     type: Object,
     default: () => ({ data: [], links: {}, meta: {} }),
+  },
+  companyStats: {
+    type: Object,
+    default: () => ({ pending: 0, verified: 0, rejected: 0 }),
+  },
+  universityStats: {
+    type: Object,
+    default: () => ({ pending: 0, verified: 0, rejected: 0 }),
   },
   filters: {
     type: Object,
@@ -53,6 +63,31 @@ const currentItems = computed(() => {
   return entityType.value === 'company' ? props.companies.data : props.universities.data
 })
 
+const currentStats = computed(() => {
+  const source = entityType.value === 'company' ? props.companyStats : props.universityStats
+  return [
+    { label: t('admin.verification.pending'), value: source.pending },
+    { label: t('admin.verification.verified'), value: source.verified },
+    { label: t('admin.verification.rejected'), value: source.rejected },
+  ]
+})
+
+const openMenuId = ref(null)
+
+function toggleMenu(itemId) {
+  openMenuId.value = openMenuId.value === itemId ? null : itemId
+}
+
+function closeMenu() {
+  openMenuId.value = null
+}
+
+function handleClickOutsideMenu(event) {
+  if (!event.target.closest('[data-verification-menu]')) {
+    closeMenu()
+  }
+}
+
 const companyDetailFields = [
   { key: 'name', label: t('admin.verification.name') },
   { key: 'nip', label: t('admin.verification.nip') },
@@ -85,6 +120,7 @@ function openDetailsModal(item, event) {
   detailsTriggerRef.value = event?.target || document.activeElement
   detailsItem.value = item
   showDetailsModal.value = true
+  closeMenu()
   nextTick(() => {
     const modal = detailsModalRef.value
     if (modal) {
@@ -151,7 +187,7 @@ const companyColumns = [
 
 const universityColumns = [
   { key: 'name', label: t('admin.verification.name'), sortable: true },
-  { key: 'domain', label: t('admin.verification.domain'), sortable: true },
+  { key: 'city', label: t('admin.verification.city'), sortable: true },
   { key: 'email', label: t('admin.verification.email'), sortable: true },
   { key: 'phone', label: t('admin.verification.phone') },
   { key: 'created_at', label: t('admin.verification.submittedAt'), sortable: true },
@@ -160,6 +196,7 @@ const universityColumns = [
 ]
 
 function acceptCompany(company) {
+  closeMenu()
   acceptCompanyForm
     .transform(data => ({
       ...data,
@@ -175,6 +212,7 @@ function acceptCompany(company) {
 }
 
 function acceptUniversity(university) {
+  closeMenu()
   acceptUniversityForm
     .transform(data => ({
       ...data,
@@ -195,6 +233,7 @@ function openRejectModal(item, event) {
   rejectReason.value = ''
   rejectError.value = ''
   showRejectModal.value = true
+  closeMenu()
   nextTick(() => {
     const modal = rejectModalRef.value
     if (modal) {
@@ -302,9 +341,11 @@ function formatDate(dateString) {
 onMounted(() => {
   window.addEventListener('keydown', handleEscapeKey)
   window.addEventListener('keydown', handleTabKey)
+  document.addEventListener('click', handleClickOutsideMenu)
 })
 
 onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutsideMenu)
   window.removeEventListener('keydown', handleEscapeKey)
   window.removeEventListener('keydown', handleTabKey)
 })
@@ -312,25 +353,34 @@ onUnmounted(() => {
 
 <template>
   <div class="space-y-6">
+    <section class="gap-4 grid grid-cols-1 sm:grid-cols-3">
+      <ProfilePageCard v-for="stat in currentStats" :key="stat.label" centered>
+        <div class="font-medium text-additional text-sm">{{ stat.label }}</div>
+        <div class="mt-2 font-bold text-text text-3xl">{{ stat.value }}</div>
+      </ProfilePageCard>
+    </section>
+
     <div class="flex lg:flex-row flex-col lg:justify-between lg:items-center gap-4">
-      <div class="flex gap-2">
+      <div class="flex items-center gap-1 bg-background p-1 rounded-lg border border-border self-start">
         <button
+          type="button"
           :class="[
-            'px-4 py-2 mx-2 rounded-lg cursor-pointer font-medium text-sm transition',
-            entityType === 'university' 
-              ? 'bg-primary text-white hover:bg-primary/80 border border-primary shadow-md shadow-primary/80' 
-              : 'bg-white/40 text-slate-700 border border-black/20 hover:bg-white hover:shadow-lg hover:text-slate-900'
+            'px-3 py-1.5 rounded-md cursor-pointer font-medium text-sm transition-all',
+            entityType === 'university'
+              ? 'bg-primary/10 text-primary font-semibold shadow-xs'
+              : 'text-additional hover:text-text hover:bg-background/60'
           ]"
           @click="entityType = 'university'"
         >
           {{ t('admin.verification.universities') }}
         </button>
         <button
+          type="button"
           :class="[
-            'px-4 py-2 rounded-lg cursor-pointer font-medium text-sm transition',
-            entityType === 'company' 
-              ? 'bg-primary text-white hover:bg-primary/80 border border-primary shadow-md shadow-primary/80' 
-              : 'bg-white/40 text-slate-700 border border-black/20 hover:bg-white hover:shadow-lg hover:text-slate-900'
+            'px-3 py-1.5 rounded-md cursor-pointer font-medium text-sm transition-all',
+            entityType === 'company'
+              ? 'bg-primary/10 text-primary font-semibold shadow-xs'
+              : 'text-additional hover:text-text hover:bg-background/60'
           ]"
           @click="entityType = 'company'"
         >
@@ -342,7 +392,7 @@ onUnmounted(() => {
         <select
           v-model="statusFilter"
           :aria-label="t('admin.verification.filterByStatusAriaLabel')"
-          class="bg-white/40 px-4 py-2 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 text-slate-700 text-sm"
+          class="bg-white px-4 py-2 pr-10 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 text-slate-700 text-sm"
         >
           <option value="all">{{ t('admin.verification.all') }}</option>
           <option value="pending">{{ t('admin.verification.pending') }}</option>
@@ -358,7 +408,7 @@ onUnmounted(() => {
             type="text"
             :placeholder="t('admin.verification.search')"
             :aria-label="t('admin.verification.searchAriaLabel')"
-            class="bg-white/40 px-4 py-2 pr-10 pl-9 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 w-full text-slate-700 text-sm"
+            class="bg-white px-4 py-2 pr-10 pl-9 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 w-full text-slate-700 text-sm"
           >
           <button
             v-if="searchQuery"
@@ -401,7 +451,6 @@ onUnmounted(() => {
           <span
             v-if="item.verification_status === 'rejected' && item.rejection_reason"
             class="group relative cursor-help"
-            :title="item.rejection_reason"
           >
             <span class="inline-flex justify-center items-center bg-red-100 rounded-full w-4 h-4 font-bold text-red-500 text-xs">?</span>
             <div class="bottom-full left-1/2 z-10 absolute bg-slate-800 opacity-0 group-hover:opacity-100 shadow-lg mb-2 px-3 py-2 rounded-lg w-56 text-white text-xs transition-opacity -translate-x-1/2 pointer-events-none">
@@ -412,33 +461,17 @@ onUnmounted(() => {
         </div>
       </template>
       <template #cell-actions="{ item }">
-        <div class="flex sm:flex-row flex-col xl:flex-col gap-2">
-          <button
-            class="flex-1 bg-slate-300 hover:bg-slate-200 px-3 py-1.5 rounded-lg font-medium text-slate-900 text-sm transition cursor-pointer"
-            :aria-label="t('admin.verification.detailsAriaLabel', { name: item.name })"
-            @click="openDetailsModal(item, $event)"
-          >
-            {{ t('admin.verification.details') }}
-          </button>
-          <button
-            v-if="item.verification_status === 'pending'"
-            :disabled="entityType === 'company' ? acceptCompanyForm.processing : acceptUniversityForm.processing"
-            class="flex-1 bg-green-600 hover:bg-green-700 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-sm transition cursor-pointer disabled:cursor-not-allowed"
-            :aria-label="t('admin.verification.acceptAriaLabel', { name: item.name })"
-            @click="entityType === 'company' ? acceptCompany(item) : acceptUniversity(item)"
-          >
-            {{ t('admin.verification.accept') }}
-          </button>
-          <button
-            v-if="item.verification_status === 'pending'"
-            :disabled="entityType === 'company' ? rejectCompanyForm.processing : rejectUniversityForm.processing"
-            class="flex-1 bg-red-500 hover:bg-red-600 disabled:opacity-50 px-3 py-1.5 rounded-lg font-medium text-white text-sm transition cursor-pointer disabled:cursor-not-allowed"
-            :aria-label="t('admin.verification.rejectAriaLabel', { name: item.name })"
-            @click="openRejectModal(item, $event)"
-          >
-            {{ t('admin.verification.reject') }}
-          </button>
-        </div>
+        <VerificationActionsMenu
+          :item="item"
+          :is-open="openMenuId === item.id"
+          :processing="entityType === 'company'
+            ? (acceptCompanyForm.processing || rejectCompanyForm.processing)
+            : (acceptUniversityForm.processing || rejectUniversityForm.processing)"
+          @toggle="toggleMenu"
+          @details="openDetailsModal(item, $event)"
+          @accept="entityType === 'company' ? acceptCompany(item) : acceptUniversity(item)"
+          @reject="openRejectModal(item, $event)"
+        />
       </template>
     </DataTable>
 

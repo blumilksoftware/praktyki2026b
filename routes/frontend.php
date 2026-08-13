@@ -10,6 +10,7 @@ use App\Http\Controllers\Company\UniversityController as CompanyUniversityContro
 use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\University\CompanyController as UniversityCompanyController;
 use App\Http\Controllers\University\UniversityController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
@@ -50,6 +51,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
         Route::get("/universities", [CompanyUniversityController::class, "index"])->name("company.universities.index");
+        Route::get("/students/{student}", [StudentProfileController::class, "show"])->name("company.students.show")->whereUuid("student");
     });
 
 Route::middleware(["auth", "can:create," . Offer::class])
