@@ -54,16 +54,19 @@ watch([nameFilter, cityFilter, tagFilter], search, { debounce: 300 })
     <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('university.companies.title') }}</h1>
 
     <div class="mb-6 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
-      <div class="relative">
-        <IconSearch class="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-additional" aria-hidden="true" />
-        <input
-          id="companies-filter-name"
-          v-model="nameFilter"
-          type="text"
-          :placeholder="t('university.companies.filters.namePlaceholder')"
-          :aria-label="t('university.companies.filters.name')"
-          class="w-full rounded-lg border border-border py-1.5 pl-8 pr-2 text-sm text-text placeholder:text-additional focus:outline-none focus:ring-2 focus:ring-primary/40 sm:w-56"
-        >
+      <div>
+        <label for="companies-filter-name" class="mb-1 block text-xs font-medium text-additional">{{ t('university.companies.filters.name') }}</label>
+        <div class="relative">
+          <IconSearch class="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-additional" aria-hidden="true" />
+          <input
+            id="companies-filter-name"
+            v-model="nameFilter"
+            type="text"
+            :placeholder="t('university.companies.filters.namePlaceholder')"
+            :aria-label="t('university.companies.filters.name')"
+            class="w-full rounded-lg border border-border py-1.5 pl-8 pr-2 text-sm text-text placeholder:text-additional focus:outline-none focus:ring-2 focus:ring-primary/40 sm:w-56"
+          >
+        </div>
       </div>
 
       <FilterSuggestField
@@ -71,6 +74,7 @@ watch([nameFilter, cityFilter, tagFilter], search, { debounce: 300 })
         v-model="cityFilter"
         :icon="IconMapPin"
         :options="cityOptions"
+        :label="t('university.companies.filters.city')"
         :placeholder="t('university.companies.filters.cityPlaceholder')"
         :aria-label="t('university.companies.filters.city')"
       />
@@ -80,6 +84,7 @@ watch([nameFilter, cityFilter, tagFilter], search, { debounce: 300 })
         v-model="tagFilter"
         :icon="IconTag"
         :options="tagOptions"
+        :label="t('university.companies.filters.tag')"
         :placeholder="t('university.companies.filters.tagPlaceholder')"
         :aria-label="t('university.companies.filters.tag')"
       />
