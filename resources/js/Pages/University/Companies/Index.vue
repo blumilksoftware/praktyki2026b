@@ -53,23 +53,22 @@ watch([nameFilter, cityFilter, tagFilter], search, { debounce: 300 })
   <UniversityLayout active-page="companies">
     <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('university.companies.title') }}</h1>
 
-    <div class="mb-6 flex flex-col rounded-3xl border border-border/80 bg-white/90 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm transition focus-within:ring-2 focus-within:ring-primary/20 sm:flex-row sm:items-center">
-      <label class="flex flex-1 items-center gap-3 px-5 py-4 sm:border-r sm:border-border/80" for="companies-filter-name">
-        <IconSearch class="h-5 w-5 shrink-0 text-additional" aria-hidden="true" />
+    <div class="mb-6 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
+      <div class="relative">
+        <IconSearch class="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-additional" aria-hidden="true" />
         <input
           id="companies-filter-name"
           v-model="nameFilter"
           type="text"
           :placeholder="t('university.companies.filters.namePlaceholder')"
           :aria-label="t('university.companies.filters.name')"
-          class="w-full border-none bg-transparent text-sm text-text placeholder:text-additional focus:outline-none focus:ring-0"
+          class="w-full rounded-lg border border-border py-1.5 pl-8 pr-2 text-sm text-text placeholder:text-additional focus:outline-none focus:ring-2 focus:ring-primary/40 sm:w-56"
         >
-      </label>
+      </div>
 
       <FilterSuggestField
         id="companies-filter-city"
         v-model="cityFilter"
-        class="sm:border-r sm:border-border/80"
         :icon="IconMapPin"
         :options="cityOptions"
         :placeholder="t('university.companies.filters.cityPlaceholder')"

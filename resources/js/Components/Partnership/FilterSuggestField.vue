@@ -57,27 +57,25 @@ function onKeydown(event) {
 </script>
 
 <template>
-  <div class="relative flex-1">
-    <label class="flex items-center gap-3 px-5 py-4" :for="id">
-      <component :is="icon" class="h-5 w-5 shrink-0 text-additional" aria-hidden="true" />
-      <input
-        :id="id"
-        type="text"
-        autocomplete="off"
-        :value="modelValue"
-        :placeholder="placeholder"
-        :aria-label="ariaLabel"
-        class="w-full border-none bg-transparent text-sm text-text placeholder:text-additional focus:outline-none focus:ring-0"
-        @input="onInput"
-        @focus="isOpen = true"
-        @blur="onBlur"
-        @keydown="onKeydown"
-      >
-    </label>
+  <div class="relative">
+    <component :is="icon" class="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-additional" aria-hidden="true" />
+    <input
+      :id="id"
+      type="text"
+      autocomplete="off"
+      :value="modelValue"
+      :placeholder="placeholder"
+      :aria-label="ariaLabel"
+      class="w-full rounded-lg border border-border py-1.5 pl-8 pr-2 text-sm text-text placeholder:text-additional focus:outline-none focus:ring-2 focus:ring-primary/40 sm:w-48"
+      @input="onInput"
+      @focus="isOpen = true"
+      @blur="onBlur"
+      @keydown="onKeydown"
+    >
 
     <ul
       v-if="showDropdown"
-      class="absolute left-2 right-2 top-full z-20 mt-1 overflow-hidden rounded-xl border border-border bg-white shadow-lg"
+      class="absolute left-0 right-0 top-full z-20 mt-1 overflow-hidden rounded-lg border border-border bg-white shadow-lg"
     >
       <li
         v-for="(option, index) in matches"
