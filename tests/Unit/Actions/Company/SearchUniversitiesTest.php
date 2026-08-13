@@ -59,6 +59,17 @@ class SearchUniversitiesTest extends TestCase
         $this->assertEquals("Uni A", $results->first()["name"]);
     }
 
+    public function testItFiltersByCityWithPolishDiacriticsRegardlessOfCasing(): void
+    {
+        University::factory()->approved()->create(["name" => "Uni A", "city" => "Świdnica"]);
+        University::factory()->approved()->create(["name" => "Uni B", "city" => "Warszawa"]);
+
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: "ŚWIDNICA", perPage: 15), $this->company->id);
+
+        $this->assertCount(1, $results);
+        $this->assertEquals("Uni A", $results->first()["name"]);
+    }
+
     public function testItMarksRequestSentByCompanyAsOutgoing(): void
     {
         $university = University::factory()->approved()->create();

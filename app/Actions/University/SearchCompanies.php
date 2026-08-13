@@ -19,11 +19,11 @@ class SearchCompanies
             ->where("verification_status", VerificationStatus::Verified);
 
         if ($data->name !== null) {
-            $query->whereRaw("LOWER(name) LIKE ?", ["%" . strtolower($data->name) . "%"]);
+            $query->whereRaw("LOWER(name) LIKE ?", ["%" . mb_strtolower($data->name) . "%"]);
         }
 
         if ($data->city !== null) {
-            $query->whereRaw("LOWER(city) LIKE ?", ["%" . strtolower($data->city) . "%"]);
+            $query->whereRaw("LOWER(city) LIKE ?", ["%" . mb_strtolower($data->city) . "%"]);
         }
 
         if ($data->tag !== null) {
@@ -31,7 +31,7 @@ class SearchCompanies
                 ? "SELECT 1 FROM json_each(tags) WHERE LOWER(value) = ?"
                 : "SELECT 1 FROM json_array_elements_text(tags) AS tag WHERE LOWER(tag) = ?";
 
-            $query->whereRaw("EXISTS ({$tagElementsExpression})", [strtolower($data->tag)]);
+            $query->whereRaw("EXISTS ({$tagElementsExpression})", [mb_strtolower($data->tag)]);
         }
 
         return $query

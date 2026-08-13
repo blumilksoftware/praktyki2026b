@@ -66,6 +66,18 @@ class SearchCompaniesTest extends TestCase
         $this->assertEquals("Company A", $results->first()["name"]);
     }
 
+    public function testItFiltersByCityWithPolishDiacriticsRegardlessOfCasing(): void
+    {
+        Company::factory()->approved()->create(["name" => "Company A", "city" => "Świdnica"]);
+        Company::factory()->approved()->create(["name" => "Company B", "city" => "Warszawa"]);
+
+        $data = new SearchCompaniesData(name: null, city: "ŚWIDNICA", tag: null, perPage: 15);
+        $results = $this->action->execute($data, $this->university->id);
+
+        $this->assertCount(1, $results);
+        $this->assertEquals("Company A", $results->first()["name"]);
+    }
+
     public function testItFiltersByTag(): void
     {
         Company::factory()->approved()->create(["name" => "Company A", "tags" => ["Laravel", "Vue"]]);
