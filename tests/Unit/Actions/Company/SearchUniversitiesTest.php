@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Partnership;
 use App\Models\University;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class SearchUniversitiesTest extends TestCase
@@ -61,6 +62,10 @@ class SearchUniversitiesTest extends TestCase
 
     public function testItFiltersByCityWithPolishDiacriticsRegardlessOfCasing(): void
     {
+        if (DB::connection()->getDriverName() === "sqlite") {
+            $this->markTestSkipped("SQLite LOWER() does not case-fold non-ASCII characters.");
+        }
+
         University::factory()->approved()->create(["name" => "Uni A", "city" => "Świdnica"]);
         University::factory()->approved()->create(["name" => "Uni B", "city" => "Warszawa"]);
 
