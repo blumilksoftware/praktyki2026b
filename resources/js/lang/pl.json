@@ -58,6 +58,7 @@
         "submit": "Wyślij zaproszenie"
       },
       "remove": "Usuń",
+      "transfer": "Przekaż rolę administratora",
       "revoke": "Cofnij",
       "removeModal": {
         "title": "Usuń członka",
@@ -76,6 +77,14 @@
         "companyMember": "Członek",
         "universityAdmin": "Administrator",
         "universityMember": "Członek"
+      },
+      "transferModal": {
+          "title": "Przekazanie roli administratora",
+          "description": "Wybierz członka zespołu, który zostanie nowym administratorem. Twoja rola zostanie zmieniona na członka.",
+          "selectLabel": "Nowy administrator",
+          "noMembers": "Brak innych członków, którym można przekazać rolę administratora.",
+          "cancel": "Anuluj",
+          "confirm": "Przekaż rolę"
       }
     }
   },

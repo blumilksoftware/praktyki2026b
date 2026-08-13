@@ -51,6 +51,7 @@
         "submit": "Send invitation"
       },
       "remove": "Remove",
+      "transfer": "Transfer ownership",
       "revoke": "Revoke",
       "removeModal": {
         "title": "Remove member",
@@ -69,6 +70,14 @@
         "companyMember": "Member",
         "universityAdmin": "Administrator",
         "universityMember": "Member"
+      },
+      "transferModal": {
+         "title": "Transfer ownership",
+          "description": "Choose a team member to become the new administrator. You will be demoted to a regular member.",
+          "selectLabel": "New administrator",
+          "noMembers": "There are no other members to transfer ownership to.",
+          "cancel": "Cancel",
+          "confirm": "Transfer ownership"
       }
     }
   },

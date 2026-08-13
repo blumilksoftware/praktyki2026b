@@ -38,12 +38,12 @@ const submit = () => {
   <div class="min-h-screen flex flex-col bg-background">
     <BaseNavbar class="shrink-0" />
     <AuthLayout class="flex-1 min-h-0">
-      <Head :title="'Accept invitation'" />
+      <Head :title="t('auth.invitation.title')" />
 
       <div class="mx-auto flex w-full max-w-xl flex-col gap-6 px-2 sm:px-4">
         <div class="text-center">
           <h1 class="text-3xl font-normal text-text sm:text-4xl">
-            Accept invitation
+            {{ t('auth.invitation.title') }}
           </h1>
         </div>
 
@@ -113,19 +113,19 @@ const submit = () => {
             class="mx-auto mt-1 w-fit px-12 py-3 text-base sm:text-lg font-medium"
             :disabled="isSubmitDisabled"
           >
-            Accept invitation
+            {{ t('auth.invitation.submit') }}
           </BaseButton>
         </form>
 
         <div class="h-px bg-text/20" />
 
         <p class="w-full text-center text-base sm:text-lg font-medium">
-          Already have an account?
+          {{ t('auth.invitation.hasAccount') }}
           <Link
             :href="ROUTES.LOGIN"
             class="inline-block text-base sm:text-lg font-medium text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded whitespace-nowrap"
           >
-            Sign in
+            {{ t('auth.invitation.loginLink') }}
           </Link>
         </p>
       </div>

@@ -9,6 +9,7 @@ import TeamInvitationCard from '@/Components/Organization/TeamInvitationCard.vue
 import TeamMemberPreviewModal from '@/Components/Organization/TeamMemberPreviewModal.vue'
 import TeamInviteModal from '@/Components/Organization/TeamInviteModal.vue'
 import TeamRemoveModal from '@/Components/Organization/TeamRemoveModal.vue'
+import TeamTransferModal from '@/Components/Organization/TeamTransferModal.vue'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { useUniversityPanelMenu } from '@/Composables/useUniversityPanelMenu'
 import Pagination from '@/Components/Common/Pagination.vue'
@@ -110,6 +111,8 @@ const canManageInvitations = computed(() => {
   return role === 'companyAdmin' || role === 'universityAdmin'
 })
 
+const isCurrentUserAdmin = computed(() => canManageInvitations.value)
+
 const activeTab = ref('members')
 const previewTarget = ref(null)
 const removeTarget = ref(null)
@@ -117,6 +120,8 @@ const removeForm = useForm({})
 const revokeForm = useForm({})
 const inviteForm = useForm({ email: '' })
 const isInviteModalOpen = ref(false)
+const isTransferModalOpen = ref(false)
+const transferForm = useForm({})
 
 const organizationPath = computed(() => props.organization?.type === 'company' ? '/company/team' : '/university/team')
 const panelMenu = computed(() => props.organization?.type === 'company' ? companyMenu.value : universityMenu.value)
@@ -126,6 +131,7 @@ const membersList = computed(() => membersPage.value.data.map((member) => ({
   roleLabel: t(`organization.team.roles.${member.role}`),
 })))
 const invitationList = computed(() => invitationsPage.value.data)
+const transferableMembers = computed(() => membersList.value.filter((member) => member.id !== currentUserId.value))
 const membersPagination = computed(() => (!Array.isArray(props.members) && props.members?.last_page > 1 ? props.members : null))
 const invitationsPagination = computed(() => (!Array.isArray(props.invitations) && props.invitations?.last_page > 1 ? props.invitations : null))
 
@@ -229,6 +235,25 @@ function confirmRemove() {
     preserveScroll: true,
     onSuccess: () => {
       closeRemoveModal()
+    },
+  })
+}
+
+function openTransferModal() {
+  transferForm.clearErrors()
+  isTransferModalOpen.value = true
+}
+
+function closeTransferModal() {
+  transferForm.clearErrors()
+  isTransferModalOpen.value = false
+}
+
+function confirmTransfer(memberId) {
+  transferForm.post(`${organizationPath.value}/members/${memberId}/transfer-ownership`, {
+    preserveScroll: true,
+    onSuccess: () => {
+      closeTransferModal()
     },
   })
 }
@@ -353,8 +378,11 @@ function submitInvite() {
               :remove-label="t('organization.team.remove')"
               :can-remove="canManageInvitations"
               :disable-remove="member.id === currentUserId"
+              :show-transfer="member.id === currentUserId && isCurrentUserAdmin"
+              :transfer-label="t('organization.team.transfer')"
               @preview="openMemberPreview(member)"
               @remove="openRemoveModal(member)"
+              @transfer="openTransferModal"
             />
           </div>
 
@@ -451,5 +479,15 @@ function submitInvite() {
     :processing="removeForm.processing"
     @close="closeRemoveModal"
     @confirm="confirmRemove"
+  />
+
+  <TeamTransferModal
+    :open="isTransferModalOpen"
+    :title="t('organization.team.transferModal.title')"
+    :members="transferableMembers"
+    :processing="transferForm.processing"
+    :error="transferForm.errors.member_id ?? ''"
+    @close="closeTransferModal"
+    @confirm="confirmTransfer"
   />
 </template>

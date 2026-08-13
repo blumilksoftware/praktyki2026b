@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { IconTrash } from '@tabler/icons-vue'
+import { IconArrowsExchange, IconTrash } from '@tabler/icons-vue'
 
 const props = defineProps({
   member: {
@@ -27,11 +27,19 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showTransfer: {
+    type: Boolean,
+    default: false,
+  },
+  transferLabel: {
+    type: String,
+    default: '',
+  },
 })
 
-const emit = defineEmits(['remove', 'preview'])
-const canRenderRemoveAction = computed(() => props.canRemove || props.disableRemove)
-const cardClass = computed(() => (props.canRemove || props.disableRemove
+const emit = defineEmits(['remove', 'preview', 'transfer'])
+const canRenderRemoveAction = computed(() => !props.showTransfer && (props.canRemove || props.disableRemove))
+const cardClass = computed(() => (props.canRemove || props.disableRemove || props.showTransfer
   ? 'group cursor-pointer overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]'
   : 'cursor-pointer overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition'))
 
@@ -43,6 +51,12 @@ function handleRemove(event) {
   }
 
   emit('remove')
+}
+
+function handleTransfer(event) {
+  event.stopPropagation()
+
+  emit('transfer')
 }
 
 function handlePreview(event) {
@@ -75,6 +89,16 @@ function handlePreview(event) {
             </span>
           </div>
         </div>
+        <button
+          v-if="showTransfer"
+          type="button"
+          class="inline-flex items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/10 px-2 py-1.5 text-sm font-medium text-primary transition hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          :aria-label="transferLabel"
+          @click="handleTransfer"
+        >
+          <IconArrowsExchange class="h-4 w-4" aria-hidden="true" />
+          <span>{{ transferLabel }}</span>
+        </button>
         <button
           v-if="canRenderRemoveAction"
           type="button"

@@ -28,23 +28,20 @@ class TeamFiltersRequest extends FormRequest
 
     public function getData(): array
     {
-        $memberSearch = $this->string("member_search")->toString();
-        $fallbackSearch = $this->string("search")->toString();
-        $invitationSearch = $this->string("invitation_search")->toString();
-
-        $memberSearch = trim($memberSearch !== "" ? $memberSearch : $fallbackSearch);
-        $invitationSearch = trim($invitationSearch);
-
-        $memberPage = $this->input("member_page", $this->input("page", 1));
-        $invitationPage = $this->input("invitation_page", $this->input("page", 1));
-        $perPage = $this->input("per_page", 10);
+        $memberSearch = trim((string)($this->validated("member_search") ?? ""));
+        $invitationSearch = trim((string)($this->validated("invitation_search") ?? ""));
+        $memberPage = $this->validated("member_page") ?? 1;
+        $invitationPage = $this->validated("invitation_page") ?? 1;
+        $perPage = $this->validated("per_page") ?? 10;
 
         return [
-            "member_search" => filled($memberSearch) ? $memberSearch : "",
-            "invitation_search" => filled($invitationSearch) ? $invitationSearch : "",
-            "member_page" => max(1, (int)$memberPage),
-            "invitation_page" => max(1, (int)$invitationPage),
-            "per_page" => max(1, (int)$perPage),
+            "member_search" => $memberSearch,
+            "invitation_search" => $invitationSearch,
+            "member_search_lower" => mb_strtolower($memberSearch),
+            "invitation_search_lower" => mb_strtolower($invitationSearch),
+            "member_page" => $memberPage,
+            "invitation_page" => $invitationPage,
+            "per_page" => $perPage,
         ];
     }
 
@@ -52,13 +49,16 @@ class TeamFiltersRequest extends FormRequest
     {
         $memberSearch = $this->input("member_search", $this->input("search", ""));
         $invitationSearch = $this->input("invitation_search", "");
-
-        $memberSearch = is_string($memberSearch) ? trim($memberSearch) : "";
-        $invitationSearch = is_string($invitationSearch) ? trim($invitationSearch) : "";
+        $memberPage = (int)$this->input("member_page", $this->input("page", 1));
+        $invitationPage = (int)$this->input("invitation_page", $this->input("page", 1));
+        $perPage = (int)$this->input("per_page", 10);
 
         $this->merge([
-            "member_search" => $memberSearch,
-            "invitation_search" => $invitationSearch,
+            "member_search" => is_string($memberSearch) ? trim($memberSearch) : "",
+            "invitation_search" => is_string($invitationSearch) ? trim($invitationSearch) : "",
+            "member_page" => $memberPage,
+            "invitation_page" => $invitationPage,
+            "per_page" => $perPage,
         ]);
     }
 }

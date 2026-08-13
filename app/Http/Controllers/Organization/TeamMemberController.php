@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Organization;
 
 use App\Actions\Organization\RemoveTeamMember;
 use App\Actions\Organization\TransferOwnership;
+use App\DTO\Organization\TeamFiltersData;
 use App\Enums\InvitationStatus;
 use App\Enums\OrganizationType;
 use App\Http\Controllers\Controller;
@@ -34,7 +35,7 @@ class TeamMemberController extends Controller
 
         $context = $this->userPolicy->teamContext($user);
         $organization = $context["organization"];
-        $filters = $request->getData();
+        $filters = TeamFiltersData::fromArray($request->getData());
 
         return inertia("Organization/Team", [
             "organization" => [
@@ -44,10 +45,16 @@ class TeamMemberController extends Controller
             ],
             "members" => $this->membersFor(
                 $organization->users()->whereIn("role", $context["staffRoles"]),
-                $request,
+                $filters,
             ),
-            "invitations" => $this->invitationsFor($organization->id, $context["invitationType"], $request),
-            "filters" => $filters,
+            "invitations" => $this->invitationsFor($organization->id, $context["invitationType"], $filters),
+            "filters" => [
+                "member_search" => $filters->memberSearch,
+                "invitation_search" => $filters->invitationSearch,
+                "member_page" => $filters->memberPage,
+                "invitation_page" => $filters->invitationPage,
+                "per_page" => $filters->perPage,
+            ],
         ]);
     }
 
@@ -69,17 +76,16 @@ class TeamMemberController extends Controller
         return back();
     }
 
-    private function membersFor($users, TeamFiltersRequest $request): LengthAwarePaginator
+    private function membersFor($users, TeamFiltersData $filters): LengthAwarePaginator
     {
         $query = $users->select(["id", "first_name", "last_name", "email", "role", "created_at"]);
 
-        $filters = $request->getData();
-        $search = $filters["member_search"];
-        $perPage = $filters["per_page"];
-        $page = $filters["member_page"];
+        $search = $filters->memberSearch;
+        $perPage = $filters->perPage;
+        $page = $filters->memberPage;
 
         if ($search !== "") {
-            $searchLower = strtolower($search);
+            $searchLower = $filters->memberSearchLower;
 
             $query->where(function ($builder) use ($searchLower): void {
                 $builder
@@ -95,9 +101,9 @@ class TeamMemberController extends Controller
         return $query
             ->paginate($perPage, ["*"], "member_page", $page)
             ->appends([
-                "member_search" => $filters["member_search"],
-                "member_page" => $filters["member_page"],
-                "per_page" => $filters["per_page"],
+                "member_search" => $search,
+                "member_page" => $page,
+                "per_page" => $perPage,
             ])
             ->through(fn(User $user): array => [
                 "id" => $user->id,
@@ -108,20 +114,19 @@ class TeamMemberController extends Controller
             ]);
     }
 
-    private function invitationsFor(string $organizationId, OrganizationType $organizationType, TeamFiltersRequest $request): LengthAwarePaginator
+    private function invitationsFor(string $organizationId, OrganizationType $organizationType, TeamFiltersData $filters): LengthAwarePaginator
     {
         $query = OrganizationInvitation::query()
             ->where("organization_id", $organizationId)
             ->where("organization_type", $organizationType->value)
             ->where("status", InvitationStatus::Pending->value);
 
-        $filters = $request->getData();
-        $search = $filters["invitation_search"];
-        $perPage = $filters["per_page"];
-        $page = $filters["invitation_page"];
+        $search = $filters->invitationSearch;
+        $perPage = $filters->perPage;
+        $page = $filters->invitationPage;
 
         if ($search !== "") {
-            $query->whereRaw("LOWER(email) ILIKE ?", ["%" . strtolower($search) . "%"]);
+            $query->whereRaw("LOWER(email) ILIKE ?", ["%" . $filters->invitationSearchLower . "%"]);
         }
 
         $query->orderBy("created_at");
@@ -129,9 +134,9 @@ class TeamMemberController extends Controller
         return $query
             ->paginate($perPage, ["*"], "invitation_page", $page)
             ->appends([
-                "invitation_search" => $filters["invitation_search"],
-                "invitation_page" => $filters["invitation_page"],
-                "per_page" => $filters["per_page"],
+                "invitation_search" => $search,
+                "invitation_page" => $page,
+                "per_page" => $perPage,
             ])
             ->through(fn(OrganizationInvitation $invitation): array => [
                 "id" => $invitation->id,
