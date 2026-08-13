@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $city
  * @property string $phone
  * @property ?string $website
+ * @property ?string $description
  * @property ?string $logo_path
  * @property ?string $external_form_url
  * @property VerificationStatus $verification_status
@@ -43,6 +44,7 @@ class University extends Model
         "city",
         "phone",
         "website",
+        "description",
         "logo_path",
         "external_form_url",
         "verification_status",

@@ -8,6 +8,7 @@ import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
 import Menu from '@/Components/Profiles/Menu.vue'
 import InfoEdit from '@/Components/Profiles/Edit/InfoEdit.vue'
+import AboutEdit from '@/Components/Profiles/Edit/AboutEdit.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
 
@@ -27,6 +28,7 @@ const isDomainLocked = computed(() => {
 
 const form = useForm({
   logo: null,
+  description: props.university.description || '',
   website: props.university.website || '',
   phone: props.university.phone || '',
   street: props.university.street || '',
@@ -44,7 +46,7 @@ const submit = () => {
   form.transform((data) => ({
     ...data,
     _method: 'patch',
-  })).post('/university/profile', {
+  })).post(ROUTES.UNIVERSITY_PROFILE, {
     preserveScroll: true,
     onSuccess: () => {
       statusMessage.value = t('profiles.edit.successMessage')
@@ -99,6 +101,10 @@ const submit = () => {
             v-model:city="form.city"
             :errors="form.errors"
           />
+        </div>
+
+        <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
+          <AboutEdit id="university-description" v-model="form.description" />
         </div>
 
         <div class="flex flex-col items-center gap-5 pt-4 pb-4 mt-2">

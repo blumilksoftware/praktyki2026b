@@ -218,6 +218,7 @@
     },
     "university": {
       "recruitmentAndSystem": "Recruitment and system",
+      "noDescription": "The university has not provided a description yet.",
       "noFaculties": "The university has not added any faculties yet.",
       "facultiesAndStudyFields": "Faculties and study fields",
       "universityDomain": "University domain",
