@@ -56,6 +56,9 @@ class University extends Model
         return $this->hasMany(User::class, "organization_id");
     }
 
+    /**
+     * @return HasMany<Faculty, $this>
+     */
     public function faculties(): HasMany
     {
         return $this->hasMany(Faculty::class);

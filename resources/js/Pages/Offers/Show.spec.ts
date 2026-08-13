@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createI18n } from 'vue-i18n'
 import OfferShow from '@/Pages/Offers/Show.vue'
 import en from '@/lang/en.json'
-import { offerShow } from '@/Helpers/routes'
+import { offerShow, universityShow } from '@/Helpers/routes'
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en } })
 
@@ -103,6 +103,21 @@ describe('Offers/Show', () => {
     expect(wrapper.text()).toContain('Build UI for internships.')
     expect(wrapper.text()).toContain('Test University')
     expect(wrapper.text()).toContain('Computer Science')
+  })
+
+  it('links to the profile of a preferred university only once it is verified', () => {
+    expect(mountShow().find(`a[href="${universityShow('uni-1')}"]`).exists()).toBe(false)
+
+    const wrapper = mountShow({
+      offer: {
+        ...baseOffer,
+        preferred_universities: [{ id: 'uni-1', name: 'Test University', is_verified: true }],
+      },
+    })
+    const link = wrapper.find(`a[href="${universityShow('uni-1')}"]`)
+
+    expect(link.exists()).toBe(true)
+    expect(link.text()).toBe('Test University')
   })
 
   it('shows readable internship period, available spots and salary range', () => {

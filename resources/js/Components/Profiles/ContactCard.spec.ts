@@ -60,6 +60,18 @@ describe('ContactCard.vue', () => {
     expect(wrapper.text()).toContain('profiles.noContactInfo')
   })
 
+  it('does not render the fallback message when only an email is provided', () => {
+    const wrapper = mount(ContactCard, {
+      props: { email: 'contact@example.com' },
+      global: {
+        stubs: ['IconWorld', 'IconMapPin', 'IconPhone', 'IconMail']
+      }
+    })
+
+    expect(wrapper.text()).toContain('contact@example.com')
+    expect(wrapper.text()).not.toContain('profiles.noContactInfo')
+  })
+
   it('partially formats the address if some address props are missing', () => {
     const wrapper = mount(ContactCard, {
       props: {

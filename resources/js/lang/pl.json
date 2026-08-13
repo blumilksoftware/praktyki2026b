@@ -226,6 +226,10 @@
     },
     "university": {
       "recruitmentAndSystem": "Rekrutacja i system",
+      "verified": "Zweryfikowana uczelnia",
+      "applicationForm": "Formularz rekrutacyjny",
+      "applicationFormHint": "Rekrutacja na tę uczelnię odbywa się w zewnętrznym systemie.",
+      "goToApplicationForm": "Przejdź do formularza",
       "noDescription": "Uczelnia nie dodała jeszcze opisu.",
       "noFaculties": "Uczelnia nie dodała jeszcze żadnych wydziałów.",
       "facultiesAndStudyFields": "Wydziały i kierunki studiów",
@@ -720,6 +724,7 @@
         "closedMessage": "Oferta nie przyjmuje już aplikacji",
         "expiredMessage": "Ta oferta wygasła",
         "companyProfileAria": "Zobacz profil firmy: {company}",
+        "universityProfileAria": "Zobacz profil uczelni: {university}",
         "similarOffers": "Podobne oferty",
         "similarOfferAria": "Zobacz ofertę {title} w firmie {company}"
       }

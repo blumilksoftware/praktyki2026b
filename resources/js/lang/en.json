@@ -218,6 +218,10 @@
     },
     "university": {
       "recruitmentAndSystem": "Recruitment and system",
+      "verified": "Verified university",
+      "applicationForm": "Application form",
+      "applicationFormHint": "Recruitment for this university is handled in an external system.",
+      "goToApplicationForm": "Go to the form",
       "noDescription": "The university has not provided a description yet.",
       "noFaculties": "The university has not added any faculties yet.",
       "facultiesAndStudyFields": "Faculties and study fields",
@@ -570,6 +574,7 @@
         "closedMessage": "No longer accepting applications",
         "expiredMessage": "This offer has expired",
         "companyProfileAria": "View company profile: {company}",
+        "universityProfileAria": "View university profile: {university}",
         "similarOffers": "Similar offers",
         "similarOfferAria": "View offer {title} at {company}"
       }
