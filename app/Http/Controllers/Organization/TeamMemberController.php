@@ -89,10 +89,10 @@ class TeamMemberController extends Controller
 
             $query->where(function ($builder) use ($searchLower): void {
                 $builder
-                    ->whereRaw("LOWER(COALESCE(first_name, '')) ILIKE ?", ["%{$searchLower}%"])
-                    ->orWhereRaw("LOWER(COALESCE(last_name, '')) ILIKE ?", ["%{$searchLower}%"])
-                    ->orWhereRaw("LOWER(COALESCE(email, '')) ILIKE ?", ["%{$searchLower}%"])
-                    ->orWhereRaw("LOWER(COALESCE(first_name, '') || ' ' || COALESCE(last_name, '')) ILIKE ?", ["%{$searchLower}%"]);
+                    ->whereRaw("LOWER(COALESCE(first_name, '')) LIKE ?", ["%{$searchLower}%"])
+                    ->orWhereRaw("LOWER(COALESCE(last_name, '')) LIKE ?", ["%{$searchLower}%"])
+                    ->orWhereRaw("LOWER(COALESCE(email, '')) LIKE ?", ["%{$searchLower}%"])
+                    ->orWhereRaw("LOWER(COALESCE(first_name, '') || ' ' || COALESCE(last_name, '')) LIKE ?", ["%{$searchLower}%"]);
             });
         }
 
