@@ -332,6 +332,33 @@
       "verificationProgressCount": "{completed} of {total} completed",
       "verificationProgressAriaLabel": "Verification progress"
     },
+    "users": {
+      "title": "Users",
+      "description": "Browse users and manage their roles.",
+      "search": "Search...",
+      "searchAriaLabel": "Search users",
+      "filterByRoleAriaLabel": "Filter users by role",
+      "all": "All",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "actions": "Actions",
+      "changeRole": "Change role",
+      "roles": {
+        "student": "Student",
+        "superAdmin": "Super admin",
+        "universityAdmin": "University admin",
+        "universityMember": "University member",
+        "companyAdmin": "Company admin",
+        "companyMember": "Company member"
+      },
+      "modal": {
+        "title": "Change user role",
+        "description": "Pick a new role for {name}.",
+        "cancel": "Cancel",
+        "confirm": "Save role"
+      }
+    },
     "layout": {
       "language": "Language",
       "skipToContent": "Skip to content",
@@ -344,6 +371,7 @@
         "ariaLabel": "Administrator navigation",
         "dashboard": "Dashboard",
         "applications": "Applications",
+        "users": "Users",
         "settings": "Settings",
         "mobileAriaLabel": "Mobile navigation"
       },

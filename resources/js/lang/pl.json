@@ -341,6 +341,33 @@
       "verificationProgressCount": "{completed} z {total} zakończonych",
       "verificationProgressAriaLabel": "Postęp weryfikacji"
     },
+    "users": {
+      "title": "Użytkownicy",
+      "description": "Przeglądaj użytkowników i zarządzaj ich rolami.",
+      "search": "Szukaj...",
+      "searchAriaLabel": "Wyszukaj użytkowników",
+      "filterByRoleAriaLabel": "Filtruj użytkowników po roli",
+      "all": "Wszystkie",
+      "name": "Imię i nazwisko",
+      "email": "E-mail",
+      "role": "Rola",
+      "actions": "Akcje",
+      "changeRole": "Zmień rolę",
+      "roles": {
+        "student": "Student",
+        "superAdmin": "Super administrator",
+        "universityAdmin": "Administrator uczelni",
+        "universityMember": "Członek uczelni",
+        "companyAdmin": "Administrator firmy",
+        "companyMember": "Członek firmy"
+      },
+      "modal": {
+        "title": "Zmień rolę użytkownika",
+        "description": "Wybierz nową rolę dla użytkownika {name}.",
+        "cancel": "Anuluj",
+        "confirm": "Zapisz rolę"
+      }
+    },
     "layout": {
       "language": "Język",
       "skipToContent": "Przejdź do treści",
@@ -353,6 +380,7 @@
         "ariaLabel": "Nawigacja administratora",
         "dashboard": "Strona główna",
         "applications": "Zgłoszenia",
+        "users": "Użytkownicy",
         "settings": "Ustawienia",
         "mobileAriaLabel": "Nawigacja mobilna"
       },
