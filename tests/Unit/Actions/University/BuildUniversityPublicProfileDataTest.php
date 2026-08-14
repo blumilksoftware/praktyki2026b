@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Actions\University;
 
+use App\Actions\University\BuildFacultiesData;
 use App\Actions\University\BuildUniversityPublicProfileData;
 use App\Models\University;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -28,7 +29,7 @@ class BuildUniversityPublicProfileDataTest extends TestCase
             "external_form_url" => "https://northfield.test/form",
         ]);
 
-        $result = (new BuildUniversityPublicProfileData())->execute($university);
+        $result = (new BuildUniversityPublicProfileData(new BuildFacultiesData()))->execute($university);
 
         $this->assertSame($university->id, $result["id"]);
         $this->assertSame("Northfield University", $result["name"]);
@@ -47,7 +48,7 @@ class BuildUniversityPublicProfileDataTest extends TestCase
     {
         $university = University::factory()->approved()->create(["domain" => "northfield.test"]);
 
-        $result = (new BuildUniversityPublicProfileData())->execute($university);
+        $result = (new BuildUniversityPublicProfileData(new BuildFacultiesData()))->execute($university);
 
         $this->assertArrayNotHasKey("domain", $result);
     }
@@ -62,7 +63,7 @@ class BuildUniversityPublicProfileDataTest extends TestCase
             ["name" => "Data Science"],
         ]);
 
-        $result = (new BuildUniversityPublicProfileData())->execute($university);
+        $result = (new BuildUniversityPublicProfileData(new BuildFacultiesData()))->execute($university);
 
         $this->assertSame(
             ["Faculty of Computer Science", "Faculty of Physics"],
@@ -82,7 +83,7 @@ class BuildUniversityPublicProfileDataTest extends TestCase
         $otherUniversity = University::factory()->approved()->create();
         $otherUniversity->faculties()->create(["name" => "Faculty of Physics"]);
 
-        $result = (new BuildUniversityPublicProfileData())->execute($university);
+        $result = (new BuildUniversityPublicProfileData(new BuildFacultiesData()))->execute($university);
 
         $this->assertSame([], $result["faculties"]);
     }

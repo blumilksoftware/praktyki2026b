@@ -621,7 +621,8 @@
     "publicProfile": {
       "noSkills": "Kandydat nie dodał żadnych umiejętności technicznych.",
       "noWorkModes": "Kandydat nie wybrał oczekiwanego trybu pracy.",
-      "noPreferences": "Kandydat nie określił preferencji wyszukiwania."
+      "noPreferences": "Kandydat nie określił preferencji wyszukiwania.",
+      "universityProfileAria": "Zobacz profil uczelni: {university}"
     },
     "favorites": {
       "heading": "Twoje zapisane oferty",

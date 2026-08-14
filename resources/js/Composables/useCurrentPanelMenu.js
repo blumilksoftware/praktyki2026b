@@ -15,18 +15,18 @@ export function useCurrentPanelMenu(activePage) {
 
   return computed(() => {
     switch (page.props?.auth?.user?.role) {
-      case 'student':
-        return studentMenu.value
-      case 'companyAdmin':
-      case 'companyMember':
-        return companyMenu.value
-      case 'universityAdmin':
-      case 'universityMember':
-        return universityMenu.value
-      case 'superAdmin':
-        return adminMenu.value
-      default:
-        return []
+    case 'student':
+      return studentMenu.value
+    case 'companyAdmin':
+    case 'companyMember':
+      return companyMenu.value
+    case 'universityAdmin':
+    case 'universityMember':
+      return universityMenu.value
+    case 'superAdmin':
+      return adminMenu.value
+    default:
+      return []
     }
   })
 }

@@ -8,6 +8,10 @@ use App\Models\University;
 
 class BuildUniversityProfileData
 {
+    public function __construct(
+        private readonly BuildFacultiesData $buildFacultiesData,
+    ) {}
+
     public function execute(University $university): array
     {
         return [
@@ -23,7 +27,7 @@ class BuildUniversityProfileData
             "website" => $university->website,
             "description" => $university->description,
             "externalFormUrl" => $university->external_form_url,
-            "faculties" => $university->faculties()->with("studyFields")->get(),
+            "faculties" => $this->buildFacultiesData->execute($university),
         ];
     }
 }

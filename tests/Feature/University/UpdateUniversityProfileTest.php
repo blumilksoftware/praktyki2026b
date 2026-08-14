@@ -104,17 +104,19 @@ class UpdateUniversityProfileTest extends TestCase
         $this->actingAs($user)
             ->get("/university/profile")
             ->assertOk()
-            ->assertInertia(fn(Assert $page) => $page
-                ->component("University/Profile/Show")
-                ->where("university.description", "A technical university focused on engineering."),
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("University/Profile/Show")
+                    ->where("university.description", "A technical university focused on engineering."),
             );
 
         $this->actingAs($user)
             ->get("/university/profile/edit")
             ->assertOk()
-            ->assertInertia(fn(Assert $page) => $page
-                ->component("University/Profile/Edit")
-                ->where("university.description", "A technical university focused on engineering."),
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("University/Profile/Edit")
+                    ->where("university.description", "A technical university focused on engineering."),
             );
     }
 

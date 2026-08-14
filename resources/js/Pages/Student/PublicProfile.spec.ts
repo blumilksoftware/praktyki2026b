@@ -74,6 +74,18 @@ describe("Student/PublicProfile", () => {
     expect(wrapper.text()).toContain("The candidate has not set any search preferences.")
   })
 
+  it("links the university name to its public profile only when verified", () => {
+    expect(mountProfile().find("a[href^=\"/universities/\"]").exists()).toBe(false)
+
+    const wrapper = mountProfile({
+      student: { ...student, university_id: "9f1d1a2b-3c4d-4e5f-8a9b-0c1d2e3f4a5b" },
+    })
+    const link = wrapper.find("a[href=\"/universities/9f1d1a2b-3c4d-4e5f-8a9b-0c1d2e3f4a5b\"]")
+
+    expect(link.exists()).toBe(true)
+    expect(link.text()).toBe("Test University")
+  })
+
   it("links to the CV only when the candidate attached one", () => {
     expect(mountProfile().text()).toContain("No CV available")
 

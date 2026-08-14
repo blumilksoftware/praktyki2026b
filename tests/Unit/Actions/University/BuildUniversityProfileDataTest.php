@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Actions\University;
 
+use App\Actions\University\BuildFacultiesData;
 use App\Actions\University\BuildUniversityProfileData;
 use App\Models\University;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -29,7 +30,7 @@ class BuildUniversityProfileDataTest extends TestCase
             "external_form_url" => "https://northfield.test/form",
         ]);
 
-        $result = (new BuildUniversityProfileData())->execute($university);
+        $result = (new BuildUniversityProfileData(new BuildFacultiesData()))->execute($university);
 
         $this->assertSame($university->id, $result["id"]);
         $this->assertSame("Northfield University", $result["name"]);
@@ -51,11 +52,11 @@ class BuildUniversityProfileDataTest extends TestCase
         $faculty = $university->faculties()->create(["name" => "Faculty of Computer Science"]);
         $faculty->studyFields()->create(["name" => "Software Engineering"]);
 
-        $result = (new BuildUniversityProfileData())->execute($university);
+        $result = (new BuildUniversityProfileData(new BuildFacultiesData()))->execute($university);
 
         $this->assertCount(1, $result["faculties"]);
-        $this->assertSame("Faculty of Computer Science", $result["faculties"]->first()->name);
-        $this->assertSame("Software Engineering", $result["faculties"]->first()->studyFields->first()->name);
+        $this->assertSame("Faculty of Computer Science", $result["faculties"][0]["name"]);
+        $this->assertSame("Software Engineering", $result["faculties"][0]["study_fields"][0]["name"]);
     }
 
     public function testItExcludesOtherUniversitiesFaculties(): void
@@ -64,8 +65,8 @@ class BuildUniversityProfileDataTest extends TestCase
         $otherUniversity = University::factory()->approved()->create();
         $otherUniversity->faculties()->create(["name" => "Faculty of Physics"]);
 
-        $result = (new BuildUniversityProfileData())->execute($university);
+        $result = (new BuildUniversityProfileData(new BuildFacultiesData()))->execute($university);
 
-        $this->assertCount(0, $result["faculties"]);
+        $this->assertSame([], $result["faculties"]);
     }
 }

@@ -435,7 +435,8 @@
     "publicProfile": {
       "noSkills": "The candidate has not added any technical skills.",
       "noWorkModes": "The candidate has not selected an expected work mode.",
-      "noPreferences": "The candidate has not set any search preferences."
+      "noPreferences": "The candidate has not set any search preferences.",
+      "universityProfileAria": "View university profile: {university}"
     },
     "applications": {
       "title": "Application history",

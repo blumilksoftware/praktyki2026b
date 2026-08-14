@@ -65,6 +65,6 @@ class UniversityPublicProfileTest extends TestCase
 
     public function testUnknownUniversityReturns404(): void
     {
-        $this->get(route("universities.show", "nonexistent-id"))->assertNotFound();
+        $this->get(route("universities.show", "3f1a7c64-9d2e-4b8a-8c5f-2a1b0d3e4f56"))->assertNotFound();
     }
 }
