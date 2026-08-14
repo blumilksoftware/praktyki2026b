@@ -127,6 +127,7 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
     </div>
 
     <AdminChangeRoleModal
+      :key="userToChangeRole?.id"
       :open="!!userToChangeRole"
       :user-id="userToChangeRole?.id"
       :user-name="userToChangeRole ? [userToChangeRole.first_name, userToChangeRole.last_name].filter(Boolean).join(' ') || userToChangeRole.email : ''"
