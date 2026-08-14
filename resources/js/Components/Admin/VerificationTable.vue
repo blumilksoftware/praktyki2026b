@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { IconSearch } from '@tabler/icons-vue'
 import DataTable from '@/Components/Common/DataTable.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
+import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import VerificationActionsMenu from '@/Components/Admin/VerificationActionsMenu.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import { Teleport } from 'vue'
@@ -41,6 +42,13 @@ const statusFilter = ref(props.filters.status || 'all')
 const searchQuery = ref(props.filters.search || '')
 const sortKey = ref(props.filters.sort_key || 'created_at')
 const sortDir = ref(props.filters.sort_dir || 'asc')
+
+const statusFilterOptions = computed(() => [
+  { value: 'all', label: t('admin.verification.all') },
+  { value: 'pending', label: t('admin.verification.pending') },
+  { value: 'verified', label: t('admin.verification.verified') },
+  { value: 'rejected', label: t('admin.verification.rejected') },
+])
 
 const acceptCompanyForm = useForm({ rejection_reason: '' })
 const rejectCompanyForm = useForm({ rejection_reason: '' })
@@ -389,16 +397,11 @@ onUnmounted(() => {
       </div>
 
       <div class="flex sm:flex-row flex-col gap-3">
-        <select
+        <FilterDropdown
           v-model="statusFilter"
+          :options="statusFilterOptions"
           :aria-label="t('admin.verification.filterByStatusAriaLabel')"
-          class="bg-white px-4 py-2 pr-10 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 text-slate-700 text-sm"
-        >
-          <option value="all">{{ t('admin.verification.all') }}</option>
-          <option value="pending">{{ t('admin.verification.pending') }}</option>
-          <option value="verified">{{ t('admin.verification.verified') }}</option>
-          <option value="rejected">{{ t('admin.verification.rejected') }}</option>
-        </select>
+        />
         <div class="relative">
           <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
             <IconSearch class="w-4 h-4 text-slate-400" />

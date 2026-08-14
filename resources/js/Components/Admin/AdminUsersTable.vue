@@ -1,11 +1,13 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { usePage, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconSearch } from '@tabler/icons-vue'
 import DataTable from '@/Components/Common/DataTable.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
+import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import AdminChangeRoleModal from '@/Components/Admin/AdminChangeRoleModal.vue'
+import { useUserRole } from '@/Composables/useUserRole'
 
 const props = defineProps({
   users: {
@@ -24,9 +26,15 @@ const props = defineProps({
 
 const { t } = useI18n()
 const page = usePage()
+const { roleClass } = useUserRole()
 
 const roleFilter = ref(props.filters.role || 'all')
 const searchQuery = ref(props.filters.search || '')
+
+const roleFilterOptions = computed(() => [
+  { value: 'all', label: t('admin.users.all') },
+  ...props.roles.map(role => ({ value: role, label: t(`admin.users.roles.${role}`) })),
+])
 
 const columns = [
   { key: 'name', label: t('admin.users.name') },
@@ -63,16 +71,11 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
 <template>
   <div class="space-y-6">
     <div class="flex lg:flex-row flex-col lg:justify-between lg:items-center gap-4">
-      <select
+      <FilterDropdown
         v-model="roleFilter"
+        :options="roleFilterOptions"
         :aria-label="t('admin.users.filterByRoleAriaLabel')"
-        class="bg-white px-4 py-2 pr-10 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 text-slate-700 text-sm"
-      >
-        <option value="all">{{ t('admin.users.all') }}</option>
-        <option v-for="role in roles" :key="role" :value="role">
-          {{ t(`admin.users.roles.${role}`) }}
-        </option>
-      </select>
+      />
 
       <div class="relative">
         <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
@@ -102,7 +105,7 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
         <a :href="`mailto:${item.email}`" class="text-primary hover:underline">{{ item.email }}</a>
       </template>
       <template #cell-role="{ item }">
-        <span class="inline-flex bg-primary/10 px-2.5 py-1 rounded-full font-medium text-primary text-xs">
+        <span :class="['inline-flex px-2.5 py-1 rounded-full font-medium text-xs', roleClass(item.role)]">
           {{ t(`admin.users.roles.${item.role}`) }}
         </span>
       </template>
