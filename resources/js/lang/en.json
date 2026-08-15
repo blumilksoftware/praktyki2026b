@@ -354,7 +354,12 @@
         "toEnglish": "Switch to english",
         "toPolish": "Switch to polish"
       }
-    }
+    },
+      "profile": {
+          "title": "Administrator profile",
+          "administratorHeading": "Administrator",
+          "administratorDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      }
   },
     "university": {
         "layout": {

@@ -363,7 +363,12 @@
         "toEnglish": "Przełącz na angielski",
         "toPolish": "Przełącz na polski"
       }
-    }
+    },
+      "profile": {
+          "title": "Profil administratora",
+          "administratorHeading": "Administrator",
+          "administratorDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      }
   },
   "university": {
     "layout": {
