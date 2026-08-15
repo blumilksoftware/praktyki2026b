@@ -2,13 +2,13 @@
 import { computed } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import AppLayout from "@/Components/Layouts/AppLayout.vue";
 
 const { t } = useI18n()
 
 const props = defineProps({
+
   companiesNeedingVerification: {
     type: Array,
     required: true,
@@ -17,6 +17,19 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  stats: {
+    type:Object,
+    required: true,
+  },
+  pendingVerifications: {
+    type: Number,
+    required: true,
+  },
+  totalVerifications: {
+    type: Number,
+    required: true,
+  }
+
 })
 
 const stats = computed(() => [
@@ -25,6 +38,13 @@ const stats = computed(() => [
   { label: t('admin.panel.stats.approvedUniversities'), value: props.stats.approvedUniversities },
   { label: t('admin.panel.stats.activeOffers'), value: props.stats.activeOffers },
 ])
+
+const completedVerifications = computed(() => props.totalVerifications - props.pendingVerifications)
+
+const verificationProgressPercent = computed(() =>
+  props.totalVerifications === 0 ? 0 : Math.round((completedVerifications.value / props.totalVerifications) * 100),
+)
+
 </script>
 
 <template>
@@ -59,7 +79,7 @@ const stats = computed(() => [
         <div class="md:text-left text-center">
           <h2 class="font-medium text-slate-700 text-sm">{{ t('admin.panel.pendingVerifications') }}</h2>
           <h3 class="mt-1 font-bold text-primary text-3xl">
-            {{ pendingVerifications }}
+            {{ props.pendingVerifications }}
           </h3>
         </div>
         <div class="w-full md:max-w-sm">
@@ -77,7 +97,7 @@ const stats = computed(() => [
             />
           </div>
           <p id="verification-progress-label" class="mt-2 text-slate-700 text-xs text-center md:text-right">
-            {{ t('admin.panel.verificationProgressCount', { completed: completedVerifications, total: totalVerifications }) }}
+            {{ t('admin.panel.verificationProgressCount', { completed: verificationProgressPercent, total: totalVerifications }) }}
           </p>
         </div>
       </ProfilePageCard>
