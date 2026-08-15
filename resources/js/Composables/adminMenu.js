@@ -23,6 +23,13 @@ export function useAdminPanelMenu(activePage) {
         icon: IconClipboard,
         isActive: current === 'applications'
       },
+      {
+        key: 'users',
+        label: t('admin.layout.nav.users'),
+        href: ROUTES.ADMIN_USERS,
+        icon: IconUsersGroup,
+        isActive: current === 'users',
+      },
     ]
   })
 }

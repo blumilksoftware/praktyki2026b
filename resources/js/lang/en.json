@@ -345,7 +345,8 @@
         "dashboard": "Dashboard",
         "applications": "Applications",
         "settings": "Settings",
-        "mobileAriaLabel": "Mobile navigation"
+        "mobileAriaLabel": "Mobile navigation",
+          "users": "Users"
       },
       "logout": "Logout",
       "userRole": "Administrator",

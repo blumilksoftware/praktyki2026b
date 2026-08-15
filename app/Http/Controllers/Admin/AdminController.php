@@ -245,4 +245,15 @@ class AdminController extends Controller
             ],
         ]);
     }
+
+    public function users(): Response
+    {
+        $users = User::query()
+            ->orderBy("last_name")
+            ->paginate(20);
+
+        return inertia("Admin/Users", [
+            "users" => $users,
+        ]);
+    }
 }

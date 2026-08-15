@@ -354,7 +354,8 @@
         "dashboard": "Strona główna",
         "applications": "Zgłoszenia",
         "settings": "Ustawienia",
-        "mobileAriaLabel": "Nawigacja mobilna"
+        "mobileAriaLabel": "Nawigacja mobilna",
+          "users": "Użytkownicy"
       },
       "logout": "Wyloguj",
       "userRole": "Administrator",

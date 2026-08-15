@@ -90,4 +90,5 @@ Route::middleware(["role:superAdmin"])
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.dashboard");
         Route::get("/applications", [AdminController::class, "applications"])->name("admin.applications");
         Route::get("/profile", [AdminController::class, "profile"])->name("admin.profile");
+        Route::get("/users", [AdminController::class, "users"])->name("admin.users");
     });
