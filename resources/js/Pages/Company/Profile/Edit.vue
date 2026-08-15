@@ -7,11 +7,8 @@ import TagsEdit from '@/Components/Profiles/Edit/TagsEdit.vue'
 import AboutEdit from '@/Components/Profiles/Edit/AboutEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
 import { useI18n } from 'vue-i18n'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 
 const { t } = useI18n()
-
-const companyMenu = useCompanyPanelMenu('application')
 
 const goBack = () => {
   window.history.back()
@@ -58,7 +55,6 @@ const submit = () => {
   <Head :title="company.name" />
   <AppLayout active-page="edit">
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar show-hamburger :menu-items="companyMenu" show-navigation-buttons :navigation-buttons="companyMenu", navigation-variant="default"/>
 
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 

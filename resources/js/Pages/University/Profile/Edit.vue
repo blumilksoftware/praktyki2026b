@@ -61,7 +61,6 @@ const submit = () => {
   <Head :title="university.name" />
   <AppLayout active-page="edit">
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar show-hamburger :menu-items="universityMenu" show-navigation-buttons :navigation-buttons="universityMenu", navigation-variant="default"/>
 
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">

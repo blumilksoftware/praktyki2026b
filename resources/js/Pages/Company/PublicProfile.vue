@@ -5,11 +5,11 @@ import { useI18n } from 'vue-i18n'
 import { IconArrowLeft } from '@tabler/icons-vue'
 import Header from '@/Components/Profiles/Header.vue'
 import Tags from '@/Components/Profiles/Tags.vue'
-import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Offers from '@/Components/Profiles/Offers.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 
 const props = defineProps({
   company: { type: Object, required: true },
@@ -22,15 +22,14 @@ const goBack = () => {
   window.history.back()
 }
 
-const isStudent = computed(() => page.props.auth?.user?.role === 'student')  
+const isStudent = computed(() => page.props.auth?.user?.role === 'student')
 </script>
 
 <template>
   <Head :title="company.name" />
-  
+  <AppLayout active-page="publicProfile">
   <div class="min-h-screen flex flex-col bg-slate-50/50">
-    <BaseNavbar />
-  
+
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
         <a class="inline-flex items-center gap-2 text-slate-500 text-sm transition hover:text-slate-800 cursor-pointer"
@@ -87,4 +86,5 @@ const isStudent = computed(() => page.props.auth?.user?.role === 'student')
       </div>
     </div>
   </div>
+  </AppLayout>
 </template>

@@ -155,12 +155,6 @@ onUnmounted(() => {
 <template>
   <Head :title="t('company.offers.index.title')" />
   <AppLayout active-page="offers">
-  <BaseLayout
-    active-page="offers"
-    :nav-items="companyMenu"
-    :navigation-buttons="companyMenu"
-    navigation-variant="default"
-  >
     <div class="flex flex-col gap-6">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 class="font-semibold text-text text-2xl">
@@ -346,7 +340,6 @@ onUnmounted(() => {
       :offer-title="unpublishOfferTitle"
       @close="isOfferUnpublishModalOpen = false"
     />
-  </BaseLayout>
   </AppLayout>
 </template>
 

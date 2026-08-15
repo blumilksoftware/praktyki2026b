@@ -16,12 +16,7 @@ const { t } = useI18n()
 <template>
   <Head :title="t('company.offers.create.title')" />
   <AppLayout active-page="createOffer">
-  <BaseLayout
-    active-page="offers"
-    :nav-items="companyMenu"
-    :navigation-buttons="companyMenu"
-    navigation-variant="default"
-  >
+
     <div class="mx-auto w-full max-w-6xl">
       <div class="bg-white shadow-sm mx-auto border border-border rounded-3xl w-full overflow-visible">
         <div class="px-6 sm:px-8 py-6 border-border border-b">
@@ -35,6 +30,5 @@ const { t } = useI18n()
         </div>
       </div>
     </div>
-  </BaseLayout>
   </AppLayout>
 </template>

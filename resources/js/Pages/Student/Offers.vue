@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useStudentFavorites } from '@/composables/useStudentFavorites'
@@ -48,7 +48,7 @@ const resetFilters = () => {
 <template>
   <Head :title="t('student.nav.offers')" />
 
-  <StudentPanelLayout active-page="offers">
+  <AppLayout active-page="offers">
     <div class="bg-background px-4 sm:px-6 lg:px-8 py-6 min-h-screen">
       <div class="flex justify-between items-center gap-3 mx-auto mb-4 max-w-7xl">
         <Link
@@ -159,5 +159,5 @@ const resetFilters = () => {
         </section>
       </div>
     </div>
-  </StudentPanelLayout>
+  </AppLayout>
 </template>

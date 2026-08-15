@@ -72,12 +72,6 @@ function goToApplications(event, offerId) {
 <template>
   <Head :title="t('company.layout.title')" />
   <AppLayout active-page="dashboard">
-  <BaseLayout
-    active-page="dashboard"
-    :nav-items="companyMenu"
-    :navigation-buttons="companyMenu"
-    navigation-variant="default"
-  >
     <div class="flex flex-col gap-6">
       <OnboardingBanner />
 
@@ -154,6 +148,5 @@ function goToApplications(event, offerId) {
         <OffersPagination :offers="offers" />
       </div>
     </div>
-  </BaseLayout>
   </AppLayout>
 </template>

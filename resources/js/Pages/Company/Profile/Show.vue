@@ -9,11 +9,8 @@ import Offers from '@/Components/Profiles/Offers.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 
 const { t } = useI18n()
-
-const companyMenu = useCompanyPanelMenu('application')
 
 const goBack = () => {
   window.history.back()
@@ -39,7 +36,6 @@ defineProps({
   <Head :title="company.name" />
   <AppLayout active-page="profile">
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar show-hamburger :menu-items="canEdit ? companyMenu : []"show-navigation-buttons :navigation-buttons="canEdit ? companyMenu : []" navigation-variant="default"/>
 
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
