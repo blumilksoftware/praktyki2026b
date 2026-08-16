@@ -89,5 +89,8 @@ class CompanyController extends Controller
         return $this->buildCompanyProfileData->execute(Auth::user()->company);
     }
 
-
+    public function partnership(): never
+    {
+        abort(404);
+    }
 }

@@ -13,7 +13,12 @@ export const ROUTES = {
   REGISTER_UNIVERSITY: "/register/university",
   REGISTER_COMPANY: "/register/company",
 
+  COMPANY_APPLICATIONS: "/company/applications",
+  COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
+  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
+  COMPANY_SHOW: '/companies/{company}',
   COMPANY_DASHBOARD: "/company/dashboard",
+  COMPANY_PARTNERSHIP: "/company/partnership",
   COMPANY_OFFERS_INDEX: "/company/offers",
   COMPANY_OFFERS_CREATE: "/company/offers/create",
   COMPANY_OFFERS_STORE: "/company/offers",
@@ -77,10 +82,7 @@ export const ROUTES = {
   COMPANY_PROFILE: "/company/profile",
   UNIVERSITY_PROFILE: "/university/profile",
 
-  COMPANY_APPLICATIONS: "/company/applications",
-  COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
-  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
-  COMPANY_SHOW: '/companies/{company}',
+
 
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",

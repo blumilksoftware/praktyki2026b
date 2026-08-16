@@ -763,7 +763,8 @@
         "applications": "Applications",
         "profile": "Profile",
         "settings": "Settings",
-          "team": "Team"
+          "team": "Team",
+          "partnership": "Partnership"
       }
     },
     "dashboard": {

@@ -13,6 +13,10 @@ const resolvers = {
 }
 
 export function resolvePanelMenu(role, activePage) {
+  if (isPending){
+    if (role === 'companyAdmin' || role === 'companyMember') return usePendingCompanyMenu()
+    return computed(() => [])
+  }
   const resolver = resolvers[role]
   return resolver ? resolver(activePage) : computed(() => [])
 }
