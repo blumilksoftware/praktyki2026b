@@ -61,7 +61,7 @@ describe("Student/Profile", () => {
     global: {
       plugins: [i18n],
       stubs: {
-        StudentPanelLayout: { template: "<div><slot /></div>" },
+        AppLayout: { template: '<div><slot /></div>' },
         BaseModal: {
           props: ["open", "title"],
           template: '<section v-if="open"><h2>{{ title }}</h2><slot /></section>',
