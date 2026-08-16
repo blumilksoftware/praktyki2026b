@@ -29,7 +29,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             "locale" => app()->getLocale(),
             "auth" => fn() => $request->user() ? [
-                "user" => $request->user(),
+                "user" => $request->user()->loadMissing(["company", "universityOrganization"]),
             ] : null,
             "favoriteOfferIds" => fn() => $request->user()?->role === UserRole::Student ? $request->user()->favourites()->pluck("offers.id")->all() : [],
             "onboarding" => fn() => $request->user() ? $this->onboardingData($request) : null,

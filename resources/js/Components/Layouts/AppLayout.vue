@@ -12,7 +12,14 @@ const props = defineProps({
 const { t } = useI18n()
 const page = usePage()
 const role = computed(() => page.props.auth?.user?.role)
-const panelMenu = resolvePanelMenu(role.value, computed(() => props.activePage))
+const isPending = computed(() => {
+  const u = page.props.auth?.user
+  if (!u) return false
+  return u.status === 'pending'
+    || u.company?.verification_status === 'pending'
+    || u.university_organization?.verification_status === 'pending'
+})
+const panelMenu = resolvePanelMenu(role.value, computed(() => props.activePage), isPending.value)
 </script>
 
 <template>
