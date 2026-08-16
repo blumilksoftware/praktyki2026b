@@ -42,9 +42,10 @@ const emit = defineEmits(['navigationClick'])
 
 const user = computed(() => page.props?.auth?.user)
 const isAuthenticated = computed(() => !!user.value)
+
 const isAuthPage = computed(() => {
   const currentComponent = page.component
-  return currentComponent === 'Auth/Login' || currentComponent === 'Auth/Register'
+  return currentComponent === 'Auth/Register'
 })
 
 const showProfileIcon = computed(() => isAuthenticated.value && !isAuthPage.value)
@@ -88,20 +89,13 @@ const hasProfileInMenu = computed(() => (
           >
             {{ t('offers.browseCta') }}
           </Link>
-          <template v-if="!isAuthenticated && !isAuthPage">
             <Link
-              :href="ROUTES.LOGIN"
-              class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-            >
-              {{ t('auth.login.submit') }}
-            </Link>
-            <Link
+              v-if="!isAuthenticated"
               :href="ROUTES.REGISTER_STUDENT"
               class="hidden lg:inline-block rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
             >
               {{ t('auth.register.submit') }}
             </Link>
-          </template>
           <button
             v-if="showHamburger"
             type="button"
