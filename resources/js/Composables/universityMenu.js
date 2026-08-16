@@ -1,6 +1,6 @@
 import { computed, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import {IconHome, IconUserCircle, IconUsersGroup} from '@tabler/icons-vue'
+import {IconHome, IconUserCircle, IconUsersGroup, IconHeartHandshake, IconBuildings} from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 
 export function useUniversityPanelMenu(activePage) {
@@ -11,6 +11,7 @@ export function useUniversityPanelMenu(activePage) {
 
     return [
       {
+        key: 'dashboard',
         label: t('university.layout.nav.dashboard'),
         href: ROUTES.UNIVERSITY_DASHBOARD,
         icon: IconHome,
@@ -23,6 +24,20 @@ export function useUniversityPanelMenu(activePage) {
         icon: IconUsersGroup,
         isActive: current === 'team',
       },
+      {
+        key: 'departament',
+        label: t('university.layout.nav.department'),
+        href: ROUTES.UNIVERSITY_DEPARTMENT,
+        icon: IconBuildings,
+        isActive: current === 'departament',
+      },
+      {
+        key: 'partnership',
+        label: t('university.layout.nav.partnership'),
+        href: ROUTES.UNIVERSITY_PARTNERSHIP,
+        icon: IconHeartHandshake,
+        isActive: current === 'partnership',
+      }
     ]
   })
 }

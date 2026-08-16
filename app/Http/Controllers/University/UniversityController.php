@@ -125,4 +125,14 @@ class UniversityController extends Controller
             "faculties" => $university ? $university->faculties()->with("studyFields")->get() : [],
         ];
     }
+
+    public function department(): never
+    {
+        abort(404);
+    }
+
+    public function partnership(): never
+    {
+        abort(404);
+    }
 }

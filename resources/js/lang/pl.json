@@ -1,4 +1,5 @@
 {
+    "layout": { "skipToContent": "Skip to content" },
   "onboarding": {
     "layout": {
       "skipToContent": "Przejdź do treści",
@@ -372,11 +373,14 @@
   },
   "university": {
     "layout": {
+        "skipToContent": "Przejdź do treści",
       "title": "Uczelnia",
         "nav": {
             "dashboard": "Panel",
             "profile": "Profil",
-            "team": "Zespół"
+            "team": "Zespół",
+            "department": "Wydziały",
+            "partnership": "Partnerstwo"
         }
     },
     "profile": {
@@ -736,6 +740,7 @@
   },
   "company": {
     "layout": {
+        "skipToContent": "Przejdź do treści",
       "title": "Firma",
       "nav": {
         "dashboard": "Panel",

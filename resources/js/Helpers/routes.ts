@@ -77,14 +77,16 @@ export const ROUTES = {
   COMPANY_PROFILE: "/company/profile",
   UNIVERSITY_PROFILE: "/university/profile",
 
-
   COMPANY_APPLICATIONS: "/company/applications",
   COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
   COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
   COMPANY_SHOW: '/companies/{company}',
+
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",
   UNIVERSITY_COMPANIES_INDEX: "/university/companies",
+  UNIVERSITY_PARTNERSHIP: "/university/partnership",
+  UNIVERSITY_DEPARTMENT: "/university/department",
 
   // General
   APPLICATIONS: "/applications",

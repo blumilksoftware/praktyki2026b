@@ -38,6 +38,9 @@ export function useCompanyPanelMenu(activePage) {
         icon: IconUsersGroup,
         isActive: current === 'team',
       },
+      {
+
+      }
     ]
   })
 }

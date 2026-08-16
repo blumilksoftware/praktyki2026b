@@ -1,4 +1,5 @@
 {
+    "layout": { "skipToContent": "Skip to content" },
   "onboarding": {
     "banner": {
       "title": "Complete your profile",
@@ -363,11 +364,14 @@
   },
     "university": {
         "layout": {
+            "skipToContent": "Skip to content",
             "title": "Uczelnia",
             "nav": {
                 "dashboard": "Dashboard",
                 "profile": "Profile",
-                "team": "Teams"
+                "team": "Teams",
+                "department": "Departments",
+                "partnership": "Partnership"
             }
         },
     "profile": {
@@ -751,6 +755,7 @@
   },
   "company": {
     "layout": {
+        "skipToContent": "Skip to content",
       "title": "Company",
       "nav": {
         "dashboard": "Dashboard",

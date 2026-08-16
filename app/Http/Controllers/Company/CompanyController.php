@@ -88,4 +88,6 @@ class CompanyController extends Controller
     {
         return $this->buildCompanyProfileData->execute(Auth::user()->company);
     }
+
+
 }
