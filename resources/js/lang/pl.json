@@ -374,11 +374,41 @@
       "title": "Uczelnia",
         "nav": {
             "dashboard": "Panel",
+            "faculties": "Kierunki/Wydziały",
             "profile": "Profil"
         }
     },
     "profile": {
       "title": "Profil"
+    },
+    "faculties": {
+      "title": "Wydziały i kierunki",
+      "subtitle": "Zarządzaj listą wydziałów i kierunków, którą wybierają studenci Twojej uczelni.",
+      "addFacultyLabel": "Nazwa wydziału",
+      "addFacultyPlaceholder": "np. Wydział Informatyki",
+      "addFaculty": "Dodaj wydział",
+      "facultyName": "Nazwa wydziału",
+      "fieldName": "Nazwa kierunku",
+      "addFieldLabel": "Nowy kierunek",
+      "addFieldPlaceholder": "np. Informatyka stosowana",
+      "addField": "Dodaj kierunek",
+      "renameFaculty": "Zmień nazwę wydziału {name}",
+      "deleteFaculty": "Usuń wydział {name}",
+      "renameField": "Zmień nazwę kierunku {name}",
+      "deleteField": "Usuń kierunek {name}",
+      "usage": "Studenci: {students} · Oferty: {offers}",
+      "noFields": "Ten wydział nie ma jeszcze kierunków.",
+      "empty": "Nie dodano jeszcze żadnego wydziału.",
+      "save": "Zapisz",
+      "cancel": "Anuluj",
+      "confirmDelete": "Usuń",
+      "deleteFacultyTitle": "Usuwanie wydziału",
+      "deleteFieldTitle": "Usuwanie kierunku",
+      "deleteConfirmation": "Czy na pewno chcesz usunąć „{name}”?",
+      "reassignFacultyLabel": "Przenieś kierunki do wydziału",
+      "reassignFieldLabel": "Przenieś studentów i oferty do kierunku",
+      "reassignPlaceholder": "Wybierz cel przeniesienia",
+      "reassignUnavailable": "Nie ma dokąd przenieść powiązanych danych. Najpierw dodaj inny wydział lub kierunek."
     },
     "companies": {
       "title": "Wyszukiwarka firm"
@@ -519,6 +549,13 @@
         "university": "Uczelnia",
           "universitySuggestedNote": "Wybrano automatycznie na podstawie adresu e-mail Twojej uczelni",
         "studyField": "Kierunek studiów",
+        "studyFieldPlaceholder": "Wybierz kierunek studiów",
+        "faculty": "Wydział",
+        "facultyPlaceholder": "Wybierz wydział",
+        "selectUniversityFirst": "Najpierw wybierz swoją uczelnię.",
+        "noFacultiesForUniversity": "Ta uczelnia nie dodała jeszcze żadnych wydziałów.",
+        "selectFacultyFirst": "Najpierw wybierz wydział.",
+        "noStudyFieldsForFaculty": "Ten wydział nie ma jeszcze kierunków.",
         "studyYear": "Rok studiów",
         "specialization": "Specjalność",
         "saveChanges": "Zapisz zmiany",

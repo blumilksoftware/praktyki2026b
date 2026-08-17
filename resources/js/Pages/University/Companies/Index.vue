@@ -1,8 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconHome, IconUser } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import UniversityLayout from '@/Components/Layouts/UniversityLayout.vue'
 
 const { t } = useI18n()
 
@@ -17,15 +16,11 @@ defineProps({
   },
 })
 
-const navItems = [
-  { key: 'dashboard', label: 'Dashboard', href: '/university/dashboard', icon: IconHome },
-  { key: 'profile', label: 'Profile', href: '/university/profile', icon: IconUser },
-]
 </script>
 
 <template>
   <Head :title="t('university.companies.title')" />
-  <BaseLayout active-page="companies" :nav-items="navItems">
+  <UniversityLayout active-page="companies">
     <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('university.companies.title') }}</h1>
-  </BaseLayout>
+  </UniversityLayout>
 </template>

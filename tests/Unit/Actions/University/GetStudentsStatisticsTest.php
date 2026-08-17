@@ -30,12 +30,12 @@ class GetStudentsStatisticsTest extends TestCase
 
         $domainStudent = User::factory()->create([
             "email" => "domain.student@example.edu",
-            "study_field" => $computerScience->id,
+            "study_field_id" => $computerScience->id,
         ]);
         $manuallyLinkedStudent = User::factory()->create([
             "email" => "student@elsewhere.test",
             "organization_id" => $university->id,
-            "study_field" => $physics->id,
+            "study_field_id" => $physics->id,
         ]);
 
         Application::factory()->accepted()->create(["student_id" => $domainStudent->id]);
@@ -130,7 +130,7 @@ class GetStudentsStatisticsTest extends TestCase
         foreach ($studyFields as $index => $field) {
             User::factory()->create([
                 "email" => "student{$index}@example.edu",
-                "study_field" => $field->id,
+                "study_field_id" => $field->id,
             ]);
         }
 

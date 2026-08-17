@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useTogglePassword } from '@/Composables/useTogglePassword'
 import { IconChevronDown, IconEye, IconEyeOff } from '@tabler/icons-vue'
@@ -39,6 +39,10 @@ const inputType = computed(() =>
 const wrapperClass = computed(() => (
   props.compact ? 'pt-5' : 'pt-6'
 ))
+
+const inputRef = ref(null)
+
+defineExpose({ focus: () => inputRef.value?.focus() })
 </script>
 
 <template>
@@ -62,6 +66,7 @@ const wrapperClass = computed(() => (
     <div class="relative">
       <input
         :id="id"
+        ref="inputRef"
         v-model="model"
         v-bind="$attrs"
         :type="inputType"

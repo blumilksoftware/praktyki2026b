@@ -1,6 +1,6 @@
 import { computed, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconHome, IconUserCircle } from '@tabler/icons-vue'
+import { IconHome, IconSchool, IconUserCircle } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 
 export function useUniversityPanelMenu(activePage) {
@@ -15,6 +15,12 @@ export function useUniversityPanelMenu(activePage) {
         href: ROUTES.UNIVERSITY_DASHBOARD,
         icon: IconHome,
         isActive: current === 'dashboard',
+      },
+      {
+        label: t('university.layout.nav.faculties'),
+        href: ROUTES.UNIVERSITY_FACULTIES,
+        icon: IconSchool,
+        isActive: current === 'faculties',
       },
       {
         label: t('university.layout.nav.profile'),

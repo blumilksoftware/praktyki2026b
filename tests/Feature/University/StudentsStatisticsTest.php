@@ -33,7 +33,7 @@ class StudentsStatisticsTest extends TestCase
 
         $student = User::factory()->create([
             "email" => "student@example.edu",
-            "study_field" => $studyField->id,
+            "study_field_id" => $studyField->id,
         ]);
 
         Application::factory()->accepted()->create([
@@ -94,11 +94,11 @@ class StudentsStatisticsTest extends TestCase
 
         User::factory()->create([
             "email" => "cs-student@example.edu",
-            "study_field" => $matchingField->id,
+            "study_field_id" => $matchingField->id,
         ]);
         User::factory()->create([
             "email" => "phil-student@example.edu",
-            "study_field" => $otherField->id,
+            "study_field_id" => $otherField->id,
         ]);
 
         $this->actingAs($admin)
@@ -129,11 +129,11 @@ class StudentsStatisticsTest extends TestCase
 
         User::factory()->create([
             "email" => "student-a@example.edu",
-            "study_field" => $fieldA->id,
+            "study_field_id" => $fieldA->id,
         ]);
         User::factory()->create([
             "email" => "student-z@example.edu",
-            "study_field" => $fieldZ->id,
+            "study_field_id" => $fieldZ->id,
         ]);
 
         $this->actingAs($admin)
