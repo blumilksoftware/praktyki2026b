@@ -30,6 +30,7 @@
   "organization": {
     "team": {
       "title": "Team",
+        "you": "This is you",
       "description": "Manage your organization's members and invitations.",
         "searchMembersPlaceholder": "Search members...",
         "searchInvitationsPlaceholder": "Search invitations...",

@@ -37,6 +37,7 @@
   "organization": {
     "team": {
       "title": "Zespół",
+        "you": "To jesteś Ty",
       "description": "Zarządzaj członkami swojej organizacji oraz zaproszeniami.",
         "searchMembersPlaceholder": "Szukaj członków...",
         "searchInvitationsPlaceholder": "Szukaj zaproszeń...",

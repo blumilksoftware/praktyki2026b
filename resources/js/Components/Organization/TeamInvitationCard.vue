@@ -29,12 +29,15 @@ const emit = defineEmits(['revoke'])
       <div class="flex items-start justify-between gap-3">
         <div class="min-w-0 flex flex-1 items-center gap-3">
           <div class="min-w-0 flex flex-wrap items-center gap-2">
+            <span
+              class="inline-flex w-fit shrink-0 items-center rounded-full border border-border bg-background px-2.5 py-1 text-xs font-medium text-additional sm:text-sm"
+              :title="props.statusLabel"
+            >
+              {{ props.statusLabel }}
+            </span>
             <h3 class="min-w-0 break-all text-lg font-semibold tracking-tight text-text sm:text-2xl">
               {{ props.invitation.email }}
             </h3>
-            <span class="inline-flex shrink-0 max-w-full items-center rounded-full border border-border bg-background px-2.5 py-1 text-xs font-medium text-additional sm:text-sm">
-              {{ props.statusLabel }}
-            </span>
           </div>
         </div>
         <button

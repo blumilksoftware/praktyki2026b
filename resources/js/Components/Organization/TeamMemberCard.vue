@@ -35,10 +35,22 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  isSelf: {
+    type: Boolean,
+    default: false,
+  },
+  selfLabel: {
+    type: String,
+    default: '',
+  },
 })
 
 const emit = defineEmits(['remove', 'preview', 'transfer'])
-const canRenderRemoveAction = computed(() => !props.showTransfer && (props.canRemove || props.disableRemove))
+
+const showSelfLabel = computed(() => props.isSelf && !props.showTransfer)
+const canRenderRemoveAction = computed(
+  () => !props.showTransfer && !showSelfLabel.value && (props.canRemove || props.disableRemove),
+)
 const cardClass = computed(() => (props.canRemove || props.disableRemove || props.showTransfer
   ? 'group cursor-pointer overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]'
   : 'cursor-pointer overflow-hidden rounded-3xl border border-border bg-white shadow-[0_8px_30px_rgba(11,26,48,0.08)] transition'))
@@ -81,12 +93,15 @@ function handlePreview(event) {
       <div class="flex items-start justify-between gap-3">
         <div class="min-w-0 flex flex-1 items-center gap-3">
           <div class="min-w-0 flex flex-wrap items-center gap-2">
+            <span
+              class="inline-flex w-fit shrink-0 items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary sm:text-sm"
+              :title="props.roleLabel"
+            >
+              {{ props.roleLabel }}
+            </span>
             <h3 class="min-w-0 break-words text-lg font-semibold tracking-tight text-text sm:text-2xl">
               {{ props.member.name }}
             </h3>
-            <span class="inline-flex shrink-0 max-w-full items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary sm:text-sm">
-              {{ props.roleLabel }}
-            </span>
           </div>
         </div>
         <button
@@ -99,8 +114,14 @@ function handlePreview(event) {
           <IconArrowsExchange class="h-4 w-4" aria-hidden="true" />
           <span>{{ transferLabel }}</span>
         </button>
+        <span
+          v-else-if="showSelfLabel"
+          class="inline-flex items-center whitespace-nowrap px-2 py-1.5 text-xs font-medium text-additional underline sm:text-sm"
+        >
+          {{ props.selfLabel }}
+        </span>
         <button
-          v-if="canRenderRemoveAction"
+          v-else-if="canRenderRemoveAction"
           type="button"
           :disabled="props.disableRemove"
           class="inline-flex items-center gap-1.5 rounded-lg border px-2 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"

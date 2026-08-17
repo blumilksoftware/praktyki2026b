@@ -380,6 +380,8 @@ function submitInvite() {
               :disable-remove="member.id === currentUserId"
               :show-transfer="member.id === currentUserId && isCurrentUserAdmin"
               :transfer-label="t('organization.team.transfer')"
+              :is-self="member.id === currentUserId"
+              :self-label="t('organization.team.you')"
               @preview="openMemberPreview(member)"
               @remove="openRemoveModal(member)"
               @transfer="openTransferModal"
