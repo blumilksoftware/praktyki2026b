@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController as CompanyOfferController;
+use App\Http\Controllers\Company\UniversityController as CompanyUniversityController;
 use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\Student\StudentController;
@@ -51,6 +52,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/profile", [CompanyController::class, "profile"])->name("company.profile");
         Route::get("/applications", [ApplicationController::class, "index"])->name("company.applications");
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
+        Route::get("/universities", [CompanyUniversityController::class, "index"])->name("company.universities.index");
         Route::get("/students/{student}", [StudentProfileController::class, "show"])->name("company.students.show")->whereUuid("student");
     });
 

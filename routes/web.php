@@ -7,6 +7,7 @@ use App\Http\Controllers\CityGeocodingController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
+use App\Http\Controllers\Company\UniversityController as CompanyUniversityController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Organization\TeamInvitationController;
@@ -53,6 +54,9 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::delete("/team/invitations/{invitation}", [TeamInvitationController::class, "destroy"])->name("company.team.invitations.destroy");
         Route::delete("/team/members/{member}", [TeamMemberController::class, "destroy"])->name("company.team.members.destroy");
         Route::post("/team/members/{member}/transfer-ownership", [TeamMemberController::class, "transferOwnership"])->name("company.team.members.transfer-ownership");
+        Route::post("/universities/{university}/partnership", [CompanyUniversityController::class, "addPartner"])->name("company.universities.partnership.store");
+        Route::delete("/universities/{university}/partnership", [CompanyUniversityController::class, "removePartner"])->name("company.universities.partnership.destroy");
+        Route::patch("/universities/{university}/partnership/accept", [CompanyUniversityController::class, "acceptPartner"])->name("company.universities.partnership.accept");
     });
 
 Route::middleware(["auth"])
@@ -89,6 +93,7 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
         Route::delete("/study-fields/{studyField}", [StudyFieldController::class, "destroy"])->name("university.study-fields.destroy");
         Route::post("/companies/{company}/partnership", [UniversityCompanyController::class, "addPartner"])->name("university.companies.partnership.store");
         Route::delete("/companies/{company}/partnership", [UniversityCompanyController::class, "removePartner"])->name("university.companies.partnership.destroy");
+        Route::patch("/companies/{company}/partnership/accept", [UniversityCompanyController::class, "acceptPartner"])->name("university.companies.partnership.accept");
         Route::post("/team/invitations", [TeamInvitationController::class, "store"])->middleware("throttle:10,15")->name("university.team.invitations.store");
         Route::delete("/team/invitations/{invitation}", [TeamInvitationController::class, "destroy"])->name("university.team.invitations.destroy");
         Route::delete("/team/members/{member}", [TeamMemberController::class, "destroy"])->name("university.team.members.destroy");

@@ -102,6 +102,41 @@ describe("NotificationBell", () => {
         read_at: "2026-07-03T10:00:00.000000Z",
         created_at: "2026-07-03T09:00:00.000000Z",
       },
+      {
+        id: "n4",
+        type: "partnership_requested",
+        data: { proposer_name: "Politechnika Testowa" },
+        read_at: null,
+        created_at: "2026-07-04T10:00:00.000000Z",
+      },
+      {
+        id: "n5",
+        type: "partnership_accepted",
+        data: { acceptor_name: "Acme Corp" },
+        read_at: null,
+        created_at: "2026-07-05T10:00:00.000000Z",
+      },
+      {
+        id: "n6",
+        type: "partnership_cancelled",
+        data: { canceller_name: "Acme Corp" },
+        read_at: null,
+        created_at: "2026-07-06T10:00:00.000000Z",
+      },
+      {
+        id: "n7",
+        type: "partnership_declined",
+        data: { decliner_name: "Politechnika Testowa" },
+        read_at: null,
+        created_at: "2026-07-07T10:00:00.000000Z",
+      },
+      {
+        id: "n8",
+        type: "partnership_ended",
+        data: { ender_name: "Acme Corp" },
+        read_at: null,
+        created_at: "2026-07-08T10:00:00.000000Z",
+      },
     ]
     const wrapper = mountBell()
 
@@ -110,6 +145,11 @@ describe("NotificationBell", () => {
     expect(wrapper.text()).toContain("New verification request from Acme Corp")
     expect(wrapper.text()).toContain("Jan Kowalski applied to Frontend Intern")
     expect(wrapper.text()).toContain("Your application to Backend Intern is now Accepted")
+    expect(wrapper.text()).toContain("Politechnika Testowa proposed a partnership with you")
+    expect(wrapper.text()).toContain("Acme Corp accepted your partnership proposal")
+    expect(wrapper.text()).toContain("Acme Corp cancelled their partnership proposal")
+    expect(wrapper.text()).toContain("Politechnika Testowa declined your partnership proposal")
+    expect(wrapper.text()).toContain("Acme Corp ended the partnership with you")
   })
 
   it("calls mark-all-as-read when the button is clicked", async () => {
