@@ -152,6 +152,7 @@ return [
     "mime_type_by_content" => "Pole :attribute musi być plikiem typu: :values.",
     "university_domain_locked" => "Nie można zmienić domeny po jej ustawieniu.",
     "email_taken" => "Ten adres e-mail jest już używany. Zaloguj się lub użyj innego adresu.",
+    "team_invite_other_organization" => "Ten adres e-mail jest już przypisany do innej organizacji i nie może zostać zaproszony do tej.",
     "email_same_as_current" => "To już jest Twój obecny adres e-mail.",
     "email_invalid_friendly" => "Proszę wpisać poprawny adres e-mail.",
     "password_confirmed_friendly" => "Hasła muszą być identyczne.",

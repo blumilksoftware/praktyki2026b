@@ -27,6 +27,61 @@
   "common": {
     "verifiedBadge": "Account verified by an administrator"
   },
+  "organization": {
+    "team": {
+      "title": "Team",
+        "you": "This is you",
+      "description": "Manage your organization's members and invitations.",
+        "searchMembersPlaceholder": "Search members...",
+        "searchInvitationsPlaceholder": "Search invitations...",
+        "showingRange": "Showing {from}–{to} of {total}",
+      "membersTitle": "Current team members",
+      "membersDescription": "See all active members, their role, and join date.",
+      "noMembers": "No team members have been added yet.",
+      "invitationsTitle": "Pending invitations",
+      "invitationsDescription": "Invitations that are waiting for the recipient to accept.",
+      "pending": "Pending",
+      "noInvitations": "No pending invitations.",
+      "joinDate": "Joined on {date}",
+      "inviteButton": "Invite member",
+      "inviteModal": {
+        "title": "Invite a team member",
+        "emailLabel": "Email address",
+        "emailPlaceholder": "Enter email address",
+        "cancel": "Cancel",
+        "submit": "Send invitation"
+      },
+      "remove": "Remove",
+      "transfer": "Transfer ownership",
+      "revoke": "Revoke",
+      "removeModal": {
+        "title": "Remove member",
+        "description": "Are you sure you want to remove {name} from the team?",
+        "cancel": "Cancel",
+        "confirm": "Remove member"
+      },
+      "memberPreview": {
+        "title": "Member details",
+        "email": "Email",
+        "joined": "Joined",
+        "close": "Close"
+      },
+      "roles": {
+        "companyAdmin": "Administrator",
+        "companyMember": "Member",
+        "universityAdmin": "Administrator",
+        "universityMember": "Member"
+      },
+      "transferModal": {
+         "title": "Transfer ownership",
+          "description": "Choose a team member to become the new administrator. You will be demoted to a regular member.",
+          "selectLabel": "New administrator",
+          "noMembers": "There are no other members to transfer ownership to.",
+          "cancel": "Cancel",
+          "confirm": "Transfer ownership"
+      }
+    }
+  },
   "errors": {
     "401": {
       "title": "Login required",
@@ -812,6 +867,7 @@
       "nav": {
         "dashboard": "Dashboard",
         "offers": "My offers",
+        "team": "Team",
         "applications": "Applications",
         "universities": "Universities",
         "profile": "Profile",

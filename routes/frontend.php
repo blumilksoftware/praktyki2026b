@@ -9,6 +9,7 @@ use App\Http\Controllers\Company\OfferController as CompanyOfferController;
 use App\Http\Controllers\Company\UniversityController as CompanyUniversityController;
 use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\Organization\TeamMemberController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\University\CompanyController as UniversityCompanyController;
@@ -32,6 +33,11 @@ Route::get("/universities/{university}", [UniversityProfileController::class, "s
 
 Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");
+
+Route::middleware(["auth"])
+    ->group(function (): void {
+        Route::get("/team", [TeamMemberController::class, "index"])->name("team.index");
+    });
 
 Route::middleware(["auth"])
     ->prefix("company")
