@@ -221,6 +221,11 @@
     },
     "university": {
       "recruitmentAndSystem": "Recruitment and system",
+      "verified": "Verified university",
+      "applicationForm": "Application form",
+      "applicationFormHint": "Recruitment for this university is handled in an external system.",
+      "goToApplicationForm": "Go to the form",
+      "noDescription": "The university has not provided a description yet.",
       "noFaculties": "The university has not added any faculties yet.",
       "facultiesAndStudyFields": "Faculties and study fields",
       "universityDomain": "University domain",
@@ -482,7 +487,8 @@
     "publicProfile": {
       "noSkills": "The candidate has not added any technical skills.",
       "noWorkModes": "The candidate has not selected an expected work mode.",
-      "noPreferences": "The candidate has not set any search preferences."
+      "noPreferences": "The candidate has not set any search preferences.",
+      "universityProfileAria": "View university profile: {university}"
     },
     "applications": {
       "title": "Application history",
@@ -621,6 +627,7 @@
         "closedMessage": "No longer accepting applications",
         "expiredMessage": "This offer has expired",
         "companyProfileAria": "View company profile: {company}",
+        "universityProfileAria": "View university profile: {university}",
         "similarOffers": "Similar offers",
         "similarOfferAria": "View offer {title} at {company}"
       }

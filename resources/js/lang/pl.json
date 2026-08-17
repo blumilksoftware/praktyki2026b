@@ -229,6 +229,11 @@
     },
     "university": {
       "recruitmentAndSystem": "Rekrutacja i system",
+      "verified": "Zweryfikowana uczelnia",
+      "applicationForm": "Formularz rekrutacyjny",
+      "applicationFormHint": "Rekrutacja na tę uczelnię odbywa się w zewnętrznym systemie.",
+      "goToApplicationForm": "Przejdź do formularza",
+      "noDescription": "Uczelnia nie dodała jeszcze opisu.",
       "noFaculties": "Uczelnia nie dodała jeszcze żadnych wydziałów.",
       "facultiesAndStudyFields": "Wydziały i kierunki studiów",
       "universityDomain": "Domena uczelni",
@@ -668,7 +673,8 @@
     "publicProfile": {
       "noSkills": "Kandydat nie dodał żadnych umiejętności technicznych.",
       "noWorkModes": "Kandydat nie wybrał oczekiwanego trybu pracy.",
-      "noPreferences": "Kandydat nie określił preferencji wyszukiwania."
+      "noPreferences": "Kandydat nie określił preferencji wyszukiwania.",
+      "universityProfileAria": "Zobacz profil uczelni: {university}"
     },
     "favorites": {
       "heading": "Twoje zapisane oferty",
@@ -771,6 +777,7 @@
         "closedMessage": "Oferta nie przyjmuje już aplikacji",
         "expiredMessage": "Ta oferta wygasła",
         "companyProfileAria": "Zobacz profil firmy: {company}",
+        "universityProfileAria": "Zobacz profil uczelni: {university}",
         "similarOffers": "Podobne oferty",
         "similarOfferAria": "Zobacz ofertę {title} w firmie {company}"
       }

@@ -4,7 +4,7 @@
       :show-hamburger="true"
       :menu-items="menuItems"
       :show-navigation-buttons="true"
-      :navigation-buttons="navigationButtons"
+      :navigation-buttons="resolvedNavigationButtons"
       :navigation-variant="navigationVariant || 'default'"
       @navigation-click="handleNavigationClick"
     />
@@ -21,6 +21,7 @@
 import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
+import { useCurrentPanelMenu } from '@/Composables/useCurrentPanelMenu'
 
 const page = usePage()
 
@@ -31,11 +32,11 @@ const props = defineProps({
   },
   navItems: {
     type: Array,
-    default: () => [],
+    default: null,
   },
   navigationButtons: {
     type: Array,
-    default: () => [],
+    default: null,
   },
   navigationVariant: {
     type: String,
@@ -45,8 +46,19 @@ const props = defineProps({
 
 const emit = defineEmits(['navigationClick'])
 
+const currentPanelMenu = useCurrentPanelMenu(computed(() => props.activePage))
+
+const definesOwnMenu = computed(() => props.navItems !== null || props.navigationButtons !== null)
+
+const resolvedNavItems = computed(
+  () => props.navItems ?? (definesOwnMenu.value ? [] : currentPanelMenu.value),
+)
+const resolvedNavigationButtons = computed(
+  () => props.navigationButtons ?? (definesOwnMenu.value ? [] : currentPanelMenu.value),
+)
+
 const menuItems = computed(() => {
-  return props.navItems.map(item => ({
+  return resolvedNavItems.value.map(item => ({
     ...item,
     isActive: item.key === props.activePage ||
               (item.href && page.url === item.href),

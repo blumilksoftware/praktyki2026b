@@ -41,6 +41,7 @@ class UpdateUniversityProfile
             $university->update([
                 "domain" => $domain,
                 "logo_path" => $logoPath,
+                "description" => $data->description,
                 "external_form_url" => $data->externalFormUrl,
                 "website" => $data->website,
                 "phone" => $data->phone,

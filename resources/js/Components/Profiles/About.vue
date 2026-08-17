@@ -5,6 +5,7 @@ const { t } = useI18n()
 
 defineProps({
   description: { type: String, default: null },
+  emptyMessage: { type: String, default: '' },
 })
 </script>
 
@@ -18,8 +19,8 @@ defineProps({
     >
       {{ description }}
     </div>
-    <div v-else class="text-gray-400 italic text-sm">
-      {{ t('profiles.company.noDescription') }}
+    <div v-else-if="emptyMessage" class="text-gray-400 italic text-sm">
+      {{ emptyMessage }}
     </div>
   </div>
 </template>

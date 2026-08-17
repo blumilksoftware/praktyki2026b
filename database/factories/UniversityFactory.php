@@ -24,6 +24,7 @@ class UniversityFactory extends Factory
             "city" => fake()->city(),
             "phone" => fake()->phoneNumber(),
             "website" => fake()->optional()->url(),
+            "description" => null,
             "logo_path" => null,
             "external_form_url" => null,
             "verification_status" => VerificationStatus::Pending,
