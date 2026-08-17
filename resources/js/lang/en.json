@@ -363,6 +363,9 @@
       "modal": {
         "title": "Change user role",
         "description": "Pick a new role for {name}.",
+        "company": "Company",
+        "university": "University",
+        "organizationPlaceholder": "Select an organization",
         "cancel": "Cancel",
         "confirm": "Save role"
       }

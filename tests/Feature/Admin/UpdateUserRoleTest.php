@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Admin;
 
 use App\Enums\UserRole;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -39,12 +40,17 @@ class UpdateUserRoleTest extends TestCase
     {
         $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
         $target = User::factory()->create(["role" => UserRole::Student]);
+        $company = Company::factory()->approved()->create();
 
         $this->actingAs($admin)
-            ->patch("/admin/users/{$target->id}/role", ["role" => UserRole::CompanyAdmin->value])
+            ->patch("/admin/users/{$target->id}/role", [
+                "role" => UserRole::CompanyAdmin->value,
+                "organization_id" => $company->id,
+            ])
             ->assertRedirect();
 
         $this->assertEquals(UserRole::CompanyAdmin, $target->fresh()->role);
+        $this->assertEquals($company->id, $target->fresh()->organization_id);
     }
 
     public function testSuperAdminCannotChangeTheirOwnRole(): void

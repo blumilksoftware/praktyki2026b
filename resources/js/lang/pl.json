@@ -372,6 +372,9 @@
       "modal": {
         "title": "Zmień rolę użytkownika",
         "description": "Wybierz nową rolę dla użytkownika {name}.",
+        "company": "Firma",
+        "university": "Uczelnia",
+        "organizationPlaceholder": "Wybierz organizację",
         "cancel": "Anuluj",
         "confirm": "Zapisz rolę"
       }

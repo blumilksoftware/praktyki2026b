@@ -22,6 +22,14 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  companies: {
+    type: Array,
+    default: () => [],
+  },
+  universities: {
+    type: Array,
+    default: () => [],
+  },
 })
 
 const { t } = useI18n()
@@ -132,7 +140,10 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
       :user-id="userToChangeRole?.id"
       :user-name="userToChangeRole ? [userToChangeRole.first_name, userToChangeRole.last_name].filter(Boolean).join(' ') || userToChangeRole.email : ''"
       :current-role="userToChangeRole?.role"
+      :current-organization-id="userToChangeRole?.organization_id ?? ''"
       :roles="roles"
+      :companies="companies"
+      :universities="universities"
       @close="closeChangeRoleModal"
     />
   </div>

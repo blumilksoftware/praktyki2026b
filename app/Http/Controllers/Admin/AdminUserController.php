@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Actions\Admin\ChangeUserRoleAction;
+use App\Enums\OrganizationType;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
+use App\Models\Company;
+use App\Models\University;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -61,6 +64,8 @@ class AdminUserController extends Controller
                 "search" => $searchQuery,
             ],
             "roles" => array_map(fn(UserRole $role): string => $role->value, UserRole::cases()),
+            "companies" => Company::query()->orderBy("name")->get(["id", "name"]),
+            "universities" => University::query()->orderBy("name")->get(["id", "name"]),
             "meta" => [
                 "title" => "Admin Users",
             ],
@@ -71,11 +76,25 @@ class AdminUserController extends Controller
     {
         Gate::authorize("updateRole", $user);
 
+        $role = UserRole::tryFrom((string)$request->input("role"));
+
+        $organizationRules = match ($role?->organizationType()) {
+            OrganizationType::Company => ["required", "exists:companies,id"],
+            OrganizationType::University => ["required", "exists:universities,id"],
+            null => ["nullable"],
+        };
+
         $validated = $request->validate([
             "role" => ["required", Rule::enum(UserRole::class)],
+            "organization_id" => $organizationRules,
         ]);
 
-        $this->changeRoleAction->execute(Auth::user(), $user, UserRole::from($validated["role"]));
+        $this->changeRoleAction->execute(
+            Auth::user(),
+            $user,
+            UserRole::from($validated["role"]),
+            $validated["organization_id"] ?? null,
+        );
 
         return back();
     }

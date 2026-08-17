@@ -20,6 +20,14 @@ defineProps({
     type: Array,
     default: () => [],
   },
+  companies: {
+    type: Array,
+    default: () => [],
+  },
+  universities: {
+    type: Array,
+    default: () => [],
+  },
 })
 </script>
 
@@ -37,6 +45,8 @@ defineProps({
           :users="users"
           :filters="filters"
           :roles="roles"
+          :companies="companies"
+          :universities="universities"
         />
       </ProfilePageCard>
     </div>
