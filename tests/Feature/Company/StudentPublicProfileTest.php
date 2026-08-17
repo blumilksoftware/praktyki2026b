@@ -153,6 +153,30 @@ class StudentPublicProfileTest extends TestCase
             );
     }
 
+    public function testUniversityIdIsExposedOnlyForVerifiedUniversities(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = User::factory()->companyAdmin()->create(["organization_id" => $company->id]);
+
+        $verifiedUniversity = University::factory()->approved()->create();
+        $verifiedStudent = $this->makeStudentWithApplicationTo($company);
+        $verifiedStudent->update(["organization_id" => $verifiedUniversity->id]);
+
+        $this->actingAs($user)
+            ->get(route("company.students.show", $verifiedStudent))
+            ->assertOk()
+            ->assertInertia(fn(Assert $page) => $page->where("student.university_id", $verifiedUniversity->id)->etc());
+
+        $pendingUniversity = University::factory()->pending()->create();
+        $pendingStudent = $this->makeStudentWithApplicationTo($company);
+        $pendingStudent->update(["organization_id" => $pendingUniversity->id]);
+
+        $this->actingAs($user)
+            ->get(route("company.students.show", $pendingStudent))
+            ->assertOk()
+            ->assertInertia(fn(Assert $page) => $page->where("student.university_id", null)->etc());
+    }
+
     public function testCvUrlIsNullWhenStudentAppliedWithoutCv(): void
     {
         $company = Company::factory()->approved()->create();

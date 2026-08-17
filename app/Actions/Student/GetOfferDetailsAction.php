@@ -56,6 +56,7 @@ class GetOfferDetailsAction
                 ->map(fn(University $university): array => [
                     "id" => $university->id,
                     "name" => $university->name,
+                    "is_verified" => $university->verification_status === VerificationStatus::Verified,
                 ])
                 ->values()
                 ->all(),

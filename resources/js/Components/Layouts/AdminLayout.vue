@@ -1,17 +1,11 @@
 <script setup>
 import { computed } from 'vue'
-import { IconHome, IconClipboard } from '@tabler/icons-vue'
-import { useI18n } from 'vue-i18n'
 import BaseLayout from './BaseLayout.vue'
-import { ROUTES } from '@/Helpers/routes'
+import { useAdminPanelMenu } from '@/Composables/useAdminPanelMenu'
 
-defineProps({ activePage: { type: String, default: 'dashboard' } })
-const { t } = useI18n()
+const props = defineProps({ activePage: { type: String, default: 'dashboard' } })
 
-const navItems = computed(() => [
-  { key: 'dashboard', label: t('admin.layout.nav.dashboard'), href: ROUTES.ADMIN_DASHBOARD, icon: IconHome },
-  { key: 'applications', label: t('admin.layout.nav.applications'), href: ROUTES.ADMIN_APPLICATIONS, icon: IconClipboard },
-])
+const navItems = useAdminPanelMenu(computed(() => props.activePage))
 </script>
 
 <template>

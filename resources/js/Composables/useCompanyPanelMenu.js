@@ -1,6 +1,6 @@
 import { computed, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconBriefcase, IconClipboardText, IconHome, IconSettings, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
+import { IconBriefcase, IconBuildingBank, IconClipboardText, IconHome, IconSettings, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 
 export function useCompanyPanelMenu(activePage) {
@@ -37,6 +37,13 @@ export function useCompanyPanelMenu(activePage) {
         href: ROUTES.COMPANY_APPLICATIONS,
         icon: IconClipboardText,
         isActive: current === 'applications',
+      },
+      {
+        key: 'universities',
+        label: t('company.layout.nav.universities'),
+        href: ROUTES.COMPANY_UNIVERSITIES,
+        icon: IconBuildingBank,
+        isActive: current === 'universities',
       },
       {
         key: 'profile',

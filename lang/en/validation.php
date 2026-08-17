@@ -31,6 +31,9 @@ return [
     "invitation_already_processed" => "This invitation has already been accepted or revoked.",
     "last_organization_admin" => "This is the last administrator of the organization and cannot be removed.",
     "already_partner" => "This company is already a partner.",
+    "already_university_partner" => "This university is already a partner.",
+    "partnership_not_pending" => "This partnership is no longer awaiting acceptance.",
+    "cannot_accept_own_partnership_request" => "You cannot accept your own partnership request.",
 
     "salary_min.required_if" => "Enter minimum salary when the offer is paid.",
     "salary_max.required_if" => "Enter maximum salary when the offer is paid.",

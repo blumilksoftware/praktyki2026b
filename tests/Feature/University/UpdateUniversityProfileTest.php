@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class UpdateUniversityProfileTest extends TestCase
@@ -32,6 +33,7 @@ class UpdateUniversityProfileTest extends TestCase
             ->patch("/university/profile", [
                 "domain" => "example.com",
                 "logo" => $logo,
+                "description" => "A technical university focused on engineering.",
                 "external_form_url" => "https://example.com/external-form",
                 "faculties" => [
                     [
@@ -49,6 +51,7 @@ class UpdateUniversityProfileTest extends TestCase
 
         $university->refresh();
         $this->assertEquals("example.com", $university->domain);
+        $this->assertEquals("A technical university focused on engineering.", $university->description);
         $this->assertEquals("https://example.com/external-form", $university->external_form_url);
         $this->assertNotNull($university->logo_path);
         $expectedDiskPath = str_replace("/storage/", "", $university->logo_path);
@@ -89,6 +92,32 @@ class UpdateUniversityProfileTest extends TestCase
 
         $university->refresh();
         $this->assertEquals("example.com", $university->domain);
+    }
+
+    public function testDescriptionIsPassedToProfileAndEditPages(): void
+    {
+        $university = University::factory()->approved()->create([
+            "description" => "A technical university focused on engineering.",
+        ]);
+        $user = $this->makeUniversityAdmin($university);
+
+        $this->actingAs($user)
+            ->get("/university/profile")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("University/Profile/Show")
+                    ->where("university.description", "A technical university focused on engineering."),
+            );
+
+        $this->actingAs($user)
+            ->get("/university/profile/edit")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("University/Profile/Edit")
+                    ->where("university.description", "A technical university focused on engineering."),
+            );
     }
 
     public function testUnauthenticatedUserCannotUpdateProfile(): void
