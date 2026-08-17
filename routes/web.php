@@ -143,6 +143,7 @@ Route::middleware(["role:superAdmin"])
         Route::post("/verify/university/{university}/accept", [AdminController::class, "acceptUniversityVerification"])->name("admin.university.verify.accept");
         Route::post("/verify/university/{university}/reject", [AdminController::class, "rejectUniversityVerification"])->name("admin.university.verify.reject");
         Route::patch("/users/{user}/role", [AdminUserController::class, "updateRole"])->name("admin.users.update-role");
+        Route::patch("/users/{user}/status", [AdminUserController::class, "updateStatus"])->name("admin.users.update-status");
     });
 
 require __DIR__ . "/auth.php";

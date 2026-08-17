@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Actions\Admin\ChangeUserRoleAction;
+use App\Actions\Admin\ChangeUserStatusAction;
 use App\Enums\OrganizationType;
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\University;
@@ -22,6 +24,7 @@ class AdminUserController extends Controller
 {
     public function __construct(
         private readonly ChangeUserRoleAction $changeRoleAction,
+        private readonly ChangeUserStatusAction $changeStatusAction,
     ) {}
 
     public function index(Request $request): Response
@@ -95,6 +98,19 @@ class AdminUserController extends Controller
             UserRole::from($validated["role"]),
             $validated["organization_id"] ?? null,
         );
+
+        return back();
+    }
+
+    public function updateStatus(User $user, Request $request): RedirectResponse
+    {
+        Gate::authorize("updateStatus", $user);
+
+        $validated = $request->validate([
+            "status" => ["required", Rule::in([UserStatus::Active->value, UserStatus::Blocked->value])],
+        ]);
+
+        $this->changeStatusAction->execute(Auth::user(), $user, UserStatus::from($validated["status"]));
 
         return back();
     }

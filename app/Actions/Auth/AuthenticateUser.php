@@ -28,6 +28,16 @@ class AuthenticateUser
             ]);
         }
 
+        if ($user->status === UserStatus::Blocked) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            throw ValidationException::withMessages([
+                "email" => __("auth.blocked"),
+            ]);
+        }
+
         if (!$user->hasVerifiedEmail() || $user->status === UserStatus::Pending) {
             session()->flash("requires_verification", true);
             session()->flash("email", $user->email);
