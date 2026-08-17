@@ -16,6 +16,7 @@ import {
   studentOfferApply,
   studentOfferFavourite,
   studentOfferWithdraw,
+  universityShow,
 } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -252,9 +253,19 @@ function confirmWithdraw() {
                 <li
                   v-for="university in offer.preferred_universities"
                   :key="university.id"
-                  class="rounded-xl border border-border bg-background/60 px-4 py-2 text-sm text-text"
                 >
-                  {{ university.name }}
+                  <component
+                    :is="university.is_verified ? Link : 'span'"
+                    v-bind="university.is_verified
+                      ? {
+                        href: universityShow(university.id),
+                        class: 'block rounded-xl border border-border bg-background/60 px-4 py-2 text-sm text-text transition hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
+                        'aria-label': t('student.offers.detail.universityProfileAria', { university: university.name }),
+                      }
+                      : { class: 'block rounded-xl border border-border bg-background/60 px-4 py-2 text-sm text-text' }"
+                  >
+                    {{ university.name }}
+                  </component>
                 </li>
               </ul>
               <p

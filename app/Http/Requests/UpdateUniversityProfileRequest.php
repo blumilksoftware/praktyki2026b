@@ -41,6 +41,7 @@ class UpdateUniversityProfileRequest extends FormRequest
                 "max:2048",
                 new MimeTypeByContentRule(["image/jpeg", "image/png", "image/webp"]),
             ],
+            "description" => ["nullable", "string", "max:2500"],
             "external_form_url" => ["nullable", "string", "url", "max:255"],
             "faculties" => ["nullable", "array"],
             "faculties.*.name" => ["required", "string", "max:255"],
@@ -59,6 +60,7 @@ class UpdateUniversityProfileRequest extends FormRequest
         return [
             "domain" => $this->string("domain")->toString(),
             "logo" => $this->file("logo"),
+            "description" => $this->string("description")->toString() ?: null,
             "external_form_url" => $this->string("external_form_url")->toString() ?: null,
             "faculties" => $this->has("faculties") ? $this->input("faculties") : null,
             "website" => $this->string("website")->toString() ?: null,

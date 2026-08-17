@@ -83,6 +83,7 @@ export const ROUTES = {
   COMPANY_SHOW: '/companies/{company}',
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",
+  UNIVERSITY_SHOW: "/universities/{university}",
 
   // General
   APPLICATIONS: "/applications",
@@ -118,4 +119,8 @@ export function offerShow(offerId: string): string {
 
 export function companyShow(companyId: string): string {
   return ROUTES.COMPANY_SHOW.replace("{company}", companyId)
+}
+
+export function universityShow(universityId: string): string {
+  return ROUTES.UNIVERSITY_SHOW.replace("{university}", universityId)
 }

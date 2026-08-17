@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const props = defineProps({
+  id: { type: String, required: true },
   modelValue: { type: String, default: '' },
 })
 
@@ -41,13 +42,15 @@ watch(description, () => {
 
 <template>
   <div class="flex flex-col gap-4">
-    <h2 class="text-xl font-bold text-text">{{ t('profiles.aboutUs') }}</h2>
-    
+    <h2 :id="`${id}-label`" class="text-xl font-bold text-text">{{ t('profiles.aboutUs') }}</h2>
+
     <div class="border border-border rounded-xl flex flex-col bg-white focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-shadow">
       <textarea
+        :id="id"
         ref="textareaRef"
         v-model="description"
-        :aria-label="t('profiles.aboutUs')"
+        :aria-labelledby="`${id}-label`"
+        :aria-describedby="`${id}-counter`"
         :maxlength="maxLength"
         rows="6"
         class="w-full p-4 text-sm sm:text-base text-gray-700 bg-transparent border-none focus:ring-0 resize-none overflow-hidden min-h-37.5 outline-none"
@@ -56,7 +59,7 @@ watch(description, () => {
 
       <div class="px-4 py-3 flex justify-end relative">
         <div class="absolute top-0 left-4 right-4 border-t border-gray-100" />
-        <span class="text-xs text-gray-500 font-medium mt-1">
+        <span :id="`${id}-counter`" class="text-xs text-gray-500 font-medium mt-1">
           {{ description.length }}/{{ maxLength }}
         </span>
       </div>

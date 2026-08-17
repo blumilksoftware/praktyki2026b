@@ -12,6 +12,7 @@ use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\University\CompanyController as UniversityCompanyController;
 use App\Http\Controllers\University\UniversityController;
+use App\Http\Controllers\UniversityProfileController;
 use App\Http\Middleware\EnsureCompanyIsVerified;
 use App\Http\Middleware\EnsureUniversityIsVerified;
 use App\Models\Offer;
@@ -26,6 +27,7 @@ Route::get("/offers/{offer}", [OfferController::class, "show"])
     ->whereUuid("offer");
 
 Route::get("/companies/{company}", [CompanyProfileController::class, "show"])->name("companies.show")->whereUuid("company");
+Route::get("/universities/{university}", [UniversityProfileController::class, "show"])->name("universities.show")->whereUuid("university");
 
 Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase"))
     ->name("dev.components");

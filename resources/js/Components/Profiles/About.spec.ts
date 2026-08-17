@@ -7,23 +7,31 @@ vi.mock('vue-i18n', () => ({
 }))
 
 describe('About.vue', () => {
-  it('shows the company description when provided', () => {
-    const descriptionText = 'Company that creates software.'
-    
+  it('shows the description when provided', () => {
+    const descriptionText = 'An organisation that creates software.'
+
     const wrapper = mount(About, {
-      props: { description: descriptionText }
+      props: { description: descriptionText, emptyMessage: 'No description yet.' }
     })
 
     expect(wrapper.text()).toContain('profiles.aboutUs')
     expect(wrapper.text()).toContain(descriptionText)
-    expect(wrapper.text()).not.toContain('profiles.company.noDescription')
+    expect(wrapper.text()).not.toContain('No description yet.')
   })
 
-  it('shows the placeholder text when the description is empty', () => {
+  it('shows the given empty message when the description is empty', () => {
+    const wrapper = mount(About, {
+      props: { description: undefined, emptyMessage: 'No description yet.' }
+    })
+
+    expect(wrapper.text()).toContain('No description yet.')
+  })
+
+  it('renders no empty state when the caller does not provide a message', () => {
     const wrapper = mount(About, {
       props: { description: undefined }
     })
 
-    expect(wrapper.text()).toContain('profiles.company.noDescription')
+    expect(wrapper.findAll('div')).toHaveLength(1)
   })
 })

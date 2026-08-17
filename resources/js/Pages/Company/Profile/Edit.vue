@@ -9,6 +9,7 @@ import TagsEdit from '@/Components/Profiles/Edit/TagsEdit.vue'
 import AboutEdit from '@/Components/Profiles/Edit/AboutEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
 import Menu from '@/Components/Profiles/Menu.vue'
+import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 
@@ -44,7 +45,7 @@ const submit = () => {
   form.transform((data) => ({
     ...data,
     _method: 'patch',
-  })).post('/profile', {
+  })).post(ROUTES.COMPANY_PROFILE, {
     preserveScroll: true,
     onSuccess: () => {
       statusMessage.value = t('profiles.edit.successMessage')
@@ -103,7 +104,7 @@ const submit = () => {
         </div>
 
         <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
-          <AboutEdit v-model="form.description" />
+          <AboutEdit id="company-description" v-model="form.description" />
         </div>
 
         <div class="flex flex-col items-center gap-5 pt-4 pb-4 mt-2">
