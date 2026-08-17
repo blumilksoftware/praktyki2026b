@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class InvitationAcceptController extends Controller
 {
@@ -28,7 +29,7 @@ class InvitationAcceptController extends Controller
             ->first();
 
         if ($invitation !== null && ($invitation->status !== InvitationStatus::Pending || $invitation->isExpired())) {
-            abort(404);
+            throw new NotFoundHttpException();
         }
 
         return Inertia::render("Auth/AcceptInvitation", ["token" => $token]);
