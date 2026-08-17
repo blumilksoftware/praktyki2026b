@@ -34,6 +34,61 @@
   "common": {
     "verifiedBadge": "Konto zweryfikowane przez administratora"
   },
+  "organization": {
+    "team": {
+      "title": "Zespół",
+        "you": "To jesteś Ty",
+      "description": "Zarządzaj członkami swojej organizacji oraz zaproszeniami.",
+        "searchMembersPlaceholder": "Szukaj członków...",
+        "searchInvitationsPlaceholder": "Szukaj zaproszeń...",
+        "showingRange": "Wyświetlanie {from}–{to} z {total}",
+      "membersTitle": "Obecni członkowie zespołu",
+      "membersDescription": "Zobacz wszystkich aktywnych członków, ich role i datę dołączenia.",
+      "noMembers": "Nie dodano jeszcze żadnych członków zespołu.",
+      "invitationsTitle": "Oczekujące zaproszenia",
+      "invitationsDescription": "Zaproszenia, które czekają na akceptację przez odbiorcę.",
+      "pending": "Oczekuje",
+      "noInvitations": "Brak oczekujących zaproszeń.",
+      "joinDate": "Dołączył(a) {date}",
+      "inviteButton": "Zaproś członka",
+      "inviteModal": {
+        "title": "Zaproś członka zespołu",
+        "emailLabel": "Adres e-mail",
+        "emailPlaceholder": "Wpisz adres e-mail",
+        "cancel": "Anuluj",
+        "submit": "Wyślij zaproszenie"
+      },
+      "remove": "Usuń",
+      "transfer": "Przekaż rolę administratora",
+      "revoke": "Cofnij",
+      "removeModal": {
+        "title": "Usuń członka",
+        "description": "Czy na pewno chcesz usunąć {name} z zespołu?",
+        "cancel": "Anuluj",
+        "confirm": "Usuń członka"
+      },
+      "memberPreview": {
+        "title": "Szczegóły członka",
+        "email": "E-mail",
+        "joined": "Dołączył(a)",
+        "close": "Zamknij"
+      },
+      "roles": {
+        "companyAdmin": "Administrator",
+        "companyMember": "Członek",
+        "universityAdmin": "Administrator",
+        "universityMember": "Członek"
+      },
+      "transferModal": {
+          "title": "Przekazanie roli administratora",
+          "description": "Wybierz członka zespołu, który zostanie nowym administratorem. Twoja rola zostanie zmieniona na członka.",
+          "selectLabel": "Nowy administrator",
+          "noMembers": "Brak innych członków, którym można przekazać rolę administratora.",
+          "cancel": "Anuluj",
+          "confirm": "Przekaż rolę"
+      }
+    }
+  },
   "errors": {
     "401": {
       "title": "Wymagane logowanie",
@@ -160,7 +215,7 @@
       }
     }
   },
-"profiles": {
+  "profiles": {
     "navMenu": "Menu nawigacji",
     "profile": "Profil",
     "aboutUs": "O nas",
@@ -833,6 +888,7 @@
       "nav": {
         "dashboard": "Panel",
         "offers": "Moje oferty",
+          "team": "Zespół",
         "applications": "Zgłoszenia",
         "universities": "Uczelnie",
         "profile": "Profil",

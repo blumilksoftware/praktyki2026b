@@ -9,6 +9,7 @@ return [
     "domain" => "The :attribute field must be a valid domain.",
     "mime_type_by_content" => "The :attribute field must be a file of type: :values.",
     "email_taken" => "This e-mail address is already in use. Sign in or use a different address.",
+    "team_invite_other_organization" => "This e-mail address is already linked to another organization and cannot be invited here.",
     "email_same_as_current" => "This is already your current email address.",
     "email_invalid_friendly" => "Please enter a valid e-mail address.",
     "password_confirmed_friendly" => "Passwords must match.",
