@@ -46,6 +46,19 @@ class UserPolicy
         return $this->administers($user, $member) !== null;
     }
 
+    public function viewProfile(User $user, User $student): bool
+    {
+        $company = $user->company;
+
+        if ($company === null || $student->role !== UserRole::Student) {
+            return false;
+        }
+
+        return $company->applications()
+            ->where("applications.student_id", $student->id)
+            ->exists();
+    }
+
     public function transferOwnershipTo(User $user, User $member): bool
     {
         $organizationType = $this->administers($user, $member);

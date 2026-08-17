@@ -8,7 +8,9 @@ use App\Actions\Auth\HandleGoogleCallback;
 use App\DTO\Auth\GoogleUserData;
 use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
+use App\Mail\StudentRegistrationMail;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleOAuthController extends Controller
@@ -27,6 +29,10 @@ class GoogleOAuthController extends Controller
         $socialiteUser = Socialite::driver("google")->user();
         $data = GoogleUserData::fromSocialite($socialiteUser);
         $user = $this->handleGoogleCallback->execute($data);
+
+        if ($user->wasRecentlyCreated) {
+            Mail::to($user->email)->queue(new StudentRegistrationMail($user));
+        }
 
         if ($user->status === UserStatus::Pending) {
             session()->put("email", $user->email);

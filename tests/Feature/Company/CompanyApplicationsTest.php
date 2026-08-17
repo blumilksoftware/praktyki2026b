@@ -103,6 +103,7 @@ class CompanyApplicationsTest extends TestCase
                     ->where("applications.data.0.status", "pending")
                     ->where("applications.data.0.offer_title", $offer->title)
                     ->where("applications.data.0.cv_url", route("company.applications.cv", $application))
+                    ->where("applications.data.0.profile_url", route("company.students.show", $student))
                     ->has("offers", 1)
                     ->where("offers.0.id", $offer->id)
                     ->where("offers.0.title", $offer->title)

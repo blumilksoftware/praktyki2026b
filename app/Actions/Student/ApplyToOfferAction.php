@@ -6,12 +6,14 @@ namespace App\Actions\Student;
 
 use App\Enums\ApplicationStatus;
 use App\Enums\OfferStatus;
+use App\Mail\JobApplication\NewJobApplicationMail;
 use App\Models\Application;
 use App\Models\Offer;
 use App\Models\User;
 use App\Notifications\NewApplicationNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -97,7 +99,24 @@ class ApplyToOfferAction
         $application->setRelation("student", $student);
         $application->loadMissing("offer.company");
 
-        Notification::send($application->offer->company->users, new NewApplicationNotification($application));
+        $companyUsers = $application->offer->company->users;
+
+        Notification::send($companyUsers, new NewApplicationNotification($application));
+
+        $applicationUrl = route("company.applications", [
+            "offer" => $offer->id,
+            "status" => "pending",
+        ]);
+
+        foreach ($companyUsers as $companyUser) {
+            Mail::to($companyUser->email)->queue(
+                new NewJobApplicationMail(
+                    studentName: $student->fullName(),
+                    jobTitle: $offer->title,
+                    applicationUrl: $applicationUrl,
+                ),
+            );
+        }
 
         return $application;
     }

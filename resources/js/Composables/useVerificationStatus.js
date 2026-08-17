@@ -6,13 +6,13 @@ export function useVerificationStatus() {
   function statusClass(status) {
     switch ((status || '').toLowerCase()) {
     case 'verified':
-      return 'bg-green-50 text-green-900'
+      return 'bg-green-100 text-green-700'
     case 'rejected':
-      return 'bg-red-50 text-red-900'
+      return 'bg-red-100 text-red-700'
     case 'pending':
-      return 'bg-amber-50 text-amber-900'
+      return 'bg-amber-100 text-amber-700'
     default:
-      return 'bg-slate-50 text-slate-900'
+      return 'bg-gray-100 text-gray-700'
     }
   }
 
