@@ -188,7 +188,7 @@ const isPreviewModalOpen = ref(false)
 const previewOfferData = computed(() => ({
   id: props.offer?.id ?? 'draft-preview',
   title: form.title || t('company.offers.form.previewFallbackTitle'),
-  description: form.description || '',
+  description: form.description || t('company.offers.form.noDescription'),
   city: form.city || t('company.offers.form.previewFallbackCity'),
   work_mode: form.work_mode || 'onSite',
   start_date: form.start_date || null,

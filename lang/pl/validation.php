@@ -174,8 +174,8 @@ return [
     "last_organization_admin" => "To ostatni administrator organizacji i nie można go usunąć.",
     "already_partner" => "Ta firma jest już partnerem.",
 
-    "salary_min.required_if" => "Podaj minimalne wynagrodzenie, gdy oferta jest płatna.",
-    "salary_max.required_if" => "Podaj maksymalne wynagrodzenie, gdy oferta jest płatna.",
+    "salary_min.required_if" => "Pole minimalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
+    "salary_max.required_if" => "Pole maksymalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
     "salary_max.gte" => "Maksymalne wynagrodzenie musi być większe lub równe minimalnemu.",
 
     "profile_age_integer" => "Wpisz poprawny wiek — liczbę całkowitą.",

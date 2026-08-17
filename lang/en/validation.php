@@ -31,8 +31,8 @@ return [
     "last_organization_admin" => "This is the last administrator of the organization and cannot be removed.",
     "already_partner" => "This company is already a partner.",
 
-    "salary_min.required_if" => "Enter minimum salary when the offer is paid.",
-    "salary_max.required_if" => "Enter maximum salary when the offer is paid.",
+    "salary_min.required_if" => "The minimum salary field is required when the offer is paid.",
+    "salary_max.required_if" => "The maximum salary field is required    when the offer is paid.",
     "salary_max.gte" => "Maximum salary must be greater than or equal to minimum salary.",
 
     "profile_age_integer" => "Enter a valid age — a whole number.",

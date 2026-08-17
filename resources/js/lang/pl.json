@@ -635,7 +635,8 @@
         "notApplied": "Niezaaplikowane"
       },
         "pagination": {
-            "perPage": "Ofert na stronie"
+            "perPage": "Ofert na stronie",
+            "label": "Nawigacja stronicowania"
         },
         "map": {
             "selectPinHint": "Wybierz punkt na mapie, aby zobaczyć dostępne oferty",
@@ -716,7 +717,8 @@
         "expiredMessage": "Ta oferta wygasła",
         "companyProfileAria": "Zobacz profil firmy: {company}",
         "similarOffers": "Podobne oferty",
-        "similarOfferAria": "Zobacz ofertę {title} w firmie {company}"
+        "similarOfferAria": "Zobacz ofertę {title} w firmie {company}",
+        "noDescription": "Brak opisu"
       }
     }
   },
@@ -910,7 +912,8 @@
         "submitEdit": "Zapisz zmiany",
         "submitEditDraft": "Zapisz jako szkic",
         "publishDisabledTooltip": "Aby opublikować ofertę, musisz mieć zweryfikowane konto firmy.",
-        "unsavedChangesConfirmation": "Masz niezapisane zmiany. Opuścić stronę bez zapisywania?"
+        "unsavedChangesConfirmation": "Masz niezapisane zmiany. Opuścić stronę bez zapisywania?",
+          "noDescription": "Brak opisu"
       },
       "delete": {
         "modalTitle": "Usuń ofertę",

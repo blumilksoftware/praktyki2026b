@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseButton from '@/Components/Base/BaseButton.vue'
-import BaseModal from '@/Components/Common/BaseModal.vue'
+import BaseModal from '@/Components/Base/BaseModal.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 
 const props = defineProps({
@@ -71,18 +71,18 @@ const compensationLabel = computed(() => {
       <article class="rounded-3xl border border-border bg-white p-5 shadow-sm sm:p-8">
         <div class="flex flex-wrap items-center gap-2">
           <p class="text-sm font-semibold text-additional">
-            {{ offer.company?.name ?? 'Your company' }}
+            {{ offer.company?.name ?? t('company.offers.detail.noCompany') }}
           </p>
           <VerifiedBadge :verified="Boolean(offer.company?.is_verified)" />
         </div>
 
         <h1 class="mt-3 text-3xl font-semibold tracking-tight text-text sm:text-4xl">
-          {{ offer.title || 'Untitled offer' }}
+          {{ offer.title || t('company.offers.detail.noTitle') }}
         </h1>
 
         <div class="mt-4 flex flex-wrap gap-2">
           <span class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary">
-            {{ offer.city || 'City not set' }}
+            {{ offer.city || t('company.offers.detail.noCity') }}
           </span>
           <span class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary">
             {{ workModeLabel }}
@@ -114,8 +114,8 @@ const compensationLabel = computed(() => {
           <h2 class="text-lg font-semibold text-text">
             {{ t('student.offers.detail.description') }}
           </h2>
-          <p class="mt-3 whitespace-pre-wrap text-sm leading-7 text-additional">
-            {{ offer.description || 'No description yet.' }}
+          <p class="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-additional">
+            {{ offer.description || t('student.offers.detail.noDescription') }}
           </p>
         </section>
 

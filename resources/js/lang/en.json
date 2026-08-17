@@ -484,7 +484,8 @@
         "notApplied": "Not applied"
       },
         "pagination": {
-            "perPage": "Offers per page"
+            "perPage": "Offers per page",
+            "label": "Pagination navigation"
         },
     "map": {
         "selectPinHint": "Select a pin on the map to view available offers",
@@ -927,7 +928,8 @@
           "submitEdit": "Save changes",
           "submitEditDraft": "Save as draft",
           "publishDisabledTooltip": "To publish an offer, you must have a verified company account.",
-          "unsavedChangesConfirmation": "You have unsaved changes. Leave without saving?"
+          "unsavedChangesConfirmation": "You have unsaved changes. Leave without saving?",
+          "noDescription": "No description"
       }
     }
   },

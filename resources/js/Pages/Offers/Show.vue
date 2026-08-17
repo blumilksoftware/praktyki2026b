@@ -242,7 +242,7 @@ function confirmWithdraw() {
               <h2 class="text-lg font-semibold text-text">
                 {{ t('student.offers.detail.description') }}
               </h2>
-              <p class="mt-3 whitespace-pre-wrap text-sm leading-7 text-additional">
+              <p class="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-additional">
                 {{ offer.description }}
               </p>
             </section>
