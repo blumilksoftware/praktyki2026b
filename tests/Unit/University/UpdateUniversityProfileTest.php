@@ -27,6 +27,7 @@ class UpdateUniversityProfileTest extends TestCase
         $data = new UpdateUniversityProfileData(
             domain: "different.edu.pl",
             logo: null,
+            description: null,
             externalFormUrl: "https://example.com/form",
             faculties: null,
             website: "https://example.com",
@@ -52,6 +53,7 @@ class UpdateUniversityProfileTest extends TestCase
         $data = new UpdateUniversityProfileData(
             domain: "newdomain.edu.pl",
             logo: null,
+            description: null,
             externalFormUrl: null,
             faculties: null,
             website: "https://example.com",
@@ -65,6 +67,56 @@ class UpdateUniversityProfileTest extends TestCase
         $updated = $action->execute($university, $data);
 
         $this->assertEquals("newdomain.edu.pl", $updated->domain);
+    }
+
+    public function testItUpdatesDescription(): void
+    {
+        $university = University::factory()->approved()->create([
+            "description" => "Outdated description.",
+        ]);
+
+        $data = new UpdateUniversityProfileData(
+            domain: $university->domain,
+            logo: null,
+            description: "We teach engineering and design.",
+            externalFormUrl: null,
+            faculties: null,
+            website: "https://example.com",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
+        );
+
+        $action = new UpdateUniversityProfile(new FileUploadService());
+        $updated = $action->execute($university, $data);
+
+        $this->assertEquals("We teach engineering and design.", $updated->description);
+    }
+
+    public function testItClearsDescriptionWhenNoneIsGiven(): void
+    {
+        $university = University::factory()->approved()->create([
+            "description" => "Description to be removed.",
+        ]);
+
+        $data = new UpdateUniversityProfileData(
+            domain: $university->domain,
+            logo: null,
+            description: null,
+            externalFormUrl: null,
+            faculties: null,
+            website: "https://example.com",
+            phone: "123456789",
+            street: "Test Street 1",
+            postalCode: "00-000",
+            city: "Test City",
+        );
+
+        $action = new UpdateUniversityProfile(new FileUploadService());
+        $updated = $action->execute($university, $data);
+
+        $this->assertNull($updated->description);
     }
 
     public function testItUploadsLogoAndDeletesOldOne(): void
@@ -83,6 +135,7 @@ class UpdateUniversityProfileTest extends TestCase
         $data = new UpdateUniversityProfileData(
             domain: "example.com",
             logo: $newLogo,
+            description: null,
             externalFormUrl: null,
             faculties: null,
             website: "https://example.com",
@@ -112,6 +165,7 @@ class UpdateUniversityProfileTest extends TestCase
         $data = new UpdateUniversityProfileData(
             domain: $university->domain,
             logo: null,
+            description: null,
             externalFormUrl: null,
             faculties: [
                 [
@@ -173,6 +227,7 @@ class UpdateUniversityProfileTest extends TestCase
         $data = new UpdateUniversityProfileData(
             domain: $university->domain,
             logo: null,
+            description: null,
             externalFormUrl: null,
             faculties: [],
             website: "https://example.com",

@@ -68,8 +68,24 @@ class OfferShowPageTest extends TestCase
                     ->where("offer.description", "Full internship description.")
                     ->has("offer.preferred_universities", 1)
                     ->where("offer.preferred_universities.0.name", "Test University")
+                    ->where("offer.preferred_universities.0.is_verified", false)
                     ->where("offer.company.is_verified", true)
                     ->has("offer.company.id"),
+            );
+    }
+
+    public function testPreferredUniversityIsMarkedVerifiedOnceApproved(): void
+    {
+        $university = University::factory()->approved()->create();
+        $offer = Offer::factory()->published()->create();
+        $offer->universities()->sync([$university->id]);
+
+        $this->get(route("offers.show", $offer))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->where("offer.preferred_universities.0.id", $university->id)
+                    ->where("offer.preferred_universities.0.is_verified", true),
             );
     }
 

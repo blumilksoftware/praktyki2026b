@@ -18,9 +18,9 @@ const props = defineProps({
     <div class="w-28 h-28 sm:w-32 sm:h-32 border-4 border-white bg-background shadow-md overflow-hidden flex items-center justify-center shrink-0 text-secondary">
       <img 
         v-if="logoUrl"
-        :src="logoUrl.startsWith('/') ? logoUrl : '/' + logoUrl" 
-        alt="Logo firmy" 
-        class="w-full h-full object-cover" 
+        :src="logoUrl.startsWith('/') ? logoUrl : '/' + logoUrl"
+        alt=""
+        class="w-full h-full object-cover"
       >
       
       <IconUser 

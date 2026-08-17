@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\University;
 
+use App\Enums\PartnershipInitiator;
+use App\Enums\PartnershipStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\Company;
@@ -11,11 +13,20 @@ use App\Models\Partnership;
 use App\Models\University;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class PartnerManagementTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Mail::fake();
+        Notification::fake();
+    }
 
     public function testGuestCannotAddPartner(): void
     {
@@ -51,7 +62,53 @@ class PartnerManagementTest extends TestCase
         $this->assertDatabaseHas("partnerships", [
             "university_id" => $university->id,
             "company_id" => $company->id,
+            "status" => PartnershipStatus::Pending->value,
+            "requested_by" => PartnershipInitiator::University->value,
         ]);
+    }
+
+    public function testVerifiedUniversityAdminCanAcceptRequestFromCompany(): void
+    {
+        $university = University::factory()->approved()->create();
+        $user = $this->makeUniversityAdmin($university);
+        $company = Company::factory()->approved()->create();
+        Partnership::factory()->pending()->requestedByCompany()->create([
+            "university_id" => $university->id,
+            "company_id" => $company->id,
+        ]);
+
+        $this->actingAs($user)
+            ->patch(route("university.companies.partnership.accept", $company))
+            ->assertRedirect();
+
+        $this->assertDatabaseHas("partnerships", [
+            "university_id" => $university->id,
+            "company_id" => $company->id,
+            "status" => PartnershipStatus::Active->value,
+        ]);
+    }
+
+    public function testUniversityCannotAcceptItsOwnRequest(): void
+    {
+        $university = University::factory()->approved()->create();
+        $user = $this->makeUniversityAdmin($university);
+        $company = Company::factory()->approved()->create();
+        Partnership::factory()->pending()->requestedByUniversity()->create([
+            "university_id" => $university->id,
+            "company_id" => $company->id,
+        ]);
+
+        $this->actingAs($user)
+            ->patch(route("university.companies.partnership.accept", $company))
+            ->assertInvalid("company");
+    }
+
+    public function testGuestCannotAcceptPartnership(): void
+    {
+        $company = Company::factory()->create();
+
+        $this->patch(route("university.companies.partnership.accept", $company))
+            ->assertRedirect(route("login"));
     }
 
     public function testAddingSameCompanyTwiceIsRejected(): void

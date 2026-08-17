@@ -80,17 +80,18 @@ class GetProfileStepsActionTest extends TestCase
         $this->assertTrue($steps[2]->completed);
     }
 
-    public function testUniversityAdminGets3Steps(): void
+    public function testUniversityAdminGets4Steps(): void
     {
         $user = User::factory()->create(["role" => UserRole::UniversityAdmin]);
 
-        $this->assertCount(3, $this->action->execute($user));
+        $this->assertCount(4, $this->action->execute($user));
     }
 
     public function testUniversityAdminFilledFieldsAreCompleted(): void
     {
         $university = University::factory()->create([
             "logo_path" => "logos/uni.png",
+            "description" => "A technical university focused on engineering.",
             "external_form_url" => null,
         ]);
         $university->faculties()->create(["name" => "Faculty of Computer Science"]);
@@ -103,7 +104,21 @@ class GetProfileStepsActionTest extends TestCase
 
         $this->assertTrue($steps[0]->completed);
         $this->assertTrue($steps[1]->completed);
-        $this->assertFalse($steps[2]->completed);
+        $this->assertTrue($steps[2]->completed);
+        $this->assertFalse($steps[3]->completed);
+    }
+
+    public function testUniversityAdminWithoutDescriptionIsIncomplete(): void
+    {
+        $university = University::factory()->create(["description" => null]);
+        $user = User::factory()->create([
+            "role" => UserRole::UniversityAdmin,
+            "organization_id" => $university->id,
+        ]);
+
+        $steps = $this->action->execute($user);
+
+        $this->assertFalse($steps[1]->completed);
     }
 
     public function testUniversityAdminWithoutFacultiesIsIncomplete(): void
@@ -116,7 +131,7 @@ class GetProfileStepsActionTest extends TestCase
 
         $steps = $this->action->execute($user);
 
-        $this->assertFalse($steps[1]->completed);
+        $this->assertFalse($steps[2]->completed);
     }
 
     public function testSuperAdminGetsNoSteps(): void

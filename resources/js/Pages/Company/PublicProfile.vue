@@ -9,6 +9,7 @@ import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Offers from '@/Components/Profiles/Offers.vue'
+import Partners from '@/Components/Profiles/Partners.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 
 const props = defineProps({
@@ -62,7 +63,7 @@ const isStudent = computed(() => page.props.auth?.user?.role === 'student')
             </div>
           </div>
 
-          <div class="h-full bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
             <ContactCard
               :email="company.email"
               :phone="company.phone"
@@ -72,6 +73,10 @@ const isStudent = computed(() => page.props.auth?.user?.role === 'student')
               :city="company.city"
               :nip="company.nip"
             />
+          </div>
+
+          <div v-if="company.partners?.length" class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <Partners :partners="company.partners" />
           </div>
         </div>
 

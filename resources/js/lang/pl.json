@@ -168,6 +168,9 @@
     "noContactInfo": "Brak danych kontaktowych",
     "currentOffers": "Aktualne oferty",
     "noOffers": "Brak aktualnych ofert",
+    "partners": {
+      "title": "Partnerskie uczelnie"
+    },
     "nip": "NIP",
     "spots": "Miejsca",
     "uploadLogo": "Prześlij logo",
@@ -226,6 +229,11 @@
     },
     "university": {
       "recruitmentAndSystem": "Rekrutacja i system",
+      "verified": "Zweryfikowana uczelnia",
+      "applicationForm": "Formularz rekrutacyjny",
+      "applicationFormHint": "Rekrutacja na tę uczelnię odbywa się w zewnętrznym systemie.",
+      "goToApplicationForm": "Przejdź do formularza",
+      "noDescription": "Uczelnia nie dodała jeszcze opisu.",
       "noFaculties": "Uczelnia nie dodała jeszcze żadnych wydziałów.",
       "facultiesAndStudyFields": "Wydziały i kierunki studiów",
       "universityDomain": "Domena uczelni",
@@ -397,6 +405,7 @@
       "title": "Uczelnia",
         "nav": {
             "dashboard": "Panel",
+            "companies": "Firmy",
             "profile": "Profil"
         }
     },
@@ -404,7 +413,55 @@
       "title": "Profil"
     },
     "companies": {
-      "title": "Wyszukiwarka firm"
+      "title": "Wyszukiwarka firm",
+      "filters": {
+        "name": "Nazwa firmy",
+        "namePlaceholder": "Szukaj po nazwie",
+        "city": "Miasto",
+        "cityPlaceholder": "Filtruj po mieście",
+        "tag": "Tag",
+        "tagPlaceholder": "Filtruj po tagu"
+      },
+      "card": {
+        "logoAlt": "Logo firmy {company}",
+        "offersCount": "Aktywne oferty: {count}",
+        "propose": "Zaproponuj partnerstwo",
+        "cancel": "Anuluj propozycję",
+        "accept": "Akceptuj",
+        "decline": "Odrzuć",
+        "end": "Zakończ partnerstwo"
+      },
+      "cancelAction": "Anuluj",
+      "propose": {
+        "modalTitle": "Zaproponuj partnerstwo",
+        "confirmation": "Czy na pewno chcesz zaproponować partnerstwo firmie {partner}? Firma będzie musiała je zaakceptować.",
+        "confirm": "Zaproponuj partnerstwo"
+      },
+      "cancel": {
+        "modalTitle": "Anuluj propozycję",
+        "confirmation": "Czy na pewno chcesz anulować propozycję partnerstwa wysłaną do firmy {partner}?",
+        "confirm": "Anuluj propozycję"
+      },
+      "decline": {
+        "modalTitle": "Odrzuć propozycję",
+        "confirmation": "Czy na pewno chcesz odrzucić propozycję partnerstwa od firmy {partner}?",
+        "confirm": "Odrzuć propozycję"
+      },
+      "end": {
+        "modalTitle": "Zakończ partnerstwo",
+        "confirmation": "Czy na pewno chcesz zakończyć partnerstwo z firmą {partner}?",
+        "confirm": "Zakończ partnerstwo"
+      },
+      "status": {
+        "none": "Brak partnerstwa",
+        "pending_outgoing": "Wysłano propozycję",
+        "pending_incoming": "Oczekuje na Twoją odpowiedź",
+        "active": "Partner",
+        "suspended": "Zawieszone"
+      },
+      "empty": {
+        "title": "Nie znaleziono firm"
+      }
     },
       "dashboard": {
           "title": "Statystyki studentów",
@@ -639,8 +696,13 @@
     "workModes": {
       "remote": "Zdalnie",
       "hybrid": "Hybrydowo",
-      "onsite": "Stacjonarnie",
       "onSite": "Stacjonarnie"
+    },
+    "publicProfile": {
+      "noSkills": "Kandydat nie dodał żadnych umiejętności technicznych.",
+      "noWorkModes": "Kandydat nie wybrał oczekiwanego trybu pracy.",
+      "noPreferences": "Kandydat nie określił preferencji wyszukiwania.",
+      "universityProfileAria": "Zobacz profil uczelni: {university}"
     },
     "favorites": {
       "heading": "Twoje zapisane oferty",
@@ -743,6 +805,7 @@
         "closedMessage": "Oferta nie przyjmuje już aplikacji",
         "expiredMessage": "Ta oferta wygasła",
         "companyProfileAria": "Zobacz profil firmy: {company}",
+        "universityProfileAria": "Zobacz profil uczelni: {university}",
         "similarOffers": "Podobne oferty",
         "similarOfferAria": "Zobacz ofertę {title} w firmie {company}"
       }
@@ -762,8 +825,57 @@
         "dashboard": "Panel",
         "offers": "Moje oferty",
         "applications": "Zgłoszenia",
+        "universities": "Uczelnie",
         "profile": "Profil",
         "settings": "Ustawienia"
+      }
+    },
+    "universities": {
+      "title": "Wyszukiwarka uczelni",
+      "filters": {
+        "name": "Nazwa uczelni",
+        "namePlaceholder": "Szukaj po nazwie",
+        "city": "Miasto",
+        "cityPlaceholder": "Filtruj po mieście"
+      },
+      "card": {
+        "logoAlt": "Logo uczelni {university}",
+        "propose": "Zaproponuj partnerstwo",
+        "cancel": "Anuluj propozycję",
+        "accept": "Akceptuj",
+        "decline": "Odrzuć",
+        "end": "Zakończ partnerstwo"
+      },
+      "cancelAction": "Anuluj",
+      "propose": {
+        "modalTitle": "Zaproponuj partnerstwo",
+        "confirmation": "Czy na pewno chcesz zaproponować partnerstwo uczelni {partner}? Uczelnia będzie musiała je zaakceptować.",
+        "confirm": "Zaproponuj partnerstwo"
+      },
+      "cancel": {
+        "modalTitle": "Anuluj propozycję",
+        "confirmation": "Czy na pewno chcesz anulować propozycję partnerstwa wysłaną do uczelni {partner}?",
+        "confirm": "Anuluj propozycję"
+      },
+      "decline": {
+        "modalTitle": "Odrzuć propozycję",
+        "confirmation": "Czy na pewno chcesz odrzucić propozycję partnerstwa od uczelni {partner}?",
+        "confirm": "Odrzuć propozycję"
+      },
+      "end": {
+        "modalTitle": "Zakończ partnerstwo",
+        "confirmation": "Czy na pewno chcesz zakończyć partnerstwo z uczelnią {partner}?",
+        "confirm": "Zakończ partnerstwo"
+      },
+      "status": {
+        "none": "Brak partnerstwa",
+        "pending_outgoing": "Wysłano propozycję",
+        "pending_incoming": "Oczekuje na Twoją odpowiedź",
+        "active": "Partner",
+        "suspended": "Zawieszone"
+      },
+      "empty": {
+        "title": "Nie znaleziono uczelni"
       }
     },
     "dashboard": {
@@ -980,6 +1092,11 @@
         "expired": "Oferta „{offer}”, na którą aplikowałeś, wygasła.",
         "deleted": "Oferta „{offer}”, na którą aplikowałeś, została usunięta przez firmę."
       },
+      "partnershipRequested": "{name} zaproponował(a) Ci partnerstwo",
+      "partnershipAccepted": "{name} zaakceptował(a) Twoją propozycję partnerstwa",
+      "partnershipCancelled": "{name} anulował(a) propozycję partnerstwa",
+      "partnershipDeclined": "{name} odrzucił(a) propozycję partnerstwa",
+      "partnershipEnded": "{name} zakończył(a) partnerstwo z Tobą",
       "fallback": "Nowe powiadomienie"
     }
   }

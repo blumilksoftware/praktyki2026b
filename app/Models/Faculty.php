@@ -33,6 +33,9 @@ class Faculty extends Model
         return $this->belongsTo(University::class);
     }
 
+    /**
+     * @return HasMany<StudyField, $this>
+     */
     public function studyFields(): HasMany
     {
         return $this->hasMany(StudyField::class);
