@@ -80,22 +80,6 @@ const currentStats = computed(() => {
   ]
 })
 
-const openMenuId = ref(null)
-
-function toggleMenu(itemId) {
-  openMenuId.value = openMenuId.value === itemId ? null : itemId
-}
-
-function closeMenu() {
-  openMenuId.value = null
-}
-
-function handleClickOutsideMenu(event) {
-  if (!event.target.closest('[data-verification-menu]')) {
-    closeMenu()
-  }
-}
-
 const companyDetailFields = [
   { key: 'name', label: t('admin.verification.name') },
   { key: 'nip', label: t('admin.verification.nip') },
@@ -128,7 +112,6 @@ function openDetailsModal(item, event) {
   detailsTriggerRef.value = event?.target || document.activeElement
   detailsItem.value = item
   showDetailsModal.value = true
-  closeMenu()
   nextTick(() => {
     const modal = detailsModalRef.value
     if (modal) {
@@ -204,7 +187,6 @@ const universityColumns = [
 ]
 
 function acceptCompany(company) {
-  closeMenu()
   acceptCompanyForm
     .transform(data => ({
       ...data,
@@ -220,7 +202,6 @@ function acceptCompany(company) {
 }
 
 function acceptUniversity(university) {
-  closeMenu()
   acceptUniversityForm
     .transform(data => ({
       ...data,
@@ -241,7 +222,6 @@ function openRejectModal(item, event) {
   rejectReason.value = ''
   rejectError.value = ''
   showRejectModal.value = true
-  closeMenu()
   nextTick(() => {
     const modal = rejectModalRef.value
     if (modal) {
@@ -349,11 +329,9 @@ function formatDate(dateString) {
 onMounted(() => {
   window.addEventListener('keydown', handleEscapeKey)
   window.addEventListener('keydown', handleTabKey)
-  document.addEventListener('click', handleClickOutsideMenu)
 })
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutsideMenu)
   window.removeEventListener('keydown', handleEscapeKey)
   window.removeEventListener('keydown', handleTabKey)
 })
@@ -466,11 +444,9 @@ onUnmounted(() => {
       <template #cell-actions="{ item }">
         <VerificationActionsMenu
           :item="item"
-          :is-open="openMenuId === item.id"
           :processing="entityType === 'company'
             ? (acceptCompanyForm.processing || rejectCompanyForm.processing)
             : (acceptUniversityForm.processing || rejectUniversityForm.processing)"
-          @toggle="toggleMenu"
           @details="openDetailsModal(item, $event)"
           @accept="entityType === 'company' ? acceptCompany(item) : acceptUniversity(item)"
           @reject="openRejectModal(item, $event)"
