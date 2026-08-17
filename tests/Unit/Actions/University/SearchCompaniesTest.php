@@ -13,6 +13,7 @@ use App\Models\Offer;
 use App\Models\Partnership;
 use App\Models\University;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class SearchCompaniesTest extends TestCase
@@ -60,6 +61,22 @@ class SearchCompaniesTest extends TestCase
         Company::factory()->approved()->create(["name" => "Company B", "city" => "Warszawa"]);
 
         $data = new SearchCompaniesData(name: null, city: "krakow", tag: null, perPage: 15);
+        $results = $this->action->execute($data, $this->university->id);
+
+        $this->assertCount(1, $results);
+        $this->assertEquals("Company A", $results->first()["name"]);
+    }
+
+    public function testItFiltersByCityWithPolishDiacriticsRegardlessOfCasing(): void
+    {
+        if (DB::connection()->getDriverName() === "sqlite") {
+            $this->markTestSkipped("SQLite LOWER() does not case-fold non-ASCII characters.");
+        }
+
+        Company::factory()->approved()->create(["name" => "Company A", "city" => "Świdnica"]);
+        Company::factory()->approved()->create(["name" => "Company B", "city" => "Warszawa"]);
+
+        $data = new SearchCompaniesData(name: null, city: "ŚWIDNICA", tag: null, perPage: 15);
         $results = $this->action->execute($data, $this->university->id);
 
         $this->assertCount(1, $results);
@@ -128,5 +145,35 @@ class SearchCompaniesTest extends TestCase
 
         $this->assertEquals("active", $resultsMap->get("Partnered Co")["partnership_status"]);
         $this->assertEquals("none", $resultsMap->get("Non-Partnered Co")["partnership_status"]);
+    }
+
+    public function testItMarksRequestSentByUniversityAsOutgoing(): void
+    {
+        $company = Company::factory()->approved()->create();
+
+        Partnership::factory()->pending()->requestedByUniversity()->create([
+            "company_id" => $company->id,
+            "university_id" => $this->university->id,
+        ]);
+
+        $data = new SearchCompaniesData(name: null, city: null, tag: null, perPage: 15);
+        $results = $this->action->execute($data, $this->university->id);
+
+        $this->assertEquals("pending_outgoing", $results->first()["partnership_status"]);
+    }
+
+    public function testItMarksRequestSentByCompanyAsIncoming(): void
+    {
+        $company = Company::factory()->approved()->create();
+
+        Partnership::factory()->pending()->requestedByCompany()->create([
+            "company_id" => $company->id,
+            "university_id" => $this->university->id,
+        ]);
+
+        $data = new SearchCompaniesData(name: null, city: null, tag: null, perPage: 15);
+        $results = $this->action->execute($data, $this->university->id);
+
+        $this->assertEquals("pending_incoming", $results->first()["partnership_status"]);
     }
 }

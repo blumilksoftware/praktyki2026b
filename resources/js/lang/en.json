@@ -160,6 +160,9 @@
     "noContactInfo": "No contact information",
     "currentOffers": "Current offers",
     "noOffers": "No current offers",
+    "partners": {
+      "title": "University partners"
+    },
     "nip": "NIP",
     "spots": "Spots",
     "uploadLogo": "Upload logo",
@@ -365,6 +368,7 @@
             "title": "Uczelnia",
             "nav": {
                 "dashboard": "Dashboard",
+                "companies": "Companies",
                 "profile": "Profile"
             }
         },
@@ -372,7 +376,55 @@
       "title": "Profile"
     },
     "companies": {
-      "title": "Company search"
+      "title": "Company search",
+      "filters": {
+        "name": "Company name",
+        "namePlaceholder": "Search by name",
+        "city": "City",
+        "cityPlaceholder": "Filter by city",
+        "tag": "Tag",
+        "tagPlaceholder": "Filter by tag"
+      },
+      "card": {
+        "logoAlt": "{company} logo",
+        "offersCount": "Active offers: {count}",
+        "propose": "Propose partnership",
+        "cancel": "Cancel request",
+        "accept": "Accept",
+        "decline": "Decline",
+        "end": "End partnership"
+      },
+      "cancelAction": "Cancel",
+      "propose": {
+        "modalTitle": "Propose partnership",
+        "confirmation": "Are you sure you want to propose a partnership to {partner}? They will need to accept it.",
+        "confirm": "Propose partnership"
+      },
+      "cancel": {
+        "modalTitle": "Cancel request",
+        "confirmation": "Are you sure you want to cancel the partnership request sent to {partner}?",
+        "confirm": "Cancel request"
+      },
+      "decline": {
+        "modalTitle": "Decline request",
+        "confirmation": "Are you sure you want to decline the partnership request from {partner}?",
+        "confirm": "Decline request"
+      },
+      "end": {
+        "modalTitle": "End partnership",
+        "confirmation": "Are you sure you want to end the partnership with {partner}?",
+        "confirm": "End partnership"
+      },
+      "status": {
+        "none": "No partnership",
+        "pending_outgoing": "Request sent",
+        "pending_incoming": "Awaiting your response",
+        "active": "Partner",
+        "suspended": "Suspended"
+      },
+      "empty": {
+        "title": "No companies found"
+      }
     },
       "dashboard": {
           "title": "Student Statistics",
@@ -761,8 +813,57 @@
         "dashboard": "Dashboard",
         "offers": "My offers",
         "applications": "Applications",
+        "universities": "Universities",
         "profile": "Profile",
         "settings": "Settings"
+      }
+    },
+    "universities": {
+      "title": "University search",
+      "filters": {
+        "name": "University name",
+        "namePlaceholder": "Search by name",
+        "city": "City",
+        "cityPlaceholder": "Filter by city"
+      },
+      "card": {
+        "logoAlt": "{university} logo",
+        "propose": "Propose partnership",
+        "cancel": "Cancel request",
+        "accept": "Accept",
+        "decline": "Decline",
+        "end": "End partnership"
+      },
+      "cancelAction": "Cancel",
+      "propose": {
+        "modalTitle": "Propose partnership",
+        "confirmation": "Are you sure you want to propose a partnership to {partner}? They will need to accept it.",
+        "confirm": "Propose partnership"
+      },
+      "cancel": {
+        "modalTitle": "Cancel request",
+        "confirmation": "Are you sure you want to cancel the partnership request sent to {partner}?",
+        "confirm": "Cancel request"
+      },
+      "decline": {
+        "modalTitle": "Decline request",
+        "confirmation": "Are you sure you want to decline the partnership request from {partner}?",
+        "confirm": "Decline request"
+      },
+      "end": {
+        "modalTitle": "End partnership",
+        "confirmation": "Are you sure you want to end the partnership with {partner}?",
+        "confirm": "End partnership"
+      },
+      "status": {
+        "none": "No partnership",
+        "pending_outgoing": "Request sent",
+        "pending_incoming": "Awaiting your response",
+        "active": "Partner",
+        "suspended": "Suspended"
+      },
+      "empty": {
+        "title": "No universities found"
       }
     },
     "dashboard": {
@@ -976,6 +1077,11 @@
         "expired": "The offer “{offer}” you applied to has expired.",
         "deleted": "The offer “{offer}” you applied to has been removed by the company."
       },
+      "partnershipRequested": "{name} proposed a partnership with you",
+      "partnershipAccepted": "{name} accepted your partnership proposal",
+      "partnershipCancelled": "{name} cancelled their partnership proposal",
+      "partnershipDeclined": "{name} declined your partnership proposal",
+      "partnershipEnded": "{name} ended the partnership with you",
       "fallback": "New notification"
     }
   }

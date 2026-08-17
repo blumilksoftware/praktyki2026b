@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Company;
 
+use App\Enums\PartnershipStatus;
 use App\Models\Company;
 
 class BuildCompanyProfileData
@@ -29,6 +30,15 @@ class BuildCompanyProfileData
                 ->latest()
                 ->get(),
             "verification_status" => $company->verification_status,
+            "partners" => $company->partnerships()
+                ->where("status", PartnershipStatus::Active)
+                ->with("university:id,name,city")
+                ->get()
+                ->map(fn($partnership) => [
+                    "id" => $partnership->university->id,
+                    "name" => $partnership->university->name,
+                    "city" => $partnership->university->city,
+                ]),
         ];
     }
 }

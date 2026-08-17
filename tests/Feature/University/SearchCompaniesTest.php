@@ -84,7 +84,9 @@ class SearchCompaniesTest extends TestCase
                     ->where("companies.data.0.id", $company1->id)
                     ->where("companies.data.0.name", "Company A")
                     ->where("companies.data.0.partnership_status", "active")
-                    ->where("filters.name", "Company A"),
+                    ->where("filters.name", "Company A")
+                    ->where("cityOptions", ["Krakow", "Warszawa"])
+                    ->where("tagOptions", ["IT", "Laravel", "Marketing"]),
             );
     }
 
