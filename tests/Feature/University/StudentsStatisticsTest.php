@@ -21,7 +21,7 @@ class StudentsStatisticsTest extends TestCase
 
     public function testDashboardReturnsStatisticsFilteredByDateRange(): void
     {
-        $university = University::factory()->approved()->create(["domain" => "example.edu"]);
+        $university = University::factory()->approved()->create();
         $faculty = Faculty::factory()->for($university)->create();
         $studyField = StudyField::factory()->for($faculty)->create();
 
@@ -32,7 +32,7 @@ class StudentsStatisticsTest extends TestCase
         ]);
 
         $student = User::factory()->create([
-            "email" => "student@example.edu",
+            "organization_id" => $university->id,
             "study_field_id" => $studyField->id,
         ]);
 
@@ -80,7 +80,7 @@ class StudentsStatisticsTest extends TestCase
 
     public function testDashboardSearchesBreakdownByFieldName(): void
     {
-        $university = University::factory()->approved()->create(["domain" => "example.edu"]);
+        $university = University::factory()->approved()->create();
         $faculty = Faculty::factory()->for($university)->create();
 
         $matchingField = StudyField::factory()->for($faculty)->create(["name" => "Computer Science"]);
@@ -93,11 +93,11 @@ class StudentsStatisticsTest extends TestCase
         ]);
 
         User::factory()->create([
-            "email" => "cs-student@example.edu",
+            "organization_id" => $university->id,
             "study_field_id" => $matchingField->id,
         ]);
         User::factory()->create([
-            "email" => "phil-student@example.edu",
+            "organization_id" => $university->id,
             "study_field_id" => $otherField->id,
         ]);
 
@@ -113,7 +113,7 @@ class StudentsStatisticsTest extends TestCase
 
     public function testDashboardSortsBreakdownByFacultyDescending(): void
     {
-        $university = University::factory()->approved()->create(["domain" => "example.edu"]);
+        $university = University::factory()->approved()->create();
 
         $facultyA = Faculty::factory()->for($university)->create(["name" => "Alpha Faculty"]);
         $facultyZ = Faculty::factory()->for($university)->create(["name" => "Zeta Faculty"]);
@@ -128,11 +128,11 @@ class StudentsStatisticsTest extends TestCase
         ]);
 
         User::factory()->create([
-            "email" => "student-a@example.edu",
+            "organization_id" => $university->id,
             "study_field_id" => $fieldA->id,
         ]);
         User::factory()->create([
-            "email" => "student-z@example.edu",
+            "organization_id" => $university->id,
             "study_field_id" => $fieldZ->id,
         ]);
 

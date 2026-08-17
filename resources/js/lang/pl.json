@@ -433,8 +433,8 @@
         "nav": {
             "dashboard": "Panel",
             "faculties": "Kierunki/Wydziały",
-            "companies": "Firmy",
-            "profile": "Profil"
+            "team": "Zespół",
+            "partnership": "Partnerstwo"
         }
     },
     "profile": {

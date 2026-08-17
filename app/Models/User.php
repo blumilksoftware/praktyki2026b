@@ -148,10 +148,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $query
             ->where("role", UserRole::Student)
-            ->where(function (Builder $inner) use ($university): void {
-                $inner->where("email", "like", "%@" . $university->domain)
-                    ->orWhere("organization_id", $university->id);
-            });
+            ->where("organization_id", $university->id);
     }
 
     public function fullName(): string

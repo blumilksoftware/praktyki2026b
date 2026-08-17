@@ -424,8 +424,8 @@
             "nav": {
                 "dashboard": "Dashboard",
                 "faculties": "Faculties",
-                "companies": "Companies",
-                "profile": "Profile"
+                "team": "Team",
+                "partnership": "Partnership"
             }
         },
     "profile": {

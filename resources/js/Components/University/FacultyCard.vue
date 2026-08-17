@@ -94,10 +94,10 @@ function submitFieldRename(field) {
           required
         />
         <div class="flex flex-wrap justify-end gap-2">
-          <BaseButton type="button" variant="secondary" @click="closeRename">
+          <BaseButton type="button" variant="secondary" class="min-w-32" @click="closeRename">
             {{ t('university.faculties.cancel') }}
           </BaseButton>
-          <BaseButton type="submit" :disabled="renameForm.processing">
+          <BaseButton type="submit" class="min-w-32 border border-transparent" :disabled="renameForm.processing">
             {{ t('university.faculties.save') }}
           </BaseButton>
         </div>
@@ -132,7 +132,7 @@ function submitFieldRename(field) {
       <li
         v-for="field in faculty.study_fields"
         :key="field.id"
-        class="rounded-lg border border-border bg-background px-3 py-2"
+        class="rounded-lg border border-border bg-white px-3 py-2"
       >
         <form
           v-if="editingFieldId === field.id"
@@ -148,10 +148,10 @@ function submitFieldRename(field) {
             required
           />
           <div class="flex flex-wrap justify-end gap-2">
-            <BaseButton type="button" variant="secondary" @click="closeFieldRename(field)">
+            <BaseButton type="button" variant="secondary" class="min-w-32" @click="closeFieldRename(field)">
               {{ t('university.faculties.cancel') }}
             </BaseButton>
-            <BaseButton type="submit" :disabled="renameFieldForm.processing">
+            <BaseButton type="submit" class="min-w-32 border border-transparent" :disabled="renameFieldForm.processing">
               {{ t('university.faculties.save') }}
             </BaseButton>
           </div>
@@ -165,11 +165,11 @@ function submitFieldRename(field) {
             </p>
           </div>
 
-          <div class="flex items-center gap-2">
+          <div class="-mr-3 flex items-center gap-2">
             <button
               :ref="(element) => setFieldTrigger(field.id, element)"
               type="button"
-              class="rounded-lg p-2 text-additional transition hover:bg-white hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+              class="rounded-lg p-2 text-additional transition hover:bg-background hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
               :aria-label="t('university.faculties.renameField', { name: field.name })"
               @click="startFieldRename(field)"
             >
@@ -192,19 +192,19 @@ function submitFieldRename(field) {
       {{ t('university.faculties.noFields') }}
     </p>
 
-    <form class="mt-4 flex flex-col gap-3" @submit.prevent="createField">
-      <BaseInput
-        :id="`new-study-field-${faculty.id}`"
-        v-model="createFieldForm.name"
-        :label="t('university.faculties.addFieldLabel')"
-        :placeholder="t('university.faculties.addFieldPlaceholder')"
-        :error="createFieldForm.errors.name"
-      />
-      <div class="flex justify-end">
-        <BaseButton type="submit" variant="secondary" :disabled="createFieldForm.processing">
-          {{ t('university.faculties.addField') }}
-        </BaseButton>
+    <form class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end" @submit.prevent="createField">
+      <div class="flex-1">
+        <BaseInput
+          :id="`new-study-field-${faculty.id}`"
+          v-model="createFieldForm.name"
+          :label="t('university.faculties.addFieldLabel')"
+          :placeholder="t('university.faculties.addFieldPlaceholder')"
+          :error="createFieldForm.errors.name"
+        />
       </div>
+      <BaseButton type="submit" variant="secondary" class="min-w-full sm:min-w-44 sm:text-base" :disabled="createFieldForm.processing">
+        {{ t('university.faculties.addField') }}
+      </BaseButton>
     </form>
   </div>
 </template>
