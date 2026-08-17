@@ -166,17 +166,7 @@ watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
   })
 }, { debounce: 300 })
 
-const companyColumns = [
-  { key: 'name', label: t('admin.verification.name'), sortable: true },
-  { key: 'nip', label: t('admin.verification.nip') },
-  { key: 'email', label: t('admin.verification.email'), sortable: true },
-  { key: 'city', label: t('admin.verification.city'), sortable: true },
-  { key: 'created_at', label: t('admin.verification.submittedAt'), sortable: true },
-  { key: 'verification_status', label: t('table.status'), sortable: true },
-  { key: 'actions', label: '', srLabel: t('admin.verification.actions'), align: 'right' },
-]
-
-const universityColumns = [
+const columns = [
   { key: 'name', label: t('admin.verification.name'), sortable: true },
   { key: 'city', label: t('admin.verification.city'), sortable: true },
   { key: 'email', label: t('admin.verification.email'), sortable: true },
@@ -405,7 +395,7 @@ onUnmounted(() => {
     <DataTable
       v-if="currentItems.length > 0"
       :items="currentItems"
-      :columns="entityType === 'company' ? companyColumns : universityColumns"
+      :columns="columns"
       row-key="id"
       :caption="entityType === 'company' ? t('admin.verification.companies') : t('admin.verification.universities')"
       :sort-key="sortKey"
