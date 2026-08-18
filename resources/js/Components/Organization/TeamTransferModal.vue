@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
-import BaseModal from '@/Components/Common/BaseModal.vue'
+import BaseModal from '@/Components/Base/BaseModal.vue'
 
 const props = defineProps({
   open: {
