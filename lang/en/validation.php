@@ -29,6 +29,7 @@ return [
     "application_status_invalid_transition" => "The application status cannot be changed to the selected.",
     "invitation_already_processed" => "This invitation has already been accepted or revoked.",
     "last_organization_admin" => "This is the last administrator of the organization and cannot be removed.",
+    "offer_not_published" => "Only a published offer can be taken down.",
     "already_partner" => "This company is already a partner.",
     "already_university_partner" => "This university is already a partner.",
     "partnership_not_pending" => "This partnership is no longer awaiting acceptance.",

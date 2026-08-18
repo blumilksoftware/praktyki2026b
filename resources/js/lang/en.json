@@ -389,6 +389,30 @@
         "confirm": "Save role"
       }
     },
+    "offers": {
+      "title": "Offers",
+      "description": "Review published offers and take down invalid ones.",
+      "offer": "Offer",
+      "company": "Company",
+      "city": "City",
+      "status": "Status",
+      "actions": "Actions",
+      "all": "All",
+      "search": "Search...",
+      "searchAriaLabel": "Search offers",
+      "filterByStatusAriaLabel": "Filter offers by status",
+      "takeDown": "Take down",
+      "takeDownTitle": "Take offer down",
+      "takeDownDescription": "\"{title}\" will be closed and will disappear from the offer listing. This cannot be undone.",
+      "cancel": "Cancel",
+      "confirmTakeDown": "Take down",
+      "statuses": {
+        "draft": "Draft",
+        "published": "Published",
+        "closed": "Closed",
+        "expired": "Expired"
+      }
+    },
     "layout": {
       "language": "Language",
       "skipToContent": "Skip to content",
@@ -402,6 +426,7 @@
         "dashboard": "Dashboard",
         "applications": "Applications",
         "users": "Users",
+        "offers": "Offers",
         "settings": "Settings",
         "mobileAriaLabel": "Mobile navigation"
       },

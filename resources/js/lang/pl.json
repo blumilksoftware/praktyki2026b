@@ -398,6 +398,30 @@
         "confirm": "Zapisz rolę"
       }
     },
+    "offers": {
+      "title": "Oferty",
+      "description": "Przeglądaj opublikowane oferty i zdejmuj nieprawidłowe.",
+      "offer": "Oferta",
+      "company": "Firma",
+      "city": "Miasto",
+      "status": "Status",
+      "actions": "Akcje",
+      "all": "Wszystkie",
+      "search": "Szukaj...",
+      "searchAriaLabel": "Wyszukaj oferty",
+      "filterByStatusAriaLabel": "Filtruj oferty po statusie",
+      "takeDown": "Zdejmij",
+      "takeDownTitle": "Zdejmij ofertę z publikacji",
+      "takeDownDescription": "Oferta „{title}” zostanie zamknięta i zniknie z listy ofert. Tej operacji nie można cofnąć.",
+      "cancel": "Anuluj",
+      "confirmTakeDown": "Zdejmij",
+      "statuses": {
+        "draft": "Szkic",
+        "published": "Opublikowana",
+        "closed": "Zamknięta",
+        "expired": "Wygasła"
+      }
+    },
     "layout": {
       "language": "Język",
       "skipToContent": "Przejdź do treści",
@@ -411,6 +435,7 @@
         "dashboard": "Strona główna",
         "applications": "Zgłoszenia",
         "users": "Użytkownicy",
+        "offers": "Oferty",
         "settings": "Ustawienia",
         "mobileAriaLabel": "Nawigacja mobilna"
       },
