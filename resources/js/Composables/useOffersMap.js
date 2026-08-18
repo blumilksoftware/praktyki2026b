@@ -171,7 +171,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
     })
 
     if (fitBounds && hasValidBounds && markers.length > 0) {
-      map.fitBounds(bounds, { padding: 80, maxZoom: 10 })
+      map.fitBounds(bounds, { padding: 80, maxZoom: 14 })
     }
   }
 
