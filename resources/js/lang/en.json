@@ -614,27 +614,31 @@
         }
     },
       "filters": {
-        "kicker": "Filters",
-        "title": "Offer board",
-        "reset": "Reset",
-        "resetAriaLabel": "Clear all filters",
-        "search": "Search",
-        "searchPlaceholder": "Company, position or city",
-        "city": "City",
-        "allCities": "All cities",
-        "workMode": "Work mode",
-        "allWorkModes": "All work modes",
-        "verifiedOnly": "Verified companies only",
-        "studyFields": {
-          "label": "Fields of study",
-          "placeholder": "Select fields from the list"
-        },
-        "dateRange": {
-          "label": "Internship date range",
-          "from": "From",
-          "to": "To"
-        },
-        "dateRangeInvalid": "The end date must be on or after the start date."
+          "kicker": "Filters",
+          "title": "Offer board",
+          "reset": "Reset",
+          "resetAriaLabel": "Clear all filters",
+          "search": "Search",
+          "searchPlaceholder": "Company, position or city",
+          "city": "City",
+          "allCities": "All cities",
+          "workMode": "Work mode",
+          "allWorkModes": "All work modes",
+          "verifiedOnly": "Verified companies only",
+          "studyFields": {
+              "label": "Fields of study",
+              "placeholder": "Select fields from the list"
+          },
+          "dateRange": {
+              "label": "Internship date range",
+              "from": "From",
+              "to": "To"
+          },
+          "dateRangeInvalid": "The end date must be on or after the start date.",
+          "radius": {
+              "label": "Distance from city",
+              "option": "{km} km"
+          }
       },
       "results": {
         "caption": "Number of offers",

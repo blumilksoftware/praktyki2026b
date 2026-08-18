@@ -18,6 +18,7 @@ const props = defineProps({
   isGuest: { type: Boolean, default: false },
   canApply: { type: Boolean, default: false },
   mapboxToken: { type: String, default: '' },
+  radiusOptions: { type: Array, default: () => [10, 25, 50, 100] },
 })
 
 const { t } = useI18n()
@@ -41,20 +42,35 @@ const filters = reactive({
   studyFieldLabels: (props.filters.study_fields || [])
     .map(studyFieldValueToLabel)
     .filter((label) => label !== undefined),
+  radiusCityLabel: props.filters.radius_city || '',
+  latitude: props.filters.latitude || null,
+  longitude: props.filters.longitude || null,
+  radiusKm: props.filters.radius_km || null,
 })
+
+const clearRadiusFilter = () => {
+  filters.radiusCityLabel = ''
+  filters.latitude = null
+  filters.longitude = null
+  filters.radiusKm = null
+}
 
 const fetchOffers = () => {
   router.get(
     window.location.pathname,
     {
       search: filters.search || undefined,
-      cities: filters.cities.length ? filters.cities : undefined,
+      cities: filters.radiusKm ? undefined : (filters.cities.length ? filters.cities : undefined),
       work_modes: filters.workModes.length ? filters.workModes : undefined,
       date_from: filters.dateFrom || undefined,
       date_to: filters.dateTo || undefined,
       study_fields: filters.studyFieldLabels.length
-        ? filters.studyFieldLabels.map(studyFieldLabelToValue).filter((value) => value !== undefined)
+        ? filters.studyFieldLabels.map(studyFieldLabelToValue).filter((v) => v !== undefined)
         : undefined,
+      radius_city: filters.radiusCityLabel || undefined,
+      latitude: filters.latitude ?? undefined,
+      longitude: filters.longitude ?? undefined,
+      radius_km: filters.radiusKm ?? undefined,
       view: displayMode.value === 'map' ? 'map' : undefined,
     },
     {
@@ -80,6 +96,10 @@ const resetFilters = () => {
   filters.dateFrom = ''
   filters.dateTo = ''
   filters.studyFieldLabels = []
+  filters.radiusCityLabel = ''
+  filters.latitude = null
+  filters.longitude = null
+  filters.radiusKm = null
   offerMap.value?.resetView()
 }
 
@@ -143,6 +163,7 @@ onMounted(() => {
         <OffersFilters
           v-model="filters"
           :study-fields="studyFields"
+          :radius-options="radiusOptions"
           @reset="resetFilters"
         />
 

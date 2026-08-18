@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMapboxGeocoding } from '@/Composables/useMapboxGeocoding'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
@@ -7,6 +7,7 @@ import BaseInput from '@/Components/Base/BaseInput.vue'
 
 const props = defineProps({
   studyFields: { type: Array, default: () => [] },
+  radiusOptions: { type: Array, default: () => [10, 25, 50, 100] },
 })
 
 const emit = defineEmits(['reset'])
@@ -14,7 +15,7 @@ const emit = defineEmits(['reset'])
 const filters = defineModel({ type: Object, required: true })
 
 const { t } = useI18n()
-const { cityOptions, fetchSuggestions: fetchCitySuggestions } = useMapboxGeocoding()
+const { cityOptions, cityCoordinates, fetchSuggestions: fetchCitySuggestions } = useMapboxGeocoding()
 
 const workModes = ['remote', 'hybrid', 'onSite']
 const workModeLabel = (mode) => t(`student.workModes.${mode}`)
@@ -29,6 +30,33 @@ function toggleWorkMode(mode) {
   } else {
     filters.value.workModes.splice(index, 1)
   }
+}
+
+const handleCitySelection = (selectedLabels) => {
+  filters.value.cities = selectedLabels
+
+  if (selectedLabels.length > 0) {
+    const firstName = selectedLabels[0]
+    const coords = cityCoordinates.value.get(firstName)
+    if (coords) {
+      filters.value.radiusCityLabel = firstName
+      filters.value.latitude = coords.latitude
+      filters.value.longitude = coords.longitude
+    }
+  } else {
+    clearRadiusFilter()
+  }
+}
+
+const clearRadiusFilter = () => {
+  filters.value.radiusCityLabel = ''
+  filters.value.latitude = null
+  filters.value.longitude = null
+  filters.value.radiusKm = null
+}
+
+function selectRadius(km) {
+  filters.value.radiusKm = filters.value.radiusKm === km ? null : km
 }
 
 const dateRangeError = computed(() => {
@@ -84,16 +112,42 @@ defineExpose({ studyFieldLabelToValue })
         :allow-custom="false"
       />
 
-      <DynamicMultiSelect
-        id="offers-filter-cities"
-        v-model="filters.cities"
-        :label="t('student.offers.filters.city')"
-        :placeholder="t('student.offers.filters.city')"
-        :options="cityOptions"
-        :allow-custom="true"
-        remote
-        @search="fetchCitySuggestions"
-      />
+
+      <div>
+        <DynamicMultiSelect
+          id="offers-filter-cities"
+          :model-value="filters.cities"
+          :label="t('student.offers.filters.city')"
+          :placeholder="t('student.offers.filters.city')"
+          :options="cityOptions"
+          :allow-custom="true"
+          remote
+          @update:model-value="handleCitySelection"
+          @search="fetchCitySuggestions"
+        />
+
+
+        <div v-if="filters.latitude" class="mt-3">
+          <span class="mb-2 block font-medium text-text text-xs text-additional">
+            {{ t('student.offers.filters.radius.label') }}
+          </span>
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="km in radiusOptions"
+              :key="km"
+              type="button"
+              class="rounded-full border px-3 py-1 text-xs font-medium transition cursor-pointer"
+              :class="filters.radiusKm === km
+                ? 'border-primary bg-primary/10 text-primary'
+                : 'border-border text-additional hover:border-primary/40 hover:text-text'"
+              :aria-pressed="filters.radiusKm === km"
+              @click="selectRadius(km)"
+            >
+              {{ t('student.offers.filters.radius.option', { km }) }}
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div>
         <span class="mb-2 block font-medium text-text text-sm">{{ t('student.offers.filters.workMode') }}</span>

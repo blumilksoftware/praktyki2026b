@@ -785,7 +785,11 @@
           "from": "Od",
           "to": "Do"
         },
-        "dateRangeInvalid": "Data „Do” musi być taka sama lub późniejsza niż data „Od”."
+        "dateRangeInvalid": "Data „Do” musi być taka sama lub późniejsza niż data „Od”.",
+          "radius": {
+              "label": "Odległość od miasta",
+              "option": "{km} km"
+          }
       },
       "results": {
         "caption": "Liczba ofert",
