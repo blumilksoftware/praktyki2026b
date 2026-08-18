@@ -179,8 +179,8 @@ return [
     "partnership_not_pending" => "To partnerstwo nie oczekuje już na akceptację.",
     "cannot_accept_own_partnership_request" => "Nie możesz zaakceptować własnej propozycji partnerstwa.",
 
-    "salary_min.required_if" => "Podaj minimalne wynagrodzenie, gdy oferta jest płatna.",
-    "salary_max.required_if" => "Podaj maksymalne wynagrodzenie, gdy oferta jest płatna.",
+    "salary_min.required_if" => "Pole minimalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
+    "salary_max.required_if" => "Pole maksymalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
     "salary_max.gte" => "Maksymalne wynagrodzenie musi być większe lub równe minimalnemu.",
 
     "profile_age_integer" => "Wpisz poprawny wiek — liczbę całkowitą.",

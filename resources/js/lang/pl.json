@@ -755,7 +755,8 @@
         "notApplied": "Niezaaplikowane"
       },
         "pagination": {
-            "perPage": "Ofert na stronie"
+            "perPage": "Ofert na stronie",
+            "label": "Nawigacja stronicowania"
         },
         "map": {
             "selectPinHint": "Wybierz punkt na mapie, aby zobaczyć dostępne oferty",
@@ -837,7 +838,8 @@
         "companyProfileAria": "Zobacz profil firmy: {company}",
         "universityProfileAria": "Zobacz profil uczelni: {university}",
         "similarOffers": "Podobne oferty",
-        "similarOfferAria": "Zobacz ofertę {title} w firmie {company}"
+        "similarOfferAria": "Zobacz ofertę {title} w firmie {company}",
+        "noDescription": "Brak opisu"
       }
     }
   },
@@ -915,46 +917,64 @@
         "description": "Opublikuj ofertę albo zapisz ją jako szkic, żeby dokończyć później.",
         "action": "Utwórz ofertę"
       },
-        "offers": {
-            "title": "Oferty",
-            "subtitle": "Zarządzaj ofertami pracy i aplikacjami kandydatów",
-            "noOffers": "Brak ofert",
-            "confirmDelete": "Czy na pewno chcesz usunąć tę ofertę?",
-            "status": {
-                "published": "Opublikowana",
-                "draft": "Szkic",
-                "closed": "Zamknięta",
-                "expired": "Wygasła"
-            },
-            "table": {
-                "offer": "Oferta",
-                "status": "Status",
-                "spots": "Miejsca",
-                "applications": "Zgłoszenia",
-                "actions": "Akcje"
-            },
-            "actions": {
-                "menu": "Otwórz menu akcji",
-                "edit": "Edytuj",
-                "activate": "Aktywuj",
-                "deactivate": "Dezaktywuj",
-                "delete": "Usuń"
-            },
-            "pagination": {
-                "summary": "Wyświetlono {from}–{to} z {total}"
-            },
-            "search": {
-                "placeholder": "Szukaj ofert",
-                "clear": "Wyczyść wyszukiwanie"
-            },
-            "filters": {
-                "allStatuses": "Wszystkie",
-                "published": "Opublikowane",
-                "draft": "Szkice",
-                "closed": "Zamknięte",
-                "expired": "Wygasłe"
-            }
+      "stats": {
+        "totalOffers": "Wszystkie oferty",
+        "publishedOffers": "Opublikowane",
+        "draftOffers": "Szkice",
+        "applications": "Zgłoszenia"
+      },
+      "shortcuts": {
+        "unreadApplications": "Masz {count} nieprzeczytanych aktualizacji.",
+        "checkIt": "Sprawdź",
+        "myOffers": {
+          "title": "Moje oferty",
+          "description": "Przeglądaj, edytuj i zarządzaj wszystkimi ofertami w jednym miejscu."
+        },
+        "applications": {
+          "title": "Zgłoszenia",
+          "description": "Przejrzyj kandydatów i odpowiadaj na nowe zgłoszenia."
         }
+      },
+      "offers": {
+        "title": "Oferty",
+        "subtitle": "Zarządzaj ofertami pracy i aplikacjami kandydatów",
+        "noOffers": "Brak ofert",
+        "confirmDelete": "Czy na pewno chcesz usunąć tę ofertę?",
+        "status": {
+          "published": "Opublikowana",
+          "draft": "Szkic",
+          "closed": "Zamknięta",
+          "expired": "Wygasła"
+        },
+        "table": {
+          "offer": "Oferta",
+          "status": "Status",
+          "spots": "Miejsca",
+          "applications": "Zgłoszenia",
+          "actions": "Akcje"
+        },
+        "actions": {
+          "menu": "Otwórz menu akcji",
+          "edit": "Edytuj",
+          "activate": "Aktywuj",
+          "deactivate": "Dezaktywuj",
+          "delete": "Usuń"
+        },
+        "pagination": {
+          "summary": "Wyświetlono {from}–{to} z {total}"
+        },
+        "search": {
+          "placeholder": "Szukaj ofert",
+          "clear": "Wyczyść wyszukiwanie"
+        },
+        "filters": {
+          "allStatuses": "Wszystkie",
+          "published": "Opublikowane",
+          "draft": "Szkice",
+          "closed": "Zamknięte",
+          "expired": "Wygasłe"
+        }
+      }
     },
     "profile": {
       "title": "Profil"
@@ -991,10 +1011,11 @@
         },
         "createAction": "Utwórz ofertę",
         "editAction": "Edytuj",
+        "applicationsAction": "Aplikacje",
         "actionsMenu": "Więcej opcji",
         "publishAction": "Opublikuj",
         "publishing": "Publikowanie…",
-        "unpublishAction": "Wycofaj publikację",
+        "unpublishAction": "Zamknij",
         "unpublishing": "Wycofywanie…",
         "deleteAction": "Usuń",
         "applicationsCount": "Zgłoszenia: {count}",
@@ -1054,12 +1075,17 @@
         "draft": "Zapisz jako szkic",
         "published": "Opublikuj od razu",
         "draftHint": "Szkice są widoczne tylko dla Ciebie. Publikacja wymaga zweryfikowanego konta firmy.",
+        "previewAction": "Podgląd",
+        "previewFallbackTitle": "Oferta bez tytułu",
+        "previewFallbackCity": "Miasto nieustawione",
+        "previewFallbackCompanyName": "Twoja firma",
         "submitCreate": "Utwórz ofertę",
         "submitCreateDraft": "Utwórz szkic",
         "submitEdit": "Zapisz zmiany",
         "submitEditDraft": "Zapisz jako szkic",
         "publishDisabledTooltip": "Aby opublikować ofertę, musisz mieć zweryfikowane konto firmy.",
-        "unsavedChangesConfirmation": "Masz niezapisane zmiany. Opuścić stronę bez zapisywania?"
+        "unsavedChangesConfirmation": "Masz niezapisane zmiany. Opuścić stronę bez zapisywania?",
+          "noDescription": "Brak opisu"
       },
       "delete": {
         "modalTitle": "Usuń ofertę",
