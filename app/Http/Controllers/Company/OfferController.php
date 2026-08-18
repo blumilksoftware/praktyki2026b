@@ -84,6 +84,7 @@ class OfferController extends Controller
                 "title" => $offer->title,
                 "description" => $offer->description,
                 "spots" => $offer->spots,
+                "accepted_applications_count" => $offer->acceptedApplications()->count(),
                 "city" => $offer->city,
                 "start_date" => $offer->start_date->toDateString(),
                 "end_date" => $offer->end_date->toDateString(),
