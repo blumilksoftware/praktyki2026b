@@ -10,6 +10,7 @@ import BaseToggle from '@/Components/Base/BaseToggle.vue'
 import CityAutocomplete from '@/Components/Common/CityAutocomplete.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import DateRangeField from '@/Components/Offer/DateRangeField.vue'
+import OfferPreviewModal from '@/Components/Offer/OfferPreviewModal.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -181,6 +182,44 @@ const submit = () => {
     form.post(ROUTES.COMPANY_OFFERS_STORE)
   }
 }
+
+const isPreviewModalOpen = ref(false)
+
+const previewOfferData = computed(() => ({
+  id: props.offer?.id ?? 'draft-preview',
+  title: form.title || t('company.offers.form.previewFallbackTitle'),
+  description: form.description || t('company.offers.form.noDescription'),
+  city: form.city || t('company.offers.form.previewFallbackCity'),
+  work_mode: form.work_mode || 'onSite',
+  start_date: form.start_date || null,
+  end_date: form.end_date || null,
+  spots: Number(form.spots || 0),
+  remaining_spots: Number(form.spots || 0),
+  status: form.status || 'draft',
+  is_paid: form.is_paid,
+  salary_min: form.is_paid && form.salary_min !== '' ? Number(form.salary_min) : null,
+  salary_max: form.is_paid && form.salary_max !== '' ? Number(form.salary_max) : null,
+  study_fields: selectedStudyFieldNames.value.map((name) => ({
+    id: nameToStudyFieldId(name),
+    name,
+  })),
+  preferred_universities: selectedUniversityNames.value.map((name) => ({
+    id: nameToUniversityId(name),
+    name,
+  })),
+  company: {
+    id: 'preview-company',
+    name: t('company.offers.form.previewFallbackCompanyName'),
+    logo_path: null,
+    is_verified: Boolean(props.isCompanyVerified),
+  },
+  has_applied: false,
+  is_favorite: false,
+}))
+
+const previewOffer = () => {
+  isPreviewModalOpen.value = true
+}
 </script>
 
 <template>
@@ -347,6 +386,15 @@ const submit = () => {
 
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-3 sm:flex-row sm:justify-end sm:items-center">
+        <BaseButton
+          type="button"
+          variant="secondary"
+          class="w-full sm:w-auto"
+          :disabled="form.processing"
+          @click="previewOffer"
+        >
+          {{ t('company.offers.form.previewAction') }}
+        </BaseButton>
         <BaseButton type="button" variant="secondary" class="w-full sm:w-auto" @click="cancel">
           {{ t('buttons.cancel') }}
         </BaseButton>
@@ -356,4 +404,10 @@ const submit = () => {
       </div>
     </div>
   </form>
+
+  <OfferPreviewModal
+    :open="isPreviewModalOpen"
+    :offer="previewOfferData"
+    @close="isPreviewModalOpen = false"
+  />
 </template>

@@ -68,6 +68,7 @@ export const ROUTES = {
   // Offers & Search
   OFFERS: "/offers",
   OFFER_SHOW: `/offers/{offer}`,
+  OFFER_PREVIEW: `/offers/{offer}/preview`,
   COMPANY_MY_OFFERS: "/company/offers",
 
   // Profiles
@@ -122,6 +123,10 @@ export function studentOfferFavourite(offerId: string): string {
 
 export function offerShow(offerId: string): string {
   return ROUTES.OFFER_SHOW.replace("{offer}", offerId)
+}
+
+export function offerPreview(offerId: string): string {
+  return ROUTES.OFFER_PREVIEW.replace("{offer}", offerId)
 }
 
 export function companyShow(companyId: string): string {

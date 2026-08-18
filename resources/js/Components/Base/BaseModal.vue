@@ -22,7 +22,7 @@ const { t } = useI18n()
       @click.self="emit('close')"
     >
       <div
-        class="max-h-[calc(100vh-2rem)] w-full overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl"
+        class="max-h-[calc(100vh-2rem)] w-full min-w-0 overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl"
         :class="maxWidthClass"
       >
         <div class="mb-4 flex items-start justify-between gap-4">

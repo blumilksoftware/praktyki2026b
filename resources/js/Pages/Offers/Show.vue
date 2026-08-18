@@ -83,6 +83,12 @@ const companyHref = computed(() => (
     : null
 ))
 
+const backHref = computed(() => {
+  const pathname = window.location.pathname
+
+  return pathname.endsWith('/preview') ? ROUTES.COMPANY_OFFERS_INDEX : ROUTES.OFFERS
+})
+
 const isApplying = ref(false)
 const appliedLocally = ref(false)
 const withdrawnLocally = ref(false)
@@ -174,7 +180,7 @@ function confirmWithdraw() {
     <div class="bg-background min-h-screen py-6">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <Link
-          :href="ROUTES.OFFERS"
+          :href="backHref"
           class="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
         >
           <span aria-hidden="true">←</span>
@@ -237,7 +243,7 @@ function confirmWithdraw() {
               <h2 class="text-lg font-semibold text-text">
                 {{ t('student.offers.detail.description') }}
               </h2>
-              <p class="mt-3 whitespace-pre-wrap text-sm leading-7 text-additional">
+              <p class="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-additional">
                 {{ offer.description }}
               </p>
             </section>
