@@ -98,7 +98,7 @@ function confirmDelete() {
     <p class="mt-2 text-additional">{{ t('university.faculties.subtitle') }}</p>
 
     <form
-      class="mt-6 flex flex-col gap-3 rounded-2xl border border-border bg-white p-4 shadow-sm sm:flex-row sm:items-end sm:p-5"
+      class="mt-6 flex flex-col gap-3 rounded-2xl border border-border bg-white p-4 shadow-sm sm:flex-row sm:items-start sm:p-5"
       @submit.prevent="createFaculty"
     >
       <div class="flex-1">
@@ -106,13 +106,15 @@ function confirmDelete() {
           id="new-faculty-name"
           v-model="createForm.name"
           :label="t('university.faculties.addFacultyLabel')"
-          :placeholder="t('university.faculties.addFacultyPlaceholder')"
           :error="createForm.errors.name"
         />
       </div>
-      <BaseButton type="submit" class="min-w-full border border-transparent sm:min-w-44 sm:text-base" :disabled="createForm.processing">
-        {{ t('university.faculties.addFaculty') }}
-      </BaseButton>
+      <div class="flex flex-col gap-1.5">
+        <span aria-hidden="true" class="mb-1 hidden text-sm font-medium sm:block">&nbsp;</span>
+        <BaseButton type="submit" class="min-w-full border border-transparent sm:min-w-44 sm:text-base" :disabled="createForm.processing">
+          {{ t('university.faculties.addFaculty') }}
+        </BaseButton>
+      </div>
     </form>
 
     <div v-if="faculties.length > 0" class="mt-6 flex flex-col gap-4">
@@ -135,7 +137,7 @@ function confirmDelete() {
       max-width-class="max-w-lg"
       @close="closeDelete"
     >
-      <div v-if="deleteTarget" class="flex flex-col gap-4">
+      <form v-if="deleteTarget" class="flex flex-col gap-4" novalidate @submit.prevent="confirmDelete">
         <p class="text-text">
           {{ t('university.faculties.deleteConfirmation', { name: deleteTarget.item.name }) }}
         </p>
@@ -165,15 +167,14 @@ function confirmDelete() {
             {{ t('university.faculties.cancel') }}
           </BaseButton>
           <BaseButton
-            type="button"
+            type="submit"
             class="min-w-32 border border-transparent"
             :disabled="deleteForm.processing || (requiresReassign && reassignOptions.length === 0)"
-            @click="confirmDelete"
           >
             {{ t('university.faculties.confirmDelete') }}
           </BaseButton>
         </div>
-      </div>
+      </form>
     </BaseModal>
   </UniversityLayout>
 </template>

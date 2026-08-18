@@ -34,4 +34,11 @@ class UpdateStudyFieldRequest extends FormRequest
             ],
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            "name" => __("validation.attributes.study_field_name"),
+        ];
+    }
 }

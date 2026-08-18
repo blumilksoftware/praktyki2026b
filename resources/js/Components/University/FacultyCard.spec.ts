@@ -37,6 +37,9 @@ const mountCard = (props = {}) => mount(FacultyCard, {
 const buttonWithLabel = (wrapper: ReturnType<typeof mountCard>, label: string) =>
   wrapper.findAll('button').find((button) => button.attributes('aria-label') === label)!
 
+const formWithInput = (wrapper: ReturnType<typeof mountCard>, inputId: string) =>
+  wrapper.findAll('form').find((form) => form.find(inputId).exists())!
+
 describe('University/FacultyCard', () => {
   it('shows how many students and offers each field is used by', () => {
     const wrapper = mountCard()
@@ -44,6 +47,21 @@ describe('University/FacultyCard', () => {
     expect(wrapper.text()).toContain(en.university.faculties.usage
       .replace('{students}', '4')
       .replace('{offers}', '2'))
+  })
+
+  it('keeps the fields of study collapsed until the faculty header is clicked', async () => {
+    const wrapper = mountCard()
+
+    const toggle = wrapper.findAll('button').find((button) => button.attributes('aria-expanded') !== undefined)!
+    const panelStyle = () => wrapper.find('#faculty-panel-fac-1').attributes('style')
+
+    expect(toggle.attributes('aria-expanded')).toBe('false')
+    expect(panelStyle()).toContain('grid-template-rows: 0fr')
+
+    await toggle.trigger('click')
+
+    expect(toggle.attributes('aria-expanded')).toBe('true')
+    expect(panelStyle()).toContain('grid-template-rows: 1fr')
   })
 
   it('shows an empty state for a faculty without fields of study', () => {
@@ -76,7 +94,7 @@ describe('University/FacultyCard', () => {
 
     await buttonWithLabel(wrapper, 'Rename field of study Robotics').trigger('click')
     await wrapper.find('#study-field-name-sf-1').setValue('Applied Robotics')
-    await wrapper.findAll('form')[0]!.trigger('submit')
+    await formWithInput(wrapper, '#study-field-name-sf-1').trigger('submit')
 
     expect(submits.patch).toEqual(['/university/study-fields/sf-1'])
   })
@@ -86,7 +104,7 @@ describe('University/FacultyCard', () => {
     const wrapper = mountCard()
 
     await wrapper.find('#new-study-field-fac-1').setValue('Mechatronics')
-    await wrapper.findAll('form').at(-1)!.trigger('submit')
+    await formWithInput(wrapper, '#new-study-field-fac-1').trigger('submit')
 
     expect(submits.post).toEqual(['/university/faculties/fac-1/study-fields'])
   })

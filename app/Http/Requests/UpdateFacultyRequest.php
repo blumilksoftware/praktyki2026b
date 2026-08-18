@@ -34,4 +34,11 @@ class UpdateFacultyRequest extends FormRequest
             ],
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            "name" => __("validation.attributes.faculty_name"),
+        ];
+    }
 }

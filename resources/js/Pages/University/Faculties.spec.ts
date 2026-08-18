@@ -129,7 +129,11 @@ describe('University/Faculties', () => {
     const wrapper = mountPage()
 
     await openFacultyDelete(wrapper, unusedFaculty)
-    await wrapper.findAll('button').filter((button) => button.text() === en.university.faculties.confirmDelete)[0].trigger('click')
+
+    const confirmForm = wrapper.findAll('form')
+      .find((form) => form.text().includes(en.university.faculties.confirmDelete))
+
+    await confirmForm!.trigger('submit.prevent')
 
     expect(submits.delete).toEqual(['/university/faculties/fac-1'])
   })
