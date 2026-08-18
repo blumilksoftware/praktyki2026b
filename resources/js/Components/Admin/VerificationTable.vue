@@ -7,6 +7,7 @@ import DataTable from '@/Components/Common/DataTable.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
 import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import VerificationActionsMenu from '@/Components/Admin/VerificationActionsMenu.vue'
+import AdminDeleteOrganizationModal from '@/Components/Admin/AdminDeleteOrganizationModal.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import { Teleport } from 'vue'
 import { useVerificationStatus } from '@/Composables/useVerificationStatus'
@@ -79,6 +80,16 @@ const currentStats = computed(() => {
     { label: t('admin.verification.rejected'), value: source.rejected },
   ]
 })
+
+const itemToDelete = ref(null)
+
+function openDeleteModal(item) {
+  itemToDelete.value = item
+}
+
+function closeDeleteModal() {
+  itemToDelete.value = null
+}
 
 const companyDetailFields = [
   { key: 'name', label: t('admin.verification.name') },
@@ -440,6 +451,7 @@ onUnmounted(() => {
           @details="openDetailsModal(item, $event)"
           @accept="entityType === 'company' ? acceptCompany(item) : acceptUniversity(item)"
           @reject="openRejectModal(item, $event)"
+          @delete="openDeleteModal(item)"
         />
       </template>
     </DataTable>
@@ -451,6 +463,15 @@ onUnmounted(() => {
     <div v-if="currentItems.length === 0" class="py-12 text-slate-500 text-center">
       {{ t('table.noData') }}
     </div>
+
+    <AdminDeleteOrganizationModal
+      :key="itemToDelete?.id"
+      :open="!!itemToDelete"
+      :organization-id="itemToDelete?.id"
+      :organization-name="itemToDelete?.name"
+      :entity-type="entityType"
+      @close="closeDeleteModal"
+    />
 
     <Teleport to="body">
       <div

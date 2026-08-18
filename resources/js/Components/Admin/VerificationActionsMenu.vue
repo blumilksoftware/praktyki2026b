@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { IconInfoCircle, IconCheck, IconX } from '@tabler/icons-vue'
+import { IconInfoCircle, IconCheck, IconX, IconTrash } from '@tabler/icons-vue'
 
 const { t } = useI18n()
 
@@ -15,7 +15,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['details', 'accept', 'reject'])
+const emit = defineEmits(['details', 'accept', 'reject', 'delete'])
 </script>
 
 <template>
@@ -52,6 +52,16 @@ const emit = defineEmits(['details', 'accept', 'reject'])
       @click="emit('reject', $event)"
     >
       <IconX class="w-4 h-4" aria-hidden="true" />
+    </button>
+
+    <button
+      type="button"
+      class="p-1.5 rounded-md text-red-600 hover:bg-red-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+      :title="t('admin.verification.delete')"
+      :aria-label="t('admin.verification.deleteAriaLabel', { name: props.item.name })"
+      @click="emit('delete', $event)"
+    >
+      <IconTrash class="w-4 h-4" aria-hidden="true" />
     </button>
   </div>
 </template>
