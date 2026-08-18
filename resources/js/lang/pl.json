@@ -360,7 +360,26 @@
       "email": "E-mail",
       "role": "Rola",
       "actions": "Akcje",
+      "actionsMenu": "Akcje dla {name}",
       "changeRole": "Zmień rolę",
+      "status": "Status",
+      "block": "Zablokuj",
+      "unblock": "Odblokuj",
+      "statuses": {
+        "active": "Aktywny",
+        "blocked": "Zablokowany",
+        "pending": "Oczekujący",
+        "deleted": "Usunięty"
+      },
+      "blockModal": {
+        "blockTitle": "Zablokuj użytkownika",
+        "unblockTitle": "Odblokuj użytkownika",
+        "blockDescription": "{name} nie będzie mógł się zalogować. Konto możesz odblokować w dowolnym momencie.",
+        "unblockDescription": "{name} będzie mógł się ponownie zalogować.",
+        "cancel": "Anuluj",
+        "confirmBlock": "Zablokuj",
+        "confirmUnblock": "Odblokuj"
+      },
       "roles": {
         "student": "Student",
         "superAdmin": "Super administrator",

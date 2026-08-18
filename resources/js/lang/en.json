@@ -351,7 +351,26 @@
       "email": "Email",
       "role": "Role",
       "actions": "Actions",
+      "actionsMenu": "Actions for {name}",
       "changeRole": "Change role",
+      "status": "Status",
+      "block": "Block",
+      "unblock": "Unblock",
+      "statuses": {
+        "active": "Active",
+        "blocked": "Blocked",
+        "pending": "Pending",
+        "deleted": "Deleted"
+      },
+      "blockModal": {
+        "blockTitle": "Block user",
+        "unblockTitle": "Unblock user",
+        "blockDescription": "{name} will no longer be able to log in. You can unblock the account at any time.",
+        "unblockDescription": "{name} will be able to log in again.",
+        "cancel": "Cancel",
+        "confirmBlock": "Block",
+        "confirmUnblock": "Unblock"
+      },
       "roles": {
         "student": "Student",
         "superAdmin": "Super admin",

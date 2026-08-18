@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { usePage, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconSearch } from '@tabler/icons-vue'
@@ -7,7 +7,10 @@ import DataTable from '@/Components/Common/DataTable.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
 import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import AdminChangeRoleModal from '@/Components/Admin/AdminChangeRoleModal.vue'
+import AdminBlockUserModal from '@/Components/Admin/AdminBlockUserModal.vue'
+import AdminUserActionsMenu from '@/Components/Admin/AdminUserActionsMenu.vue'
 import { useUserRole } from '@/Composables/useUserRole'
+import { useUserStatus } from '@/Composables/useUserStatus'
 
 const props = defineProps({
   users: {
@@ -35,6 +38,7 @@ const props = defineProps({
 const { t } = useI18n()
 const page = usePage()
 const { roleClass } = useUserRole()
+const { statusClass } = useUserStatus()
 
 const roleFilter = ref(props.filters.role || 'all')
 const searchQuery = ref(props.filters.search || '')
@@ -48,12 +52,30 @@ const columns = [
   { key: 'name', label: t('admin.users.name') },
   { key: 'email', label: t('admin.users.email') },
   { key: 'role', label: t('admin.users.role') },
+  { key: 'status', label: t('admin.users.status') },
   { key: 'actions', label: '', srLabel: t('admin.users.actions'), align: 'right' },
 ]
 
 const userToChangeRole = ref(null)
+const userToBlock = ref(null)
+const openMenuId = ref(null)
+
+function toggleMenu(userId) {
+  openMenuId.value = openMenuId.value === userId ? null : userId
+}
+
+function closeMenu() {
+  openMenuId.value = null
+}
+
+function handleClickOutsideMenu(event) {
+  if (!event.target.closest('[data-user-menu]') && !event.target.closest('[data-user-menu-dropdown]')) {
+    closeMenu()
+  }
+}
 
 function openChangeRoleModal(user) {
+  closeMenu()
   userToChangeRole.value = user
 }
 
@@ -61,8 +83,21 @@ function closeChangeRoleModal() {
   userToChangeRole.value = null
 }
 
+function openBlockModal(user) {
+  closeMenu()
+  userToBlock.value = user
+}
+
+function closeBlockModal() {
+  userToBlock.value = null
+}
+
 function isCurrentAdmin(user) {
   return user.id === page.props.auth?.user?.id
+}
+
+function userLabel(user) {
+  return [user.first_name, user.last_name].filter(Boolean).join(' ') || user.email
 }
 
 watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
@@ -74,6 +109,9 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
     replace: true,
   })
 }, { debounce: 300 })
+
+onMounted(() => document.addEventListener('click', handleClickOutsideMenu))
+onUnmounted(() => document.removeEventListener('click', handleClickOutsideMenu))
 </script>
 
 <template>
@@ -117,14 +155,21 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
           {{ t(`admin.users.roles.${item.role}`) }}
         </span>
       </template>
+      <template #cell-status="{ item }">
+        <span :class="['inline-flex px-2.5 py-1 rounded-full font-medium text-xs', statusClass(item.status)]">
+          {{ t(`admin.users.statuses.${item.status}`) }}
+        </span>
+      </template>
       <template #cell-actions="{ item }">
-        <button
+        <AdminUserActionsMenu
           v-if="!isCurrentAdmin(item)"
-          class="bg-background hover:bg-background/60 px-3 py-1.5 border border-border rounded-lg font-medium text-text text-sm transition cursor-pointer"
-          @click="openChangeRoleModal(item)"
-        >
-          {{ t('admin.users.changeRole') }}
-        </button>
+          :user="item"
+          :is-open="openMenuId === item.id"
+          @toggle="toggleMenu"
+          @close="closeMenu"
+          @change-role="openChangeRoleModal(item)"
+          @toggle-block="openBlockModal(item)"
+        />
       </template>
     </DataTable>
 
@@ -138,13 +183,22 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
       :key="userToChangeRole?.id"
       :open="!!userToChangeRole"
       :user-id="userToChangeRole?.id"
-      :user-name="userToChangeRole ? [userToChangeRole.first_name, userToChangeRole.last_name].filter(Boolean).join(' ') || userToChangeRole.email : ''"
+      :user-name="userToChangeRole ? userLabel(userToChangeRole) : ''"
       :current-role="userToChangeRole?.role"
       :current-organization-id="userToChangeRole?.organization_id ?? ''"
       :roles="roles"
       :companies="companies"
       :universities="universities"
       @close="closeChangeRoleModal"
+    />
+
+    <AdminBlockUserModal
+      :key="`block-${userToBlock?.id}`"
+      :open="!!userToBlock"
+      :user-id="userToBlock?.id"
+      :user-name="userToBlock ? userLabel(userToBlock) : ''"
+      :current-status="userToBlock?.status"
+      @close="closeBlockModal"
     />
   </div>
 </template>

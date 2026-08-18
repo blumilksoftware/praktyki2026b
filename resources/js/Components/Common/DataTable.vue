@@ -51,7 +51,10 @@ function sortIcon(col) {
             class="flex sm:flex-row flex-col sm:justify-between gap-1 sm:gap-2"
           >
             <dt class="text-slate-500 shrink-0">{{ col.label }}</dt>
-            <dd class="overflow-hidden text-slate-800 sm:text-right break-words">
+            <dd
+              class="text-slate-800 sm:text-right break-words"
+              :class="col.key === 'actions' ? '' : 'overflow-hidden'"
+            >
               <slot :name="`cell-${col.key}`" :item="item">{{ item[col.key] }}</slot>
             </dd>
           </div>

@@ -35,7 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
             return match (auth()->user()?->role) {
                 UserRole::SuperAdmin => route("admin.dashboard"),
                 UserRole::CompanyAdmin, UserRole::CompanyMember => route("company.dashboard"),
-                UserRole::UniversityAdmin => route("university.dashboard"),
+                UserRole::UniversityAdmin, UserRole::UniversityMember => route("university.dashboard"),
                 UserRole::Student => route("student.dashboard"),
                 default => route("login"),
             };

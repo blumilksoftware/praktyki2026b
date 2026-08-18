@@ -48,6 +48,7 @@ return [
     "profile_skills_max" => "You can add up to :max skills.",
 
     "attributes" => [
+        "organization_id" => "organization",
         "email" => "email address",
         "domain" => "domain",
         "password" => "password",

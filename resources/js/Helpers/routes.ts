@@ -39,6 +39,7 @@ export const ROUTES = {
   ADMIN_APPLICATIONS: "/admin/applications",
   ADMIN_USERS: "/admin/users",
   ADMIN_USERS_UPDATE_ROLE: (id: string) => `/admin/users/${id}/role`,
+  ADMIN_USERS_UPDATE_STATUS: (id: string) => `/admin/users/${id}/status`,
 
   // Student Profile & Settings
   STUDENT_DASHBOARD: "/student/dashboard",

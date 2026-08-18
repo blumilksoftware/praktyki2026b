@@ -191,6 +191,7 @@ return [
     "profile_skills_max" => "Możesz dodać maksymalnie :max umiejętności.",
 
     "attributes" => [
+        "organization_id" => "organizacja",
         "email" => "adres e-mail",
         "domain" => "domena",
         "password" => "hasło",
