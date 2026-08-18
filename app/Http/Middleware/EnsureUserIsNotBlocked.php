@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Actions\Auth\LogOutUser;
 use App\Enums\UserStatus;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsNotBlocked
 {
+    public function __construct(
+        private readonly LogOutUser $logOutUser,
+    ) {}
+
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
 
         if ($user !== null && $user->status === UserStatus::Blocked) {
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+            $this->logOutUser->execute($request);
 
             if ($request->expectsJson()) {
                 return response()->json([
