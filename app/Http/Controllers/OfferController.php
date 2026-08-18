@@ -8,6 +8,7 @@ use App\Actions\Student\GetOfferDetailsAction;
 use App\Actions\Student\GetSimilarOffersAction;
 use App\Actions\Student\GetStudentOffersAction;
 use App\Enums\UserRole;
+use App\Http\Requests\OfferFilterRequest;
 use App\Models\Offer;
 use App\Models\StudyField;
 use App\Models\User;
@@ -25,20 +26,12 @@ class OfferController extends Controller
         private readonly GetSimilarOffersAction $getSimilarOffersAction,
     ) {}
 
-    public function index(Request $request): Response
+    public function index(OfferFilterRequest $request): Response
     {
         /** @var ?User $user */
         $user = Auth::user();
         $isStudent = $user !== null && $user->role === UserRole::Student;
-
-        $filters = $request->only([
-            "search",
-            "cities",
-            "work_modes",
-            "date_from",
-            "date_to",
-            "study_fields",
-        ]);
+        $filters = $request->validated();
 
         $studyFields = StudyField::query()
             ->select(["id", "name"])
@@ -58,6 +51,7 @@ class OfferController extends Controller
             "isGuest" => $user === null,
             "canApply" => $isStudent,
             "mapboxToken" => config("services.mapbox.access_token"),
+            "radiusOptions" => [10, 25, 50, 100],
         ]);
     }
 
