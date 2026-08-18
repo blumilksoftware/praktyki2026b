@@ -104,7 +104,7 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
             </span>
           </td>
           <td class="px-4 py-3 text-center text-text">
-            {{ offer.spots }}
+            {{ t('company.offers.index.spotsCount', { remaining: offer.remaining_spots ?? offer.spots, total: offer.spots }) }}
           </td>
           <td class="px-4 py-3 text-center">
             <a

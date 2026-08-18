@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\ApplicationStatus;
 use App\Enums\OfferStatus;
 use App\Enums\WorkMode;
 use Carbon\Carbon;
+use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,6 +39,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $updated_at
  * @property ?Carbon $deleted_at
  * @property-read StudentFavourite $pivot
+ * @property-read int|null $accepted_applications_count
  */
 class Offer extends Model
 {
@@ -78,6 +81,21 @@ class Offer extends Model
         return $this->hasMany(Application::class);
     }
 
+    /**
+     * @return HasMany<Application, $this>
+     */
+    public function acceptedApplications(): HasMany
+    {
+        return $this->hasMany(Application::class)->where("status", ApplicationStatus::Accepted);
+    }
+
+    public function remainingSpots(): int
+    {
+        $accepted = $this->accepted_applications_count ?? $this->acceptedApplications()->count();
+
+        return max(0, $this->spots - (int)$accepted);
+    }
+
     public function studyFields(): BelongsToMany
     {
         return $this->belongsToMany(StudyField::class);
@@ -103,7 +121,15 @@ class Offer extends Model
      */
     public function scopeWithRemainingSpots(Builder $query): Builder
     {
-        return $query->where("spots", ">", 0);
+        return $query->where(
+            "spots",
+            ">",
+            fn(QueryBuilder $subQuery): QueryBuilder => $subQuery
+                ->selectRaw("count(*)")
+                ->from("applications")
+                ->whereColumn("applications.offer_id", "offers.id")
+                ->where("applications.status", ApplicationStatus::Accepted),
+        );
     }
 
     /**

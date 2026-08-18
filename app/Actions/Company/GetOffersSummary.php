@@ -27,7 +27,7 @@ class GetOffersSummary
             $sort = "created_at";
         }
 
-        $query = $company->offers()->withCount("applications");
+        $query = $company->offers()->withCount(["applications", "acceptedApplications"]);
 
         if ($status !== null) {
             $query->where("status", $status->value);
@@ -47,7 +47,7 @@ class GetOffersSummary
                 "title" => $offer->title,
                 "status" => $offer->status->value,
                 "spots" => $offer->spots,
-                "remaining_spots" => max(0, $offer->spots - $offer->applications_count),
+                "remaining_spots" => $offer->remainingSpots(),
                 "applications_count" => $offer->applications_count,
             ]);
     }

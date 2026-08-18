@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models;
 
+use App\Enums\ApplicationStatus;
 use App\Enums\WorkMode;
+use App\Models\Application;
 use App\Models\Offer;
 use App\Models\StudyField;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,15 +16,55 @@ class OfferTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testWithRemainingSpotsScopeExcludesFullyBookedOffers(): void
+    public function testWithRemainingSpotsScopeExcludesOffersWhereAcceptedApplicationsFillAllSpots(): void
     {
         $available = Offer::factory()->published()->create(["spots" => 2]);
-        $full = Offer::factory()->published()->create(["spots" => 0]);
+        Application::factory()->create([
+            "offer_id" => $available->id,
+            "status" => ApplicationStatus::Accepted,
+        ]);
+
+        $full = Offer::factory()->published()->create(["spots" => 1]);
+        Application::factory()->create([
+            "offer_id" => $full->id,
+            "status" => ApplicationStatus::Accepted,
+        ]);
 
         $results = Offer::withRemainingSpots()->get();
 
         $this->assertTrue($results->contains($available));
         $this->assertFalse($results->contains($full));
+    }
+
+    public function testWithRemainingSpotsScopeKeepsOffersWithOnlyPendingApplications(): void
+    {
+        $offer = Offer::factory()->published()->create(["spots" => 1]);
+        Application::factory()->count(3)->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Pending,
+        ]);
+
+        $this->assertTrue(Offer::withRemainingSpots()->get()->contains($offer));
+    }
+
+    public function testRemainingSpotsCountsOnlyAcceptedApplications(): void
+    {
+        $offer = Offer::factory()->published()->create(["spots" => 3]);
+
+        Application::factory()->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Accepted,
+        ]);
+        Application::factory()->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Rejected,
+        ]);
+        Application::factory()->count(2)->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Pending,
+        ]);
+
+        $this->assertEquals(2, $offer->remainingSpots());
     }
 
     public function testForStudyFieldsScopeFiltersByAttachedStudyFields(): void

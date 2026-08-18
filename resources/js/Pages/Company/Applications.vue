@@ -3,13 +3,14 @@ import { ref, watch, computed } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import axios from 'axios'
-import { IconArrowLeft, IconSearch, IconClipboardText, IconUserCircle, IconUsersGroup } from '@tabler/icons-vue'
-import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
-import Menu from '@/Components/Profiles/Menu.vue'
+import { IconArrowLeft } from '@tabler/icons-vue'
+import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
 import ApplicationsCard from '@/Components/Profiles/ApplicationsCard.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
+import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
+import { useToast } from '@/Composables/useToast'
 
 const props = defineProps({
   applications: {
@@ -27,13 +28,9 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
+const { toastError } = useToast()
 
-const companyMenu = computed(() => [
-  { label: t('profiles.company.myOffers'), href: ROUTES.OFFERS, icon: IconSearch },
-  { label: t('profiles.company.candidateApplications'), href: ROUTES.COMPANY_APPLICATIONS, icon: IconClipboardText, isActive: true },
-  { label: t('profiles.profile'), href: ROUTES.PROFILE, icon: IconUserCircle },
-  { label: t('profiles.company.teamAndPermissions'), href: ROUTES.TEAM, icon: IconUsersGroup },
-])
+const companyMenu = useCompanyPanelMenu('applications')
 
 const goBack = () => {
   window.history.back()
@@ -86,10 +83,11 @@ const loadMore = async () => {
 
 function updateStatus(applicationId, newStatus) {
   const url = ROUTES.COMPANY_APPLICATIONS_STATUS_UPDATE.replace('{application}', applicationId)
-  
-  const appIndex = displayedApplications.value.findIndex(a => a.id === applicationId)
-  if (appIndex !== -1) {
-    displayedApplications.value[appIndex].status = newStatus
+  const application = displayedApplications.value.find((a) => a.id === applicationId)
+  const previousStatus = application?.status
+
+  if (application) {
+    application.status = newStatus
   }
 
   router.patch(url, {
@@ -97,6 +95,17 @@ function updateStatus(applicationId, newStatus) {
   }, {
     preserveScroll: true,
     preserveState: true,
+    onError: (errors) => {
+      if (application) {
+        application.status = previousStatus
+      }
+
+      const message = errors.status
+
+      if (message) {
+        toastError(message)
+      }
+    },
   })
 }
 
@@ -116,72 +125,69 @@ const statusFilterOptions = computed(() => [
 <template>
   <Head :title="t('profiles.company.applications.title')" />
 
-  <div class="min-h-screen flex flex-col bg-slate-50/50">
-    <BaseNavbar show-hamburger :menu-items="companyMenu" />
+  <BaseLayout
+    active-page="applications"
+    :nav-items="companyMenu"
+    :navigation-buttons="companyMenu"
+  >
+    <div class="mb-6 flex w-full flex-row items-center">
+      <a class="inline-flex items-center gap-2 text-slate-500 text-sm transition hover:text-slate-800 cursor-pointer"
+         @click="goBack"
+      >
+        <IconArrowLeft stroke="2.5" class="w-4 h-4" />
+        {{ t('buttons.back') }}
+      </a>
+    </div>
 
-    <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="flex flex-row justify-between items-center w-full mb-6">
-        <a class="inline-flex items-center gap-2 text-slate-500 text-sm transition hover:text-slate-800 cursor-pointer"
-           @click="goBack"
-        >
-          <IconArrowLeft stroke="2.5" class="w-4 h-4" />
-          {{ t('buttons.back') }}
-        </a>
-        <div>
-          <Menu :items="companyMenu" />
-        </div>
+    <div class="flex flex-col gap-6">
+      <h1 class="text-3xl font-bold text-text">
+        {{ t('profiles.company.applications.title') }}
+        <span v-if="applications.total">({{ applications.total }})</span>
+        <span v-else>({{ displayedApplications.length }})</span>
+      </h1>
+
+      <div class="flex flex-col sm:flex-row gap-4">
+        <BaseSelect
+          id="applications-filter-offer"
+          v-model="currentFilters.offer"
+          :label="t('profiles.company.applications.filters.offer')"
+          :options="offerFilterOptions"
+          :stacked="false"
+          class="w-full sm:w-64"
+        />
+
+        <BaseSelect
+          id="applications-filter-status"
+          v-model="currentFilters.status"
+          :label="t('profiles.company.applications.filters.status')"
+          :options="statusFilterOptions"
+          :stacked="false"
+          class="w-full sm:w-64"
+        />
       </div>
 
-      <div class="flex flex-col gap-6">
-        <h1 class="text-3xl font-bold text-text">
-          {{ t('profiles.company.applications.title') }} 
-          <span v-if="applications.total">({{ applications.total }})</span>
-          <span v-else>({{ displayedApplications.length }})</span>
-        </h1>
-
-        <div class="flex flex-col sm:flex-row gap-4">
-          <BaseSelect
-            id="applications-filter-offer"
-            v-model="currentFilters.offer"
-            :label="t('profiles.company.applications.filters.offer')"
-            :options="offerFilterOptions"
-            :stacked="false"
-            class="w-full sm:w-64"
-          />
-
-          <BaseSelect
-            id="applications-filter-status"
-            v-model="currentFilters.status"
-            :label="t('profiles.company.applications.filters.status')"
-            :options="statusFilterOptions"
-            :stacked="false"
-            class="w-full sm:w-64"
-          />
+      <div class="flex flex-col gap-4 mt-2">
+        <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500 shadow-sm">
+          {{ t('profiles.company.applications.empty') }}
         </div>
-        
-        <div class="flex flex-col gap-4 mt-2">
-          <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500 shadow-sm">
-            {{ t('profiles.company.applications.empty') }}
-          </div>
 
-          <ApplicationsCard 
-            v-for="application in displayedApplications" 
-            :key="application.id" 
-            :application="application"
-            @update-status="updateStatus"
-          />
+        <ApplicationsCard
+          v-for="application in displayedApplications"
+          :key="application.id"
+          :application="application"
+          @update-status="updateStatus"
+        />
 
-          <BaseButton
-            v-if="nextPageUrl"
-            variant="secondary"
-            class="w-full justify-center mt-4"
-            :disabled="isLoadingMore"
-            @click="loadMore"
-          >
-            {{ isLoadingMore ? t('buttons.loading') : t('buttons.load_more') }}
-          </BaseButton>
-        </div>
+        <BaseButton
+          v-if="nextPageUrl"
+          variant="secondary"
+          class="w-full justify-center mt-4"
+          :disabled="isLoadingMore"
+          @click="loadMore"
+        >
+          {{ isLoadingMore ? t('buttons.loading') : t('buttons.load_more') }}
+        </BaseButton>
       </div>
     </div>
-  </div>
+  </BaseLayout>
 </template>

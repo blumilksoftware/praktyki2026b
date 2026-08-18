@@ -40,6 +40,12 @@ class UpdateOffer
         }
 
         return DB::transaction(function () use ($offer, $data, $coordinates): Offer {
+            $status = $data->status;
+
+            if ($status === OfferStatus::Published && $data->spots <= $offer->acceptedApplications()->count()) {
+                $status = OfferStatus::Closed;
+            }
+
             $offer->update([
                 "title" => $data->title,
                 "description" => $data->description,
@@ -50,7 +56,7 @@ class UpdateOffer
                 "start_date" => $data->startDate,
                 "end_date" => $data->endDate,
                 "work_mode" => $data->workMode,
-                "status" => $data->status,
+                "status" => $status,
                 "is_paid" => $data->isPaid,
                 "salary_min" => $data->salaryMin,
                 "salary_max" => $data->salaryMax,
