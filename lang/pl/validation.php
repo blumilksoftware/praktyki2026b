@@ -182,8 +182,8 @@ return [
     "study_field_name_unique" => "Ten wydział ma już kierunek o tej nazwie.",
     "study_field_reassign_required" => "Ten kierunek jest używany. Wybierz inny kierunek, do którego przeniesiemy studentów i oferty.",
 
-    "salary_min.required_if" => "Podaj minimalne wynagrodzenie, gdy oferta jest płatna.",
-    "salary_max.required_if" => "Podaj maksymalne wynagrodzenie, gdy oferta jest płatna.",
+    "salary_min.required_if" => "Pole minimalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
+    "salary_max.required_if" => "Pole maksymalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
     "salary_max.gte" => "Maksymalne wynagrodzenie musi być większe lub równe minimalnemu.",
 
     "profile_age_integer" => "Wpisz poprawny wiek — liczbę całkowitą.",

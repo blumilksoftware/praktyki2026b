@@ -631,7 +631,8 @@
         "notApplied": "Not applied"
       },
         "pagination": {
-            "perPage": "Offers per page"
+            "perPage": "Offers per page",
+            "label": "Pagination navigation"
         },
     "map": {
         "selectPinHint": "Select a pin on the map to view available offers",
@@ -965,6 +966,24 @@
         "description": "Publish an offer or save it as a draft to finish later.",
         "action": "Create offer"
       },
+      "stats": {
+        "totalOffers": "Total offers",
+        "publishedOffers": "Published",
+        "draftOffers": "Drafts",
+        "applications": "Applications"
+      },
+      "shortcuts": {
+        "unreadApplications": "You have {count} unread update(s).",
+        "checkIt": "Check it",
+        "myOffers": {
+          "title": "My offers",
+          "description": "Review, edit and manage all your offers in one place."
+        },
+        "applications": {
+          "title": "Applications",
+          "description": "Review candidates and respond to new applications."
+        }
+      },
       "offers": {
         "title": "Offers",
         "subtitle": "Manage your job postings and applications",
@@ -1041,6 +1060,7 @@
         },
         "createAction": "Create offer",
         "editAction": "Edit",
+        "applicationsAction": "Applications",
         "actionsMenu": "More actions",
         "publishAction": "Publish",
         "publishing": "Publishing…",
@@ -1105,12 +1125,17 @@
           "draft": "Save as draft",
           "published": "Publish immediately",
           "draftHint": "Drafts are visible only to you. Publishing requires a verified company account.",
+          "previewAction": "Preview",
+          "previewFallbackTitle": "Untitled offer",
+          "previewFallbackCity": "City not set",
+          "previewFallbackCompanyName": "Your company",
           "submitCreate": "Create offer",
           "submitCreateDraft": "Create draft",
           "submitEdit": "Save changes",
           "submitEditDraft": "Save as draft",
           "publishDisabledTooltip": "To publish an offer, you must have a verified company account.",
-          "unsavedChangesConfirmation": "You have unsaved changes. Leave without saving?"
+          "unsavedChangesConfirmation": "You have unsaved changes. Leave without saving?",
+          "noDescription": "No description"
       }
     }
   },

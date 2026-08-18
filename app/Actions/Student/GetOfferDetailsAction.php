@@ -15,9 +15,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GetOfferDetailsAction
 {
-    public function execute(Offer $offer, ?User $user): array
+    public function execute(Offer $offer, ?User $user, bool $allowDraft = false): array
     {
-        if ($offer->status === OfferStatus::Draft) {
+        if ($offer->status === OfferStatus::Draft && !$allowDraft) {
             throw new NotFoundHttpException();
         }
 

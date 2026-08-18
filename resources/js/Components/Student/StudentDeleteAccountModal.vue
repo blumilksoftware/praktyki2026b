@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import BaseModal from '@/Components/Common/BaseModal.vue'
+import BaseModal from '@/Components/Base/BaseModal.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'

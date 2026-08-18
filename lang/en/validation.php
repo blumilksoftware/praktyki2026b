@@ -39,8 +39,8 @@ return [
     "study_field_name_unique" => "This faculty already has a field of study with this name.",
     "study_field_reassign_required" => "This field of study is in use. Choose another field of study to move students and offers to.",
 
-    "salary_min.required_if" => "Enter minimum salary when the offer is paid.",
-    "salary_max.required_if" => "Enter maximum salary when the offer is paid.",
+    "salary_min.required_if" => "The minimum salary field is required when the offer is paid.",
+    "salary_max.required_if" => "The maximum salary field is required    when the offer is paid.",
     "salary_max.gte" => "Maximum salary must be greater than or equal to minimum salary.",
 
     "profile_age_integer" => "Enter a valid age — a whole number.",
