@@ -6,6 +6,8 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
 import InfoEdit from '@/Components/Profiles/Edit/InfoEdit.vue'
+import AboutEdit from '@/Components/Profiles/Edit/AboutEdit.vue'
+import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
 import AppLayout from "@/Components/Layouts/AppLayout.vue";
 
@@ -53,14 +55,13 @@ const submit = () => {
     },
   })
 }
-
-
 </script>
 
 <template>
   <Head :title="university.name" />
-  <AppLayout active-page="edit">
+
   <div class="min-h-screen flex flex-col bg-background">
+    <BaseNavbar />
 
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
@@ -142,5 +143,4 @@ const submit = () => {
       </div>
     </div>
   </div>
-  </AppLayout>
 </template>

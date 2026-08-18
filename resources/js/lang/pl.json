@@ -1,5 +1,4 @@
 {
-    "layout": { "skipToContent": "Skip to content" },
   "onboarding": {
     "layout": {
       "skipToContent": "Przejdź do treści",
@@ -355,8 +354,7 @@
         "dashboard": "Strona główna",
         "applications": "Zgłoszenia",
         "settings": "Ustawienia",
-        "mobileAriaLabel": "Nawigacja mobilna",
-          "users": "Użytkownicy"
+        "mobileAriaLabel": "Nawigacja mobilna"
       },
       "logout": "Wyloguj",
       "userRole": "Administrator",
@@ -364,20 +362,14 @@
         "toEnglish": "Przełącz na angielski",
         "toPolish": "Przełącz na polski"
       }
-    },
-      "profile": {
-          "title": "Profil administratora",
-          "administratorHeading": "Administrator",
-          "administratorDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-      }
+    }
   },
   "university": {
     "layout": {
-        "skipToContent": "Przejdź do treści",
       "title": "Uczelnia",
         "nav": {
             "dashboard": "Panel",
-            "profile": "Profil",
+            "companies": "Firmy",
             "team": "Zespół",
             "department": "Wydziały",
             "partnership": "Partnerstwo"
@@ -740,16 +732,13 @@
   },
   "company": {
     "layout": {
-        "skipToContent": "Przejdź do treści",
       "title": "Firma",
       "nav": {
         "dashboard": "Panel",
         "offers": "Moje oferty",
         "applications": "Zgłoszenia",
         "profile": "Profil",
-        "settings": "Ustawienia",
-          "team": "Zespół",
-          "partnership": "Partnerstwo"
+        "settings": "Ustawienia"
       }
     },
     "dashboard": {

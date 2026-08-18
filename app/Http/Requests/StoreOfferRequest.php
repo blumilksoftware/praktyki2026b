@@ -34,12 +34,21 @@ class StoreOfferRequest extends FormRequest
             "work_mode" => ["required", Rule::enum(WorkMode::class)],
             "status" => ["required", Rule::enum(OfferStatus::class)],
             "is_paid" => ["required", "boolean"],
-            "salary_min" => ["nullable", "required_if:is_paid,true", "integer", "min:0", "max:2147483647"],
-            "salary_max" => ["nullable", "required_if:is_paid,true", "integer", "min:0", "max:2147483647", "gte:salary_min"],
+            "salary_min" => ["required_if:is_paid,true", "nullable", "integer", "min:0", "max:2147483647"],
+            "salary_max" => ["required_if:is_paid,true", "nullable", "integer", "min:0", "max:2147483647", "gte:salary_min"],
             "study_field_ids" => ["sometimes", "array"],
             "study_field_ids.*" => ["uuid", "exists:study_fields,id"],
             "university_ids" => ["sometimes", "array"],
             "university_ids.*" => ["uuid", "exists:universities,id"],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            "salary_min.required_if" => __("validation.salary_max.required_if"),
+            "salary_max.required_if" => __("validation.salary_max.required_if"),
+            "salary_max.gte" => __("validation.salary_max.gte"),
         ];
     }
 

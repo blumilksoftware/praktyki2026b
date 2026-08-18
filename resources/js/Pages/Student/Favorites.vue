@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
-import { useStudentFavorites } from '@/composables/useStudentFavorites'
+import { useStudentFavorites } from '@/Composables/useStudentFavorites'
 
 const props = defineProps({ offers: { type: Array, default: () => [] } })
 

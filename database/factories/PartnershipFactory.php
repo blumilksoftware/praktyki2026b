@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\PartnershipInitiator;
 use App\Enums\PartnershipStatus;
 use App\Models\Company;
 use App\Models\Partnership;
@@ -23,6 +24,7 @@ class PartnershipFactory extends Factory
             "company_id" => Company::factory(),
             "university_id" => University::factory(),
             "status" => PartnershipStatus::Pending,
+            "requested_by" => PartnershipInitiator::University,
         ];
     }
 
@@ -44,6 +46,20 @@ class PartnershipFactory extends Factory
     {
         return $this->state(fn(array $attributes): array => [
             "status" => PartnershipStatus::Suspended,
+        ]);
+    }
+
+    public function requestedByUniversity(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "requested_by" => PartnershipInitiator::University,
+        ]);
+    }
+
+    public function requestedByCompany(): static
+    {
+        return $this->state(fn(array $attributes): array => [
+            "requested_by" => PartnershipInitiator::Company,
         ]);
     }
 }

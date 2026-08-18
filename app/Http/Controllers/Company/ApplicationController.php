@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Company;
 
 use App\Actions\Company\UpdateApplicationStatusAction;
+use App\Actions\Notification\MarkAllNotificationsAsReadAction;
 use App\Enums\ApplicationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateApplicationStatusRequest;
@@ -25,13 +26,19 @@ class ApplicationController extends Controller
 {
     public function __construct(
         private readonly UpdateApplicationStatusAction $updateApplicationStatusAction,
+        private readonly MarkAllNotificationsAsReadAction $markAllNotificationsAsReadAction,
     ) {}
 
     public function index(Request $request): Response|JsonResponse
     {
-        $company = Auth::user()->company;
+        $user = Auth::user();
+        $company = $user->company;
         $offerId = $request->query("offer");
         $status = $request->query("status");
+
+        if ($status === ApplicationStatus::Pending->value || $status === "pending") {
+            $this->markAllNotificationsAsReadAction->execute($user);
+        }
 
         $applications = $company->applications()
             ->when($offerId, fn(Builder $query): Builder => $query->where("offer_id", $offerId))
@@ -48,6 +55,7 @@ class ApplicationController extends Controller
                 "status" => $app->status->value,
                 "offer_title" => $app->offer->title,
                 "cv_url" => $app->cv_path ? route("company.applications.cv", $app) : null,
+                "profile_url" => route("company.students.show", $app->student),
             ]);
 
         if ($request->wantsJson()) {

@@ -1,6 +1,6 @@
 import { computed, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import {IconBriefcase, IconClipboardText, IconHeartHandshake, IconHome, IconUsersGroup} from '@tabler/icons-vue'
+import { IconBriefcase, IconBuildingBank, IconClipboardText, IconHeartHandshake, IconHome, IconUsersGroup } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 
 export function useCompanyPanelMenu(activePage) {
@@ -15,36 +15,37 @@ export function useCompanyPanelMenu(activePage) {
         label: t('company.layout.nav.dashboard'),
         href: ROUTES.COMPANY_DASHBOARD,
         icon: IconHome,
-        isActive: current === 'dashboard',
-      },
+        isActive: current === 'dashboard' },
       {
         key: 'offers',
         label: t('company.layout.nav.offers'),
         href: ROUTES.COMPANY_OFFERS_INDEX,
         icon: IconBriefcase,
-        isActive: current === 'offers',
-      },
-      {
-        key: 'applications',
-        label: t('company.layout.nav.applications'),
-        href: ROUTES.COMPANY_APPLICATIONS,
-        icon: IconClipboardText,
-        isActive: current === 'applications',
-      },
+        isActive: current === 'offers' },
       {
         key: 'team',
         label: t('company.layout.nav.team'),
         href: ROUTES.TEAM,
         icon: IconUsersGroup,
-        isActive: current === 'team',
-      },
+        isActive: current === 'team' },
+      {
+        key: 'applications',
+        label: t('company.layout.nav.applications'),
+        href: ROUTES.COMPANY_APPLICATIONS,
+        icon: IconClipboardText,
+        isActive: current === 'applications' },
+      {
+        key: 'universities',
+        label: t('company.layout.nav.universities'),
+        href: ROUTES.COMPANY_UNIVERSITIES,
+        icon: IconBuildingBank,
+        isActive: current === 'universities' },
       {
         key: 'partnership',
         label: t('company.layout.nav.partnership'),
         href: ROUTES.COMPANY_PARTNERSHIP,
         icon: IconHeartHandshake,
-        isActive: current === 'partnership',
-      }
+        isActive: current === 'partnership' },
     ]
   })
 }

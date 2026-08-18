@@ -95,7 +95,7 @@ const googleMapsUrl = computed(() => {
         </div>
       </div>
 
-      <div v-if="!fullAddress && !phone && !website && !nip" class="text-gray-400 italic text-sm text-center py-4">
+      <div v-if="!fullAddress && !phone && !website && !nip && !email" class="text-gray-400 italic text-sm text-center py-4">
         {{ t('profiles.noContactInfo') }}
       </div>
     </div>

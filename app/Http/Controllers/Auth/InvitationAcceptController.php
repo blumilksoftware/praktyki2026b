@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Actions\Auth\AcceptInvitation;
+use App\Enums\InvitationStatus;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AcceptInvitationRequest;
+use App\Models\OrganizationInvitation;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class InvitationAcceptController extends Controller
 {
@@ -21,6 +24,14 @@ class InvitationAcceptController extends Controller
 
     public function show(string $token): Response
     {
+        $invitation = OrganizationInvitation::query()
+            ->where("token", hash("sha256", $token))
+            ->first();
+
+        if ($invitation !== null && ($invitation->status !== InvitationStatus::Pending || $invitation->isExpired())) {
+            throw new NotFoundHttpException();
+        }
+
         return Inertia::render("Auth/AcceptInvitation", ["token" => $token]);
     }
 

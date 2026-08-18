@@ -152,6 +152,7 @@ return [
     "mime_type_by_content" => "Pole :attribute musi być plikiem typu: :values.",
     "university_domain_locked" => "Nie można zmienić domeny po jej ustawieniu.",
     "email_taken" => "Ten adres e-mail jest już używany. Zaloguj się lub użyj innego adresu.",
+    "team_invite_other_organization" => "Ten adres e-mail jest już przypisany do innej organizacji i nie może zostać zaproszony do tej.",
     "email_same_as_current" => "To już jest Twój obecny adres e-mail.",
     "email_invalid_friendly" => "Proszę wpisać poprawny adres e-mail.",
     "password_confirmed_friendly" => "Hasła muszą być identyczne.",
@@ -173,9 +174,12 @@ return [
     "invitation_already_processed" => "To zaproszenie zostało już zaakceptowane lub cofnięte.",
     "last_organization_admin" => "To ostatni administrator organizacji i nie można go usunąć.",
     "already_partner" => "Ta firma jest już partnerem.",
+    "already_university_partner" => "Ta uczelnia jest już partnerem.",
+    "partnership_not_pending" => "To partnerstwo nie oczekuje już na akceptację.",
+    "cannot_accept_own_partnership_request" => "Nie możesz zaakceptować własnej propozycji partnerstwa.",
 
-    "salary_min.required_if" => "Podaj minimalne wynagrodzenie, gdy oferta jest płatna.",
-    "salary_max.required_if" => "Podaj maksymalne wynagrodzenie, gdy oferta jest płatna.",
+    "salary_min.required_if" => "Pole minimalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
+    "salary_max.required_if" => "Pole maksymalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
     "salary_max.gte" => "Maksymalne wynagrodzenie musi być większe lub równe minimalnemu.",
 
     "profile_age_integer" => "Wpisz poprawny wiek — liczbę całkowitą.",

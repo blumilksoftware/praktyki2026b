@@ -5,14 +5,58 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\OrganizationType;
+use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Enums\VerificationStatus;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class UserPolicy
 {
+    public function viewTeam(User $user): bool
+    {
+        $context = $this->teamContext($user);
+
+        return $user->status === UserStatus::Active
+            && $context["organization"] !== null
+            && $context["organization"]->verification_status === VerificationStatus::Verified;
+    }
+
+    public function teamContext(User $user): array
+    {
+        return match ($user->role) {
+            UserRole::CompanyAdmin, UserRole::CompanyMember => [
+                "organization" => $user->company,
+                "typeLabel" => "company",
+                "invitationType" => OrganizationType::Company,
+                "staffRoles" => [UserRole::CompanyAdmin, UserRole::CompanyMember],
+            ],
+            UserRole::UniversityAdmin, UserRole::UniversityMember => [
+                "organization" => $user->universityOrganization,
+                "typeLabel" => "university",
+                "invitationType" => OrganizationType::University,
+                "staffRoles" => [UserRole::UniversityAdmin, UserRole::UniversityMember],
+            ],
+            default => throw new AuthorizationException("Forbidden"),
+        };
+    }
+
     public function removeFromTeam(User $user, User $member): bool
     {
         return $this->administers($user, $member) !== null;
+    }
+
+    public function viewProfile(User $user, User $student): bool
+    {
+        $company = $user->company;
+
+        if ($company === null || $student->role !== UserRole::Student) {
+            return false;
+        }
+
+        return $company->applications()
+            ->where("applications.student_id", $student->id)
+            ->exists();
     }
 
     public function transferOwnershipTo(User $user, User $member): bool

@@ -11,6 +11,7 @@ readonly class UpdateUniversityProfileData
     public function __construct(
         public ?string $domain,
         public ?UploadedFile $logo,
+        public ?string $description,
         public ?string $externalFormUrl,
         public ?array $faculties,
         public ?string $website,
@@ -25,6 +26,7 @@ readonly class UpdateUniversityProfileData
         return new self(
             domain: $data["domain"] ?? null,
             logo: $data["logo"] ?? null,
+            description: $data["description"] ?? null,
             externalFormUrl: $data["external_form_url"] ?? null,
             faculties: $data["faculties"] ?? null,
             website: $data["website"] ?? null,

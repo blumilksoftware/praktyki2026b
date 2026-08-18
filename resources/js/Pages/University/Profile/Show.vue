@@ -5,6 +5,7 @@ import { IconArrowLeft, IconUserCircle } from '@tabler/icons-vue'
 import Header from '@/Components/Profiles/Header.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import Faculties from '@/Components/Profiles/Faculties.vue'
+import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Info from '@/Components/Profiles/Info.vue'
 import AppLayout from "@/Components/Layouts/AppLayout.vue";
@@ -83,6 +84,13 @@ defineProps({
         </div>
 
         <div class="flex flex-col gap-6 lg:col-span-2">
+          <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
+            <About
+              :description="university.description"
+              :empty-message="t('profiles.university.noDescription')"
+            />
+          </div>
+
           <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8 h-fit">
             <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
               {{ t('profiles.university.facultiesAndStudyFields') }}

@@ -81,7 +81,10 @@ defineProps({
 
         <div class="flex flex-col gap-6 lg:col-span-2">
           <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
-            <About :description="company.description" />
+            <About
+              :description="company.description"
+              :empty-message="t('profiles.company.noDescription')"
+            />
           </div>
 
           <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">

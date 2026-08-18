@@ -1,5 +1,4 @@
 {
-    "layout": { "skipToContent": "Skip to content" },
   "onboarding": {
     "banner": {
       "title": "Complete your profile",
@@ -346,8 +345,7 @@
         "dashboard": "Dashboard",
         "applications": "Applications",
         "settings": "Settings",
-        "mobileAriaLabel": "Mobile navigation",
-          "users": "Users"
+        "mobileAriaLabel": "Mobile navigation"
       },
       "logout": "Logout",
       "userRole": "Administrator",
@@ -355,23 +353,17 @@
         "toEnglish": "Switch to english",
         "toPolish": "Switch to polish"
       }
-    },
-      "profile": {
-          "title": "Administrator profile",
-          "administratorHeading": "Administrator",
-          "administratorDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-      }
+    }
   },
     "university": {
         "layout": {
-            "skipToContent": "Skip to content",
             "title": "Uczelnia",
             "nav": {
                 "dashboard": "Dashboard",
-                "profile": "Profile",
                 "team": "Teams",
                 "department": "Departments",
-                "partnership": "Partnership"
+                "partnership": "Partnership",
+                "companies": "Companies"
             }
         },
     "profile": {
@@ -755,16 +747,13 @@
   },
   "company": {
     "layout": {
-        "skipToContent": "Skip to content",
       "title": "Company",
       "nav": {
         "dashboard": "Dashboard",
         "offers": "My offers",
         "applications": "Applications",
         "profile": "Profile",
-        "settings": "Settings",
-          "team": "Team",
-          "partnership": "Partnership"
+        "settings": "Settings"
       }
     },
     "dashboard": {

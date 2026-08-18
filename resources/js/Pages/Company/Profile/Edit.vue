@@ -7,6 +7,7 @@ import TagsEdit from '@/Components/Profiles/Edit/TagsEdit.vue'
 import AboutEdit from '@/Components/Profiles/Edit/AboutEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
 import { useI18n } from 'vue-i18n'
+import { ROUTES } from '@/Helpers/routes'
 
 const { t } = useI18n()
 
@@ -53,10 +54,22 @@ const submit = () => {
 
 <template>
   <Head :title="company.name" />
-  <AppLayout active-page="edit">
+
   <div class="min-h-screen flex flex-col bg-background">
+    <BaseNavbar show-hamburger :menu-items="companyMenu" />
 
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-row justify-between items-center w-full mb-6">
+        <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
+           @click="goBack"
+        >
+          <IconArrowLeft stroke="2.5" class="w-4 h-4" />
+          {{ t('buttons.back') }}
+        </a>
+        <div>
+          <Menu :items="companyMenu" />
+        </div>
+      </div>
 
       <div class="flex flex-col gap-6 w-full">
         <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 flex flex-col items-center text-center">
@@ -130,5 +143,4 @@ const submit = () => {
       </div>
     </div>
   </div>
-  </AppLayout>
 </template>

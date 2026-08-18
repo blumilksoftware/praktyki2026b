@@ -13,12 +13,7 @@ export const ROUTES = {
   REGISTER_UNIVERSITY: "/register/university",
   REGISTER_COMPANY: "/register/company",
 
-  COMPANY_APPLICATIONS: "/company/applications",
-  COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
-  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
-  COMPANY_SHOW: '/companies/{company}',
   COMPANY_DASHBOARD: "/company/dashboard",
-  COMPANY_PARTNERSHIP: "/company/partnership",
   COMPANY_OFFERS_INDEX: "/company/offers",
   COMPANY_OFFERS_CREATE: "/company/offers/create",
   COMPANY_OFFERS_STORE: "/company/offers",
@@ -42,7 +37,6 @@ export const ROUTES = {
   // Admin
   ADMIN_DASHBOARD: "/admin/dashboard",
   ADMIN_APPLICATIONS: "/admin/applications",
-  ADMIN_USERS: "/admin/users",
 
   // Student Profile & Settings
   STUDENT_DASHBOARD: "/student/dashboard",
@@ -83,12 +77,22 @@ export const ROUTES = {
   UNIVERSITY_PROFILE: "/university/profile",
 
 
-
+  COMPANY_APPLICATIONS: "/company/applications",
+  COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
+  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
+  COMPANY_SHOW: '/companies/{company}',
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",
-  UNIVERSITY_COMPANIES_INDEX: "/university/companies",
+  UNIVERSITY_SHOW: "/universities/{university}",
+  UNIVERSITY_COMPANIES: "/university/companies",
+  UNIVERSITY_COMPANY_PARTNERSHIP: "/university/companies/{company}/partnership",
+  UNIVERSITY_COMPANY_PARTNERSHIP_ACCEPT: "/university/companies/{company}/partnership/accept",
   UNIVERSITY_PARTNERSHIP: "/university/partnership",
   UNIVERSITY_DEPARTMENT: "/university/department",
+
+  COMPANY_UNIVERSITIES: "/company/universities",
+  COMPANY_UNIVERSITY_PARTNERSHIP: "/company/universities/{university}/partnership",
+  COMPANY_UNIVERSITY_PARTNERSHIP_ACCEPT: "/company/universities/{university}/partnership/accept",
 
   // General
   APPLICATIONS: "/applications",
