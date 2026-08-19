@@ -69,7 +69,7 @@ class GetStudentOffersAction
                 $query->whereNotNull("latitude")
                     ->whereNotNull("longitude")
                     ->whereRaw(
-                        "({$this->haversineExpression()}) <= ?",
+                        "({$this->haversineExpression()}) <= CAST(? AS REAL)",
                         [...$this->haversineBindings($lat, $lng), $radius],
                     );
             })
