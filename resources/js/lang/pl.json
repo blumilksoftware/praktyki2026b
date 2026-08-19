@@ -435,8 +435,9 @@
             "title": "Uczelnia",
             "nav": {
                 "dashboard": "Panel",
-                "companies": "Firmy",
-                "profile": "Profil"
+                "department": "Wydziały",
+                "team": "Zespół",
+                "partnership": "Partnerstwo"
             }
         },
         "profile": {

@@ -378,10 +378,9 @@
             "title": "Uczelnia",
             "nav": {
                 "dashboard": "Dashboard",
-                "profile": "Profile",
                 "team": "Teams",
                 "department": "Departments",
-                "companies": "Companies"
+                "partnership": "Companies"
             }
         },
         "profile": {
