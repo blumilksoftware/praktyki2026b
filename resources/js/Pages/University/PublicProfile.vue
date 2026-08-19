@@ -2,7 +2,7 @@
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconArrowLeft, IconExternalLink } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import Header from '@/Components/Profiles/Header.vue'
 import About from '@/Components/Profiles/About.vue'
@@ -24,7 +24,7 @@ const goBack = () => {
 <template>
   <Head :title="university.name" />
 
-  <BaseLayout>
+  <AppLayout active-page="applications">
     <div class="mb-6">
       <button
         type="button"
@@ -98,5 +98,5 @@ const goBack = () => {
         </ProfilePageCard>
       </div>
     </div>
-  </BaseLayout>
+  </AppLayout>
 </template>

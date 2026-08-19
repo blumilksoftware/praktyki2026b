@@ -13,6 +13,11 @@ export const ROUTES = {
   REGISTER_UNIVERSITY: "/register/university",
   REGISTER_COMPANY: "/register/company",
 
+  // Company Profile
+  COMPANY_APPLICATIONS: "/company/applications",
+  COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
+  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
+  COMPANY_SHOW: '/companies/{company}',
   COMPANY_DASHBOARD: "/company/dashboard",
   COMPANY_OFFERS_INDEX: "/company/offers",
   COMPANY_OFFERS_CREATE: "/company/offers/create",
@@ -68,6 +73,7 @@ export const ROUTES = {
   // Offers & Search
   OFFERS: "/offers",
   OFFER_SHOW: `/offers/{offer}`,
+  OFFER_PREVIEW: `/offers/{offer}/preview`,
   COMPANY_MY_OFFERS: "/company/offers",
 
   // Profiles
@@ -76,11 +82,6 @@ export const ROUTES = {
   COMPANY_PROFILE: "/company/profile",
   UNIVERSITY_PROFILE: "/university/profile",
 
-
-  COMPANY_APPLICATIONS: "/company/applications",
-  COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
-  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
-  COMPANY_SHOW: '/companies/{company}',
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",
   UNIVERSITY_SHOW: "/universities/{university}",
@@ -126,6 +127,26 @@ export function offerShow(offerId: string): string {
   return ROUTES.OFFER_SHOW.replace("{offer}", offerId)
 }
 
+export function offerPreview(offerId: string): string {
+  return ROUTES.OFFER_PREVIEW.replace("{offer}", offerId)
+}
+
 export function companyShow(companyId: string): string {
   return ROUTES.COMPANY_SHOW.replace("{company}", companyId)
+}
+
+export function universityCompanyPartnership(companyId: string): string {
+  return ROUTES.UNIVERSITY_COMPANY_PARTNERSHIP.replace("{company}", companyId)
+}
+
+export function universityCompanyPartnershipAccept(companyId: string): string {
+  return ROUTES.UNIVERSITY_COMPANY_PARTNERSHIP_ACCEPT.replace("{company}", companyId)
+}
+
+export function companyUniversityPartnership(universityId: string): string {
+  return ROUTES.COMPANY_UNIVERSITY_PARTNERSHIP.replace("{university}", universityId)
+}
+
+export function companyUniversityPartnershipAccept(universityId: string): string {
+  return ROUTES.COMPANY_UNIVERSITY_PARTNERSHIP_ACCEPT.replace("{university}", universityId)
 }

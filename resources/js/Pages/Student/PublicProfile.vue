@@ -3,12 +3,11 @@ import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconArrowLeft, IconDownload, IconMapPin, IconSchool } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import ProfileSectionCard from '@/Components/Profile/ProfileSectionCard.vue'
 import ProfileTag from '@/Components/Profile/ProfileTag.vue'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { universityShow } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -17,7 +16,6 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
-const companyMenu = useCompanyPanelMenu('applications')
 
 const ageLabel = computed(() => (props.student.age ? t('student.profile.sidebar.age', { count: props.student.age }) : null))
 const hasPreferences = computed(() => props.student.preferred_study_fields.length > 0 || props.student.preferred_cities.length > 0)
@@ -31,12 +29,7 @@ const goBack = () => {
 <template>
   <Head :title="student.full_name" />
 
-  <BaseLayout
-    active-page="applications"
-    :nav-items="companyMenu"
-    :navigation-buttons="companyMenu"
-    navigation-variant="default"
-  >
+  <AppLayout active-page="applications">
     <div class="mb-6">
       <button
         type="button"
@@ -157,5 +150,5 @@ const goBack = () => {
         </ProfileSectionCard>
       </div>
     </div>
-  </BaseLayout>
+  </AppLayout>
 </template>

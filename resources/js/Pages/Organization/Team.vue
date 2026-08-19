@@ -2,7 +2,7 @@
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { Head, router, useForm, usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import TeamMemberCard from '@/Components/Organization/TeamMemberCard.vue'
 import TeamInvitationCard from '@/Components/Organization/TeamInvitationCard.vue'
@@ -10,8 +10,6 @@ import TeamMemberPreviewModal from '@/Components/Organization/TeamMemberPreviewM
 import TeamInviteModal from '@/Components/Organization/TeamInviteModal.vue'
 import TeamRemoveModal from '@/Components/Organization/TeamRemoveModal.vue'
 import TeamTransferModal from '@/Components/Organization/TeamTransferModal.vue'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
-import { useUniversityPanelMenu } from '@/Composables/useUniversityPanelMenu'
 import Pagination from '@/Components/Common/Pagination.vue'
 
 const props = defineProps({
@@ -40,8 +38,6 @@ const props = defineProps({
 
 const page = usePage()
 const { t, locale } = useI18n()
-const companyMenu = useCompanyPanelMenu('team')
-const universityMenu = useUniversityPanelMenu('team')
 
 const memberSearchQuery = ref(props.filters?.member_search ?? '')
 const invitationSearchQuery = ref(props.filters?.invitation_search ?? '')
@@ -124,7 +120,6 @@ const isTransferModalOpen = ref(false)
 const transferForm = useForm({})
 
 const organizationPath = computed(() => props.organization?.type === 'company' ? '/company/team' : '/university/team')
-const panelMenu = computed(() => props.organization?.type === 'company' ? companyMenu.value : universityMenu.value)
 
 const membersList = computed(() => membersPage.value.data.map((member) => ({
   ...member,
@@ -289,11 +284,8 @@ function submitInvite() {
 <template>
   <Head :title="t('organization.team.title')" />
 
-  <BaseLayout
+  <AppLayout
     active-page="team"
-    :nav-items="panelMenu"
-    :navigation-buttons="panelMenu"
-    navigation-variant="default"
   >
     <div class="min-h-0 space-y-6">
       <section class="shrink-0 rounded-2xl border border-border bg-white p-6 shadow-sm">
@@ -453,7 +445,7 @@ function submitInvite() {
         </div>
       </section>
     </div>
-  </BaseLayout>
+  </AppLayout>
 
   <TeamMemberPreviewModal
     :open="Boolean(previewTarget)"
