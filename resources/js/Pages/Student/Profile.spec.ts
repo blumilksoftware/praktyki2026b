@@ -12,7 +12,6 @@ const user = {
   email: "jan@example.com",
   email_verified_at: "2026-01-15T10:00:00.000000Z",
   photo_url: null,
-  age: 22,
   street: "Szeroka 12",
   postal_code: "59-220",
   city: "Legnica",

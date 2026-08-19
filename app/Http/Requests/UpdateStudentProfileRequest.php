@@ -24,7 +24,6 @@ class UpdateStudentProfileRequest extends FormRequest
         return [
             "first_name" => ["required", "string", "max:255"],
             "last_name" => ["required", "string", "max:255"],
-            "age" => ["nullable", "integer", "min:0", "max:255"],
             "street" => ["nullable", "string", "max:255"],
             "postal_code" => ["nullable", "string", new PostalCodeRule()],
             "city" => ["nullable", "string", "max:255"],
@@ -62,9 +61,6 @@ class UpdateStudentProfileRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "age.integer" => __("validation.profile_age_integer"),
-            "age.min" => __("validation.profile_age_min"),
-            "age.max" => __("validation.profile_age_max"),
             "study_year.integer" => __("validation.profile_study_year_integer"),
             "study_year.min" => __("validation.profile_study_year_min"),
             "study_year.max" => __("validation.profile_study_year_max"),
@@ -78,7 +74,6 @@ class UpdateStudentProfileRequest extends FormRequest
         return [
             "first_name" => $this->string("first_name")->toString(),
             "last_name" => $this->string("last_name")->toString(),
-            "age" => $this->filled("age") ? $this->integer("age") : null,
             "street" => $this->input("street"),
             "postal_code" => $this->input("postal_code"),
             "city" => $this->input("city"),

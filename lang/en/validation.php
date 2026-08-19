@@ -43,9 +43,6 @@ return [
     "salary_max.required_if" => "The maximum salary field is required    when the offer is paid.",
     "salary_max.gte" => "Maximum salary must be greater than or equal to minimum salary.",
 
-    "profile_age_integer" => "Enter a valid age — a whole number.",
-    "profile_age_min" => "Age must be greater than 0.",
-    "profile_age_max" => "Enter a valid age.",
     "profile_study_year_integer" => "Enter a valid year of study — a whole number.",
     "profile_study_year_min" => "Year of study must be greater than 0.",
     "profile_study_year_max" => "Enter a valid year of study.",
@@ -83,7 +80,6 @@ return [
         "salary_max" => "maximum salary",
         "study_field_ids" => "fields of study",
         "university_ids" => "universities",
-        "age" => "age",
         "location" => "location",
         "study_field_id" => "field of study",
         "faculty_name" => "faculty name",

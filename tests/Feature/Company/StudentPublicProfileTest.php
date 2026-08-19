@@ -106,7 +106,6 @@ class StudentPublicProfileTest extends TestCase
         $student = User::factory()->create([
             "first_name" => "John",
             "last_name" => "Doe",
-            "age" => 22,
             "city" => "Student City",
             "organization_id" => $university->id,
             "university" => "Manually Typed University",
@@ -135,7 +134,6 @@ class StudentPublicProfileTest extends TestCase
                     ->component("Student/PublicProfile")
                     ->where("student.full_name", "John Doe")
                     ->where("student.email", $student->email)
-                    ->where("student.age", 22)
                     ->where("student.city", "Student City")
                     ->where("student.university", "Test University")
                     ->where("student.study_field", "Computer Science")

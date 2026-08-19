@@ -9,7 +9,6 @@ readonly class UpdateStudentProfileData
     public function __construct(
         public string $firstName,
         public string $lastName,
-        public ?int $age,
         public ?string $street,
         public ?string $postalCode,
         public ?string $city,
@@ -29,7 +28,6 @@ readonly class UpdateStudentProfileData
         return new self(
             firstName: $data["first_name"],
             lastName: $data["last_name"],
-            age: $data["age"] ?? null,
             street: $data["street"] ?? null,
             postalCode: $data["postal_code"] ?? null,
             city: $data["city"] ?? null,
