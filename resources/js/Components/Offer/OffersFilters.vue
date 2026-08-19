@@ -17,6 +17,8 @@ const filters = defineModel({ type: Object, required: true })
 const { t } = useI18n()
 const { cityOptions, cityCoordinates, fetchSuggestions: fetchCitySuggestions } = useMapboxGeocoding()
 
+const selectedCityCoordinates = ref(new Map())
+
 const workModes = ['remote', 'hybrid', 'onSite']
 const workModeLabel = (mode) => t(`student.workModes.${mode}`)
 
@@ -42,9 +44,22 @@ const clearRadiusFilter = () => {
 const handleCitySelection = (selectedLabels) => {
   filters.value.cities = selectedLabels
 
-  if (selectedLabels.length > 0) {
+  selectedLabels.forEach((label) => {
+    if (!selectedCityCoordinates.value.has(label) && cityCoordinates.value.has(label)) {
+      selectedCityCoordinates.value.set(label, cityCoordinates.value.get(label))
+    }
+  })
+
+  const selectedSet = new Set(selectedLabels)
+  selectedCityCoordinates.value.forEach((_, label) => {
+    if (!selectedSet.has(label)) {
+      selectedCityCoordinates.value.delete(label)
+    }
+  })
+
+  if (selectedLabels.length === 1) {
     const firstName = selectedLabels[0]
-    const coords = cityCoordinates.value.get(firstName)
+    const coords = selectedCityCoordinates.value.get(firstName)
     if (coords) {
       filters.value.radiusCityLabel = firstName
       filters.value.latitude = coords.latitude
