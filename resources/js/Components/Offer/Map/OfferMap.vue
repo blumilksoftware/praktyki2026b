@@ -1,5 +1,5 @@
 <script setup>
-import { toRef } from 'vue'
+import { toRef, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useOffersMap } from '@/Composables/useOffersMap.js'
 import SelectedCityBadge from '@/Components/Offer/Map/SelectedCityBadge.vue'
@@ -13,12 +13,20 @@ const props = defineProps({
   canApply: { type: Boolean, default: false },
   mapboxToken: { type: String, default: '' },
   initialOfferId: { type: [Number, String], default: null },
+  radiusKm: { type: [Number, String], default: null },
+  latitude: { type: [Number, String], default: null },
+  longitude: { type: [Number, String], default: null },
 })
 
 const { t } = useI18n()
-
 const offersRef = toRef(props, 'offers')
 const initialOfferIdRef = toRef(props, 'initialOfferId')
+const radiusKmRef = toRef(props, 'radiusKm')
+const radiusCenterRef = computed(() => (
+  props.latitude != null && props.longitude != null
+    ? { latitude: Number(props.latitude), longitude: Number(props.longitude) }
+    : null
+))
 
 const {
   mapContainer,
@@ -26,7 +34,7 @@ const {
   selectedOfferId,
   selectedCityOffers,
   resetView,
-} = useOffersMap(offersRef, props.mapboxToken, initialOfferIdRef)
+} = useOffersMap(offersRef, props.mapboxToken, initialOfferIdRef, radiusKmRef, radiusCenterRef)
 
 defineExpose({ resetView })
 </script>

@@ -219,6 +219,9 @@ onMounted(() => {
               :guest="isGuest"
               :can-apply="canApply"
               :initial-offer-id="targetOfferId"
+              :radius-km="filters.radiusKm"
+              :latitude="filters.latitude"
+              :longitude="filters.longitude"
               :mapbox-token="mapboxToken"
             />
           </template>
