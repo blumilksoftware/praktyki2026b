@@ -19,6 +19,7 @@ export const ROUTES = {
   COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
   COMPANY_SHOW: '/companies/{company}',
   COMPANY_DASHBOARD: "/company/dashboard",
+  COMPANY_PARTNERSHIP: "company/partnership",
   COMPANY_OFFERS_INDEX: "/company/offers",
   COMPANY_OFFERS_CREATE: "/company/offers/create",
   COMPANY_OFFERS_STORE: "/company/offers",
@@ -42,6 +43,7 @@ export const ROUTES = {
   // Admin
   ADMIN_DASHBOARD: "/admin/dashboard",
   ADMIN_APPLICATIONS: "/admin/applications",
+  ADMIN_USERS: "/admin/users",
 
   // Student Profile & Settings
   STUDENT_DASHBOARD: "/student/dashboard",
@@ -149,4 +151,8 @@ export function companyUniversityPartnership(universityId: string): string {
 
 export function companyUniversityPartnershipAccept(universityId: string): string {
   return ROUTES.COMPANY_UNIVERSITY_PARTNERSHIP_ACCEPT.replace("{university}", universityId)
+}
+
+export function universityShow(universityId: string): string {
+  return ROUTES.UNIVERSITY_SHOW.replace("{university}", universityId)
 }

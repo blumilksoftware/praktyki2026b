@@ -3,7 +3,6 @@ import { ref, watch } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconSearch, IconMapPin, IconTag } from '@tabler/icons-vue'
-import UniversityLayout from '@/Components/Layouts/UniversityLayout.vue'
 import CompanyCard from '@/Components/University/CompanyCard.vue'
 import FilterSuggestField from '@/Components/Partnership/FilterSuggestField.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
@@ -51,7 +50,7 @@ watch([nameFilter, cityFilter, tagFilter], search, { debounce: 300 })
 
 <template>
   <Head :title="t('university.companies.title')" />
-  <AppLayout active-page="Company">
+  <AppLayout active-page="companies">
     <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('university.companies.title') }}</h1>
 
     <div class="mb-6 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
