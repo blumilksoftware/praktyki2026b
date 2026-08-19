@@ -636,6 +636,7 @@
           },
           "dateRangeInvalid": "The end date must be on or after the start date.",
           "radius": {
+              "lockedHint": "With a radius selected, you can choose only one city.",
               "placeholder": "Select distance",
               "label": "Distance from city",
               "option": "{km} km"

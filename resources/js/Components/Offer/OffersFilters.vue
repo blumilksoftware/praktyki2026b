@@ -42,23 +42,28 @@ const clearRadiusFilter = () => {
 }
 
 const handleCitySelection = (selectedLabels) => {
-  filters.value.cities = selectedLabels
+  const isRadiusLocked = !!filters.value.radiusKm
+  const nextLabels = isRadiusLocked && selectedLabels.length > 1
+    ? [selectedLabels[selectedLabels.length - 1]]
+    : selectedLabels
 
-  selectedLabels.forEach((label) => {
+  filters.value.cities = nextLabels
+
+  nextLabels.forEach((label) => {
     if (!selectedCityCoordinates.value.has(label) && cityCoordinates.value.has(label)) {
       selectedCityCoordinates.value.set(label, cityCoordinates.value.get(label))
     }
   })
 
-  const selectedSet = new Set(selectedLabels)
+  const selectedSet = new Set(nextLabels)
   selectedCityCoordinates.value.forEach((_, label) => {
     if (!selectedSet.has(label)) {
       selectedCityCoordinates.value.delete(label)
     }
   })
 
-  if (selectedLabels.length === 1) {
-    const firstName = selectedLabels[0]
+  if (nextLabels.length === 1) {
+    const firstName = nextLabels[0]
     const coords = selectedCityCoordinates.value.get(firstName)
     if (coords) {
       filters.value.radiusCityLabel = firstName
@@ -179,10 +184,14 @@ defineExpose({ studyFieldLabelToValue })
           :placeholder="t('student.offers.filters.city')"
           :options="cityOptions"
           :allow-custom="true"
+          :hide-selected-while-typing="!!filters.radiusKm"
           remote
           @update:model-value="handleCitySelection"
           @search="fetchCitySuggestions"
         />
+        <p v-if="filters.radiusKm" class="mt-1 text-xs text-additional">
+          {{ t('student.offers.filters.radius.lockedHint') }}
+        </p>
 
         <div v-if="filters.latitude && filters.longitude" ref="radiusDropdownRef" class="relative mt-3">
           <span class="mb-2 block font-medium text-text text-xs text-additional">

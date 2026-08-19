@@ -23,7 +23,7 @@ const props = defineProps({
     default: () => `multiselect-${Math.random().toString(36).substr(2, 9)}`,
   },
   stacked: { type: Boolean, default: true },
-
+  hideSelectedWhileTyping: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['update:modelValue', 'search'])
@@ -56,8 +56,12 @@ function normalizeOption(option) {
 
 const normalizedOptions = computed(() => props.options.map(normalizeOption))
 
+const shouldHideSelected = computed(() =>
+  props.hideSelectedWhileTyping && searchQuery.value.length > 0,
+)
+
 const inputPlaceholder = computed(() => {
-  if (props.modelValue.length > 0) return ''
+  if (props.modelValue.length > 0 && !shouldHideSelected.value) return ''
   if (!props.stacked && !isFloating.value) return ''
   return props.placeholder || t('dynamicList.placeholder')
 })
@@ -238,23 +242,25 @@ const labelClasses = computed(() => {
         @click="inputRef?.focus()"
       >
         <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
-          <span
-            v-for="item in modelValue"
-            :key="item"
-            class="inline-flex max-w-full items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary"
-          >
-            <span class="truncate">{{ optionLabel(item) }}</span>
-            <button
-              type="button"
-              class="shrink-0 rounded-md p-0.5 text-additional transition-colors hover:bg-red-500/10 hover:text-red-500"
-              :aria-label="t('dynamicList.accessibility.removeItem', { item: optionLabel(item) })"
-              @click.stop="removeItem(item)"
+          <template v-if="!shouldHideSelected">
+            <span
+              v-for="item in modelValue"
+              :key="item"
+              class="inline-flex max-w-full items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" clip-rule="evenodd" />
-              </svg>
-            </button>
-          </span>
+              <span class="truncate">{{ optionLabel(item) }}</span>
+              <button
+                type="button"
+                class="shrink-0 rounded-md p-0.5 text-additional transition-colors hover:bg-red-500/10 hover:text-red-500"
+                :aria-label="t('dynamicList.accessibility.removeItem', { item: optionLabel(item) })"
+                @click.stop="removeItem(item)"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </span>
+          </template>
 
           <input
             :id="props.id"
@@ -271,7 +277,7 @@ const labelClasses = computed(() => {
             :aria-describedby="hasError ? `${props.id}-error` : undefined"
             :disabled="props.max && modelValue.length >= props.max"
             :placeholder="inputPlaceholder"
-            class="min-w-32 flex-1 border-0 bg-transparent py-1 text-sm text-text outline-none placeholder:text-additional focus:ring-0"
+            class="min-w-[3ch] flex-1 border-0 bg-transparent py-1 text-sm text-text outline-none placeholder:text-additional focus:ring-0"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="onSearchInput"
