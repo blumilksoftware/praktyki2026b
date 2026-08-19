@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconSearch, IconMapPin } from '@tabler/icons-vue'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import UniversityCard from '@/Components/Company/UniversityCard.vue'
 import FilterSuggestField from '@/Components/Partnership/FilterSuggestField.vue'
 import Pagination from '@/Components/Common/Pagination.vue'

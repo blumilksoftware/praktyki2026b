@@ -1,10 +1,10 @@
 import { computed, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import {IconHome, IconUserCircle, IconUsersGroup, IconHeartHandshake, IconBuildings} from '@tabler/icons-vue'
+import { IconHome, IconUserCircle, IconUsersGroup, IconHeartHandshake, IconBuildings } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 
 export function useUniversityPanelMenu(activePage) {
-  const {t} = useI18n()
+  const { t } = useI18n()
 
   return computed(() => {
     const current = unref(activePage)
@@ -37,7 +37,7 @@ export function useUniversityPanelMenu(activePage) {
         href: ROUTES.UNIVERSITY_PARTNERSHIP,
         icon: IconHeartHandshake,
         isActive: current === 'partnership',
-      }
+      },
     ]
   })
 }

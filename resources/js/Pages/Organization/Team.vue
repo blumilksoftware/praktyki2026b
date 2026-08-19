@@ -2,7 +2,7 @@
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { Head, router, useForm, usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import TeamMemberCard from '@/Components/Organization/TeamMemberCard.vue'
 import TeamInvitationCard from '@/Components/Organization/TeamInvitationCard.vue'

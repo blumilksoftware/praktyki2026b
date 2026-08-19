@@ -89,13 +89,13 @@ const hasProfileInMenu = computed(() => (
           >
             {{ t('offers.browseCta') }}
           </Link>
-            <Link
-              v-if="!isAuthenticated"
-              :href="ROUTES.REGISTER_STUDENT"
-              class="hidden lg:inline-block rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-            >
-              {{ t('auth.register.submit') }}
-            </Link>
+          <Link
+            v-if="!isAuthenticated"
+            :href="ROUTES.REGISTER_STUDENT"
+            class="hidden lg:inline-block rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+          >
+            {{ t('auth.register.submit') }}
+          </Link>
           <button
             v-if="showHamburger"
             type="button"

@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import DateRangeFilter from '@/Components/University/DateRangeFilter.vue'
 import StatsOverview from '@/Components/University/StatsOverview.vue'
 import BreakdownTabs from '@/Components/University/BreakdownTabs.vue'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 defineProps({
   data: {

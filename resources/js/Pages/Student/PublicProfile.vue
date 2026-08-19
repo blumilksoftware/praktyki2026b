@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconArrowLeft, IconDownload, IconMapPin, IconSchool } from '@tabler/icons-vue'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import ProfileSectionCard from '@/Components/Profile/ProfileSectionCard.vue'

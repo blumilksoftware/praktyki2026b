@@ -7,7 +7,7 @@ import CompanyCard from '@/Components/University/CompanyCard.vue'
 import FilterSuggestField from '@/Components/Partnership/FilterSuggestField.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
 import { ROUTES } from '@/Helpers/routes'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 const { t } = useI18n()
 

@@ -12,13 +12,14 @@ const resolvers = {
   companyAdmin: useCompanyPanelMenu,
   companyMember: useCompanyPanelMenu,
   universityAdmin: useUniversityPanelMenu,
+  universityMember: useUniversityPanelMenu,
   superAdmin: useAdminPanelMenu,
 }
 
 function usePendingCompanyMenu() {
   const { t } = useI18n()
   return computed(() => [
-    { key: 'offers', label: t('company.layout.nav.offers'), href: ROUTES.COMPANY_OFFERS_CREATE, icon: IconBriefcase, isActive: true},
+    { key: 'offers', label: t('company.layout.nav.offers'), href: ROUTES.COMPANY_OFFERS_CREATE, icon: IconBriefcase, isActive: true },
   ])
 }
 export function resolvePanelMenu(role, activePage, isPending) {

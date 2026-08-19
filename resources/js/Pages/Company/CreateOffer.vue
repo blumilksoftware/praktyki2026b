@@ -1,7 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import OfferForm from '@/Components/Offer/OfferForm.vue'
 
 defineProps({
@@ -16,7 +16,6 @@ const { t } = useI18n()
 <template>
   <Head :title="t('company.offers.create.title')" />
   <AppLayout active-page="createOffer">
-
     <div class="mx-auto w-full max-w-6xl">
       <div class="bg-white shadow-sm mx-auto border border-border rounded-3xl w-full overflow-visible">
         <div class="px-6 sm:px-8 py-6 border-border border-b">

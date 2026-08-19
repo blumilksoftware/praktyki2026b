@@ -3,7 +3,7 @@ import { ref, watch, computed } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import axios from 'axios'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
 import ApplicationsCard from '@/Components/Profiles/ApplicationsCard.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
@@ -107,61 +107,59 @@ const statusFilterOptions = computed(() => [
 <template>
   <Head :title="t('profiles.company.applications.title')" />
   <AppLayout active-page="applications">
-  <div class="min-h-screen flex flex-col bg-slate-50/50">
+    <div class="min-h-screen flex flex-col bg-slate-50/50">
+      <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col gap-6">
+          <h1 class="text-3xl font-bold text-text">
+            {{ t('profiles.company.applications.title') }}
+            <span v-if="applications.total">({{ applications.total }})</span>
+            <span v-else>({{ displayedApplications.length }})</span>
+          </h1>
 
-    <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div class="flex flex-col sm:flex-row gap-4">
+            <BaseSelect
+              id="applications-filter-offer"
+              v-model="currentFilters.offer"
+              :label="t('profiles.company.applications.filters.offer')"
+              :options="offerFilterOptions"
+              :stacked="false"
+              class="w-full sm:w-64"
+            />
 
-      <div class="flex flex-col gap-6">
-        <h1 class="text-3xl font-bold text-text">
-          {{ t('profiles.company.applications.title') }}
-          <span v-if="applications.total">({{ applications.total }})</span>
-          <span v-else>({{ displayedApplications.length }})</span>
-        </h1>
-
-        <div class="flex flex-col sm:flex-row gap-4">
-          <BaseSelect
-            id="applications-filter-offer"
-            v-model="currentFilters.offer"
-            :label="t('profiles.company.applications.filters.offer')"
-            :options="offerFilterOptions"
-            :stacked="false"
-            class="w-full sm:w-64"
-          />
-
-          <BaseSelect
-            id="applications-filter-status"
-            v-model="currentFilters.status"
-            :label="t('profiles.company.applications.filters.status')"
-            :options="statusFilterOptions"
-            :stacked="false"
-            class="w-full sm:w-64"
-          />
-        </div>
-
-        <div class="flex flex-col gap-4 mt-2">
-          <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500 shadow-sm">
-            {{ t('profiles.company.applications.empty') }}
+            <BaseSelect
+              id="applications-filter-status"
+              v-model="currentFilters.status"
+              :label="t('profiles.company.applications.filters.status')"
+              :options="statusFilterOptions"
+              :stacked="false"
+              class="w-full sm:w-64"
+            />
           </div>
 
-          <ApplicationsCard
-            v-for="application in displayedApplications"
-            :key="application.id"
-            :application="application"
-            @update-status="updateStatus"
-          />
+          <div class="flex flex-col gap-4 mt-2">
+            <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500 shadow-sm">
+              {{ t('profiles.company.applications.empty') }}
+            </div>
 
-          <BaseButton
-            v-if="nextPageUrl"
-            variant="secondary"
-            class="w-full justify-center mt-4"
-            :disabled="isLoadingMore"
-            @click="loadMore"
-          >
-            {{ isLoadingMore ? t('buttons.loading') : t('buttons.load_more') }}
-          </BaseButton>
+            <ApplicationsCard
+              v-for="application in displayedApplications"
+              :key="application.id"
+              :application="application"
+              @update-status="updateStatus"
+            />
+
+            <BaseButton
+              v-if="nextPageUrl"
+              variant="secondary"
+              class="w-full justify-center mt-4"
+              :disabled="isLoadingMore"
+              @click="loadMore"
+            >
+              {{ isLoadingMore ? t('buttons.loading') : t('buttons.load_more') }}
+            </BaseButton>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   </AppLayout>
 </template>

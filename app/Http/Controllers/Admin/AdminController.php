@@ -223,17 +223,7 @@ class AdminController extends Controller
         ]);
     }
 
-    private function checkIfVerifiedWithRedirect(University|Company $entity, string $message, string $route): ?RedirectResponse
-    {
-        if ($entity->verification_status === VerificationStatus::Verified ||
-            $entity->verification_status === VerificationStatus::Rejected) {
-            return redirect()->route($route)->withErrors($message);
-        }
-
-        return null;
-    }
-
-    public function profile() : Response
+    public function profile(): Response
     {
         $admin = Auth::user();
 
@@ -255,5 +245,15 @@ class AdminController extends Controller
         return inertia("Admin/Users", [
             "users" => $users,
         ]);
+    }
+
+    private function checkIfVerifiedWithRedirect(University|Company $entity, string $message, string $route): ?RedirectResponse
+    {
+        if ($entity->verification_status === VerificationStatus::Verified ||
+            $entity->verification_status === VerificationStatus::Rejected) {
+            return redirect()->route($route)->withErrors($message);
+        }
+
+        return null;
     }
 }

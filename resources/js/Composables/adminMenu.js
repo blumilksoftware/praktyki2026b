@@ -1,10 +1,10 @@
-import {computed, unref} from 'vue'
-import {IconHome, IconClipboard, IconUsersGroup} from '@tabler/icons-vue'
+import { computed, unref } from 'vue'
+import { IconHome, IconClipboard, IconUsersGroup } from '@tabler/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { ROUTES } from '@/Helpers/routes'
 
 export function useAdminPanelMenu(activePage) {
-  const {t} = useI18n()
+  const { t } = useI18n()
 
   return computed(() => {
     const current = unref(activePage)
@@ -21,7 +21,7 @@ export function useAdminPanelMenu(activePage) {
         label: t('admin.layout.nav.applications'),
         href: ROUTES.ADMIN_APPLICATIONS,
         icon: IconClipboard,
-        isActive: current === 'applications'
+        isActive: current === 'applications',
       },
       {
         key: 'users',

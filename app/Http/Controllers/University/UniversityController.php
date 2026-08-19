@@ -103,6 +103,16 @@ class UniversityController extends Controller
         return redirect()->route("university.profile");
     }
 
+    public function department(): never
+    {
+        abort(404);
+    }
+
+    public function partnership(): never
+    {
+        abort(404);
+    }
+
     private function currentUniversity(): University
     {
         $university = Auth::user()->universityOrganization;
@@ -112,15 +122,5 @@ class UniversityController extends Controller
         }
 
         return $university;
-    }
-
-    public function department(): never
-    {
-        abort(404);
-    }
-
-    public function partnership(): never
-    {
-        abort(404);
     }
 }

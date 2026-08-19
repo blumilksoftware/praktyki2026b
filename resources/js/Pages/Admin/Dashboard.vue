@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 const { t } = useI18n()
 
@@ -28,7 +28,7 @@ const props = defineProps({
   totalVerifications: {
     type: Number,
     required: true,
-  }
+  },
 
 })
 

@@ -2,7 +2,7 @@
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import OfferForm from '@/Components/Offer/OfferForm.vue'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 defineProps({
   studyFields: { type: Array, required: true },
