@@ -51,16 +51,16 @@ const rowFor = (wrapper: ReturnType<typeof mountTable>, email: string) =>
   wrapper.findAll('tbody tr').find((row) => row.text().includes(email))
 
 describe('AdminUsersTable', () => {
-  it('does not show an actions menu for the current admin', () => {
+  it('does not show actions for the current admin', () => {
     const wrapper = mountTable()
 
-    expect(rowFor(wrapper, 'jane@example.com')!.find('[data-user-menu]').exists()).toBe(false)
+    expect(rowFor(wrapper, 'jane@example.com')!.findAll('button')).toHaveLength(0)
   })
 
-  it('shows an actions menu for other users', () => {
+  it('shows actions for other users', () => {
     const wrapper = mountTable()
 
-    expect(rowFor(wrapper, 'john@example.com')!.find('[data-user-menu]').exists()).toBe(true)
+    expect(rowFor(wrapper, 'john@example.com')!.findAll('button')).toHaveLength(2)
   })
 
   it('shows the user status in its own column', () => {
@@ -70,10 +70,10 @@ describe('AdminUsersTable', () => {
     expect(rowFor(wrapper, 'anna@example.com')!.text()).toContain(en.admin.users.statuses.blocked)
   })
 
-  it('labels the actions menu with the user email', () => {
+  it('labels the actions with the user email', () => {
     const wrapper = mountTable()
 
-    const trigger = rowFor(wrapper, 'john@example.com')!.find('[data-user-menu] button')
+    const trigger = rowFor(wrapper, 'john@example.com')!.find('button')
 
     expect(trigger.attributes('aria-label')).toContain('john@example.com')
   })

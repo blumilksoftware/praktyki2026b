@@ -43,7 +43,7 @@ describe('AdminOffersTable', () => {
 
     const row = wrapper.findAll('tbody tr').find((r) => r.text().includes('Published Offer'))
 
-    expect(row!.text()).toContain(en.admin.offers.takeDown)
+    expect(row!.find('button').attributes('title')).toBe(en.admin.offers.takeDown)
   })
 
   it('does not offer take down for an offer that is not published', () => {
@@ -51,7 +51,7 @@ describe('AdminOffersTable', () => {
 
     const row = wrapper.findAll('tbody tr').find((r) => r.text().includes('Draft Offer'))
 
-    expect(row!.text()).not.toContain(en.admin.offers.takeDown)
+    expect(row!.find('button').exists()).toBe(false)
   })
 
   it('shows the company name for each offer', () => {

@@ -2,7 +2,7 @@
 import { ref, computed, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconSearch } from '@tabler/icons-vue'
+import { IconSearch, IconBan } from '@tabler/icons-vue'
 import DataTable from '@/Components/Common/DataTable.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
 import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
@@ -111,10 +111,13 @@ watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
       <template #cell-actions="{ item }">
         <button
           v-if="item.status === 'published'"
-          class="hover:bg-red-50 px-3 py-1.5 border border-border rounded-lg font-medium text-red-600 text-sm transition cursor-pointer"
+          type="button"
+          class="p-1.5 rounded-md text-red-600 hover:bg-red-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          :title="t('admin.offers.takeDown')"
+          :aria-label="t('admin.offers.takeDownAriaLabel', { title: item.title })"
           @click="openTakeDownModal(item)"
         >
-          {{ t('admin.offers.takeDown') }}
+          <IconBan class="w-4 h-4" aria-hidden="true" />
         </button>
       </template>
     </DataTable>

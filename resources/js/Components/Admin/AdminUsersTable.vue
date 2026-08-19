@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { usePage, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconSearch } from '@tabler/icons-vue'
@@ -58,24 +58,8 @@ const columns = [
 
 const userToChangeRole = ref(null)
 const userToBlock = ref(null)
-const openMenuId = ref(null)
-
-function toggleMenu(userId) {
-  openMenuId.value = openMenuId.value === userId ? null : userId
-}
-
-function closeMenu() {
-  openMenuId.value = null
-}
-
-function handleClickOutsideMenu(event) {
-  if (!event.target.closest('[data-user-menu]') && !event.target.closest('[data-user-menu-dropdown]')) {
-    closeMenu()
-  }
-}
 
 function openChangeRoleModal(user) {
-  closeMenu()
   userToChangeRole.value = user
 }
 
@@ -84,7 +68,6 @@ function closeChangeRoleModal() {
 }
 
 function openBlockModal(user) {
-  closeMenu()
   userToBlock.value = user
 }
 
@@ -109,9 +92,6 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
     replace: true,
   })
 }, { debounce: 300 })
-
-onMounted(() => document.addEventListener('click', handleClickOutsideMenu))
-onUnmounted(() => document.removeEventListener('click', handleClickOutsideMenu))
 </script>
 
 <template>
@@ -164,9 +144,6 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutsideMenu))
         <AdminUserActionsMenu
           v-if="!isCurrentAdmin(item)"
           :user="item"
-          :is-open="openMenuId === item.id"
-          @toggle="toggleMenu"
-          @close="closeMenu"
           @change-role="openChangeRoleModal(item)"
           @toggle-block="openBlockModal(item)"
         />
