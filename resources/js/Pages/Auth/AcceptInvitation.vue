@@ -87,7 +87,7 @@ const submit = () => {
           />
 
           <div>
-            <BaseCheckbox id="terms" v-model="form.terms">
+            <BaseCheckbox id="terms" v-model="form.terms" required>
               <span>
                 {{ t('auth.register.termsPrefix') }}
                 <a

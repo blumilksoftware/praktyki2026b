@@ -61,10 +61,11 @@ function handleUpdate(value) {
   <div class="flex w-full flex-col gap-1.5">
     <label
       :for="id"
-      class="mb-1 block text-base font-medium text-additional"
+      class="mb-1 block text-sm font-medium text-text"
       :class="{ 'text-error': hasError }"
     >
       {{ label }}
+      <span v-if="required" aria-hidden="true" class="text-error">*</span>
     </label>
 
     <div class="relative">
