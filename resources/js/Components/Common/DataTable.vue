@@ -9,6 +9,7 @@ const props = defineProps({
   caption: { type: String, default: '' },
   sortKey: { type: String, default: '' },
   sortDir: { type: String, default: 'asc' },
+  rowHref: { type: Function, default: null },
 })
 
 const emit = defineEmits(['sort'])
@@ -19,6 +20,15 @@ function handleSort(col) {
   if (!col.sortable) return
   const newDir = props.sortKey === col.key && props.sortDir === 'asc' ? 'desc' : 'asc'
   emit('sort', { key: col.key, dir: newDir })
+}
+
+function handleRowClick(event, item) {
+  if (!props.rowHref) return
+  if (event.target.closest('button, a, input, select')) return
+
+  const href = props.rowHref(item)
+
+  if (href) window.open(href, '_blank')
 }
 
 function sortIcon(col) {
@@ -37,6 +47,8 @@ function sortIcon(col) {
         v-for="item in props.items"
         :key="`mobile-${item[props.rowKey]}`"
         class="bg-white p-4 rounded-xl border border-border"
+        :class="{ 'cursor-pointer': rowHref }"
+        @click="handleRowClick($event, item)"
       >
         <div class="flex justify-between items-center gap-3">
           <p class="font-semibold text-text text-sm">{{ item.name || item[props.rowKey] }}</p>
@@ -95,7 +107,13 @@ function sortIcon(col) {
           </tr>
         </thead>
         <tbody class="divide-y divide-border">
-          <tr v-for="item in props.items" :key="item[props.rowKey]" class="hover:bg-gray-50">
+          <tr
+            v-for="item in props.items"
+            :key="item[props.rowKey]"
+            class="hover:bg-gray-50"
+            :class="{ 'cursor-pointer': rowHref }"
+            @click="handleRowClick($event, item)"
+          >
             <td
               v-for="col in props.columns"
               :key="col.key"

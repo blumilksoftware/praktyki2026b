@@ -8,6 +8,7 @@ import Pagination from '@/Components/Common/Pagination.vue'
 import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import AdminTakeDownOfferModal from '@/Components/Admin/AdminTakeDownOfferModal.vue'
 import { useOfferStatus } from '@/Composables/useOfferStatus'
+import { offerShow } from '@/Helpers/routes'
 
 const props = defineProps({
   offers: {
@@ -93,6 +94,7 @@ watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
       :columns="columns"
       row-key="id"
       :caption="t('admin.offers.title')"
+      :row-href="(item) => offerShow(item.id)"
     >
       <template #cell-title="{ item }">
         {{ item.title }}
