@@ -66,7 +66,8 @@ const hasCv = computed(() => Boolean(props.user.cv_path))
         </span>
       </div>
 
-      <div v-if="user.study_field || user.study_year" class="mt-3 flex flex-wrap justify-center gap-2">
+      <div v-if="user.faculty || user.study_field || user.study_year" class="mt-3 flex flex-wrap justify-center gap-2">
+        <ProfileTag v-if="user.faculty" :label="user.faculty" variant="profile" />
         <ProfileTag v-if="user.study_field" :label="user.study_field" variant="profile" />
         <ProfileTag v-if="user.study_year" :label="t('student.profile.sidebar.yearTag', { year: user.study_year })" variant="profile" />
       </div>
