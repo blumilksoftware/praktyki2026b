@@ -42,6 +42,8 @@ export const ROUTES = {
   ADMIN_USERS_UPDATE_STATUS: (id: string) => `/admin/users/${id}/status`,
   ADMIN_OFFERS: "/admin/offers",
   ADMIN_OFFERS_TAKE_DOWN: (id: string) => `/admin/offers/${id}/take-down`,
+  ADMIN_COMPANY_DELETE: (id: string) => `/admin/companies/${id}`,
+  ADMIN_UNIVERSITY_DELETE: (id: string) => `/admin/universities/${id}`,
 
   // Student Profile & Settings
   STUDENT_DASHBOARD: "/student/dashboard",
