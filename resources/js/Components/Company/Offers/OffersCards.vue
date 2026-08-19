@@ -36,6 +36,7 @@ const props = defineProps({
     type: Object,
     default: () => ({
       menu: 'company.dashboard.offers.actions.menu',
+      applications: 'company.dashboard.offers.actions.applications',
       edit: 'company.dashboard.offers.actions.edit',
       activate: 'company.dashboard.offers.actions.activate',
       deactivate: 'company.dashboard.offers.actions.deactivate',
@@ -48,7 +49,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['toggle-menu', 'edit', 'toggle-status', 'delete', 'go-to-applications'])
+const emit = defineEmits(['toggle-menu', 'applications', 'edit', 'toggle-status', 'delete'])
 
 const statusClasses = {
   draft: 'bg-slate-100 text-slate-600',
@@ -57,9 +58,7 @@ const statusClasses = {
   expired: 'bg-slate-200 text-slate-500',
 }
 
-const titleHref = (offerId) => props.isCompanyVerified
-  ? `${ROUTES.COMPANY_APPLICATIONS}?offer=${offerId}`
-  : ROUTES.COMPANY_OFFERS_EDIT(offerId)
+const titleHref = (offerId) => ROUTES.OFFER_PREVIEW.replace('{offer}', offerId)
 </script>
 
 <template>
@@ -82,7 +81,6 @@ const titleHref = (offerId) => props.isCompanyVerified
               <Link
                 :href="titleHref(offer.id)"
                 class="block truncate transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
-                @click="emit('go-to-applications', $event, offer.id)"
               >
                 {{ offer.title }}
               </Link>
@@ -98,6 +96,7 @@ const titleHref = (offerId) => props.isCompanyVerified
             :show-status-action="offer.status === 'published' || (offer.status === 'draft' && props.isCompanyVerified)"
             :labels="props.labels"
             @toggle="emit('toggle-menu', $event)"
+            @applications="emit('applications', $event)"
             @edit="emit('edit', $event)"
             @toggle-status="emit('toggle-status', $event)"
             @delete="emit('delete', $event)"

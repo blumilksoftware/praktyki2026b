@@ -59,6 +59,7 @@ export const ROUTES = {
   STUDENT_ACCOUNT_DELETE: "/student/account",
   STUDENT_UNIVERSITY_SEARCH: "/student/universities/search",
   STUDENT_UNIVERSITY_UPDATE: "/student/university",
+  STUDENT_UNIVERSITY_FACULTIES: (universityId: string) => `/student/universities/${universityId}/faculties`,
 
   // Student CV
   STUDENT_CV_PREVIEW: "/student/cv",
@@ -75,6 +76,7 @@ export const ROUTES = {
   // Offers & Search
   OFFERS: "/offers",
   OFFER_SHOW: `/offers/{offer}`,
+  OFFER_PREVIEW: `/offers/{offer}/preview`,
   COMPANY_MY_OFFERS: "/company/offers",
 
   // Profiles
@@ -91,6 +93,10 @@ export const ROUTES = {
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",
   UNIVERSITY_SHOW: "/universities/{university}",
+  UNIVERSITY_FACULTIES: "/university/faculties",
+  UNIVERSITY_FACULTY: (facultyId: string) => `/university/faculties/${facultyId}`,
+  UNIVERSITY_FACULTY_STUDY_FIELDS: (facultyId: string) => `/university/faculties/${facultyId}/study-fields`,
+  UNIVERSITY_STUDY_FIELD: (studyFieldId: string) => `/university/study-fields/${studyFieldId}`,
   UNIVERSITY_COMPANIES: "/university/companies",
   UNIVERSITY_COMPANY_PARTNERSHIP: "/university/companies/{company}/partnership",
   UNIVERSITY_COMPANY_PARTNERSHIP_ACCEPT: "/university/companies/{company}/partnership/accept",
@@ -129,6 +135,10 @@ export function studentOfferFavourite(offerId: string): string {
 
 export function offerShow(offerId: string): string {
   return ROUTES.OFFER_SHOW.replace("{offer}", offerId)
+}
+
+export function offerPreview(offerId: string): string {
+  return ROUTES.OFFER_PREVIEW.replace("{offer}", offerId)
 }
 
 export function companyShow(companyId: string): string {

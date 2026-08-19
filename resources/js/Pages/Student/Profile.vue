@@ -4,7 +4,7 @@ import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
-import BaseModal from '@/Components/Common/BaseModal.vue'
+import BaseModal from '@/Components/Base/BaseModal.vue'
 import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
 import ProfileTagInput from '@/Components/Profile/ProfileTagInput.vue'
 import StudentProfileSidebar from '@/Components/Student/StudentProfileSidebar.vue'
@@ -53,7 +53,8 @@ function buildProfilePayload(overrides) {
     postal_code: props.user.postal_code ?? '',
     city: props.user.city ?? '',
     university: props.user.university ?? '',
-    study_field: props.user.study_field ?? '',
+    university_id: props.user.university_id ?? '',
+    study_field_id: props.user.study_field_id ?? '',
     study_year: props.user.study_year ?? '',
     specialization: props.user.specialization ?? '',
     study_field_ids: [...(props.user.study_field_ids ?? [])],

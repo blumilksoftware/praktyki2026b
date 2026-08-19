@@ -15,7 +15,9 @@ use App\Models\Offer;
 use App\Models\StudyField;
 use App\Models\University;
 use App\Models\User;
+use App\Notifications\NewApplicationNotification;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Notification;
 
 class DemoSeeder extends Seeder
 {
@@ -51,6 +53,10 @@ class DemoSeeder extends Seeder
             "organization_id" => $approvedCompany->id,
             "first_name" => null,
             "last_name" => null,
+        ]);
+
+        User::factory()->count(25)->companyMember()->create([
+            "organization_id" => $approvedCompany->id,
         ]);
 
         $pendingCompany = Company::factory()->pending()->create([
@@ -152,6 +158,16 @@ class DemoSeeder extends Seeder
             ]);
         }
 
+        $companyAdmin = User::query()->where("email", "company-approved@example.com")->firstOrFail();
+        $testApplications = Application::factory()->count(10)->create([
+            "offer_id" => $offers->first()->id,
+            "status" => ApplicationStatus::Pending,
+        ]);
+
+        foreach ($testApplications as $testApplication) {
+            Notification::send($companyAdmin, new NewApplicationNotification($testApplication));
+        }
+
         $faculty = Faculty::factory()->for($approvedUniversity)->create([
             "name" => "Wydział Informatyki",
         ]);
@@ -186,14 +202,14 @@ class DemoSeeder extends Seeder
             "role" => UserRole::Student,
             "status" => UserStatus::Active,
             "email" => fn() => fake()->unique()->userName() . "@" . $approvedUniversity->domain,
-            "study_field" => fn() => $studyFields->random()->id,
+            "study_field_id" => fn() => $studyFields->random()->id,
         ]);
 
         $explicitlyLinkedStudents = User::factory()->count(3)->create([
             "role" => UserRole::Student,
             "status" => UserStatus::Active,
             "organization_id" => $approvedUniversity->id,
-            "study_field" => fn() => $studyFields->random()->id,
+            "study_field_id" => fn() => $studyFields->random()->id,
         ]);
 
         User::factory()->create([

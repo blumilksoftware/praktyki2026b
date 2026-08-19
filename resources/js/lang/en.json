@@ -27,6 +27,61 @@
   "common": {
     "verifiedBadge": "Account verified by an administrator"
   },
+  "organization": {
+    "team": {
+      "title": "Team",
+        "you": "This is you",
+      "description": "Manage your organization's members and invitations.",
+        "searchMembersPlaceholder": "Search members...",
+        "searchInvitationsPlaceholder": "Search invitations...",
+        "showingRange": "Showing {from}–{to} of {total}",
+      "membersTitle": "Current team members",
+      "membersDescription": "See all active members, their role, and join date.",
+      "noMembers": "No team members have been added yet.",
+      "invitationsTitle": "Pending invitations",
+      "invitationsDescription": "Invitations that are waiting for the recipient to accept.",
+      "pending": "Pending",
+      "noInvitations": "No pending invitations.",
+      "joinDate": "Joined on {date}",
+      "inviteButton": "Invite member",
+      "inviteModal": {
+        "title": "Invite a team member",
+        "emailLabel": "Email address",
+        "emailPlaceholder": "Enter email address",
+        "cancel": "Cancel",
+        "submit": "Send invitation"
+      },
+      "remove": "Remove",
+      "transfer": "Transfer ownership",
+      "revoke": "Revoke",
+      "removeModal": {
+        "title": "Remove member",
+        "description": "Are you sure you want to remove {name} from the team?",
+        "cancel": "Cancel",
+        "confirm": "Remove member"
+      },
+      "memberPreview": {
+        "title": "Member details",
+        "email": "Email",
+        "joined": "Joined",
+        "close": "Close"
+      },
+      "roles": {
+        "companyAdmin": "Administrator",
+        "companyMember": "Member",
+        "universityAdmin": "Administrator",
+        "universityMember": "Member"
+      },
+      "transferModal": {
+         "title": "Transfer ownership",
+          "description": "Choose a team member to become the new administrator. You will be demoted to a regular member.",
+          "selectLabel": "New administrator",
+          "noMembers": "There are no other members to transfer ownership to.",
+          "cancel": "Cancel",
+          "confirm": "Transfer ownership"
+      }
+    }
+  },
   "errors": {
     "401": {
       "title": "Login required",
@@ -452,12 +507,41 @@
             "title": "Uczelnia",
             "nav": {
                 "dashboard": "Dashboard",
-                "companies": "Companies",
-                "profile": "Profile"
+                "faculties": "Faculties",
+                "team": "Team",
+                "partnership": "Partnership"
             }
         },
     "profile": {
       "title": "Profile"
+    },
+    "faculties": {
+      "title": "Faculties and fields of study",
+      "subtitle": "Manage the list of faculties and fields of study that your students choose from.",
+      "addFacultyLabel": "Faculty name",
+      "addFaculty": "Add faculty",
+      "facultyName": "Faculty name",
+      "fieldName": "Field of study name",
+      "fieldsCount": "Fields of study: {count}",
+      "addFieldLabel": "New field of study",
+      "addField": "Add field of study",
+      "renameFaculty": "Rename faculty {name}",
+      "deleteFaculty": "Delete faculty {name}",
+      "renameField": "Rename field of study {name}",
+      "deleteField": "Delete field of study {name}",
+      "usage": "Students: {students} · Offers: {offers}",
+      "noFields": "This faculty has no fields of study yet.",
+      "empty": "No faculty has been added yet.",
+      "save": "Save",
+      "cancel": "Cancel",
+      "confirmDelete": "Delete",
+      "deleteFacultyTitle": "Delete faculty",
+      "deleteFieldTitle": "Delete field of study",
+      "deleteConfirmation": "Are you sure you want to delete \"{name}\"?",
+      "reassignFacultyLabel": "Move fields of study to faculty",
+      "reassignFieldLabel": "Move students and offers to field of study",
+      "reassignPlaceholder": "Choose where to move them",
+      "reassignUnavailable": "There is nowhere to move the linked data. Add another faculty or field of study first."
     },
     "companies": {
       "title": "Company search",
@@ -630,7 +714,8 @@
         "notApplied": "Not applied"
       },
         "pagination": {
-            "perPage": "Offers per page"
+            "perPage": "Offers per page",
+            "label": "Pagination navigation"
         },
     "map": {
         "selectPinHint": "Select a pin on the map to view available offers",
@@ -770,6 +855,13 @@
         "university": "University",
           "universitySuggestedNote": "Pre-selected automatically - detected from your university email address",
         "studyField": "Field of study",
+        "studyFieldPlaceholder": "Select a field of study",
+        "faculty": "Faculty",
+        "facultyPlaceholder": "Select a faculty",
+        "selectUniversityFirst": "Choose your university first.",
+        "noFacultiesForUniversity": "This university has not added any faculties yet.",
+        "selectFacultyFirst": "Choose a faculty first.",
+        "noStudyFieldsForFaculty": "This faculty has no fields of study yet.",
         "studyYear": "Year of study",
         "specialization": "Specialization",
         "saveChanges": "Save changes",
@@ -896,6 +988,7 @@
       "nav": {
         "dashboard": "Dashboard",
         "offers": "My offers",
+        "team": "Team",
         "applications": "Applications",
         "universities": "Universities",
         "profile": "Profile",
@@ -955,6 +1048,24 @@
         "title": "Have a new internship to offer?",
         "description": "Publish an offer or save it as a draft to finish later.",
         "action": "Create offer"
+      },
+      "stats": {
+        "totalOffers": "Total offers",
+        "publishedOffers": "Published",
+        "draftOffers": "Drafts",
+        "applications": "Applications"
+      },
+      "shortcuts": {
+        "unreadApplications": "You have {count} unread update(s).",
+        "checkIt": "Check it",
+        "myOffers": {
+          "title": "My offers",
+          "description": "Review, edit and manage all your offers in one place."
+        },
+        "applications": {
+          "title": "Applications",
+          "description": "Review candidates and respond to new applications."
+        }
       },
       "offers": {
         "title": "Offers",
@@ -1032,6 +1143,7 @@
         },
         "createAction": "Create offer",
         "editAction": "Edit",
+        "applicationsAction": "Applications",
         "actionsMenu": "More actions",
         "publishAction": "Publish",
         "publishing": "Publishing…",
@@ -1096,12 +1208,17 @@
           "draft": "Save as draft",
           "published": "Publish immediately",
           "draftHint": "Drafts are visible only to you. Publishing requires a verified company account.",
+          "previewAction": "Preview",
+          "previewFallbackTitle": "Untitled offer",
+          "previewFallbackCity": "City not set",
+          "previewFallbackCompanyName": "Your company",
           "submitCreate": "Create offer",
           "submitCreateDraft": "Create draft",
           "submitEdit": "Save changes",
           "submitEditDraft": "Save as draft",
           "publishDisabledTooltip": "To publish an offer, you must have a verified company account.",
-          "unsavedChangesConfirmation": "You have unsaved changes. Leave without saving?"
+          "unsavedChangesConfirmation": "You have unsaved changes. Leave without saving?",
+          "noDescription": "No description"
       }
     }
   },

@@ -4,21 +4,18 @@ declare(strict_types=1);
 
 namespace App\Actions\University;
 
+use App\Models\University;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as LengthAwarePaginatorContract;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 class GetStudentsBreakdownByField
 {
-    private const array SORTABLE_COLUMNS = [
-        "fieldName",
-        "linkedStudents",
-        "applicationsSubmitted",
-        "acceptedPlacements",
-    ];
+    public function __construct(
+        private readonly PaginateStudentsBreakdown $paginateStudentsBreakdown,
+    ) {}
 
     public function execute(
+        University $university,
         Collection $students,
         int $perPage = 10,
         int $page = 1,
@@ -27,48 +24,34 @@ class GetStudentsBreakdownByField
         string $sortBy = "fieldName",
         string $sortDirection = "asc",
     ): LengthAwarePaginatorContract {
-        $grouped = $students
-            ->groupBy("study_field")
-            ->map(static fn(Collection $group): array => [
-                "fieldId" => $group->first()->study_field,
-                "fieldName" => $group->first()->studyField?->name,
-                "linkedStudents" => $group->count(),
-                "applicationsSubmitted" => $group->sum("applications_submitted_count"),
-                "acceptedPlacements" => $group->sum("accepted_placements_count"),
-            ])
+        $groups = $students->groupBy("study_field_id");
+
+        $rows = $university->studyFields()
+            ->orderBy("study_fields.name")
+            ->pluck("study_fields.name", "study_fields.id")
+            ->union($groups->map(static fn(Collection $group): ?string => $group->first()->studyField?->name))
+            ->map(static function (?string $name, string $fieldId) use ($groups): array {
+                $group = $groups->get($fieldId, new Collection());
+
+                return [
+                    "fieldId" => $fieldId === "" ? null : $fieldId,
+                    "fieldName" => $name,
+                    "linkedStudents" => $group->count(),
+                    "applicationsSubmitted" => $group->sum("applications_submitted_count"),
+                    "acceptedPlacements" => $group->sum("accepted_placements_count"),
+                ];
+            })
             ->values();
 
-        if ($search !== null && $search !== "") {
-            $needle = Str::lower($search);
-            $grouped = $grouped->filter(
-                static fn(array $row): bool => $row["fieldName"] !== null
-                    && str_contains(Str::lower($row["fieldName"]), $needle),
-            )->values();
-        }
-
-        $sortBy = in_array($sortBy, self::SORTABLE_COLUMNS, true) ? $sortBy : "fieldName";
-        $descending = strtolower($sortDirection) === "desc";
-
-        $grouped = $grouped
-            ->sortBy(
-                static fn(array $row): string|int|null => $row[$sortBy],
-                SORT_REGULAR,
-                $descending,
-            )
-            ->values();
-
-        $total = $grouped->count();
-        $slice = $grouped->slice(($page - 1) * $perPage, $perPage)->values();
-
-        return new LengthAwarePaginator(
-            items: $slice,
-            total: $total,
+        return $this->paginateStudentsBreakdown->execute(
+            rows: $rows,
+            nameColumn: "fieldName",
             perPage: $perPage,
-            currentPage: $page,
-            options: [
-                "path" => LengthAwarePaginator::resolveCurrentPath(),
-                "pageName" => $pageName,
-            ],
+            page: $page,
+            pageName: $pageName,
+            search: $search,
+            sortBy: $sortBy,
+            sortDirection: $sortDirection,
         );
     }
 }

@@ -38,8 +38,26 @@ class CompanyController extends Controller
             $request->string("search")->toString() ?: null,
         );
 
+        $offerStats = $company->offers()
+            ->selectRaw(
+                "count(*) as total, " .
+                "sum(case when status = ? then 1 else 0 end) as published, " .
+                "sum(case when status = ? then 1 else 0 end) as draft",
+                [OfferStatus::Published->value, OfferStatus::Draft->value],
+            )
+            ->first();
+
+        $stats = [
+            "total_offers" => (int)$offerStats->total,
+            "published_offers" => (int)$offerStats->published,
+            "draft_offers" => (int)$offerStats->draft,
+            "applications_count" => $company->applications()->count(),
+            "unread_notifications_count" => $request->user()->unreadNotifications()->count(),
+        ];
+
         return inertia("Company/Dashboard", [
             "offers" => $offers,
+            "stats" => $stats,
             "sort" => $request->string("sort", "created_at")->toString(),
             "direction" => $request->string("direction", "desc")->toString(),
             "search" => $request->string("search")->toString(),
