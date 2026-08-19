@@ -11,7 +11,6 @@ import AdminDeleteOrganizationModal from '@/Components/Admin/AdminDeleteOrganiza
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import { Teleport } from 'vue'
 import { useVerificationStatus } from '@/Composables/useVerificationStatus'
-import { companyShow, universityShow } from '@/Helpers/routes'
 
 const props = defineProps({
   companies: {
@@ -412,7 +411,6 @@ onUnmounted(() => {
       :caption="entityType === 'company' ? t('admin.verification.companies') : t('admin.verification.universities')"
       :sort-key="sortKey"
       :sort-dir="sortDir"
-      :row-href="(item) => entityType === 'company' ? companyShow(item.id) : universityShow(item.id)"
       @sort="handleSort"
     >
       <template #cell-email="{ item }">
