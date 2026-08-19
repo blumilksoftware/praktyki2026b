@@ -11,7 +11,7 @@ class BuildStudentPublicProfileData
 {
     public function execute(User $student): array
     {
-        $student->loadMissing(["preferredCities", "preferredStudyFields", "universityOrganization"]);
+        $student->loadMissing(["preferredCities", "preferredStudyFields", "studyField.faculty", "universityOrganization"]);
 
         $universityOrganization = $student->universityOrganization;
         $isUniversityVerified = $universityOrganization?->verification_status === VerificationStatus::Verified;
@@ -26,7 +26,8 @@ class BuildStudentPublicProfileData
             "city" => $student->city,
             "university" => $student->universityOrganization->name ?? $student->university,
             "university_id" => $isUniversityVerified ? $universityOrganization->id : null,
-            "study_field" => $student->study_field,
+            "faculty" => $student->studyField?->faculty?->name,
+            "study_field" => $student->studyField?->name,
             "study_year" => $student->study_year,
             "specialization" => $student->specialization,
             "skills" => $student->skills ?? [],

@@ -12,7 +12,6 @@ import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
 
-
 const { t } = useI18n()
 
 const goBack = () => {
@@ -42,53 +41,53 @@ defineProps({
           </a>
         </div>
 
-        <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div class="flex flex-col gap-6">
-            <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 flex flex-col items-center text-center">
-              <Header
-                :name="university.name"
-                :logo-url="university.logoUrl"
-                class="flex flex-col items-center w-full"
-              />
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div class="flex flex-col gap-6">
+          <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 flex flex-col items-center text-center">
+            <Header
+              :name="university.name"
+              :logo-url="university.logoUrl"
+              class="flex flex-col items-center w-full"
+            />
 
-              <BaseButton
-                class="w-full bg-[#0f172a] hover:bg-slate-800 text-white py-2.5 mt-6 text-sm font-semibold rounded-lg transition-all"
-                @click="goToEdit"
-              >
-                {{ t('buttons.editProfile') }}
-              </BaseButton>
-            </div>
-
-            <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6">
-              <ContactCard
-                :email="university.email"
-                :phone="university.phone"
-                :website="university.website"
-                :street="university.street"
-                :postal-code="university.postalCode"
-                :city="university.city"
-              />
-            </div>
-
-            <div v-if="university.domain || university.externalFormUrl" class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-5">
-                {{ t('profiles.university.recruitmentAndSystem') }}
-              </h3>
-
-              <Info
-                :domain="university.domain"
-                :external-form-url="university.externalFormUrl"
-              />
-            </div>
+            <BaseButton
+              class="w-full bg-[#0f172a] hover:bg-slate-800 text-white py-2.5 mt-6 text-sm font-semibold rounded-lg transition-all"
+              @click="goToEdit"
+            >
+              {{ t('buttons.editProfile') }}
+            </BaseButton>
           </div>
 
-          <div class="flex flex-col gap-6 lg:col-span-2">
-            <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
-              <About
-                :description="university.description"
-                :empty-message="t('profiles.university.noDescription')"
-              />
-            </div>
+          <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6">
+            <ContactCard
+              :email="university.email"
+              :phone="university.phone"
+              :website="university.website"
+              :street="university.street"
+              :postal-code="university.postalCode"
+              :city="university.city"
+            />
+          </div>
+
+          <div v-if="university.domain || university.externalFormUrl" class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-5">
+              {{ t('profiles.university.recruitmentAndSystem') }}
+            </h3>
+
+            <Info
+              :domain="university.domain"
+              :external-form-url="university.externalFormUrl"
+            />
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-6 lg:col-span-2">
+          <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
+            <About
+              :description="university.description"
+              :empty-message="t('profiles.university.noDescription')"
+            />
+          </div>
 
             <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8 h-fit">
               <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">

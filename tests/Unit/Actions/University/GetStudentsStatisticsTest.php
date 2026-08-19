@@ -20,31 +20,30 @@ class GetStudentsStatisticsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testItReturnsTotalsAndBreakdownsForDomainAndManuallyLinkedStudents(): void
+    public function testItReturnsTotalsAndBreakdownsForLinkedStudents(): void
     {
-        $university = University::factory()->create(["domain" => "example.edu"]);
+        $university = University::factory()->create();
         $engineering = Faculty::factory()->for($university)->create(["name" => "Engineering"]);
         $science = Faculty::factory()->for($university)->create(["name" => "Science"]);
         $computerScience = StudyField::factory()->for($engineering)->create(["name" => "Computer Science"]);
         $physics = StudyField::factory()->for($science)->create(["name" => "Physics"]);
 
-        $domainStudent = User::factory()->create([
-            "email" => "domain.student@example.edu",
-            "study_field" => $computerScience->id,
-        ]);
-        $manuallyLinkedStudent = User::factory()->create([
-            "email" => "student@elsewhere.test",
+        $engineeringStudent = User::factory()->create([
             "organization_id" => $university->id,
-            "study_field" => $physics->id,
+            "study_field_id" => $computerScience->id,
+        ]);
+        $scienceStudent = User::factory()->create([
+            "organization_id" => $university->id,
+            "study_field_id" => $physics->id,
         ]);
 
-        Application::factory()->accepted()->create(["student_id" => $domainStudent->id]);
-        Application::factory()->pending()->create(["student_id" => $domainStudent->id]);
-        Application::factory()->accepted()->create(["student_id" => $manuallyLinkedStudent->id]);
+        Application::factory()->accepted()->create(["student_id" => $engineeringStudent->id]);
+        Application::factory()->pending()->create(["student_id" => $engineeringStudent->id]);
+        Application::factory()->accepted()->create(["student_id" => $scienceStudent->id]);
 
-        User::factory()->create(["email" => "unrelated@elsewhere.test"]);
+        User::factory()->create(["study_field_id" => $computerScience->id]);
         User::factory()->create([
-            "email" => "admin@example.edu",
+            "organization_id" => $university->id,
             "role" => UserRole::UniversityAdmin,
         ]);
 
@@ -93,8 +92,8 @@ class GetStudentsStatisticsTest extends TestCase
 
     public function testItFiltersApplicationsByDateRangeWithoutFilteringLinkedStudents(): void
     {
-        $university = University::factory()->create(["domain" => "example.edu"]);
-        $student = User::factory()->create(["email" => "student@example.edu"]);
+        $university = University::factory()->create();
+        $student = User::factory()->create(["organization_id" => $university->id]);
 
         Application::factory()->accepted()->create([
             "student_id" => $student->id,
@@ -120,17 +119,70 @@ class GetStudentsStatisticsTest extends TestCase
         $this->assertSame(0, $result["acceptedPlacements"]);
     }
 
+    public function testItListsFacultiesAndFieldsWithoutStudents(): void
+    {
+        $university = University::factory()->create();
+        $faculty = Faculty::factory()->for($university)->create(["name" => "Engineering"]);
+        StudyField::factory()->for($faculty)->create(["name" => "Robotics"]);
+
+        Faculty::factory()->for(University::factory()->create())->create(["name" => "Foreign Faculty"]);
+
+        $result = app(GetStudentsStatistics::class)->execute($university);
+
+        $this->assertEquals([
+            [
+                "facultyId" => $faculty->id,
+                "facultyName" => "Engineering",
+                "linkedStudents" => 0,
+                "applicationsSubmitted" => 0,
+                "acceptedPlacements" => 0,
+            ],
+        ], $result["breakdownByFaculty"]->all());
+
+        $this->assertSame("Robotics", $result["breakdownByField"]->items()[0]["fieldName"]);
+        $this->assertSame(0, $result["breakdownByField"]->items()[0]["linkedStudents"]);
+        $this->assertSame(1, $result["breakdownByField"]->total());
+    }
+
+    public function testItKeepsStudentsWithoutStudyFieldInASeparateRow(): void
+    {
+        $university = University::factory()->create();
+        $faculty = Faculty::factory()->for($university)->create(["name" => "Engineering"]);
+        $robotics = StudyField::factory()->for($faculty)->create(["name" => "Robotics"]);
+
+        User::factory()->create([
+            "organization_id" => $university->id,
+            "study_field_id" => $robotics->id,
+        ]);
+        User::factory()->create([
+            "organization_id" => $university->id,
+            "study_field_id" => null,
+        ]);
+
+        $result = app(GetStudentsStatistics::class)->execute($university);
+
+        $this->assertSame(2, $result["linkedStudents"]);
+        $this->assertEqualsCanonicalizing(
+            [$faculty->id, null],
+            array_column($result["breakdownByFaculty"]->all(), "facultyId"),
+        );
+        $this->assertEqualsCanonicalizing(
+            [$robotics->id, null],
+            array_column($result["breakdownByField"]->items(), "fieldId"),
+        );
+    }
+
     public function testItPaginatesBreakdownByField(): void
     {
-        $university = University::factory()->create(["domain" => "example.edu"]);
+        $university = University::factory()->create();
         $faculty = Faculty::factory()->for($university)->create();
 
         $studyFields = StudyField::factory()->for($faculty)->count(15)->create();
 
-        foreach ($studyFields as $index => $field) {
+        foreach ($studyFields as $field) {
             User::factory()->create([
-                "email" => "student{$index}@example.edu",
-                "study_field" => $field->id,
+                "organization_id" => $university->id,
+                "study_field_id" => $field->id,
             ]);
         }
 

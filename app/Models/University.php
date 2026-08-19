@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * @property string $id
@@ -65,6 +66,14 @@ class University extends Model
     }
 
     /**
+     * @return HasManyThrough<StudyField, Faculty, $this>
+     */
+    public function studyFields(): HasManyThrough
+    {
+        return $this->hasManyThrough(StudyField::class, Faculty::class);
+    }
+
+    /**
      * @return HasMany<Partnership, $this>
      */
     public function partnerships(): HasMany
@@ -90,7 +99,7 @@ class University extends Model
      */
     public function scopeMatchingName(Builder $query, string $name): Builder
     {
-        return $query->where("name", "like", "%{$name}%");
+        return $query->whereRaw("LOWER(name) LIKE ?", ["%" . mb_strtolower($name) . "%"]);
     }
 
     protected function casts(): array

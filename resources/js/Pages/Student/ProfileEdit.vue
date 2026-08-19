@@ -1,11 +1,13 @@
 <script setup>
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { Head, Link, router, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
+import { useMapboxGeocoding } from '@/Composables/useMapboxGeocoding'
 import { IconArrowLeft, IconHome, IconUser, IconBriefcase, IconHeart } from '@tabler/icons-vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
+import BaseSelect from '@/Components/Base/BaseSelect.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
-import ProfileTagInput from '@/Components/Profile/ProfileTagInput.vue'
+import CityAutocomplete from '@/Components/Common/CityAutocomplete.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import ProfilePhotoUpload from '@/Components/Student/ProfilePhotoUpload.vue'
 import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
@@ -18,11 +20,13 @@ import { ROUTES } from '@/Helpers/routes'
 const props = defineProps({
   user: { type: Object, required: true },
   studyFields: { type: Array, default: () => [] },
+  faculties: { type: Array, default: () => [] },
   universityOrganization: { type: Object, default: null },
   suggestedUniversity: { type: Object, default: null },
 })
 
 const { t } = useI18n()
+const { cityOptions, fetchSuggestions: fetchCitySuggestions } = useMapboxGeocoding()
 const photoUpload = ref(null)
 const pendingPhoto = ref(null)
 
@@ -36,7 +40,8 @@ const profileForm = useForm({
   postal_code: props.user.postal_code ?? '',
   city: props.user.city ?? '',
   university: props.user.university ?? '',
-  study_field: props.user.study_field ?? '',
+  university_id: props.user.university_id ?? '',
+  study_field_id: props.user.study_field_id ?? '',
   study_year: props.user.study_year ?? '',
   specialization: props.user.specialization ?? '',
   study_field_ids: [...(props.user.study_field_ids ?? [])],
@@ -55,7 +60,71 @@ const isUniversitySuggested = computed(() =>
   && profileForm.university === props.suggestedUniversity.name,
 )
 
-const selectedUniversityId = ref(props.suggestedUniversity?.id ?? null)
+const { faculties, loadFaculties } = useUniversityFaculties(props.faculties)
+const selectedFacultyId = ref(props.user.faculty_id ?? '')
+
+const hasUniversity = computed(() => Boolean(profileForm.university_id))
+
+const facultyOptions = computed(() => faculties.value.map((faculty) => ({
+  value: faculty.id,
+  label: faculty.name,
+})))
+
+const studyFieldOptions = computed(() => {
+  const faculty = faculties.value.find((item) => item.id === selectedFacultyId.value)
+
+  return (faculty?.study_fields ?? []).map((field) => ({
+    value: field.id,
+    label: field.name,
+  }))
+})
+
+const selectedUniversityName = ref(profileForm.university)
+
+function selectUniversity(university) {
+  selectedUniversityName.value = university.name
+  profileForm.university_id = university.id
+  selectedFacultyId.value = ''
+  profileForm.study_field_id = ''
+  loadFaculties(university.id)
+}
+
+watch(() => profileForm.university, (name) => {
+  if (!profileForm.university_id || name === selectedUniversityName.value) {
+    return
+  }
+
+  profileForm.university_id = ''
+  selectedFacultyId.value = ''
+  profileForm.study_field_id = ''
+  faculties.value = []
+})
+
+watch(selectedFacultyId, () => {
+  if (!studyFieldOptions.value.some((option) => option.value === profileForm.study_field_id)) {
+    profileForm.study_field_id = ''
+  }
+})
+
+const facultyHint = computed(() => {
+  if (!hasUniversity.value) {
+    return t('student.profile.edit.selectUniversityFirst')
+  }
+
+  return facultyOptions.value.length === 0
+    ? t('student.profile.edit.noFacultiesForUniversity')
+    : undefined
+})
+
+const studyFieldHint = computed(() => {
+  if (!selectedFacultyId.value) {
+    return t('student.profile.edit.selectFacultyFirst')
+  }
+
+  return studyFieldOptions.value.length === 0
+    ? t('student.profile.edit.noStudyFieldsForFaculty')
+    : undefined
+})
 
 const hasPhotoPending = computed(() => Boolean(pendingPhoto.value))
 const fieldError = (field) => profileForm.errors[field]
@@ -107,6 +176,14 @@ function saveAll() {
   <Head :title="t('student.profile.edit.title')" />
   <AppLayout active-page="profile">
     <div class="mx-auto w-full max-w-3xl">
+      <Link
+        :href="ROUTES.STUDENT_PROFILE"
+        class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text"
+      >
+        <IconArrowLeft class="h-4 w-4" aria-hidden="true" />
+        {{ t('student.profile.edit.backToProfile') }}
+      </Link>
+
       <h1 class="mt-4 font-semibold text-text text-2xl">
         {{ t('student.profile.edit.title') }}
       </h1>
@@ -171,11 +248,10 @@ function saveAll() {
                 :label="t('student.profile.edit.postalCode')"
                 :error="fieldError('postal_code')"
               />
-              <BaseInput
+              <CityAutocomplete
                 id="edit_city"
                 v-model="profileForm.city"
                 :label="t('student.profile.edit.city')"
-                autocomplete="address-level2"
                 :error="fieldError('city')"
               />
             </div>
@@ -208,13 +284,17 @@ function saveAll() {
               :placeholder="t('student.profile.details.fieldsPlaceholder')"
               :error="fieldError('study_field_ids')"
             />
-            <ProfileTagInput
+            <DynamicMultiSelect
               id="edit_cities"
               v-model="profileForm.preferred_cities"
               :label="t('student.profile.details.cities')"
               :placeholder="t('student.profile.details.citiesPlaceholder')"
+              :options="cityOptions"
               :max="10"
               :error="fieldError('preferred_cities')"
+              allow-custom
+              remote
+              @search="fetchCitySuggestions"
             />
           </div>
         </ProfilePageCard>
@@ -229,7 +309,7 @@ function saveAll() {
                 id="edit_university"
                 v-model="profileForm.university"
                 :label="t('student.profile.edit.university')"
-                @select="(university) => { selectedUniversityId = university.id }"
+                @select="selectUniversity"
               />
 
               <p
@@ -248,12 +328,27 @@ function saveAll() {
                 {{ fieldError('university') }}
               </p>
             </div>
-            <BaseInput
-              id="edit_study_field"
-              v-model="profileForm.study_field"
-              :label="t('student.profile.edit.studyField')"
-              :error="fieldError('study_field')"
-            />
+            <div class="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <BaseSelect
+                id="edit_faculty"
+                v-model="selectedFacultyId"
+                :label="t('student.profile.edit.faculty')"
+                :options="facultyOptions"
+                :placeholder="t('student.profile.edit.facultyPlaceholder')"
+                :disabled="facultyOptions.length === 0"
+                :hint="facultyHint"
+              />
+              <BaseSelect
+                id="edit_study_field"
+                v-model="profileForm.study_field_id"
+                :label="t('student.profile.edit.studyField')"
+                :options="studyFieldOptions"
+                :placeholder="t('student.profile.edit.studyFieldPlaceholder')"
+                :disabled="studyFieldOptions.length === 0"
+                :hint="studyFieldHint"
+                :error="fieldError('study_field_id')"
+              />
+            </div>
             <BaseInput
               id="edit_study_year"
               v-model="profileForm.study_year"

@@ -73,7 +73,8 @@ const goBack = () => {
             {{ student.university }}
           </component>
 
-          <div v-if="student.study_field || student.study_year" class="mt-3 flex flex-wrap justify-center gap-2">
+          <div v-if="student.faculty || student.study_field || student.study_year" class="mt-3 flex flex-wrap justify-center gap-2">
+            <ProfileTag v-if="student.faculty" :label="student.faculty" variant="profile" />
             <ProfileTag v-if="student.study_field" :label="student.study_field" variant="profile" />
             <ProfileTag v-if="student.study_year" :label="t('student.profile.sidebar.yearTag', { year: student.study_year })" variant="profile" />
           </div>

@@ -7,14 +7,18 @@ namespace App\Providers;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\Application;
+use App\Models\Faculty;
 use App\Models\Offer;
 use App\Models\OrganizationInvitation;
+use App\Models\StudyField;
 use App\Models\User;
 use App\Observers\OfferObserver;
 use App\Policies\ApplicationPolicy;
+use App\Policies\FacultyPolicy;
 use App\Policies\NotificationPolicy;
 use App\Policies\OfferPolicy;
 use App\Policies\OrganizationInvitationPolicy;
+use App\Policies\StudyFieldPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Gate;
@@ -29,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Application::class, ApplicationPolicy::class);
+        Gate::policy(Faculty::class, FacultyPolicy::class);
+        Gate::policy(StudyField::class, StudyFieldPolicy::class);
         Gate::policy(Offer::class, OfferPolicy::class);
         Gate::policy(OrganizationInvitation::class, OrganizationInvitationPolicy::class);
         Gate::policy(DatabaseNotification::class, NotificationPolicy::class);

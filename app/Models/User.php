@@ -9,6 +9,7 @@ use App\Enums\UserStatus;
 use App\Services\EmailVerificationService;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,7 +39,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property ?string $street
  * @property ?string $postal_code
  * @property ?string $city
- * @property ?string $study_field
+ * @property ?string $study_field_id
  * @property ?int $study_year
  * @property ?string $specialization
  * @property ?array $skills
@@ -72,7 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail
         "street",
         "postal_code",
         "city",
-        "study_field",
+        "study_field_id",
         "study_year",
         "specialization",
         "skills",
@@ -89,7 +90,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function studyField(): BelongsTo
     {
-        return $this->belongsTo(StudyField::class, "study_field");
+        return $this->belongsTo(StudyField::class);
     }
 
     /**
@@ -137,6 +138,17 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withTrashed()
             ->using(StudentFavourite::class)
             ->withTimestamps();
+    }
+
+    /**
+     * @param Builder<User> $query
+     * @return Builder<User>
+     */
+    public function scopeLinkedToUniversity(Builder $query, University $university): Builder
+    {
+        return $query
+            ->where("role", UserRole::Student)
+            ->where("organization_id", $university->id);
     }
 
     public function fullName(): string

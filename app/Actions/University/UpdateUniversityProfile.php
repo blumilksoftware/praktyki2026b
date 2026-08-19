@@ -50,22 +50,6 @@ class UpdateUniversityProfile
                 "city" => $data->city,
             ]);
 
-            if ($data->faculties !== null && count($data->faculties) > 0) {
-                $university->faculties()->delete();
-
-                foreach ($data->faculties as $facultyData) {
-                    $faculty = $university->faculties()->create([
-                        "name" => $facultyData["name"],
-                    ]);
-
-                    foreach ($facultyData["study_fields"] as $fieldName) {
-                        $faculty->studyFields()->create([
-                            "name" => $fieldName,
-                        ]);
-                    }
-                }
-            }
-
             return $university->fresh();
         });
     }

@@ -334,425 +334,455 @@
         }
     },
 
-    "table": {
-        "id": "ID",
-        "student": "Student",
-        "company": "Firma",
-        "status": "Status",
-        "noData": "Brak danych do wyświetlenia"
+  "table": {
+    "id": "ID",
+    "student": "Student",
+    "company": "Firma",
+    "status": "Status",
+    "noData": "Brak danych do wyświetlenia"
+  },
+  "admin": {
+    "applications": {
+      "caption": "Lista zgłoszeń kandydatów",
+      "title": "Panel zgłoszeń",
+      "description": "Przeglądaj i weryfikuj najnowsze zgłoszenia.",
+      "heading": "Lista zgłoszeń",
+      "backToDashboard": "Powrót do strony głównej",
+      "placeholder": "Strona w budowie"
     },
-    "admin": {
-        "applications": {
-            "caption": "Lista zgłoszeń kandydatów",
-            "title": "Panel zgłoszeń",
-            "description": "Przeglądaj i weryfikuj najnowsze zgłoszenia.",
-            "heading": "Lista zgłoszeń",
-            "backToDashboard": "Powrót do strony głównej",
-            "placeholder": "Strona w budowie"
-        },
-        "verification": {
-            "name": "Nazwa",
-            "pending": "Oczekujące",
-            "verified": "Zweryfikowane",
-            "rejected": "Odrzucone",
-            "companies": "Firmy",
-            "universities": "Uczelnie",
-            "city": "Miasto",
-            "street": "Ulica i numer",
-            "postalCode": "Kod pocztowy",
-            "description": "Opis",
-            "close": "Zamknij",
-            "externalFormUrl": "Zewnętrzny formularz",
-            "tags": "Tagi",
-            "nip": "NIP",
-            "email": "E-mail",
-            "domain": "Domena",
-            "address": "Adres",
-            "phone": "Telefon",
-            "website": "Strona www",
-            "accept": "Akceptuj",
-            "reject": "Odrzuć",
-            "rejectReason": "Podaj powód odrzucenia:",
-            "noPending": "Brak oczekujących weryfikacji",
-            "submittedAt": "Data zgłoszenia",
-            "details": "Szczegóły",
-            "all": "Wszystkie",
-            "search": "Szukaj...",
-            "actions": "Akcje",
-            "filterByStatusAriaLabel": "Filtruj zgłoszenia po statusie",
-            "searchAriaLabel": "Wyszukaj zgłoszenia",
-            "acceptAriaLabel": "Akceptuj zgłoszenie: {name}",
-            "rejectAriaLabel": "Odrzuć zgłoszenie: {name}",
-            "detailsAriaLabel": "Szczegóły zgłoszenia: {name}",
-            "rejectTitle": "Odrzuć zgłoszenie",
-            "rejectDescription": "Zamierzasz odrzucić zgłoszenie {name}. Ta operacja jest nieodwracalna.",
-            "rejectReasonPlaceholder": "Wpisz powód tutaj...",
-            "cancel": "Anuluj",
-            "confirmReject": "Odrzuć zgłoszenie",
-            "closeModal": "Zamknij okno",
-            "rejectReasonRequired": "Powód odrzucenia jest wymagany.",
-            "rejectionReason": "Powód odrzucenia"
-        },
-        "panel": {
-            "greeting": "Witaj w panelu administratora!",
-            "description": "Tutaj możesz zarządzać zgłoszeniami i przeglądać statystyki.",
-            "goToApplications": "Przejdź do zgłoszeń",
-            "stats": {
-                "activeStudents": "Aktywni studenci",
-                "approvedCompanies": "Zatwierdzone firmy",
-                "approvedUniversities": "Zatwierdzone uczelnie",
-                "activeOffers": "Aktywne oferty"
-            },
-            "pendingVerifications": "Oczekujące weryfikacje",
-            "verificationProgressCount": "{completed} z {total} zakończonych",
-            "verificationProgressAriaLabel": "Postęp weryfikacji"
-        },
-        "layout": {
-            "language": "Język",
-            "skipToContent": "Przejdź do treści",
-            "title": "Admin",
-            "subtitle": "Panel zarządzania",
-            "nav": {
-                "openMenu": "Otwórz menu",
-                "closeMenu": "Zamknij menu",
-                "profile": "Profil",
-                "ariaLabel": "Nawigacja administratora",
-                "dashboard": "Strona główna",
-                "applications": "Zgłoszenia",
-                "settings": "Ustawienia",
-                "mobileAriaLabel": "Nawigacja mobilna",
-                "users": "Użytkownicy"
-            },
-            "logout": "Wyloguj",
-            "userRole": "Administrator",
-            "languageSwitch": {
-                "toEnglish": "Przełącz na angielski",
-                "toPolish": "Przełącz na polski"
-            }
-        },
-        "profile": {
-            "title": "Administrator profile",
-            "administratorHeading": "Administrator",
-            "administratorDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        }
+    "verification": {
+      "name": "Nazwa",
+      "pending": "Oczekujące",
+      "verified": "Zweryfikowane",
+      "rejected": "Odrzucone",
+      "companies": "Firmy",
+      "universities": "Uczelnie",
+      "city": "Miasto",
+      "street": "Ulica i numer",
+      "postalCode": "Kod pocztowy",
+      "description": "Opis",
+      "close": "Zamknij",
+      "externalFormUrl": "Zewnętrzny formularz",
+      "tags": "Tagi",
+      "nip": "NIP",
+      "email": "E-mail",
+      "domain": "Domena",
+      "address": "Adres",
+      "phone": "Telefon",
+      "website": "Strona www",
+      "accept": "Akceptuj",
+      "reject": "Odrzuć",
+      "rejectReason": "Podaj powód odrzucenia:",
+      "noPending": "Brak oczekujących weryfikacji",
+      "submittedAt": "Data zgłoszenia",
+      "details": "Szczegóły",
+      "all": "Wszystkie",
+      "search": "Szukaj...",
+      "actions": "Akcje",
+      "filterByStatusAriaLabel": "Filtruj zgłoszenia po statusie",
+      "searchAriaLabel": "Wyszukaj zgłoszenia",
+      "acceptAriaLabel": "Akceptuj zgłoszenie: {name}",
+      "rejectAriaLabel": "Odrzuć zgłoszenie: {name}",
+      "detailsAriaLabel": "Szczegóły zgłoszenia: {name}",
+      "rejectTitle": "Odrzuć zgłoszenie",
+      "rejectDescription": "Zamierzasz odrzucić zgłoszenie {name}. Ta operacja jest nieodwracalna.",
+      "rejectReasonPlaceholder": "Wpisz powód tutaj...",
+      "cancel": "Anuluj",
+      "confirmReject": "Odrzuć zgłoszenie",
+      "closeModal": "Zamknij okno",
+      "rejectReasonRequired": "Powód odrzucenia jest wymagany.",
+      "rejectionReason": "Powód odrzucenia"
     },
-    "university": {
-        "layout": {
-            "title": "Uczelnia",
-            "nav": {
-                "dashboard": "Panel",
-                "department": "Wydziały",
-                "team": "Zespół",
-                "partnership": "Partnerstwo"
-            }
-        },
-        "profile": {
-            "title": "Profil"
-        },
-        "companies": {
-            "title": "Wyszukiwarka firm",
-            "filters": {
-                "name": "Nazwa firmy",
-                "namePlaceholder": "Szukaj po nazwie",
-                "city": "Miasto",
-                "cityPlaceholder": "Filtruj po mieście",
-                "tag": "Tag",
-                "tagPlaceholder": "Filtruj po tagu"
-            },
-            "card": {
-                "logoAlt": "Logo firmy {company}",
-                "offersCount": "Aktywne oferty: {count}",
-                "propose": "Zaproponuj partnerstwo",
-                "cancel": "Anuluj propozycję",
-                "accept": "Akceptuj",
-                "decline": "Odrzuć",
-                "end": "Zakończ partnerstwo"
-            },
-            "cancelAction": "Anuluj",
-            "propose": {
-                "modalTitle": "Zaproponuj partnerstwo",
-                "confirmation": "Czy na pewno chcesz zaproponować partnerstwo firmie {partner}? Firma będzie musiała je zaakceptować.",
-                "confirm": "Zaproponuj partnerstwo"
-            },
-            "cancel": {
-                "modalTitle": "Anuluj propozycję",
-                "confirmation": "Czy na pewno chcesz anulować propozycję partnerstwa wysłaną do firmy {partner}?",
-                "confirm": "Anuluj propozycję"
-            },
-            "decline": {
-                "modalTitle": "Odrzuć propozycję",
-                "confirmation": "Czy na pewno chcesz odrzucić propozycję partnerstwa od firmy {partner}?",
-                "confirm": "Odrzuć propozycję"
-            },
-            "end": {
-                "modalTitle": "Zakończ partnerstwo",
-                "confirmation": "Czy na pewno chcesz zakończyć partnerstwo z firmą {partner}?",
-                "confirm": "Zakończ partnerstwo"
-            },
-            "status": {
-                "none": "Brak partnerstwa",
-                "pending_outgoing": "Wysłano propozycję",
-                "pending_incoming": "Oczekuje na Twoją odpowiedź",
-                "active": "Partner",
-                "suspended": "Zawieszone"
-            },
-            "empty": {
-                "title": "Nie znaleziono firm"
-            }
-        },
-        "dashboard": {
-            "title": "Statystyki studentów",
-            "filter": {
-                "title": "Okres",
-                "from": "Od",
-                "to": "Do",
-                "apply": "Zastosuj",
-                "reset": "Wyczyść"
-            },
-            "stats": {
-                "linkedStudents": "Powiązani studenci",
-                "applicationsSubmitted": "Złożone wnioski",
-                "acceptedPlacements": "Zaakceptowane praktyki",
-                "acceptanceRate": "Konwersja {rate}%"
-            },
-            "breakdown": {
-                "title": "Statystyki wydziałów i kierunków",
-                "subtitle": "Szczegółowy podział aktywności studentów, złożonych aplikacji i przyjęć według jednostek uczelni",
-                "byFaculty": "Według wydziału",
-                "byField": "Według kierunku",
-                "field": "Kierunek",
-                "faculty": "Wydział",
-                "students": "Studenci",
-                "applications": "Wnioski",
-                "accepted": "Zaakceptowane",
-                "acceptedShare": "% zaakceptowanych",
-                "empty": "Brak danych dla wybranego okresu",
-                "unknown": "Bez wydziału",
-                "showingResults" : "Wyświetlono {from}–{to} z {total}",
-                "searchPlaceholder": "Szukaj..."
-            }
-        }
+    "panel": {
+      "greeting": "Witaj w panelu administratora!",
+      "description": "Tutaj możesz zarządzać zgłoszeniami i przeglądać statystyki.",
+      "goToApplications": "Przejdź do zgłoszeń",
+      "stats": {
+        "activeStudents": "Aktywni studenci",
+        "approvedCompanies": "Zatwierdzone firmy",
+        "approvedUniversities": "Zatwierdzone uczelnie",
+        "activeOffers": "Aktywne oferty"
+      },
+      "pendingVerifications": "Oczekujące weryfikacje",
+      "verificationProgressCount": "{completed} z {total} zakończonych",
+      "verificationProgressAriaLabel": "Postęp weryfikacji"
     },
-    "student": {
-        "layout": {
-            "skipToContent": "Przejdź do treści",
-            "nav": {
-                "dashboard": "Panel",
-                "profile": "Profil",
-                "offers": "Oferty",
-                "favorites": "Ulubione",
-                "ariaLabel": "Nawigacja studenta",
-                "mobileAriaLabel": "Nawigacja mobilna studenta",
-                "applications": "Aplikacje"
-            }
-        },
-        "applications": {
-            "title": "Historia aplikacji",
-            "subtitle": "Przeglądaj status swoich aplikacji na oferty praktyk.",
-            "empty": "Nie masz jeszcze żadnych aplikacji.",
-            "listAriaLabel": "Lista aplikacji",
-            "appliedAt": "Wysłano: {date}",
-            "openHistory": "Zobacz historię aplikacji",
-            "status": {
-                "pending": "Oczekująca",
-                "reviewed": "Rozpatrywana",
-                "accepted": "Zaakceptowana",
-                "rejected": "Odrzucona"
-            },
-            "withdraw": {
-                "action": "Wycofaj",
-                "modalTitle": "Wycofać aplikację?",
-                "confirmation": "Czy na pewno chcesz wycofać aplikację na ofertę „{title}”? Tego nie można cofnąć.",
-                "cancel": "Anuluj",
-                "confirm": "Wycofaj aplikację"
-            }
-        },
-        "dashboard": {
-            "title": "Panel główny studenta",
-            "heading": "Twoje centrum ofert",
-            "description": "Przeglądaj oferty, wracaj do ulubionych i przechodź między widokami jednym kliknięciem.",
-            "primaryAction": "Przejdź do ofert",
-            "secondaryAction": "Zobacz ulubione",
-            "previewTitle": "Najnowsze oferty",
-            "previewDescription": "Krótki podgląd najświeższych pozycji.",
-            "cards": {
-                "offersTitle": "Wszystkie oferty",
-                "offersDescription": "Przejdź do pełnej listy z filtrami.",
-                "favoritesTitle": "Ulubione oferty",
-                "favoritesDescription": "Sprawdź zapisane pozycje w jednym miejscu."
-            }
-        },
-        "cv": {
-            "title": "Twoje CV (tylko PDF)",
-            "hint": "Akceptowany format: PDF. Maksymalny rozmiar: 5 MB.",
-            "selectFile": "Wybierz plik PDF",
-            "dropzone": "lub przeciągnij go tutaj",
-            "replace": "Zamień",
-            "delete": "Usuń plik",
-            "preview": "Podgląd",
-            "previewTitle": "Podgląd CV",
-            "openInNewTab": "Otwórz w nowej karcie",
-            "previewUnavailable": "Podgląd CV jest chwilowo niedostępny.",
-            "uploading": "Przesyłanie... {progress}%",
-            "defaultFileName": "CV.pdf",
-            "errors": {
-                "invalidType": "Plik musi być w formacie PDF.",
-                "tooLarge": "Plik nie może być większy niż 5 MB."
-            }
-        },
-        "profile": {
-            "title": "Profil",
-            "modal": {
-                "close": "Zamknij"
-            },
-            "actions": {
-                "save": "Zapisz",
-                "cancel": "Anuluj",
-                "add": "Dodaj",
-                "edit": "Edytuj"
-            },
-            "sidebar": {
-                "editProfile": "Edytuj profil",
-                "age": "{count} lat",
-                "yearTag": "rok {year}",
-                "verified": "Zweryfikowana uczelnia",
-                "cvUploaded": "CV przesłane"
-            },
-            "edit": {
-                "title": "Edytuj profil",
-                "basicData": "Dane podstawowe",
-                "searchPreferences": "Preferencje wyszukiwania",
-                "searchPreferencesHint": "Wybierz branże i miasta, które Cię interesują — pomoże nam to dopasować oferty praktyk.",
-                "education": "Edukacja",
-                "age": "Wiek (lata)",
-                "ageLabel": "Wiek",
-                "agePlaceholder": "lata",
-                "location": "Lokalizacja (miasto, kraj)",
-                "locationLabel": "Lokalizacja",
-                "locationPlaceholder": "miasto, kraj",
-                "street": "Ulica i numer",
-                "postalCode": "Kod pocztowy",
-                "city": "Miasto",
-                "university": "Uczelnia",
-                "universitySuggestedNote": "Wybrano automatycznie na podstawie adresu e-mail Twojej uczelni",
-                "studyField": "Kierunek studiów",
-                "studyYear": "Rok studiów",
-                "specialization": "Specjalność",
-                "saveChanges": "Zapisz zmiany",
-                "backToProfile": "Wróć do profilu",
-                "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” (ikona profilu w pasku nawigacji)."
-            },
-            "photo": {
-                "label": "Zdjęcie profilowe",
-                "changeButton": "Zmień",
-                "uploadAction": "Prześlij plik",
-                "orDragDrop": " lub przeciągnij i upuść",
-                "formatHint": "PNG, JPG, WebP do 2 MB",
-                "change": "Zmień zdjęcie profilowe",
-                "dropzone": "Przeciągnij zdjęcie tutaj lub wybierz plik",
-                "previewHint": "Podgląd — zapisz zmiany, aby wysłać zdjęcie na serwer.",
-                "cancelPreview": "Anuluj podgląd",
-                "errors": {
-                    "invalidType": "Dozwolone formaty: JPG, PNG, WebP.",
-                    "tooLarge": "Plik jest za duży (maks. 2 MB)."
-                }
-            },
-            "details": {
-                "firstName": "Imię",
-                "lastName": "Nazwisko",
-                "fields": "Branże",
-                "fieldsPlaceholder": "Wybierz branżę z listy",
-                "cities": "Miasta",
-                "citiesPlaceholder": "Wpisz miasto i naciśnij Enter"
-            },
-            "tags": {
-                "remove": "Usuń tag",
-                "limitHint": "{count}/{max} tagów. Możesz dodać maksymalnie {max}.",
-                "limitReached": "Osiągnięto limit: maksymalnie {max} tagów."
-            },
-            "skills": {
-                "title": "Umiejętności techniczne",
-                "description": "Technologie, narzędzia i języki programowania",
-                "modalTitle": "Dodaj umiejętności techniczne",
-                "placeholder": "Wpisz umiejętność i naciśnij Enter",
-                "empty": "Brak dodanych umiejętności. Kliknij „Dodaj”, aby uzupełnić."
-            },
-            "workMode": {
-                "title": "Oczekiwany tryb pracy",
-                "modalTitle": "Edytuj oczekiwany tryb pracy",
-                "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić.",
-                "options": {
-                    "onsite": "Stacjonarnie",
-                    "remote": "Zdalnie",
-                    "hybrid": "Hybrydowo"
-                }
-            },
-            "applications": {
-                "title": "Zapisane i wysłane aplikacje",
-                "historyHint": "Sprawdź status swoich wysłanych aplikacji."
-            },
-            "placeholder": {
-                "comingSoon": "Ta sekcja będzie dostępna wkrótce."
-            },
-            "account": {
-                "title": "Konto i bezpieczeństwo",
-                "description": "Hasło, adres e-mail i usuwanie konta."
-            },
-            "password": {
-                "title": "Zmiana hasła",
-                "current": "Obecne hasło",
-                "new": "Nowe hasło",
-                "confirmation": "Potwierdź nowe hasło"
-            },
-            "email": {
-                "title": "Zmiana adresu e-mail",
-                "label": "Adres e-mail",
-                "newAddress": "Nowy adres e-mail",
-                "unverifiedNotice": "Adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
-                "pendingNotice": "Nowy adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
-                "currentPassword": "Obecne hasło",
-                "resend": "Wyślij ponownie link weryfikacyjny"
-            },
-            "delete": {
-                "title": "Usuń konto",
-                "warning": "Tej operacji nie można cofnąć.",
-                "openModal": "Usuń konto",
-                "modalTitle": "Potwierdź usunięcie konta",
-                "confirmationLabel": "Rozumiem, że tej operacji nie można cofnąć",
-                "password": "Hasło",
-                "confirm": "Usuń konto na stałe",
-                "cancel": "Anuluj"
-            }
-        },
+    "layout": {
+      "language": "Język",
+      "skipToContent": "Przejdź do treści",
+      "title": "Admin",
+      "subtitle": "Panel zarządzania",
+      "nav": {
+        "openMenu": "Otwórz menu",
+        "closeMenu": "Zamknij menu",
+        "profile": "Profil",
+        "ariaLabel": "Nawigacja administratora",
+        "dashboard": "Strona główna",
+        "applications": "Zgłoszenia",
+        "settings": "Ustawienia",
+        "mobileAriaLabel": "Nawigacja mobilna"
+      },
+      "logout": "Wyloguj",
+      "userRole": "Administrator",
+      "languageSwitch": {
+        "toEnglish": "Przełącz na angielski",
+        "toPolish": "Przełącz na polski"
+      }
+    }
+  },
+  "university": {
+    "layout": {
+      "title": "Uczelnia",
         "nav": {
-            "dashboard": "Dashboard",
-            "profile": "Profil",
-            "offers": "Oferty",
-            "favorites": "Ulubione"
-        },
-        "workModes": {
-            "remote": "Zdalnie",
-            "hybrid": "Hybrydowo",
-            "onSite": "Stacjonarnie"
-        },
-        "publicProfile": {
-            "noSkills": "Kandydat nie dodał żadnych umiejętności technicznych.",
-            "noWorkModes": "Kandydat nie wybrał oczekiwanego trybu pracy.",
-            "noPreferences": "Kandydat nie określił preferencji wyszukiwania.",
-            "universityProfileAria": "Zobacz profil uczelni: {university}"
-        },
-        "favorites": {
-            "heading": "Twoje zapisane oferty",
-            "description": "Tu trafiają oferty oznaczone sercem. Możesz je potem odhaczyć albo wrócić do pełnej listy.",
-            "backToOffers": "Wróć do ofert",
-            "backToDashboard": "Wróć do panelu głównego",
-            "empty": {
-                "title": "Nie masz jeszcze ulubionych ofert",
-                "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj."
-            },
-            "status": {
-                "expired": "Wygasła"
-            }
+            "dashboard": "Panel",
+            "faculties": "Kierunki/Wydziały",
+            "department": "Wydziały",
+            "team": "Zespół",
+            "partnership": "Partnerstwo"
+        }
+    },
+    "profile": {
+      "title": "Profil"
+    },
+    "faculties": {
+      "title": "Wydziały i kierunki",
+      "subtitle": "Zarządzaj listą wydziałów i kierunków, którą wybierają studenci Twojej uczelni.",
+      "addFacultyLabel": "Nazwa wydziału",
+      "addFaculty": "Dodaj wydział",
+      "facultyName": "Nazwa wydziału",
+      "fieldName": "Nazwa kierunku",
+      "fieldsCount": "Kierunki: {count}",
+      "addFieldLabel": "Nowy kierunek",
+      "addField": "Dodaj kierunek",
+      "renameFaculty": "Zmień nazwę wydziału {name}",
+      "deleteFaculty": "Usuń wydział {name}",
+      "renameField": "Zmień nazwę kierunku {name}",
+      "deleteField": "Usuń kierunek {name}",
+      "usage": "Studenci: {students} · Oferty: {offers}",
+      "noFields": "Ten wydział nie ma jeszcze kierunków.",
+      "empty": "Nie dodano jeszcze żadnego wydziału.",
+      "save": "Zapisz",
+      "cancel": "Anuluj",
+      "confirmDelete": "Usuń",
+      "deleteFacultyTitle": "Usuwanie wydziału",
+      "deleteFieldTitle": "Usuwanie kierunku",
+      "deleteConfirmation": "Czy na pewno chcesz usunąć „{name}”?",
+      "reassignFacultyLabel": "Przenieś kierunki do wydziału",
+      "reassignFieldLabel": "Przenieś studentów i oferty do kierunku",
+      "reassignPlaceholder": "Wybierz cel przeniesienia",
+      "reassignUnavailable": "Nie ma dokąd przenieść powiązanych danych. Najpierw dodaj inny wydział lub kierunek."
+    },
+    "companies": {
+      "title": "Wyszukiwarka firm",
+      "filters": {
+        "name": "Nazwa firmy",
+        "namePlaceholder": "Szukaj po nazwie",
+        "city": "Miasto",
+        "cityPlaceholder": "Filtruj po mieście",
+        "tag": "Tag",
+        "tagPlaceholder": "Filtruj po tagu"
+      },
+      "card": {
+        "logoAlt": "Logo firmy {company}",
+        "offersCount": "Aktywne oferty: {count}",
+        "propose": "Zaproponuj partnerstwo",
+        "cancel": "Anuluj propozycję",
+        "accept": "Akceptuj",
+        "decline": "Odrzuć",
+        "end": "Zakończ partnerstwo"
+      },
+      "cancelAction": "Anuluj",
+      "propose": {
+        "modalTitle": "Zaproponuj partnerstwo",
+        "confirmation": "Czy na pewno chcesz zaproponować partnerstwo firmie {partner}? Firma będzie musiała je zaakceptować.",
+        "confirm": "Zaproponuj partnerstwo"
+      },
+      "cancel": {
+        "modalTitle": "Anuluj propozycję",
+        "confirmation": "Czy na pewno chcesz anulować propozycję partnerstwa wysłaną do firmy {partner}?",
+        "confirm": "Anuluj propozycję"
+      },
+      "decline": {
+        "modalTitle": "Odrzuć propozycję",
+        "confirmation": "Czy na pewno chcesz odrzucić propozycję partnerstwa od firmy {partner}?",
+        "confirm": "Odrzuć propozycję"
+      },
+      "end": {
+        "modalTitle": "Zakończ partnerstwo",
+        "confirmation": "Czy na pewno chcesz zakończyć partnerstwo z firmą {partner}?",
+        "confirm": "Zakończ partnerstwo"
+      },
+      "status": {
+        "none": "Brak partnerstwa",
+        "pending_outgoing": "Wysłano propozycję",
+        "pending_incoming": "Oczekuje na Twoją odpowiedź",
+        "active": "Partner",
+        "suspended": "Zawieszone"
+      },
+      "empty": {
+        "title": "Nie znaleziono firm"
+      }
+    },
+      "dashboard": {
+          "title": "Statystyki studentów",
+          "filter": {
+              "title": "Okres",
+              "from": "Od",
+              "to": "Do",
+              "apply": "Zastosuj",
+              "reset": "Wyczyść"
+          },
+          "stats": {
+              "linkedStudents": "Powiązani studenci",
+              "applicationsSubmitted": "Złożone wnioski",
+              "acceptedPlacements": "Zaakceptowane praktyki",
+              "acceptanceRate": "Konwersja {rate}%"
+          },
+          "breakdown": {
+              "title": "Statystyki wydziałów i kierunków",
+              "subtitle": "Szczegółowy podział aktywności studentów, złożonych aplikacji i przyjęć według jednostek uczelni",
+              "byFaculty": "Według wydziału",
+              "byField": "Według kierunku",
+              "field": "Kierunek",
+              "faculty": "Wydział",
+              "students": "Studenci",
+              "applications": "Wnioski",
+              "accepted": "Zaakceptowane",
+              "acceptedShare": "% zaakceptowanych",
+              "empty": "Brak danych dla wybranego okresu",
+              "unknown": "Bez wydziału",
+              "showingResults" : "Wyświetlono {from}–{to} z {total}",
+              "searchPlaceholder": "Szukaj..."
+          }
+      }
+  },
+  "student": {
+    "layout": {
+      "skipToContent": "Przejdź do treści",
+      "nav": {
+        "dashboard": "Panel",
+        "profile": "Profil",
+        "offers": "Oferty",
+        "favorites": "Ulubione",
+        "ariaLabel": "Nawigacja studenta",
+        "mobileAriaLabel": "Nawigacja mobilna studenta",
+        "applications": "Aplikacje"
+      }
+    },
+    "applications": {
+      "title": "Historia aplikacji",
+      "subtitle": "Przeglądaj status swoich aplikacji na oferty praktyk.",
+      "empty": "Nie masz jeszcze żadnych aplikacji.",
+      "listAriaLabel": "Lista aplikacji",
+      "appliedAt": "Wysłano: {date}",
+      "openHistory": "Zobacz historię aplikacji",
+      "status": {
+        "pending": "Oczekująca",
+        "reviewed": "Rozpatrywana",
+        "accepted": "Zaakceptowana",
+        "rejected": "Odrzucona"
+      },
+      "withdraw": {
+        "action": "Wycofaj",
+        "modalTitle": "Wycofać aplikację?",
+        "confirmation": "Czy na pewno chcesz wycofać aplikację na ofertę „{title}”? Tego nie można cofnąć.",
+        "cancel": "Anuluj",
+        "confirm": "Wycofaj aplikację"
+      }
+    },
+      "dashboard": {
+          "title": "Panel główny studenta",
+          "heading": "Twoje centrum ofert",
+          "description": "Przeglądaj oferty, wracaj do ulubionych i przechodź między widokami jednym kliknięciem.",
+          "primaryAction": "Przejdź do ofert",
+          "secondaryAction": "Zobacz ulubione",
+          "previewTitle": "Najnowsze oferty",
+          "previewDescription": "Krótki podgląd najświeższych pozycji.",
+          "cards": {
+              "offersTitle": "Wszystkie oferty",
+              "offersDescription": "Przejdź do pełnej listy z filtrami.",
+              "favoritesTitle": "Ulubione oferty",
+              "favoritesDescription": "Sprawdź zapisane pozycje w jednym miejscu."
+          }
+    },
+    "cv": {
+      "title": "Twoje CV (tylko PDF)",
+      "hint": "Akceptowany format: PDF. Maksymalny rozmiar: 5 MB.",
+      "selectFile": "Wybierz plik PDF",
+      "dropzone": "lub przeciągnij go tutaj",
+      "replace": "Zamień",
+      "delete": "Usuń plik",
+      "preview": "Podgląd",
+      "previewTitle": "Podgląd CV",
+      "openInNewTab": "Otwórz w nowej karcie",
+      "previewUnavailable": "Podgląd CV jest chwilowo niedostępny.",
+      "uploading": "Przesyłanie... {progress}%",
+      "defaultFileName": "CV.pdf",
+      "errors": {
+        "invalidType": "Plik musi być w formacie PDF.",
+        "tooLarge": "Plik nie może być większy niż 5 MB."
+      }
+    },
+    "profile": {
+      "title": "Profil",
+      "modal": {
+        "close": "Zamknij"
+      },
+      "actions": {
+        "save": "Zapisz",
+        "cancel": "Anuluj",
+        "add": "Dodaj",
+        "edit": "Edytuj"
+      },
+      "sidebar": {
+        "editProfile": "Edytuj profil",
+        "age": "{count} lat",
+        "yearTag": "rok {year}",
+        "verified": "Zweryfikowana uczelnia",
+        "cvUploaded": "CV przesłane"
+      },
+      "edit": {
+        "title": "Edytuj profil",
+        "basicData": "Dane podstawowe",
+        "searchPreferences": "Preferencje wyszukiwania",
+        "searchPreferencesHint": "Wybierz branże i miasta, które Cię interesują — pomoże nam to dopasować oferty praktyk.",
+        "education": "Edukacja",
+        "age": "Wiek (lata)",
+        "ageLabel": "Wiek",
+        "agePlaceholder": "lata",
+        "location": "Lokalizacja (miasto, kraj)",
+        "locationLabel": "Lokalizacja",
+        "locationPlaceholder": "miasto, kraj",
+        "street": "Ulica i numer",
+        "postalCode": "Kod pocztowy",
+        "city": "Miasto",
+        "university": "Uczelnia",
+          "universitySuggestedNote": "Wybrano automatycznie na podstawie adresu e-mail Twojej uczelni",
+        "studyField": "Kierunek studiów",
+        "studyFieldPlaceholder": "Wybierz kierunek studiów",
+        "faculty": "Wydział",
+        "facultyPlaceholder": "Wybierz wydział",
+        "selectUniversityFirst": "Najpierw wybierz swoją uczelnię.",
+        "noFacultiesForUniversity": "Ta uczelnia nie dodała jeszcze żadnych wydziałów.",
+        "selectFacultyFirst": "Najpierw wybierz wydział.",
+        "noStudyFieldsForFaculty": "Ten wydział nie ma jeszcze kierunków.",
+        "studyYear": "Rok studiów",
+        "specialization": "Specjalność",
+        "saveChanges": "Zapisz zmiany",
+        "backToProfile": "Wróć do profilu",
+        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” (ikona profilu w pasku nawigacji)."
+      },
+      "photo": {
+        "label": "Zdjęcie profilowe",
+        "changeButton": "Zmień",
+        "uploadAction": "Prześlij plik",
+        "orDragDrop": " lub przeciągnij i upuść",
+        "formatHint": "PNG, JPG, WebP do 2 MB",
+        "change": "Zmień zdjęcie profilowe",
+        "dropzone": "Przeciągnij zdjęcie tutaj lub wybierz plik",
+        "previewHint": "Podgląd — zapisz zmiany, aby wysłać zdjęcie na serwer.",
+        "cancelPreview": "Anuluj podgląd",
+        "errors": {
+          "invalidType": "Dozwolone formaty: JPG, PNG, WebP.",
+          "tooLarge": "Plik jest za duży (maks. 2 MB)."
+        }
+      },
+      "details": {
+        "firstName": "Imię",
+        "lastName": "Nazwisko",
+        "fields": "Branże",
+        "fieldsPlaceholder": "Wybierz branżę z listy",
+        "cities": "Miasta",
+        "citiesPlaceholder": "Wpisz miasto i naciśnij Enter"
+      },
+      "tags": {
+        "remove": "Usuń tag",
+        "limitHint": "{count}/{max} tagów. Możesz dodać maksymalnie {max}.",
+        "limitReached": "Osiągnięto limit: maksymalnie {max} tagów."
+      },
+      "skills": {
+        "title": "Umiejętności techniczne",
+        "description": "Technologie, narzędzia i języki programowania",
+        "modalTitle": "Dodaj umiejętności techniczne",
+        "placeholder": "Wpisz umiejętność i naciśnij Enter",
+        "empty": "Brak dodanych umiejętności. Kliknij „Dodaj”, aby uzupełnić."
+      },
+      "workMode": {
+        "title": "Oczekiwany tryb pracy",
+        "modalTitle": "Edytuj oczekiwany tryb pracy",
+        "empty": "Nie wybrano trybu pracy. Kliknij „Edytuj”, aby uzupełnić.",
+        "options": {
+          "onsite": "Stacjonarnie",
+          "remote": "Zdalnie",
+          "hybrid": "Hybrydowo"
+        }
+      },
+      "applications": {
+        "title": "Zapisane i wysłane aplikacje",
+        "historyHint": "Sprawdź status swoich wysłanych aplikacji."
+      },
+      "placeholder": {
+        "comingSoon": "Ta sekcja będzie dostępna wkrótce."
+      },
+      "account": {
+        "title": "Konto i bezpieczeństwo",
+        "description": "Hasło, adres e-mail i usuwanie konta."
+      },
+      "password": {
+        "title": "Zmiana hasła",
+        "current": "Obecne hasło",
+        "new": "Nowe hasło",
+        "confirmation": "Potwierdź nowe hasło"
+      },
+      "email": {
+        "title": "Zmiana adresu e-mail",
+        "label": "Adres e-mail",
+        "newAddress": "Nowy adres e-mail",
+        "unverifiedNotice": "Adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
+        "pendingNotice": "Nowy adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
+        "currentPassword": "Obecne hasło",
+        "resend": "Wyślij ponownie link weryfikacyjny"
+      },
+      "delete": {
+        "title": "Usuń konto",
+        "warning": "Tej operacji nie można cofnąć.",
+        "openModal": "Usuń konto",
+        "modalTitle": "Potwierdź usunięcie konta",
+        "confirmationLabel": "Rozumiem, że tej operacji nie można cofnąć",
+        "password": "Hasło",
+        "confirm": "Usuń konto na stałe",
+        "cancel": "Anuluj"
+      }
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "profile": "Profil",
+      "offers": "Oferty",
+      "favorites": "Ulubione"
+    },
+    "workModes": {
+      "remote": "Zdalnie",
+      "hybrid": "Hybrydowo",
+      "onSite": "Stacjonarnie"
+    },
+    "publicProfile": {
+      "noSkills": "Kandydat nie dodał żadnych umiejętności technicznych.",
+      "noWorkModes": "Kandydat nie wybrał oczekiwanego trybu pracy.",
+      "noPreferences": "Kandydat nie określił preferencji wyszukiwania.",
+      "universityProfileAria": "Zobacz profil uczelni: {university}"
+    },
+    "favorites": {
+      "heading": "Twoje zapisane oferty",
+      "description": "Tu trafiają oferty oznaczone sercem. Możesz je potem odhaczyć albo wrócić do pełnej listy.",
+      "backToOffers": "Wróć do ofert",
+      "backToDashboard": "Wróć do panelu głównego",
+      "empty": {
+        "title": "Nie masz jeszcze ulubionych ofert",
+        "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj."
+      },
+        "status": {
+            "expired": "Wygasła"
+        }
 
         },
         "offers": {

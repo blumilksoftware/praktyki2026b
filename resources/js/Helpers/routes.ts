@@ -59,6 +59,7 @@ export const ROUTES = {
   STUDENT_ACCOUNT_DELETE: "/student/account",
   STUDENT_UNIVERSITY_SEARCH: "/student/universities/search",
   STUDENT_UNIVERSITY_UPDATE: "/student/university",
+  STUDENT_UNIVERSITY_FACULTIES: (universityId: string) => `/student/universities/${universityId}/faculties`,
 
   // Student CV
   STUDENT_CV_PREVIEW: "/student/cv",
@@ -87,6 +88,10 @@ export const ROUTES = {
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",
   UNIVERSITY_SHOW: "/universities/{university}",
+  UNIVERSITY_FACULTIES: "/university/faculties",
+  UNIVERSITY_FACULTY: (facultyId: string) => `/university/faculties/${facultyId}`,
+  UNIVERSITY_FACULTY_STUDY_FIELDS: (facultyId: string) => `/university/faculties/${facultyId}/study-fields`,
+  UNIVERSITY_STUDY_FIELD: (studyFieldId: string) => `/university/study-fields/${studyFieldId}`,
   UNIVERSITY_COMPANIES: "/university/companies",
   UNIVERSITY_COMPANY_PARTNERSHIP: "/university/companies/{company}/partnership",
   UNIVERSITY_COMPANY_PARTNERSHIP_ACCEPT: "/university/companies/{company}/partnership/accept",
