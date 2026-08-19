@@ -11,7 +11,6 @@ use App\Enums\UserRole;
 use App\Http\Requests\OfferFilterRequest;
 use App\Models\Offer;
 use App\Models\StudyField;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -28,7 +27,6 @@ class OfferController extends Controller
 
     public function index(OfferFilterRequest $request): Response
     {
-        /** @var ?User $user */
         $user = Auth::user();
         $isStudent = $user !== null && $user->role === UserRole::Student;
         $filters = $request->validated();

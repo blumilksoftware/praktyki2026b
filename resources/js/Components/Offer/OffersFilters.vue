@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMapboxGeocoding } from '@/Composables/useMapboxGeocoding'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
@@ -32,6 +32,13 @@ function toggleWorkMode(mode) {
   }
 }
 
+const clearRadiusFilter = () => {
+  filters.value.radiusCityLabel = ''
+  filters.value.latitude = null
+  filters.value.longitude = null
+  filters.value.radiusKm = null
+}
+
 const handleCitySelection = (selectedLabels) => {
   filters.value.cities = selectedLabels
 
@@ -42,22 +49,59 @@ const handleCitySelection = (selectedLabels) => {
       filters.value.radiusCityLabel = firstName
       filters.value.latitude = coords.latitude
       filters.value.longitude = coords.longitude
+    } else {
+      clearRadiusFilter()
     }
   } else {
     clearRadiusFilter()
   }
 }
 
-const clearRadiusFilter = () => {
-  filters.value.radiusCityLabel = ''
-  filters.value.latitude = null
-  filters.value.longitude = null
-  filters.value.radiusKm = null
+const isRadiusOpen = ref(false)
+const radiusDropdownRef = ref(null)
+
+const radiusLabel = computed(() => (
+  filters.value.radiusKm
+    ? t('student.offers.filters.radius.option', { km: filters.value.radiusKm })
+    : t('student.offers.filters.radius.placeholder')
+))
+
+function toggleRadiusDropdown() {
+  isRadiusOpen.value = !isRadiusOpen.value
 }
 
 function selectRadius(km) {
   filters.value.radiusKm = filters.value.radiusKm === km ? null : km
+  isRadiusOpen.value = false
 }
+
+function clearRadius(event) {
+  event.stopPropagation()
+  filters.value.radiusKm = null
+  isRadiusOpen.value = false
+}
+
+function handleClickOutside(event) {
+  if (radiusDropdownRef.value && !radiusDropdownRef.value.contains(event.target)) {
+    isRadiusOpen.value = false
+  }
+}
+
+function handleKeydown(event) {
+  if (event.key === 'Escape') {
+    isRadiusOpen.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+  document.addEventListener('keydown', handleKeydown)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
+  document.removeEventListener('keydown', handleKeydown)
+})
 
 const dateRangeError = computed(() => {
   if (filters.value.dateFrom && filters.value.dateTo && filters.value.dateTo < filters.value.dateFrom) {
@@ -112,7 +156,6 @@ defineExpose({ studyFieldLabelToValue })
         :allow-custom="false"
       />
 
-
       <div>
         <DynamicMultiSelect
           id="offers-filter-cities"
@@ -126,26 +169,60 @@ defineExpose({ studyFieldLabelToValue })
           @search="fetchCitySuggestions"
         />
 
-
-        <div v-if="filters.latitude" class="mt-3">
+        <div v-if="filters.latitude && filters.longitude" ref="radiusDropdownRef" class="relative mt-3">
           <span class="mb-2 block font-medium text-text text-xs text-additional">
             {{ t('student.offers.filters.radius.label') }}
           </span>
-          <div class="flex flex-wrap gap-2">
-            <button
+
+          <button
+            type="button"
+            class="flex w-full items-center justify-between gap-2 rounded-2xl border border-border bg-background px-4 py-2.5 text-sm font-medium transition hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 cursor-pointer"
+            aria-haspopup="listbox"
+            :aria-expanded="isRadiusOpen"
+            @click="toggleRadiusDropdown"
+          >
+            <span :class="filters.radiusKm ? 'text-text' : 'text-additional'">{{ radiusLabel }}</span>
+            <span class="flex items-center gap-1">
+              <svg
+                v-if="filters.radiusKm"
+                class="h-4 w-4 text-additional transition hover:text-text"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                role="button"
+                :aria-label="t('student.offers.filters.radius.clear')"
+                @click="clearRadius"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              <svg
+                class="h-4 w-4 text-additional transition"
+                :class="isRadiusOpen ? 'rotate-180' : ''"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          </button>
+
+          <ul
+            v-if="isRadiusOpen"
+            role="listbox"
+            class="absolute z-10 mt-2 w-full overflow-hidden rounded-2xl border border-border bg-white shadow-[0_14px_40px_rgba(11,26,48,0.12)]"
+          >
+            <li
               v-for="km in radiusOptions"
               :key="km"
-              type="button"
-              class="rounded-full border px-3 py-1 text-xs font-medium transition cursor-pointer"
-              :class="filters.radiusKm === km
-                ? 'border-primary bg-primary/10 text-primary'
-                : 'border-border text-additional hover:border-primary/40 hover:text-text'"
-              :aria-pressed="filters.radiusKm === km"
+              role="option"
+              :aria-selected="filters.radiusKm === km"
+              class="flex cursor-pointer items-center justify-between px-4 py-2.5 text-sm transition hover:bg-background"
+              :class="filters.radiusKm === km ? 'font-semibold text-primary' : 'text-text'"
               @click="selectRadius(km)"
             >
               {{ t('student.offers.filters.radius.option', { km }) }}
-            </button>
-          </div>
+              <svg v-if="filters.radiusKm === km" class="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </li>
+          </ul>
         </div>
       </div>
 
