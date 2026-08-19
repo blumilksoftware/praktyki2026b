@@ -177,7 +177,7 @@ const hasProfileInMenu = computed(() => (
 
       <div class="p-5 overflow-y-auto h-full bg-white">
         <ul class="flex flex-col gap-2">
-          <li v-if="!isAuthenticated || !isAdminAuthPage">
+          <li v-if="!isAuthenticated && !isAdminAuthPage">
             <Link
               :href="ROUTES.OFFERS"
               class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
