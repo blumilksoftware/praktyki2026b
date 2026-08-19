@@ -420,7 +420,8 @@
                 "dashboard": "Strona główna",
                 "applications": "Zgłoszenia",
                 "settings": "Ustawienia",
-                "mobileAriaLabel": "Nawigacja mobilna"
+                "mobileAriaLabel": "Nawigacja mobilna",
+                "users": "Użytkownicy"
             },
             "logout": "Wyloguj",
             "userRole": "Administrator",
@@ -428,6 +429,11 @@
                 "toEnglish": "Przełącz na angielski",
                 "toPolish": "Przełącz na polski"
             }
+        },
+        "profile": {
+            "title": "Administrator profile",
+            "administratorHeading": "Administrator",
+            "administratorDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         }
     },
     "university": {

@@ -3,7 +3,7 @@ import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconPlus } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
-import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 
 defineProps({
   canCreateDraftOffer: { type: Boolean, default: false },
@@ -19,8 +19,7 @@ function logout() {
 <template>
   <Head :title="t('pending.title')" />
 
-  <BaseNavbar show-hamburger />
-
+  <AppLayout>
 
   <main class="flex flex-col justify-center items-center bg-slate-50 px-6 py-16 min-h-screen" role="main">
     <section class="bg-white shadow-sm p-8 md:p-12 rounded-2xl w-full max-w-3xl" aria-labelledby="pending-title">
@@ -78,6 +77,7 @@ function logout() {
       </div>
     </section>
   </main>
+  </AppLayout>
 </template>
 
 
