@@ -94,8 +94,8 @@ class StudentProfilePagesTest extends TestCase
                     ->where("user.pending_email", "new@example.com")
                     ->has("user.study_field_ids", 1)
                     ->where("user.study_field_ids.0", $studyField->id)
-                    ->has("study_fields")
-                    ->where("study_fields.0", [
+                    ->has("studyFields")
+                    ->where("studyFields.0", [
                         "value" => $studyField->id,
                         "label" => "Informatyka",
                     ]),
@@ -193,7 +193,7 @@ class StudentProfilePagesTest extends TestCase
                 fn(Assert $page) => $page
                     ->component("Student/ProfileEdit")
                     ->has("user")
-                    ->has("study_fields"),
+                    ->has("studyFields"),
             );
     }
 

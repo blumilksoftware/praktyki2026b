@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\VerificationStatus;
 use App\Enums\WorkMode;
+use App\Models\Faculty;
 use App\Rules\PostalCodeRule;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,7 +29,23 @@ class UpdateStudentProfileRequest extends FormRequest
             "postal_code" => ["nullable", "string", new PostalCodeRule()],
             "city" => ["nullable", "string", "max:255"],
             "university" => ["nullable", "string", "max:255"],
-            "study_field" => ["nullable", "string", "max:255"],
+            "university_id" => [
+                "nullable",
+                "uuid",
+                Rule::exists("universities", "id")->where("verification_status", VerificationStatus::Verified->value),
+            ],
+            "study_field_id" => [
+                "nullable",
+                "uuid",
+                Rule::exists("study_fields", "id")->where(
+                    fn(Builder $query): Builder => $query->whereIn(
+                        "faculty_id",
+                        Faculty::query()
+                            ->where("university_id", $this->input("university_id"))
+                            ->select("id"),
+                    ),
+                ),
+            ],
             "study_year" => ["nullable", "integer", "min:0", "max:255"],
             "specialization" => ["nullable", "string", "max:255"],
             "study_field_ids" => ["nullable", "array"],
@@ -64,7 +83,8 @@ class UpdateStudentProfileRequest extends FormRequest
             "postal_code" => $this->input("postal_code"),
             "city" => $this->input("city"),
             "university" => $this->input("university"),
-            "study_field" => $this->input("study_field"),
+            "university_id" => $this->input("university_id"),
+            "study_field_id" => $this->input("study_field_id"),
             "study_year" => $this->filled("study_year") ? $this->integer("study_year") : null,
             "specialization" => $this->input("specialization"),
             "study_field_ids" => $this->input("study_field_ids", []),

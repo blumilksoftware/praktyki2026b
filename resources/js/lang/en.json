@@ -423,12 +423,41 @@
             "title": "Uczelnia",
             "nav": {
                 "dashboard": "Dashboard",
-                "companies": "Companies",
-                "profile": "Profile"
+                "faculties": "Faculties",
+                "team": "Team",
+                "partnership": "Partnership"
             }
         },
     "profile": {
       "title": "Profile"
+    },
+    "faculties": {
+      "title": "Faculties and fields of study",
+      "subtitle": "Manage the list of faculties and fields of study that your students choose from.",
+      "addFacultyLabel": "Faculty name",
+      "addFaculty": "Add faculty",
+      "facultyName": "Faculty name",
+      "fieldName": "Field of study name",
+      "fieldsCount": "Fields of study: {count}",
+      "addFieldLabel": "New field of study",
+      "addField": "Add field of study",
+      "renameFaculty": "Rename faculty {name}",
+      "deleteFaculty": "Delete faculty {name}",
+      "renameField": "Rename field of study {name}",
+      "deleteField": "Delete field of study {name}",
+      "usage": "Students: {students} · Offers: {offers}",
+      "noFields": "This faculty has no fields of study yet.",
+      "empty": "No faculty has been added yet.",
+      "save": "Save",
+      "cancel": "Cancel",
+      "confirmDelete": "Delete",
+      "deleteFacultyTitle": "Delete faculty",
+      "deleteFieldTitle": "Delete field of study",
+      "deleteConfirmation": "Are you sure you want to delete \"{name}\"?",
+      "reassignFacultyLabel": "Move fields of study to faculty",
+      "reassignFieldLabel": "Move students and offers to field of study",
+      "reassignPlaceholder": "Choose where to move them",
+      "reassignUnavailable": "There is nowhere to move the linked data. Add another faculty or field of study first."
     },
     "companies": {
       "title": "Company search",
@@ -742,6 +771,13 @@
         "university": "University",
           "universitySuggestedNote": "Pre-selected automatically - detected from your university email address",
         "studyField": "Field of study",
+        "studyFieldPlaceholder": "Select a field of study",
+        "faculty": "Faculty",
+        "facultyPlaceholder": "Select a faculty",
+        "selectUniversityFirst": "Choose your university first.",
+        "noFacultiesForUniversity": "This university has not added any faculties yet.",
+        "selectFacultyFirst": "Choose a faculty first.",
+        "noStudyFieldsForFaculty": "This faculty has no fields of study yet.",
         "studyYear": "Year of study",
         "specialization": "Specialization",
         "saveChanges": "Save changes",
