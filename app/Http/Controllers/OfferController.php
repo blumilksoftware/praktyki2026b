@@ -7,10 +7,12 @@ namespace App\Http\Controllers;
 use App\Actions\Student\GetOfferDetailsAction;
 use App\Actions\Student\GetSimilarOffersAction;
 use App\Actions\Student\GetStudentOffersAction;
+use App\Actions\Student\GetStudentOffersForMapAction;
 use App\Enums\UserRole;
 use App\Http\Requests\OfferFilterRequest;
 use App\Models\Offer;
 use App\Models\StudyField;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -23,6 +25,7 @@ class OfferController extends Controller
         private readonly GetStudentOffersAction $getStudentOffersAction,
         private readonly GetOfferDetailsAction $getOfferDetailsAction,
         private readonly GetSimilarOffersAction $getSimilarOffersAction,
+        private readonly GetStudentOffersForMapAction $getStudentOffersForMapAction,
     ) {}
 
     public function index(OfferFilterRequest $request): Response
@@ -51,6 +54,19 @@ class OfferController extends Controller
             "mapboxToken" => config("services.mapbox.access_token"),
             "radiusOptions" => [10, 25, 50, 100],
         ]);
+    }
+
+    public function map(OfferFilterRequest $request): JsonResponse
+    {
+        $user = Auth::user();
+        $isStudent = $user !== null && $user->role === UserRole::Student;
+
+        return response()->json(
+            $this->getStudentOffersForMapAction->execute(
+                $isStudent ? $user : null,
+                $request->validated(),
+            ),
+        );
     }
 
     public function show(Request $request, Offer $offer): Response

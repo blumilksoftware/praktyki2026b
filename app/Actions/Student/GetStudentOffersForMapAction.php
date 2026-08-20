@@ -6,21 +6,23 @@ namespace App\Actions\Student;
 
 use App\Models\User;
 use App\Traits\FiltersStudentOffers;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
-class GetStudentOffersAction
+class GetStudentOffersForMapAction
 {
     use FiltersStudentOffers;
 
-    public function execute(?User $user, array $filters = [], int $perPage = 15): LengthAwarePaginator
+    public function execute(?User $user, array $filters = []): Collection
     {
         $favoriteOfferIds = $user?->favourites()->pluck("offers.id")->all() ?? [];
         $hasRadiusFilter = $this->hasRadiusFilter($filters);
 
         return $this->buildFilteredOffersQuery($filters)
             ->with(["company", "applications", "studyFields"])
-            ->paginate($perPage)
-            ->withQueryString()
-            ->through(fn($offer) => $this->mapOfferToArray($offer, $user, $favoriteOfferIds, $hasRadiusFilter));
+            ->whereNotNull("latitude")
+            ->whereNotNull("longitude")
+            ->get()
+            ->map(fn($offer) => $this->mapOfferToArray($offer, $user, $favoriteOfferIds, $hasRadiusFilter))
+            ->values();
     }
 }
