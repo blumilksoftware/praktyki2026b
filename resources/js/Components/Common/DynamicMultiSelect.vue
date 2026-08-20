@@ -218,7 +218,7 @@ const labelClasses = computed(() => {
     <label
       v-if="label && stacked"
       :for="props.id"
-      class="mb-1 block text-text text-sm"
+      class="mb-1 block font-medium text-text text-sm"
     >
       {{ label }}
     </label>

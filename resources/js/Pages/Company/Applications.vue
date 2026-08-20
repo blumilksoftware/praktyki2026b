@@ -133,7 +133,7 @@ const statusFilterOptions = computed(() => [
       </div>
 
       <div class="flex flex-col gap-6">
-        <h1 class="text-3xl font-bold text-text">
+        <h1 class="text-2xl font-semibold text-text">
           {{ t('profiles.company.applications.title') }} 
           <span v-if="applications.total">({{ applications.total }})</span>
           <span v-else>({{ displayedApplications.length }})</span>

@@ -52,7 +52,7 @@ watch([nameFilter, cityFilter], search, { debounce: 300 })
     :nav-items="companyMenu"
     :navigation-buttons="companyMenu"
   >
-    <h1 class="text-3xl font-bold text-text mb-6">{{ t('company.universities.title') }}</h1>
+    <h1 class="text-2xl font-semibold text-text mb-6">{{ t('company.universities.title') }}</h1>
 
     <div class="mb-6 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
       <div>

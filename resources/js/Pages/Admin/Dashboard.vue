@@ -51,7 +51,7 @@ const verificationProgressPercent = computed(() => {
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="font-bold text-2xl text-text tracking-tight">
+          <h1 class="font-semibold text-2xl text-text tracking-tight">
             {{ t('admin.panel.greeting') }}
           </h1>
           <p class="mt-1 text-additional text-sm">
