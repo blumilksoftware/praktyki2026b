@@ -376,7 +376,6 @@ function confirmWithdraw() {
                 </template>
               </template>
             </div>
-
           </article>
 
           <aside
