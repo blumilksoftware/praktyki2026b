@@ -748,7 +748,6 @@
       },
       "sidebar": {
         "editProfile": "Edit profile",
-        "age": "{count} years old",
         "yearTag": "year {year}",
         "verified": "Verified university",
         "cvUploaded": "CV uploaded"
@@ -759,9 +758,6 @@
         "searchPreferences": "Search preferences",
         "searchPreferencesHint": "Choose industries and cities you are interested in — we will use them to match internship offers.",
         "education": "Education",
-        "age": "Age (years)",
-        "ageLabel": "Age",
-        "agePlaceholder": "years",
         "location": "Location (city, country)",
         "locationLabel": "Location",
         "locationPlaceholder": "city, country",

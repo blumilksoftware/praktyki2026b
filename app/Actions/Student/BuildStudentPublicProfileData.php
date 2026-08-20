@@ -22,7 +22,6 @@ class BuildStudentPublicProfileData
             "last_name" => $student->last_name,
             "full_name" => $student->fullName(),
             "email" => $student->email,
-            "age" => $student->age,
             "city" => $student->city,
             "university" => $student->universityOrganization->name ?? $student->university,
             "university_id" => $isUniversityVerified ? $universityOrganization->id : null,

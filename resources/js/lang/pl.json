@@ -632,7 +632,6 @@
       },
       "sidebar": {
         "editProfile": "Edytuj profil",
-        "age": "{count} lat",
         "yearTag": "rok {year}",
         "verified": "Zweryfikowana uczelnia",
         "cvUploaded": "CV przesłane"
@@ -643,9 +642,6 @@
         "searchPreferences": "Preferencje wyszukiwania",
         "searchPreferencesHint": "Wybierz branże i miasta, które Cię interesują — pomoże nam to dopasować oferty praktyk.",
         "education": "Edukacja",
-        "age": "Wiek (lata)",
-        "ageLabel": "Wiek",
-        "agePlaceholder": "lata",
         "location": "Lokalizacja (miasto, kraj)",
         "locationLabel": "Lokalizacja",
         "locationPlaceholder": "miasto, kraj",

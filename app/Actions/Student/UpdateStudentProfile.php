@@ -24,7 +24,6 @@ class UpdateStudentProfile
         $student->update([
             "first_name" => $data->firstName,
             "last_name" => $data->lastName,
-            "age" => $data->age,
             "street" => $data->street,
             "postal_code" => $data->postalCode,
             "city" => $data->city,

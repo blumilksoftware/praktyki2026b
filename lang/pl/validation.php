@@ -186,9 +186,6 @@ return [
     "salary_max.required_if" => "Pole maksymalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
     "salary_max.gte" => "Maksymalne wynagrodzenie musi być większe lub równe minimalnemu.",
 
-    "profile_age_integer" => "Wpisz poprawny wiek — liczbę całkowitą.",
-    "profile_age_min" => "Wiek musi być większy od 0.",
-    "profile_age_max" => "Wpisz poprawny wiek.",
     "profile_study_year_integer" => "Wpisz poprawny rok studiów — liczbę całkowitą.",
     "profile_study_year_min" => "Rok studiów musi być większy od 0.",
     "profile_study_year_max" => "Wpisz poprawny rok studiów.",
@@ -226,7 +223,6 @@ return [
         "salary_max" => "maksymalne wynagrodzenie",
         "study_field_ids" => "kierunki studiów",
         "university_ids" => "uczelnie",
-        "age" => "wiek",
         "location" => "lokalizacja",
         "study_field_id" => "kierunek studiów",
         "faculty_name" => "nazwa wydziału",

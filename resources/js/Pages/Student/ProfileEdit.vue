@@ -36,7 +36,6 @@ const photoForm = useForm({ photo: null })
 const profileForm = useForm({
   first_name: props.user.first_name ?? '',
   last_name: props.user.last_name ?? '',
-  age: props.user.age ?? '',
   street: props.user.street ?? '',
   postal_code: props.user.postal_code ?? '',
   city: props.user.city ?? '',
@@ -228,16 +227,6 @@ function saveAll() {
               <p class="mt-1 text-additional text-xs">
                 {{ t('student.profile.edit.emailReadonlyHint') }}
               </p>
-            </div>
-            <div class="sm:col-span-2">
-              <BaseInput
-                id="edit_age"
-                v-model="profileForm.age"
-                class="max-w-36"
-                stacked
-                :label="t('student.profile.edit.ageLabel')"
-                :error="fieldError('age')"
-              />
             </div>
             <div class="sm:col-span-2 grid grid-cols-1 gap-4 md:grid-cols-[1fr_2fr]">
               <BaseMaskedInput
