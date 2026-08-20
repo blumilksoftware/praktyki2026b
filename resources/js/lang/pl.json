@@ -790,7 +790,8 @@
               "lockedHint": "Z wybranym promieniem możesz wybrać tylko jedno miasto.",
               "placeholder": "Wybierz odległość",
               "label": "Odległość od miasta",
-              "option": "{km} km"
+              "option": "{km} km",
+              "clear": "Wyczyść"
           }
       },
       "results": {
