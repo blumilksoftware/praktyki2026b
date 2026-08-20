@@ -34,8 +34,8 @@ class GetOffersSummary
         }
 
         if ($search !== null && trim($search) !== "") {
-            $term = "%" . addcslashes($search, "%_\\") . "%";
-            $query->where("title", "like", $term);
+            $term = "%" . addcslashes(mb_strtolower($search), "%_\\") . "%";
+            $query->whereRaw("LOWER(title) LIKE ? ESCAPE '\\'", [$term]);
         }
 
         return $query
