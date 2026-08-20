@@ -22,8 +22,7 @@ trait FiltersStudentOffers
         return Offer::published()
             ->when($hasRadiusFilter, function (Builder $query) use ($lat, $lng): void {
                 $query->selectRaw(
-                    "offers.*, ({$this->haversineExpression()}) as distance_km",
-                    $this->haversineBindings($lat, $lng),
+                    "offers.*, ({$this->haversineExpression($lat, $lng)}) as distance_km",
                 );
             })
             ->when($filters["search"] ?? null, function (Builder $query, string $search): void {
@@ -59,8 +58,8 @@ trait FiltersStudentOffers
                 $query->whereNotNull("latitude")
                     ->whereNotNull("longitude")
                     ->whereRaw(
-                        "({$this->haversineExpression()}) <= CAST(? AS DOUBLE PRECISION)",
-                        [...$this->haversineBindings($lat, $lng), $radius],
+                        "({$this->haversineExpression($lat, $lng)}) <= CAST(? AS DOUBLE PRECISION)",
+                        [$radius],
                     );
             })
             ->when(
@@ -116,24 +115,23 @@ trait FiltersStudentOffers
         ];
     }
 
-    private function haversineExpression(): string
+    private function haversineExpression(float $lat, float $lng): string
     {
-        return "6371 * acos(
-        LEAST(1, GREATEST(-1,
-            cos(radians(?))
-            * cos(radians(latitude))
-            * cos(radians(longitude) - radians(?))
-            + sin(radians(?))
-            * sin(radians(latitude))
-        ))
-    )";
-    }
+        $latLiteral = sprintf("%F", $lat);
+        $lngLiteral = sprintf("%F", $lng);
 
-    /**
-     * @return array{0: float, 1: float, 2: float}
-     */
-    private function haversineBindings(float $lat, float $lng): array
-    {
-        return [$lat, $lng, $lat];
+        $cosSinExpr = "cos(radians({$latLiteral}))
+        * cos(radians(latitude))
+        * cos(radians(longitude) - radians({$lngLiteral}))
+        + sin(radians({$latLiteral}))
+        * sin(radians(latitude))";
+
+        return "6371 * acos(
+        CASE
+            WHEN ({$cosSinExpr}) > 1 THEN 1
+            WHEN ({$cosSinExpr}) < -1 THEN -1
+            ELSE ({$cosSinExpr})
+        END
+    )";
     }
 }
