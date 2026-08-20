@@ -54,7 +54,7 @@ const viewOffer = (offerId) => {
             <div class="mt-2 flex flex-wrap items-center gap-3 text-additional text-sm">
               <span class="inline-flex items-center gap-1">
                 <IconBriefcase2Filled class="h-4 w-4" aria-hidden="true" />
-                {{ t('profiles.spots') }}: {{ offer.spots }}
+                {{ t('profiles.spots') }}: {{ t('company.offers.index.spotsCount', { remaining: offer.remaining_spots ?? offer.spots, total: offer.spots }) }}
               </span>
             </div>
             <p v-if="offer.description" class="mt-2 line-clamp-2 text-additional text-sm">

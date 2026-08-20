@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Enums\UserRole;
 use App\Http\Middleware\EnsureUserHasRole;
+use App\Http\Middleware\EnsureUserIsNotBlocked;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
@@ -23,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             SetLocale::class,
             HandleInertiaRequests::class,
+            EnsureUserIsNotBlocked::class,
         ]);
         $middleware->trustProxies(at: "*");
         $middleware->alias([
@@ -33,7 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
             return match (auth()->user()?->role) {
                 UserRole::SuperAdmin => route("admin.dashboard"),
                 UserRole::CompanyAdmin, UserRole::CompanyMember => route("company.dashboard"),
-                UserRole::UniversityAdmin => route("university.dashboard"),
+                UserRole::UniversityAdmin, UserRole::UniversityMember => route("university.dashboard"),
                 UserRole::Student => route("student.dashboard"),
                 default => route("login"),
             };

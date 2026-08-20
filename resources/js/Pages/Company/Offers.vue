@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { Head, Link, router, usePage } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconPlus } from '@tabler/icons-vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
@@ -9,7 +9,6 @@ import { ROUTES } from '@/Helpers/routes'
 import CompanyOfferDeleteModal from '@/Components/Company/CompanyOfferDeleteModal.vue'
 import CompanyOfferUnpublishModal from '@/Components/Company/CompanyOfferUnpublishModal.vue'
 import OffersCards from '@/Components/Company/Offers/OffersCards.vue'
-import BaseToast from '@/Components/Base/BaseToast.vue'
 
 const props = defineProps({
   offers: { type: [Array, Object], default: () => [] },
@@ -20,11 +19,9 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
-const page = usePage()
 const companyMenu = useCompanyPanelMenu('offers')
 const isOfferDeleteModalOpen = ref(false)
 const isOfferUnpublishModalOpen = ref(false)
-const toastRef = ref(null)
 
 const offersList = computed(() => (Array.isArray(props.offers) ? props.offers : props.offers?.data ?? []))
 
@@ -57,14 +54,6 @@ function deleteOffer(offer) {
   closeMenu()
   openDeleteConfirmationModal(offer.id)
 }
-
-onMounted(() => {
-  const flashMessage = page.props.flash?.status
-
-  if (flashMessage && toastRef.value) {
-    toastRef.value.show(flashMessage)
-  }
-})
 
 const processingOfferId = ref(null)
 const deleteOfferId = ref(null)
@@ -198,7 +187,6 @@ onUnmounted(() => {
     :navigation-buttons="companyMenu"
     navigation-variant="default"
   >
-    <BaseToast ref="toastRef" />
     <div class="flex flex-col gap-6">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 class="font-semibold text-text text-2xl">

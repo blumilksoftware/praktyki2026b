@@ -23,6 +23,7 @@ return [
     "already_saved" => "This offer is already in your favourites.",
     "offer_inactive" => "This offer is no longer active.",
     "no_spots_available" => "No spots available for this offer.",
+    "offer_spots_exhausted" => "All spots for this offer are already taken. Reject an accepted candidate or increase the number of spots.",
     "city_geocoding_failed" => "We could not find the location for this city. Please check the spelling and try again.",
     "city_suggestions_unavailable" => "City suggestions are temporarily unavailable. Please type the city name manually.",
     "offer_publish_requires_verification" => "Your company must be verified before you can publish offers. Save it as a draft instead.",
@@ -30,6 +31,7 @@ return [
     "application_status_invalid_transition" => "The application status cannot be changed to the selected.",
     "invitation_already_processed" => "This invitation has already been accepted or revoked.",
     "last_organization_admin" => "This is the last administrator of the organization and cannot be removed.",
+    "offer_not_published" => "Only a published offer can be taken down.",
     "already_partner" => "This company is already a partner.",
     "already_university_partner" => "This university is already a partner.",
     "partnership_not_pending" => "This partnership is no longer awaiting acceptance.",
@@ -43,9 +45,6 @@ return [
     "salary_max.required_if" => "The maximum salary field is required    when the offer is paid.",
     "salary_max.gte" => "Maximum salary must be greater than or equal to minimum salary.",
 
-    "profile_age_integer" => "Enter a valid age — a whole number.",
-    "profile_age_min" => "Age must be greater than 0.",
-    "profile_age_max" => "Enter a valid age.",
     "profile_study_year_integer" => "Enter a valid year of study — a whole number.",
     "profile_study_year_min" => "Year of study must be greater than 0.",
     "profile_study_year_max" => "Enter a valid year of study.",
@@ -53,6 +52,7 @@ return [
     "profile_skills_max" => "You can add up to :max skills.",
 
     "attributes" => [
+        "organization_id" => "organization",
         "email" => "email address",
         "domain" => "domain",
         "password" => "password",
@@ -83,7 +83,6 @@ return [
         "salary_max" => "maximum salary",
         "study_field_ids" => "fields of study",
         "university_ids" => "universities",
-        "age" => "age",
         "location" => "location",
         "study_field_id" => "field of study",
         "faculty_name" => "faculty name",

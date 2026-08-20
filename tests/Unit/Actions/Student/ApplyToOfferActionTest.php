@@ -33,7 +33,7 @@ class ApplyToOfferActionTest extends TestCase
         $this->action = new ApplyToOfferAction();
     }
 
-    public function testStudentCanSuccessfullyApplyToActiveOfferWithSpots(): void
+    public function testApplyingDoesNotChangeDeclaredCapacity(): void
     {
         $student = User::factory()->create([
             "cv_path" => "cvs/test_cv.pdf",
@@ -51,7 +51,8 @@ class ApplyToOfferActionTest extends TestCase
         $this->assertEquals(ApplicationStatus::Pending, $application->status);
 
         $offer->refresh();
-        $this->assertEquals(2, $offer->spots);
+        $this->assertEquals(3, $offer->spots);
+        $this->assertEquals(3, $offer->remainingSpots());
     }
 
     public function testSuccessfulApplicationNotifiesCompanyAdmins(): void
@@ -161,20 +162,46 @@ class ApplyToOfferActionTest extends TestCase
         $this->action->execute($student, $offer);
     }
 
-    public function testApplyingToOfferWithNoSpotsIsRejected(): void
+    public function testApplyingIsRejectedWhenAcceptedApplicationsFillAllSpots(): void
     {
         $student = User::factory()->create([
             "cv_path" => "cvs/test_cv.pdf",
         ]);
         $offer = Offer::factory()->create([
             "status" => OfferStatus::Published,
-            "spots" => 0,
+            "spots" => 1,
+        ]);
+
+        Application::factory()->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Accepted,
         ]);
 
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage(__("validation.no_spots_available"));
 
         $this->action->execute($student, $offer);
+    }
+
+    public function testPendingApplicationsDoNotBlockFurtherApplications(): void
+    {
+        $student = User::factory()->create([
+            "cv_path" => "cvs/test_cv.pdf",
+        ]);
+        $offer = Offer::factory()->create([
+            "status" => OfferStatus::Published,
+            "spots" => 1,
+        ]);
+
+        Application::factory()->count(3)->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Pending,
+        ]);
+
+        $application = $this->action->execute($student, $offer);
+
+        $this->assertEquals(ApplicationStatus::Pending, $application->status);
+        $this->assertEquals(1, $offer->fresh()->remainingSpots());
     }
 
     public function testStudentApplicationStoresCvSnapshot(): void

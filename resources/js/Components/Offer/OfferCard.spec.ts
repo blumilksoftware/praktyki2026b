@@ -13,6 +13,15 @@ const { routerPost, routerDelete } = vi.hoisted(() => ({
   routerDelete: vi.fn(),
 }))
 
+const { toastSuccess, toastError } = vi.hoisted(() => ({
+  toastSuccess: vi.fn(),
+  toastError: vi.fn(),
+}))
+
+vi.mock('@/Composables/useToast', () => ({
+  useToast: () => ({ toastSuccess, toastError }),
+}))
+
 vi.mock('@inertiajs/vue3', () => ({
   Link: {
     props: ['href'],
@@ -46,6 +55,8 @@ describe('OfferCard.vue', () => {
   beforeEach(() => {
     routerPost.mockClear()
     routerDelete.mockClear()
+    toastSuccess.mockClear()
+    toastError.mockClear()
   })
 
   it('renders company name, title, city, date range and remaining spots', () => {
@@ -167,7 +178,7 @@ describe('OfferCard.vue', () => {
     expect(wrapper.text()).toContain('buttons.apply.appliedOn')
   })
 
-  it('shows the server validation error when the apply request fails', async () => {
+  it('raises a toast with the server validation error when the apply request fails', async () => {
     const wrapper = createWrapper()
 
     const applyButton = wrapper.findAll('button').find((btn) => btn.text() === 'buttons.apply.applyNow')
@@ -177,7 +188,7 @@ describe('OfferCard.vue', () => {
     options.onError({ offer: 'You have already applied to this offer.' })
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.text()).toContain('You have already applied to this offer.')
+    expect(toastError).toHaveBeenCalledWith('You have already applied to this offer.')
   })
 
   it('shows neither the apply button nor the login link to a signed in user who cannot apply', () => {

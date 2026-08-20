@@ -5,7 +5,9 @@ import { useI18n } from 'vue-i18n'
 import { IconSearch } from '@tabler/icons-vue'
 import DataTable from '@/Components/Common/DataTable.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
+import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import VerificationActionsMenu from '@/Components/Admin/VerificationActionsMenu.vue'
+import AdminDeleteOrganizationModal from '@/Components/Admin/AdminDeleteOrganizationModal.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import { Teleport } from 'vue'
 import { useVerificationStatus } from '@/Composables/useVerificationStatus'
@@ -42,6 +44,13 @@ const searchQuery = ref(props.filters.search || '')
 const sortKey = ref(props.filters.sort_key || 'created_at')
 const sortDir = ref(props.filters.sort_dir || 'asc')
 
+const statusFilterOptions = computed(() => [
+  { value: 'all', label: t('admin.verification.all') },
+  { value: 'pending', label: t('admin.verification.pending') },
+  { value: 'verified', label: t('admin.verification.verified') },
+  { value: 'rejected', label: t('admin.verification.rejected') },
+])
+
 const acceptCompanyForm = useForm({ rejection_reason: '' })
 const rejectCompanyForm = useForm({ rejection_reason: '' })
 const acceptUniversityForm = useForm({ rejection_reason: '' })
@@ -72,20 +81,14 @@ const currentStats = computed(() => {
   ]
 })
 
-const openMenuId = ref(null)
+const itemToDelete = ref(null)
 
-function toggleMenu(itemId) {
-  openMenuId.value = openMenuId.value === itemId ? null : itemId
+function openDeleteModal(item) {
+  itemToDelete.value = item
 }
 
-function closeMenu() {
-  openMenuId.value = null
-}
-
-function handleClickOutsideMenu(event) {
-  if (!event.target.closest('[data-verification-menu]')) {
-    closeMenu()
-  }
+function closeDeleteModal() {
+  itemToDelete.value = null
 }
 
 const companyDetailFields = [
@@ -120,7 +123,6 @@ function openDetailsModal(item, event) {
   detailsTriggerRef.value = event?.target || document.activeElement
   detailsItem.value = item
   showDetailsModal.value = true
-  closeMenu()
   nextTick(() => {
     const modal = detailsModalRef.value
     if (modal) {
@@ -175,17 +177,7 @@ watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
   })
 }, { debounce: 300 })
 
-const companyColumns = [
-  { key: 'name', label: t('admin.verification.name'), sortable: true },
-  { key: 'nip', label: t('admin.verification.nip') },
-  { key: 'email', label: t('admin.verification.email'), sortable: true },
-  { key: 'city', label: t('admin.verification.city'), sortable: true },
-  { key: 'created_at', label: t('admin.verification.submittedAt'), sortable: true },
-  { key: 'verification_status', label: t('table.status'), sortable: true },
-  { key: 'actions', label: '', srLabel: t('admin.verification.actions'), align: 'right' },
-]
-
-const universityColumns = [
+const columns = [
   { key: 'name', label: t('admin.verification.name'), sortable: true },
   { key: 'city', label: t('admin.verification.city'), sortable: true },
   { key: 'email', label: t('admin.verification.email'), sortable: true },
@@ -196,7 +188,6 @@ const universityColumns = [
 ]
 
 function acceptCompany(company) {
-  closeMenu()
   acceptCompanyForm
     .transform(data => ({
       ...data,
@@ -212,7 +203,6 @@ function acceptCompany(company) {
 }
 
 function acceptUniversity(university) {
-  closeMenu()
   acceptUniversityForm
     .transform(data => ({
       ...data,
@@ -233,7 +223,6 @@ function openRejectModal(item, event) {
   rejectReason.value = ''
   rejectError.value = ''
   showRejectModal.value = true
-  closeMenu()
   nextTick(() => {
     const modal = rejectModalRef.value
     if (modal) {
@@ -341,11 +330,9 @@ function formatDate(dateString) {
 onMounted(() => {
   window.addEventListener('keydown', handleEscapeKey)
   window.addEventListener('keydown', handleTabKey)
-  document.addEventListener('click', handleClickOutsideMenu)
 })
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutsideMenu)
   window.removeEventListener('keydown', handleEscapeKey)
   window.removeEventListener('keydown', handleTabKey)
 })
@@ -389,16 +376,11 @@ onUnmounted(() => {
       </div>
 
       <div class="flex sm:flex-row flex-col gap-3">
-        <select
+        <FilterDropdown
           v-model="statusFilter"
+          :options="statusFilterOptions"
           :aria-label="t('admin.verification.filterByStatusAriaLabel')"
-          class="bg-white px-4 py-2 pr-10 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 text-text text-sm"
-        >
-          <option value="all">{{ t('admin.verification.all') }}</option>
-          <option value="pending">{{ t('admin.verification.pending') }}</option>
-          <option value="verified">{{ t('admin.verification.verified') }}</option>
-          <option value="rejected">{{ t('admin.verification.rejected') }}</option>
-        </select>
+        />
         <div class="relative">
           <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
             <IconSearch class="w-4 h-4 text-additional" />
@@ -424,7 +406,7 @@ onUnmounted(() => {
     <DataTable
       v-if="currentItems.length > 0"
       :items="currentItems"
-      :columns="entityType === 'company' ? companyColumns : universityColumns"
+      :columns="columns"
       row-key="id"
       :caption="entityType === 'company' ? t('admin.verification.companies') : t('admin.verification.universities')"
       :sort-key="sortKey"
@@ -463,14 +445,13 @@ onUnmounted(() => {
       <template #cell-actions="{ item }">
         <VerificationActionsMenu
           :item="item"
-          :is-open="openMenuId === item.id"
           :processing="entityType === 'company'
             ? (acceptCompanyForm.processing || rejectCompanyForm.processing)
             : (acceptUniversityForm.processing || rejectUniversityForm.processing)"
-          @toggle="toggleMenu"
           @details="openDetailsModal(item, $event)"
           @accept="entityType === 'company' ? acceptCompany(item) : acceptUniversity(item)"
           @reject="openRejectModal(item, $event)"
+          @delete="openDeleteModal(item)"
         />
       </template>
     </DataTable>
@@ -482,6 +463,15 @@ onUnmounted(() => {
     <div v-if="currentItems.length === 0" class="py-12 text-additional text-center">
       {{ t('table.noData') }}
     </div>
+
+    <AdminDeleteOrganizationModal
+      :key="itemToDelete?.id"
+      :open="!!itemToDelete"
+      :organization-id="itemToDelete?.id"
+      :organization-name="itemToDelete?.name"
+      :entity-type="entityType"
+      @close="closeDeleteModal"
+    />
 
     <Teleport to="body">
       <div

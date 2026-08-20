@@ -35,7 +35,6 @@ use Laravel\Sanctum\HasApiTokens;
  * @property ?Carbon $email_verified_at
  * @property ?string $cv_path
  * @property ?string $photo_path
- * @property ?int $age
  * @property ?string $street
  * @property ?string $postal_code
  * @property ?string $city
@@ -69,7 +68,6 @@ class User extends Authenticatable implements MustVerifyEmail
         "terms_accepted_at",
         "cv_path",
         "photo_path",
-        "age",
         "street",
         "postal_code",
         "city",

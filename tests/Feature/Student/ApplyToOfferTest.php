@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Student;
 
+use App\Enums\ApplicationStatus;
 use App\Enums\OfferStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
@@ -73,7 +74,8 @@ class ApplyToOfferTest extends TestCase
 
         $response->assertRedirect();
         $offer->refresh();
-        $this->assertEquals(4, $offer->spots);
+        $this->assertEquals(5, $offer->spots);
+        $this->assertEquals(5, $offer->remainingSpots());
 
         $application = Application::where("offer_id", $offer->id)
             ->where("student_id", $user->id)
@@ -133,7 +135,8 @@ class ApplyToOfferTest extends TestCase
 
         $response->assertInvalid("offer");
         $offer->refresh();
-        $this->assertEquals(4, $offer->spots); // Decremented only once
+        $this->assertEquals(5, $offer->spots);
+        $this->assertEquals(1, Application::where("offer_id", $offer->id)->count());
     }
 
     public function testApplyingToInactiveOfferIsRejected(): void
@@ -159,7 +162,7 @@ class ApplyToOfferTest extends TestCase
         ]);
     }
 
-    public function testApplyingToOfferWithNoSpotsIsRejected(): void
+    public function testApplyingIsRejectedWhenAcceptedApplicationsFillAllSpots(): void
     {
         $user = User::factory()->create([
             "role" => UserRole::Student,
@@ -168,14 +171,20 @@ class ApplyToOfferTest extends TestCase
         ]);
         $offer = Offer::factory()->create([
             "status" => OfferStatus::Published,
-            "spots" => 0,
+            "spots" => 1,
+        ]);
+
+        Application::factory()->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Accepted,
         ]);
 
         $response = $this->actingAs($user)->post(route("student.offers.apply", $offer));
 
         $response->assertInvalid("offer");
         $offer->refresh();
-        $this->assertEquals(0, $offer->spots);
+        $this->assertEquals(1, $offer->spots);
+        $this->assertEquals(0, $offer->remainingSpots());
         $this->assertDatabaseMissing("applications", [
             "offer_id" => $offer->id,
             "student_id" => $user->id,
@@ -199,7 +208,7 @@ class ApplyToOfferTest extends TestCase
         ]);
 
         $this->actingAs($user)->post(route("student.offers.apply", $offer))->assertRedirect();
-        $this->assertEquals(4, $offer->fresh()->spots);
+        $this->assertEquals(5, $offer->fresh()->spots);
 
         $response = $this->actingAs($user)->post(route("student.offers.withdraw", $offer));
 

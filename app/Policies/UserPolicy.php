@@ -68,6 +68,16 @@ class UserPolicy
             && $member->role === $organizationType->memberRole();
     }
 
+    public function updateRole(User $admin, User $target): bool
+    {
+        return $admin->id !== $target->id;
+    }
+
+    public function updateStatus(User $admin, User $target): bool
+    {
+        return $admin->id !== $target->id;
+    }
+
     private function administers(User $user, User $member): ?OrganizationType
     {
         $organizationType = $user->role->organizationType();

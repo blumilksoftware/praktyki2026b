@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Admin\DeleteOrganizationAction;
 use App\Actions\Admin\VerifyEntityAction;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
@@ -21,6 +22,7 @@ class AdminController extends Controller
 {
     public function __construct(
         private readonly VerifyEntityAction $verifyAction,
+        private readonly DeleteOrganizationAction $deleteOrganizationAction,
     ) {}
 
     public function index(): Response
@@ -220,6 +222,20 @@ class AdminController extends Controller
             "sort_key" => $request->input("sort_key", "created_at"),
             "sort_dir" => $request->input("sort_dir", "asc"),
         ]);
+    }
+
+    public function deleteCompany(Company $company): RedirectResponse
+    {
+        $this->deleteOrganizationAction->execute($company, auth()->user());
+
+        return back();
+    }
+
+    public function deleteUniversity(University $university): RedirectResponse
+    {
+        $this->deleteOrganizationAction->execute($university, auth()->user());
+
+        return back();
     }
 
     private function checkIfVerifiedWithRedirect(University|Company $entity, string $message, string $route): ?RedirectResponse

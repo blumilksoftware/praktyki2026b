@@ -166,6 +166,7 @@ return [
     "already_saved" => "Ta oferta jest już w Twoich ulubionych.",
     "offer_inactive" => "Ta oferta nie jest już aktywna.",
     "no_spots_available" => "Brak wolnych miejsc na tę ofertę.",
+    "offer_spots_exhausted" => "Wszystkie miejsca w tej ofercie są już zajęte. Odrzuć przyjętego kandydata lub zwiększ liczbę miejsc.",
     "city_geocoding_failed" => "Nie udało się znaleźć lokalizacji dla podanego miasta. Sprawdź pisownię i spróbuj ponownie.",
     "city_suggestions_unavailable" => "Podpowiedzi miast są chwilowo niedostępne. Wpisz nazwę miasta ręcznie.",
     "offer_publish_requires_verification" => "Twoja firma musi zostać zweryfikowana, zanim będzie można publikować oferty. Zapisz ją jako szkic.",
@@ -173,6 +174,7 @@ return [
     "application_status_invalid_transition" => "Nie można zmienić statusu aplikacji na wybrany.",
     "invitation_already_processed" => "To zaproszenie zostało już zaakceptowane lub cofnięte.",
     "last_organization_admin" => "To ostatni administrator organizacji i nie można go usunąć.",
+    "offer_not_published" => "Tylko opublikowaną ofertę można zdjąć z publikacji.",
     "already_partner" => "Ta firma jest już partnerem.",
     "already_university_partner" => "Ta uczelnia jest już partnerem.",
     "partnership_not_pending" => "To partnerstwo nie oczekuje już na akceptację.",
@@ -186,9 +188,6 @@ return [
     "salary_max.required_if" => "Pole maksymalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
     "salary_max.gte" => "Maksymalne wynagrodzenie musi być większe lub równe minimalnemu.",
 
-    "profile_age_integer" => "Wpisz poprawny wiek — liczbę całkowitą.",
-    "profile_age_min" => "Wiek musi być większy od 0.",
-    "profile_age_max" => "Wpisz poprawny wiek.",
     "profile_study_year_integer" => "Wpisz poprawny rok studiów — liczbę całkowitą.",
     "profile_study_year_min" => "Rok studiów musi być większy od 0.",
     "profile_study_year_max" => "Wpisz poprawny rok studiów.",
@@ -196,6 +195,7 @@ return [
     "profile_skills_max" => "Możesz dodać maksymalnie :max umiejętności.",
 
     "attributes" => [
+        "organization_id" => "organizacja",
         "email" => "adres e-mail",
         "domain" => "domena",
         "password" => "hasło",
@@ -226,7 +226,6 @@ return [
         "salary_max" => "maksymalne wynagrodzenie",
         "study_field_ids" => "kierunki studiów",
         "university_ids" => "uczelnie",
-        "age" => "wiek",
         "location" => "lokalizacja",
         "study_field_id" => "kierunek studiów",
         "faculty_name" => "nazwa wydziału",

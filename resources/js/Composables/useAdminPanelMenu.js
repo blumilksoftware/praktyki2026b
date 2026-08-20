@@ -1,6 +1,6 @@
 import { computed, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconClipboard, IconHome } from '@tabler/icons-vue'
+import { IconClipboard, IconHome, IconUsers, IconBriefcase } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 
 export function useAdminPanelMenu(activePage) {
@@ -23,6 +23,20 @@ export function useAdminPanelMenu(activePage) {
         href: ROUTES.ADMIN_APPLICATIONS,
         icon: IconClipboard,
         isActive: current === 'applications',
+      },
+      {
+        key: 'users',
+        label: t('admin.layout.nav.users'),
+        href: ROUTES.ADMIN_USERS,
+        icon: IconUsers,
+        isActive: current === 'users',
+      },
+      {
+        key: 'offers',
+        label: t('admin.layout.nav.offers'),
+        href: ROUTES.ADMIN_OFFERS,
+        icon: IconBriefcase,
+        isActive: current === 'offers',
       },
     ]
   })
