@@ -174,6 +174,7 @@ return [
     "application_status_invalid_transition" => "Nie można zmienić statusu aplikacji na wybrany.",
     "invitation_already_processed" => "To zaproszenie zostało już zaakceptowane lub cofnięte.",
     "last_organization_admin" => "To ostatni administrator organizacji i nie można go usunąć.",
+    "offer_not_published" => "Tylko opublikowaną ofertę można zdjąć z publikacji.",
     "already_partner" => "Ta firma jest już partnerem.",
     "already_university_partner" => "Ta uczelnia jest już partnerem.",
     "partnership_not_pending" => "To partnerstwo nie oczekuje już na akceptację.",
@@ -194,6 +195,7 @@ return [
     "profile_skills_max" => "Możesz dodać maksymalnie :max umiejętności.",
 
     "attributes" => [
+        "organization_id" => "organizacja",
         "email" => "adres e-mail",
         "domain" => "domena",
         "password" => "hasło",

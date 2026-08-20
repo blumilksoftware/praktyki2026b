@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminOfferController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController as CompanyOfferController;
@@ -106,4 +108,6 @@ Route::middleware(["role:superAdmin"])
     ->group(function (): void {
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.dashboard");
         Route::get("/applications", [AdminController::class, "applications"])->name("admin.applications");
+        Route::get("/users", [AdminUserController::class, "index"])->name("admin.users");
+        Route::get("/offers", [AdminOfferController::class, "index"])->name("admin.offers");
     });

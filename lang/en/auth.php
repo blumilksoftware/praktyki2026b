@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 return [
     "failed" => "The provided credentials are incorrect.",
+    "blocked" => "This account has been blocked. Contact the administrator.",
     "verification" => [
         "invalid_link" => "Invalid or expired verification link.",
         "not_verified" => "Your email address has not been verified.",

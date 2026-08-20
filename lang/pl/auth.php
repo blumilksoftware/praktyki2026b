@@ -13,6 +13,7 @@ return [
         "invalid_link" => "Nieprawidłowy lub wygasły link z zaproszeniem.",
     ],
     "failed" => "Podane dane logowania są nieprawidłowe.",
+    "blocked" => "To konto zostało zablokowane. Skontaktuj się z administratorem.",
     "password" => "Podane hasło jest nieprawidłowe.",
     "throttle" => "Zbyt wiele prób logowania. Spróbuj ponownie za :seconds sekund.",
     "register" => [
