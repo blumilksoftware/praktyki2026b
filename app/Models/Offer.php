@@ -134,6 +134,23 @@ class Offer extends Model
 
     /**
      * @param Builder<Offer> $query
+     * @return Builder<Offer>
+     */
+    public function scopeWithoutRemainingSpots(Builder $query): Builder
+    {
+        return $query->where(
+            "spots",
+            "<=",
+            fn(QueryBuilder $subQuery): QueryBuilder => $subQuery
+                ->selectRaw("count(*)")
+                ->from("applications")
+                ->whereColumn("applications.offer_id", "offers.id")
+                ->where("applications.status", ApplicationStatus::Accepted),
+        );
+    }
+
+    /**
+     * @param Builder<Offer> $query
      * @param array<int, string> $studyFieldIds
      * @return Builder<Offer>
      */

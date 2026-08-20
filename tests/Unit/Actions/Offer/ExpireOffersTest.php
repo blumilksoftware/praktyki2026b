@@ -38,6 +38,18 @@ class ExpireOffersTest extends TestCase
         $this->assertEquals(OfferStatus::Expired, $offer->status);
     }
 
+    public function testPublishedOfferEndingTodayIsUnaffected(): void
+    {
+        $offer = Offer::factory()->published()->create([
+            "end_date" => today(),
+        ]);
+
+        $this->action->execute();
+
+        $offer->refresh();
+        $this->assertEquals(OfferStatus::Published, $offer->status);
+    }
+
     public function testPublishedOfferNotPastEndDateIsUnaffected(): void
     {
         $offer = Offer::factory()->published()->create([
