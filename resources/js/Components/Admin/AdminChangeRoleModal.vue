@@ -2,7 +2,7 @@
 import { computed, watch } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import BaseModal from '@/Components/Common/BaseModal.vue'
+import BaseModal from '@/Components/Base/BaseModal.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
 import { ROUTES } from '@/Helpers/routes'
