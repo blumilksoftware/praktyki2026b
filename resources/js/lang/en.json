@@ -25,7 +25,8 @@
     }
   },
   "common": {
-    "verifiedBadge": "Account verified by an administrator"
+    "verifiedBadge": "Account verified by an administrator",
+    "skipToContent": "Skip to content"
   },
   "organization": {
     "team": {
@@ -579,6 +580,8 @@
       "subtitle": "Track the status of your internship applications.",
       "empty": "You have not applied to any offers yet.",
       "listAriaLabel": "Application list",
+      "applySuccess": "Application sent.",
+      "withdrawSuccess": "Application withdrawn.",
       "appliedAt": "Applied: {date}",
       "openHistory": "View application history",
       "status": {
@@ -1063,7 +1066,8 @@
         "unpublishing": "Unpublishing…",
         "deleteAction": "Delete",
         "applicationsCount": "Applications: {count}",
-        "spotsLabel": "Spots: {count}",
+        "spotsLabel": "Spots: {remaining} of {total}",
+        "spotsCount": "{remaining} of {total}",
         "verificationRequiredHint": "Your company must be verified before this can be published.",
         "status": {
           "draft": "Draft",

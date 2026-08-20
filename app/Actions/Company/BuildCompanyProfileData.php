@@ -27,8 +27,16 @@ class BuildCompanyProfileData
             "offers" => $company->offers()
                 ->published()
                 ->select("id", "title", "description", "spots")
+                ->withCount("acceptedApplications")
                 ->latest()
-                ->get(),
+                ->get()
+                ->map(fn($offer) => [
+                    "id" => $offer->id,
+                    "title" => $offer->title,
+                    "description" => $offer->description,
+                    "spots" => $offer->spots,
+                    "remaining_spots" => $offer->remainingSpots(),
+                ]),
             "verification_status" => $company->verification_status,
             "partners" => $company->partnerships()
                 ->where("status", PartnershipStatus::Active)

@@ -166,6 +166,7 @@ return [
     "already_saved" => "Ta oferta jest już w Twoich ulubionych.",
     "offer_inactive" => "Ta oferta nie jest już aktywna.",
     "no_spots_available" => "Brak wolnych miejsc na tę ofertę.",
+    "offer_spots_exhausted" => "Wszystkie miejsca w tej ofercie są już zajęte. Odrzuć przyjętego kandydata lub zwiększ liczbę miejsc.",
     "city_geocoding_failed" => "Nie udało się znaleźć lokalizacji dla podanego miasta. Sprawdź pisownię i spróbuj ponownie.",
     "city_suggestions_unavailable" => "Podpowiedzi miast są chwilowo niedostępne. Wpisz nazwę miasta ręcznie.",
     "offer_publish_requires_verification" => "Twoja firma musi zostać zweryfikowana, zanim będzie można publikować oferty. Zapisz ją jako szkic.",

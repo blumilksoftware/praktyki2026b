@@ -32,7 +32,8 @@
     }
   },
   "common": {
-    "verifiedBadge": "Konto zweryfikowane przez administratora"
+    "verifiedBadge": "Konto zweryfikowane przez administratora",
+    "skipToContent": "Przejdź do treści"
   },
   "organization": {
     "team": {
@@ -570,6 +571,8 @@
       "subtitle": "Przeglądaj status swoich aplikacji na oferty praktyk.",
       "empty": "Nie masz jeszcze żadnych aplikacji.",
       "listAriaLabel": "Lista aplikacji",
+      "applySuccess": "Aplikacja została wysłana.",
+      "withdrawSuccess": "Aplikacja została wycofana.",
       "appliedAt": "Wysłano: {date}",
       "openHistory": "Zobacz historię aplikacji",
       "status": {
@@ -1048,7 +1051,8 @@
         "unpublishing": "Wycofywanie…",
         "deleteAction": "Usuń",
         "applicationsCount": "Zgłoszenia: {count}",
-        "spotsLabel": "Miejsca: {count}",
+        "spotsLabel": "Miejsca: {remaining} z {total}",
+        "spotsCount": "{remaining} z {total}",
         "verificationRequiredHint": "Twoja firma musi zostać zweryfikowana, zanim będzie można to opublikować.",
         "status": {
           "draft": "Szkic",

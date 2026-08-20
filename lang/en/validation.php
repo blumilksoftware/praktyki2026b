@@ -23,6 +23,7 @@ return [
     "already_saved" => "This offer is already in your favourites.",
     "offer_inactive" => "This offer is no longer active.",
     "no_spots_available" => "No spots available for this offer.",
+    "offer_spots_exhausted" => "All spots for this offer are already taken. Reject an accepted candidate or increase the number of spots.",
     "city_geocoding_failed" => "We could not find the location for this city. Please check the spelling and try again.",
     "city_suggestions_unavailable" => "City suggestions are temporarily unavailable. Please type the city name manually.",
     "offer_publish_requires_verification" => "Your company must be verified before you can publish offers. Save it as a draft instead.",

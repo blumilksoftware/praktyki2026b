@@ -18,6 +18,7 @@ class GetStudentOffersAction
 
         return Offer::published()
             ->with(["company", "applications", "studyFields"])
+            ->withCount("acceptedApplications")
             ->when($filters["search"] ?? null, function (Builder $query, string $search): void {
                 $query->where(function (Builder $q) use ($search): void {
                     $q->where("title", "ilike", "%{$search}%")
@@ -58,7 +59,7 @@ class GetStudentOffersAction
                     "start_date" => $offer->start_date?->toDateString(),
                     "end_date" => $offer->end_date?->toDateString(),
                     "spots" => $offer->spots,
-                    "remaining_spots" => max(0, $offer->spots - $offer->applications->count()),
+                    "remaining_spots" => $offer->remainingSpots(),
                     "has_applied" => $ownApplication !== null,
                     "applied_at" => $ownApplication?->created_at?->toDateString(),
                     "is_favorite" => in_array($offer->id, $favoriteOfferIds, true),

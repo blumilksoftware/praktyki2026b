@@ -22,6 +22,7 @@ class GetOfferDetailsAction
         }
 
         $offer->loadMissing(["company", "studyFields", "universities", "applications"]);
+        $offer->loadCount("acceptedApplications");
 
         $isStudent = $user !== null && $user->role === UserRole::Student;
         $ownApplication = $isStudent
@@ -40,7 +41,7 @@ class GetOfferDetailsAction
             "start_date" => $offer->start_date?->toDateString(),
             "end_date" => $offer->end_date?->toDateString(),
             "spots" => $offer->spots,
-            "remaining_spots" => max(0, $offer->spots - $offer->applications->count()),
+            "remaining_spots" => $offer->remainingSpots(),
             "status" => $offer->status->value,
             "is_paid" => $offer->is_paid,
             "salary_min" => $offer->salary_min,

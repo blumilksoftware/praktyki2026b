@@ -6,8 +6,10 @@ namespace Tests\Unit\Actions\Company;
 
 use App\Actions\Company\UpdateOffer;
 use App\DTO\Offer\UpdateOfferData;
+use App\Enums\ApplicationStatus;
 use App\Enums\OfferStatus;
 use App\Enums\WorkMode;
+use App\Models\Application;
 use App\Models\Company;
 use App\Models\Offer;
 use App\Models\StudyField;
@@ -148,6 +150,58 @@ class UpdateOfferTest extends TestCase
         $this->expectExceptionMessage(__("validation.city_geocoding_failed"));
 
         $action->execute($offer, $data);
+    }
+
+    public function testEditingDoesNotChangeCapacityConsumedByAcceptedApplications(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $offer = Offer::factory()->for($company)->published()->create([
+            "city" => "Warszawa",
+            "spots" => 6,
+        ]);
+
+        Application::factory()->count(2)->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Accepted,
+        ]);
+
+        $data = $this->dataFrom([
+            "city" => "Warszawa",
+            "status" => OfferStatus::Published,
+            "spots" => 6,
+        ]);
+
+        $updated = (new UpdateOffer(new MapboxGeocodingService()))->execute($offer, $data);
+
+        $this->assertEquals(6, $updated->spots);
+        $this->assertEquals(4, $updated->remainingSpots());
+        $this->assertEquals(OfferStatus::Published, $updated->status);
+    }
+
+    public function testShrinkingSpotsBelowAcceptedApplicationsClosesTheOffer(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $offer = Offer::factory()->for($company)->published()->create([
+            "city" => "Warszawa",
+            "spots" => 6,
+        ]);
+
+        Application::factory()->count(2)->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Accepted,
+        ]);
+
+        $data = $this->dataFrom([
+            "city" => "Warszawa",
+            "status" => OfferStatus::Published,
+            "spots" => 2,
+        ]);
+
+        $updated = (new UpdateOffer(new MapboxGeocodingService()))->execute($offer, $data);
+
+        $this->assertEquals(2, $updated->spots);
+        $this->assertEquals(0, $updated->remainingSpots());
+        $this->assertEquals(OfferStatus::Closed, $updated->status);
     }
 
     private function dataFrom(array $overrides): UpdateOfferData

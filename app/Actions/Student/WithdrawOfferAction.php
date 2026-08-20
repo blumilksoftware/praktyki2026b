@@ -7,7 +7,6 @@ namespace App\Actions\Student;
 use App\Models\Application;
 use App\Models\Offer;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
@@ -25,20 +24,14 @@ class WithdrawOfferAction
             ]);
         }
 
-        DB::transaction(function () use ($application, $offer): void {
-            if ($application->cv_path) {
-                $disk = config("filesystems.default", "local");
+        if ($application->cv_path) {
+            $disk = config("filesystems.default", "local");
 
-                if (Storage::disk($disk)->exists($application->cv_path)) {
-                    Storage::disk($disk)->delete($application->cv_path);
-                }
+            if (Storage::disk($disk)->exists($application->cv_path)) {
+                Storage::disk($disk)->delete($application->cv_path);
             }
+        }
 
-            $application->delete();
-
-            DB::table("offers")
-                ->where("id", $offer->id)
-                ->increment("spots");
-        });
+        $application->delete();
     }
 }
