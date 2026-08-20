@@ -1,4 +1,3 @@
-
 import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import {
@@ -51,7 +50,9 @@ function buildRadiusCircleGeoJson(center, radiusKm) {
 const INDIVIDUAL_ZOOM_THRESHOLD = 11
 
 export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null), radiusKm = ref(null),
-                             radiusCenter = ref(null), cityFilter = ref([]),) {
+  radiusCenter = ref(null), cityFilter = ref([]), options = {}) {
+  const { onCitySelect, onClear, selectedCityLabel = ref('') } = options
+
   const mapContainer = ref(null)
   const selectedCity = ref(null)
   const selectedOfferId = ref(null)
@@ -101,14 +102,14 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     nextTick(() => {
       const el = document.querySelector(`[data-offer-id="${offerId}"]`)
       if (el) {
-        el.scrollIntoView({behavior: 'smooth', block: 'center'})
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
       }
     })
   }
 
   const flyToCity = (cityName, cityOffers, fallbackCoords) => {
     if (cityOffers.length <= 1) {
-      map.flyTo({center: fallbackCoords, zoom: 12, speed: 1.2})
+      map.flyTo({ center: fallbackCoords, zoom: 12, speed: 1.2 })
       return
     }
 
@@ -124,10 +125,24 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     })
 
     if (hasOfferBounds && !cityBounds.isEmpty()) {
-      map.fitBounds(cityBounds, {padding: 80, maxZoom: 14, duration: 1200})
+      map.fitBounds(cityBounds, { padding: 80, maxZoom: 14, duration: 1200 })
     } else {
-      map.flyTo({center: fallbackCoords, zoom: 12, speed: 1.2})
+      map.flyTo({ center: fallbackCoords, zoom: 12, speed: 1.2 })
     }
+  }
+
+  const focusCity = (cityName, coords) => {
+    if (!cityName || !map) return
+    const cityOffers = groupedOffers.value[cityName] || []
+    const fallbackCoords = coords
+      ? [coords.longitude, coords.latitude]
+      : getCityCoordinates(cityName, cityOffers)
+
+    if (!fallbackCoords) return
+
+    selectedCity.value = cityName
+    selectedOfferId.value = null
+    flyToCity(cityName, cityOffers, fallbackCoords)
   }
 
   const selectAndFocusOffer = (offerId) => {
@@ -164,18 +179,18 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
 
     el.innerHTML = `
       <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full shadow-lg border text-xs font-bold transition-all duration-200 transform hover:scale-105 cursor-pointer ${
-      isSelected
-        ? 'bg-primary text-white border-primary ring-4 ring-primary/20 scale-110 z-10'
-        : 'bg-white text-text border-border hover:border-primary/50'
-    }">
+  isSelected
+    ? 'bg-primary text-white border-primary ring-4 ring-primary/20 scale-110 z-10'
+    : 'bg-white text-text border-border hover:border-primary/50'
+}">
         <svg class="w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-primary'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
         <span>${cityName}</span>
         <span class="ml-0.5 px-1.5 py-0.5 rounded-full text-[10px] ${
-      isSelected ? 'bg-white/20 text-white' : 'bg-background text-additional'
-    }">${count}</span>
+  isSelected ? 'bg-white/20 text-white' : 'bg-background text-additional'
+}">${count}</span>
       </div>
     `
     return el
@@ -189,10 +204,10 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
 
     el.innerHTML = `
       <div class="flex items-center justify-center rounded-full shadow-lg border-2 transition-all duration-200 transform hover:scale-110 cursor-pointer ${
-      isSelected
-        ? 'bg-primary border-white ring-4 ring-primary/25 scale-125 w-9 h-9 z-10'
-        : 'bg-white border-primary/30 hover:border-primary/60 w-8 h-8'
-    }">
+  isSelected
+    ? 'bg-primary border-white ring-4 ring-primary/25 scale-125 w-9 h-9 z-10'
+    : 'bg-white border-primary/30 hover:border-primary/60 w-8 h-8'
+}">
         <svg class="w-4 h-4 ${isSelected ? 'text-white' : 'text-primary'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -220,13 +235,14 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
         flyToCity(cityName, cityOffers, coords)
         selectedCity.value = cityName
         selectedOfferId.value = null
+        onCitySelect?.({ label: cityName, latitude: coords[1], longitude: coords[0] })
       })
 
-      markers.push(new mapboxgl.Marker({element: el}).setLngLat(coords).addTo(map))
+      markers.push(new mapboxgl.Marker({ element: el }).setLngLat(coords).addTo(map))
     })
 
     if (fitBounds && hasValidBounds && markers.length > 0) {
-      map.fitBounds(bounds, {padding: 80, maxZoom: 14})
+      map.fitBounds(bounds, { padding: 80, maxZoom: 14 })
     }
   }
 
@@ -244,9 +260,10 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
           selectedCity.value = cityName
           selectedOfferId.value = offer.id
           scrollToOfferCard(offer.id)
+          onCitySelect?.({ label: cityName, latitude: cityFallback[1], longitude: cityFallback[0] })
         })
 
-        markers.push(new mapboxgl.Marker({element: el}).setLngLat(coords).addTo(map))
+        markers.push(new mapboxgl.Marker({ element: el }).setLngLat(coords).addTo(map))
       })
     })
   }
@@ -315,6 +332,12 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     selectedOfferId.value = null
   }
 
+  const clearSelectionAndNotify = () => {
+    clearSelection()
+    renderMarkersForZoom(true)
+    onClear?.()
+  }
+
   const resetView = () => {
     clearSelection()
     currentZoom.value = DEFAULT_MAP_VIEW.zoom
@@ -379,27 +402,49 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
 
   watch(offersRef, () => {
     renderMarkersForZoom(!hasActiveRadius())
-    if (hasActiveRadius()) {
-      fitToRadius(300)
-    }
     if (selectedCity.value && !groupedOffers.value[selectedCity.value]) {
       clearSelection()
     }
-  }, {deep: true})
+  }, { deep: true })
 
   watch([selectedCity, selectedOfferId], () => renderMarkersForZoom(false))
 
   watch(viewMode, () => renderMarkersForZoom(false))
 
-  watch([
+  watch(
     () => getRadiusKmValue(),
+    (newKm, oldKm) => {
+      updateRadiusCircle()
+      if (hasActiveRadius() && newKm !== oldKm) {
+        fitToRadius(800)
+      }
+    },
+  )
+
+  watch(
     () => getRadiusCenterValue(),
-  ], () => {
-    updateRadiusCircle()
-    if (hasActiveRadius()) {
-      fitToRadius(800)
-    }
-  }, { deep: true })
+    () => {
+      updateRadiusCircle()
+    },
+    { deep: true },
+  )
+
+  watch(
+    () => (typeof selectedCityLabel === 'object' ? selectedCityLabel.value : selectedCityLabel),
+    (cityName) => {
+      if (!cityName) {
+        if (selectedCity.value) {
+          clearSelection()
+          renderMarkersForZoom(false)
+        }
+        return
+      }
+      if (selectedCity.value === cityName) return
+
+      const center = getRadiusCenterValue()
+      focusCity(cityName, center)
+    },
+  )
 
   return {
     mapContainer,
@@ -408,5 +453,6 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     selectedCityOffers,
     resetView,
     selectAndFocusOffer,
+    clearSelectionAndNotify,
   }
 }

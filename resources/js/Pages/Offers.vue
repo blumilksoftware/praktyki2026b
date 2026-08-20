@@ -3,6 +3,7 @@ import { computed, onMounted, ref, watch, reactive } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import debounce from 'lodash/debounce'
+import axios from 'axios'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
@@ -81,13 +82,49 @@ const fetchOffers = () => {
   )
 }
 
+const mapOffers = ref([])
+const mapOffersLoading = ref(false)
+
+async function fetchMapOffers() {
+  if (displayMode.value !== 'map') return
+
+  mapOffersLoading.value = true
+  try {
+    const { data } = await axios.get('/offers/map', {
+      params: {
+        search: filters.search || undefined,
+        cities: filters.radiusKm ? undefined : (filters.cities.length ? filters.cities : undefined),
+        work_modes: filters.workModes.length ? filters.workModes : undefined,
+        date_from: filters.dateFrom || undefined,
+        date_to: filters.dateTo || undefined,
+        study_fields: filters.studyFieldLabels.length
+          ? filters.studyFieldLabels.map(studyFieldLabelToValue).filter((v) => v !== undefined)
+          : undefined,
+        radius_city: filters.radiusCityLabel || undefined,
+        latitude: filters.latitude ?? undefined,
+        longitude: filters.longitude ?? undefined,
+        radius_km: filters.radiusKm ?? undefined,
+      },
+    })
+    mapOffers.value = data
+  } finally {
+    mapOffersLoading.value = false
+  }
+}
+
 watch(
   filters,
-  debounce(fetchOffers, 300),
+  debounce(() => {
+    fetchOffers()
+    fetchMapOffers()
+  }, 300),
   { deep: true },
 )
 
-watch(displayMode, fetchOffers)
+watch(displayMode, () => {
+  fetchOffers()
+  fetchMapOffers()
+})
 
 const resetFilters = () => {
   filters.search = ''
@@ -96,11 +133,20 @@ const resetFilters = () => {
   filters.dateFrom = ''
   filters.dateTo = ''
   filters.studyFieldLabels = []
-  filters.radiusCityLabel = ''
-  filters.latitude = null
-  filters.longitude = null
-  filters.radiusKm = null
+  clearRadiusFilter()
   offerMap.value?.resetView()
+}
+
+function handleMapCitySelected(city) {
+  filters.cities = [city.label]
+  filters.radiusCityLabel = city.label
+  filters.latitude = city.latitude
+  filters.longitude = city.longitude
+}
+
+function handleMapClear() {
+  filters.cities = []
+  clearRadiusFilter()
 }
 
 onMounted(() => {
@@ -112,6 +158,10 @@ onMounted(() => {
 
   if (urlParams.get('offerId')) {
     targetOfferId.value = Number(urlParams.get('offerId')) || urlParams.get('offerId')
+  }
+
+  if (displayMode.value === 'map') {
+    fetchMapOffers()
   }
 })
 </script>
@@ -214,7 +264,7 @@ onMounted(() => {
           <template v-else>
             <OfferMap
               ref="offerMap"
-              :offers="offers.data"
+              :offers="mapOffers"
               :has-cv="hasCv"
               :guest="isGuest"
               :can-apply="canApply"
@@ -222,7 +272,10 @@ onMounted(() => {
               :radius-km="filters.radiusKm"
               :latitude="filters.latitude"
               :longitude="filters.longitude"
+              :selected-city-label="filters.radiusCityLabel"
               :mapbox-token="mapboxToken"
+              @city-selected="handleMapCitySelected"
+              @clear="handleMapClear"
             />
           </template>
         </section>

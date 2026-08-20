@@ -16,7 +16,10 @@ const props = defineProps({
   radiusKm: { type: [Number, String], default: null },
   latitude: { type: [Number, String], default: null },
   longitude: { type: [Number, String], default: null },
+  selectedCityLabel: { type: String, default: '' },
 })
+
+const emit = defineEmits(['city-selected', 'clear'])
 
 const { t } = useI18n()
 const offersRef = toRef(props, 'offers')
@@ -27,6 +30,7 @@ const radiusCenterRef = computed(() => (
     ? { latitude: Number(props.latitude), longitude: Number(props.longitude) }
     : null
 ))
+const selectedCityLabelRef = toRef(props, 'selectedCityLabel')
 
 const {
   mapContainer,
@@ -34,7 +38,20 @@ const {
   selectedOfferId,
   selectedCityOffers,
   resetView,
-} = useOffersMap(offersRef, props.mapboxToken, initialOfferIdRef, radiusKmRef, radiusCenterRef)
+  clearSelectionAndNotify,
+} = useOffersMap(
+  offersRef,
+  props.mapboxToken,
+  initialOfferIdRef,
+  radiusKmRef,
+  radiusCenterRef,
+  undefined,
+  {
+    onCitySelect: (city) => emit('city-selected', city),
+    onClear: () => emit('clear'),
+    selectedCityLabel: selectedCityLabelRef,
+  },
+)
 
 defineExpose({ resetView })
 </script>
@@ -43,15 +60,13 @@ defineExpose({ resetView })
   <div class="space-y-4 py-4 sm:px-4 sm:py-6">
     <div class="relative w-full h-[450px] rounded-3xl overflow-hidden border border-border shadow-sm">
       <div ref="mapContainer" class="w-full h-full" />
-
       <SelectedCityBadge
         v-if="selectedCity"
         :city="selectedCity"
         :count="selectedCityOffers.length"
-        @clear="resetView"
+        @clear="clearSelectionAndNotify"
       />
     </div>
-
     <CityOffersList
       v-if="selectedCity"
       :city="selectedCity"
@@ -61,7 +76,6 @@ defineExpose({ resetView })
       :guest="guest"
       :can-apply="canApply"
     />
-
     <div v-else class="text-center py-6 text-additional text-sm bg-background/50 rounded-2xl border border-dashed border-border">
       {{ t('student.offers.map.selectPinHint') }}
     </div>
