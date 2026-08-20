@@ -202,14 +202,14 @@ class DemoSeeder extends Seeder
             "role" => UserRole::Student,
             "status" => UserStatus::Active,
             "email" => fn() => fake()->unique()->userName() . "@" . $approvedUniversity->domain,
-            "study_field" => fn() => $studyFields->random()->id,
+            "study_field_id" => fn() => $studyFields->random()->id,
         ]);
 
         $explicitlyLinkedStudents = User::factory()->count(3)->create([
             "role" => UserRole::Student,
             "status" => UserStatus::Active,
             "organization_id" => $approvedUniversity->id,
-            "study_field" => fn() => $studyFields->random()->id,
+            "study_field_id" => fn() => $studyFields->random()->id,
         ]);
 
         User::factory()->create([

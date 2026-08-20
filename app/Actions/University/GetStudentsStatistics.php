@@ -37,6 +37,7 @@ class GetStudentsStatistics
             "applicationsSubmitted" => $linkedStudents->sum("applications_submitted_count"),
             "acceptedPlacements" => $linkedStudents->sum("accepted_placements_count"),
             "breakdownByFaculty" => $this->getBreakdownByFaculty->execute(
+                university: $university,
                 students: $linkedStudents,
                 perPage: $facultyPerPage,
                 page: $facultyPage,
@@ -46,6 +47,7 @@ class GetStudentsStatistics
                 sortDirection: $facultySortDirection,
             ),
             "breakdownByField" => $this->getBreakdownByField->execute(
+                university: $university,
                 students: $linkedStudents,
                 perPage: $fieldPerPage,
                 page: $fieldPage,
