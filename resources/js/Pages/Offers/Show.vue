@@ -10,6 +10,7 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
 import SimilarOfferCard from '@/Components/Offer/SimilarOfferCard.vue'
+import { useToast } from '@/Composables/useToast'
 import {
   ROUTES,
   companyShow,
@@ -28,6 +29,7 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
+const { toastSuccess, toastError } = useToast()
 
 const layoutComponent = computed(() => (props.canApply ? StudentPanelLayout : BaseLayout))
 const layoutProps = computed(() => (props.canApply ? { activePage: 'offers' } : {}))
@@ -92,13 +94,11 @@ const backHref = computed(() => {
 const isApplying = ref(false)
 const appliedLocally = ref(false)
 const withdrawnLocally = ref(false)
-const applyError = ref(null)
 
 const isApplied = computed(() => !withdrawnLocally.value && (props.offer.has_applied || appliedLocally.value))
 const appliedDate = computed(() => props.offer.applied_at)
 
 function applyToOffer() {
-  applyError.value = null
   isApplying.value = true
 
   router.post(studentOfferApply(props.offer.id), {}, {
@@ -106,9 +106,14 @@ function applyToOffer() {
     onSuccess: () => {
       appliedLocally.value = true
       withdrawnLocally.value = false
+      toastSuccess(t('student.applications.applySuccess'))
     },
     onError: (errors) => {
-      applyError.value = errors.cv ?? errors.offer ?? null
+      const message = errors.cv ?? errors.offer
+
+      if (message) {
+        toastError(message)
+      }
     },
     onFinish: () => {
       isApplying.value = false
@@ -165,6 +170,7 @@ function confirmWithdraw() {
       withdrawnLocally.value = true
       appliedLocally.value = false
       isWithdrawModalOpen.value = false
+      toastSuccess(t('student.applications.withdrawSuccess'))
     },
     onFinish: () => {
       isWithdrawing.value = false
@@ -370,10 +376,6 @@ function confirmWithdraw() {
                 </template>
               </template>
             </div>
-
-            <p v-if="applyError" class="mt-3 text-error text-sm" role="alert">
-              {{ applyError }}
-            </p>
           </article>
 
           <aside

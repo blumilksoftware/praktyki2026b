@@ -19,7 +19,7 @@ const props = defineProps({
   selectedCityLabel: { type: String, default: '' },
 })
 
-const emit = defineEmits(['city-selected', 'clear'])
+const emit = defineEmits(['city-selected', 'clear', 'applied', 'withdrawn'])
 
 const { t } = useI18n()
 const offersRef = toRef(props, 'offers')
@@ -37,8 +37,7 @@ const {
   selectedCity,
   selectedOfferId,
   selectedCityOffers,
-  resetView,
-  clearSelectionAndNotify,
+  resetFilters,
 } = useOffersMap(
   offersRef,
   props.mapboxToken,
@@ -53,7 +52,7 @@ const {
   },
 )
 
-defineExpose({ resetView })
+defineExpose({ resetFilters })
 </script>
 
 <template>
@@ -64,7 +63,7 @@ defineExpose({ resetView })
         v-if="selectedCity"
         :city="selectedCity"
         :count="selectedCityOffers.length"
-        @clear="clearSelectionAndNotify"
+        @clear="resetFilters"
       />
     </div>
     <CityOffersList
@@ -75,6 +74,8 @@ defineExpose({ resetView })
       :has-cv="hasCv"
       :guest="guest"
       :can-apply="canApply"
+      @applied="$emit('applied', $event)"
+      @withdrawn="$emit('withdrawn', $event)"
     />
     <div v-else class="text-center py-6 text-additional text-sm bg-background/50 rounded-2xl border border-dashed border-border">
       {{ t('student.offers.map.selectPinHint') }}

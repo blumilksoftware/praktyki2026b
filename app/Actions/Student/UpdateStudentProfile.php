@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Student;
 
 use App\DTO\Student\UpdateStudentProfileData;
+use App\Models\University;
 use App\Models\User;
 use App\Services\MapboxGeocodingService;
 use Illuminate\Validation\ValidationException;
@@ -18,15 +19,17 @@ class UpdateStudentProfile
 
     public function execute(User $student, UpdateStudentProfileData $data): User
     {
+        $university = $data->universityId !== null ? University::find($data->universityId) : null;
+
         $student->update([
             "first_name" => $data->firstName,
             "last_name" => $data->lastName,
-            "age" => $data->age,
             "street" => $data->street,
             "postal_code" => $data->postalCode,
             "city" => $data->city,
-            "university" => $data->university,
-            "study_field" => $data->studyField,
+            "university" => $university->name ?? $data->university,
+            "organization_id" => $university?->id,
+            "study_field_id" => $data->studyFieldId,
             "study_year" => $data->studyYear,
             "specialization" => $data->specialization,
             "skills" => $data->skills,

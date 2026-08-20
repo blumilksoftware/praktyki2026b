@@ -6,6 +6,7 @@ namespace Tests\Feature\Company;
 
 use App\Models\Application;
 use App\Models\Company;
+use App\Models\Faculty;
 use App\Models\Offer;
 use App\Models\StudentPreferredCity;
 use App\Models\StudyField;
@@ -99,15 +100,16 @@ class StudentPublicProfileTest extends TestCase
         $company = Company::factory()->approved()->create();
         $user = User::factory()->companyAdmin()->create(["organization_id" => $company->id]);
         $university = University::factory()->create(["name" => "Test University"]);
+        $faculty = Faculty::factory()->for($university)->create(["name" => "Faculty of Engineering"]);
+        $enrolledField = StudyField::factory()->for($faculty)->create(["name" => "Computer Science"]);
 
         $student = User::factory()->create([
             "first_name" => "John",
             "last_name" => "Doe",
-            "age" => 22,
             "city" => "Student City",
             "organization_id" => $university->id,
             "university" => "Manually Typed University",
-            "study_field" => "Computer Science",
+            "study_field_id" => $enrolledField->id,
             "study_year" => 3,
             "specialization" => "Distributed Systems",
             "skills" => ["PHP", "Vue"],
@@ -115,8 +117,7 @@ class StudentPublicProfileTest extends TestCase
         ]);
 
         StudentPreferredCity::create(["student_id" => $student->id, "city" => "Preferred City", "latitude" => 50.06, "longitude" => 19.94]);
-        $studyField = StudyField::factory()->create(["name" => "Computer Science"]);
-        $student->preferredStudyFields()->attach($studyField);
+        $student->preferredStudyFields()->attach($enrolledField);
 
         $offer = Offer::factory()->create(["company_id" => $company->id]);
         $application = Application::factory()->create([
@@ -133,7 +134,6 @@ class StudentPublicProfileTest extends TestCase
                     ->component("Student/PublicProfile")
                     ->where("student.full_name", "John Doe")
                     ->where("student.email", $student->email)
-                    ->where("student.age", 22)
                     ->where("student.city", "Student City")
                     ->where("student.university", "Test University")
                     ->where("student.study_field", "Computer Science")

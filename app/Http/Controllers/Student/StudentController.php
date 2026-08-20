@@ -21,6 +21,7 @@ use App\Actions\Student\UpdateStudentProfile;
 use App\Actions\Student\UploadCvAction;
 use App\Actions\Student\UploadStudentPhotoAction;
 use App\Actions\Student\WithdrawOfferAction;
+use App\Actions\University\BuildFacultiesData;
 use App\Actions\University\SearchUniversities;
 use App\DTO\Student\UpdateStudentProfileData;
 use App\Http\Controllers\Controller;
@@ -33,6 +34,7 @@ use App\Http\Requests\UpdateStudentProfileRequest;
 use App\Http\Requests\UploadCvRequest;
 use App\Http\Requests\UploadStudentPhotoRequest;
 use App\Models\Offer;
+use App\Models\University;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +64,7 @@ class StudentController extends Controller
         private readonly GetStudentOffersAction $getStudentOffersAction,
         private readonly SearchUniversities $searchUniversities,
         private readonly LinkStudentToUniversity $linkStudentToUniversity,
+        private readonly BuildFacultiesData $buildFacultiesData,
     ) {}
 
     public function index(): Response
@@ -141,6 +144,13 @@ class StudentController extends Controller
     {
         return response()->json([
             "universities" => $this->searchUniversities->execute($request->string("query")->toString()),
+        ]);
+    }
+
+    public function universityFaculties(string $university): JsonResponse
+    {
+        return response()->json([
+            "faculties" => $this->buildFacultiesData->execute(University::verified()->findOrFail($university)),
         ]);
     }
 

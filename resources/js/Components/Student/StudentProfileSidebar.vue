@@ -16,11 +16,6 @@ const props = defineProps({
 const { t } = useI18n()
 
 const fullName = computed(() => `${props.user.first_name ?? ''} ${props.user.last_name ?? ''}`.trim())
-const ageLabel = computed(() => {
-  if (!props.user.age) return null
-  return t('student.profile.sidebar.age', { count: props.user.age })
-})
-
 const formattedAddress = computed(() => {
   const parts = []
   if (props.user.street) {
@@ -48,9 +43,6 @@ const hasCv = computed(() => Boolean(props.user.cv_path))
       <h1 class="mt-4 font-semibold text-text text-xl">
         {{ fullName }}
       </h1>
-      <p v-if="ageLabel" class="mt-1 text-additional text-sm">
-        {{ ageLabel }}
-      </p>
       <p class="mt-1 break-all text-additional text-sm">
         {{ user.email }}
       </p>
@@ -66,7 +58,8 @@ const hasCv = computed(() => Boolean(props.user.cv_path))
         </span>
       </div>
 
-      <div v-if="user.study_field || user.study_year" class="mt-3 flex flex-wrap justify-center gap-2">
+      <div v-if="user.faculty || user.study_field || user.study_year" class="mt-3 flex flex-wrap justify-center gap-2">
+        <ProfileTag v-if="user.faculty" :label="user.faculty" variant="profile" />
         <ProfileTag v-if="user.study_field" :label="user.study_field" variant="profile" />
         <ProfileTag v-if="user.study_year" :label="t('student.profile.sidebar.yearTag', { year: user.study_year })" variant="profile" />
       </div>

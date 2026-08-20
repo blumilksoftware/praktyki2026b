@@ -19,6 +19,7 @@ class GetStudentOffersForMapAction
 
         return $this->buildFilteredOffersQuery($filters)
             ->with(["company", "applications", "studyFields"])
+            ->withCount("acceptedApplications")
             ->whereNotNull("latitude")
             ->whereNotNull("longitude")
             ->get()

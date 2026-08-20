@@ -19,7 +19,6 @@ const props = defineProps({
 const { t } = useI18n()
 const companyMenu = useCompanyPanelMenu('applications')
 
-const ageLabel = computed(() => (props.student.age ? t('student.profile.sidebar.age', { count: props.student.age }) : null))
 const hasPreferences = computed(() => props.student.preferred_study_fields.length > 0 || props.student.preferred_cities.length > 0)
 const universityHref = computed(() => (props.student.university_id ? universityShow(props.student.university_id) : null))
 
@@ -59,9 +58,6 @@ const goBack = () => {
           <h1 class="mt-4 font-semibold text-text text-xl">
             {{ student.full_name }}
           </h1>
-          <p v-if="ageLabel" class="mt-1 text-additional text-sm">
-            {{ ageLabel }}
-          </p>
           <a :href="`mailto:${student.email}`" class="mt-1 break-all text-primary text-sm hover:underline">
             {{ student.email }}
           </a>
@@ -80,7 +76,8 @@ const goBack = () => {
             {{ student.university }}
           </component>
 
-          <div v-if="student.study_field || student.study_year" class="mt-3 flex flex-wrap justify-center gap-2">
+          <div v-if="student.faculty || student.study_field || student.study_year" class="mt-3 flex flex-wrap justify-center gap-2">
+            <ProfileTag v-if="student.faculty" :label="student.faculty" variant="profile" />
             <ProfileTag v-if="student.study_field" :label="student.study_field" variant="profile" />
             <ProfileTag v-if="student.study_year" :label="t('student.profile.sidebar.yearTag', { year: student.study_year })" variant="profile" />
           </div>

@@ -47,6 +47,11 @@ const isAuthPage = computed(() => {
   return currentComponent === 'Auth/Login' || currentComponent === 'Auth/Register'
 })
 
+const isAdminAuthPage = computed(() => {
+  const currentComponent = page.component
+  return currentComponent === 'Auth/AdminLogin'
+})
+
 const showProfileIcon = computed(() => isAuthenticated.value && !isAuthPage.value)
 
 const isStudent = computed(() => user.value?.role === 'student')
@@ -82,13 +87,13 @@ const hasProfileInMenu = computed(() => (
       <div class="flex items-center gap-3 sm:gap-4 lg:gap-6">
         <div class="flex items-center gap-3 sm:gap-4">
           <Link
-            v-if="!isAuthenticated"
+            v-if="!isAuthenticated && !isAdminAuthPage"
             :href="ROUTES.OFFERS"
             class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
           >
             {{ t('offers.browseCta') }}
           </Link>
-          <template v-if="!isAuthenticated && !isAuthPage">
+          <template v-if="!isAuthenticated && !isAuthPage && !isAdminAuthPage">
             <Link
               :href="ROUTES.LOGIN"
               class="hidden lg:inline-block rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
@@ -172,7 +177,7 @@ const hasProfileInMenu = computed(() => (
 
       <div class="p-5 overflow-y-auto h-full bg-white">
         <ul class="flex flex-col gap-2">
-          <li v-if="!isAuthenticated">
+          <li v-if="!isAuthenticated && !isAdminAuthPage">
             <Link
               :href="ROUTES.OFFERS"
               class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
@@ -182,7 +187,7 @@ const hasProfileInMenu = computed(() => (
               {{ t('offers.browseCta') }}
             </Link>
           </li>
-          <template v-if="!isAuthenticated && !isAuthPage">
+          <template v-if="!isAuthenticated && !isAuthPage && !isAdminAuthPage">
             <li>
               <Link
                 :href="ROUTES.LOGIN"

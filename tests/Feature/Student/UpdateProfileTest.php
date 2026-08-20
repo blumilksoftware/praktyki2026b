@@ -7,8 +7,10 @@ namespace Tests\Feature\Student;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Enums\WorkMode;
+use App\Models\Faculty;
 use App\Models\StudentPreferredCity;
 use App\Models\StudyField;
+use App\Models\University;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
@@ -59,9 +61,7 @@ class UpdateProfileTest extends TestCase
         $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
             "first_name" => "John",
             "last_name" => "Doe",
-            "age" => 21,
-            "university" => "AGH",
-            "study_field" => "Informatyka",
+            "university" => "Northgate University",
             "study_year" => 2,
             "specialization" => "Backend",
         ]));
@@ -71,14 +71,70 @@ class UpdateProfileTest extends TestCase
 
         $this->assertEquals("John", $user->first_name);
         $this->assertEquals("Doe", $user->last_name);
-        $this->assertEquals(21, $user->age);
-        $this->assertEquals("AGH", $user->university);
-        $this->assertEquals("Informatyka", $user->study_field);
+        $this->assertEquals("Northgate University", $user->university);
         $this->assertEquals(2, $user->study_year);
         $this->assertEquals("Backend", $user->specialization);
     }
 
-    public function testProfileUpdateAcceptsStringNumericAgeAndStudyYearFromForm(): void
+    public function testStudentIsLinkedToTheChosenUniversityAndFieldOfStudy(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+        $university = University::factory()->approved()->create();
+        $faculty = Faculty::factory()->for($university)->create();
+        $studyField = StudyField::factory()->for($faculty)->create();
+
+        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
+            "university" => $university->name,
+            "university_id" => $university->id,
+            "study_field_id" => $studyField->id,
+        ]));
+
+        $response->assertRedirect();
+        $user->refresh();
+
+        $this->assertEquals($university->id, $user->organization_id);
+        $this->assertEquals($studyField->id, $user->study_field_id);
+    }
+
+    public function testUnverifiedUniversityCannotBeLinked(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+        $university = University::factory()->create();
+
+        $this->actingAs($user)
+            ->patch(route("student.profile.update"), $this->validPayload([
+                "university" => $university->name,
+                "university_id" => $university->id,
+            ]))
+            ->assertInvalid("university_id");
+    }
+
+    public function testFieldOfStudyFromAnotherUniversityIsRejected(): void
+    {
+        $user = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+        $university = University::factory()->approved()->create();
+        $foreignFaculty = Faculty::factory()->for(University::factory()->approved()->create())->create();
+        $foreignField = StudyField::factory()->for($foreignFaculty)->create();
+
+        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
+            "university" => $university->name,
+            "university_id" => $university->id,
+            "study_field_id" => $foreignField->id,
+        ]));
+
+        $response->assertInvalid("study_field_id");
+    }
+
+    public function testProfileUpdateAcceptsStringNumericStudyYearFromForm(): void
     {
         $user = User::factory()->create([
             "role" => UserRole::Student,
@@ -86,14 +142,12 @@ class UpdateProfileTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
-            "age" => "22",
             "study_year" => "3",
         ]));
 
         $response->assertRedirect(route("student.profile"));
         $user->refresh();
 
-        $this->assertEquals(22, $user->age);
         $this->assertEquals(3, $user->study_year);
     }
 
@@ -201,25 +255,6 @@ class UpdateProfileTest extends TestCase
         ]));
 
         $response->assertInvalid("preferred_cities");
-    }
-
-    public function testInvalidAgeReturnsFriendlyMessageInPolish(): void
-    {
-        app()->setLocale("pl");
-
-        $user = User::factory()->create([
-            "role" => UserRole::Student,
-            "status" => UserStatus::Active,
-        ]);
-
-        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
-            "age" => -1,
-        ]));
-
-        $response->assertInvalid("age");
-        $response->assertSessionHasErrors([
-            "age" => "Wiek musi być większy od 0.",
-        ]);
     }
 
     public function testGeocodingFailureRollsBackWithValidationError(): void

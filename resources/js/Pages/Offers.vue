@@ -134,7 +134,7 @@ const resetFilters = () => {
   filters.dateTo = ''
   filters.studyFieldLabels = []
   clearRadiusFilter()
-  offerMap.value?.resetView()
+  offerMap.value?.resetFilters()
 }
 
 function handleMapCitySelected(city) {
@@ -276,6 +276,8 @@ onMounted(() => {
               :mapbox-token="mapboxToken"
               @city-selected="handleMapCitySelected"
               @clear="handleMapClear"
+              @applied="fetchMapOffers"
+              @withdrawn="fetchMapOffers"
             />
           </template>
         </section>

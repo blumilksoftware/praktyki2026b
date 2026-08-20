@@ -32,7 +32,8 @@
     }
   },
   "common": {
-    "verifiedBadge": "Konto zweryfikowane przez administratora"
+    "verifiedBadge": "Konto zweryfikowane przez administratora",
+    "skipToContent": "Przejdź do treści"
   },
   "organization": {
     "team": {
@@ -432,12 +433,41 @@
       "title": "Uczelnia",
         "nav": {
             "dashboard": "Panel",
-            "companies": "Firmy",
-            "profile": "Profil"
+            "faculties": "Kierunki/Wydziały",
+            "team": "Zespół",
+            "partnership": "Partnerstwo"
         }
     },
     "profile": {
       "title": "Profil"
+    },
+    "faculties": {
+      "title": "Wydziały i kierunki",
+      "subtitle": "Zarządzaj listą wydziałów i kierunków, którą wybierają studenci Twojej uczelni.",
+      "addFacultyLabel": "Nazwa wydziału",
+      "addFaculty": "Dodaj wydział",
+      "facultyName": "Nazwa wydziału",
+      "fieldName": "Nazwa kierunku",
+      "fieldsCount": "Kierunki: {count}",
+      "addFieldLabel": "Nowy kierunek",
+      "addField": "Dodaj kierunek",
+      "renameFaculty": "Zmień nazwę wydziału {name}",
+      "deleteFaculty": "Usuń wydział {name}",
+      "renameField": "Zmień nazwę kierunku {name}",
+      "deleteField": "Usuń kierunek {name}",
+      "usage": "Studenci: {students} · Oferty: {offers}",
+      "noFields": "Ten wydział nie ma jeszcze kierunków.",
+      "empty": "Nie dodano jeszcze żadnego wydziału.",
+      "save": "Zapisz",
+      "cancel": "Anuluj",
+      "confirmDelete": "Usuń",
+      "deleteFacultyTitle": "Usuwanie wydziału",
+      "deleteFieldTitle": "Usuwanie kierunku",
+      "deleteConfirmation": "Czy na pewno chcesz usunąć „{name}”?",
+      "reassignFacultyLabel": "Przenieś kierunki do wydziału",
+      "reassignFieldLabel": "Przenieś studentów i oferty do kierunku",
+      "reassignPlaceholder": "Wybierz cel przeniesienia",
+      "reassignUnavailable": "Nie ma dokąd przenieść powiązanych danych. Najpierw dodaj inny wydział lub kierunek."
     },
     "companies": {
       "title": "Wyszukiwarka firm",
@@ -541,6 +571,8 @@
       "subtitle": "Przeglądaj status swoich aplikacji na oferty praktyk.",
       "empty": "Nie masz jeszcze żadnych aplikacji.",
       "listAriaLabel": "Lista aplikacji",
+      "applySuccess": "Aplikacja została wysłana.",
+      "withdrawSuccess": "Aplikacja została wycofana.",
       "appliedAt": "Wysłano: {date}",
       "openHistory": "Zobacz historię aplikacji",
       "status": {
@@ -603,7 +635,6 @@
       },
       "sidebar": {
         "editProfile": "Edytuj profil",
-        "age": "{count} lat",
         "yearTag": "rok {year}",
         "verified": "Zweryfikowana uczelnia",
         "cvUploaded": "CV przesłane"
@@ -614,9 +645,6 @@
         "searchPreferences": "Preferencje wyszukiwania",
         "searchPreferencesHint": "Wybierz branże i miasta, które Cię interesują — pomoże nam to dopasować oferty praktyk.",
         "education": "Edukacja",
-        "age": "Wiek (lata)",
-        "ageLabel": "Wiek",
-        "agePlaceholder": "lata",
         "location": "Lokalizacja (miasto, kraj)",
         "locationLabel": "Lokalizacja",
         "locationPlaceholder": "miasto, kraj",
@@ -626,6 +654,13 @@
         "university": "Uczelnia",
           "universitySuggestedNote": "Wybrano automatycznie na podstawie adresu e-mail Twojej uczelni",
         "studyField": "Kierunek studiów",
+        "studyFieldPlaceholder": "Wybierz kierunek studiów",
+        "faculty": "Wydział",
+        "facultyPlaceholder": "Wybierz wydział",
+        "selectUniversityFirst": "Najpierw wybierz swoją uczelnię.",
+        "noFacultiesForUniversity": "Ta uczelnia nie dodała jeszcze żadnych wydziałów.",
+        "selectFacultyFirst": "Najpierw wybierz wydział.",
+        "noStudyFieldsForFaculty": "Ten wydział nie ma jeszcze kierunków.",
         "studyYear": "Rok studiów",
         "specialization": "Specjalność",
         "saveChanges": "Zapisz zmiany",
@@ -1023,7 +1058,8 @@
         "unpublishing": "Wycofywanie…",
         "deleteAction": "Usuń",
         "applicationsCount": "Zgłoszenia: {count}",
-        "spotsLabel": "Miejsca: {count}",
+        "spotsLabel": "Miejsca: {remaining} z {total}",
+        "spotsCount": "{remaining} z {total}",
         "verificationRequiredHint": "Twoja firma musi zostać zweryfikowana, zanim będzie można to opublikować.",
         "status": {
           "draft": "Szkic",

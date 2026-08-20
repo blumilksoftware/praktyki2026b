@@ -20,7 +20,6 @@ const student = {
   last_name: "Doe",
   full_name: "John Doe",
   email: "john@example.com",
-  age: 22,
   city: "Student City",
   university: "Test University",
   study_field: "Computer science",

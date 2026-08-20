@@ -29,7 +29,6 @@ class UpdateUniversityProfileTest extends TestCase
             logo: null,
             description: null,
             externalFormUrl: "https://example.com/form",
-            faculties: null,
             website: "https://example.com",
             phone: "123456789",
             street: "Test Street 1",
@@ -55,7 +54,6 @@ class UpdateUniversityProfileTest extends TestCase
             logo: null,
             description: null,
             externalFormUrl: null,
-            faculties: null,
             website: "https://example.com",
             phone: "123456789",
             street: "Test Street 1",
@@ -80,7 +78,6 @@ class UpdateUniversityProfileTest extends TestCase
             logo: null,
             description: "We teach engineering and design.",
             externalFormUrl: null,
-            faculties: null,
             website: "https://example.com",
             phone: "123456789",
             street: "Test Street 1",
@@ -105,7 +102,6 @@ class UpdateUniversityProfileTest extends TestCase
             logo: null,
             description: null,
             externalFormUrl: null,
-            faculties: null,
             website: "https://example.com",
             phone: "123456789",
             street: "Test Street 1",
@@ -137,7 +133,6 @@ class UpdateUniversityProfileTest extends TestCase
             logo: $newLogo,
             description: null,
             externalFormUrl: null,
-            faculties: null,
             website: "https://example.com",
             phone: "123456789",
             street: "Test Street 1",
@@ -155,81 +150,18 @@ class UpdateUniversityProfileTest extends TestCase
         Storage::disk("public")->assertExists($newDiskPath);
     }
 
-    public function testItSynchronizesFacultiesAndStudyFields(): void
+    public function testItLeavesFacultiesUntouched(): void
     {
         $university = University::factory()->approved()->create();
 
-        $oldFaculty = $university->faculties()->create(["name" => "Old Faculty"]);
-        $oldFaculty->studyFields()->create(["name" => "Old Study Field"]);
+        $faculty = $university->faculties()->create(["name" => "Faculty of Engineering"]);
+        $studyField = $faculty->studyFields()->create(["name" => "Robotics"]);
 
         $data = new UpdateUniversityProfileData(
             domain: $university->domain,
             logo: null,
             description: null,
             externalFormUrl: null,
-            faculties: [
-                [
-                    "name" => "Faculty of Physics",
-                    "study_fields" => ["Astronomy", "Theoretical Physics"],
-                ],
-                [
-                    "name" => "Faculty of Mathematics",
-                    "study_fields" => ["Pure Mathematics"],
-                ],
-            ],
-            website: "https://example.com",
-            phone: "123456789",
-            street: "Test Street 1",
-            postalCode: "00-000",
-            city: "Test City",
-        );
-
-        $action = new UpdateUniversityProfile(new FileUploadService());
-        $updated = $action->execute($university, $data);
-
-        $this->assertCount(2, $updated->faculties);
-        $this->assertDatabaseMissing("faculties", ["name" => "Old Faculty"]);
-        $this->assertDatabaseMissing("study_fields", ["name" => "Old Study Field"]);
-
-        $this->assertDatabaseHas("faculties", [
-            "university_id" => $university->id,
-            "name" => "Faculty of Physics",
-        ]);
-        $this->assertDatabaseHas("faculties", [
-            "university_id" => $university->id,
-            "name" => "Faculty of Mathematics",
-        ]);
-
-        $physicsFaculty = $updated->faculties()->where("name", "Faculty of Physics")->first();
-        $mathFaculty = $updated->faculties()->where("name", "Faculty of Mathematics")->first();
-
-        $this->assertDatabaseHas("study_fields", [
-            "faculty_id" => $physicsFaculty->id,
-            "name" => "Astronomy",
-        ]);
-        $this->assertDatabaseHas("study_fields", [
-            "faculty_id" => $physicsFaculty->id,
-            "name" => "Theoretical Physics",
-        ]);
-        $this->assertDatabaseHas("study_fields", [
-            "faculty_id" => $mathFaculty->id,
-            "name" => "Pure Mathematics",
-        ]);
-    }
-
-    public function testItDoesNotDeleteFacultiesWhenFacultiesArrayIsEmpty(): void
-    {
-        $university = University::factory()->approved()->create();
-
-        $oldFaculty = $university->faculties()->create(["name" => "Old Faculty"]);
-        $oldFaculty->studyFields()->create(["name" => "Old Study Field"]);
-
-        $data = new UpdateUniversityProfileData(
-            domain: $university->domain,
-            logo: null,
-            description: null,
-            externalFormUrl: null,
-            faculties: [],
             website: "https://example.com",
             phone: "123456789",
             street: "Test Street 1",
@@ -241,8 +173,8 @@ class UpdateUniversityProfileTest extends TestCase
         $updated = $action->execute($university, $data);
 
         $this->assertCount(1, $updated->faculties);
-        $this->assertDatabaseHas("faculties", ["name" => "Old Faculty"]);
-        $this->assertDatabaseHas("study_fields", ["name" => "Old Study Field"]);
+        $this->assertDatabaseHas("faculties", ["id" => $faculty->id, "name" => "Faculty of Engineering"]);
+        $this->assertDatabaseHas("study_fields", ["id" => $studyField->id, "name" => "Robotics"]);
     }
 
     private function fakePng(): string

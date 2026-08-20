@@ -210,7 +210,7 @@ class GetStudentOffersActionTest extends TestCase
         $company = Company::factory()->create();
         $offer = Offer::factory()->published()->for($company)->create(["spots" => 1]);
 
-        Application::factory()->count(3)->for($offer)->create();
+        Application::factory()->count(3)->for($offer)->accepted()->create();
 
         $result = $this->action->execute(null, [], 15);
 

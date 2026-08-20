@@ -25,7 +25,8 @@
     }
   },
   "common": {
-    "verifiedBadge": "Account verified by an administrator"
+    "verifiedBadge": "Account verified by an administrator",
+    "skipToContent": "Skip to content"
   },
   "organization": {
     "team": {
@@ -423,12 +424,41 @@
             "title": "Uczelnia",
             "nav": {
                 "dashboard": "Dashboard",
-                "companies": "Companies",
-                "profile": "Profile"
+                "faculties": "Faculties",
+                "team": "Team",
+                "partnership": "Partnership"
             }
         },
     "profile": {
       "title": "Profile"
+    },
+    "faculties": {
+      "title": "Faculties and fields of study",
+      "subtitle": "Manage the list of faculties and fields of study that your students choose from.",
+      "addFacultyLabel": "Faculty name",
+      "addFaculty": "Add faculty",
+      "facultyName": "Faculty name",
+      "fieldName": "Field of study name",
+      "fieldsCount": "Fields of study: {count}",
+      "addFieldLabel": "New field of study",
+      "addField": "Add field of study",
+      "renameFaculty": "Rename faculty {name}",
+      "deleteFaculty": "Delete faculty {name}",
+      "renameField": "Rename field of study {name}",
+      "deleteField": "Delete field of study {name}",
+      "usage": "Students: {students} · Offers: {offers}",
+      "noFields": "This faculty has no fields of study yet.",
+      "empty": "No faculty has been added yet.",
+      "save": "Save",
+      "cancel": "Cancel",
+      "confirmDelete": "Delete",
+      "deleteFacultyTitle": "Delete faculty",
+      "deleteFieldTitle": "Delete field of study",
+      "deleteConfirmation": "Are you sure you want to delete \"{name}\"?",
+      "reassignFacultyLabel": "Move fields of study to faculty",
+      "reassignFieldLabel": "Move students and offers to field of study",
+      "reassignPlaceholder": "Choose where to move them",
+      "reassignUnavailable": "There is nowhere to move the linked data. Add another faculty or field of study first."
     },
     "companies": {
       "title": "Company search",
@@ -550,6 +580,8 @@
       "subtitle": "Track the status of your internship applications.",
       "empty": "You have not applied to any offers yet.",
       "listAriaLabel": "Application list",
+      "applySuccess": "Application sent.",
+      "withdrawSuccess": "Application withdrawn.",
       "appliedAt": "Applied: {date}",
       "openHistory": "View application history",
       "status": {
@@ -726,7 +758,6 @@
       },
       "sidebar": {
         "editProfile": "Edit profile",
-        "age": "{count} years old",
         "yearTag": "year {year}",
         "verified": "Verified university",
         "cvUploaded": "CV uploaded"
@@ -737,9 +768,6 @@
         "searchPreferences": "Search preferences",
         "searchPreferencesHint": "Choose industries and cities you are interested in — we will use them to match internship offers.",
         "education": "Education",
-        "age": "Age (years)",
-        "ageLabel": "Age",
-        "agePlaceholder": "years",
         "location": "Location (city, country)",
         "locationLabel": "Location",
         "locationPlaceholder": "city, country",
@@ -749,6 +777,13 @@
         "university": "University",
           "universitySuggestedNote": "Pre-selected automatically - detected from your university email address",
         "studyField": "Field of study",
+        "studyFieldPlaceholder": "Select a field of study",
+        "faculty": "Faculty",
+        "facultyPlaceholder": "Select a faculty",
+        "selectUniversityFirst": "Choose your university first.",
+        "noFacultiesForUniversity": "This university has not added any faculties yet.",
+        "selectFacultyFirst": "Choose a faculty first.",
+        "noStudyFieldsForFaculty": "This faculty has no fields of study yet.",
         "studyYear": "Year of study",
         "specialization": "Specialization",
         "saveChanges": "Save changes",
@@ -1038,7 +1073,8 @@
         "unpublishing": "Unpublishing…",
         "deleteAction": "Delete",
         "applicationsCount": "Applications: {count}",
-        "spotsLabel": "Spots: {count}",
+        "spotsLabel": "Spots: {remaining} of {total}",
+        "spotsCount": "{remaining} of {total}",
         "verificationRequiredHint": "Your company must be verified before this can be published.",
         "status": {
           "draft": "Draft",

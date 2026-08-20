@@ -7,9 +7,6 @@ import en from '@/lang/en.json'
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en } })
 
 const { routerPatch, routerGet, routerVisit } = vi.hoisted(() => ({ routerPatch: vi.fn(), routerGet: vi.fn(), routerVisit: vi.fn() }))
-const pageProps = { props: { flash: {} } }
-const usePage = vi.fn(() => pageProps)
-const baseToastShow = vi.fn()
 
 vi.mock('@inertiajs/vue3', async () => {
   const actual = await vi.importActual('@inertiajs/vue3')
@@ -17,7 +14,6 @@ vi.mock('@inertiajs/vue3', async () => {
     ...actual,
     Head: { template: '<div />' },
     router: { patch: routerPatch, get: routerGet, visit: routerVisit },
-    usePage,
   }
 })
 
@@ -69,17 +65,11 @@ const mountOffers = (props = {}) => mount(Offers, {
         props: ['open', 'offerId', 'offerTitle'],
         template: '<div v-if="open" class="stub-unpublish-modal">{{ offerId }}:{{ offerTitle }}</div>',
       },
-      BaseToast: {
-        template: '<div />',
-        methods: { show: baseToastShow },
-      },
     },
   },
 })
 
 beforeEach(() => {
-  pageProps.props.flash = {}
-  baseToastShow.mockClear()
   routerPatch.mockClear()
   routerGet.mockClear()
   routerVisit.mockClear()
@@ -92,15 +82,6 @@ describe('Company/Offers', () => {
     expect(wrapper.text()).toContain(en.company.offers.index.empty.title)
   })
 
-  it('shows a toast message when the page has a flash status', async () => {
-    pageProps.props.flash = { status: 'Your offer changes were saved successfully.' }
-
-    const wrapper = mountOffers()
-    await wrapper.vm.$nextTick()
-
-    expect(baseToastShow).toHaveBeenCalledWith('Your offer changes were saved successfully.')
-  })
-
   it('renders offer title, status, spots and application count', () => {
     const wrapper = mountOffers({ offers: paginate([publishedOffer]), statusCounts: { published: 1 } })
     const text = wrapper.text()
@@ -111,11 +92,14 @@ describe('Company/Offers', () => {
     expect(text).toContain('7')
   })
 
-  it('shows remaining spots rather than the total number of spots', () => {
+  it('shows remaining spots alongside the declared capacity', () => {
     const wrapper = mountOffers({ offers: paginate([publishedOffer]), statusCounts: { published: 1 } })
 
-    expect(wrapper.text()).toContain(en.company.offers.index.spotsLabel.replace('{count}', '3'))
-    expect(wrapper.text()).not.toContain(en.company.offers.index.spotsLabel.replace('{count}', '10'))
+    const label = en.company.offers.index.spotsLabel
+      .replace('{remaining}', '3')
+      .replace('{total}', '10')
+
+    expect(wrapper.text()).toContain(label)
   })
 
   const openActionsMenu = async (wrapper: ReturnType<typeof mountOffers>, offerId: string) => {

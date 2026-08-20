@@ -19,6 +19,7 @@ class GetStudentOffersAction
 
         return $this->buildFilteredOffersQuery($filters)
             ->with(["company", "applications", "studyFields"])
+            ->withCount("acceptedApplications")
             ->paginate($perPage)
             ->withQueryString()
             ->through(fn($offer) => $this->mapOfferToArray($offer, $user, $favoriteOfferIds, $hasRadiusFilter));

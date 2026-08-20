@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\University;
 
-use App\Enums\UserRole;
 use App\Models\University;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -25,11 +24,7 @@ class GetLinkedStudents
         };
 
         return User::query()
-            ->where("role", UserRole::Student)
-            ->where(function ($query) use ($university): void {
-                $query->where("email", "like", "%@" . $university->domain)
-                    ->orWhere("organization_id", $university->id);
-            })
+            ->linkedToUniversity($university)
             ->with("studyField.faculty")
             ->withCount([
                 "applications as applications_submitted_count" => $dateFilter,

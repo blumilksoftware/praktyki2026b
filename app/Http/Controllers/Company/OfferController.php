@@ -84,6 +84,7 @@ class OfferController extends Controller
                 "title" => $offer->title,
                 "description" => $offer->description,
                 "spots" => $offer->spots,
+                "accepted_applications_count" => $offer->acceptedApplications()->count(),
                 "city" => $offer->city,
                 "start_date" => $offer->start_date->toDateString(),
                 "end_date" => $offer->end_date->toDateString(),
@@ -104,10 +105,13 @@ class OfferController extends Controller
 
         $data = UpdateOfferData::fromArray($request->getData());
 
-        $this->updateOffer->execute($offer, $data);
+        $updated = $this->updateOffer->execute($offer, $data);
 
-        return $this->redirectAfterOfferAction()
-            ->with("status", __("company.offers.form.saveSuccess"));
+        $message = $updated->status === OfferStatus::Closed && $data->status !== OfferStatus::Closed
+            ? __("company.offers.form.offerClosedNoSpots")
+            : __("company.offers.form.saveSuccess");
+
+        return $this->redirectAfterOfferAction()->with("status", $message);
     }
 
     public function publish(Offer $offer): RedirectResponse

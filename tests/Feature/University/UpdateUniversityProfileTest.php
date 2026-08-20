@@ -35,12 +35,6 @@ class UpdateUniversityProfileTest extends TestCase
                 "logo" => $logo,
                 "description" => "A technical university focused on engineering.",
                 "external_form_url" => "https://example.com/external-form",
-                "faculties" => [
-                    [
-                        "name" => "Faculty of IT",
-                        "study_fields" => ["Computer Science"],
-                    ],
-                ],
                 "website" => "https://example.com",
                 "phone" => "+48 123 456 789",
                 "street" => "Main Street 1",
@@ -62,12 +56,6 @@ class UpdateUniversityProfileTest extends TestCase
         $this->assertEquals("Main Street 1", $university->street);
         $this->assertEquals("30-001", $university->postal_code);
         $this->assertEquals("Kraków", $university->city);
-
-        $this->assertCount(1, $university->faculties);
-        $faculty = $university->faculties->first();
-        $this->assertEquals("Faculty of IT", $faculty->name);
-        $this->assertCount(1, $faculty->studyFields);
-        $this->assertEquals("Computer Science", $faculty->studyFields->first()->name);
     }
 
     public function testAttemptingToChangeDomainWhenAlreadySetReturnsValidationError(): void
@@ -81,7 +69,6 @@ class UpdateUniversityProfileTest extends TestCase
             ->patch("/university/profile", [
                 "domain" => "another.edu.pl",
                 "external_form_url" => null,
-                "faculties" => [],
                 "phone" => "+48 123 456 789",
                 "street" => "Main Street 1",
                 "postalCode" => "30-001",
@@ -184,32 +171,6 @@ class UpdateUniversityProfileTest extends TestCase
             ])
             ->assertRedirect()
             ->assertSessionHasErrors("logo");
-    }
-
-    public function testValidationFailsForInvalidFacultiesNesting(): void
-    {
-        $university = University::factory()->approved()->create();
-        $user = $this->makeUniversityAdmin($university);
-
-        $this->actingAs($user)
-            ->patch("/university/profile", [
-                "domain" => $university->domain,
-                "phone" => "+48 123 456 789",
-                "street" => "Main Street 1",
-                "postalCode" => "30-001",
-                "city" => "Kraków",
-                "faculties" => [
-                    [
-                        "name" => "",
-                        "study_fields" => "not-an-array",
-                    ],
-                ],
-            ])
-            ->assertRedirect()
-            ->assertSessionHasErrors([
-                "faculties.0.name",
-                "faculties.0.study_fields",
-            ]);
     }
 
     private function makeUniversityAdmin(University $university): User

@@ -7,6 +7,7 @@ import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
 import { ROUTES, studentOfferApply, studentOfferFavourite, studentOfferWithdraw, offerShow } from '@/Helpers/routes'
+import { useToast } from '@/Composables/useToast'
 
 const props = defineProps({
   offer: { type: Object, required: true },
@@ -15,7 +16,10 @@ const props = defineProps({
   canApply: { type: Boolean, default: false },
 })
 
+const emit = defineEmits(['applied', 'withdrawn'])
+
 const { t } = useI18n()
+const { toastSuccess, toastError } = useToast()
 
 const companyInitial = computed(() => props.offer.company?.name?.charAt(0) || 'O')
 
@@ -32,13 +36,11 @@ const formattedDateRange = computed(() => `${formatDate(props.offer.start_date)}
 const isApplying = ref(false)
 const appliedLocally = ref(false)
 const withdrawnLocally = ref(false)
-const applyError = ref(null)
 
 const isApplied = computed(() => !withdrawnLocally.value && (props.offer.has_applied || appliedLocally.value))
 const appliedDate = computed(() => props.offer.applied_at)
 
 function applyToOffer() {
-  applyError.value = null
   isApplying.value = true
 
   router.post(studentOfferApply(props.offer.id), {}, {
@@ -46,15 +48,22 @@ function applyToOffer() {
     onSuccess: () => {
       appliedLocally.value = true
       withdrawnLocally.value = false
+      toastSuccess(t('student.applications.applySuccess'))
+      emit('applied', props.offer.id)
     },
     onError: (errors) => {
-      applyError.value = errors.cv ?? errors.offer ?? null
+      const message = errors.cv ?? errors.offer
+
+      if (message) {
+        toastError(message)
+      }
     },
     onFinish: () => {
       isApplying.value = false
     },
   })
 }
+
 
 const isTogglingFavorite = ref(false)
 const favoritedLocally = ref(false)
@@ -105,6 +114,8 @@ function confirmWithdraw() {
       withdrawnLocally.value = true
       appliedLocally.value = false
       isWithdrawModalOpen.value = false
+      toastError(t('student.applications.withdrawSuccess'))
+      emit('withdrawn', props.offer.id)
     },
     onFinish: () => {
       isWithdrawing.value = false
@@ -121,6 +132,7 @@ function showOnMap() {
     preserveScroll: true,
   })
 }
+
 </script>
 
 <template>
@@ -239,10 +251,6 @@ function showOnMap() {
           </BaseButton>
         </template>
       </div>
-
-      <p v-if="applyError" class="mt-3 text-error text-sm" role="alert">
-        {{ applyError }}
-      </p>
     </div>
 
     <WithdrawApplicationModal

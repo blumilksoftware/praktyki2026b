@@ -332,17 +332,12 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     selectedOfferId.value = null
   }
 
-  const clearSelectionAndNotify = () => {
+  const resetFilters = () => {
     clearSelection()
-    renderMarkersForZoom(true)
-    onClear?.()
-  }
-
-  const resetView = () => {
-    clearSelection()
-    currentZoom.value = DEFAULT_MAP_VIEW.zoom
-    updateRadiusCircle()
-    renderMarkersForZoom(true)
+    setTimeout(() => {
+      renderMarkersForZoom(false)
+      onClear?.()
+    }, 100)
   }
 
   onMounted(() => {
@@ -451,8 +446,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     selectedCity,
     selectedOfferId,
     selectedCityOffers,
-    resetView,
     selectAndFocusOffer,
-    clearSelectionAndNotify,
+    resetFilters,
   }
 }
