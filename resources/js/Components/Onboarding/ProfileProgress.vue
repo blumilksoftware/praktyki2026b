@@ -57,7 +57,7 @@ function toggleExpanded() {
       <button
         v-if="!isComplete"
         type="button"
-        class="flex items-center justify-center hover:bg-black/5 rounded-lg w-6 h-6 text-slate-400 hover:text-slate-600 transition shrink-0"
+        class="flex items-center justify-center hover:bg-black/5 rounded-lg w-6 h-6 text-additional hover:text-text transition shrink-0"
         :aria-expanded="isExpanded"
         aria-controls="profile-progress-steps"
         :aria-label="isExpanded ? t('onboarding.progress.collapse') : t('onboarding.progress.expand')"
@@ -71,7 +71,7 @@ function toggleExpanded() {
       </button>
     </div>
 
-    <p class="mt-1.5 text-xs" :class="isComplete ? 'text-green-500' : 'text-slate-500'">
+    <p class="mt-1.5 text-xs" :class="isComplete ? 'text-green-500' : 'text-additional'">
       {{ isComplete
         ? t('onboarding.progress.complete')
         : t('onboarding.progress.nextStep', { step: t(`onboarding.steps.${nextStep.key}`) }) }}

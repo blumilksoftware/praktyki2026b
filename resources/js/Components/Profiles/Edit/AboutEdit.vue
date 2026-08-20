@@ -53,13 +53,13 @@ watch(description, () => {
         :aria-describedby="`${id}-counter`"
         :maxlength="maxLength"
         rows="6"
-        class="w-full p-4 text-sm sm:text-base text-gray-700 bg-transparent border-none focus:ring-0 resize-none overflow-hidden min-h-37.5 outline-none"
+        class="w-full p-4 text-sm sm:text-base text-text bg-transparent border-none focus:ring-0 resize-none overflow-hidden min-h-37.5 outline-none"
         @input="autoResize"
       />
 
       <div class="px-4 py-3 flex justify-end relative">
         <div class="absolute top-0 left-4 right-4 border-t border-gray-100" />
-        <span :id="`${id}-counter`" class="text-xs text-gray-500 font-medium mt-1">
+        <span :id="`${id}-counter`" class="text-xs text-additional font-medium mt-1">
           {{ description.length }}/{{ maxLength }}
         </span>
       </div>

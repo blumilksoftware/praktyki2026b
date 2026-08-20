@@ -15,11 +15,11 @@ defineProps({
     
     <div 
       v-if="description" 
-      class="text-gray-600 leading-relaxed whitespace-pre-line text-sm sm:text-base wrap-break-word"
+      class="text-text leading-relaxed whitespace-pre-line text-sm sm:text-base wrap-break-word"
     >
       {{ description }}
     </div>
-    <div v-else-if="emptyMessage" class="text-gray-400 italic text-sm">
+    <div v-else-if="emptyMessage" class="text-additional italic text-sm">
       {{ emptyMessage }}
     </div>
   </div>

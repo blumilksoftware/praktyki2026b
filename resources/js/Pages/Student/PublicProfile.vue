@@ -40,7 +40,7 @@ const goBack = () => {
     <div class="mb-6">
       <button
         type="button"
-        class="inline-flex items-center gap-2 rounded text-slate-500 text-sm transition hover:text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+        class="inline-flex items-center gap-2 rounded text-additional text-sm transition hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         @click="goBack"
       >
         <IconArrowLeft stroke="2.5" class="w-4 h-4" />

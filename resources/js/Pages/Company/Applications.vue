@@ -121,7 +121,7 @@ const statusFilterOptions = computed(() => [
 
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
-        <a class="inline-flex items-center gap-2 text-slate-500 text-sm transition hover:text-slate-800 cursor-pointer"
+        <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
            @click="goBack"
         >
           <IconArrowLeft stroke="2.5" class="w-4 h-4" />
@@ -160,7 +160,7 @@ const statusFilterOptions = computed(() => [
         </div>
         
         <div class="flex flex-col gap-4 mt-2">
-          <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500 shadow-sm">
+          <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-additional shadow-sm">
             {{ t('profiles.company.applications.empty') }}
           </div>
 

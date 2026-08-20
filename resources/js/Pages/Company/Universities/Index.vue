@@ -52,7 +52,7 @@ watch([nameFilter, cityFilter], search, { debounce: 300 })
     :nav-items="companyMenu"
     :navigation-buttons="companyMenu"
   >
-    <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('company.universities.title') }}</h1>
+    <h1 class="text-3xl font-bold text-text mb-6">{{ t('company.universities.title') }}</h1>
 
     <div class="mb-6 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
       <div>
@@ -89,7 +89,7 @@ watch([nameFilter, cityFilter], search, { debounce: 300 })
       />
     </div>
 
-    <div v-else class="py-12 text-center text-slate-500">
+    <div v-else class="py-12 text-center text-additional">
       {{ t('company.universities.empty.title') }}
     </div>
 

@@ -392,7 +392,7 @@ onUnmounted(() => {
         <select
           v-model="statusFilter"
           :aria-label="t('admin.verification.filterByStatusAriaLabel')"
-          class="bg-white px-4 py-2 pr-10 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 text-slate-700 text-sm"
+          class="bg-white px-4 py-2 pr-10 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 text-text text-sm"
         >
           <option value="all">{{ t('admin.verification.all') }}</option>
           <option value="pending">{{ t('admin.verification.pending') }}</option>
@@ -401,18 +401,18 @@ onUnmounted(() => {
         </select>
         <div class="relative">
           <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
-            <IconSearch class="w-4 h-4 text-slate-400" />
+            <IconSearch class="w-4 h-4 text-additional" />
           </div>
           <input
             v-model="searchQuery"
             type="text"
             :placeholder="t('admin.verification.search')"
             :aria-label="t('admin.verification.searchAriaLabel')"
-            class="bg-white px-4 py-2 pr-10 pl-9 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 w-full text-slate-700 text-sm"
+            class="bg-white px-4 py-2 pr-10 pl-9 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 w-full text-text text-sm"
           >
           <button
             v-if="searchQuery"
-            class="right-0 absolute inset-y-0 flex items-center pr-3 font-medium text-slate-400 hover:text-slate-600 text-xl"
+            class="right-0 absolute inset-y-0 flex items-center pr-3 font-medium text-additional hover:text-text text-xl"
             @click="searchQuery = ''"
           >
             &times;
@@ -479,7 +479,7 @@ onUnmounted(() => {
       :meta="entityType === 'company' ? companies : universities"
     />
 
-    <div v-if="currentItems.length === 0" class="py-12 text-slate-500 text-center">
+    <div v-if="currentItems.length === 0" class="py-12 text-additional text-center">
       {{ t('table.noData') }}
     </div>
 
@@ -497,12 +497,12 @@ onUnmounted(() => {
             {{ t('admin.verification.rejectTitle') }}
           </h3>
           
-          <p class="mb-4 text-slate-600 text-sm">
+          <p class="mb-4 text-additional text-sm">
             {{ t('admin.verification.rejectDescription', { name: itemToReject.name }) }}
           </p>
 
           <div class="space-y-2">
-            <label for="rejectReasonInput" class="block font-medium text-slate-700 text-sm">
+            <label for="rejectReasonInput" class="block font-medium text-text text-sm">
               {{ t('admin.verification.rejectReason') }}
             </label>
             <textarea
@@ -521,7 +521,7 @@ onUnmounted(() => {
 
           <div class="flex sm:flex-row flex-col gap-3 mt-6">
             <button
-              class="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 rounded-xl font-medium text-slate-700 transition"
+              class="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 rounded-xl font-medium text-text transition"
               @click="closeRejectModal"
             >
               {{ t('admin.verification.cancel') }}
@@ -558,8 +558,8 @@ onUnmounted(() => {
               :key="field.key"
               class="gap-2 grid grid-cols-3"
             >
-              <dt class="font-medium text-slate-500 text-sm">{{ field.label }}</dt>
-              <dd class="col-span-2 text-slate-800 text-sm break-words">
+              <dt class="font-medium text-additional text-sm">{{ field.label }}</dt>
+              <dd class="col-span-2 text-text text-sm break-words">
                 <a v-if="field.type === 'email' && detailsItem[field.key]" :href="`mailto:${detailsItem[field.key]}`" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>
                 <a v-else-if="field.type === 'tel' && detailsItem[field.key]" :href="`tel:${detailsItem[field.key]}`" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>
                 <a v-else-if="field.type === 'url' && detailsItem[field.key]" :href="detailsItem[field.key]" target="_blank" rel="noopener" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>
@@ -571,7 +571,7 @@ onUnmounted(() => {
                   >
                     {{ tag }}
                   </span>
-                  <span v-if="!detailsItem[field.key]?.length" class="text-slate-400 text-sm">-</span>
+                  <span v-if="!detailsItem[field.key]?.length" class="text-additional text-sm">-</span>
                 </div>
                 <span v-else>{{ detailsItem[field.key] || '-' }}</span>
               </dd>
@@ -580,7 +580,7 @@ onUnmounted(() => {
 
           <div class="flex justify-end mt-6">
             <button
-              class="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 rounded-xl font-medium text-slate-700 transition cursor-pointer"
+              class="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 rounded-xl font-medium text-text transition cursor-pointer"
               @click="closeDetailsModal"
             >
               {{ t('admin.verification.close') }}

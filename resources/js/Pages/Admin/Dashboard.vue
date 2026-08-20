@@ -51,10 +51,10 @@ const verificationProgressPercent = computed(() => {
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="font-bold text-2xl text-gray-900 tracking-tight">
+          <h1 class="font-bold text-2xl text-text tracking-tight">
             {{ t('admin.panel.greeting') }}
           </h1>
-          <p class="mt-1 text-slate-600 text-sm">
+          <p class="mt-1 text-additional text-sm">
             {{ t('admin.panel.description') }}
           </p>
         </div>
@@ -75,7 +75,7 @@ const verificationProgressPercent = computed(() => {
 
       <ProfilePageCard class="flex md:flex-row flex-col justify-between items-center gap-4">
         <div class="md:text-left text-center">
-          <h2 class="font-medium text-slate-700 text-sm">{{ t('admin.panel.pendingVerifications') }}</h2>
+          <h2 class="font-medium text-text text-sm">{{ t('admin.panel.pendingVerifications') }}</h2>
           <h3 class="mt-1 font-bold text-primary text-3xl">
             {{ pendingVerifications }}
           </h3>
@@ -94,7 +94,7 @@ const verificationProgressPercent = computed(() => {
               :style="{ width: verificationProgressPercent + '%' }"
             />
           </div>
-          <p id="verification-progress-label" class="mt-2 text-slate-700 text-xs text-center md:text-right">
+          <p id="verification-progress-label" class="mt-2 text-additional text-xs text-center md:text-right">
             {{ t('admin.panel.verificationProgressCount', { completed: completedVerifications, total: totalVerifications }) }}
           </p>
         </div>

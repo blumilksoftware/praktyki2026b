@@ -24,11 +24,11 @@ const offersCount = computed(() => props.offers.length)
       <section class="bg-white shadow-[0_14px_40px_rgba(11,26,48,0.08)] mx-auto p-6 sm:p-8 border border-slate-200 rounded-3xl max-w-7xl">
         <div class="lg:items-center gap-6 grid lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.95fr)]">
           <div class="max-w-2xl">
-            <p class="font-medium text-slate-500 text-sm">{{ t('student.dashboard.title') }}</p>
-            <h1 class="mt-2 font-semibold text-slate-900 text-4xl sm:text-5xl tracking-tight">
+            <p class="font-medium text-additional text-sm">{{ t('student.dashboard.title') }}</p>
+            <h1 class="mt-2 font-semibold text-text text-4xl sm:text-5xl tracking-tight">
               {{ t('student.dashboard.heading') }}
             </h1>
-            <p class="mt-4 text-slate-500 text-base sm:text-lg leading-7">
+            <p class="mt-4 text-additional text-base sm:text-lg leading-7">
               {{ t('student.dashboard.description') }}
             </p>
 
@@ -41,7 +41,7 @@ const offersCount = computed(() => props.offers.length)
               </Link>
               <Link
                 :href="ROUTES.STUDENT_FAVORITES"
-                class="inline-flex justify-center items-center bg-white hover:bg-slate-50 px-5 py-3 border border-slate-200 hover:border-primary/40 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-slate-900 text-sm transition"
+                class="inline-flex justify-center items-center bg-white hover:bg-slate-50 px-5 py-3 border border-slate-200 hover:border-primary/40 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
               >
                 {{ t('student.dashboard.secondaryAction') }}
               </Link>
@@ -53,18 +53,18 @@ const offersCount = computed(() => props.offers.length)
               :href="ROUTES.OFFERS"
               class="bg-slate-50/80 hover:bg-white hover:shadow-[0_10px_28px_rgba(11,26,48,0.08)] p-4 border border-slate-200 hover:border-primary/30 rounded-2xl transition hover:-translate-y-0.5"
             >
-              <p class="font-semibold text-slate-500 text-xs uppercase tracking-wide">{{ t('student.nav.offers') }}</p>
-              <p class="mt-2 font-semibold text-slate-900 text-3xl">{{ offersCount }}</p>
-              <p class="mt-1 text-slate-500 text-sm">{{ t('student.dashboard.cards.offersDescription') }}</p>
+              <p class="font-semibold text-additional text-xs uppercase tracking-wide">{{ t('student.nav.offers') }}</p>
+              <p class="mt-2 font-semibold text-text text-3xl">{{ offersCount }}</p>
+              <p class="mt-1 text-additional text-sm">{{ t('student.dashboard.cards.offersDescription') }}</p>
             </Link>
 
             <Link
               :href="ROUTES.STUDENT_FAVORITES"
               class="bg-slate-50/80 hover:bg-white hover:shadow-[0_10px_28px_rgba(11,26,48,0.08)] p-4 border border-slate-200 hover:border-primary/30 rounded-2xl transition hover:-translate-y-0.5"
             >
-              <p class="font-semibold text-slate-500 text-xs uppercase tracking-wide">{{ t('student.nav.favorites') }}</p>
-              <p class="mt-2 font-semibold text-slate-900 text-3xl">{{ favoritesCount }}</p>
-              <p class="mt-1 text-slate-500 text-sm">{{ t('student.dashboard.cards.favoritesDescription') }}</p>
+              <p class="font-semibold text-additional text-xs uppercase tracking-wide">{{ t('student.nav.favorites') }}</p>
+              <p class="mt-2 font-semibold text-text text-3xl">{{ favoritesCount }}</p>
+              <p class="mt-1 text-additional text-sm">{{ t('student.dashboard.cards.favoritesDescription') }}</p>
             </Link>
           </div>
         </div>
@@ -73,8 +73,8 @@ const offersCount = computed(() => props.offers.length)
       <section class="bg-white shadow-[0_14px_40px_rgba(11,26,48,0.08)] mx-auto mt-6 p-6 sm:p-8 border border-slate-200 rounded-3xl max-w-7xl">
         <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p class="font-medium text-slate-500 text-sm">{{ t('student.dashboard.previewTitle') }}</p>
-            <h2 class="mt-1 font-semibold text-slate-900 text-2xl tracking-tight">{{ t('student.dashboard.previewDescription') }}</h2>
+            <p class="font-medium text-additional text-sm">{{ t('student.dashboard.previewTitle') }}</p>
+            <h2 class="mt-1 font-semibold text-text text-2xl tracking-tight">{{ t('student.dashboard.previewDescription') }}</h2>
           </div>
           <Link
             :href="ROUTES.OFFERS"
