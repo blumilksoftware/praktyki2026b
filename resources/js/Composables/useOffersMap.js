@@ -60,6 +60,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
 
   let map = null
   let markers = []
+  let pendingInitialOfferId = null
 
   const groupedOffers = computed(() => groupOffersByCity(offersRef.value))
 
@@ -280,7 +281,12 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
   }
 
   const updateRadiusCircle = () => {
-    if (!map || !map.isStyleLoaded()) return
+    if (!map) return
+
+    if (!map.isStyleLoaded()) {
+      map.once('idle', updateRadiusCircle)
+      return
+    }
 
     const km = getRadiusKmValue()
     const center = getRadiusCenterValue()
@@ -371,7 +377,11 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
         const rawInitialId = typeof initialOfferId === 'object' ? initialOfferId.value : initialOfferId
 
         if (rawInitialId) {
-          selectAndFocusOffer(rawInitialId)
+          if (offersRef.value.length) {
+            selectAndFocusOffer(rawInitialId)
+          } else {
+            pendingInitialOfferId = rawInitialId
+          }
           renderMarkersForZoom(false)
         } else if (hasActiveRadius()) {
           renderMarkersForZoom(false)
@@ -397,6 +407,13 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
 
   watch(offersRef, () => {
     renderMarkersForZoom(!hasActiveRadius())
+
+    if (pendingInitialOfferId) {
+      const idToFocus = pendingInitialOfferId
+      pendingInitialOfferId = null
+      selectAndFocusOffer(idToFocus)
+    }
+
     if (selectedCity.value && !groupedOffers.value[selectedCity.value]) {
       clearSelection()
     }

@@ -11,8 +11,6 @@ defineProps({
   canApply: { type: Boolean, default: false },
 })
 
-defineEmits(['applied', 'withdrawn'])
-
 const { t } = useI18n()
 </script>
 
@@ -36,8 +34,6 @@ const { t } = useI18n()
           :has-cv="hasCv"
           :guest="guest"
           :can-apply="canApply"
-          @applied="$emit('applied', $event)"
-          @withdrawn="$emit('withdrawn', $event)"
         />
       </div>
     </div>

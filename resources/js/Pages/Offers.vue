@@ -9,6 +9,7 @@ import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import OfferMap from '@/Components/Offer/Map/OfferMap.vue'
 import OffersFilters from '@/Components/Offer/OffersFilters.vue'
+import { isDateRangeInvalid } from '@/Composables/useOffersFilters'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -115,6 +116,7 @@ async function fetchMapOffers() {
 watch(
   filters,
   debounce(() => {
+    if (isDateRangeInvalid(filters.dateFrom, filters.dateTo)) return
     fetchOffers()
     fetchMapOffers()
   }, 300),
@@ -151,17 +153,11 @@ function handleMapClear() {
 
 onMounted(() => {
   const urlParams = new URLSearchParams(window.location.search)
-
   if (urlParams.get('view') === 'map') {
     displayMode.value = 'map'
   }
-
   if (urlParams.get('offerId')) {
     targetOfferId.value = Number(urlParams.get('offerId')) || urlParams.get('offerId')
-  }
-
-  if (displayMode.value === 'map') {
-    fetchMapOffers()
   }
 })
 </script>
@@ -276,8 +272,6 @@ onMounted(() => {
               :mapbox-token="mapboxToken"
               @city-selected="handleMapCitySelected"
               @clear="handleMapClear"
-              @applied="fetchMapOffers"
-              @withdrawn="fetchMapOffers"
             />
           </template>
         </section>

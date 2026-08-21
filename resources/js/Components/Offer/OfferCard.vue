@@ -16,8 +16,6 @@ const props = defineProps({
   canApply: { type: Boolean, default: false },
 })
 
-const emit = defineEmits(['applied', 'withdrawn'])
-
 const { t } = useI18n()
 const { toastSuccess, toastError } = useToast()
 
@@ -49,7 +47,6 @@ function applyToOffer() {
       appliedLocally.value = true
       withdrawnLocally.value = false
       toastSuccess(t('student.applications.applySuccess'))
-      emit('applied', props.offer.id)
     },
     onError: (errors) => {
       const message = errors.cv ?? errors.offer
@@ -115,7 +112,6 @@ function confirmWithdraw() {
       appliedLocally.value = false
       isWithdrawModalOpen.value = false
       toastError(t('student.applications.withdrawSuccess'))
-      emit('withdrawn', props.offer.id)
     },
     onFinish: () => {
       isWithdrawing.value = false

@@ -19,7 +19,7 @@ const props = defineProps({
   selectedCityLabel: { type: String, default: '' },
 })
 
-const emit = defineEmits(['city-selected', 'clear', 'applied', 'withdrawn'])
+const emit = defineEmits(['city-selected', 'clear'])
 
 const { t } = useI18n()
 const offersRef = toRef(props, 'offers')
@@ -74,8 +74,6 @@ defineExpose({ resetFilters })
       :has-cv="hasCv"
       :guest="guest"
       :can-apply="canApply"
-      @applied="$emit('applied', $event)"
-      @withdrawn="$emit('withdrawn', $event)"
     />
     <div v-else class="text-center py-6 text-additional text-sm bg-background/50 rounded-2xl border border-dashed border-border">
       {{ t('student.offers.map.selectPinHint') }}

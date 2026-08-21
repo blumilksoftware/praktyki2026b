@@ -6,6 +6,10 @@ import {
   IconChevronDown,
 } from '@tabler/icons-vue'
 
+export function isDateRangeInvalid(dateFrom, dateTo) {
+  return !!(dateFrom && dateTo && dateTo < dateFrom)
+}
+
 export function useOffersFilters(initial) {
   const searchQuery = ref(initial.search)
   const statusFilter = ref(initial.status)

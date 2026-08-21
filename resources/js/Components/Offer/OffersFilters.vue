@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useMapboxGeocoding } from '@/Composables/useMapboxGeocoding'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
+import { isDateRangeInvalid } from '@/Composables/useOffersFilters.js'
 
 const props = defineProps({
   studyFields: { type: Array, default: () => [] },
@@ -123,8 +124,9 @@ onBeforeUnmount(() => {
   document.removeEventListener('keydown', handleKeydown)
 })
 
+
 const dateRangeError = computed(() => {
-  if (filters.value.dateFrom && filters.value.dateTo && filters.value.dateTo < filters.value.dateFrom) {
+  if (isDateRangeInvalid(filters.value.dateFrom, filters.value.dateTo)) {
     return 'student.offers.filters.dateRangeInvalid'
   }
   return null
