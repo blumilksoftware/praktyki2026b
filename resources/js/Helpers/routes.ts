@@ -90,6 +90,9 @@ export const ROUTES = {
   COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
   COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
   COMPANY_SHOW: '/companies/{company}',
+  COMPANY_REVIEWS_STORE: '/student/companies/{company}/reviews',
+  COMPANY_REVIEW_HIDE: '/company/reviews/{review}/hide',
+  ADMIN_REVIEW_DELETE: '/admin/reviews/{review}',
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",
   UNIVERSITY_SHOW: "/universities/{university}",
@@ -163,4 +166,16 @@ export function companyUniversityPartnershipAccept(universityId: string): string
 
 export function universityShow(universityId: string): string {
   return ROUTES.UNIVERSITY_SHOW.replace("{university}", universityId)
+}
+
+export function companyReviewsStore(companyId: string): string {
+  return ROUTES.COMPANY_REVIEWS_STORE.replace("{company}", companyId)
+}
+
+export function companyReviewHide(reviewId: string): string {
+  return ROUTES.COMPANY_REVIEW_HIDE.replace("{review}", reviewId)
+}
+
+export function adminReviewDelete(reviewId: string): string {
+  return ROUTES.ADMIN_REVIEW_DELETE.replace("{review}", reviewId)
 }
