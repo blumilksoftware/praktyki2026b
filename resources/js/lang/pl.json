@@ -904,7 +904,14 @@
           "from": "Od",
           "to": "Do"
         },
-        "dateRangeInvalid": "Data „Do” musi być taka sama lub późniejsza niż data „Od”."
+        "dateRangeInvalid": "Data „Do” musi być taka sama lub późniejsza niż data „Od”.",
+          "radius": {
+              "lockedHint": "Z wybranym promieniem możesz wybrać tylko jedno miasto.",
+              "placeholder": "Wybierz odległość",
+              "label": "Odległość od miasta",
+              "option": "{km} km",
+              "clear": "Wyczyść"
+          }
       },
       "results": {
         "caption": "Liczba ofert",
