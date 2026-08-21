@@ -43,7 +43,7 @@ const googleMapsUrl = computed(() => {
     
     <div class=" p-6 sm:p-8 bg-white flex flex-col gap-6">
       <div v-if="website" class="flex items-center gap-4 sm:gap-6">
-        <IconWorld stroke="1.5" class="w-7 h-7 text-black shrink-0" />
+        <IconWorld stroke="1.5" class="w-7 h-7 text-text shrink-0" />
         <a 
           :href="website" 
           target="_blank" 
@@ -67,7 +67,7 @@ const googleMapsUrl = computed(() => {
       </div>
 
       <div v-if="email" class="flex items-center gap-4 sm:gap-6">
-        <IconMail class="w-7 h-7 text-black shrink-0" />
+        <IconMail class="w-7 h-7 text-text shrink-0" />
         <a 
           :href="`mailto:${email}`" 
           class="text-link hover:text-link/80 font-medium transition-colors wrap-break-word"
@@ -77,7 +77,7 @@ const googleMapsUrl = computed(() => {
       </div>
 
       <div v-if="phone" class="flex items-center gap-4 sm:gap-6">
-        <IconPhone class="w-7 h-7 text-black shrink-0" />
+        <IconPhone class="w-7 h-7 text-text shrink-0" />
         <a 
           :href="`tel:${phone}`" 
           class="text-link hover:text-link/80 font-medium transition-colors wrap-break-word"
@@ -90,12 +90,12 @@ const googleMapsUrl = computed(() => {
         <span class="font-bold text-text text-sm shrink-0 w-7 flex justify-center">
           {{ t('profiles.nip') }}:
         </span>
-        <div class="text-gray-700 font-medium wrap-break-word">
+        <div class="text-text font-medium wrap-break-word">
           {{ nip }}
         </div>
       </div>
 
-      <div v-if="!fullAddress && !phone && !website && !nip && !email" class="text-gray-400 italic text-sm text-center py-4">
+      <div v-if="!fullAddress && !phone && !website && !nip && !email" class="text-additional italic text-sm text-center py-4">
         {{ t('profiles.noContactInfo') }}
       </div>
     </div>

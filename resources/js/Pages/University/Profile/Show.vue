@@ -18,7 +18,7 @@ const goBack = () => {
 }
 
 const goToEdit = () => {
-  window.location.href = ROUTES.PROFILE_EDIT 
+  window.location.href = ROUTES.PROFILE_EDIT
 }
 
 defineProps({
@@ -28,7 +28,7 @@ defineProps({
 
 <template>
   <Head :title="university.name" />
-  
+
   <UniversityLayout active-page="profile">
     <div class="flex flex-row justify-between items-center w-full mb-6">
       <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
@@ -68,7 +68,7 @@ defineProps({
         </div>
 
         <div v-if="university.domain || university.externalFormUrl" class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6">
-          <h3 class="text-xl font-bold text-gray-900 mb-5">
+          <h3 class="text-xl font-bold text-text mb-5">
             {{ t('profiles.university.recruitmentAndSystem') }}
           </h3>
 
@@ -88,7 +88,7 @@ defineProps({
         </div>
 
         <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8 h-fit">
-          <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <h3 class="text-xl font-bold text-text mb-6 flex items-center gap-2">
             {{ t('profiles.university.facultiesAndStudyFields') }}
           </h3>
 

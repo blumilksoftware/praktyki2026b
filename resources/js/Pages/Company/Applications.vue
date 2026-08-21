@@ -131,7 +131,7 @@ const statusFilterOptions = computed(() => [
     :navigation-buttons="companyMenu"
   >
     <div class="mb-6 flex w-full flex-row items-center">
-      <a class="inline-flex items-center gap-2 text-slate-500 text-sm transition hover:text-slate-800 cursor-pointer"
+      <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
          @click="goBack"
       >
         <IconArrowLeft stroke="2.5" class="w-4 h-4" />
@@ -140,7 +140,7 @@ const statusFilterOptions = computed(() => [
     </div>
 
     <div class="flex flex-col gap-6">
-      <h1 class="text-3xl font-bold text-text">
+      <h1 class="text-2xl font-semibold text-text">
         {{ t('profiles.company.applications.title') }}
         <span v-if="applications.total">({{ applications.total }})</span>
         <span v-else>({{ displayedApplications.length }})</span>
@@ -167,7 +167,7 @@ const statusFilterOptions = computed(() => [
       </div>
 
       <div class="flex flex-col gap-4 mt-2">
-        <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500 shadow-sm">
+        <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-additional shadow-sm">
           {{ t('profiles.company.applications.empty') }}
         </div>
 

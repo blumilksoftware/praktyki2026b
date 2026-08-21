@@ -43,6 +43,6 @@ describe('Menu.vue', () => {
     expect(links[0].classes()).toContain('text-primary')
     expect(links[0].attributes('aria-current')).toBe('page')
     
-    expect(links[1].classes()).toContain('text-slate-500')
+    expect(links[1].classes()).toContain('text-additional')
   })
 })

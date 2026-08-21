@@ -46,30 +46,30 @@ const onStatusChange = (event) => {
 <template>
   <div class="flex flex-col lg:flex-row lg:items-center justify-between p-4 lg:p-5 bg-white rounded-xl border border-[#1e3a8a]/40 shadow-sm gap-6">
     <div class="flex items-center gap-4 lg:w-1/3">
-      <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 font-bold text-lg shrink-0">
+      <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-text font-bold text-lg shrink-0">
         {{ getInitials(application.student_name) }}
       </div>
       <div class="flex flex-col">
         <Link
           v-if="application.profile_url"
           :href="application.profile_url"
-          class="font-bold text-[#0f172a] text-lg leading-tight rounded transition-colors hover:text-[#1e3a8a] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          class="font-bold text-text text-lg leading-tight rounded transition-colors hover:text-secondary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         >
           {{ application.student_name }}
         </Link>
-        <span v-else class="font-bold text-[#0f172a] text-lg leading-tight">{{ application.student_name }}</span>
-        <span class="text-sm text-slate-500 font-medium">
+        <span v-else class="font-bold text-text text-lg leading-tight">{{ application.student_name }}</span>
+        <span class="text-sm text-additional font-medium">
           {{ application.university?.name || application.university || t('profiles.company.applications.no_university') }}
         </span>
-        <span class="text-xs text-slate-400 mt-0.5">{{ formatDate(application.application_date) }}</span>
+        <span class="text-xs text-additional mt-0.5">{{ formatDate(application.application_date) }}</span>
       </div>
     </div>
 
     <div class="flex flex-col lg:w-1/3">
-      <span class="text-xs text-slate-400 font-medium uppercase tracking-wide">
+      <span class="text-xs text-additional font-medium uppercase tracking-wide">
         {{ t('profiles.company.applications.applied_for') }}
       </span>
-      <span class="font-bold text-[#0f172a]">{{ application.offer_title }}</span>
+      <span class="font-bold text-text">{{ application.offer_title }}</span>
     </div>
 
     <div class="flex items-center gap-4 lg:w-1/3 lg:justify-end">
@@ -101,12 +101,12 @@ const onStatusChange = (event) => {
         v-if="application.cv_url"
         :href="application.cv_url"
         target="_blank"
-        class="inline-flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-4 py-2 font-semibold text-[#0f172a] text-sm transition-colors"
+        class="inline-flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-4 py-2 font-semibold text-text text-sm transition-colors"
       >
-        <IconDownload class="h-4 w-4 text-[#1e3a8a]" stroke="2.5" />
+        <IconDownload class="h-4 w-4 text-secondary" stroke="2.5" />
         {{ t('profiles.company.applications.actions.download_cv') }}
       </a>
-      <span v-else class="italic text-slate-400 text-sm px-4 py-2">
+      <span v-else class="italic text-additional text-sm px-4 py-2">
         {{ t('profiles.company.applications.no_cv') }}
       </span>
     </div>

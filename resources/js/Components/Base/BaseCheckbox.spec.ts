@@ -55,4 +55,35 @@ describe('BaseCheckbox', () => {
     expect(wrapper.emitted('update:modelValue')).toBeTruthy()
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([true])
   })
+
+  it('shows required marker and attribute when required', () => {
+    const wrapper = mount(BaseCheckbox, {
+      props: {
+        id: 'terms',
+        modelValue: false,
+        required: true,
+      },
+      slots: {
+        default: 'Akceptuję regulamin',
+      },
+    })
+
+    expect(wrapper.find('input').attributes('required')).toBeDefined()
+    expect(wrapper.text()).toContain('*')
+  })
+
+  it('does not show required marker by default', () => {
+    const wrapper = mount(BaseCheckbox, {
+      props: {
+        id: 'remember-me',
+        modelValue: false,
+      },
+      slots: {
+        default: 'Zapamiętaj mnie',
+      },
+    })
+
+    expect(wrapper.find('input').attributes('required')).toBeUndefined()
+    expect(wrapper.text()).not.toContain('*')
+  })
 })

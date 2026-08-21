@@ -31,21 +31,21 @@ function logout() {
         </Link>
       </div>
       <div class="space-y-8">
-        <h1 id="pending-title" class="font-semibold text-slate-900 text-4xl text-center">
+        <h1 id="pending-title" class="font-semibold text-text text-4xl text-center">
           {{ t('pending.title') }}
         </h1>
 
-        <p class="text-slate-700 text-base text-center leading-7">
+        <p class="text-text text-base text-center leading-7">
           {{ t('pending.description') }}
         </p>
 
         <hr class="border-slate-200" aria-hidden="true">
 
-        <p class="text-slate-500 text-base text-center leading-7">
+        <p class="text-additional text-base text-center leading-7">
           {{ t('pending.status', { time: '2-15' }) }}
         </p>
 
-        <p class="text-slate-500 text-base text-center leading-7">
+        <p class="text-additional text-base text-center leading-7">
           {{ t('pending.contact', { email: $page.props.support_email }) }}
         </p>
 
@@ -54,7 +54,7 @@ function logout() {
             <p class="font-semibold text-text text-sm">
               {{ t('pending.createDraftOffer.title') }}
             </p>
-            <p class="mt-0.5 text-slate-500 text-xs">
+            <p class="mt-0.5 text-additional text-xs">
               {{ t('pending.createDraftOffer.description') }}
             </p>
           </div>

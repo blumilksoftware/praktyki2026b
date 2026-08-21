@@ -82,7 +82,7 @@ const viewOffer = (offerId) => {
       </BaseButton>
     </div>
 
-    <div v-else class="text-gray-400 italic text-sm">
+    <div v-else class="text-additional italic text-sm">
       {{ t('profiles.noOffers') }}
     </div>
   </div>

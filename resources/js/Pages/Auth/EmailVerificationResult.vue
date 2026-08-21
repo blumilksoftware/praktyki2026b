@@ -52,11 +52,11 @@ const message = computed(() => t(`auth.verification.result.${props.status}.messa
           </div>
         </div>
 
-        <h1 class="font-semibold text-slate-900 text-4xl text-center">
+        <h1 class="font-semibold text-text text-4xl text-center">
           {{ heading }}
         </h1>
 
-        <p class="text-slate-700 text-base text-center leading-7">
+        <p class="text-text text-base text-center leading-7">
           {{ message }}
         </p>
 

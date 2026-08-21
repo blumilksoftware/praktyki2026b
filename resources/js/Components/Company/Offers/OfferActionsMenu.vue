@@ -64,7 +64,7 @@ const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'de
         type="button"
         class="flex items-center gap-2 w-full px-3 py-2 text-left"
         :class="offer.status === 'closed' || offer.status === 'expired'
-          ? 'text-gray-400 cursor-not-allowed'
+          ? 'text-additional cursor-not-allowed'
           : 'text-text hover:bg-gray-50 cursor-pointer'"
         :disabled="offer.status === 'closed' || offer.status === 'expired'"
         @click="emit('edit', props.offer)"
@@ -77,7 +77,7 @@ const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'de
         type="button"
         class="flex items-center gap-2 w-full px-3 py-2 text-left"
         :class="offer.status === 'closed'
-          ? 'text-gray-400 cursor-not-allowed'
+          ? 'text-additional cursor-not-allowed'
           : 'text-text hover:bg-gray-50 cursor-pointer'"
         :disabled="offer.status === 'closed'"
         @click="emit('toggle-status', props.offer)"

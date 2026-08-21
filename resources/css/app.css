@@ -5,6 +5,7 @@
 @source '../**/*.{vue,js,ts}';
 
 @theme {
+  --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --color-primary: #0B1A30;
   --color-secondary: #044389;
   --color-accent: #FFFACC;

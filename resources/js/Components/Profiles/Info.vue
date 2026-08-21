@@ -18,16 +18,16 @@ defineProps({
 <template>
   <div class="flex flex-col gap-6">
     <div v-if="domain" class="flex flex-col gap-1">
-      <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">
+      <span class="text-xs font-bold text-additional uppercase tracking-wider">
         {{ t('profiles.university.universityDomain') }}
       </span>
-      <span class="text-gray-800 font-medium">
+      <span class="text-text font-medium">
         {{ domain }}
       </span>
     </div>
 
     <div v-if="externalFormUrl" class="flex flex-col gap-1.5">
-      <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">
+      <span class="text-xs font-bold text-additional uppercase tracking-wider">
         {{ t('profiles.university.externalFormUrl') }}
       </span>
       <a 

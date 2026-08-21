@@ -34,7 +34,7 @@ const isStudent = computed(() => page.props.auth?.user?.role === 'student')
   
     <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-row justify-between items-center w-full mb-6">
-        <a class="inline-flex items-center gap-2 text-slate-500 text-sm transition hover:text-slate-800 cursor-pointer"
+        <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
            @click="goBack"
         >
           <IconArrowLeft stroke="2.5" class="w-4 h-4" />
@@ -53,12 +53,12 @@ const isStudent = computed(() => page.props.auth?.user?.role === 'student')
 
             <div class="mt-3 flex items-center justify-center gap-1.5">
               <VerifiedBadge :verified="true" size="md" />
-              <span class="text-sm font-medium text-slate-700">
+              <span class="text-sm font-medium text-text">
                 {{ t('profiles.company.verified') }}
               </span>
             </div>
 
-            <div v-if="company.tags?.length" class="text-sm text-slate-500 mt-3 flex items-center gap-2">
+            <div v-if="company.tags?.length" class="text-sm text-additional mt-3 flex items-center gap-2">
               <Tags :tags="company.tags" />
             </div>
           </div>
