@@ -114,6 +114,29 @@ class DeactivateOfferTest extends TestCase
         ]);
     }
 
+    public function testExpiredOfferCannotBeDeactivatedAgain(): void
+    {
+        Mail::fake();
+
+        $company = Company::factory()->approved()->create();
+        $user = $this->makeCompanyAdmin($company);
+        $offer = Offer::factory()->expired()->create(["company_id" => $company->id]);
+        $student = User::factory()->create([
+            "role" => UserRole::Student,
+            "status" => UserStatus::Active,
+        ]);
+        Application::factory()->create(["offer_id" => $offer->id, "student_id" => $student->id]);
+
+        $response = $this->actingAs($user)->patch("/company/offers/{$offer->id}/deactivate");
+
+        $response->assertSessionHas("error", __("validation.offer_not_published"));
+        $this->assertDatabaseHas("offers", [
+            "id" => $offer->id,
+            "status" => OfferStatus::Expired->value,
+        ]);
+        Mail::assertNotQueued(OfferUnavailableMail::class);
+    }
+
     public function testStudentCannotDeactivateOffer(): void
     {
         $offer = Offer::factory()->create();

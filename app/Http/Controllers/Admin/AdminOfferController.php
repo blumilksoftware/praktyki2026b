@@ -37,7 +37,7 @@ class AdminOfferController extends Controller
     public function takeDown(Offer $offer): RedirectResponse
     {
         if ($offer->status !== OfferStatus::Published) {
-            return back()->withErrors(__("validation.offer_not_published"));
+            return back()->with("error", __("validation.offer_not_published"));
         }
 
         $this->takeDownAction->execute($offer, auth()->user());

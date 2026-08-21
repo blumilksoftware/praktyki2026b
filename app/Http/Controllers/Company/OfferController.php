@@ -127,6 +127,10 @@ class OfferController extends Controller
     {
         Gate::authorize("update", $offer);
 
+        if ($offer->status !== OfferStatus::Published) {
+            return back()->with("error", __("validation.offer_not_published"));
+        }
+
         $offer->update(["status" => OfferStatus::Closed]);
 
         return back();
