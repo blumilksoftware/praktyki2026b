@@ -16,6 +16,7 @@ use App\Actions\Student\GetStudentOffersAction;
 use App\Actions\Student\LinkStudentToUniversity;
 use App\Actions\Student\RequestEmailChange;
 use App\Actions\Student\SaveOfferAction;
+use App\Actions\Student\SubmitCompanyReviewAction;
 use App\Actions\Student\UnsaveOfferAction;
 use App\Actions\Student\UpdateStudentProfile;
 use App\Actions\Student\UploadCvAction;
@@ -30,9 +31,11 @@ use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\DeleteAccountRequest;
 use App\Http\Requests\LinkUniversityRequest;
 use App\Http\Requests\SearchUniversitiesRequest;
+use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateStudentProfileRequest;
 use App\Http\Requests\UploadCvRequest;
 use App\Http\Requests\UploadStudentPhotoRequest;
+use App\Models\Company;
 use App\Models\Offer;
 use App\Models\University;
 use Illuminate\Http\JsonResponse;
@@ -58,6 +61,7 @@ class StudentController extends Controller
         private readonly DeleteStudentAccount $deleteStudentAccount,
         private readonly SaveOfferAction $saveOfferAction,
         private readonly UnsaveOfferAction $unsaveOfferAction,
+        private readonly SubmitCompanyReviewAction $submitCompanyReviewAction,
         private readonly GetFavourites $getFavourites,
         private readonly BuildStudentProfileData $buildStudentProfileData,
         private readonly GetStudentApplicationsAction $getStudentApplicationsAction,
@@ -251,6 +255,20 @@ class StudentController extends Controller
         $user = Auth::user();
 
         $this->unsaveOfferAction->execute($user, $offer);
+
+        return back();
+    }
+
+    public function reviewCompany(StoreReviewRequest $request, Company $company): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $this->submitCompanyReviewAction->execute(
+            $user,
+            $company,
+            $request->integer("rating"),
+            $request->string("comment")->toString() ?: null,
+        );
 
         return back();
     }

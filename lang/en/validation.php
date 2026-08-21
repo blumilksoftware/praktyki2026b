@@ -40,6 +40,8 @@ return [
     "faculty_reassign_required" => "Choose the faculty to move the fields of study to.",
     "study_field_name_unique" => "This faculty already has a field of study with this name.",
     "study_field_reassign_required" => "Choose the field of study to move students and offers to.",
+    "review_requires_accepted_application" => "You can only review a company after your application has been accepted.",
+    "already_reviewed_company" => "You have already reviewed this company.",
 
     "salary_min.required_if" => "The minimum salary field is required when the offer is paid.",
     "salary_max.required_if" => "The maximum salary field is required    when the offer is paid.",
@@ -99,5 +101,7 @@ return [
         "date_from" => "start of date range",
         "date_to" => "end of date range",
         "date_flex_days" => "date flexibility (days)",
+        "rating" => "rating",
+        "comment" => "comment",
     ],
 ];

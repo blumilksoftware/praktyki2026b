@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Company\BuildCompanyProfileData;
 use App\Models\Company;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 
 class CompanyProfileController extends Controller
@@ -19,7 +20,7 @@ class CompanyProfileController extends Controller
         $verifiedCompany = Company::verified()->findOrFail($company);
 
         return inertia("Company/PublicProfile", [
-            "company" => $this->buildCompanyProfileData->execute($verifiedCompany),
+            "company" => $this->buildCompanyProfileData->execute($verifiedCompany, Auth::user()),
         ]);
     }
 }
