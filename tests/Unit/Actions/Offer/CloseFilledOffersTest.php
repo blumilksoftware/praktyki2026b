@@ -35,6 +35,10 @@ class CloseFilledOffersTest extends TestCase
 
         $offer->refresh();
         $this->assertEquals(OfferStatus::Closed, $offer->status);
+        $this->assertDatabaseHas("activity_log", [
+            "subject_id" => $offer->id,
+            "description" => "offer_closed_automatically",
+        ]);
     }
 
     public function testPublishedOfferWithRemainingSpotsIsUnaffected(): void

@@ -10,15 +10,33 @@ use Illuminate\Support\Facades\DB;
 
 class CloseFilledOffers
 {
-    public function execute(): void
+    public function execute(): int
     {
+        $closed = 0;
+
         Offer::published()
             ->withoutRemainingSpots()
-            ->eachById(function (Offer $offer): void {
+            ->eachById(function (Offer $offer) use (&$closed): void {
                 $offerToClose = DB::transaction(fn(): ?Offer => $this->lockFilledOffer($offer));
 
-                $offerToClose?->update(["status" => OfferStatus::Closed]);
+                if ($offerToClose === null) {
+                    return;
+                }
+
+                $offerToClose->update(["status" => OfferStatus::Closed]);
+                $closed++;
+
+                activity()->causedByAnonymous()
+                    ->performedOn($offerToClose)
+                    ->withProperties([
+                        "company_id" => $offerToClose->company_id,
+                        "spots" => $offerToClose->spots,
+                        "new_status" => OfferStatus::Closed->value,
+                    ])
+                    ->log("offer_closed_automatically");
             });
+
+        return $closed;
     }
 
     private function lockFilledOffer(Offer $offer): ?Offer

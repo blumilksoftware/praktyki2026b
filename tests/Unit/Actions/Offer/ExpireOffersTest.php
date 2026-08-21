@@ -36,6 +36,10 @@ class ExpireOffersTest extends TestCase
 
         $offer->refresh();
         $this->assertEquals(OfferStatus::Expired, $offer->status);
+        $this->assertDatabaseHas("activity_log", [
+            "subject_id" => $offer->id,
+            "description" => "offer_expired_automatically",
+        ]);
     }
 
     public function testPublishedOfferEndingTodayIsUnaffected(): void

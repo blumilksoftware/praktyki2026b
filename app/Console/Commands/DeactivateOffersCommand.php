@@ -15,7 +15,10 @@ class DeactivateOffersCommand extends Command
 
     public function handle(CloseFilledOffers $closeFilledOffers, ExpireOffers $expireOffers): void
     {
-        $closeFilledOffers->execute();
-        $expireOffers->execute();
+        $closed = $closeFilledOffers->execute();
+        $expired = $expireOffers->execute();
+
+        $this->info("Filled offers closed: {$closed}");
+        $this->info("Outdated offers expired: {$expired}");
     }
 }

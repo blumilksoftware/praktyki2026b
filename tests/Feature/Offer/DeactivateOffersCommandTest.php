@@ -22,7 +22,10 @@ class DeactivateOffersCommandTest extends TestCase
         Application::factory()->accepted()->create(["offer_id" => $filled->id]);
         Application::factory()->accepted()->create(["offer_id" => $available->id]);
 
-        $this->artisan("offers:deactivate")->assertSuccessful();
+        $this->artisan("offers:deactivate")
+            ->expectsOutput("Filled offers closed: 1")
+            ->expectsOutput("Outdated offers expired: 1")
+            ->assertSuccessful();
 
         $this->assertEquals(OfferStatus::Expired, $outdated->refresh()->status);
         $this->assertEquals(OfferStatus::Closed, $filled->refresh()->status);
@@ -34,7 +37,10 @@ class DeactivateOffersCommandTest extends TestCase
         $offer = Offer::factory()->published()->create(["spots" => 1, "end_date" => now()->subDay()]);
         Application::factory()->accepted()->create(["offer_id" => $offer->id]);
 
-        $this->artisan("offers:deactivate")->assertSuccessful();
+        $this->artisan("offers:deactivate")
+            ->expectsOutput("Filled offers closed: 1")
+            ->expectsOutput("Outdated offers expired: 0")
+            ->assertSuccessful();
 
         $this->assertEquals(OfferStatus::Closed, $offer->refresh()->status);
     }
