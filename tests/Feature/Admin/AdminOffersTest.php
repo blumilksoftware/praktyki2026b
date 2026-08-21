@@ -114,7 +114,7 @@ class AdminOffersTest extends TestCase
 
         $this->actingAs($admin)
             ->patch("/admin/offers/{$offer->id}/take-down")
-            ->assertSessionHasErrors();
+            ->assertSessionHas("error", __("validation.offer_not_published"));
 
         $this->assertEquals(OfferStatus::Draft, $offer->fresh()->status);
     }

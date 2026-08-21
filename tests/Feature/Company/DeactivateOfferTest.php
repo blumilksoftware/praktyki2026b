@@ -129,7 +129,7 @@ class DeactivateOfferTest extends TestCase
 
         $response = $this->actingAs($user)->patch("/company/offers/{$offer->id}/deactivate");
 
-        $response->assertSessionHasErrors();
+        $response->assertSessionHas("error", __("validation.offer_not_published"));
         $this->assertDatabaseHas("offers", [
             "id" => $offer->id,
             "status" => OfferStatus::Expired->value,

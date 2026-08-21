@@ -8,7 +8,7 @@ import en from "@/lang/en.json"
 const { pageProps } = vi.hoisted(() => ({
   pageProps: {
     auth: { user: null as { role: string } | null },
-    flash: { status: null as string | null },
+    flash: { status: null as string | null, error: null as string | null },
   },
 }))
 
@@ -45,6 +45,7 @@ describe("BaseLayout", () => {
   beforeEach(() => {
     pageProps.auth.user = null
     pageProps.flash.status = null
+    pageProps.flash.error = null
     toastShow.mockClear()
   })
 
@@ -55,6 +56,15 @@ describe("BaseLayout", () => {
     await wrapper.vm.$nextTick()
 
     expect(toastShow).toHaveBeenCalledWith("Your offer changes were saved successfully.", 3000, "success")
+  })
+
+  it("raises a failing toast for the flash error of the page it wraps", async () => {
+    pageProps.flash.error = "Only a published offer can be taken down."
+
+    const wrapper = mountLayout()
+    await wrapper.vm.$nextTick()
+
+    expect(toastShow).toHaveBeenCalledWith("Only a published offer can be taken down.", 5000, "fail")
   })
 
   it("stays quiet when the page carries no flash status", async () => {
