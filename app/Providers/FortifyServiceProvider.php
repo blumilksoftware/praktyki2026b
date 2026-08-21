@@ -30,11 +30,11 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::redirectUserForTwoFactorAuthenticationUsing(RedirectIfTwoFactorAuthenticatable::class);
 
-        RateLimiter::for("login", function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . "|" . $request->ip());
+        RateLimiter::for("login", fn(Request $request) => Limit::perMinute(5)->by($this->emailAndIpKey($request)));
 
-            return Limit::perMinute(5)->by($throttleKey);
-        });
+        RateLimiter::for("password-reset", fn(Request $request) => Limit::perMinutes(15, 5)->by($this->emailAndIpKey($request)));
+
+        RateLimiter::for("email-verification", fn(Request $request) => Limit::perMinutes(15, 5)->by($this->emailAndIpKey($request)));
 
         RateLimiter::for("two-factor", fn(Request $request) => Limit::perMinute(5)->by($request->session()->get("login.id")));
 
@@ -45,5 +45,10 @@ class FortifyServiceProvider extends ServiceProvider
                 ($credentialId ?: $request->session()->getId()) . "|" . $request->ip(),
             );
         });
+    }
+
+    private function emailAndIpKey(Request $request): string
+    {
+        return Str::transliterate(Str::lower($request->input(Fortify::username())) . "|" . $request->ip());
     }
 }

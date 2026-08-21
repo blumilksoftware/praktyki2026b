@@ -45,6 +45,14 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->respond(function (Response $response, Throwable $_, Request $request): Response {
             $status = $response->getStatusCode();
 
+            if ($status === 429 && !$request->expectsJson()) {
+                $seconds = $response->headers->get("Retry-After");
+
+                return back()
+                    ->withErrors(["email" => __("auth.throttle", ["seconds" => $seconds])])
+                    ->withHeaders(["Retry-After" => $seconds]);
+            }
+
             if (!in_array($status, [401, 403, 404, 413, 500], true)) {
                 return $response;
             }
