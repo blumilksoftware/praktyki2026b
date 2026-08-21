@@ -6,6 +6,8 @@ namespace Tests\Feature\Company;
 
 use App\Models\Company;
 use App\Models\Offer;
+use App\Models\Review;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
@@ -80,5 +82,45 @@ class CompanyPublicProfileTest extends TestCase
     public function testUnknownCompanyReturns404(): void
     {
         $this->get(route("companies.show", "nonexistent-id"))->assertNotFound();
+    }
+
+    public function testProfileShowsVisibleReviewsOnly(): void
+    {
+        $company = Company::factory()->approved()->create();
+
+        Review::factory()->create([
+            "company_id" => $company->id,
+            "rating" => 5,
+            "comment" => "Fantastic team",
+        ]);
+        Review::factory()->hidden()->create(["company_id" => $company->id]);
+
+        $this->get(route("companies.show", $company))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->has("company.reviews.items", 1)
+                    ->where("company.reviews.items.0.rating", 5)
+                    ->where("company.reviews.items.0.comment", "Fantastic team")
+                    ->where("company.reviews.count", 1),
+            );
+    }
+
+    public function testCompanyStaffAlsoSeesHiddenReviews(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $companyAdmin = User::factory()->companyAdmin()->create(["organization_id" => $company->id]);
+
+        Review::factory()->create(["company_id" => $company->id]);
+        Review::factory()->hidden()->create(["company_id" => $company->id]);
+
+        $this->actingAs($companyAdmin)
+            ->get(route("companies.show", $company))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->has("company.reviews.items", 2)
+                    ->where("company.reviews.canModerate", true),
+            );
     }
 }
