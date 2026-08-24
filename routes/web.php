@@ -65,9 +65,11 @@ Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
         Route::post("/offers", [OfferController::class, "store"])
+            ->middleware("throttle:30,1")
             ->name("company.offers.store");
 
         Route::patch("/offers/{offer}", [OfferController::class, "update"])
+            ->middleware("throttle:30,1")
             ->name("company.offers.update");
 
         Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])
@@ -121,7 +123,7 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::post("/offers/{offer}/favourite", [StudentController::class, "saveOffer"])->name("student.offers.favourite.save");
         Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])->name("student.offers.favourite.delete")->withTrashed();
         Route::get("/favourites", [StudentController::class, "favourites"])->name("student.favourites");
-        Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
+        Route::patch("/profile", [StudentController::class, "updateProfile"])->middleware("throttle:20,1")->name("student.profile.update");
         Route::get("/universities/search", [StudentController::class, "searchUniversities"])->name("student.universities.search");
         Route::get("/universities/{university}/faculties", [StudentController::class, "universityFaculties"])->name("student.universities.faculties");
         Route::patch("/university", [StudentController::class, "linkUniversity"])->name("student.university.update");
