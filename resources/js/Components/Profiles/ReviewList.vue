@@ -4,7 +4,8 @@ import { router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import StarRating from '@/Components/Common/StarRating.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
-import { companyReviewHide, adminReviewDelete } from '@/Helpers/routes'
+import ReviewActionModal from '@/Components/Profiles/ReviewActionModal.vue'
+import { companyReviewHide, companyReviewUnhide, adminReviewDelete } from '@/Helpers/routes'
 
 const props = defineProps({
   reviews: { type: Object, required: true },
@@ -12,33 +13,40 @@ const props = defineProps({
 
 const { t } = useI18n()
 
-const hidingId = ref(null)
-const deletingId = ref(null)
+const pendingReviewId = ref(null)
+const pendingAction = ref(null)
+const processing = ref(false)
 
-function hideReview(reviewId) {
-  if (!window.confirm(t('profiles.reviews.hideConfirm'))) return
-
-  hidingId.value = reviewId
-
-  router.patch(companyReviewHide(reviewId), {}, {
-    preserveScroll: true,
-    onFinish: () => {
-      hidingId.value = null
-    },
-  })
+function requestAction(reviewId, action) {
+  pendingReviewId.value = reviewId
+  pendingAction.value = action
 }
 
-function deleteReview(reviewId) {
-  if (!window.confirm(t('profiles.reviews.deleteConfirm'))) return
+function closeModal() {
+  pendingReviewId.value = null
+  pendingAction.value = null
+}
 
-  deletingId.value = reviewId
+function confirmAction() {
+  const reviewId = pendingReviewId.value
+  const action = pendingAction.value
+  processing.value = true
 
-  router.delete(adminReviewDelete(reviewId), {
+  const options = {
     preserveScroll: true,
     onFinish: () => {
-      deletingId.value = null
+      processing.value = false
+      closeModal()
     },
-  })
+  }
+
+  if (action === 'hide') {
+    router.patch(companyReviewHide(reviewId), {}, options)
+  } else if (action === 'unhide') {
+    router.patch(companyReviewUnhide(reviewId), {}, options)
+  } else if (action === 'delete') {
+    router.delete(adminReviewDelete(reviewId), options)
+  }
 }
 
 function formatDate(isoDate) {
@@ -82,18 +90,25 @@ function formatDate(isoDate) {
               v-if="reviews.canModerate && !review.hidden"
               variant="secondary"
               class="px-3 py-1.5 text-xs"
-              :disabled="hidingId === review.id"
-              @click="hideReview(review.id)"
+              @click="requestAction(review.id, 'hide')"
             >
               {{ t('profiles.reviews.hide') }}
+            </BaseButton>
+
+            <BaseButton
+              v-if="reviews.canModerate && review.hidden"
+              variant="secondary"
+              class="px-3 py-1.5 text-xs"
+              @click="requestAction(review.id, 'unhide')"
+            >
+              {{ t('profiles.reviews.unhide') }}
             </BaseButton>
 
             <BaseButton
               v-if="reviews.canDelete"
               variant="secondary"
               class="px-3 py-1.5 text-xs"
-              :disabled="deletingId === review.id"
-              @click="deleteReview(review.id)"
+              @click="requestAction(review.id, 'delete')"
             >
               {{ t('profiles.reviews.delete') }}
             </BaseButton>
@@ -107,5 +122,13 @@ function formatDate(isoDate) {
     <div v-else class="text-additional italic text-sm">
       {{ t('profiles.reviews.empty') }}
     </div>
+
+    <ReviewActionModal
+      :open="pendingAction !== null"
+      :action="pendingAction ?? 'hide'"
+      :processing="processing"
+      @close="closeModal"
+      @confirm="confirmAction"
+    />
   </div>
 </template>

@@ -20,4 +20,10 @@ class ReviewPolicy
         return $user->status === UserStatus::Active
             && $user->organization_id === $review->company_id;
     }
+
+    public function unhide(User $user, Review $review): bool
+    {
+        return $user->status === UserStatus::Active
+            && $user->organization_id === $review->company_id;
+    }
 }

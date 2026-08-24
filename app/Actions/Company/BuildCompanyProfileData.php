@@ -86,7 +86,7 @@ class BuildCompanyProfileData
                 "id" => $review->id,
                 "rating" => $review->rating,
                 "comment" => $review->comment,
-                "studentName" => $review->student->fullName(),
+                "studentName" => $isSuperAdmin ? $review->student->fullName() : $this->anonymizedStudentName($review->student),
                 "createdAt" => $review->created_at->toIso8601String(),
                 "hidden" => $review->hidden,
             ]),
@@ -97,5 +97,12 @@ class BuildCompanyProfileData
             "canModerate" => $isCompanyStaff,
             "canDelete" => $isSuperAdmin,
         ];
+    }
+
+    private function anonymizedStudentName(User $student): string
+    {
+        $lastInitial = $student->last_name !== null && $student->last_name !== "" ? mb_substr($student->last_name, 0, 1) . "." : "";
+
+        return trim(($student->first_name ?? "") . " " . $lastInitial) ?: "Student";
     }
 }

@@ -62,6 +62,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::delete("/universities/{university}/partnership", [CompanyUniversityController::class, "removePartner"])->name("company.universities.partnership.destroy");
         Route::patch("/universities/{university}/partnership/accept", [CompanyUniversityController::class, "acceptPartner"])->name("company.universities.partnership.accept");
         Route::patch("/reviews/{review}/hide", [CompanyReviewController::class, "hide"])->name("company.reviews.hide");
+        Route::patch("/reviews/{review}/unhide", [CompanyReviewController::class, "unhide"])->name("company.reviews.unhide");
     });
 
 Route::middleware(["auth"])

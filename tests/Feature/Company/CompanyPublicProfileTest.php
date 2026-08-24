@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Company;
 
+use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\Offer;
 use App\Models\Review;
@@ -121,6 +122,44 @@ class CompanyPublicProfileTest extends TestCase
                 fn(Assert $page) => $page
                     ->has("company.reviews.items", 2)
                     ->where("company.reviews.canModerate", true),
+            );
+    }
+
+    public function testReviewStudentNameIsAnonymizedForGuestsAndCompanyStaff(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $companyAdmin = User::factory()->companyAdmin()->create(["organization_id" => $company->id]);
+        $student = User::factory()->create(["first_name" => "Kasia", "last_name" => "Nowak"]);
+
+        Review::factory()->create(["company_id" => $company->id, "student_id" => $student->id]);
+
+        $this->get(route("companies.show", $company))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page->where("company.reviews.items.0.studentName", "Kasia N."),
+            );
+
+        $this->actingAs($companyAdmin)
+            ->get(route("companies.show", $company))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page->where("company.reviews.items.0.studentName", "Kasia N."),
+            );
+    }
+
+    public function testReviewStudentNameIsFullForSuperAdmin(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $student = User::factory()->create(["first_name" => "Kasia", "last_name" => "Nowak"]);
+
+        Review::factory()->create(["company_id" => $company->id, "student_id" => $student->id]);
+
+        $this->actingAs($admin)
+            ->get(route("companies.show", $company))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page->where("company.reviews.items.0.studentName", "Kasia Nowak"),
             );
     }
 }

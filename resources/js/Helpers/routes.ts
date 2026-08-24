@@ -92,6 +92,7 @@ export const ROUTES = {
   COMPANY_SHOW: '/companies/{company}',
   COMPANY_REVIEWS_STORE: '/student/companies/{company}/reviews',
   COMPANY_REVIEW_HIDE: '/company/reviews/{review}/hide',
+  COMPANY_REVIEW_UNHIDE: '/company/reviews/{review}/unhide',
   ADMIN_REVIEW_DELETE: '/admin/reviews/{review}',
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",
@@ -174,6 +175,10 @@ export function companyReviewsStore(companyId: string): string {
 
 export function companyReviewHide(reviewId: string): string {
   return ROUTES.COMPANY_REVIEW_HIDE.replace("{review}", reviewId)
+}
+
+export function companyReviewUnhide(reviewId: string): string {
+  return ROUTES.COMPANY_REVIEW_UNHIDE.replace("{review}", reviewId)
 }
 
 export function adminReviewDelete(reviewId: string): string {
