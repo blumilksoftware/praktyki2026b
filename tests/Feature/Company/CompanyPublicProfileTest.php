@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Company;
 
+use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\Offer;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
@@ -80,5 +82,20 @@ class CompanyPublicProfileTest extends TestCase
     public function testUnknownCompanyReturns404(): void
     {
         $this->get(route("companies.show", "nonexistent-id"))->assertNotFound();
+    }
+
+    public function testAdminCanViewPendingCompanyProfile(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $company = Company::factory()->pending()->create();
+
+        $this->actingAs($admin)
+            ->get(route("companies.show", $company))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Company/PublicProfile")
+                    ->where("company.id", $company->id),
+            );
     }
 }
