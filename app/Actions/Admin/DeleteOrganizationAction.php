@@ -7,6 +7,7 @@ namespace App\Actions\Admin;
 use App\Enums\ApplicationStatus;
 use App\Enums\InvitationStatus;
 use App\Enums\OfferStatus;
+use App\Enums\OrganizationType;
 use App\Enums\UserRole;
 use App\Models\Application;
 use App\Models\Company;
@@ -46,9 +47,14 @@ class DeleteOrganizationAction
 
     private function revokeInvitations(Company|University $organization): void
     {
+        $organizationType = match (true) {
+            $organization instanceof Company => OrganizationType::Company,
+            $organization instanceof University => OrganizationType::University,
+        };
+
         OrganizationInvitation::query()
             ->where("organization_id", $organization->id)
-            ->where("organization_type", $organization->getMorphClass())
+            ->where("organization_type", $organizationType->value)
             ->where("status", InvitationStatus::Pending->value)
             ->update(["status" => InvitationStatus::Revoked->value]);
     }

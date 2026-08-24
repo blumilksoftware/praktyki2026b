@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import BaseModal from '@/Components/Base/BaseModal.vue'
