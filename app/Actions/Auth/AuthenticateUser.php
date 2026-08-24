@@ -40,6 +40,10 @@ class AuthenticateUser
             ]);
         }
 
+        if ($user->status === UserStatus::Deleted) {
+            $this->logOutUser->execute($request);
+        }
+
         if (!$user->hasVerifiedEmail() || $user->status === UserStatus::Pending) {
             session()->flash("requires_verification", true);
             session()->flash("email", $user->email);

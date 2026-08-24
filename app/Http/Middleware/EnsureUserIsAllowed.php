@@ -10,7 +10,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureUserIsNotBlocked
+class EnsureUserIsAllowed
 {
     public function __construct(
         private readonly LogOutUser $logOutUser,
@@ -32,6 +32,12 @@ class EnsureUserIsNotBlocked
             return redirect()->route("login")->withErrors([
                 "email" => __("auth.blocked"),
             ]);
+        }
+
+        if ($user !== null && $user->status === UserStatus::Deleted) {
+            $this->logOutUser->execute($request);
+
+            return redirect()->route("login");
         }
 
         return $next($request);
