@@ -1,8 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { IconUserCog, IconLock, IconLockOpen, IconX } from '@tabler/icons-vue'
-import { router } from '@inertiajs/vue3'
-import { ROUTES } from '@/Helpers/routes.ts'
 
 const { t } = useI18n()
 
@@ -12,13 +10,6 @@ const props = defineProps({
     required: true,
   },
 })
-
-function deleteUser() {
-  if (!confirm(t('admin.users.deleteModal.confirmDelete', { name: props.user.email }))) {
-    return
-  }
-  router.delete(ROUTES.ADMIN_DELETE_USER(props.user.id))
-}
 
 const emit = defineEmits(['change-role', 'toggle-block', 'delete-user'])
 </script>
