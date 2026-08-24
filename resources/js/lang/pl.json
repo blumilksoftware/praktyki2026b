@@ -161,6 +161,26 @@
         "backToLogin": "Powrót do logowania"
       }
     },
+    "forgotPassword": {
+      "title": "Reset hasła",
+      "heading": "Nie pamiętasz hasła?",
+      "description": "Podaj adres e-mail powiązany z kontem, a wyślemy Ci link do ustawienia nowego hasła.",
+      "email": "E-mail",
+      "submit": "Wyślij link"
+    },
+    "resetPassword": {
+      "title": "Nowe hasło",
+      "heading": "Ustaw nowe hasło",
+      "email": "E-mail",
+      "password": "Nowe hasło",
+      "passwordConfirmation": "Potwierdź nowe hasło",
+      "submit": "Zapisz nowe hasło",
+      "expired": {
+        "heading": "Ten link jest już nieaktywny",
+        "message": "Link do resetu hasła wygasł lub został już wykorzystany. Poproś o nowy, aby ustawić hasło.",
+        "requestNew": "Poproś o nowy link"
+      }
+    },
     "fields": {
       "showPassword": "Pokaż hasło",
       "hidePassword": "Ukryj hasło"
