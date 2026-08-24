@@ -227,6 +227,27 @@
     "partners": {
       "title": "Partnerskie uczelnie"
     },
+    "reviews": {
+      "title": "Recenzje",
+      "empty": "Brak recenzji.",
+      "average": "{rating} na 5 ({count} recenzji)",
+      "writeReview": "Napisz recenzję",
+      "ratingLabel": "Ocena",
+      "commentLabel": "Komentarz (opcjonalnie)",
+      "submit": "Wyślij recenzję",
+      "submitting": "Wysyłanie...",
+      "alreadyReviewed": "Już oceniłeś tę firmę.",
+      "hiddenBadge": "Ukryta",
+      "hide": "Ukryj",
+      "hideConfirmTitle": "Ukryć recenzję?",
+      "hideConfirm": "Ukryć tę recenzję? Nie będzie widoczna na publicznym profilu.",
+      "unhide": "Pokaż z powrotem",
+      "unhideConfirmTitle": "Pokazać recenzję z powrotem?",
+      "unhideConfirm": "Ta recenzja znów będzie widoczna na publicznym profilu.",
+      "delete": "Usuń",
+      "deleteConfirmTitle": "Usunąć recenzję?",
+      "deleteConfirm": "Usunąć tę recenzję na stałe?"
+    },
     "nip": "NIP",
     "spots": "Miejsca",
     "uploadLogo": "Prześlij logo",

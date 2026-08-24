@@ -8,6 +8,7 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Offers from '@/Components/Profiles/Offers.vue'
+import ReviewList from '@/Components/Profiles/ReviewList.vue'
 import Menu from '@/Components/Profiles/Menu.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import { ROUTES } from '@/Helpers/routes'
@@ -108,6 +109,10 @@ defineProps({
 
           <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
             <Offers :offers="company.offers" />
+          </div>
+
+          <div v-if="company.reviews" class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
+            <ReviewList :reviews="company.reviews" />
           </div>
         </div>
       </div>
