@@ -435,6 +435,12 @@
         "confirmBlock": "Block",
         "confirmUnblock": "Unblock"
       },
+        "deleteModal": {
+            "deleteTitle": "Delete user",
+            "deleteDescription": "Are you sure you want to delete {name}? This action cannot be undone.",
+            "confirmDelete": "Delete",
+            "cancel": "Cancel"
+        },
       "roles": {
         "student": "Student",
         "superAdmin": "Super admin",

@@ -19,9 +19,9 @@ use Illuminate\Support\Str;
 
 class DeleteOrganizationAction
 {
-    public function execute(Company|University $organization, User $admin): void
+    public function execute(Company|University $organization): void
     {
-        DB::transaction(function () use ($organization, $admin): void {
+        DB::transaction(function () use ($organization): void {
             $originalName = $organization->name;
 
             $this->revokeInvitations($organization);
@@ -37,7 +37,7 @@ class DeleteOrganizationAction
             $organization->delete();
 
             activity()
-                ->causedBy($admin)
+                ->causedBy(auth()->user())
                 ->performedOn($organization)
                 ->withProperties(["name" => $originalName])
                 ->log($organization instanceof Company ? "company_deleted" : "university_deleted");

@@ -11,7 +11,7 @@ class SearchUsers
 {
     public function execute(string $role, string $search): LengthAwarePaginator
     {
-        $query = User::query();
+        $query = User::query()->where("status", "!=", "deleted");
 
         if ($role !== "all") {
             $query->where("role", $role);
@@ -25,7 +25,9 @@ class SearchUsers
             });
         }
 
-        return $query->orderBy("created_at", "desc")->paginate(20)->appends([
+        return $query->orderBy("created_at", "desc")
+            ->orderByDesc("id")
+            ->paginate(20)->appends([
             "role" => $role,
             "search" => $search,
         ]);

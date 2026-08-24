@@ -444,6 +444,12 @@
         "confirmBlock": "Zablokuj",
         "confirmUnblock": "Odblokuj"
       },
+        "deleteModal": {
+            "deleteTitle": "Usuń użytkownika",
+            "deleteDescription": "Czy na pewno chcesz usunąć użytkownika {name}? Tej operacji nie można cofnąć.",
+            "confirmDelete": "Usuń",
+            "cancel": "Anuluj"
+        },
       "roles": {
         "student": "Student",
         "superAdmin": "Super administrator",
