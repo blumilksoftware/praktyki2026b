@@ -1,4 +1,3 @@
-
 import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import {
@@ -14,10 +13,46 @@ const DEFAULT_MAP_VIEW = {
   center: [15, 50],
   zoom: 4,
 }
+const RADIUS_SOURCE_ID = 'search-radius'
+const RADIUS_FILL_LAYER_ID = 'search-radius-fill'
+const RADIUS_OUTLINE_LAYER_ID = 'search-radius-outline'
+const EARTH_RADIUS_KM = 6371
+const RADIUS_CIRCLE_POINTS = 64
+
+function buildRadiusCircleGeoJson(center, radiusKm) {
+  const [lng, lat] = center
+  const coords = []
+  const latRad = (lat * Math.PI) / 180
+  const lngRad = (lng * Math.PI) / 180
+  const angularDistance = radiusKm / EARTH_RADIUS_KM
+
+  for (let i = 0; i <= RADIUS_CIRCLE_POINTS; i++) {
+    const bearing = (i * 2 * Math.PI) / RADIUS_CIRCLE_POINTS
+    const pointLatRad = Math.asin(
+      Math.sin(latRad) * Math.cos(angularDistance)
+      + Math.cos(latRad) * Math.sin(angularDistance) * Math.cos(bearing),
+    )
+    const pointLngRad = lngRad + Math.atan2(
+      Math.sin(bearing) * Math.sin(angularDistance) * Math.cos(latRad),
+      Math.cos(angularDistance) - Math.sin(latRad) * Math.sin(pointLatRad),
+    )
+
+    coords.push([(pointLngRad * 180) / Math.PI, (pointLatRad * 180) / Math.PI])
+  }
+
+  return {
+    type: 'Feature',
+    geometry: { type: 'Polygon', coordinates: [coords] },
+    properties: {},
+  }
+}
 
 const INDIVIDUAL_ZOOM_THRESHOLD = 11
 
-export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null)) {
+export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null), radiusKm = ref(null),
+  radiusCenter = ref(null), cityFilter = ref([]), options = {}) {
+  const { onCitySelect, onClear, selectedCityLabel = ref('') } = options
+
   const mapContainer = ref(null)
   const selectedCity = ref(null)
   const selectedOfferId = ref(null)
@@ -25,6 +60,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
 
   let map = null
   let markers = []
+  let pendingInitialOfferId = null
 
   const groupedOffers = computed(() => groupOffersByCity(offersRef.value))
 
@@ -36,6 +72,27 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
   const viewMode = computed(() =>
     currentZoom.value >= INDIVIDUAL_ZOOM_THRESHOLD ? 'individual' : 'clustered',
   )
+
+  const getRadiusKmValue = () => (typeof radiusKm === 'object' ? radiusKm.value : radiusKm)
+  const getRadiusCenterValue = () => (typeof radiusCenter === 'object' ? radiusCenter.value : radiusCenter)
+
+  const hasActiveRadius = () => {
+    const km = getRadiusKmValue()
+    const center = getRadiusCenterValue()
+    return !!(km && center && center.latitude != null && center.longitude != null)
+  }
+
+  const fitToRadius = (duration = 0) => {
+    if (!map) return
+    const km = getRadiusKmValue()
+    const center = getRadiusCenterValue()
+    if (!km || !center || center.latitude == null || center.longitude == null) return
+
+    const circleGeoJson = buildRadiusCircleGeoJson([center.longitude, center.latitude], km)
+    const radiusBounds = new mapboxgl.LngLatBounds()
+    circleGeoJson.geometry.coordinates[0].forEach((coord) => radiusBounds.extend(coord))
+    map.fitBounds(radiusBounds, { padding: 40, duration })
+  }
 
   const clearMarkers = () => {
     markers.forEach((marker) => marker.remove())
@@ -73,6 +130,20 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
     } else {
       map.flyTo({ center: fallbackCoords, zoom: 12, speed: 1.2 })
     }
+  }
+
+  const focusCity = (cityName, coords) => {
+    if (!cityName || !map) return
+    const cityOffers = groupedOffers.value[cityName] || []
+    const fallbackCoords = coords
+      ? [coords.longitude, coords.latitude]
+      : getCityCoordinates(cityName, cityOffers)
+
+    if (!fallbackCoords) return
+
+    selectedCity.value = cityName
+    selectedOfferId.value = null
+    flyToCity(cityName, cityOffers, fallbackCoords)
   }
 
   const selectAndFocusOffer = (offerId) => {
@@ -165,13 +236,14 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
         flyToCity(cityName, cityOffers, coords)
         selectedCity.value = cityName
         selectedOfferId.value = null
+        onCitySelect?.({ label: cityName, latitude: coords[1], longitude: coords[0] })
       })
 
       markers.push(new mapboxgl.Marker({ element: el }).setLngLat(coords).addTo(map))
     })
 
     if (fitBounds && hasValidBounds && markers.length > 0) {
-      map.fitBounds(bounds, { padding: 80, maxZoom: 10 })
+      map.fitBounds(bounds, { padding: 80, maxZoom: 14 })
     }
   }
 
@@ -189,6 +261,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
           selectedCity.value = cityName
           selectedOfferId.value = offer.id
           scrollToOfferCard(offer.id)
+          onCitySelect?.({ label: cityName, latitude: cityFallback[1], longitude: cityFallback[0] })
         })
 
         markers.push(new mapboxgl.Marker({ element: el }).setLngLat(coords).addTo(map))
@@ -207,15 +280,70 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
     }
   }
 
+  const updateRadiusCircle = () => {
+    if (!map) return
+
+    if (!map.isStyleLoaded()) {
+      map.once('idle', updateRadiusCircle)
+      return
+    }
+
+    const km = getRadiusKmValue()
+    const center = getRadiusCenterValue()
+
+    const hasCircle = map.getSource(RADIUS_SOURCE_ID)
+
+    if (!km || !center || center.latitude == null || center.longitude == null) {
+      if (hasCircle) {
+        if (map.getLayer(RADIUS_FILL_LAYER_ID)) map.removeLayer(RADIUS_FILL_LAYER_ID)
+        if (map.getLayer(RADIUS_OUTLINE_LAYER_ID)) map.removeLayer(RADIUS_OUTLINE_LAYER_ID)
+        map.removeSource(RADIUS_SOURCE_ID)
+      }
+      return
+    }
+
+    const geojson = buildRadiusCircleGeoJson([center.longitude, center.latitude], km)
+
+    if (hasCircle) {
+      map.getSource(RADIUS_SOURCE_ID).setData(geojson)
+      return
+    }
+
+    map.addSource(RADIUS_SOURCE_ID, { type: 'geojson', data: geojson })
+
+    map.addLayer({
+      id: RADIUS_FILL_LAYER_ID,
+      type: 'fill',
+      source: RADIUS_SOURCE_ID,
+      paint: {
+        'fill-color': '#2563eb',
+        'fill-opacity': 0.08,
+      },
+    })
+
+    map.addLayer({
+      id: RADIUS_OUTLINE_LAYER_ID,
+      type: 'line',
+      source: RADIUS_SOURCE_ID,
+      paint: {
+        'line-color': '#2563eb',
+        'line-width': 1.5,
+        'line-dasharray': [2, 2],
+      },
+    })
+  }
+
   const clearSelection = () => {
     selectedCity.value = null
     selectedOfferId.value = null
   }
 
-  const resetView = () => {
+  const resetFilters = () => {
     clearSelection()
-    currentZoom.value = DEFAULT_MAP_VIEW.zoom
-    renderMarkersForZoom(true)
+    setTimeout(() => {
+      renderMarkersForZoom(false)
+      onClear?.()
+    }, 100)
   }
 
   onMounted(() => {
@@ -247,14 +375,23 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
         map.resize()
 
         const rawInitialId = typeof initialOfferId === 'object' ? initialOfferId.value : initialOfferId
+
         if (rawInitialId) {
-          selectAndFocusOffer(rawInitialId)
+          if (offersRef.value.length) {
+            selectAndFocusOffer(rawInitialId)
+          } else {
+            pendingInitialOfferId = rawInitialId
+          }
           renderMarkersForZoom(false)
+        } else if (hasActiveRadius()) {
+          renderMarkersForZoom(false)
+          fitToRadius(0)
         } else {
           renderMarkersForZoom(true)
           map.setCenter(initialView.center)
           map.setZoom(initialView.zoom)
         }
+        updateRadiusCircle()
       })
 
       map.on('zoomend', () => {
@@ -269,7 +406,14 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
   })
 
   watch(offersRef, () => {
-    renderMarkersForZoom(true)
+    renderMarkersForZoom(!hasActiveRadius())
+
+    if (pendingInitialOfferId) {
+      const idToFocus = pendingInitialOfferId
+      pendingInitialOfferId = null
+      selectAndFocusOffer(idToFocus)
+    }
+
     if (selectedCity.value && !groupedOffers.value[selectedCity.value]) {
       clearSelection()
     }
@@ -279,12 +423,47 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null))
 
   watch(viewMode, () => renderMarkersForZoom(false))
 
+  watch(
+    () => getRadiusKmValue(),
+    (newKm, oldKm) => {
+      updateRadiusCircle()
+      if (hasActiveRadius() && newKm !== oldKm) {
+        fitToRadius(800)
+      }
+    },
+  )
+
+  watch(
+    () => getRadiusCenterValue(),
+    () => {
+      updateRadiusCircle()
+    },
+    { deep: true },
+  )
+
+  watch(
+    () => (typeof selectedCityLabel === 'object' ? selectedCityLabel.value : selectedCityLabel),
+    (cityName) => {
+      if (!cityName) {
+        if (selectedCity.value) {
+          clearSelection()
+          renderMarkersForZoom(false)
+        }
+        return
+      }
+      if (selectedCity.value === cityName) return
+
+      const center = getRadiusCenterValue()
+      focusCity(cityName, center)
+    },
+  )
+
   return {
     mapContainer,
     selectedCity,
     selectedOfferId,
     selectedCityOffers,
-    resetView,
     selectAndFocusOffer,
+    resetFilters,
   }
 }

@@ -26,6 +26,7 @@ use Inertia\Response;
 Route::get("/", fn() => redirect()->route("login"));
 
 Route::get("/offers", [OfferController::class, "index"])->name("offers.index");
+Route::get("/offers/map", [OfferController::class, "map"])->name("offers.map");
 Route::get("/offers/{offer}/preview", [OfferController::class, "preview"])
     ->middleware(["auth", "can:update,offer"])
     ->name("offers.preview")

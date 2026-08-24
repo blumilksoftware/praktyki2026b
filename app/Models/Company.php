@@ -83,6 +83,14 @@ class Company extends Model
         return $this->hasMany(Partnership::class);
     }
 
+    /**
+     * @return HasMany<Review, $this>
+     */
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function scopeNeedingVerification($query)
     {
         return $query->where("verification_status", VerificationStatus::Pending);

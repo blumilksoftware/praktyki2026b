@@ -5,10 +5,12 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminOfferController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\CityGeocodingController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController;
+use App\Http\Controllers\Company\ReviewController as CompanyReviewController;
 use App\Http\Controllers\Company\UniversityController as CompanyUniversityController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
@@ -59,6 +61,8 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::post("/universities/{university}/partnership", [CompanyUniversityController::class, "addPartner"])->name("company.universities.partnership.store");
         Route::delete("/universities/{university}/partnership", [CompanyUniversityController::class, "removePartner"])->name("company.universities.partnership.destroy");
         Route::patch("/universities/{university}/partnership/accept", [CompanyUniversityController::class, "acceptPartner"])->name("company.universities.partnership.accept");
+        Route::patch("/reviews/{review}/hide", [CompanyReviewController::class, "hide"])->name("company.reviews.hide");
+        Route::patch("/reviews/{review}/unhide", [CompanyReviewController::class, "unhide"])->name("company.reviews.unhide");
     });
 
 Route::middleware(["auth"])
@@ -121,6 +125,7 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::post("/offers/{offer}/apply", [StudentController::class, "apply"])->name("student.offers.apply");
         Route::post("/offers/{offer}/withdraw", [StudentController::class, "withdraw"])->name("student.offers.withdraw");
         Route::post("/offers/{offer}/favourite", [StudentController::class, "saveOffer"])->name("student.offers.favourite.save");
+        Route::post("/companies/{company}/reviews", [StudentController::class, "reviewCompany"])->name("student.companies.reviews.store");
         Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])->name("student.offers.favourite.delete")->withTrashed();
         Route::get("/favourites", [StudentController::class, "favourites"])->name("student.favourites");
         Route::patch("/profile", [StudentController::class, "updateProfile"])->middleware("throttle:20,1")->name("student.profile.update");
@@ -160,6 +165,7 @@ Route::middleware(["role:superAdmin"])
         Route::delete("/companies/{company}", [AdminController::class, "deleteCompany"])->name("admin.companies.destroy");
         Route::delete("/universities/{university}", [AdminController::class, "deleteUniversity"])->name("admin.universities.destroy");
         Route::patch("/offers/{offer}/take-down", [AdminOfferController::class, "takeDown"])->name("admin.offers.take-down");
+        Route::delete("/reviews/{review}", [AdminReviewController::class, "destroy"])->name("admin.reviews.destroy");
     });
 
 require __DIR__ . "/auth.php";

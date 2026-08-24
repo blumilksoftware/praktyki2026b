@@ -61,6 +61,7 @@ function applyToOffer() {
   })
 }
 
+
 const isTogglingFavorite = ref(false)
 const favoritedLocally = ref(false)
 const unfavoritedLocally = ref(false)
@@ -110,7 +111,7 @@ function confirmWithdraw() {
       withdrawnLocally.value = true
       appliedLocally.value = false
       isWithdrawModalOpen.value = false
-      toastSuccess(t('student.applications.withdrawSuccess'))
+      toastError(t('student.applications.withdrawSuccess'))
     },
     onFinish: () => {
       isWithdrawing.value = false
@@ -127,6 +128,7 @@ function showOnMap() {
     preserveScroll: true,
   })
 }
+
 </script>
 
 <template>
