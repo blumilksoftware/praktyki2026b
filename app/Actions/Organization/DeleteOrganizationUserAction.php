@@ -13,12 +13,11 @@ use Illuminate\Support\Str;
 
 class DeleteOrganizationUserAction
 {
-
     public function __construct(
-        private  readonly TransferOwnership $transferOwnership,
-        private readonly DeleteOrganizationAction $deleteOrganizationAction
-    )
-    {}
+        private readonly TransferOwnership $transferOwnership,
+        private readonly DeleteOrganizationAction $deleteOrganizationAction,
+    ) {}
+
     public function execute(User $user): void
     {
         DB::transaction(function () use ($user): void {
@@ -30,12 +29,13 @@ class DeleteOrganizationUserAction
 
             if (!$memberRole) {
                 $this->anonymizeUser($user);
+
                 return;
             }
 
             $newOwner = User::query()
-                ->where('organization_id', $user->organization_id)
-                ->where('role', $memberRole)
+                ->where("organization_id", $user->organization_id)
+                ->where("role", $memberRole)
                 ->whereKeyNot($user->id)
                 ->first();
 
@@ -46,6 +46,7 @@ class DeleteOrganizationUserAction
                 };
 
                 $this->deleteOrganizationAction->execute($organization);
+
                 return;
             }
 
@@ -57,12 +58,12 @@ class DeleteOrganizationUserAction
     private function anonymizeUser(User $user): void
     {
         $user->forceFill([
-            'first_name' => null,
-            'last_name' => null,
-            'photo_path' => null,
-            'pending_email' => null,
-            'email' => 'deleted-' . $user->id . '-' . Str::random(8) . '@deleted.local',
-            'status' => UserStatus::Deleted,
+            "first_name" => null,
+            "last_name" => null,
+            "photo_path" => null,
+            "pending_email" => null,
+            "email" => "deleted-" . $user->id . "-" . Str::random(8) . "@deleted.local",
+            "status" => UserStatus::Deleted,
         ])->save();
     }
 }

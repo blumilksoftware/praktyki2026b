@@ -27,7 +27,7 @@ class AdminUserController extends Controller
         private readonly ChangeUserRoleAction $changeRoleAction,
         private readonly ChangeUserStatusAction $changeStatusAction,
         private readonly SearchUsers $searchUsers,
-        private readonly DeleteUserAction $deleteUserAction
+        private readonly DeleteUserAction $deleteUserAction,
     ) {}
 
     public function index(SearchUsersRequest $request): Response

@@ -28,8 +28,8 @@ class SearchUsers
         return $query->orderBy("created_at", "desc")
             ->orderByDesc("id")
             ->paginate(20)->appends([
-            "role" => $role,
-            "search" => $search,
-        ]);
+                "role" => $role,
+                "search" => $search,
+            ]);
     }
 }

@@ -11,7 +11,7 @@ import AdminBlockUserModal from '@/Components/Admin/AdminBlockUserModal.vue'
 import AdminUserActionsMenu from '@/Components/Admin/AdminUserActionsMenu.vue'
 import { useUserRole } from '@/Composables/useUserRole'
 import { useUserStatus } from '@/Composables/useUserStatus'
-import AdminDeleteUserModal from "@/Components/Admin/AdminDeleteUserModal.vue";
+import AdminDeleteUserModal from '@/Components/Admin/AdminDeleteUserModal.vue'
 
 const props = defineProps({
   users: {

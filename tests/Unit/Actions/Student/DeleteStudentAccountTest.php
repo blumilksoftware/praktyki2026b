@@ -26,7 +26,7 @@ class DeleteStudentAccountTest extends TestCase
         $fileUploadService->expects($this->exactly(2))
             ->method("delete")
             ->with($this->callback(
-                static fn (string $path): bool => in_array($path, ["photos/avatar.png", "cvs/resume.pdf"], true),
+                static fn(string $path): bool => in_array($path, ["photos/avatar.png", "cvs/resume.pdf"], true),
             ));
 
         (new DeleteStudentAccount($fileUploadService))->execute($student);

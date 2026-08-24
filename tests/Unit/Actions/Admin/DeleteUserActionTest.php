@@ -17,6 +17,19 @@ class DeleteUserActionTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * @return array<string, array{UserRole}>
+     */
+    public static function organizationRoleProvider(): array
+    {
+        return [
+            "university member" => [UserRole::UniversityMember],
+            "university admin" => [UserRole::UniversityAdmin],
+            "company member" => [UserRole::CompanyMember],
+            "company admin" => [UserRole::CompanyAdmin],
+        ];
+    }
+
     public function testItDelegatesStudentsToDeleteStudentAccount(): void
     {
         $student = User::factory()->create(["role" => UserRole::Student]);
@@ -48,18 +61,5 @@ class DeleteUserActionTest extends TestCase
 
         $action = new DeleteUserAction($deleteStudentAccount, $deleteOrganizationUser);
         $action->execute($user);
-    }
-
-    /**
-     * @return array<string, array{UserRole}>
-     */
-    public static function organizationRoleProvider(): array
-    {
-        return [
-            "university member" => [UserRole::UniversityMember],
-            "university admin" => [UserRole::UniversityAdmin],
-            "company member" => [UserRole::CompanyMember],
-            "company admin" => [UserRole::CompanyAdmin],
-        ];
     }
 }

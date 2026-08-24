@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import { IconUserCog, IconLock, IconLockOpen, IconX } from '@tabler/icons-vue'
 import { router } from '@inertiajs/vue3'
-import {ROUTES} from "@/Helpers/routes.ts";
+import { ROUTES } from '@/Helpers/routes.ts'
 
 const { t } = useI18n()
 
