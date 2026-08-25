@@ -157,13 +157,13 @@
       "title": "Reset password",
       "heading": "Forgot your password?",
       "description": "Enter the email address linked to your account and we will send you a link to set a new password.",
-      "email": "E-mail",
+      "email": "Email",
       "submit": "Send reset link"
     },
     "resetPassword": {
       "title": "New password",
       "heading": "Set a new password",
-      "email": "E-mail",
+      "email": "Email",
       "password": "New password",
       "passwordConfirmation": "Confirm new password",
       "submit": "Save new password",
