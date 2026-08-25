@@ -20,17 +20,19 @@ class EnsureUserIsNotBlocked
     {
         $user = $request->user();
 
-        if ($user !== null && $user->status === UserStatus::Blocked) {
+        if ($user !== null && ($user->status === UserStatus::Blocked || $user->status === UserStatus::Deleted)) {
+            $message = $user->status === UserStatus::Blocked ? "auth.blocked" : "auth.deleted";
+
             $this->logOutUser->execute($request);
 
             if ($request->expectsJson()) {
                 return response()->json([
-                    "message" => __("auth.blocked"),
+                    "message" => __($message),
                 ], 403);
             }
 
             return redirect()->route("login")->withErrors([
-                "email" => __("auth.blocked"),
+                "email" => __($message),
             ]);
         }
 

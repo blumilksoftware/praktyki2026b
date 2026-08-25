@@ -32,11 +32,11 @@ class AuthenticateUser
             ]);
         }
 
-        if ($user->status === UserStatus::Blocked) {
+        if ($user->status === UserStatus::Blocked || $user->status === UserStatus::Deleted) {
             $this->logOutUser->execute($request);
 
             throw ValidationException::withMessages([
-                "email" => __("auth.blocked"),
+                "email" => __($user->status === UserStatus::Blocked ? "auth.blocked" : "auth.deleted"),
             ]);
         }
 
