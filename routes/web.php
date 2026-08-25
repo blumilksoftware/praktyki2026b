@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminOfferController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\DeletionImpactController;
 use App\Http\Controllers\CityGeocodingController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
@@ -155,6 +156,7 @@ Route::middleware(["role:superAdmin"])
         Route::post("/verify/university/{university}/reject", [AdminController::class, "rejectUniversityVerification"])->name("admin.university.verify.reject");
         Route::patch("/users/{user}/role", [AdminUserController::class, "updateRole"])->name("admin.users.update-role");
         Route::patch("/users/{user}/status", [AdminUserController::class, "updateStatus"])->name("admin.users.update-status");
+        Route::get("/users/{user}/deletion-impact", DeletionImpactController::class)->name("admin.users.deletion-impact");
         Route::delete("/users/{user}", [AdminUserController::class, "deleteUser"])->name("admin.users.destroy");
         Route::delete("/companies/{company}", [AdminController::class, "deleteCompany"])->name("admin.companies.destroy");
         Route::delete("/universities/{university}", [AdminController::class, "deleteUniversity"])->name("admin.universities.destroy");

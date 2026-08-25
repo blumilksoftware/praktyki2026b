@@ -41,6 +41,15 @@ class DemoSeeder extends Seeder
             "status" => UserStatus::Active,
         ]);
 
+        User::factory()->create([
+            "first_name" => "Super",
+            "last_name" => "Admin2",
+            "email" => "admin2@example.com",
+            "role" => UserRole::SuperAdmin,
+            "email_verified_at" => now(),
+            "status" => UserStatus::Active,
+        ]);
+
         $approvedCompany = Company::factory()->approved()->create([
             "name" => "Approved Company Sp. z o.o.",
             "email" => "approved@example.com",

@@ -21,7 +21,8 @@ class DeleteUserAction
         match ($user->role) {
             UserRole::Student => $this->deleteStudentAccount->execute($user),
             UserRole::UniversityMember, UserRole::UniversityAdmin,
-            UserRole::CompanyMember, UserRole::CompanyAdmin => $this->deleteOrganizationUser->execute($user),
+            UserRole::CompanyMember, UserRole::CompanyAdmin,
+            UserRole::SuperAdmin => $this->deleteOrganizationUser->execute($user),
         };
     }
 }

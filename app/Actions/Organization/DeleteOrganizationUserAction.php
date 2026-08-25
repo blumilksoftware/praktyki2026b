@@ -8,6 +8,7 @@ use App\Actions\Admin\DeleteOrganizationAction;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\User;
+use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -16,11 +17,22 @@ class DeleteOrganizationUserAction
     public function __construct(
         private readonly TransferOwnership $transferOwnership,
         private readonly DeleteOrganizationAction $deleteOrganizationAction,
+        private readonly UserPolicy $userPolicy,
     ) {}
 
     public function execute(User $user): void
     {
         DB::transaction(function () use ($user): void {
+            if ($this->userPolicy->isLastOrganizationMember($user)) {
+                $organization = match ($user->role) {
+                    UserRole::CompanyAdmin => $user->company,
+                    UserRole::UniversityAdmin => $user->universityOrganization,
+                };
+                $this->deleteOrganizationAction->execute($organization);
+
+                return;
+            }
+
             $memberRole = match ($user->role) {
                 UserRole::CompanyAdmin => UserRole::CompanyMember,
                 UserRole::UniversityAdmin => UserRole::UniversityMember,
@@ -39,17 +51,6 @@ class DeleteOrganizationUserAction
                 ->whereKeyNot($user->id)
                 ->first();
 
-            if (!$newOwner) {
-                $organization = match ($user->role) {
-                    UserRole::CompanyAdmin => $user->company,
-                    UserRole::UniversityAdmin => $user->universityOrganization,
-                };
-
-                $this->deleteOrganizationAction->execute($organization);
-
-                return;
-            }
-
             $this->transferOwnership->execute($user, $newOwner);
             $this->anonymizeUser($user);
         });
@@ -62,6 +63,7 @@ class DeleteOrganizationUserAction
             "last_name" => null,
             "photo_path" => null,
             "pending_email" => null,
+            "organization_id" => null,
             "email" => "deleted-" . $user->id . "-" . Str::random(8) . "@deleted.local",
             "status" => UserStatus::Deleted,
         ])->save();

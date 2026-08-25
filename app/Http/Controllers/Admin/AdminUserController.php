@@ -66,6 +66,8 @@ class AdminUserController extends Controller
 
     public function deleteUser(User $user): RedirectResponse
     {
+        Gate::authorize("deleteUser", $user);
+
         $this->deleteUserAction->execute($user);
 
         return back();
