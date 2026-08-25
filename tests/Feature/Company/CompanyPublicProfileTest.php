@@ -85,6 +85,21 @@ class CompanyPublicProfileTest extends TestCase
         $this->get(route("companies.show", "nonexistent-id"))->assertNotFound();
     }
 
+    public function testAdminCanViewPendingCompanyProfile(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $company = Company::factory()->pending()->create();
+
+        $this->actingAs($admin)
+            ->get(route("companies.show", $company))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Company/PublicProfile")
+                    ->where("company.id", $company->id),
+            );
+    }
+
     public function testProfileShowsVisibleReviewsOnly(): void
     {
         $company = Company::factory()->approved()->create();
