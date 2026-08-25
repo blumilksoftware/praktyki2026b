@@ -10,6 +10,8 @@ import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Offers from '@/Components/Profiles/Offers.vue'
 import Partners from '@/Components/Profiles/Partners.vue'
+import ReviewForm from '@/Components/Profiles/ReviewForm.vue'
+import ReviewList from '@/Components/Profiles/ReviewList.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 
 const props = defineProps({
@@ -87,6 +89,17 @@ const isStudent = computed(() => page.props.auth?.user?.role === 'student')
 
           <div v-if="company.offers?.length" class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 sm:p-8">
             <Offers :offers="company.offers" />
+          </div>
+
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 sm:p-8 flex flex-col gap-6">
+            <ReviewList :reviews="company.reviews" />
+
+            <div v-if="company.reviews.canReview" class="border-t border-slate-200 pt-6">
+              <ReviewForm :company-id="company.id" />
+            </div>
+            <p v-else-if="isStudent && company.reviews.hasReviewed" class="text-sm text-slate-500 italic">
+              {{ t('profiles.reviews.alreadyReviewed') }}
+            </p>
           </div>
         </div>
       </div>

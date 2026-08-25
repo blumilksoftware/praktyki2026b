@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Actions\Company;
 
+use App\Enums\ApplicationStatus;
 use App\Enums\PartnershipStatus;
+use App\Enums\UserRole;
+use App\Models\Application;
 use App\Models\Company;
+use App\Models\Review;
+use App\Models\User;
 
 class BuildCompanyProfileData
 {
-    public function execute(Company $company): array
+    public function execute(Company $company, ?User $viewer = null): array
     {
         return [
             "id" => $company->id,
@@ -47,6 +52,57 @@ class BuildCompanyProfileData
                     "name" => $partnership->university->name,
                     "city" => $partnership->university->city,
                 ]),
+            "reviews" => $this->buildReviews($company, $viewer),
         ];
+    }
+
+    private function buildReviews(Company $company, ?User $viewer): array
+    {
+        $isCompanyStaff = $viewer !== null && $viewer->organization_id === $company->id;
+        $isSuperAdmin = $viewer !== null && $viewer->role === UserRole::SuperAdmin;
+
+        $reviewsQuery = $company->reviews()->with("student:id,first_name,last_name")->latest();
+
+        if (!$isCompanyStaff && !$isSuperAdmin) {
+            $reviewsQuery->visible();
+        }
+
+        $hasReviewed = $viewer !== null
+            && $viewer->role === UserRole::Student
+            && $company->reviews()->where("student_id", $viewer->id)->exists();
+
+        $canReview = $viewer !== null
+            && $viewer->role === UserRole::Student
+            && !$hasReviewed
+            && Application::where("student_id", $viewer->id)
+                ->where("status", ApplicationStatus::Accepted)
+                ->whereHas("offer", fn($query) => $query->where("company_id", $company->id))
+                ->exists();
+
+        $reviewsAverage = $company->reviews()->visible()->avg("rating");
+
+        return [
+            "items" => $reviewsQuery->get()->map(fn(Review $review) => [
+                "id" => $review->id,
+                "rating" => $review->rating,
+                "comment" => $review->comment,
+                "studentName" => $isSuperAdmin ? $review->student->fullName() : $this->anonymizedStudentName($review->student),
+                "createdAt" => $review->created_at->toIso8601String(),
+                "hidden" => $review->hidden,
+            ]),
+            "averageRating" => $reviewsAverage !== null ? (float)$reviewsAverage : null,
+            "count" => $company->reviews()->visible()->count(),
+            "canReview" => $canReview,
+            "hasReviewed" => $hasReviewed,
+            "canModerate" => $isCompanyStaff,
+            "canDelete" => $isSuperAdmin,
+        ];
+    }
+
+    private function anonymizedStudentName(User $student): string
+    {
+        $lastInitial = $student->last_name !== null && $student->last_name !== "" ? mb_substr($student->last_name, 0, 1) . "." : "";
+
+        return trim(($student->first_name ?? "") . " " . $lastInitial) ?: "Student";
     }
 }

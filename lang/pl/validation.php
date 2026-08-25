@@ -183,6 +183,8 @@ return [
     "faculty_reassign_required" => "Wybierz wydział, do którego przeniesiemy kierunki.",
     "study_field_name_unique" => "Ten wydział ma już kierunek o tej nazwie.",
     "study_field_reassign_required" => "Wybierz kierunek, do którego przeniesiemy studentów i oferty.",
+    "review_requires_accepted_application" => "Możesz ocenić firmę dopiero po zaakceptowaniu Twojej aplikacji.",
+    "already_reviewed_company" => "Ta firma została już przez Ciebie oceniona.",
 
     "salary_min.required_if" => "Pole minimalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
     "salary_max.required_if" => "Pole maksymalne wynagrodzenie jest wymagane, gdy oferta jest płatna.",
@@ -242,5 +244,7 @@ return [
         "date_from" => "początek zakresu dat",
         "date_to" => "koniec zakresu dat",
         "date_flex_days" => "elastyczność dat (dni)",
+        "rating" => "ocena",
+        "comment" => "komentarz",
     ],
 ];

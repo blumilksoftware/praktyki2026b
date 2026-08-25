@@ -23,7 +23,7 @@ class CompanyProfileController extends Controller
         $foundCompany = $companyQuery->findOrFail($company);
 
         return inertia("Company/PublicProfile", [
-            "company" => $this->buildCompanyProfileData->execute($foundCompany),
+            "company" => $this->buildCompanyProfileData->execute($foundCompany, Auth::user()),
         ]);
     }
 }

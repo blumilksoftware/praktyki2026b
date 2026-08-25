@@ -219,6 +219,27 @@
     "partners": {
       "title": "University partners"
     },
+    "reviews": {
+      "title": "Reviews",
+      "empty": "No reviews yet.",
+      "average": "{rating} out of 5 ({count} reviews)",
+      "writeReview": "Write a review",
+      "ratingLabel": "Rating",
+      "commentLabel": "Comment (optional)",
+      "submit": "Submit review",
+      "submitting": "Submitting...",
+      "alreadyReviewed": "You have already reviewed this company.",
+      "hiddenBadge": "Hidden",
+      "hide": "Hide",
+      "hideConfirmTitle": "Hide review?",
+      "hideConfirm": "Hide this review? It will no longer be visible on the public profile.",
+      "unhide": "Unhide",
+      "unhideConfirmTitle": "Unhide review?",
+      "unhideConfirm": "This review will be visible on the public profile again.",
+      "delete": "Delete",
+      "deleteConfirmTitle": "Delete review?",
+      "deleteConfirm": "Delete this review permanently?"
+    },
     "nip": "NIP",
     "spots": "Spots",
     "uploadLogo": "Upload logo",
