@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature\Admin;
 
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Models\Company;
+use App\Models\Offer;
 use App\Models\University;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -79,5 +81,57 @@ class DeleteOrganizationTest extends TestCase
 
         $this->assertEquals(0, Company::where("id", $company->id)->count());
         $this->assertEquals(1, Company::withTrashed()->where("id", $company->id)->count());
+    }
+
+    public function testDeletingCompanySoftDeletesItsOffers(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $company = Company::factory()->create();
+        $offer = Offer::factory()->for($company)->create();
+
+        $this->actingAs($admin)->delete("/admin/companies/{$company->id}");
+
+        $this->assertSoftDeleted($offer);
+    }
+
+    public function testDeletingCompanyMarksItsMembersAsDeleted(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $company = Company::factory()->create();
+        $member = User::factory()->create([
+            "role" => UserRole::CompanyMember,
+            "organization_id" => $company->id,
+            "status" => UserStatus::Active,
+        ]);
+
+        $this->actingAs($admin)->delete("/admin/companies/{$company->id}");
+
+        $this->assertEquals(UserStatus::Deleted, $member->fresh()->status);
+    }
+
+    public function testDeletingUniversityMarksItsMembersAsDeleted(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $university = University::factory()->create();
+        $member = User::factory()->create([
+            "role" => UserRole::UniversityMember,
+            "organization_id" => $university->id,
+            "status" => UserStatus::Active,
+        ]);
+
+        $this->actingAs($admin)->delete("/admin/universities/{$university->id}");
+
+        $this->assertEquals(UserStatus::Deleted, $member->fresh()->status);
+    }
+
+    public function testOfferCatalogStaysAccessibleAfterCompanyDeletion(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $company = Company::factory()->create();
+        Offer::factory()->for($company)->create();
+
+        $this->actingAs($admin)->delete("/admin/companies/{$company->id}");
+
+        $this->get("/offers")->assertOk();
     }
 }
