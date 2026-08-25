@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { IconInfoCircle, IconCheck, IconX, IconTrash } from '@tabler/icons-vue'
+import { IconCheck, IconX, IconTrash } from '@tabler/icons-vue'
 
 const { t } = useI18n()
 
@@ -15,21 +15,11 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['details', 'accept', 'reject', 'delete'])
+const emit = defineEmits(['accept', 'reject', 'delete'])
 </script>
 
 <template>
   <div class="flex items-center justify-end gap-1">
-    <button
-      type="button"
-      class="p-1.5 rounded-md text-additional hover:bg-gray-100 hover:text-text cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-      :title="t('admin.verification.details')"
-      :aria-label="t('admin.verification.detailsAriaLabel', { name: props.item.name })"
-      @click="emit('details', $event)"
-    >
-      <IconInfoCircle class="w-4 h-4" aria-hidden="true" />
-    </button>
-
     <button
       v-if="props.item.verification_status === 'pending'"
       type="button"

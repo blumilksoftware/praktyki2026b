@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\University;
 
+use App\Enums\UserRole;
 use App\Models\University;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
@@ -66,5 +68,20 @@ class UniversityPublicProfileTest extends TestCase
     public function testUnknownUniversityReturns404(): void
     {
         $this->get(route("universities.show", "3f1a7c64-9d2e-4b8a-8c5f-2a1b0d3e4f56"))->assertNotFound();
+    }
+
+    public function testAdminCanViewPendingUniversityProfile(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $university = University::factory()->pending()->create();
+
+        $this->actingAs($admin)
+            ->get(route("universities.show", $university))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("University/PublicProfile")
+                    ->where("university.id", $university->id),
+            );
     }
 }

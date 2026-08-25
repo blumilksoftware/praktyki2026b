@@ -18,7 +18,6 @@ describe('VerificationActionsMenu', () => {
     const titles = wrapper.findAll('button').map((b) => b.attributes('title'))
 
     expect(titles).toEqual([
-      en.admin.verification.details,
       en.admin.verification.accept,
       en.admin.verification.reject,
       en.admin.verification.delete,
@@ -30,7 +29,7 @@ describe('VerificationActionsMenu', () => {
 
     const titles = wrapper.findAll('button').map((b) => b.attributes('title'))
 
-    expect(titles).toEqual([en.admin.verification.details, en.admin.verification.delete])
+    expect(titles).toEqual([en.admin.verification.delete])
   })
 
   it('gives every action an aria-label with the item name', () => {
@@ -45,8 +44,8 @@ describe('VerificationActionsMenu', () => {
     const wrapper = mountMenu('pending')
     const buttons = wrapper.findAll('button')
 
-    await buttons[1].trigger('click')
-    await buttons[3].trigger('click')
+    await buttons[0].trigger('click')
+    await buttons[2].trigger('click')
 
     expect(wrapper.emitted('accept')).toHaveLength(1)
     expect(wrapper.emitted('delete')).toHaveLength(1)
