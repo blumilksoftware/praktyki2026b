@@ -44,14 +44,14 @@ const hasMore = computed(() => props.tags && props.tags.length > limit)
 
     <button
       v-if="hasMore && isExpanded"
-      class="mt-5 text-xs font-bold text-gray-400 hover:text-gray-600 uppercase tracking-wider transition-colors"
+      class="mt-5 text-xs font-bold text-additional hover:text-text uppercase tracking-wider transition-colors"
       @click="isExpanded = false"
     >
       {{ t('buttons.collapseTags') }}
     </button>
   </div>
   
-  <div v-else class="flex justify-center mt-6 text-sm text-gray-500 font-medium">
+  <div v-else class="flex justify-center mt-6 text-sm text-additional font-medium">
     {{ t('profiles.company.noTags') }}
   </div>
 </template>

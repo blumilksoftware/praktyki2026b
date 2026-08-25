@@ -86,7 +86,7 @@ const submit = () => {
             @update:logo="form.logo = $event"
           />
 
-          <div class="text-sm text-slate-500 mt-2 flex items-center gap-2 w-full justify-center">
+          <div class="text-sm text-additional mt-2 flex items-center gap-2 w-full justify-center">
             <TagsEdit v-model="form.tags" :max-tags="10" />
           </div>
         </div>

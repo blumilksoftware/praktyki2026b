@@ -29,7 +29,12 @@ const { t } = useI18n()
           selectedOfferId === offer.id ? 'ring-2 ring-primary ring-offset-2' : '',
         ]"
       >
-        <OfferCard :offer="offer" :has-cv="hasCv" :guest="guest" :can-apply="canApply" />
+        <OfferCard
+          :offer="offer"
+          :has-cv="hasCv"
+          :guest="guest"
+          :can-apply="canApply"
+        />
       </div>
     </div>
   </div>

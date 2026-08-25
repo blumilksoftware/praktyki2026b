@@ -37,7 +37,7 @@ import { useToast } from '@/Composables/useToast'
 
 const page = usePage()
 const { t } = useI18n()
-const { toastRef, toastSuccess } = useToast()
+const { toastRef, toastSuccess, toastError } = useToast()
 
 const props = defineProps({
   activePage: {
@@ -91,6 +91,18 @@ const showFlashToast = () => {
   }
 }
 
-onMounted(showFlashToast)
+const showFlashErrorToast = () => {
+  const error = page.props.flash?.error
+
+  if (error) {
+    toastError(error)
+  }
+}
+
+onMounted(() => {
+  showFlashToast()
+  showFlashErrorToast()
+})
 watch(() => page.props.flash?.status, showFlashToast)
+watch(() => page.props.flash?.error, showFlashErrorToast)
 </script>

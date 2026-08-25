@@ -53,7 +53,7 @@ const authError = computed(() => form.errors.email)
       <Head :title="t('auth.login.title')" />
 
       <div class="flex flex-col items-center justify-center w-full sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-20 ">
-        <h1 class="text-3xl md:text-5xl font-normal mb-8 md:mb-10 text-center text-text">
+        <h1 class="text-5xl md:text-6xl font-normal mb-8 md:mb-10 text-center text-text">
           {{ t('auth.login.adminTitle') }}
         </h1>
 

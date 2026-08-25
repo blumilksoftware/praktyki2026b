@@ -48,7 +48,7 @@ function dismiss() {
       <p class="font-semibold text-text text-sm">
         {{ t('onboarding.banner.title') }}
       </p>
-      <p class="mt-0.5 text-slate-500 text-xs">
+      <p class="mt-0.5 text-additional text-xs">
         {{ t('onboarding.banner.description') }}
       </p>
       <a
@@ -62,7 +62,7 @@ function dismiss() {
     </div>
 
     <button
-      class="flex items-center justify-center hover:bg-black/5 rounded-lg w-8 h-8 text-slate-400 hover:text-slate-600 transition shrink-0"
+      class="flex items-center justify-center hover:bg-black/5 rounded-lg w-8 h-8 text-additional hover:text-text transition shrink-0"
       :aria-label="t('onboarding.banner.dismiss')"
       @click="dismiss"
     >

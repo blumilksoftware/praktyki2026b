@@ -61,6 +61,7 @@ function applyToOffer() {
   })
 }
 
+
 const isTogglingFavorite = ref(false)
 const favoritedLocally = ref(false)
 const unfavoritedLocally = ref(false)
@@ -110,7 +111,7 @@ function confirmWithdraw() {
       withdrawnLocally.value = true
       appliedLocally.value = false
       isWithdrawModalOpen.value = false
-      toastSuccess(t('student.applications.withdrawSuccess'))
+      toastError(t('student.applications.withdrawSuccess'))
     },
     onFinish: () => {
       isWithdrawing.value = false
@@ -127,6 +128,7 @@ function showOnMap() {
     preserveScroll: true,
   })
 }
+
 </script>
 
 <template>
@@ -144,7 +146,7 @@ function showOnMap() {
               :alt="t('student.offers.card.logoAlt', { company: offer.company.name })"
               class="h-10 w-10 rounded-xl object-cover"
             >
-            <div v-else class="flex h-10 w-10 items-center justify-center rounded-xl bg-background text-sm font-semibold text-additional">
+            <div v-else class="flex h-10 w-10 items-center justify-center rounded-xl bg-background text-sm font-medium text-additional">
               {{ companyInitial }}
             </div>
           </Link>
@@ -153,14 +155,14 @@ function showOnMap() {
             <div class="flex items-center gap-2">
               <Link
                 :href="ROUTES.COMPANY_SHOW.replace('{company}', offer.company.id)"
-                class="min-w-0 truncate text-sm font-semibold text-additional transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+                class="min-w-0 truncate text-sm font-medium text-additional transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
               >
                 {{ offer.company.name }}
               </Link>
 
               <span
                 v-if="offer.company.is_verified"
-                class="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-success"
+                class="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-success"
                 :aria-label="t('student.offers.card.verifiedAriaLabel')"
               >
                 <IconCheck class="h-3.5 w-3.5" stroke-width="2" aria-hidden="true" />
@@ -192,7 +194,7 @@ function showOnMap() {
       <div class="mt-5 flex flex-wrap items-center gap-3">
         <button
           type="button"
-          class="inline-flex items-center justify-center rounded-xl border border-border cursor-pointer bg-white px-4 py-2.5 text-sm font-semibold text-text hover:border-primary/40 hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          class="inline-flex items-center justify-center rounded-xl border border-border cursor-pointer bg-white px-4 py-2.5 text-sm font-medium text-text hover:border-primary/40 hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
           @click="showOnMap"
         >
           {{ t('student.offers.card.showOnMap') }}
@@ -201,7 +203,7 @@ function showOnMap() {
         <button
           v-if="canApply"
           type="button"
-          class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 cursor-pointer text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
+          class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 cursor-pointer text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
           :class="isFavorite
             ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
             : 'border-border bg-white text-text hover:border-primary/40 hover:bg-background'"
@@ -219,7 +221,7 @@ function showOnMap() {
         <Link
           v-if="guest"
           :href="ROUTES.LOGIN"
-          class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-medium text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         >
           {{ t('student.offers.card.loginToApply') }}
         </Link>

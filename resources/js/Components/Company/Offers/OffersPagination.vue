@@ -46,7 +46,7 @@ function goToPage(url) {
           ? 'bg-primary text-white'
           : link.url
             ? 'text-text hover:bg-gray-100 cursor-pointer'
-            : 'text-gray-300 cursor-not-allowed'"
+            : 'text-additional cursor-not-allowed'"
         :disabled="!link.url"
         @click="goToPage(link.url)"
       >

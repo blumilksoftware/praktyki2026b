@@ -3,11 +3,13 @@ import { computed, onMounted, ref, watch, reactive } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import debounce from 'lodash/debounce'
+import axios from 'axios'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import OfferMap from '@/Components/Offer/Map/OfferMap.vue'
 import OffersFilters from '@/Components/Offer/OffersFilters.vue'
+import { isDateRangeInvalid } from '@/Composables/useOffersFilters'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -18,6 +20,7 @@ const props = defineProps({
   isGuest: { type: Boolean, default: false },
   canApply: { type: Boolean, default: false },
   mapboxToken: { type: String, default: '' },
+  radiusOptions: { type: Array, default: () => [10, 25, 50, 100] },
 })
 
 const { t } = useI18n()
@@ -41,20 +44,35 @@ const filters = reactive({
   studyFieldLabels: (props.filters.study_fields || [])
     .map(studyFieldValueToLabel)
     .filter((label) => label !== undefined),
+  radiusCityLabel: props.filters.radius_city || '',
+  latitude: props.filters.latitude || null,
+  longitude: props.filters.longitude || null,
+  radiusKm: props.filters.radius_km || null,
 })
+
+const clearRadiusFilter = () => {
+  filters.radiusCityLabel = ''
+  filters.latitude = null
+  filters.longitude = null
+  filters.radiusKm = null
+}
 
 const fetchOffers = () => {
   router.get(
     window.location.pathname,
     {
       search: filters.search || undefined,
-      cities: filters.cities.length ? filters.cities : undefined,
+      cities: filters.radiusKm ? undefined : (filters.cities.length ? filters.cities : undefined),
       work_modes: filters.workModes.length ? filters.workModes : undefined,
       date_from: filters.dateFrom || undefined,
       date_to: filters.dateTo || undefined,
       study_fields: filters.studyFieldLabels.length
-        ? filters.studyFieldLabels.map(studyFieldLabelToValue).filter((value) => value !== undefined)
+        ? filters.studyFieldLabels.map(studyFieldLabelToValue).filter((v) => v !== undefined)
         : undefined,
+      radius_city: filters.radiusCityLabel || undefined,
+      latitude: filters.latitude ?? undefined,
+      longitude: filters.longitude ?? undefined,
+      radius_km: filters.radiusKm ?? undefined,
       view: displayMode.value === 'map' ? 'map' : undefined,
     },
     {
@@ -65,13 +83,50 @@ const fetchOffers = () => {
   )
 }
 
+const mapOffers = ref([])
+const mapOffersLoading = ref(false)
+
+async function fetchMapOffers() {
+  if (displayMode.value !== 'map') return
+
+  mapOffersLoading.value = true
+  try {
+    const { data } = await axios.get('/offers/map', {
+      params: {
+        search: filters.search || undefined,
+        cities: filters.radiusKm ? undefined : (filters.cities.length ? filters.cities : undefined),
+        work_modes: filters.workModes.length ? filters.workModes : undefined,
+        date_from: filters.dateFrom || undefined,
+        date_to: filters.dateTo || undefined,
+        study_fields: filters.studyFieldLabels.length
+          ? filters.studyFieldLabels.map(studyFieldLabelToValue).filter((v) => v !== undefined)
+          : undefined,
+        radius_city: filters.radiusCityLabel || undefined,
+        latitude: filters.latitude ?? undefined,
+        longitude: filters.longitude ?? undefined,
+        radius_km: filters.radiusKm ?? undefined,
+      },
+    })
+    mapOffers.value = data
+  } finally {
+    mapOffersLoading.value = false
+  }
+}
+
 watch(
   filters,
-  debounce(fetchOffers, 300),
+  debounce(() => {
+    if (isDateRangeInvalid(filters.dateFrom, filters.dateTo)) return
+    fetchOffers()
+    fetchMapOffers()
+  }, 300),
   { deep: true },
 )
 
-watch(displayMode, fetchOffers)
+watch(displayMode, () => {
+  fetchOffers()
+  fetchMapOffers()
+})
 
 const resetFilters = () => {
   filters.search = ''
@@ -80,16 +135,27 @@ const resetFilters = () => {
   filters.dateFrom = ''
   filters.dateTo = ''
   filters.studyFieldLabels = []
-  offerMap.value?.resetView()
+  clearRadiusFilter()
+  offerMap.value?.resetFilters()
+}
+
+function handleMapCitySelected(city) {
+  filters.cities = [city.label]
+  filters.radiusCityLabel = city.label
+  filters.latitude = city.latitude
+  filters.longitude = city.longitude
+}
+
+function handleMapClear() {
+  filters.cities = []
+  clearRadiusFilter()
 }
 
 onMounted(() => {
   const urlParams = new URLSearchParams(window.location.search)
-
   if (urlParams.get('view') === 'map') {
     displayMode.value = 'map'
   }
-
   if (urlParams.get('offerId')) {
     targetOfferId.value = Number(urlParams.get('offerId')) || urlParams.get('offerId')
   }
@@ -143,6 +209,7 @@ onMounted(() => {
         <OffersFilters
           v-model="filters"
           :study-fields="studyFields"
+          :radius-options="radiusOptions"
           @reset="resetFilters"
         />
 
@@ -193,12 +260,18 @@ onMounted(() => {
           <template v-else>
             <OfferMap
               ref="offerMap"
-              :offers="offers.data"
+              :offers="mapOffers"
               :has-cv="hasCv"
               :guest="isGuest"
               :can-apply="canApply"
               :initial-offer-id="targetOfferId"
+              :radius-km="filters.radiusKm"
+              :latitude="filters.latitude"
+              :longitude="filters.longitude"
+              :selected-city-label="filters.radiusCityLabel"
               :mapbox-token="mapboxToken"
+              @city-selected="handleMapCitySelected"
+              @clear="handleMapClear"
             />
           </template>
         </section>

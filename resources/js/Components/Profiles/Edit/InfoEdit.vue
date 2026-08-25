@@ -30,7 +30,7 @@ const externalFormUrlModel = computed({
 
 <template>
   <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
-    <h3 class="font-semibold text-gray-800 mb-4 text-lg">
+    <h3 class="font-semibold text-text mb-4 text-lg">
       {{ t('profiles.university.systemInformation') }}
     </h3>
     
@@ -43,7 +43,7 @@ const externalFormUrlModel = computed({
           :disabled="isDomainLocked"
           :error="errors.domain"
         />
-        <span v-if="isDomainLocked" class="text-xs text-gray-500 font-medium px-1">
+        <span v-if="isDomainLocked" class="text-xs text-additional font-medium px-1">
           {{ t('profiles.university.domainLockedHint') }}
         </span>
       </div>

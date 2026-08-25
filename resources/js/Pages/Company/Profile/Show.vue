@@ -69,10 +69,10 @@ defineProps({
 
             <div v-if="company.verification_status === 'verified'" class="mt-3 flex items-center justify-center gap-1.5">
               <VerifiedBadge :verified="true" size="md" />
-              <span class="text-sm font-medium text-slate-700">{{ t('profiles.company.verified') }}</span>
+              <span class="text-sm font-medium text-text">{{ t('profiles.company.verified') }}</span>
             </div>
 
-            <div class="text-sm text-slate-500 mt-3 flex items-center gap-2">
+            <div class="text-sm text-additional mt-3 flex items-center gap-2">
               <Tags :tags="company.tags" />
             </div>
 

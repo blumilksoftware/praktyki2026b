@@ -61,12 +61,12 @@ onMounted(() => {
       </div>
 
       <div class="space-y-8">
-        <h1 class="font-semibold text-slate-900 text-4xl text-center">
+        <h1 class="font-semibold text-text text-4xl text-center">
           {{ t('auth.login.waiting.heading') }}
         </h1>
 
         <div class="space-y-4">
-          <p class="text-slate-700 text-base text-center leading-7">
+          <p class="text-text text-base text-center leading-7">
             {{ t('auth.login.waiting.sentTo') }}
           </p>
 
@@ -77,7 +77,7 @@ onMounted(() => {
 
         <hr class="border-slate-200">
 
-        <p class="text-slate-500 text-base text-center leading-7">
+        <p class="text-additional text-base text-center leading-7">
           {{ t('auth.login.waiting.expiresInfo') }}
         </p>
 
