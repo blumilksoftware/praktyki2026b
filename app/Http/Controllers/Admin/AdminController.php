@@ -227,14 +227,14 @@ class AdminController extends Controller
 
     public function deleteCompany(Company $company): RedirectResponse
     {
-        $this->deleteOrganizationAction->execute($company, auth()->user());
+        $this->deleteOrganizationAction->execute($company);
 
         return back();
     }
 
     public function deleteUniversity(University $university): RedirectResponse
     {
-        $this->deleteOrganizationAction->execute($university, auth()->user());
+        $this->deleteOrganizationAction->execute($university);
 
         return back();
     }

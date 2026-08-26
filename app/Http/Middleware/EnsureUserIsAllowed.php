@@ -10,7 +10,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureUserIsNotBlocked
+class EnsureUserIsAllowed
 {
     public function __construct(
         private readonly LogOutUser $logOutUser,
