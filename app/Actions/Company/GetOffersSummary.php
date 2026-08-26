@@ -8,10 +8,11 @@ use App\Enums\OfferStatus;
 use App\Models\Company;
 use App\Models\Offer;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
 
 class GetOffersSummary
 {
-    private const array ALLOWED_SORTS = ["title", "spots", "applications_count", "created_at"];
+    public const array ALLOWED_SORTS = ["title", "spots", "applications_count", "created_at"];
 
     public function execute(
         Company $company,
@@ -19,6 +20,7 @@ class GetOffersSummary
         string $direction = "desc",
         ?OfferStatus $status = null,
         ?string $search = null,
+        ?bool $closingSoon = false,
         int $perPage = 15,
     ): LengthAwarePaginator {
         $direction = $direction === "asc" ? "asc" : "desc";
@@ -31,6 +33,12 @@ class GetOffersSummary
 
         if ($status !== null) {
             $query->where("status", $status->value);
+        }
+
+        if ($closingSoon === true) {
+            $query
+                ->where("status", OfferStatus::Published)
+                ->whereBetween("end_date", [Carbon::today(), Carbon::today()->addWeek()]);
         }
 
         if ($search !== null && trim($search) !== "") {
