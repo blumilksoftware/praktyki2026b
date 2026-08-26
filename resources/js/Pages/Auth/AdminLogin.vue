@@ -47,7 +47,7 @@ const authError = computed(() => form.errors.email)
 
 <template>
   <div class="min-h-screen flex flex-col">
-    <BaseNavbar/>
+    <BaseNavbar />
 
     <AuthLayout class="flex-1 min-h-0">
       <Head :title="t('auth.login.title')" />

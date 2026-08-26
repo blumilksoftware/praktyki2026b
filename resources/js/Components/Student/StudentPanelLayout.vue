@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 const props = defineProps({
   activePage: {

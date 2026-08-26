@@ -176,7 +176,6 @@ function saveAll() {
   <Head :title="t('student.profile.edit.title')" />
   <AppLayout active-page="profile">
     <div class="mx-auto w-full max-w-3xl">
-
       <h1 class="mt-4 font-semibold text-text text-2xl">
         {{ t('student.profile.edit.title') }}
       </h1>

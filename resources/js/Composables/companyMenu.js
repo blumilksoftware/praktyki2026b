@@ -39,7 +39,7 @@ export function useCompanyPanelMenu(activePage) {
         label: t('company.layout.nav.partnership'),
         href: ROUTES.COMPANY_UNIVERSITIES,
         icon: IconHeartHandshake,
-        isActive: current === 'partnership'
+        isActive: current === 'partnership',
       },
     ]
   })

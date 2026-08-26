@@ -4,7 +4,7 @@ import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import debounce from 'lodash/debounce'
 import axios from 'axios'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import OfferMap from '@/Components/Offer/Map/OfferMap.vue'
 import OffersFilters from '@/Components/Offer/OffersFilters.vue'
@@ -163,9 +163,7 @@ onMounted(() => {
 
   <AppLayout active-page="offers">
     <div class="bg-background py-6 min-h-screen">
-      <div v-if="canApply" class="flex flex-wrap justify-between items-center gap-3 mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
-
-      </div>
+      <div v-if="canApply" class="flex flex-wrap justify-between items-center gap-3 mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8" />
 
       <header v-else class="mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
         <h1 class="font-semibold text-text text-2xl tracking-tight">

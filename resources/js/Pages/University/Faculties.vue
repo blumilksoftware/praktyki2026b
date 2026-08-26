@@ -8,7 +8,7 @@ import BaseSelect from '@/Components/Base/BaseSelect.vue'
 import BaseModal from '@/Components/Base/BaseModal.vue'
 import FacultyCard from '@/Components/University/FacultyCard.vue'
 import { ROUTES } from '@/Helpers/routes'
-import AppLayout from "@/Components/Layouts/AppLayout.vue";
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 const props = defineProps({
   faculties: { type: Array, default: () => [] },

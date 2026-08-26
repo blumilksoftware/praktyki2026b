@@ -48,55 +48,55 @@ defineProps({
                 class="flex flex-col items-center w-full"
               />
 
-            <div v-if="company.verification_status === 'verified'" class="mt-3 flex items-center justify-center gap-1.5">
-              <VerifiedBadge :verified="true" size="md" />
-              <span class="text-sm font-medium text-slate-700">{{ t('profiles.company.verified') }}</span>
+              <div v-if="company.verification_status === 'verified'" class="mt-3 flex items-center justify-center gap-1.5">
+                <VerifiedBadge :verified="true" size="md" />
+                <span class="text-sm font-medium text-slate-700">{{ t('profiles.company.verified') }}</span>
+              </div>
+
+              <div class="text-sm text-slate-500 mt-3 flex items-center gap-2">
+                <Tags :tags="company.tags" />
+              </div>
+
+              <BaseButton
+                v-if="canEdit"
+                class="w-full bg-[#0f172a] hover:bg-slate-800 text-white py-2.5 mt-6 text-sm font-semibold rounded-lg transition-all"
+                @click="goToEdit"
+              >
+                {{ t('buttons.editProfile') }}
+              </BaseButton>
             </div>
 
-            <div class="text-sm text-slate-500 mt-3 flex items-center gap-2">
-              <Tags :tags="company.tags" />
+            <div class="h-full bg-white rounded-xl border border-secondary/20 shadow-sm p-6">
+              <ContactCard
+                :email="company.email"
+                :phone="company.phone"
+                :website="company.website"
+                :street="company.street"
+                :postal-code="company.postalCode"
+                :city="company.city"
+                :nip="company.nip"
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-6 lg:col-span-2">
+            <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
+              <About
+                :description="company.description"
+                :empty-message="t('profiles.company.noDescription')"
+              />
             </div>
 
-            <BaseButton
-              v-if="canEdit"
-              class="w-full bg-[#0f172a] hover:bg-slate-800 text-white py-2.5 mt-6 text-sm font-semibold rounded-lg transition-all"
-              @click="goToEdit"
-            >
-              {{ t('buttons.editProfile') }}
-            </BaseButton>
-          </div>
+            <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
+              <Offers :offers="company.offers" />
+            </div>
 
-          <div class="h-full bg-white rounded-xl border border-secondary/20 shadow-sm p-6">
-            <ContactCard
-              :email="company.email"
-              :phone="company.phone"
-              :website="company.website"
-              :street="company.street"
-              :postal-code="company.postalCode"
-              :city="company.city"
-              :nip="company.nip"
-            />
-          </div>
-        </div>
-
-        <div class="flex flex-col gap-6 lg:col-span-2">
-          <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
-            <About
-              :description="company.description"
-              :empty-message="t('profiles.company.noDescription')"
-            />
-          </div>
-
-          <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
-            <Offers :offers="company.offers" />
-          </div>
-
-          <div v-if="company.reviews" class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
-            <ReviewList :reviews="company.reviews" />
+            <div v-if="company.reviews" class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
+              <ReviewList :reviews="company.reviews" />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </AppLayout>
 </template>
