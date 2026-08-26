@@ -35,17 +35,12 @@ export function useCompanyPanelMenu(activePage) {
         icon: IconClipboardText,
         isActive: current === 'applications' },
       {
-        key: 'universities',
-        label: t('company.layout.nav.universities'),
-        href: ROUTES.COMPANY_UNIVERSITIES,
-        icon: IconBuildingBank,
-        isActive: current === 'universities' },
-      {
         key: 'partnership',
         label: t('company.layout.nav.partnership'),
-        href: ROUTES.COMPANY_PARTNERSHIP,
+        href: ROUTES.COMPANY_UNIVERSITIES,
         icon: IconHeartHandshake,
-        isActive: current === 'partnership' },
+        isActive: current === 'partnership'
+      },
     ]
   })
 }

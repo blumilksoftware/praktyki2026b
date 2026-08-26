@@ -4,8 +4,7 @@ import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import debounce from 'lodash/debounce'
 import axios from 'axios'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import AppLayout from "@/Components/Layouts/AppLayout.vue";
 import OffersList from '@/Components/Offer/OffersList.vue'
 import OfferMap from '@/Components/Offer/Map/OfferMap.vue'
 import OffersFilters from '@/Components/Offer/OffersFilters.vue'
@@ -24,9 +23,6 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
-
-const layoutComponent = computed(() => (props.canApply ? StudentPanelLayout : BaseLayout))
-const layoutProps = computed(() => (props.canApply ? { activePage: 'offers' } : {}))
 
 const displayMode = ref('list')
 const targetOfferId = ref(null)
@@ -168,20 +164,7 @@ onMounted(() => {
   <AppLayout active-page="offers">
     <div class="bg-background py-6 min-h-screen">
       <div v-if="canApply" class="flex flex-wrap justify-between items-center gap-3 mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Link
-          :href="ROUTES.STUDENT_DASHBOARD"
-          class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
-        >
-          <span aria-hidden="true">←</span>
-          {{ t('student.favorites.backToDashboard') }}
-        </Link>
 
-        <Link
-          :href="ROUTES.STUDENT_FAVORITES"
-          class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
-        >
-          {{ t('student.nav.favorites') }}
-        </Link>
       </div>
 
       <header v-else class="mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">

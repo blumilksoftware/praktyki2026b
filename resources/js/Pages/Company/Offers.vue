@@ -19,7 +19,6 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
-const companyMenu = useCompanyPanelMenu('offers')
 const isOfferDeleteModalOpen = ref(false)
 const isOfferUnpublishModalOpen = ref(false)
 

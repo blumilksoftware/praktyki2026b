@@ -176,13 +176,6 @@ function saveAll() {
   <Head :title="t('student.profile.edit.title')" />
   <AppLayout active-page="profile">
     <div class="mx-auto w-full max-w-3xl">
-      <Link
-        :href="ROUTES.STUDENT_PROFILE"
-        class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text"
-      >
-        <IconArrowLeft class="h-4 w-4" aria-hidden="true" />
-        {{ t('student.profile.edit.backToProfile') }}
-      </Link>
 
       <h1 class="mt-4 font-semibold text-text text-2xl">
         {{ t('student.profile.edit.title') }}

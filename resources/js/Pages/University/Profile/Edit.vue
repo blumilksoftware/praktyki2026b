@@ -64,15 +64,6 @@ const submit = () => {
   <div class="min-h-screen flex flex-col bg-background">
     <AppLayout active-page="profile">
       <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="flex flex-row justify-between items-center w-full mb-6">
-          <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
-             @click="goBack"
-          >
-            <IconArrowLeft stroke="2.5" class="w-4 h-4" />
-            {{ t('buttons.back') }}
-          </a>
-        </div>
-
     <div class="flex flex-col gap-6 w-full">
       <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 flex flex-col items-center text-center">
         <HeaderEdit

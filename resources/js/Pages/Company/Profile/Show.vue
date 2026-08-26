@@ -1,20 +1,18 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
 import Header from '@/Components/Profiles/Header.vue'
+import BaseButton from '@/Components/Base/BaseButton.vue'
 import Tags from '@/Components/Profiles/Tags.vue'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Offers from '@/Components/Profiles/Offers.vue'
-import Menu from '@/Components/Profiles/Menu.vue'
+import ReviewList from '@/Components/Profiles/ReviewList.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 
 const { t } = useI18n()
-
-const companyMenu = useCompanyPanelMenu('profile')
 
 const goBack = () => {
   window.history.back()

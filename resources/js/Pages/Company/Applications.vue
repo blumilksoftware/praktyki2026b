@@ -9,6 +9,7 @@ import ApplicationsCard from '@/Components/Profiles/ApplicationsCard.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import { useToast } from '@/Composables/useToast'
+import { IconArrowLeft } from '@tabler/icons-vue'
 
 const props = defineProps({
   applications: {

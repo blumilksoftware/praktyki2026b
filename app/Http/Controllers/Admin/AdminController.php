@@ -16,6 +16,7 @@ use App\Models\University;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 
 class AdminController extends Controller
@@ -236,6 +237,19 @@ class AdminController extends Controller
         $this->deleteOrganizationAction->execute($university, auth()->user());
 
         return back();
+    }
+
+    public function profile(): Response
+    {
+        $admin = Auth::user();
+
+        return inertia("Admin/Profile/Show", [
+            "admin" => [
+                "firstName" => $admin->first_name,
+                "lastName" => $admin->last_name,
+                "email" => $admin->email,
+            ],
+        ]);
     }
 
     private function checkIfVerifiedWithRedirect(University|Company $entity, string $message, string $route): ?RedirectResponse

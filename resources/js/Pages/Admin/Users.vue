@@ -1,7 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import AdminUsersTable from '@/Components/Admin/AdminUsersTable.vue'
 
@@ -33,7 +33,7 @@ defineProps({
 
 <template>
   <Head :title="t('admin.users.title')" />
-  <AdminLayout active-page="users">
+  <AppLayout active-page="users">
     <div class="space-y-6">
       <div>
         <h1 class="font-semibold text-text text-2xl">{{ t('admin.users.title') }}</h1>
@@ -50,5 +50,5 @@ defineProps({
         />
       </ProfilePageCard>
     </div>
-  </AdminLayout>
+  </AppLayout>
 </template>
