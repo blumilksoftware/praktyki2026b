@@ -477,6 +477,15 @@
         "confirmBlock": "Zablokuj",
         "confirmUnblock": "Odblokuj"
       },
+        "deleteModal": {
+            "deleteTitle": "Usuń użytkownika",
+            "deleteDescription": "Czy na pewno chcesz usunąć użytkownika {name}? Tej operacji nie można cofnąć.",
+            "confirmDelete": "Usuń",
+            "cancel": "Anuluj",
+            "deleteDescriptionLastMember": "Użytkownik {name} jest ostatnim aktywnym członkiem swojej organizacji. Usunięcie go spowoduje trwałe usunięcie całej organizacji wraz z powiązanymi danymi.",
+            "lastMemberWarning": "Uwaga: ta operacja jest nieodwracalna i usunie nie tylko konto użytkownika, ale całą organizację.",
+            "confirmDeleteWithOrganization": "Usuń użytkownika i organizację"
+        },
       "roles": {
         "student": "Student",
         "superAdmin": "Super administrator",

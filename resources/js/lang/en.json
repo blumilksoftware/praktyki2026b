@@ -468,6 +468,15 @@
         "confirmBlock": "Block",
         "confirmUnblock": "Unblock"
       },
+        "deleteModal": {
+            "deleteTitle": "Delete user",
+            "deleteDescription": "Are you sure you want to delete {name}? This action cannot be undone.",
+            "confirmDelete": "Delete",
+            "cancel": "Cancel",
+            "deleteDescriptionLastMember": "{name} is the last active member of their organization. Deleting this account will permanently delete the entire organization and its data.",
+            "lastMemberWarning": "Warning: this action is irreversible and will delete not only the user account but the whole organization.",
+            "confirmDeleteWithOrganization": "Delete user and organization"
+        },
       "roles": {
         "student": "Student",
         "superAdmin": "Super admin",

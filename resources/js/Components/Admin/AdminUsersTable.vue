@@ -11,6 +11,7 @@ import AdminBlockUserModal from '@/Components/Admin/AdminBlockUserModal.vue'
 import AdminUserActionsMenu from '@/Components/Admin/AdminUserActionsMenu.vue'
 import { useUserRole } from '@/Composables/useUserRole'
 import { useUserStatus } from '@/Composables/useUserStatus'
+import AdminDeleteUserModal from '@/Components/Admin/AdminDeleteUserModal.vue'
 
 const props = defineProps({
   users: {
@@ -58,6 +59,7 @@ const columns = [
 
 const userToChangeRole = ref(null)
 const userToBlock = ref(null)
+const userToDelete = ref(null)
 
 function openChangeRoleModal(user) {
   userToChangeRole.value = user
@@ -73,6 +75,14 @@ function openBlockModal(user) {
 
 function closeBlockModal() {
   userToBlock.value = null
+}
+
+function openDeleteModal(user) {
+  userToDelete.value = user
+}
+
+function closeDeleteModal() {
+  userToDelete.value = null
 }
 
 function isCurrentAdmin(user) {
@@ -146,6 +156,7 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
           :user="item"
           @change-role="openChangeRoleModal(item)"
           @toggle-block="openBlockModal(item)"
+          @delete-user="openDeleteModal(item)"
         />
       </template>
     </DataTable>
@@ -176,6 +187,15 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
       :user-name="userToBlock ? userLabel(userToBlock) : ''"
       :current-status="userToBlock?.status"
       @close="closeBlockModal"
+    />
+
+    <AdminDeleteUserModal
+      :key="`delete-${userToDelete?.id}`"
+      :open="!!userToDelete"
+      :user-id="userToDelete?.id"
+      :user-name="userToDelete ? userLabel(userToDelete) : ''"
+      :current-status="userToDelete?.status"
+      @close="closeDeleteModal"
     />
   </div>
 </template>
