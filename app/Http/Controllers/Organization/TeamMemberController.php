@@ -14,6 +14,7 @@ use App\Http\Requests\TeamFiltersRequest;
 use App\Models\OrganizationInvitation;
 use App\Models\User;
 use App\Policies\UserPolicy;
+use App\Traits\SearchesCaseInsensitively;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,8 @@ use Inertia\Response;
 
 class TeamMemberController extends Controller
 {
+    use SearchesCaseInsensitively;
+
     public function __construct(
         private readonly RemoveTeamMember $removeTeamMember,
         private readonly TransferOwnership $transferOwnership,
@@ -85,15 +88,12 @@ class TeamMemberController extends Controller
         $page = $filters->memberPage;
 
         if ($search !== "") {
-            $searchLower = $filters->memberSearchLower;
-
-            $query->where(function ($builder) use ($searchLower): void {
-                $builder
-                    ->whereRaw("LOWER(COALESCE(first_name, '')) LIKE ?", ["%{$searchLower}%"])
-                    ->orWhereRaw("LOWER(COALESCE(last_name, '')) LIKE ?", ["%{$searchLower}%"])
-                    ->orWhereRaw("LOWER(COALESCE(email, '')) LIKE ?", ["%{$searchLower}%"])
-                    ->orWhereRaw("LOWER(COALESCE(first_name, '') || ' ' || COALESCE(last_name, '')) LIKE ?", ["%{$searchLower}%"]);
-            });
+            $this->applyCaseInsensitiveSearch($query->getQuery(), $search, [
+                "first_name",
+                "last_name",
+                "email",
+                "COALESCE(first_name, '') || ' ' || COALESCE(last_name, '')",
+            ]);
         }
 
         $query->orderBy("created_at");
@@ -126,7 +126,7 @@ class TeamMemberController extends Controller
         $page = $filters->invitationPage;
 
         if ($search !== "") {
-            $query->whereRaw("LOWER(email) ILIKE ?", ["%" . $filters->invitationSearchLower . "%"]);
+            $this->applyCaseInsensitiveSearch($query, $search, ["email"]);
         }
 
         $query->orderBy("created_at");

@@ -7,6 +7,7 @@ import UniversityLayout from '@/Components/Layouts/UniversityLayout.vue'
 import CompanyCard from '@/Components/University/CompanyCard.vue'
 import FilterSuggestField from '@/Components/Partnership/FilterSuggestField.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
+import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
 import { ROUTES } from '@/Helpers/routes'
 
 const { t } = useI18n()
@@ -45,7 +46,7 @@ function search() {
   })
 }
 
-watch([nameFilter, cityFilter, tagFilter], search, { debounce: 300 })
+watch([nameFilter, cityFilter, tagFilter], useDebouncedSearch(search))
 </script>
 
 <template>

@@ -14,12 +14,15 @@ use App\Models\Company;
 use App\Models\Offer;
 use App\Models\University;
 use App\Models\User;
+use App\Traits\SearchesCaseInsensitively;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 
 class AdminController extends Controller
 {
+    use SearchesCaseInsensitively;
+
     public function __construct(
         private readonly VerifyEntityAction $verifyAction,
         private readonly DeleteOrganizationAction $deleteOrganizationAction,
@@ -101,10 +104,7 @@ class AdminController extends Controller
         }
 
         if ($searchQuery) {
-            $companiesQuery->where(function ($q) use ($searchQuery): void {
-                $q->where("name", "like", "%{$searchQuery}%")
-                    ->orWhere("email", "like", "%{$searchQuery}%");
-            });
+            $this->applyCaseInsensitiveSearch($companiesQuery, $searchQuery, ["name", "email"]);
         }
 
         $companiesQuery->orderBy($companySortKey, $sortDir);
@@ -122,11 +122,9 @@ class AdminController extends Controller
         }
 
         if ($searchQuery) {
-            $universitiesQuery->where(function ($q) use ($searchQuery): void {
-                $q->where("name", "like", "%{$searchQuery}%")
-                    ->orWhere("email", "like", "%{$searchQuery}%");
-            });
+            $this->applyCaseInsensitiveSearch($universitiesQuery, $searchQuery, ["name", "email"]);
         }
+
         $universitiesQuery->orderBy($universitySortKey, $sortDir);
         $universities = $universitiesQuery->paginate(20, ["*"], "universities_page")->appends([
             "status" => $statusFilter,

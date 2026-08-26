@@ -8,6 +8,7 @@ import Pagination from '@/Components/Common/Pagination.vue'
 import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import AdminTakeDownOfferModal from '@/Components/Admin/AdminTakeDownOfferModal.vue'
 import { useOfferStatus } from '@/Composables/useOfferStatus'
+import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
 import { offerShow } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -36,11 +37,14 @@ const statusFilterOptions = computed(() => [
   ...props.statuses.map(status => ({ value: status, label: t(`admin.offers.statuses.${status}`) })),
 ])
 
+const sortKey = ref(props.filters.sort_key || 'created_at')
+const sortDir = ref(props.filters.sort_dir || 'desc')
+
 const columns = [
-  { key: 'title', label: t('admin.offers.offer') },
-  { key: 'company', label: t('admin.offers.company') },
-  { key: 'city', label: t('admin.offers.city') },
-  { key: 'status', label: t('admin.offers.status') },
+  { key: 'title', label: t('admin.offers.offer'), sortable: true },
+  { key: 'company', label: t('admin.offers.company'), sortable: true },
+  { key: 'city', label: t('admin.offers.city'), sortable: true },
+  { key: 'status', label: t('admin.offers.status'), sortable: true },
   { key: 'actions', label: '', srLabel: t('admin.offers.actions'), align: 'right' },
 ]
 
@@ -54,15 +58,25 @@ function closeTakeDownModal() {
   offerToTakeDown.value = null
 }
 
-watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
+function applyQuery() {
   router.get('/admin/offers', {
-    status: newStatus,
-    search: newSearch,
+    status: statusFilter.value,
+    search: searchQuery.value,
+    sort_key: sortKey.value,
+    sort_dir: sortDir.value,
   }, {
     preserveState: true,
     replace: true,
   })
-}, { debounce: 300 })
+}
+
+function handleSort({ key, dir }) {
+  sortKey.value = key
+  sortDir.value = dir
+  applyQuery()
+}
+
+watch([statusFilter, searchQuery], useDebouncedSearch(applyQuery))
 </script>
 
 <template>
@@ -95,6 +109,9 @@ watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
       row-key="id"
       :caption="t('admin.offers.title')"
       :row-href="(item) => offerShow(item.id)"
+      :sort-key="sortKey"
+      :sort-dir="sortDir"
+      @sort="handleSort"
     >
       <template #cell-title="{ item }">
         {{ item.title }}

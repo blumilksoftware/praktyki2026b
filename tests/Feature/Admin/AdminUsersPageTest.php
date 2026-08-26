@@ -48,6 +48,56 @@ class AdminUsersPageTest extends TestCase
             );
     }
 
+    public function testAdminUsersPageSearchIgnoresCase(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        User::factory()->create(["role" => UserRole::Student, "first_name" => "Gwendolyn", "email" => "gwendolyn@example.com"]);
+        User::factory()->create(["role" => UserRole::Student, "first_name" => "Marlow", "email" => "marlow@example.com"]);
+
+        $this->actingAs($admin)
+            ->get("/admin/users?search=GWENDOLYN")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->has("users.data", 1)
+                    ->where("users.data.0.first_name", "Gwendolyn"),
+            );
+    }
+
+    public function testAdminUsersPageSearchTreatsWildcardsLiterally(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        User::factory()->create(["role" => UserRole::Student, "first_name" => "Gwendolyn"]);
+        User::factory()->create(["role" => UserRole::Student, "first_name" => "100% Marlow"]);
+
+        $this->actingAs($admin)
+            ->get("/admin/users?search=" . urlencode("100%"))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->has("users.data", 1)
+                    ->where("users.data.0.first_name", "100% Marlow"),
+            );
+    }
+
+    public function testAdminUsersPageSortsByName(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin, "first_name" => "Marlow"]);
+        User::factory()->create(["role" => UserRole::Student, "first_name" => "Gwendolyn"]);
+        User::factory()->create(["role" => UserRole::Student, "first_name" => "Thaddeus"]);
+
+        $this->actingAs($admin)
+            ->get("/admin/users?sort_key=name&sort_dir=asc")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->where("users.data.0.first_name", "Gwendolyn")
+                    ->where("users.data.2.first_name", "Thaddeus")
+                    ->where("filters.sort_key", "name")
+                    ->where("filters.sort_dir", "asc"),
+            );
+    }
+
     public function testAdminUsersPageFiltersByRole(): void
     {
         $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);

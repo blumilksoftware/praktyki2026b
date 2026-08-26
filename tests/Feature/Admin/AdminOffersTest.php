@@ -70,6 +70,42 @@ class AdminOffersTest extends TestCase
             );
     }
 
+    public function testAdminOffersPageSearchMatchesCompanyNameIgnoringCase(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $matching = Company::factory()->approved()->create(["name" => "Northwind Labs"]);
+        $other = Company::factory()->approved()->create(["name" => "Sunward Systems"]);
+        Offer::factory()->create(["company_id" => $matching->id, "title" => "Backend Trainee"]);
+        Offer::factory()->create(["company_id" => $other->id, "title" => "Frontend Trainee"]);
+
+        $this->actingAs($admin)
+            ->get("/admin/offers?search=northwind")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->has("offers.data", 1)
+                    ->where("offers.data.0.title", "Backend Trainee"),
+            );
+    }
+
+    public function testAdminOffersPageSortsByCompanyName(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $northwind = Company::factory()->approved()->create(["name" => "Northwind Labs"]);
+        $ashgrove = Company::factory()->approved()->create(["name" => "Ashgrove Works"]);
+        Offer::factory()->create(["company_id" => $northwind->id, "title" => "Backend Trainee"]);
+        Offer::factory()->create(["company_id" => $ashgrove->id, "title" => "Frontend Trainee"]);
+
+        $this->actingAs($admin)
+            ->get("/admin/offers?sort_key=company&sort_dir=asc")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->where("offers.data.0.title", "Frontend Trainee")
+                    ->where("offers.data.1.title", "Backend Trainee"),
+            );
+    }
+
     public function testGuestCannotAccessOffersPage(): void
     {
         $this->get("/admin/offers")->assertStatus(401);
