@@ -1,12 +1,14 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMapboxGeocoding } from '@/Composables/useMapboxGeocoding'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
+import { isDateRangeInvalid } from '@/Composables/useOffersFilters.js'
 
 const props = defineProps({
   studyFields: { type: Array, default: () => [] },
+  radiusOptions: { type: Array, default: () => [10, 25, 50, 100] },
 })
 
 const emit = defineEmits(['reset'])
@@ -14,7 +16,9 @@ const emit = defineEmits(['reset'])
 const filters = defineModel({ type: Object, required: true })
 
 const { t } = useI18n()
-const { cityOptions, fetchSuggestions: fetchCitySuggestions } = useMapboxGeocoding()
+const { cityOptions, cityCoordinates, fetchSuggestions: fetchCitySuggestions } = useMapboxGeocoding()
+
+const selectedCityCoordinates = ref(new Map())
 
 const workModes = ['remote', 'hybrid', 'onSite']
 const workModeLabel = (mode) => t(`student.workModes.${mode}`)
@@ -31,8 +35,98 @@ function toggleWorkMode(mode) {
   }
 }
 
+const clearRadiusFilter = () => {
+  filters.value.radiusCityLabel = ''
+  filters.value.latitude = null
+  filters.value.longitude = null
+  filters.value.radiusKm = null
+}
+
+const handleCitySelection = (selectedLabels) => {
+  const isRadiusLocked = !!filters.value.radiusKm
+  const nextLabels = isRadiusLocked && selectedLabels.length > 1
+    ? [selectedLabels[selectedLabels.length - 1]]
+    : selectedLabels
+
+  filters.value.cities = nextLabels
+
+  nextLabels.forEach((label) => {
+    if (!selectedCityCoordinates.value.has(label) && cityCoordinates.value.has(label)) {
+      selectedCityCoordinates.value.set(label, cityCoordinates.value.get(label))
+    }
+  })
+
+  const selectedSet = new Set(nextLabels)
+  selectedCityCoordinates.value.forEach((_, label) => {
+    if (!selectedSet.has(label)) {
+      selectedCityCoordinates.value.delete(label)
+    }
+  })
+
+  if (nextLabels.length === 1) {
+    const firstName = nextLabels[0]
+    const coords = selectedCityCoordinates.value.get(firstName)
+    if (coords) {
+      filters.value.radiusCityLabel = firstName
+      filters.value.latitude = coords.latitude
+      filters.value.longitude = coords.longitude
+    } else {
+      clearRadiusFilter()
+    }
+  } else {
+    clearRadiusFilter()
+  }
+}
+
+const isRadiusOpen = ref(false)
+const radiusDropdownRef = ref(null)
+
+const radiusLabel = computed(() => (
+  filters.value.radiusKm
+    ? t('student.offers.filters.radius.option', { km: filters.value.radiusKm })
+    : t('student.offers.filters.radius.placeholder')
+))
+
+function toggleRadiusDropdown() {
+  isRadiusOpen.value = !isRadiusOpen.value
+}
+
+function selectRadius(km) {
+  filters.value.radiusKm = filters.value.radiusKm === km ? null : km
+  isRadiusOpen.value = false
+}
+
+function clearRadius(event) {
+  event.stopPropagation()
+  filters.value.radiusKm = null
+  isRadiusOpen.value = false
+}
+
+function handleClickOutside(event) {
+  if (radiusDropdownRef.value && !radiusDropdownRef.value.contains(event.target)) {
+    isRadiusOpen.value = false
+  }
+}
+
+function handleKeydown(event) {
+  if (event.key === 'Escape') {
+    isRadiusOpen.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+  document.addEventListener('keydown', handleKeydown)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
+  document.removeEventListener('keydown', handleKeydown)
+})
+
+
 const dateRangeError = computed(() => {
-  if (filters.value.dateFrom && filters.value.dateTo && filters.value.dateTo < filters.value.dateFrom) {
+  if (isDateRangeInvalid(filters.value.dateFrom, filters.value.dateTo)) {
     return 'student.offers.filters.dateRangeInvalid'
   }
   return null
@@ -84,16 +178,79 @@ defineExpose({ studyFieldLabelToValue })
         :allow-custom="false"
       />
 
-      <DynamicMultiSelect
-        id="offers-filter-cities"
-        v-model="filters.cities"
-        :label="t('student.offers.filters.city')"
-        :placeholder="t('student.offers.filters.city')"
-        :options="cityOptions"
-        :allow-custom="true"
-        remote
-        @search="fetchCitySuggestions"
-      />
+      <div>
+        <DynamicMultiSelect
+          id="offers-filter-cities"
+          :model-value="filters.cities"
+          :label="t('student.offers.filters.city')"
+          :placeholder="t('student.offers.filters.city')"
+          :options="cityOptions"
+          :allow-custom="true"
+          :hide-selected-while-typing="!!filters.radiusKm"
+          remote
+          @update:model-value="handleCitySelection"
+          @search="fetchCitySuggestions"
+        />
+        <p v-if="filters.radiusKm" class="mt-1 text-xs text-additional">
+          {{ t('student.offers.filters.radius.lockedHint') }}
+        </p>
+
+        <div v-if="filters.latitude && filters.longitude" ref="radiusDropdownRef" class="relative mt-3">
+          <span class="mb-2 block font-medium text-text text-xs text-additional">
+            {{ t('student.offers.filters.radius.label') }}
+          </span>
+
+          <button
+            type="button"
+            class="flex w-full items-center justify-between gap-2 rounded-2xl border border-border bg-background px-4 py-2.5 text-sm font-medium transition hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 cursor-pointer"
+            aria-haspopup="listbox"
+            :aria-expanded="isRadiusOpen"
+            @click="toggleRadiusDropdown"
+          >
+            <span :class="filters.radiusKm ? 'text-text' : 'text-additional'">{{ radiusLabel }}</span>
+            <span class="flex items-center gap-1">
+              <svg
+                v-if="filters.radiusKm"
+                class="h-4 w-4 text-additional transition hover:text-text"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                role="button"
+                :aria-label="t('student.offers.filters.radius.clear')"
+                @click="clearRadius"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              <svg
+                class="h-4 w-4 text-additional transition"
+                :class="isRadiusOpen ? 'rotate-180' : ''"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          </button>
+
+          <ul
+            v-if="isRadiusOpen"
+            role="listbox"
+            class="absolute z-10 mt-2 w-full overflow-hidden rounded-2xl border border-border bg-white shadow-[0_14px_40px_rgba(11,26,48,0.12)]"
+          >
+            <li
+              v-for="km in radiusOptions"
+              :key="km"
+              role="option"
+              :aria-selected="filters.radiusKm === km"
+              class="flex cursor-pointer items-center justify-between px-4 py-2.5 text-sm transition hover:bg-background"
+              :class="filters.radiusKm === km ? 'font-semibold text-primary' : 'text-text'"
+              @click="selectRadius(km)"
+            >
+              {{ t('student.offers.filters.radius.option', { km }) }}
+              <svg v-if="filters.radiusKm === km" class="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </li>
+          </ul>
+        </div>
+      </div>
 
       <div>
         <span class="mb-2 block font-medium text-text text-sm">{{ t('student.offers.filters.workMode') }}</span>
@@ -124,6 +281,7 @@ defineExpose({ studyFieldLabelToValue })
             v-model="filters.dateFrom"
             type="date"
             stacked
+            :invalid="!!dateRangeError"
             :label="t('student.offers.filters.dateRange.from')"
           />
           <BaseInput
@@ -131,6 +289,7 @@ defineExpose({ studyFieldLabelToValue })
             v-model="filters.dateTo"
             type="date"
             stacked
+            :invalid="!!dateRangeError"
             :label="t('student.offers.filters.dateRange.to')"
           />
         </div>

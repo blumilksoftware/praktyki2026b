@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Auth;
 
 use App\Mail\OAuthPasswordResetMail;
+use App\Mail\PasswordResetMail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
@@ -47,6 +49,68 @@ class PasswordResetTest extends TestCase
             ->assertSessionHas("status", __("passwords.sent"));
 
         Mail::assertQueued(OAuthPasswordResetMail::class);
+    }
+
+    public function testForgotPasswordQueuesOurOwnResetMail(): void
+    {
+        $user = User::factory()->create(["email" => "user@example.com"]);
+
+        $this->post("/forgot-password", ["email" => "user@example.com"]);
+
+        Mail::assertQueued(
+            PasswordResetMail::class,
+            fn(PasswordResetMail $mail): bool => $mail->user->is($user),
+        );
+    }
+
+    public function testResetPageIsMarkedValidForAFreshToken(): void
+    {
+        $user = User::factory()->create();
+        $token = Password::broker()->createToken($user);
+
+        $this->get(route("password.reset", ["token" => $token, "email" => $user->email]))
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Auth/ResetPassword")
+                    ->where("valid", true),
+            );
+    }
+
+    public function testResetPageIsMarkedInvalidForAnAlreadyUsedToken(): void
+    {
+        $user = User::factory()->create();
+        $token = Password::broker()->createToken($user);
+
+        $this->post("/reset-password", [
+            "token" => $token,
+            "email" => $user->email,
+            "password" => "NewPassword1!",
+            "password_confirmation" => "NewPassword1!",
+        ]);
+
+        $this->get(route("password.reset", ["token" => $token, "email" => $user->email]))
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Auth/ResetPassword")
+                    ->where("valid", false),
+            );
+    }
+
+    public function testResetPageIsMarkedInvalidForAnExpiredToken(): void
+    {
+        $user = User::factory()->create();
+        $token = Password::broker()->createToken($user);
+
+        DB::table("password_reset_tokens")->where("email", $user->email)->update([
+            "created_at" => now()->subMinutes(61),
+        ]);
+
+        $this->get(route("password.reset", ["token" => $token, "email" => $user->email]))
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Auth/ResetPassword")
+                    ->where("valid", false),
+            );
     }
 
     public function testExpiredTokenCannotBeUsed(): void

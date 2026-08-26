@@ -61,7 +61,7 @@ const loadMore = () => {
     </BaseButton>
   </div>
 
-  <div v-else class="text-gray-500 italic">
+  <div v-else class="text-additional italic">
     {{ t('profiles.university.noFaculties') }}
   </div>
 </template>

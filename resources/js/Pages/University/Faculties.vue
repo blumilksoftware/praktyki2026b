@@ -94,7 +94,7 @@ function confirmDelete() {
   <Head :title="t('university.faculties.title')" />
 
   <UniversityLayout active-page="faculties">
-    <h1 class="font-bold text-3xl text-text">{{ t('university.faculties.title') }}</h1>
+    <h1 class="font-semibold text-2xl text-text">{{ t('university.faculties.title') }}</h1>
     <p class="mt-2 text-additional">{{ t('university.faculties.subtitle') }}</p>
 
     <form

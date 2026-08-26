@@ -82,7 +82,7 @@ watch([nameFilter, cityFilter], search, { debounce: 300 })
       />
     </div>
 
-    <div v-else class="py-12 text-center text-slate-500">
+    <div v-else class="py-12 text-center text-additional">
       {{ t('company.universities.empty.title') }}
     </div>
 

@@ -26,28 +26,28 @@ Route::middleware("guest")->group(function (): void {
     Route::get("/register/university", fn(): Response => inertia("Auth/RegisterUniversity"))->name("register.university.show");
 
     Route::get("/register/student", fn(): Response => inertia("Auth/RegisterStudent"))->name("register.student.show");
-    Route::post("/register/student", StudentRegistrationController::class)->name("register.student");
+    Route::post("/register/student", StudentRegistrationController::class)->middleware("throttle:10,15")->name("register.student");
 
     Route::get("/login", [LoginController::class, "show"])->name("login");
-    Route::post("/login", [LoginController::class, "store"])->name("login.store");
+    Route::post("/login", [LoginController::class, "store"])->middleware("throttle:login")->name("login.store");
 
     Route::get("/email/verify/waiting", fn(): Response => inertia("Auth/EmailVerificationWaiting"))->name("verification.waiting");
 
     Route::get("/forgot-password", [ForgotPasswordController::class, "show"])->name("password.request");
-    Route::post("/forgot-password", [ForgotPasswordController::class, "store"])->name("password.email");
+    Route::post("/forgot-password", [ForgotPasswordController::class, "store"])->middleware("throttle:password-reset")->name("password.email");
 
     Route::get("/reset-password/{token}", [ResetPasswordController::class, "show"])->name("password.reset");
-    Route::post("/reset-password", [ResetPasswordController::class, "store"])->name("password.update");
+    Route::post("/reset-password", [ResetPasswordController::class, "store"])->middleware("throttle:password-reset")->name("password.update");
 
     Route::get("/invitations/{token}", [InvitationAcceptController::class, "show"])->name("invitations.show");
     Route::post("/invitations/{token}", [InvitationAcceptController::class, "store"])->middleware("throttle:10,15")->name("invitations.store");
 });
 
 Route::get("/admin/login", [AdminLoginController::class, "show"])->name("admin.login");
-Route::post("/admin/login", [AdminLoginController::class, "store"])->name("admin.login.store");
+Route::post("/admin/login", [AdminLoginController::class, "store"])->middleware("throttle:login")->name("admin.login.store");
 
 Route::get("/email/verify/{id}/{token}", [EmailVerificationController::class, "verify"])->name("verification.verify");
-Route::post("/email/resend", [EmailVerificationController::class, "resend"])->name("verification.resend");
+Route::post("/email/resend", [EmailVerificationController::class, "resend"])->middleware("throttle:email-verification")->name("verification.resend");
 Route::get("/email/change/confirm/{id}/{token}", [EmailVerificationController::class, "verifyChange"])->name("email.change.confirm");
 
 Route::get("/auth/google/redirect", [GoogleOAuthController::class, "redirect"])->name("auth.google.redirect");

@@ -194,7 +194,7 @@ const previewOfferData = computed(() => ({
   start_date: form.start_date || null,
   end_date: form.end_date || null,
   spots: Number(form.spots || 0),
-  remaining_spots: Number(form.spots || 0),
+  remaining_spots: Math.max(0, Number(form.spots || 0) - (props.offer?.accepted_applications_count ?? 0)),
   status: form.status || 'draft',
   is_paid: form.is_paid,
   salary_min: form.is_paid && form.salary_min !== '' ? Number(form.salary_min) : null,

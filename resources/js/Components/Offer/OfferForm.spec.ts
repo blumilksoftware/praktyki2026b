@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { reactive } from 'vue'
 import { ROUTES } from '@/Helpers/routes'
 
-const routerVisit = vi.fn()
+const { routerVisit } = vi.hoisted(() => ({ routerVisit: vi.fn() }))
 
 vi.mock('@inertiajs/vue3', () => ({
   router: { visit: routerVisit },
@@ -61,14 +61,15 @@ describe('OfferForm', () => {
     confirmSpy.mockRestore()
   })
 
-  it('shows a save confirmation modal after a successful edit and redirects after a short delay', async () => {
+  it('previews the spots left after the accepted candidates, not the full capacity', () => {
     const wrapper = getWrapper({
       isCompanyVerified: true,
       offer: {
         id: 123,
         title: 'Test offer',
         description: 'Test description',
-        spots: 1,
+        spots: 4,
+        accepted_applications_count: 3,
         city: 'Test city',
         start_date: '2026-09-01',
         end_date: '2026-09-30',
@@ -82,24 +83,10 @@ describe('OfferForm', () => {
       },
     })
 
-    const patch = wrapper.vm.form.patch as ReturnType<typeof vi.fn>
-    await wrapper.vm.submit()
+    expect(wrapper.vm.previewOfferData.remaining_spots).toBe(1)
 
-    expect(patch).toHaveBeenCalled()
-    const onSuccess = patch.mock.calls[0][1].onSuccess
+    wrapper.vm.form.spots = '2'
 
-    vi.useFakeTimers()
-    try {
-      onSuccess()
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.vm.showSuccessModal).toBe(true)
-      expect(wrapper.text()).toContain('Your changes have been saved. You will be returned to the offer list shortly.')
-
-      vi.advanceTimersByTime(2000)
-      expect(routerVisit).toHaveBeenCalledWith(ROUTES.COMPANY_OFFERS_INDEX)
-    } finally {
-      vi.useRealTimers()
-    }
+    expect(wrapper.vm.previewOfferData.remaining_spots).toBe(0)
   })
 })

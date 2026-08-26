@@ -24,14 +24,14 @@ const detailHref = computed(() => offerShow(props.offer.id))
   >
     <div class="flex items-start gap-3">
       <div
-        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-sm font-semibold text-primary"
+        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-sm font-medium text-primary"
         aria-hidden="true"
       >
         {{ companyInitial }}
       </div>
       <div class="min-w-0 flex-1">
         <div class="flex flex-wrap items-center gap-1.5">
-          <p class="truncate text-xs font-semibold text-additional">
+          <p class="truncate text-xs font-medium text-additional">
             {{ offer.company.name }}
           </p>
           <VerifiedBadge :verified="Boolean(offer.company.is_verified)" />

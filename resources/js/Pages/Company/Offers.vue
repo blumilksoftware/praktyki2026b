@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { Head, Link, router, usePage } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconPlus, IconUsers, IconClipboardText, IconDotsVertical } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
@@ -19,8 +19,7 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
-const page = usePage()
-const toastRef = ref(null)
+const companyMenu = useCompanyPanelMenu('offers')
 const isOfferDeleteModalOpen = ref(false)
 const isOfferUnpublishModalOpen = ref(false)
 
@@ -55,14 +54,6 @@ function deleteOffer(offer) {
   closeMenu()
   openDeleteConfirmationModal(offer.id)
 }
-
-onMounted(() => {
-  const flashMessage = page.props.flash?.status
-
-  if (flashMessage && toastRef.value) {
-    toastRef.value.show(flashMessage)
-  }
-})
 
 const processingOfferId = ref(null)
 const deleteOfferId = ref(null)
@@ -305,5 +296,3 @@ onUnmounted(() => {
     />
   </AppLayout>
 </template>
-
-

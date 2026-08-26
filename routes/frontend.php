@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminOfferController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Company\ApplicationController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\OfferController as CompanyOfferController;
@@ -24,6 +26,7 @@ use Inertia\Response;
 Route::get("/", fn() => redirect()->route("login"));
 
 Route::get("/offers", [OfferController::class, "index"])->name("offers.index");
+Route::get("/offers/map", [OfferController::class, "map"])->name("offers.map");
 Route::get("/offers/{offer}/preview", [OfferController::class, "preview"])
     ->middleware(["auth", "can:update,offer"])
     ->name("offers.preview")
@@ -108,7 +111,6 @@ Route::middleware(["role:superAdmin"])
     ->group(function (): void {
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.dashboard");
         Route::get("/applications", [AdminController::class, "applications"])->name("admin.applications");
-        Route::get("/profile", [AdminController::class, "profile"])->name("admin.profile");
-        Route::get("/profile/edit", [AdminController::class, "editProfile"])->name("admin.profile.edit");
-        Route::get("/users", [AdminController::class, "users"])->name("admin.users");
+        Route::get("/users", [AdminUserController::class, "index"])->name("admin.users");
+        Route::get("/offers", [AdminOfferController::class, "index"])->name("admin.offers");
     });

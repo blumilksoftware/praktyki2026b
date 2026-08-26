@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Actions\Company;
 
 use App\Actions\Company\GetOffersSummary;
+use App\Enums\ApplicationStatus;
 use App\Enums\OfferStatus;
 use App\Models\Application;
 use App\Models\Company;
@@ -25,7 +26,10 @@ class GetOffersSummaryTest extends TestCase
             "spots" => 5,
         ]);
 
-        Application::factory()->count(3)->create(["offer_id" => $offer->id]);
+        Application::factory()->count(3)->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Accepted,
+        ]);
 
         $action = new GetOffersSummary();
         $result = $action->execute($company);
@@ -41,6 +45,25 @@ class GetOffersSummaryTest extends TestCase
         $this->assertSame(3, $summary["applications_count"]);
     }
 
+    public function testPendingApplicationsDoNotConsumeSpots(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $offer = Offer::factory()->create([
+            "company_id" => $company->id,
+            "spots" => 2,
+        ]);
+
+        Application::factory()->count(5)->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Pending,
+        ]);
+
+        $summary = (new GetOffersSummary())->execute($company)->first();
+
+        $this->assertSame(2, $summary["remaining_spots"]);
+        $this->assertSame(5, $summary["applications_count"]);
+    }
+
     public function testRemainingSpotsNeverGoesBelowZero(): void
     {
         $company = Company::factory()->approved()->create();
@@ -49,12 +72,12 @@ class GetOffersSummaryTest extends TestCase
             "spots" => 2,
         ]);
 
-        Application::factory()->count(5)->create(["offer_id" => $offer->id]);
+        Application::factory()->count(5)->create([
+            "offer_id" => $offer->id,
+            "status" => ApplicationStatus::Accepted,
+        ]);
 
-        $action = new GetOffersSummary();
-        $result = $action->execute($company);
-
-        $this->assertSame(0, $result->first()["remaining_spots"]);
+        $this->assertSame(0, (new GetOffersSummary())->execute($company)->first()["remaining_spots"]);
     }
 
     public function testItOnlyReturnsOffersBelongingToTheGivenCompany(): void

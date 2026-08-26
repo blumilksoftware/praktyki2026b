@@ -13,13 +13,7 @@ export const ROUTES = {
   REGISTER_UNIVERSITY: "/register/university",
   REGISTER_COMPANY: "/register/company",
 
-  // Company Profile
-  COMPANY_APPLICATIONS: "/company/applications",
-  COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
-  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
-  COMPANY_SHOW: '/companies/{company}',
   COMPANY_DASHBOARD: "/company/dashboard",
-  COMPANY_PARTNERSHIP: "company/partnership",
   COMPANY_OFFERS_INDEX: "/company/offers",
   COMPANY_OFFERS_CREATE: "/company/offers/create",
   COMPANY_OFFERS_STORE: "/company/offers",
@@ -44,6 +38,12 @@ export const ROUTES = {
   ADMIN_DASHBOARD: "/admin/dashboard",
   ADMIN_APPLICATIONS: "/admin/applications",
   ADMIN_USERS: "/admin/users",
+  ADMIN_USERS_UPDATE_ROLE: (id: string) => `/admin/users/${id}/role`,
+  ADMIN_USERS_UPDATE_STATUS: (id: string) => `/admin/users/${id}/status`,
+  ADMIN_OFFERS: "/admin/offers",
+  ADMIN_OFFERS_TAKE_DOWN: (id: string) => `/admin/offers/${id}/take-down`,
+  ADMIN_COMPANY_DELETE: (id: string) => `/admin/companies/${id}`,
+  ADMIN_UNIVERSITY_DELETE: (id: string) => `/admin/universities/${id}`,
 
   // Student Profile & Settings
   STUDENT_DASHBOARD: "/student/dashboard",
@@ -85,6 +85,15 @@ export const ROUTES = {
   COMPANY_PROFILE: "/company/profile",
   UNIVERSITY_PROFILE: "/university/profile",
 
+
+  COMPANY_APPLICATIONS: "/company/applications",
+  COMPANY_APPLICATIONS_CV: "/company/applications/{application}/cv",
+  COMPANY_APPLICATIONS_STATUS_UPDATE: "/company/applications/{application}/status",
+  COMPANY_SHOW: '/companies/{company}',
+  COMPANY_REVIEWS_STORE: '/student/companies/{company}/reviews',
+  COMPANY_REVIEW_HIDE: '/company/reviews/{review}/hide',
+  COMPANY_REVIEW_UNHIDE: '/company/reviews/{review}/unhide',
+  ADMIN_REVIEW_DELETE: '/admin/reviews/{review}',
   //University routes
   UNIVERSITY_DASHBOARD: "/university/dashboard",
   UNIVERSITY_SHOW: "/universities/{university}",
@@ -95,8 +104,6 @@ export const ROUTES = {
   UNIVERSITY_COMPANIES: "/university/companies",
   UNIVERSITY_COMPANY_PARTNERSHIP: "/university/companies/{company}/partnership",
   UNIVERSITY_COMPANY_PARTNERSHIP_ACCEPT: "/university/companies/{company}/partnership/accept",
-  UNIVERSITY_PARTNERSHIP: "/university/partnership",
-  UNIVERSITY_DEPARTMENT: "/university/department",
 
   COMPANY_UNIVERSITIES: "/company/universities",
   COMPANY_UNIVERSITY_PARTNERSHIP: "/company/universities/{university}/partnership",
@@ -160,4 +167,20 @@ export function companyUniversityPartnershipAccept(universityId: string): string
 
 export function universityShow(universityId: string): string {
   return ROUTES.UNIVERSITY_SHOW.replace("{university}", universityId)
+}
+
+export function companyReviewsStore(companyId: string): string {
+  return ROUTES.COMPANY_REVIEWS_STORE.replace("{company}", companyId)
+}
+
+export function companyReviewHide(reviewId: string): string {
+  return ROUTES.COMPANY_REVIEW_HIDE.replace("{review}", reviewId)
+}
+
+export function companyReviewUnhide(reviewId: string): string {
+  return ROUTES.COMPANY_REVIEW_UNHIDE.replace("{review}", reviewId)
+}
+
+export function adminReviewDelete(reviewId: string): string {
+  return ROUTES.ADMIN_REVIEW_DELETE.replace("{review}", reviewId)
 }

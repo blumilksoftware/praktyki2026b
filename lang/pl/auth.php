@@ -13,8 +13,10 @@ return [
         "invalid_link" => "Nieprawidłowy lub wygasły link z zaproszeniem.",
     ],
     "failed" => "Podane dane logowania są nieprawidłowe.",
+    "blocked" => "To konto zostało zablokowane. Skontaktuj się z administratorem.",
+    "deleted" => "To konto nie jest już aktywne. Skontaktuj się z administratorem.",
     "password" => "Podane hasło jest nieprawidłowe.",
-    "throttle" => "Zbyt wiele prób logowania. Spróbuj ponownie za :seconds sekund.",
+    "throttle" => "Zbyt wiele prób. Spróbuj ponownie za :seconds sekund.",
     "register" => [
         "company" => "Rejestracja firmy zakończona pomyślnie. Sprawdź swój e-mail, aby aktywować konto.",
         "student" => "Rejestracja zakończona pomyślnie. Sprawdź swój e-mail, aby aktywować konto.",

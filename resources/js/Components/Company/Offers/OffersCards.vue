@@ -113,7 +113,7 @@ const titleHref = (offerId) => ROUTES.OFFER_PREVIEW.replace('{offer}', offerId)
       <div class="mt-2 flex flex-wrap items-center gap-3 text-additional text-sm">
         <span class="inline-flex items-center gap-1">
           <IconUsers class="h-4 w-4" aria-hidden="true" />
-          {{ t('company.offers.index.spotsLabel', { count: offer.remaining_spots ?? offer.spots }) }}
+          {{ t('company.offers.index.spotsLabel', { remaining: offer.remaining_spots ?? offer.spots, total: offer.spots }) }}
         </span>
 
         <span class="inline-flex items-center gap-1">

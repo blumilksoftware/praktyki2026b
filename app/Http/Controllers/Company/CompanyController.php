@@ -109,6 +109,6 @@ class CompanyController extends Controller
 
     private function getCompanyProfileData(): array
     {
-        return $this->buildCompanyProfileData->execute(Auth::user()->company);
+        return $this->buildCompanyProfileData->execute(Auth::user()->company, Auth::user());
     }
 }

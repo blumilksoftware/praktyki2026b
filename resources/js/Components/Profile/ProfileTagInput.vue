@@ -44,7 +44,7 @@ function onKeydown(event) {
 
 <template>
   <div class="flex w-full flex-col gap-1">
-    <label :for="id" class="mb-1 block text-additional text-sm">{{ label }}</label>
+    <label :for="id" class="mb-1 block font-medium text-text text-sm">{{ label }}</label>
     <div
       class="flex min-h-[44px] cursor-text items-center gap-2 rounded-lg border bg-white px-3 py-2"
       :class="error ? 'border-error' : 'border-border'"

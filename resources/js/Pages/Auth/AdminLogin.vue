@@ -48,12 +48,12 @@ const authError = computed(() => form.errors.email)
 <template>
   <div class="min-h-screen flex flex-col">
     <BaseNavbar class="shrink-0" />
-  
+
     <AuthLayout class="flex-1 min-h-0">
       <Head :title="t('auth.login.title')" />
 
       <div class="flex flex-col items-center justify-center w-full sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-20 ">
-        <h1 class="text-3xl md:text-5xl font-normal mb-8 md:mb-10 text-center text-text">
+        <h1 class="text-5xl md:text-6xl font-normal mb-8 md:mb-10 text-center text-text">
           {{ t('auth.login.adminTitle') }}
         </h1>
 
@@ -68,12 +68,12 @@ const authError = computed(() => form.errors.email)
                 :label="t('auth.login.email')"
                 type="email"
                 autocomplete="email"
-                :invalid="!!authError" 
+                :invalid="!!authError"
                 required
                 floating
               />
-            </div> 
-            
+            </div>
+
             <div class="w-full">
               <BaseInput
                 id="password"
@@ -86,8 +86,6 @@ const authError = computed(() => form.errors.email)
                 floating
               />
             </div>
-
-            <AuthErrorDisplay class="w-full" :error="authError" :email="form.email" @reset-form="form.reset('password')" />
 
             <div class="flex items-center justify-between mt-2 sm:mt-4 w-full">
               <BaseCheckbox
@@ -112,7 +110,7 @@ const authError = computed(() => form.errors.email)
               {{ t('auth.login.submit') }}
             </BaseButton>
           </form>
-        
+
           <div class="flex items-center gap-4 sm:gap-5 my-6 sm:my-8 w-full">
             <div class="h-px flex-1 bg-text/20" />
             <span class="text-base sm:text-lg text-additional tracking-wide">
@@ -120,7 +118,7 @@ const authError = computed(() => form.errors.email)
             </span>
             <div class="h-px flex-1 bg-text/20" />
           </div>
-        
+
           <a
             :href="ROUTES.GOOGLE_AUTH"
             class="mx-auto flex justify-center items-center gap-2 w-fit rounded-lg border border-text/20 bg-white px-12 py-3 sm:py-2.5 text-base sm:text-lg font-medium text-text hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 shadow-sm"

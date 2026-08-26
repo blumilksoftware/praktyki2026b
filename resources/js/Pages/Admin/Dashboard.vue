@@ -8,7 +8,6 @@ import AppLayout from '@/Components/Layouts/AppLayout.vue'
 const { t } = useI18n()
 
 const props = defineProps({
-
   companiesNeedingVerification: {
     type: Array,
     required: true,
@@ -18,7 +17,7 @@ const props = defineProps({
     required: true,
   },
   stats: {
-    type:Object,
+    type: Object,
     required: true,
   },
   pendingVerifications: {
@@ -29,7 +28,6 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-
 })
 
 const stats = computed(() => [
@@ -41,10 +39,10 @@ const stats = computed(() => [
 
 const completedVerifications = computed(() => props.totalVerifications - props.pendingVerifications)
 
-const verificationProgressPercent = computed(() =>
-  props.totalVerifications === 0 ? 0 : Math.round((completedVerifications.value / props.totalVerifications) * 100),
-)
-
+const verificationProgressPercent = computed(() => {
+  if (props.totalVerifications === 0) return 0
+  return Math.min((completedVerifications.value / props.totalVerifications) * 100, 100)
+})
 </script>
 
 <template>
@@ -53,10 +51,10 @@ const verificationProgressPercent = computed(() =>
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="font-bold text-2xl text-gray-900 tracking-tight">
+          <h1 class="font-semibold text-2xl text-text tracking-tight">
             {{ t('admin.panel.greeting') }}
           </h1>
-          <p class="mt-1 text-slate-600 text-sm">
+          <p class="mt-1 text-additional text-sm">
             {{ t('admin.panel.description') }}
           </p>
         </div>
@@ -77,9 +75,9 @@ const verificationProgressPercent = computed(() =>
 
       <ProfilePageCard class="flex md:flex-row flex-col justify-between items-center gap-4">
         <div class="md:text-left text-center">
-          <h2 class="font-medium text-slate-700 text-sm">{{ t('admin.panel.pendingVerifications') }}</h2>
+          <h2 class="font-medium text-text text-sm">{{ t('admin.panel.pendingVerifications') }}</h2>
           <h3 class="mt-1 font-bold text-primary text-3xl">
-            {{ props.pendingVerifications }}
+            {{ pendingVerifications }}
           </h3>
         </div>
         <div class="w-full md:max-w-sm">
@@ -96,8 +94,8 @@ const verificationProgressPercent = computed(() =>
               :style="{ width: verificationProgressPercent + '%' }"
             />
           </div>
-          <p id="verification-progress-label" class="mt-2 text-slate-700 text-xs text-center md:text-right">
-            {{ t('admin.panel.verificationProgressCount', { completed: verificationProgressPercent, total: totalVerifications }) }}
+          <p id="verification-progress-label" class="mt-2 text-additional text-xs text-center md:text-right">
+            {{ t('admin.panel.verificationProgressCount', { completed: completedVerifications, total: totalVerifications }) }}
           </p>
         </div>
       </ProfilePageCard>

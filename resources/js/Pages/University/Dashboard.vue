@@ -26,7 +26,7 @@ const { t } = useI18n()
   <AppLayout active-page="dashboard">
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+        <h1 class="text-2xl font-semibold tracking-tight text-text">
           {{ t('university.dashboard.title') }}
         </h1>
 

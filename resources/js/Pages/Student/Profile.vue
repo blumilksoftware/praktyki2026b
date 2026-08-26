@@ -48,7 +48,6 @@ function buildProfilePayload(overrides) {
   return {
     first_name: props.user.first_name ?? '',
     last_name: props.user.last_name ?? '',
-    age: props.user.age ?? '',
     street: props.user.street ?? '',
     postal_code: props.user.postal_code ?? '',
     city: props.user.city ?? '',

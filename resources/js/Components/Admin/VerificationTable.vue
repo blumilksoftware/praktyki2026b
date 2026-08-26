@@ -5,10 +5,13 @@ import { useI18n } from 'vue-i18n'
 import { IconSearch } from '@tabler/icons-vue'
 import DataTable from '@/Components/Common/DataTable.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
+import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import VerificationActionsMenu from '@/Components/Admin/VerificationActionsMenu.vue'
+import AdminDeleteOrganizationModal from '@/Components/Admin/AdminDeleteOrganizationModal.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import { Teleport } from 'vue'
 import { useVerificationStatus } from '@/Composables/useVerificationStatus'
+import { companyShow, universityShow } from '@/Helpers/routes'
 
 const props = defineProps({
   companies: {
@@ -42,6 +45,13 @@ const searchQuery = ref(props.filters.search || '')
 const sortKey = ref(props.filters.sort_key || 'created_at')
 const sortDir = ref(props.filters.sort_dir || 'asc')
 
+const statusFilterOptions = computed(() => [
+  { value: 'all', label: t('admin.verification.all') },
+  { value: 'pending', label: t('admin.verification.pending') },
+  { value: 'verified', label: t('admin.verification.verified') },
+  { value: 'rejected', label: t('admin.verification.rejected') },
+])
+
 const acceptCompanyForm = useForm({ rejection_reason: '' })
 const rejectCompanyForm = useForm({ rejection_reason: '' })
 const acceptUniversityForm = useForm({ rejection_reason: '' })
@@ -53,11 +63,6 @@ const rejectReason = ref('')
 const rejectError = ref('')
 const rejectModalRef = ref(null)
 const rejectTriggerRef = ref(null)
-
-const showDetailsModal = ref(false)
-const detailsItem = ref(null)
-const detailsModalRef = ref(null)
-const detailsTriggerRef = ref(null)
 
 const currentItems = computed(() => {
   return entityType.value === 'company' ? props.companies.data : props.universities.data
@@ -72,76 +77,18 @@ const currentStats = computed(() => {
   ]
 })
 
-const openMenuId = ref(null)
+const itemToDelete = ref(null)
 
-function toggleMenu(itemId) {
-  openMenuId.value = openMenuId.value === itemId ? null : itemId
+function openDeleteModal(item) {
+  itemToDelete.value = item
 }
 
-function closeMenu() {
-  openMenuId.value = null
+function closeDeleteModal() {
+  itemToDelete.value = null
 }
 
-function handleClickOutsideMenu(event) {
-  if (!event.target.closest('[data-verification-menu]')) {
-    closeMenu()
-  }
-}
-
-const companyDetailFields = [
-  { key: 'name', label: t('admin.verification.name') },
-  { key: 'nip', label: t('admin.verification.nip') },
-  { key: 'email', label: t('admin.verification.email'), type: 'email' },
-  { key: 'phone', label: t('admin.verification.phone'), type: 'tel' },
-  { key: 'street', label: t('admin.verification.street') },
-  { key: 'postal_code', label: t('admin.verification.postalCode') },
-  { key: 'city', label: t('admin.verification.city') },
-  { key: 'website', label: t('admin.verification.website'), type: 'url' },
-  { key: 'description', label: t('admin.verification.description') },
-  { key: 'tags', label: t('admin.verification.tags'), type: 'tags' },
-]
-
-const universityDetailFields = [
-  { key: 'name', label: t('admin.verification.name') },
-  { key: 'domain', label: t('admin.verification.domain') },
-  { key: 'email', label: t('admin.verification.email'), type: 'email' },
-  { key: 'phone', label: t('admin.verification.phone'), type: 'tel' },
-  { key: 'street', label: t('admin.verification.street') },
-  { key: 'postal_code', label: t('admin.verification.postalCode') },
-  { key: 'city', label: t('admin.verification.city') },
-  { key: 'website', label: t('admin.verification.website'), type: 'url' },
-  { key: 'external_form_url', label: t('admin.verification.externalFormUrl'), type: 'url' },
-]
-const detailFields = computed(() =>
-  entityType.value === 'company' ? companyDetailFields : universityDetailFields,
-)
-
-function openDetailsModal(item, event) {
-  detailsTriggerRef.value = event?.target || document.activeElement
-  detailsItem.value = item
-  showDetailsModal.value = true
-  closeMenu()
-  nextTick(() => {
-    const modal = detailsModalRef.value
-    if (modal) {
-      const focusableElements = modal.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-      )
-      if (focusableElements.length > 0) {
-        focusableElements[0].focus()
-      }
-    }
-  })
-}
-
-function closeDetailsModal() {
-  showDetailsModal.value = false
-  detailsItem.value = null
-  nextTick(() => {
-    if (detailsTriggerRef.value) {
-      detailsTriggerRef.value.focus()
-    }
-  })
+function rowHref(item) {
+  return entityType.value === 'company' ? companyShow(item.id) : universityShow(item.id)
 }
 
 function handleSort({ key, dir }) {
@@ -175,17 +122,7 @@ watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
   })
 }, { debounce: 300 })
 
-const companyColumns = [
-  { key: 'name', label: t('admin.verification.name'), sortable: true },
-  { key: 'nip', label: t('admin.verification.nip') },
-  { key: 'email', label: t('admin.verification.email'), sortable: true },
-  { key: 'city', label: t('admin.verification.city'), sortable: true },
-  { key: 'created_at', label: t('admin.verification.submittedAt'), sortable: true },
-  { key: 'verification_status', label: t('table.status'), sortable: true },
-  { key: 'actions', label: '', srLabel: t('admin.verification.actions'), align: 'right' },
-]
-
-const universityColumns = [
+const columns = [
   { key: 'name', label: t('admin.verification.name'), sortable: true },
   { key: 'city', label: t('admin.verification.city'), sortable: true },
   { key: 'email', label: t('admin.verification.email'), sortable: true },
@@ -196,7 +133,6 @@ const universityColumns = [
 ]
 
 function acceptCompany(company) {
-  closeMenu()
   acceptCompanyForm
     .transform(data => ({
       ...data,
@@ -212,7 +148,6 @@ function acceptCompany(company) {
 }
 
 function acceptUniversity(university) {
-  closeMenu()
   acceptUniversityForm
     .transform(data => ({
       ...data,
@@ -233,7 +168,6 @@ function openRejectModal(item, event) {
   rejectReason.value = ''
   rejectError.value = ''
   showRejectModal.value = true
-  closeMenu()
   nextTick(() => {
     const modal = rejectModalRef.value
     if (modal) {
@@ -258,18 +192,14 @@ function closeRejectModal() {
 }
 
 function handleEscapeKey(event) {
-  if (event.key === 'Escape') {
-    if (showRejectModal.value) {
-      closeRejectModal()
-    } else if (showDetailsModal.value) {
-      closeDetailsModal()
-    }
+  if (event.key === 'Escape' && showRejectModal.value) {
+    closeRejectModal()
   }
 }
 
 function handleTabKey(event) {
-  const modalRef = showRejectModal.value ? rejectModalRef.value : detailsModalRef.value
-  if (!modalRef) return
+  const modalRef = rejectModalRef.value
+  if (!modalRef || !showRejectModal.value) return
 
   const focusableElements = modalRef.querySelectorAll(
     'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
@@ -341,11 +271,9 @@ function formatDate(dateString) {
 onMounted(() => {
   window.addEventListener('keydown', handleEscapeKey)
   window.addEventListener('keydown', handleTabKey)
-  document.addEventListener('click', handleClickOutsideMenu)
 })
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutsideMenu)
   window.removeEventListener('keydown', handleEscapeKey)
   window.removeEventListener('keydown', handleTabKey)
 })
@@ -389,30 +317,25 @@ onUnmounted(() => {
       </div>
 
       <div class="flex sm:flex-row flex-col gap-3">
-        <select
+        <FilterDropdown
           v-model="statusFilter"
+          :options="statusFilterOptions"
           :aria-label="t('admin.verification.filterByStatusAriaLabel')"
-          class="bg-white px-4 py-2 pr-10 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 text-slate-700 text-sm"
-        >
-          <option value="all">{{ t('admin.verification.all') }}</option>
-          <option value="pending">{{ t('admin.verification.pending') }}</option>
-          <option value="verified">{{ t('admin.verification.verified') }}</option>
-          <option value="rejected">{{ t('admin.verification.rejected') }}</option>
-        </select>
+        />
         <div class="relative">
           <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
-            <IconSearch class="w-4 h-4 text-slate-400" />
+            <IconSearch class="w-4 h-4 text-additional" />
           </div>
           <input
             v-model="searchQuery"
             type="text"
             :placeholder="t('admin.verification.search')"
             :aria-label="t('admin.verification.searchAriaLabel')"
-            class="bg-white px-4 py-2 pr-10 pl-9 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 w-full text-slate-700 text-sm"
+            class="bg-white px-4 py-2 pr-10 pl-9 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 w-full text-text text-sm"
           >
           <button
             v-if="searchQuery"
-            class="right-0 absolute inset-y-0 flex items-center pr-3 font-medium text-slate-400 hover:text-slate-600 text-xl"
+            class="right-0 absolute inset-y-0 flex items-center pr-3 font-medium text-additional hover:text-text text-xl"
             @click="searchQuery = ''"
           >
             &times;
@@ -424,11 +347,12 @@ onUnmounted(() => {
     <DataTable
       v-if="currentItems.length > 0"
       :items="currentItems"
-      :columns="entityType === 'company' ? companyColumns : universityColumns"
+      :columns="columns"
       row-key="id"
       :caption="entityType === 'company' ? t('admin.verification.companies') : t('admin.verification.universities')"
       :sort-key="sortKey"
       :sort-dir="sortDir"
+      :row-href="rowHref"
       @sort="handleSort"
     >
       <template #cell-email="{ item }">
@@ -463,14 +387,12 @@ onUnmounted(() => {
       <template #cell-actions="{ item }">
         <VerificationActionsMenu
           :item="item"
-          :is-open="openMenuId === item.id"
           :processing="entityType === 'company'
             ? (acceptCompanyForm.processing || rejectCompanyForm.processing)
             : (acceptUniversityForm.processing || rejectUniversityForm.processing)"
-          @toggle="toggleMenu"
-          @details="openDetailsModal(item, $event)"
           @accept="entityType === 'company' ? acceptCompany(item) : acceptUniversity(item)"
           @reject="openRejectModal(item, $event)"
+          @delete="openDeleteModal(item)"
         />
       </template>
     </DataTable>
@@ -479,9 +401,18 @@ onUnmounted(() => {
       :meta="entityType === 'company' ? companies : universities"
     />
 
-    <div v-if="currentItems.length === 0" class="py-12 text-slate-500 text-center">
+    <div v-if="currentItems.length === 0" class="py-12 text-additional text-center">
       {{ t('table.noData') }}
     </div>
+
+    <AdminDeleteOrganizationModal
+      :key="itemToDelete?.id"
+      :open="!!itemToDelete"
+      :organization-id="itemToDelete?.id"
+      :organization-name="itemToDelete?.name"
+      :entity-type="entityType"
+      @close="closeDeleteModal"
+    />
 
     <Teleport to="body">
       <div
@@ -497,12 +428,12 @@ onUnmounted(() => {
             {{ t('admin.verification.rejectTitle') }}
           </h3>
           
-          <p class="mb-4 text-slate-600 text-sm">
+          <p class="mb-4 text-additional text-sm">
             {{ t('admin.verification.rejectDescription', { name: itemToReject.name }) }}
           </p>
 
           <div class="space-y-2">
-            <label for="rejectReasonInput" class="block font-medium text-slate-700 text-sm">
+            <label for="rejectReasonInput" class="block font-medium text-text text-sm">
               {{ t('admin.verification.rejectReason') }}
             </label>
             <textarea
@@ -521,7 +452,7 @@ onUnmounted(() => {
 
           <div class="flex sm:flex-row flex-col gap-3 mt-6">
             <button
-              class="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 rounded-xl font-medium text-slate-700 transition"
+              class="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 rounded-xl font-medium text-text transition"
               @click="closeRejectModal"
             >
               {{ t('admin.verification.cancel') }}
@@ -532,58 +463,6 @@ onUnmounted(() => {
               @click="submitReject"
             >
               {{ t('admin.verification.confirmReject') }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </Teleport>
-
-    <Teleport to="body">
-      <div
-        v-if="showDetailsModal && detailsItem"
-        class="z-[9999] fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-sm p-4"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="details-modal-title"
-        @click.self="closeDetailsModal"
-      >
-        <div ref="detailsModalRef" class="bg-white shadow-2xl p-6 rounded-2xl w-full max-w-lg">
-          <h3 id="details-modal-title" class="mb-4 font-semibold text-text text-xl">
-            {{ detailsItem.name }}
-          </h3>
-
-          <dl class="space-y-3">
-            <div
-              v-for="field in detailFields"
-              :key="field.key"
-              class="gap-2 grid grid-cols-3"
-            >
-              <dt class="font-medium text-slate-500 text-sm">{{ field.label }}</dt>
-              <dd class="col-span-2 text-slate-800 text-sm break-words">
-                <a v-if="field.type === 'email' && detailsItem[field.key]" :href="`mailto:${detailsItem[field.key]}`" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>
-                <a v-else-if="field.type === 'tel' && detailsItem[field.key]" :href="`tel:${detailsItem[field.key]}`" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>
-                <a v-else-if="field.type === 'url' && detailsItem[field.key]" :href="detailsItem[field.key]" target="_blank" rel="noopener" class="text-primary hover:underline">{{ detailsItem[field.key] }}</a>
-                <div v-else-if="field.type === 'tags'" class="flex flex-wrap gap-1">
-                  <span
-                    v-for="tag in detailsItem[field.key] || []"
-                    :key="tag"
-                    class="bg-slate-100 px-2 py-0.5 rounded-full text-slate-700 text-xs"
-                  >
-                    {{ tag }}
-                  </span>
-                  <span v-if="!detailsItem[field.key]?.length" class="text-slate-400 text-sm">-</span>
-                </div>
-                <span v-else>{{ detailsItem[field.key] || '-' }}</span>
-              </dd>
-            </div>
-          </dl>
-
-          <div class="flex justify-end mt-6">
-            <button
-              class="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 rounded-xl font-medium text-slate-700 transition cursor-pointer"
-              @click="closeDetailsModal"
-            >
-              {{ t('admin.verification.close') }}
             </button>
           </div>
         </div>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Admin\DeleteOrganizationAction;
 use App\Actions\Admin\VerifyEntityAction;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
@@ -15,13 +16,13 @@ use App\Models\University;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 
 class AdminController extends Controller
 {
     public function __construct(
         private readonly VerifyEntityAction $verifyAction,
+        private readonly DeleteOrganizationAction $deleteOrganizationAction,
     ) {}
 
     public function index(): Response
@@ -223,28 +224,18 @@ class AdminController extends Controller
         ]);
     }
 
-    public function profile(): Response
+    public function deleteCompany(Company $company): RedirectResponse
     {
-        $admin = Auth::user();
+        $this->deleteOrganizationAction->execute($company, auth()->user());
 
-        return inertia("Admin/Profile/Show", [
-            "admin" => [
-                "firstName" => $admin->first_name,
-                "lastName" => $admin->last_name,
-                "email" => $admin->email,
-            ],
-        ]);
+        return back();
     }
 
-    public function users(): Response
+    public function deleteUniversity(University $university): RedirectResponse
     {
-        $users = User::query()
-            ->orderBy("last_name")
-            ->paginate(20);
+        $this->deleteOrganizationAction->execute($university, auth()->user());
 
-        return inertia("Admin/Users", [
-            "users" => $users,
-        ]);
+        return back();
     }
 
     private function checkIfVerifiedWithRedirect(University|Company $entity, string $message, string $route): ?RedirectResponse

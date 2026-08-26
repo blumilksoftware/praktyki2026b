@@ -107,6 +107,6 @@ class ApplicationController extends Controller
             ApplicationStatus::from($request->validated("status")),
         );
 
-        return back();
+        return back()->with("status", __("company.applications.statusUpdated"));
     }
 }

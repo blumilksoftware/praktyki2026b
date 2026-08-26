@@ -12,6 +12,10 @@ use Illuminate\Validation\ValidationException;
 
 class AuthenticateUser
 {
+    public function __construct(
+        private readonly LogOutUser $logOutUser,
+    ) {}
+
     public function execute(Request $request, string $email, string $password, bool $remember = false): ?User
     {
         if (!Auth::attempt(["email" => $email, "password" => $password], $remember)) {
@@ -25,6 +29,14 @@ class AuthenticateUser
         if ($user === null) {
             throw ValidationException::withMessages([
                 "email" => __("auth.failed"),
+            ]);
+        }
+
+        if ($user->status === UserStatus::Blocked || $user->status === UserStatus::Deleted) {
+            $this->logOutUser->execute($request);
+
+            throw ValidationException::withMessages([
+                "email" => __($user->status === UserStatus::Blocked ? "auth.blocked" : "auth.deleted"),
             ]);
         }
 

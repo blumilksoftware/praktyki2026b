@@ -38,7 +38,7 @@ const props = defineProps({
     <div class="space-y-6">
       <div>
         <h1 class="font-semibold text-text text-2xl">{{ t('admin.applications.title') }}</h1>
-        <p class="mt-2 text-slate-600 text-sm">{{ t('admin.applications.description') }}</p>
+        <p class="mt-2 text-additional text-sm">{{ t('admin.applications.description') }}</p>
       </div>
 
       <ProfilePageCard>

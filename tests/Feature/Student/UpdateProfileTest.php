@@ -61,7 +61,6 @@ class UpdateProfileTest extends TestCase
         $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
             "first_name" => "John",
             "last_name" => "Doe",
-            "age" => 21,
             "university" => "Northgate University",
             "study_year" => 2,
             "specialization" => "Backend",
@@ -72,7 +71,6 @@ class UpdateProfileTest extends TestCase
 
         $this->assertEquals("John", $user->first_name);
         $this->assertEquals("Doe", $user->last_name);
-        $this->assertEquals(21, $user->age);
         $this->assertEquals("Northgate University", $user->university);
         $this->assertEquals(2, $user->study_year);
         $this->assertEquals("Backend", $user->specialization);
@@ -136,7 +134,7 @@ class UpdateProfileTest extends TestCase
         $response->assertInvalid("study_field_id");
     }
 
-    public function testProfileUpdateAcceptsStringNumericAgeAndStudyYearFromForm(): void
+    public function testProfileUpdateAcceptsStringNumericStudyYearFromForm(): void
     {
         $user = User::factory()->create([
             "role" => UserRole::Student,
@@ -144,14 +142,12 @@ class UpdateProfileTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
-            "age" => "22",
             "study_year" => "3",
         ]));
 
         $response->assertRedirect(route("student.profile"));
         $user->refresh();
 
-        $this->assertEquals(22, $user->age);
         $this->assertEquals(3, $user->study_year);
     }
 
@@ -259,25 +255,6 @@ class UpdateProfileTest extends TestCase
         ]));
 
         $response->assertInvalid("preferred_cities");
-    }
-
-    public function testInvalidAgeReturnsFriendlyMessageInPolish(): void
-    {
-        app()->setLocale("pl");
-
-        $user = User::factory()->create([
-            "role" => UserRole::Student,
-            "status" => UserStatus::Active,
-        ]);
-
-        $response = $this->actingAs($user)->patch(route("student.profile.update"), $this->validPayload([
-            "age" => -1,
-        ]));
-
-        $response->assertInvalid("age");
-        $response->assertSessionHasErrors([
-            "age" => "Wiek musi być większy od 0.",
-        ]);
     }
 
     public function testGeocodingFailureRollsBackWithValidationError(): void

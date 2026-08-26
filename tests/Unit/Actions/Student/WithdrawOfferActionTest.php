@@ -25,7 +25,7 @@ class WithdrawOfferActionTest extends TestCase
         $this->action = new WithdrawOfferAction();
     }
 
-    public function testWithdrawalDeletesApplicationAndRemovesCvSnapshotAndIncrementsSpots(): void
+    public function testWithdrawalDeletesApplicationAndRemovesCvSnapshotWithoutChangingCapacity(): void
     {
         $disk = config("filesystems.default", "local");
         Storage::fake($disk);
@@ -47,7 +47,7 @@ class WithdrawOfferActionTest extends TestCase
         ]);
 
         Storage::disk($disk)->assertMissing("applications/cvs/test_snapshot.pdf");
-        $this->assertEquals(3, $offer->fresh()->spots);
+        $this->assertEquals(2, $offer->fresh()->spots);
     }
 
     public function testWithdrawalThrowsValidationExceptionWhenStudentHasNotApplied(): void

@@ -27,7 +27,7 @@ vi.mock('@inertiajs/vue3', async () => {
 
 const baseUser = {
   first_name: 'Anna', last_name: 'Miller', email: 'anna.miller@northgate.edu',
-  age: '', street: '', postal_code: '', city: '',
+  street: '', postal_code: '', city: '',
   university: '', university_id: '', faculty_id: '', study_field_id: '',
   study_year: '', specialization: '',
   study_field_ids: [], preferred_cities: [], skills: [], work_modes: [],

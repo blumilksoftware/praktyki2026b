@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { IconDotsVertical, IconInfoCircle, IconCheck, IconX } from '@tabler/icons-vue'
+import { IconCheck, IconX, IconTrash } from '@tabler/icons-vue'
 
 const { t } = useI18n()
 
@@ -9,67 +9,49 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  isOpen: {
-    type: Boolean,
-    default: false,
-  },
   processing: {
     type: Boolean,
     default: false,
   },
 })
 
-const emit = defineEmits(['toggle', 'details', 'accept', 'reject'])
+const emit = defineEmits(['accept', 'reject', 'delete'])
 </script>
 
 <template>
-  <div class="relative inline-block text-left" data-verification-menu>
+  <div class="flex items-center justify-end gap-1">
     <button
+      v-if="props.item.verification_status === 'pending'"
       type="button"
-      class="p-1.5 rounded-md text-additional hover:bg-gray-100 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-      :aria-label="t('admin.verification.actions')"
-      @click="emit('toggle', props.item.id)"
+      :disabled="processing"
+      class="p-1.5 rounded-md text-green-700 hover:bg-green-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:opacity-50 disabled:cursor-not-allowed"
+      :title="t('admin.verification.accept')"
+      :aria-label="t('admin.verification.acceptAriaLabel', { name: props.item.name })"
+      @click="emit('accept')"
     >
-      <IconDotsVertical class="w-4 h-4" />
+      <IconCheck class="w-4 h-4" aria-hidden="true" />
     </button>
 
-    <div
-      v-if="isOpen"
-      class="absolute right-0 z-10 mt-1 w-44 rounded-lg border border-border bg-white shadow-lg py-1"
+    <button
+      v-if="props.item.verification_status === 'pending'"
+      type="button"
+      :disabled="processing"
+      class="p-1.5 rounded-md text-red-600 hover:bg-red-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:opacity-50 disabled:cursor-not-allowed"
+      :title="t('admin.verification.reject')"
+      :aria-label="t('admin.verification.rejectAriaLabel', { name: props.item.name })"
+      @click="emit('reject', $event)"
     >
-      <button
-        type="button"
-        class="flex items-center gap-2 w-full px-3 py-2 text-left text-text hover:bg-gray-50 cursor-pointer"
-        :aria-label="t('admin.verification.detailsAriaLabel', { name: item.name })"
-        @click="emit('details', $event)"
-      >
-        <IconInfoCircle class="w-4 h-4" />
-        {{ t('admin.verification.details') }}
-      </button>
+      <IconX class="w-4 h-4" aria-hidden="true" />
+    </button>
 
-      <button
-        v-if="item.verification_status === 'pending'"
-        type="button"
-        :disabled="processing"
-        class="flex items-center gap-2 w-full px-3 py-2 text-left text-green-700 hover:bg-green-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-        :aria-label="t('admin.verification.acceptAriaLabel', { name: item.name })"
-        @click="emit('accept')"
-      >
-        <IconCheck class="w-4 h-4" />
-        {{ t('admin.verification.accept') }}
-      </button>
-
-      <button
-        v-if="item.verification_status === 'pending'"
-        type="button"
-        :disabled="processing"
-        class="flex items-center gap-2 w-full px-3 py-2 text-left text-red-600 hover:bg-red-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-        :aria-label="t('admin.verification.rejectAriaLabel', { name: item.name })"
-        @click="emit('reject', $event)"
-      >
-        <IconX class="w-4 h-4" />
-        {{ t('admin.verification.reject') }}
-      </button>
-    </div>
+    <button
+      type="button"
+      class="p-1.5 rounded-md text-red-600 hover:bg-red-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+      :title="t('admin.verification.delete')"
+      :aria-label="t('admin.verification.deleteAriaLabel', { name: props.item.name })"
+      @click="emit('delete', $event)"
+    >
+      <IconTrash class="w-4 h-4" aria-hidden="true" />
+    </button>
   </div>
 </template>

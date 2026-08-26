@@ -39,7 +39,7 @@ function navigate(url) {
         'h-10 min-w-10 px-2 flex items-center justify-center rounded-lg text-sm font-medium transition whitespace-nowrap',
         link.active
           ? 'bg-primary text-white'
-          : 'bg-white/40 text-slate-700 hover:bg-white/60',
+          : 'bg-white/40 text-text hover:bg-white/60',
         !link.url ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
       ]"
       @click="navigate(link.url)"

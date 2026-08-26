@@ -22,7 +22,7 @@ function goTo(page) {
       :disabled="currentPage === 1"
       :class="[
         'h-10 min-w-10 px-2 flex items-center justify-center rounded-lg text-sm font-medium transition whitespace-nowrap',
-        currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer bg-white/40 text-slate-700 hover:bg-white/60',
+        currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer bg-white/40 text-text hover:bg-white/60',
       ]"
       @click="goTo(currentPage - 1)"
     >
@@ -33,7 +33,7 @@ function goTo(page) {
       :key="page"
       :class="[
         'h-10 min-w-10 px-2 flex items-center justify-center rounded-lg text-sm font-medium transition whitespace-nowrap cursor-pointer',
-        page === currentPage ? 'bg-primary text-white' : 'bg-white/40 text-slate-700 hover:bg-white/60',
+        page === currentPage ? 'bg-primary text-white' : 'bg-white/40 text-text hover:bg-white/60',
       ]"
       @click="goTo(page)"
     >
@@ -43,7 +43,7 @@ function goTo(page) {
       :disabled="currentPage === totalPages"
       :class="[
         'h-10 min-w-10 px-2 flex items-center justify-center rounded-lg text-sm font-medium transition whitespace-nowrap',
-        currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer bg-white/40 text-slate-700 hover:bg-white/60',
+        currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer bg-white/40 text-text hover:bg-white/60',
       ]"
       @click="goTo(currentPage + 1)"
     >

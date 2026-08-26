@@ -10,6 +10,7 @@ use App\Models\Application;
 use App\Models\Faculty;
 use App\Models\Offer;
 use App\Models\OrganizationInvitation;
+use App\Models\Review;
 use App\Models\StudyField;
 use App\Models\User;
 use App\Observers\OfferObserver;
@@ -18,6 +19,7 @@ use App\Policies\FacultyPolicy;
 use App\Policies\NotificationPolicy;
 use App\Policies\OfferPolicy;
 use App\Policies\OrganizationInvitationPolicy;
+use App\Policies\ReviewPolicy;
 use App\Policies\StudyFieldPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Notifications\DatabaseNotification;
@@ -39,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(OrganizationInvitation::class, OrganizationInvitationPolicy::class);
         Gate::policy(DatabaseNotification::class, NotificationPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
+        Gate::policy(Review::class, ReviewPolicy::class);
 
         Offer::observe(OfferObserver::class);
 

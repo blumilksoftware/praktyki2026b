@@ -83,7 +83,7 @@ const unreadAlert = computed(() => unreadAlertCount.value > 0)
           <p class="font-semibold text-text text-sm">
             {{ t('company.dashboard.createOfferCard.title') }}
           </p>
-          <p class="mt-0.5 text-slate-500 text-xs">
+          <p class="mt-0.5 text-additional text-xs">
             {{ t('company.dashboard.createOfferCard.description') }}
           </p>
         </div>

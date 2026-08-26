@@ -39,7 +39,7 @@ const homeUrl = computed(() => {
         <h1 class="mt-4 font-semibold text-text text-2xl">
           {{ t(`errors.${status}.title`) }}
         </h1>
-        <p class="mt-2 text-slate-600 text-sm">
+        <p class="mt-2 text-additional text-sm">
           {{ t(`errors.${status}.description`) }}
         </p>
         <a

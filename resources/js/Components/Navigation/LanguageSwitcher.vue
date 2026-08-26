@@ -84,7 +84,7 @@ onUnmounted(() => document.removeEventListener('click', closeDropdown))
             v-for="lang in availableLocales"
             :key="lang.code"
             class="flex w-full items-center px-4 py-2 text-sm transition-colors focus-visible:bg-slate-50 focus-visible:outline-none hover:bg-slate-50 hover:cursor-pointer"
-            :class="locale === lang.code ? 'text-primary font-bold bg-slate-50/50' : 'text-slate-600'"
+            :class="locale === lang.code ? 'text-primary font-bold bg-slate-50/50' : 'text-additional'"
             :aria-label="t(lang.aria)"
             @click="setLanguage(lang.code)"
           >

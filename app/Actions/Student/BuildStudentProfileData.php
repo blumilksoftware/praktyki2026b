@@ -61,7 +61,6 @@ class BuildStudentProfileData
                 "email_verified_at" => $student->email_verified_at?->toIso8601String(),
                 "pending_email" => $student->pending_email,
                 "photo_url" => $student->photo_path ? route("student.profile.photo.show") : null,
-                "age" => $student->age,
                 "street" => $student->street,
                 "postal_code" => $student->postal_code,
                 "city" => $student->city,
