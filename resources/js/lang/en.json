@@ -1177,7 +1177,8 @@
           "draft": "Draft",
           "published": "Published",
           "closed": "Closed",
-          "expired": "Expired"
+          "expired": "Expired",
+          "closingSoon": "Closing soon"
         }
       },
       "create": {

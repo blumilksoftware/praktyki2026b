@@ -2,7 +2,18 @@
 import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconPlus, IconBriefcase, IconFileText, IconBell, IconArrowUpRight } from '@tabler/icons-vue'
+import {
+  IconPlus,
+  IconBriefcase,
+  IconFileText,
+  IconBell,
+  IconArrowUpRight,
+  IconArrowDownLeftCircle,
+  IconClock,
+  IconUsers,
+  IconMailForward,
+  IconBuildingBank,
+} from '@tabler/icons-vue'
 import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { ROUTES } from '@/Helpers/routes'
@@ -17,7 +28,17 @@ const props = defineProps({
       total_offers: 0,
       published_offers: 0,
       draft_offers: 0,
+      offers_closing_soon: 0,
+      total_spots: 0,
+      remaining_spots: 0,
       applications_count: 0,
+      pending_applications_count: 0,
+      accepted_applications_count: 0,
+      team_size: 0,
+      pending_invitations_count: 0,
+      accepted_invitations_count: 0,
+      university_partnerships_count: 0,
+      open_partnership_requests_count: 0,
       unread_notifications_count: 0,
     }),
   },
@@ -46,11 +67,46 @@ const statsCards = computed(() => [
     href: `${ROUTES.COMPANY_OFFERS_INDEX}?status=draft`,
   },
   {
-    label: t('company.dashboard.stats.applications'),
-    value: props.stats.applications_count,
+    label: t('company.dashboard.stats.closingSoon'),
+    value: props.stats.offers_closing_soon,
+    accent: 'text-orange-600',
+    icon: IconClock,
+    href: `${ROUTES.COMPANY_OFFERS_INDEX}?closing_soon=true`,
+  },
+  {
+    label: t('company.dashboard.stats.pendingApplications'),
+    value: props.stats.pending_applications_count,
     accent: 'text-sky-600',
-    icon: IconArrowUpRight,
-    href: ROUTES.COMPANY_APPLICATIONS,
+    icon: IconArrowDownLeftCircle,
+    href: `${ROUTES.COMPANY_APPLICATIONS}?status=pending`,
+  },
+  {
+    label: t('company.dashboard.stats.teamSize'),
+    value: props.stats.team_size,
+    accent: 'text-indigo-600',
+    icon: IconUsers,
+    href: ROUTES.TEAM,
+  },
+  {
+    label: t('company.dashboard.stats.pendingInvitations'),
+    value: props.stats.pending_invitations_count,
+    accent: 'text-indigo-600',
+    icon: IconMailForward,
+    href: ROUTES.TEAM,
+  },
+  {
+    label: t('company.dashboard.stats.universityPartnerships'),
+    value: props.stats.university_partnerships_count,
+    accent: 'text-teal-600',
+    icon: IconBuildingBank,
+    href: ROUTES.COMPANY_UNIVERSITIES,
+  },
+  {
+    label: t('company.dashboard.stats.openPartnershipRequests'),
+    value: props.stats.open_partnership_requests_count,
+    accent: 'text-teal-600',
+    icon: IconBuildingBank,
+    href: `${ROUTES.COMPANY_UNIVERSITIES}?status=pending`,
   },
 ])
 

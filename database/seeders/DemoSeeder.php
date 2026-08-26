@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Enums\ApplicationStatus;
+use App\Enums\InvitationStatus;
+use App\Enums\OfferStatus;
+use App\Enums\OrganizationType;
+use App\Enums\PartnershipInitiator;
+use App\Enums\PartnershipStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Enums\WorkMode;
@@ -12,6 +17,8 @@ use App\Models\Application;
 use App\Models\Company;
 use App\Models\Faculty;
 use App\Models\Offer;
+use App\Models\OrganizationInvitation;
+use App\Models\Partnership;
 use App\Models\StudyField;
 use App\Models\University;
 use App\Models\User;
@@ -237,5 +244,61 @@ class DemoSeeder extends Seeder
                 "reminder_28_sent_at" => null,
             ]);
         }
+
+        Offer::factory()->count(3)->create([
+            "company_id" => $approvedCompany->id,
+            "status" => OfferStatus::Draft,
+        ]);
+
+        Offer::factory()->count(2)->create([
+            "company_id" => $approvedCompany->id,
+            "status" => OfferStatus::Published,
+            "end_date" => now()->addDays(3),
+            "start_date" => now()->subDays(10),
+        ]);
+
+        Offer::factory()->create([
+            "company_id" => $approvedCompany->id,
+            "status" => OfferStatus::Published,
+            "end_date" => now()->addDays(6),
+            "start_date" => now()->subDays(5),
+        ]);
+
+        OrganizationInvitation::factory()->count(4)->create([
+            "organization_id" => $approvedCompany->id,
+            "organization_type" => OrganizationType::Company,
+            "status" => InvitationStatus::Pending,
+            "expires_at" => now()->addDays(7),
+        ]);
+
+        OrganizationInvitation::factory()->count(2)->create([
+            "organization_id" => $approvedCompany->id,
+            "organization_type" => OrganizationType::Company,
+            "status" => InvitationStatus::Accepted,
+            "accepted_at" => now()->subDays(2),
+            "expires_at" => now()->addDays(5),
+        ]);
+
+        Partnership::factory()->create([
+            "company_id" => $approvedCompany->id,
+            "university_id" => $approvedUniversity->id,
+            "status" => PartnershipStatus::Active,
+        ]);
+
+        University::factory()->count(2)->create()->each(function (University $university) use ($approvedCompany): void {
+            Partnership::factory()->create([
+                "company_id" => $approvedCompany->id,
+                "university_id" => $university->id,
+                "status" => PartnershipStatus::Pending,
+                "requested_by" => PartnershipInitiator::University,
+            ]);
+        });
+
+        Partnership::factory()->create([
+            "company_id" => $approvedCompany->id,
+            "university_id" => University::factory()->create()->id,
+            "status" => PartnershipStatus::Pending,
+            "requested_by" => PartnershipInitiator::Company,
+        ]);
     }
 }

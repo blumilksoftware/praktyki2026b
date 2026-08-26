@@ -57,6 +57,8 @@ class GetOffersSummary
                 "spots" => $offer->spots,
                 "remaining_spots" => $offer->remainingSpots(),
                 "applications_count" => $offer->applications_count,
+                "closing_soon" => $offer->status === OfferStatus::Published
+                    && $offer->end_date->between(Carbon::today(), Carbon::today()->addWeek()),
             ]);
     }
 }

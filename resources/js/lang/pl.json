@@ -1162,7 +1162,8 @@
           "draft": "Szkic",
           "published": "Opublikowana",
           "closed": "Zamknięta",
-          "expired": "Wygasła"
+          "expired": "Wygasła",
+          "closingSoon": "Kończy się wkrótce"
         }
       },
       "create": {
