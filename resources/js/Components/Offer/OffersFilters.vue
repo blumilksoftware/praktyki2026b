@@ -281,6 +281,7 @@ defineExpose({ studyFieldLabelToValue })
             v-model="filters.dateFrom"
             type="date"
             stacked
+            :invalid="!!dateRangeError"
             :label="t('student.offers.filters.dateRange.from')"
           />
           <BaseInput
@@ -288,6 +289,7 @@ defineExpose({ studyFieldLabelToValue })
             v-model="filters.dateTo"
             type="date"
             stacked
+            :invalid="!!dateRangeError"
             :label="t('student.offers.filters.dateRange.to')"
           />
         </div>
