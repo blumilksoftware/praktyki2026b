@@ -136,7 +136,8 @@ function handleVisibilityChange() {
 
 watch(unreadCount, (newCount, oldCount) => {
   if (newCount > oldCount) {
-    toastInfo(t('notifications.toast.new', { count: newCount - oldCount }))
+    const count = newCount - oldCount
+    toastInfo(t('notifications.toast.new', { count }, count))
   }
 })
 

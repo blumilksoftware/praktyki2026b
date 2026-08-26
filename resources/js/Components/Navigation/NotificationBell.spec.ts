@@ -239,7 +239,16 @@ describe("NotificationBell", () => {
       pageProps.notificationsUnreadCount = 2
       await wrapper.vm.$nextTick()
 
-      expect(toastShow).toHaveBeenCalledWith("You have 2 new notification(s).", 4000, "info")
+      expect(toastShow).toHaveBeenCalledWith("You have 2 new notifications.", 4000, "info")
+    })
+
+    it("uses the singular form for a single new notification", async () => {
+      const wrapper = mountBell()
+
+      pageProps.notificationsUnreadCount = 1
+      await wrapper.vm.$nextTick()
+
+      expect(toastShow).toHaveBeenCalledWith("You have 1 new notification.", 4000, "info")
     })
 
     it("does not show a toast when the unread count drops", async () => {

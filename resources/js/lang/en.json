@@ -1290,7 +1290,7 @@
     "empty": "You have no notifications yet.",
     "markAllAsRead": "Mark all as read",
     "toast": {
-      "new": "You have {count} new notification(s)."
+      "new": "You have {count} new notification. | You have {count} new notifications."
     },
     "types": {
       "verificationRequest": "New verification request from {name}",
