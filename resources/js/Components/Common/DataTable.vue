@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { IconSelector, IconChevronUp, IconChevronDown } from '@tabler/icons-vue'
 
@@ -10,11 +11,17 @@ const props = defineProps({
   sortKey: { type: String, default: '' },
   sortDir: { type: String, default: 'asc' },
   rowHref: { type: Function, default: null },
+  cardTitleKey: { type: String, default: 'name' },
+  cardBadgeKey: { type: String, default: 'status' },
 })
 
 const emit = defineEmits(['sort'])
 
 const { t } = useI18n()
+
+const cardColumns = computed(() =>
+  props.columns.filter(col => col.key !== props.cardTitleKey && col.key !== props.cardBadgeKey),
+)
 
 function handleSort(col) {
   if (!col.sortable) return
@@ -51,20 +58,22 @@ function sortIcon(col) {
         @click="handleRowClick($event, item)"
       >
         <div class="flex justify-between items-center gap-3">
-          <p class="font-semibold text-text text-sm">{{ item.name || item[props.rowKey] }}</p>
-          <span v-if="item.status" class="inline-flex px-2.5 py-1 rounded-full font-medium text-xs">
-            <slot :name="`cell-status`" :item="item">{{ item.status }}</slot>
-          </span>
+          <p class="font-semibold text-text text-sm">
+            <slot :name="`cell-${props.cardTitleKey}`" :item="item">{{ item[props.cardTitleKey] }}</slot>
+          </p>
+          <template v-if="item[props.cardBadgeKey]">
+            <slot :name="`cell-${props.cardBadgeKey}`" :item="item">{{ item[props.cardBadgeKey] }}</slot>
+          </template>
         </div>
         <dl class="space-y-2 mt-3 text-sm">
           <div
-            v-for="col in props.columns"
+            v-for="col in cardColumns"
             :key="col.key"
-            class="flex sm:flex-row flex-col sm:justify-between gap-1 sm:gap-2"
+            class="flex justify-between items-center gap-2"
           >
             <dt class="text-additional shrink-0">{{ col.label }}</dt>
             <dd
-              class="text-text sm:text-right break-words"
+              class="min-w-0 text-text text-right break-words"
               :class="col.key === 'actions' ? '' : 'overflow-hidden'"
             >
               <slot :name="`cell-${col.key}`" :item="item">{{ item[col.key] }}</slot>
@@ -119,12 +128,7 @@ function sortIcon(col) {
               :key="col.key"
               :class="['px-4 py-3', col.align === 'right' ? 'text-right' : 'text-left']"
             >
-              <span v-if="col.key === 'status'" class="inline-flex px-2.5 py-1 rounded-full font-medium text-xs">
-                <slot :name="`cell-${col.key}`" :item="item">{{ item[col.key] }}</slot>
-              </span>
-              <template v-else>
-                <slot :name="`cell-${col.key}`" :item="item">{{ item[col.key] }}</slot>
-              </template>
+              <slot :name="`cell-${col.key}`" :item="item">{{ item[col.key] }}</slot>
             </td>
           </tr>
         </tbody>

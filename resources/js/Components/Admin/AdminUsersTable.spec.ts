@@ -28,9 +28,9 @@ const users = {
   links: {},
 }
 
-const mountTable = () => mount(AdminUsersTable, {
+const mountTable = (data = users.data) => mount(AdminUsersTable, {
   props: {
-    users,
+    users: { ...users, data },
     filters: { role: 'all', search: '' },
     roles: ['student', 'superAdmin', 'companyAdmin'],
     companies: [{ id: 'c1', name: 'Acme' }],
@@ -68,6 +68,37 @@ describe('AdminUsersTable', () => {
 
     expect(rowFor(wrapper, 'john@example.com')!.text()).toContain(en.admin.users.statuses.active)
     expect(rowFor(wrapper, 'anna@example.com')!.text()).toContain(en.admin.users.statuses.blocked)
+  })
+
+  it('titles the mobile card with the user name instead of the user id', () => {
+    const card = mountTable().findAll('article')[1]
+
+    expect(card.find('p').text()).toBe('John Student')
+    expect(card.text()).not.toContain('other-user-id')
+  })
+
+  it('falls back to the email in the mobile card title when the user has no name', () => {
+    const wrapper = mountTable([
+      { id: 'nameless-id', first_name: null, last_name: null, email: 'nameless@example.com', role: 'student', status: 'active' },
+    ])
+
+    expect(wrapper.find('article p').text()).toBe('nameless@example.com')
+  })
+
+  it('labels a deleted account instead of showing its anonymised email', () => {
+    const wrapper = mountTable([
+      { id: 'deleted-user-id', first_name: null, last_name: null, email: 'deleted-deleted-user-id-a1b2c3d4@deleted.local', role: 'student', status: 'deleted' },
+    ])
+
+    expect(wrapper.find('article p').text()).toBe(en.admin.users.deletedAccount)
+    expect(wrapper.findAll('tbody td')[0].text()).toBe(en.admin.users.deletedAccount)
+  })
+
+  it('does not repeat the name and status in the mobile card details', () => {
+    const card = mountTable().findAll('article')[1]
+
+    expect(card.findAll('dt').map((dt) => dt.text()))
+      .toEqual([en.admin.users.email, en.admin.users.role, ''])
   })
 
   it('labels the actions with the user email', () => {

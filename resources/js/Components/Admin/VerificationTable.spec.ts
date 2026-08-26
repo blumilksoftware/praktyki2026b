@@ -92,6 +92,25 @@ describe('VerificationTable', () => {
     openSpy.mockRestore()
   })
 
+  it('shows the verification status as the mobile card badge', () => {
+    const card = mountTable().find('article')
+
+    expect(card.find('p').text()).toBe('AGH')
+    expect(card.find('div').text()).toContain(en.admin.verification.pending)
+  })
+
+  it('does not repeat the name and verification status in the mobile card details', () => {
+    const card = mountTable().find('article')
+
+    expect(card.findAll('dt').map((dt) => dt.text())).toEqual([
+      en.admin.verification.city,
+      en.admin.verification.email,
+      en.admin.verification.phone,
+      en.admin.verification.submittedAt,
+      '',
+    ])
+  })
+
   it('does not open the row link when clicking an action button', async () => {
     const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
     const wrapper = mountTable()
