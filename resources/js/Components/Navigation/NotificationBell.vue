@@ -1,14 +1,19 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { usePage, router, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconBell } from '@tabler/icons-vue'
 import { ROUTES, notificationRead } from '@/Helpers/routes'
+import { useToast } from '@/Composables/useToast'
+
+const POLL_INTERVAL_MS = 30000
 
 const { t, locale } = useI18n()
+const { toastInfo } = useToast()
 const page = usePage()
 const isOpen = ref(false)
 const dropdownRef = ref(null)
+let pollTimer = null
 const unreadCount = computed(() => page.props.notificationsUnreadCount ?? 0)
 const notifications = computed(() => page.props.notifications ?? [])
 const hasUnread = computed(() => unreadCount.value > 0)
@@ -97,14 +102,56 @@ function handleKeydown(event) {
   }
 }
 
+function pollUnreadCount() {
+  router.reload({
+    only: ['notificationsUnreadCount'],
+    preserveScroll: true,
+    preserveState: true,
+  })
+}
+
+function startPolling() {
+  if (pollTimer) {
+    return
+  }
+
+  pollTimer = window.setInterval(pollUnreadCount, POLL_INTERVAL_MS)
+}
+
+function stopPolling() {
+  if (pollTimer) {
+    window.clearInterval(pollTimer)
+    pollTimer = null
+  }
+}
+
+function handleVisibilityChange() {
+  if (document.hidden) {
+    stopPolling()
+  } else {
+    startPolling()
+    pollUnreadCount()
+  }
+}
+
+watch(unreadCount, (newCount, oldCount) => {
+  if (newCount > oldCount) {
+    toastInfo(t('notifications.toast.new', { count: newCount - oldCount }))
+  }
+})
+
 onMounted(() => {
   document.addEventListener('mousedown', handleClickOutside)
   document.addEventListener('keydown', handleKeydown)
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+  startPolling()
 })
 
 onUnmounted(() => {
   document.removeEventListener('mousedown', handleClickOutside)
   document.removeEventListener('keydown', handleKeydown)
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
+  stopPolling()
 })
 </script>
 
