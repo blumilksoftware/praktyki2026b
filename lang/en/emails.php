@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 return [
     "password_reset" => [
+        "subject" => "Password reset",
+        "title" => "Set a new password",
+        "greeting" => "Hello :name,",
+        "body" => "We received a request to reset the password for your Applikuj account.",
+        "cta" => "Set a new password",
+        "expiration_message" => "Remember that the link expires after :count minutes.",
+        "ignore" => "If you didn't request a password change, you can safely ignore this email — your current password remains active.",
         "oauth_subject" => "Password reset attempt",
         "oauth_title" => "Sign in with Google instead",
         "oauth_greeting" => "Hello :name,",

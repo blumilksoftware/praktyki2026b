@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 return [
     "password_reset" => [
+        "subject" => "Reset hasła",
+        "title" => "Ustaw nowe hasło",
+        "greeting" => "Cześć :name,",
+        "body" => "Otrzymaliśmy prośbę o zresetowanie hasła do Twojego konta w Applikuj.",
+        "cta" => "Ustaw nowe hasło",
+        "expiration_message" => "Link jest aktywny przez :count min.",
+        "ignore" => "Jeśli nie prosiłeś o zmianę hasła, możesz zignorować tę wiadomość — Twoje obecne hasło pozostaje aktywne.",
         "oauth_subject" => "Próba resetowania hasła",
         "oauth_title" => "Zaloguj się przez Google",
         "oauth_greeting" => "Cześć :name,",

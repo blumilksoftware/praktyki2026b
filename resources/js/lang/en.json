@@ -153,6 +153,26 @@
         "backToLogin": "Back to sign in"
       }
     },
+    "forgotPassword": {
+      "title": "Reset password",
+      "heading": "Forgot your password?",
+      "description": "Enter the email address linked to your account and we will send you a link to set a new password.",
+      "email": "Email",
+      "submit": "Send reset link"
+    },
+    "resetPassword": {
+      "title": "New password",
+      "heading": "Set a new password",
+      "email": "Email",
+      "password": "New password",
+      "passwordConfirmation": "Confirm new password",
+      "submit": "Save new password",
+      "expired": {
+        "heading": "This link is no longer active",
+        "message": "The password reset link has expired or has already been used. Request a new one to set a password.",
+        "requestNew": "Request a new link"
+      }
+    },
     "fields": {
       "showPassword": "Show password",
       "hidePassword": "Hide password"
