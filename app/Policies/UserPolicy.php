@@ -93,22 +93,21 @@ class UserPolicy
 
     public function isLastOrganizationMember(User $user): bool
     {
-        $memberRole = match ($user->role) {
-            UserRole::CompanyAdmin => UserRole::CompanyMember,
-            UserRole::UniversityAdmin => UserRole::UniversityMember,
-            default => null,
-        };
+        $organizationType = $user->role->organizationType();
 
-        if (!$memberRole) {
+        if ($organizationType === null) {
             return false;
         }
 
-        return User::query()
+        return !User::query()
             ->where("organization_id", $user->organization_id)
-            ->where("role", $memberRole)
+            ->whereIn("role", [
+                $organizationType->adminRole(),
+                $organizationType->memberRole(),
+            ])
             ->where("status", "!=", UserStatus::Deleted)
-            ->whereKeyNot($user->id)
-            ->doesntExist();
+            ->whereKeyNot($user->getKey())
+            ->exists();
     }
 
     private function administers(User $user, User $member): ?OrganizationType

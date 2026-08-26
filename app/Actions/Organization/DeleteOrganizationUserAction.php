@@ -33,21 +33,28 @@ class DeleteOrganizationUserAction
                 return;
             }
 
-            $memberRole = match ($user->role) {
-                UserRole::CompanyAdmin => UserRole::CompanyMember,
-                UserRole::UniversityAdmin => UserRole::UniversityMember,
-                default => null,
-            };
+            $hasOtherAdmin = User::query()
+                ->where("organization_id", $user->organization_id)
+                ->where("role", $user->role)
+                ->where("status", "!=", UserStatus::Deleted)
+                ->whereKeyNot($user->id)
+                ->exists();
 
-            if (!$memberRole) {
+            if ($hasOtherAdmin) {
                 $this->anonymizeUser($user);
 
                 return;
             }
 
+            $memberRole = match ($user->role) {
+                UserRole::CompanyAdmin => UserRole::CompanyMember,
+                UserRole::UniversityAdmin => UserRole::UniversityMember,
+            };
+
             $newOwner = User::query()
                 ->where("organization_id", $user->organization_id)
                 ->where("role", $memberRole)
+                ->where("status", "!=", UserStatus::Deleted)
                 ->whereKeyNot($user->id)
                 ->first();
 
