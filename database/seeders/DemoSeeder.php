@@ -285,7 +285,7 @@ class DemoSeeder extends Seeder
             "status" => PartnershipStatus::Active,
         ]);
 
-        University::factory()->count(2)->create()->each(function (University $university) use ($approvedCompany): void {
+        University::factory()->approved()->count(2)->create()->each(function (University $university) use ($approvedCompany): void {
             Partnership::factory()->create([
                 "company_id" => $approvedCompany->id,
                 "university_id" => $university->id,
@@ -296,7 +296,7 @@ class DemoSeeder extends Seeder
 
         Partnership::factory()->create([
             "company_id" => $approvedCompany->id,
-            "university_id" => University::factory()->create()->id,
+            "university_id" => University::factory()->approved()->create()->id,
             "status" => PartnershipStatus::Pending,
             "requested_by" => PartnershipInitiator::Company,
         ]);

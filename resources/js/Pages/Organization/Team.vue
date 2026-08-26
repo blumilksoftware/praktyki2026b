@@ -47,7 +47,16 @@ const memberSearchQuery = ref(props.filters?.member_search ?? '')
 const invitationSearchQuery = ref(props.filters?.invitation_search ?? '')
 const perPage = ref(Number(props.filters?.per_page ?? 10))
 
+
 let searchDebounceTimer = null
+const ALLOWED_TABS = ['members', 'invitations']
+
+function getInitialTab() {
+  const params = new URLSearchParams(window.location.search)
+  const show = params.get('show')
+
+  return ALLOWED_TABS.includes(show) ? show : 'members'
+}
 
 function normalizeCollection(collection) {
   if (Array.isArray(collection)) {
@@ -113,7 +122,7 @@ const canManageInvitations = computed(() => {
 
 const isCurrentUserAdmin = computed(() => canManageInvitations.value)
 
-const activeTab = ref('members')
+const activeTab = ref(getInitialTab())
 const previewTarget = ref(null)
 const removeTarget = ref(null)
 const removeForm = useForm({})
@@ -172,6 +181,12 @@ function applyInvitationFilters() {
     replace: true,
   })
 }
+
+watch(activeTab, (tab) => {
+  const url = new URL(window.location.href)
+  url.searchParams.set('show', tab)
+  window.history.replaceState({}, '', url)
+})
 
 watch(memberSearchQuery, () => {
   clearTimeout(searchDebounceTimer)

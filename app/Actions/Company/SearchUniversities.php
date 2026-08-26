@@ -9,6 +9,7 @@ use App\Enums\PartnershipInitiator;
 use App\Enums\PartnershipStatus;
 use App\Enums\VerificationStatus;
 use App\Models\University;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class SearchUniversities
@@ -24,6 +25,16 @@ class SearchUniversities
 
         if ($data->city !== null) {
             $query->whereRaw("LOWER(city) LIKE ?", ["%" . mb_strtolower($data->city) . "%"]);
+        }
+
+        if ($data->partnershipStatus === "pending_incoming") {
+            $query->whereHas(
+                "partnerships",
+                fn(Builder $partnershipQuery): Builder => $partnershipQuery
+                    ->where("company_id", $companyId)
+                    ->where("status", PartnershipStatus::Pending)
+                    ->where("requested_by", PartnershipInitiator::University),
+            );
         }
 
         return $query

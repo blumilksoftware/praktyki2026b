@@ -85,14 +85,14 @@ const statsCards = computed(() => [
     value: props.stats.team_size,
     accent: 'text-indigo-600',
     icon: IconUsers,
-    href: ROUTES.TEAM,
+    href: ROUTES.TEAM_MEMBERS,
   },
   {
     label: t('company.dashboard.stats.pendingInvitations'),
     value: props.stats.pending_invitations_count,
     accent: 'text-indigo-600',
     icon: IconMailForward,
-    href: ROUTES.TEAM,
+    href: ROUTES.TEAM_INVITATIONS,
   },
   {
     label: t('company.dashboard.stats.universityPartnerships'),
@@ -106,7 +106,7 @@ const statsCards = computed(() => [
     value: props.stats.open_partnership_requests_count,
     accent: 'text-teal-600',
     icon: IconBuildingBank,
-    href: `${ROUTES.COMPANY_UNIVERSITIES}?status=pending`,
+    href: `${ROUTES.COMPANY_UNIVERSITIES}?status=pending_incoming`,
   },
 ])
 
