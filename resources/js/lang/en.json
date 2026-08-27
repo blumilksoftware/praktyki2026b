@@ -1020,7 +1020,13 @@
         "name": "University name",
         "namePlaceholder": "Search by name",
         "city": "City",
-        "cityPlaceholder": "Filter by city"
+        "cityPlaceholder": "Filter by city",
+          "status": {
+              "all": "All",
+              "pendingIncoming": "Incoming",
+              "pendingOutgoing": "Outgoing",
+              "active": "Active"
+          }
       },
       "card": {
         "logoAlt": "{university} logo",

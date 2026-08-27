@@ -1005,7 +1005,13 @@
         "name": "Nazwa uczelni",
         "namePlaceholder": "Szukaj po nazwie",
         "city": "Miasto",
-        "cityPlaceholder": "Filtruj po mieście"
+        "cityPlaceholder": "Filtruj po mieście",
+          "status": {
+              "all": "Wszystkie",
+              "pendingIncoming": "Oczekujacę",
+              "pendingOutgoing": "Wysłane",
+              "active": "Aktywne"
+          }
       },
       "card": {
         "logoAlt": "Logo uczelni {university}",

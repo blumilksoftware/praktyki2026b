@@ -27,19 +27,38 @@ const props = defineProps({
   },
 })
 
-const companyMenu = useCompanyPanelMenu('universities')
+const statusFilterValues = {
+  all: 'all',
+  pendingIncoming: 'pending_incoming',
+  pendingOutgoing: 'pending_outgoing',
+  active: 'active',
+}
 
+const companyMenu = useCompanyPanelMenu('universities')
 const nameFilter = ref(props.filters.name || '')
 const cityFilter = ref(props.filters.city || '')
+const statusFilter = ref(
+  Object.keys(statusFilterValues).find((key) => statusFilterValues[key] === props.filters.status) || 'all',
+)
+
+const statusTabs = ['all', 'active', 'pendingIncoming', 'pendingOutgoing']
+
 
 function search() {
   router.get(ROUTES.COMPANY_UNIVERSITIES, {
     name: nameFilter.value,
     city: cityFilter.value,
+    status: statusFilter.value === 'all' ? undefined : statusFilterValues[statusFilter.value],
   }, {
     preserveState: true,
+    preserveScroll: true,
     replace: true,
   })
+}
+
+function selectStatusTab(tab) {
+  statusFilter.value = tab
+  search()
 }
 
 watch([nameFilter, cityFilter], search, { debounce: 300 })
@@ -79,6 +98,21 @@ watch([nameFilter, cityFilter], search, { debounce: 300 })
         :placeholder="t('company.universities.filters.cityPlaceholder')"
         :aria-label="t('company.universities.filters.city')"
       />
+    </div>
+
+    <div role="tablist" class="mb-6 flex gap-2 overflow-x-auto border-b border-border" :aria-label="t('company.universities.title')">
+      <button
+        v-for="tab in statusTabs"
+        :key="tab"
+        type="button"
+        role="tab"
+        :aria-selected="statusFilter === tab"
+        class="shrink-0 cursor-pointer whitespace-nowrap border-b-2 px-3 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+        :class="statusFilter === tab ? 'border-primary text-primary' : 'border-transparent text-additional hover:text-text'"
+        @click="selectStatusTab(tab)"
+      >
+        {{ t(`company.universities.filters.status.${tab}`) }}
+      </button>
     </div>
 
     <div v-if="universities.data.length > 0" class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

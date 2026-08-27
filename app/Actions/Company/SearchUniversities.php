@@ -14,6 +14,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class SearchUniversities
 {
+    public const array ALLOWED_PARTNERSHIP_STATUSES = ["active", "pending_incoming", "pending_outgoing"];
     public function execute(SearchUniversitiesData $data, string $companyId): LengthAwarePaginator
     {
         $query = University::query()
@@ -27,14 +28,8 @@ class SearchUniversities
             $query->whereRaw("LOWER(city) LIKE ?", ["%" . mb_strtolower($data->city) . "%"]);
         }
 
-        if ($data->partnershipStatus === "pending_incoming") {
-            $query->whereHas(
-                "partnerships",
-                fn(Builder $partnershipQuery): Builder => $partnershipQuery
-                    ->where("company_id", $companyId)
-                    ->where("status", PartnershipStatus::Pending)
-                    ->where("requested_by", PartnershipInitiator::University),
-            );
+        if ($data->partnershipStatus !== null) {
+            $this->applyPartnershipStatusFilter($query, $data->partnershipStatus, $companyId);
         }
 
         return $query
@@ -58,6 +53,36 @@ class SearchUniversities
                     "partnership_status" => $this->resolveStatus($partnership),
                 ];
             });
+    }
+
+    /**
+     * @param Builder<University> $query
+     */
+    private function applyPartnershipStatusFilter(Builder $query, string $partnershipStatus, string $companyId): void
+    {
+        match ($partnershipStatus) {
+            "pending_incoming" => $query->whereHas(
+                "partnerships",
+                fn(Builder $partnershipQuery): Builder => $partnershipQuery
+                    ->where("company_id", $companyId)
+                    ->where("status", PartnershipStatus::Pending)
+                    ->where("requested_by", PartnershipInitiator::University),
+            ),
+            "pending_outgoing" => $query->whereHas(
+                "partnerships",
+                fn(Builder $partnershipQuery): Builder => $partnershipQuery
+                    ->where("company_id", $companyId)
+                    ->where("status", PartnershipStatus::Pending)
+                    ->where("requested_by", PartnershipInitiator::Company),
+            ),
+            "active" => $query->whereHas(
+                "partnerships",
+                fn(Builder $partnershipQuery): Builder => $partnershipQuery
+                    ->where("company_id", $companyId)
+                    ->where("status", PartnershipStatus::Active),
+            ),
+            default => null,
+        };
     }
 
     private function resolveStatus(mixed $partnership): string

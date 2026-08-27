@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Actions\Company\SearchUniversities;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -19,7 +20,7 @@ class SearchPartnerUniversitiesRequest extends FormRequest
         return [
             "name" => ["nullable", "string", "max:255"],
             "city" => ["nullable", "string", "max:255"],
-            "status" => ["nullable", "string", "max:255"],
+            "status" => ["nullable", "string", Rule::in(SearchUniversities::ALLOWED_PARTNERSHIP_STATUSES)],
             "per_page" => ["nullable", "integer", Rule::in([15, 30, 50])],
         ];
     }
