@@ -74,10 +74,12 @@ class StudentController extends Controller
     public function index(): Response
     {
         $user = Auth::user();
+        $offers = $this->getStudentOffersAction->execute($user);
 
         return inertia("Student/Dashboard", [
             "applications" => $this->getStudentApplicationsAction->execute($user),
-            "offers" => $this->getStudentOffersAction->execute($user)->take(3)->values(),
+            "offers" => $offers->take(3)->values(),
+            "offersCount" => $offers->total(),
             "hasCv" => $user->cv_path !== null,
             "favoritesCount" => $user->favourites()->count(),
         ]);
