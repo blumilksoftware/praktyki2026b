@@ -1306,6 +1306,9 @@
     },
     "empty": "Nie masz jeszcze żadnych powiadomień.",
     "markAllAsRead": "Oznacz wszystkie jako przeczytane",
+    "toast": {
+      "new": "Masz {count} nowe powiadomienie. | Masz {count} nowych powiadomień."
+    },
     "types": {
       "verificationRequest": "Nowy wniosek weryfikacyjny od {name}",
       "newApplication": "{student} zaaplikował(a) na {offer}",
