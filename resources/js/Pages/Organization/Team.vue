@@ -327,7 +327,7 @@ function submitInvite() {
           <div class="inline-flex rounded-xl border border-border bg-background p-1">
             <button
               type="button"
-              class="rounded-lg px-4 py-2 text-sm font-medium transition"
+              class="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition"
               :class="activeTab === 'members'
                 ? 'bg-white text-text shadow-sm ring-1 ring-border'
                 : 'text-additional hover:text-text'"
@@ -337,7 +337,7 @@ function submitInvite() {
             </button>
             <button
               type="button"
-              class="rounded-lg px-4 py-2 text-sm font-medium transition"
+              class="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition"
               :class="activeTab === 'invitations'
                 ? 'bg-white text-text shadow-sm ring-1 ring-border'
                 : 'text-additional hover:text-text'"

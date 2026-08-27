@@ -28,14 +28,6 @@ class CompanyOfferSummaryRequest extends FormRequest
         ];
     }
 
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            "search" => $this->filled("search") ? trim((string) $this->input("search")) : null,
-            "closing_soon" => $this->boolean("closing_soon"),
-        ]);
-    }
-
     public function getData(): array
     {
         return [
@@ -45,5 +37,13 @@ class CompanyOfferSummaryRequest extends FormRequest
             "search" => $this->string("search")->toString() ?: null,
             "closing_soon" => $this->boolean("closing_soon", false),
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            "search" => $this->filled("search") ? trim((string)$this->input("search")) : null,
+            "closing_soon" => $this->boolean("closing_soon"),
+        ]);
     }
 }

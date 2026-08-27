@@ -22,7 +22,7 @@ class CompanyController extends Controller
     public function __construct(
         private readonly UpdateCompanyProfile $updateCompanyProfile,
         private readonly BuildCompanyProfileData $buildCompanyProfileData,
-        private readonly GetCompanyDashboardStats $getCompanyDashboardStats
+        private readonly GetCompanyDashboardStats $getCompanyDashboardStats,
     ) {}
 
     public function index(Request $request): Response

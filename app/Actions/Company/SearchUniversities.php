@@ -15,6 +15,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class SearchUniversities
 {
     public const array ALLOWED_PARTNERSHIP_STATUSES = ["active", "pending_incoming", "pending_outgoing"];
+
     public function execute(SearchUniversitiesData $data, string $companyId): LengthAwarePaginator
     {
         $query = University::query()

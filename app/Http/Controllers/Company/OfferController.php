@@ -20,7 +20,6 @@ use App\Models\Offer;
 use App\Models\StudyField;
 use App\Models\University;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Response;

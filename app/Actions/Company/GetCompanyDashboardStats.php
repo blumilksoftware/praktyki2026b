@@ -54,12 +54,12 @@ class GetCompanyDashboardStats
             ->first();
 
         return [
-            "total_offers" => (int) $stats->total,
-            "published_offers" => (int) $stats->published,
-            "draft_offers" => (int) $stats->draft,
-            "offers_closing_soon" => (int) $stats->closing_soon,
-            "total_spots" => (int) $stats->total_spots,
-            "remaining_spots" => (int) $stats->remaining_spots,
+            "total_offers" => (int)$stats->total,
+            "published_offers" => (int)$stats->published,
+            "draft_offers" => (int)$stats->draft,
+            "offers_closing_soon" => (int)$stats->closing_soon,
+            "total_spots" => (int)$stats->total_spots,
+            "remaining_spots" => (int)$stats->remaining_spots,
         ];
     }
 
@@ -77,9 +77,9 @@ class GetCompanyDashboardStats
             ->first();
 
         return [
-            "applications_count" => (int) $stats->total,
-            "pending_applications_count" => (int) $stats->pending,
-            "accepted_applications_count" => (int) $stats->accepted,
+            "applications_count" => (int)$stats->total,
+            "pending_applications_count" => (int)$stats->pending,
+            "accepted_applications_count" => (int)$stats->accepted,
         ];
     }
 
@@ -102,8 +102,8 @@ class GetCompanyDashboardStats
 
         return [
             "team_size" => $teamSize,
-            "pending_invitations_count" => (int) $invitationStats->pending,
-            "accepted_invitations_count" => (int) $invitationStats->accepted,
+            "pending_invitations_count" => (int)$invitationStats->pending,
+            "accepted_invitations_count" => (int)$invitationStats->accepted,
         ];
     }
 
@@ -122,8 +122,8 @@ class GetCompanyDashboardStats
             ->first();
 
         return [
-            "university_partnerships_count" => (int) $stats->active,
-            "open_partnership_requests_count" => (int) $stats->open_requests,
+            "university_partnerships_count" => (int)$stats->active,
+            "open_partnership_requests_count" => (int)$stats->open_requests,
         ];
     }
 }

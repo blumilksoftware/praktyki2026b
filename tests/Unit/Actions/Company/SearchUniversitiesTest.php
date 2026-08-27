@@ -32,7 +32,7 @@ class SearchUniversitiesTest extends TestCase
         University::factory()->approved()->create(["name" => "Verified Uni"]);
         University::factory()->pending()->create(["name" => "Pending Uni"]);
 
-        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, perPage: 15), $this->company->id);
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: null, perPage: 15), $this->company->id);
 
         $this->assertCount(1, $results);
         $this->assertEquals("Verified Uni", $results->first()["name"]);
@@ -43,7 +43,7 @@ class SearchUniversitiesTest extends TestCase
         University::factory()->approved()->create(["name" => "Alpha University"]);
         University::factory()->approved()->create(["name" => "Beta University"]);
 
-        $results = $this->action->execute(new SearchUniversitiesData(name: "alpha", city: null, perPage: 15), $this->company->id);
+        $results = $this->action->execute(new SearchUniversitiesData(name: "alpha", city: null, partnershipStatus: null, perPage: 15), $this->company->id);
 
         $this->assertCount(1, $results);
         $this->assertEquals("Alpha University", $results->first()["name"]);
@@ -54,7 +54,7 @@ class SearchUniversitiesTest extends TestCase
         University::factory()->approved()->create(["name" => "Uni A", "city" => "Legnica"]);
         University::factory()->approved()->create(["name" => "Uni B", "city" => "Warszawa"]);
 
-        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: "legnica", perPage: 15), $this->company->id);
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: "legnica", partnershipStatus: null, perPage: 15), $this->company->id);
 
         $this->assertCount(1, $results);
         $this->assertEquals("Uni A", $results->first()["name"]);
@@ -69,7 +69,7 @@ class SearchUniversitiesTest extends TestCase
         University::factory()->approved()->create(["name" => "Uni A", "city" => "Świdnica"]);
         University::factory()->approved()->create(["name" => "Uni B", "city" => "Warszawa"]);
 
-        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: "ŚWIDNICA", perPage: 15), $this->company->id);
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: "ŚWIDNICA", partnershipStatus: null, perPage: 15), $this->company->id);
 
         $this->assertCount(1, $results);
         $this->assertEquals("Uni A", $results->first()["name"]);
@@ -84,7 +84,7 @@ class SearchUniversitiesTest extends TestCase
             "university_id" => $university->id,
         ]);
 
-        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, perPage: 15), $this->company->id);
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: null, perPage: 15), $this->company->id);
 
         $this->assertEquals("pending_outgoing", $results->first()["partnership_status"]);
     }
@@ -98,7 +98,7 @@ class SearchUniversitiesTest extends TestCase
             "university_id" => $university->id,
         ]);
 
-        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, perPage: 15), $this->company->id);
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: null, perPage: 15), $this->company->id);
 
         $this->assertEquals("pending_incoming", $results->first()["partnership_status"]);
     }
@@ -113,7 +113,7 @@ class SearchUniversitiesTest extends TestCase
             "university_id" => $partnered->id,
         ]);
 
-        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, perPage: 15), $this->company->id);
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: null, perPage: 15), $this->company->id);
         $byName = collect($results->items())->keyBy("name");
 
         $this->assertEquals("active", $byName->get("Partnered Uni")["partnership_status"]);
@@ -130,8 +130,56 @@ class SearchUniversitiesTest extends TestCase
             "university_id" => $university->id,
         ]);
 
-        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, perPage: 15), $this->company->id);
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: null, perPage: 15), $this->company->id);
 
         $this->assertEquals("none", $results->first()["partnership_status"]);
+    }
+
+    public function testItFiltersByActivePartnershipStatus(): void
+    {
+        $active = University::factory()->approved()->create(["name" => "Active Partner"]);
+        $none = University::factory()->approved()->create(["name" => "No Partnership"]);
+
+        Partnership::factory()->active()->create([
+            "company_id" => $this->company->id,
+            "university_id" => $active->id,
+        ]);
+
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: "active", perPage: 15), $this->company->id);
+
+        $this->assertCount(1, $results);
+        $this->assertEquals("Active Partner", $results->first()["name"]);
+    }
+
+    public function testItFiltersByPendingIncomingPartnershipStatus(): void
+    {
+        $incoming = University::factory()->approved()->create(["name" => "Incoming Partner"]);
+        University::factory()->approved()->create(["name" => "Other Uni"]);
+
+        Partnership::factory()->pending()->requestedByUniversity()->create([
+            "company_id" => $this->company->id,
+            "university_id" => $incoming->id,
+        ]);
+
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: "pending_incoming", perPage: 15), $this->company->id);
+
+        $this->assertCount(1, $results);
+        $this->assertEquals("Incoming Partner", $results->first()["name"]);
+    }
+
+    public function testItFiltersByPendingOutgoingPartnershipStatus(): void
+    {
+        $outgoing = University::factory()->approved()->create(["name" => "Outgoing Partner"]);
+        University::factory()->approved()->create(["name" => "Other Uni"]);
+
+        Partnership::factory()->pending()->requestedByCompany()->create([
+            "company_id" => $this->company->id,
+            "university_id" => $outgoing->id,
+        ]);
+
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: "pending_outgoing", perPage: 15), $this->company->id);
+
+        $this->assertCount(1, $results);
+        $this->assertEquals("Outgoing Partner", $results->first()["name"]);
     }
 }

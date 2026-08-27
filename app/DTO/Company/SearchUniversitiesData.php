@@ -6,7 +6,6 @@ namespace App\DTO\Company;
 
 readonly class SearchUniversitiesData
 {
-
     public function __construct(
         public ?string $name,
         public ?string $city,
