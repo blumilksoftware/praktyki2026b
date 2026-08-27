@@ -10,6 +10,7 @@ use App\Actions\Student\GetStudentOffersAction;
 use App\Actions\Student\GetStudentOffersForMapAction;
 use App\Enums\UserRole;
 use App\Http\Requests\OfferFilterRequest;
+use App\Models\City;
 use App\Models\Offer;
 use App\Models\StudyField;
 use Illuminate\Http\JsonResponse;
@@ -53,6 +54,7 @@ class OfferController extends Controller
             "canApply" => $isStudent,
             "mapboxToken" => config("services.mapbox.access_token"),
             "radiusOptions" => [10, 25, 50, 100],
+            "cities" => City::query()->orderBy("name")->pluck("name"),
         ]);
     }
 
