@@ -43,12 +43,13 @@ function mobileButtons(wrapper) {
   return wrapper.find('div.sm\\:hidden').findAll('button')
 }
 
-function desktopItemLabels(wrapper) {
+function desktopPageLabels(wrapper) {
   return wrapper.find('div.hidden.sm\\:flex').findAll('button, span').map(item => item.text())
 }
 
-function mobileItemLabels(wrapper) {
-  return wrapper.find('div.sm\\:hidden').findAll('button, span').map(item => item.text())
+function mobilePageLabels(wrapper) {
+  const items = wrapper.find('div.sm\\:hidden').findAll('button, span')
+  return items.slice(1, -1).map(item => item.text())
 }
 
 describe('Pagination', () => {
@@ -62,7 +63,7 @@ describe('Pagination', () => {
     expect(wrapper.find('button').exists()).toBe(false)
   })
 
-  it('decodes html entities in the previous/next labels', () => {
+  it('decodes html entities in the desktop previous/next labels', () => {
     const wrapper = mountPagination(3, 2)
     const buttons = desktopButtons(wrapper)
 
@@ -72,21 +73,38 @@ describe('Pagination', () => {
 
   it('shows every page when the total fits without collapsing', () => {
     const wrapper = mountPagination(5, 3)
-    const labels = desktopButtons(wrapper).map(button => button.text())
 
-    expect(labels).toEqual(['« Previous', '1', '2', '3', '4', '5', 'Next »'])
+    expect(desktopPageLabels(wrapper)).toEqual(['« Previous', '1', '2', '3', '4', '5', 'Next »'])
   })
 
   it('collapses the desktop window with an ellipsis around the current page', () => {
     const wrapper = mountPagination(20, 10)
 
-    expect(desktopItemLabels(wrapper)).toEqual(['« Previous', '1', '…', '8', '9', '10', '11', '12', '…', '20', 'Next »'])
+    expect(desktopPageLabels(wrapper)).toEqual(['« Previous', '1', '…', '8', '9', '10', '11', '12', '…', '20', 'Next »'])
   })
 
   it('uses a narrower window on small screens than on desktop', () => {
     const wrapper = mountPagination(20, 10)
 
-    expect(mobileItemLabels(wrapper)).toEqual(['« Previous', '1', '…', '9', '10', '11', '…', '20', 'Next »'])
+    expect(mobilePageLabels(wrapper)).toEqual(['1', '…', '10', '…', '20'])
+  })
+
+  it('keeps a fixed item count near the edges instead of growing around the middle', () => {
+    const middle = mountPagination(20, 10)
+    const edge = mountPagination(20, 2)
+
+    expect(desktopPageLabels(edge)).toHaveLength(desktopPageLabels(middle).length)
+    expect(desktopPageLabels(edge)).toEqual(['« Previous', '1', '2', '3', '4', '5', '6', '7', '…', '20', 'Next »'])
+  })
+
+  it('renders previous/next as icon buttons with an accessible label on small screens', () => {
+    const wrapper = mountPagination(3, 2)
+    const buttons = mobileButtons(wrapper)
+
+    expect(buttons[0].text()).toBe('')
+    expect(buttons[0].attributes('aria-label')).toBe('« Previous')
+    expect(buttons[0].find('svg').exists()).toBe(true)
+    expect(buttons[buttons.length - 1].attributes('aria-label')).toBe('Next »')
   })
 
   it('highlights the active page and disables links without a url', () => {

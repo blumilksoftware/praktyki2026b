@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { router } from '@inertiajs/vue3'
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-vue'
 
 const props = defineProps({
   meta: {
@@ -27,37 +28,60 @@ const numericLinks = computed(() => {
   return links.value.slice(1, -1).filter(link => /^\d+$/.test(link.label))
 })
 
-function buildItems(delta) {
-  const current = props.meta.current_page
-  const last = props.meta.last_page
-
-  const pages = new Set([1, last])
-  for (let page = current - delta; page <= current + delta; page++) {
-    if (page >= 1 && page <= last) pages.add(page)
-  }
-
-  const sortedPages = [...pages].sort((a, b) => a - b)
-  const pageItems = []
-  let previousPage = null
-
-  for (const page of sortedPages) {
-    if (previousPage !== null && page - previousPage > 1) {
-      pageItems.push({ type: 'ellipsis', key: `ellipsis-${page}` })
-    }
-    const link = numericLinks.value.find(item => Number(item.label) === page)
-    if (link) pageItems.push({ type: 'page', key: `page-${page}`, ...link })
-    previousPage = page
-  }
-
-  return [
-    { type: 'page', key: 'previous', ...previousLink.value },
-    ...pageItems,
-    { type: 'page', key: 'next', ...nextLink.value },
-  ]
+function range(start, end) {
+  if (end < start) return []
+  const length = end - start + 1
+  return Array.from({ length }, (_, index) => start + index)
 }
 
-const mobileItems = computed(() => buildItems(1))
-const desktopItems = computed(() => buildItems(2))
+function pageRange(siblingCount) {
+  const current = props.meta.current_page
+  const last = props.meta.last_page
+  const boundaryCount = 1
+
+  const startPages = range(1, Math.min(boundaryCount, last))
+  const endPages = range(Math.max(last - boundaryCount + 1, boundaryCount + 1), last)
+
+  const siblingsStart = Math.max(
+    Math.min(current - siblingCount, last - boundaryCount - siblingCount * 2 - 1),
+    boundaryCount + 2,
+  )
+  const siblingsEnd = Math.min(
+    Math.max(current + siblingCount, boundaryCount + siblingCount * 2 + 2),
+    endPages.length > 0 ? endPages[0] - 2 : last - 1,
+  )
+
+  const pages = [...startPages]
+
+  if (siblingsStart > boundaryCount + 2) {
+    pages.push('ellipsis')
+  } else if (boundaryCount + 1 < last - boundaryCount) {
+    pages.push(boundaryCount + 1)
+  }
+
+  pages.push(...range(siblingsStart, siblingsEnd))
+
+  if (siblingsEnd < last - boundaryCount - 1) {
+    pages.push('ellipsis')
+  } else if (last - boundaryCount > boundaryCount) {
+    pages.push(last - boundaryCount)
+  }
+
+  pages.push(...endPages)
+
+  return pages
+}
+
+function buildItems(siblingCount) {
+  return pageRange(siblingCount).map((page, index) => {
+    if (page === 'ellipsis') return { type: 'ellipsis', key: `ellipsis-${index}` }
+    const link = numericLinks.value.find(item => Number(item.label) === page)
+    return { type: 'page', key: `page-${page}`, ...link }
+  })
+}
+
+const mobilePages = computed(() => buildItems(0))
+const desktopPages = computed(() => buildItems(2))
 
 function navigate(url) {
   if (!url) return
@@ -80,8 +104,17 @@ function pageButtonClass(link) {
 
 <template>
   <div v-if="meta && meta.last_page > 1">
-    <div class="sm:hidden flex flex-wrap justify-center items-center gap-2 mt-6">
-      <template v-for="item in mobileItems" :key="item.key">
+    <div class="sm:hidden flex flex-wrap justify-center items-center gap-1 mt-6">
+      <button
+        :disabled="!previousLink.url"
+        :aria-label="decodeLabel(previousLink.label)"
+        :class="pageButtonClass(previousLink)"
+        @click="navigate(previousLink.url)"
+      >
+        <IconChevronLeft class="h-4 w-4" aria-hidden="true" />
+      </button>
+
+      <template v-for="item in mobilePages" :key="item.key">
         <span
           v-if="item.type === 'ellipsis'"
           class="h-10 min-w-10 px-2 flex items-center justify-center text-sm text-additional"
@@ -97,10 +130,27 @@ function pageButtonClass(link) {
           {{ decodeLabel(item.label) }}
         </button>
       </template>
+
+      <button
+        :disabled="!nextLink.url"
+        :aria-label="decodeLabel(nextLink.label)"
+        :class="pageButtonClass(nextLink)"
+        @click="navigate(nextLink.url)"
+      >
+        <IconChevronRight class="h-4 w-4" aria-hidden="true" />
+      </button>
     </div>
 
     <div class="hidden sm:flex flex-wrap justify-center items-center gap-2 mt-6">
-      <template v-for="item in desktopItems" :key="item.key">
+      <button
+        :disabled="!previousLink.url"
+        :class="pageButtonClass(previousLink)"
+        @click="navigate(previousLink.url)"
+      >
+        {{ decodeLabel(previousLink.label) }}
+      </button>
+
+      <template v-for="item in desktopPages" :key="item.key">
         <span
           v-if="item.type === 'ellipsis'"
           class="h-10 min-w-10 px-2 flex items-center justify-center text-sm text-additional"
@@ -116,6 +166,14 @@ function pageButtonClass(link) {
           {{ decodeLabel(item.label) }}
         </button>
       </template>
+
+      <button
+        :disabled="!nextLink.url"
+        :class="pageButtonClass(nextLink)"
+        @click="navigate(nextLink.url)"
+      >
+        {{ decodeLabel(nextLink.label) }}
+      </button>
     </div>
   </div>
 </template>
