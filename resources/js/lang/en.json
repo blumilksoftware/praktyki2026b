@@ -1023,9 +1023,9 @@
         "cityPlaceholder": "Filter by city",
           "status": {
               "all": "All",
-              "pendingIncoming": "Incoming",
-              "pendingOutgoing": "Outgoing",
-              "active": "Active"
+              "pendingIncoming": "Pending proposals",
+              "pendingOutgoing": "Sent proposals",
+              "active": "Partners"
           }
       },
       "card": {
