@@ -183,6 +183,8 @@ return [
     "faculty_reassign_required" => "Wybierz wydział, do którego przeniesiemy kierunki.",
     "study_field_name_unique" => "Ten wydział ma już kierunek o tej nazwie.",
     "study_field_reassign_required" => "Wybierz kierunek, do którego przeniesiemy studentów i oferty.",
+    "city_name_unique" => "Miasto o tej nazwie już istnieje.",
+    "industry_tag_name_unique" => "Tag branżowy o tej nazwie już istnieje.",
     "review_requires_accepted_application" => "Możesz ocenić firmę dopiero po zaakceptowaniu Twojej aplikacji.",
     "already_reviewed_company" => "Ta firma została już przez Ciebie oceniona.",
 
@@ -232,6 +234,8 @@ return [
         "study_field_id" => "kierunek studiów",
         "faculty_name" => "nazwa wydziału",
         "study_field_name" => "nazwa kierunku",
+        "city_name" => "nazwa miasta",
+        "industry_tag_name" => "nazwa tagu branżowego",
         "faculty_reassign_to" => "wydział, do którego przeniesiemy kierunki",
         "study_field_reassign_to" => "kierunek, z którym scalimy",
         "study_year" => "rok studiów",
