@@ -23,6 +23,7 @@ const goBack = () => {
 
 const props = defineProps({
   company: { type: Object, default: () => ({}) },
+  availableTags: { type: Array, default: () => [] },
 })
 
 const form = useForm({
@@ -87,7 +88,7 @@ const submit = () => {
           />
 
           <div class="text-sm text-additional mt-2 flex items-center gap-2 w-full justify-center">
-            <TagsEdit v-model="form.tags" :max-tags="10" />
+            <TagsEdit v-model="form.tags" :available-tags="availableTags" :max-tags="10" />
           </div>
         </div>
 

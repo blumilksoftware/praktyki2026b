@@ -6,6 +6,7 @@ namespace App\Http\Requests;
 
 use App\Rules\MimeTypeByContentRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCompanyProfileRequest extends FormRequest
 {
@@ -24,8 +25,8 @@ class UpdateCompanyProfileRequest extends FormRequest
                 new MimeTypeByContentRule(["image/jpeg", "image/png", "image/webp"]),
             ],
             "description" => ["nullable", "string", "max:2500"],
-            "tags" => ["nullable", "array", "max:20"], 
-            "tags.*" => ["string", "max:50"], 
+            "tags" => ["nullable", "array", "max:20"],
+            "tags.*" => ["string", "max:50", Rule::exists("industry_tags", "name")],
             "website" => ["nullable", "string", "max:255"],
 
             "phone" => ["required", "string", "max:50"],

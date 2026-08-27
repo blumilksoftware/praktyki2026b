@@ -7,17 +7,14 @@ const { t } = useI18n()
 
 const props = defineProps({
   modelValue: { type: Array, default: () => [] },
+  availableTags: { type: Array, default: () => [] },
   maxTags: { type: Number, default: 20 },
   error: { type: String, default: undefined },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-const availableTagsPool = ref([
-  'Warszawa', 'Wrocław', 'Wadowice', 'Wronki', 'Web', 'Wdrażanie',
-  'IT', 'Owocowe czwartki', 'Software house', 'jakiś tag', 'Programowanie',
-  'Vue.js', 'Python', 'Django', 'React', 'Praca zdalna',
-])
+const availableTagsPool = computed(() => props.availableTags)
 
 const searchQuery = ref('')
 
