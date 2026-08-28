@@ -12,10 +12,13 @@ describe('TagsEdit.vue', () => {
     IconSearch: true
   }
 
+  const availableTags = ['Warszawa', 'Wrocław', 'IT', 'Python', 'Vue.js']
+
   it('renders correctly with initial active tags', () => {
     const wrapper = mount(TagsEdit, {
       props: {
-        modelValue: ['IT', 'Vue.js']
+        modelValue: ['IT', 'Vue.js'],
+        availableTags
       },
       global: { stubs: globalStubs }
     })
@@ -30,7 +33,7 @@ describe('TagsEdit.vue', () => {
 
   it('filters available tags based on search query', async () => {
     const wrapper = mount(TagsEdit, {
-      props: { modelValue: [] },
+      props: { modelValue: [], availableTags },
       global: { stubs: globalStubs }
     })
 
@@ -45,7 +48,7 @@ describe('TagsEdit.vue', () => {
 
   it('clears the search query when the clear button (IconX) is clicked', async () => {
     const wrapper = mount(TagsEdit, {
-      props: { modelValue: [] },
+      props: { modelValue: [], availableTags },
       global: { stubs: globalStubs }
     })
 
@@ -60,7 +63,7 @@ describe('TagsEdit.vue', () => {
 
   it('emits update:modelValue when a tag is added', async () => {
     const wrapper = mount(TagsEdit, {
-      props: { modelValue: ['Warszawa'] },
+      props: { modelValue: ['Warszawa'], availableTags },
       global: { stubs: globalStubs }
     })
 
@@ -73,7 +76,7 @@ describe('TagsEdit.vue', () => {
 
   it('emits update:modelValue when a tag is removed', async () => {
     const wrapper = mount(TagsEdit, {
-      props: { modelValue: ['IT', 'Python'] },
+      props: { modelValue: ['IT', 'Python'], availableTags },
       global: { stubs: globalStubs }
     })
 
@@ -88,7 +91,8 @@ describe('TagsEdit.vue', () => {
     const wrapper = mount(TagsEdit, {
       props: {
         modelValue: ['Tag1', 'Tag2'],
-        maxTags: 2
+        maxTags: 2,
+        availableTags
       },
       global: { stubs: globalStubs }
     })
