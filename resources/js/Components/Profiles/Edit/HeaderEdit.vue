@@ -101,6 +101,7 @@ onBeforeUnmount(revokePreview)
       tabindex="0"
       @click="openFileDialog"
       @keydown.enter="openFileDialog"
+      @keydown.space.prevent="openFileDialog"
       @dragover.prevent="onDragOver"
       @dragenter.prevent="onDragOver"
       @dragleave="onDragLeave"
