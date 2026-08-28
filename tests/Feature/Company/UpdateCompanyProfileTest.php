@@ -7,6 +7,7 @@ namespace Tests\Feature\Company;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\Company;
+use App\Models\IndustryTag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -23,6 +24,10 @@ class UpdateCompanyProfileTest extends TestCase
 
         $company = Company::factory()->approved()->create();
         $user = $this->makeCompanyAdmin($company);
+
+        IndustryTag::factory()->create(["name" => "PHP"]);
+        IndustryTag::factory()->create(["name" => "Laravel"]);
+        IndustryTag::factory()->create(["name" => "Vue"]);
 
         $this->actingAs($user)
             ->patch("/company/profile", $this->validProfileData([
