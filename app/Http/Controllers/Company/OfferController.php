@@ -52,7 +52,7 @@ class OfferController extends Controller
             "offers" => $offers,
             "isCompanyVerified" => $company->verification_status === VerificationStatus::Verified,
             "search" => $data["search"],
-            "status" => $request->string("status")->toString(),
+            "status" => $data["status"],
             "statusCounts" => $this->getOfferStatusCounts->execute($company),
         ]);
     }

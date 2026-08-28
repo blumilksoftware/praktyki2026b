@@ -65,6 +65,11 @@ class Offer extends Model
         "salary_max",
     ];
 
+    public static function closingSoonThreshold(): Carbon
+    {
+        return Carbon::today()->addWeek();
+    }
+
     /**
      * @return BelongsTo<Company, $this>
      */
@@ -207,6 +212,17 @@ class Offer extends Model
         }
 
         return $query;
+    }
+
+    /**
+     * @param Builder<Offer> $query
+     * @return Builder<Offer>
+     */
+    public function scopeClosingSoon(Builder $query): Builder
+    {
+        return $query
+            ->where("status", OfferStatus::Published)
+            ->whereBetween("end_date", [Carbon::today(), self::closingSoonThreshold()]);
     }
 
     protected function casts(): array

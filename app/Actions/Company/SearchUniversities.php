@@ -7,6 +7,7 @@ namespace App\Actions\Company;
 use App\DTO\Company\SearchUniversitiesData;
 use App\Enums\PartnershipInitiator;
 use App\Enums\PartnershipStatus;
+use App\Enums\PartnershipStatusFilter;
 use App\Enums\VerificationStatus;
 use App\Models\University;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,8 +15,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class SearchUniversities
 {
-    public const array ALLOWED_PARTNERSHIP_STATUSES = ["active", "pending_incoming", "pending_outgoing"];
-
     public function execute(SearchUniversitiesData $data, string $companyId): LengthAwarePaginator
     {
         $query = University::query()
@@ -59,24 +58,24 @@ class SearchUniversities
     /**
      * @param Builder<University> $query
      */
-    private function applyPartnershipStatusFilter(Builder $query, string $partnershipStatus, string $companyId): void
+    private function applyPartnershipStatusFilter(Builder $query, PartnershipStatusFilter $partnershipStatus, string $companyId): void
     {
         match ($partnershipStatus) {
-            "pending_incoming" => $query->whereHas(
+            PartnershipStatusFilter::PendingIncoming => $query->whereHas(
                 "partnerships",
                 fn(Builder $partnershipQuery): Builder => $partnershipQuery
                     ->where("company_id", $companyId)
                     ->where("status", PartnershipStatus::Pending)
                     ->where("requested_by", PartnershipInitiator::University),
             ),
-            "pending_outgoing" => $query->whereHas(
+            PartnershipStatusFilter::PendingOutgoing => $query->whereHas(
                 "partnerships",
                 fn(Builder $partnershipQuery): Builder => $partnershipQuery
                     ->where("company_id", $companyId)
                     ->where("status", PartnershipStatus::Pending)
                     ->where("requested_by", PartnershipInitiator::Company),
             ),
-            "active" => $query->whereHas(
+            PartnershipStatusFilter::Active => $query->whereHas(
                 "partnerships",
                 fn(Builder $partnershipQuery): Builder => $partnershipQuery
                     ->where("company_id", $companyId)

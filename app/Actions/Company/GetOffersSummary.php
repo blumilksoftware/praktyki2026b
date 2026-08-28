@@ -36,9 +36,7 @@ class GetOffersSummary
         }
 
         if ($closingSoon === true) {
-            $query
-                ->where("status", OfferStatus::Published)
-                ->whereBetween("end_date", [Carbon::today(), Carbon::today()->addWeek()]);
+            $query->closingSoon();
         }
 
         if ($search !== null && trim($search) !== "") {
@@ -58,7 +56,7 @@ class GetOffersSummary
                 "remaining_spots" => $offer->remainingSpots(),
                 "applications_count" => $offer->applications_count,
                 "closing_soon" => $offer->status === OfferStatus::Published
-                    && $offer->end_date->between(Carbon::today(), Carbon::today()->addWeek()),
+                    && $offer->end_date->between(Carbon::today(), Offer::closingSoonThreshold()),
             ]);
     }
 }

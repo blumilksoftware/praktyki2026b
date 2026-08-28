@@ -28,21 +28,21 @@ const props = defineProps({
   stats: {
     type: Object,
     default: () => ({
-      total_offers: 0,
-      published_offers: 0,
-      draft_offers: 0,
-      offers_closing_soon: 0,
-      total_spots: 0,
-      remaining_spots: 0,
-      applications_count: 0,
-      pending_applications_count: 0,
-      accepted_applications_count: 0,
-      team_size: 0,
-      pending_invitations_count: 0,
-      accepted_invitations_count: 0,
-      university_partnerships_count: 0,
-      open_partnership_requests_count: 0,
-      unread_notifications_count: 0,
+      totalOffers: 0,
+      publishedOffers: 0,
+      draftOffers: 0,
+      offersClosingSoon: 0,
+      totalSpots: 0,
+      remainingSpots: 0,
+      applicationsCount: 0,
+      pendingApplicationsCount: 0,
+      acceptedApplicationsCount: 0,
+      teamSize: 0,
+      pendingInvitationsCount: 0,
+      acceptedInvitationsCount: 0,
+      universityPartnershipsCount: 0,
+      openPartnershipRequestsCount: 0,
+      unreadNotificationsCount: 0,
     }),
   },
 })
@@ -114,34 +114,34 @@ const todayLabel = computed(() => new Intl.DateTimeFormat(locale.value, {
       </div>
 
       <DashboardCapacityCard
-        v-if="stats.total_spots > 0"
-        :total-spots="stats.total_spots"
-        :remaining-spots="stats.remaining_spots"
+        v-if="stats.totalSpots > 0"
+        :total-spots="stats.totalSpots"
+        :remaining-spots="stats.remainingSpots"
       />
 
       <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         <DashboardStatSection
           :title="t('company.dashboard.stats.sections.offers')"
           :primary-label="t('company.dashboard.stats.totalOffers')"
-          :primary-value="stats.total_offers"
+          :primary-value="stats.totalOffers"
           :primary-href="ROUTES.COMPANY_OFFERS_INDEX"
           :icon="IconBriefcase"
         >
           <DashboardStatTile
             :label="t('company.dashboard.stats.publishedOffers')"
-            :value="stats.published_offers"
+            :value="stats.publishedOffers"
             :href="`${ROUTES.COMPANY_OFFERS_INDEX}?status=published`"
             :icon="IconFileText"
           />
           <DashboardStatTile
             :label="t('company.dashboard.stats.draftOffers')"
-            :value="stats.draft_offers"
+            :value="stats.draftOffers"
             :href="`${ROUTES.COMPANY_OFFERS_INDEX}?status=draft`"
             :icon="IconFileText"
           />
           <DashboardStatTile
             :label="t('company.dashboard.stats.closingSoon')"
-            :value="stats.offers_closing_soon"
+            :value="stats.offersClosingSoon"
             :href="`${ROUTES.COMPANY_OFFERS_INDEX}?closing_soon=true`"
             :icon="IconClock"
           />
@@ -150,7 +150,7 @@ const todayLabel = computed(() => new Intl.DateTimeFormat(locale.value, {
         <DashboardStatSection
           :title="t('company.dashboard.stats.sections.applications')"
           :primary-label="t('company.dashboard.stats.applications')"
-          :primary-value="stats.applications_count"
+          :primary-value="stats.applicationsCount"
           :primary-href="ROUTES.COMPANY_APPLICATIONS"
           :icon="IconArrowDownLeftCircle"
           accent="text-sky-600"
@@ -158,7 +158,7 @@ const todayLabel = computed(() => new Intl.DateTimeFormat(locale.value, {
         >
           <DashboardStatTile
             :label="t('company.dashboard.stats.pendingApplications')"
-            :value="stats.pending_applications_count"
+            :value="stats.pendingApplicationsCount"
             :href="`${ROUTES.COMPANY_APPLICATIONS}?status=pending`"
             :icon="IconArrowDownLeftCircle"
           />
@@ -167,7 +167,7 @@ const todayLabel = computed(() => new Intl.DateTimeFormat(locale.value, {
         <DashboardStatSection
           :title="t('company.dashboard.stats.sections.team')"
           :primary-label="t('company.dashboard.stats.teamSize')"
-          :primary-value="stats.team_size"
+          :primary-value="stats.teamSize"
           :primary-href="ROUTES.TEAM_MEMBERS"
           :icon="IconUsers"
           accent="text-indigo-600"
@@ -175,7 +175,7 @@ const todayLabel = computed(() => new Intl.DateTimeFormat(locale.value, {
         >
           <DashboardStatTile
             :label="t('company.dashboard.stats.pendingInvitations')"
-            :value="stats.pending_invitations_count"
+            :value="stats.pendingInvitationsCount"
             :href="ROUTES.TEAM_INVITATIONS"
             :icon="IconMailForward"
           />
@@ -184,15 +184,13 @@ const todayLabel = computed(() => new Intl.DateTimeFormat(locale.value, {
         <DashboardStatSection
           :title="t('company.dashboard.stats.sections.partnerships')"
           :primary-label="t('company.dashboard.stats.universityPartnerships')"
-          :primary-value="stats.university_partnerships_count"
+          :primary-value="stats.universityPartnershipsCount"
           :primary-href="`${ROUTES.COMPANY_UNIVERSITIES}?status=active `"
           :icon="IconBuildingBank"
-          accent="text-teal-600"
-          accent-bg="bg-teal-50"
         >
           <DashboardStatTile
             :label="t('company.dashboard.stats.openPartnershipRequests')"
-            :value="stats.open_partnership_requests_count"
+            :value="stats.openPartnershipRequestsCount"
             :href="`${ROUTES.COMPANY_UNIVERSITIES}?status=pending_incoming`"
             :icon="IconBuildingBank"
           />

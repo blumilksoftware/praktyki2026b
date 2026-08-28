@@ -6,6 +6,7 @@ namespace Tests\Unit\Actions\Company;
 
 use App\Actions\Company\SearchUniversities;
 use App\DTO\Company\SearchUniversitiesData;
+use App\Enums\PartnershipStatusFilter;
 use App\Models\Company;
 use App\Models\Partnership;
 use App\Models\University;
@@ -145,7 +146,7 @@ class SearchUniversitiesTest extends TestCase
             "university_id" => $active->id,
         ]);
 
-        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: "active", perPage: 15), $this->company->id);
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: PartnershipStatusFilter::Active, perPage: 15), $this->company->id);
 
         $this->assertCount(1, $results);
         $this->assertEquals("Active Partner", $results->first()["name"]);
@@ -161,7 +162,7 @@ class SearchUniversitiesTest extends TestCase
             "university_id" => $incoming->id,
         ]);
 
-        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: "pending_incoming", perPage: 15), $this->company->id);
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: PartnershipStatusFilter::PendingIncoming, perPage: 15), $this->company->id);
 
         $this->assertCount(1, $results);
         $this->assertEquals("Incoming Partner", $results->first()["name"]);
@@ -177,7 +178,7 @@ class SearchUniversitiesTest extends TestCase
             "university_id" => $outgoing->id,
         ]);
 
-        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: "pending_outgoing", perPage: 15), $this->company->id);
+        $results = $this->action->execute(new SearchUniversitiesData(name: null, city: null, partnershipStatus: PartnershipStatusFilter::PendingOutgoing, perPage: 15), $this->company->id);
 
         $this->assertCount(1, $results);
         $this->assertEquals("Outgoing Partner", $results->first()["name"]);

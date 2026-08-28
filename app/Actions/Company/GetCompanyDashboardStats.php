@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Company;
 
+use App\DTO\Company\CompanyDashboardStatsData;
 use App\Enums\ApplicationStatus;
 use App\Enums\InvitationStatus;
 use App\Enums\OfferStatus;
@@ -14,52 +15,53 @@ use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\Application;
 use App\Models\Company;
+use App\Models\Offer;
 use App\Models\OrganizationInvitation;
 use Carbon\Carbon;
 
 class GetCompanyDashboardStats
 {
-    public function execute(Company $company): array
+    public function execute(Company $company): CompanyDashboardStatsData
     {
-        return [
-            ...$this->offerStats($company),
-            ...$this->applicationStats($company),
-            ...$this->teamStats($company),
-            ...$this->universityStats($company),
-        ];
+        $applicationStats = $this->applicationStats($company);
+        $offerStats = $this->offerStats($company, $applicationStats);
+        $teamStats = $this->teamStats($company);
+        $universityStats = $this->universityStats($company);
+
+        return new CompanyDashboardStatsData(
+            ...$offerStats,
+            ...$applicationStats,
+            ...$teamStats,
+            ...$universityStats,
+        );
     }
 
-    private function offerStats(Company $company): array
+    private function offerStats(Company $company, array $applicationStats): array
     {
-        $closingSoonThreshold = Carbon::today()->addWeek();
-
         $stats = $company->offers()
             ->selectRaw(
                 "count(*) as total, " .
                 "sum(case when status = ? then 1 else 0 end) as published, " .
                 "sum(case when status = ? then 1 else 0 end) as draft, " .
                 "sum(case when status = ? and end_date >= ? and end_date <= ? then 1 else 0 end) as closing_soon, " .
-                "sum(spots) as total_spots, " .
-                "sum(spots) - sum((select count(*) from applications " .
-                "where applications.offer_id = offers.id and applications.status = ?)) as remaining_spots",
+                "sum(spots) as total_spots",
                 [
                     OfferStatus::Published->value,
                     OfferStatus::Draft->value,
                     OfferStatus::Published->value,
                     Carbon::today(),
-                    $closingSoonThreshold,
-                    ApplicationStatus::Accepted->value,
+                    Offer::closingSoonThreshold(),
                 ],
             )
             ->first();
 
         return [
-            "total_offers" => (int)$stats->total,
-            "published_offers" => (int)$stats->published,
-            "draft_offers" => (int)$stats->draft,
-            "offers_closing_soon" => (int)$stats->closing_soon,
-            "total_spots" => (int)$stats->total_spots,
-            "remaining_spots" => (int)$stats->remaining_spots,
+            "totalOffers" => (int)$stats->total,
+            "publishedOffers" => (int)$stats->published,
+            "draftOffers" => (int)$stats->draft,
+            "offersClosingSoon" => (int)$stats->closing_soon,
+            "totalSpots" => (int)$stats->total_spots,
+            "remainingSpots" => (int)$stats->total_spots - $applicationStats["acceptedApplicationsCount"],
         ];
     }
 
@@ -77,9 +79,9 @@ class GetCompanyDashboardStats
             ->first();
 
         return [
-            "applications_count" => (int)$stats->total,
-            "pending_applications_count" => (int)$stats->pending,
-            "accepted_applications_count" => (int)$stats->accepted,
+            "applicationsCount" => (int)$stats->total,
+            "pendingApplicationsCount" => (int)$stats->pending,
+            "acceptedApplicationsCount" => (int)$stats->accepted,
         ];
     }
 
@@ -101,9 +103,9 @@ class GetCompanyDashboardStats
             ->first();
 
         return [
-            "team_size" => $teamSize,
-            "pending_invitations_count" => (int)$invitationStats->pending,
-            "accepted_invitations_count" => (int)$invitationStats->accepted,
+            "teamSize" => $teamSize,
+            "pendingInvitationsCount" => (int)$invitationStats->pending,
+            "acceptedInvitationsCount" => (int)$invitationStats->accepted,
         ];
     }
 
@@ -122,8 +124,8 @@ class GetCompanyDashboardStats
             ->first();
 
         return [
-            "university_partnerships_count" => (int)$stats->active,
-            "open_partnership_requests_count" => (int)$stats->open_requests,
+            "universityPartnershipsCount" => (int)$stats->active,
+            "openPartnershipRequestsCount" => (int)$stats->open_requests,
         ];
     }
 }
