@@ -64,8 +64,9 @@ onUnmounted(() => {
 
 <template>
   <div ref="dropdownRef" class="relative text-left">
-    <div
-      class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-secondary p-0 text-accent transition-all hover:cursor-pointer hover:ring-2 hover:ring-link hover:ring-offset-2 hover:ring-offset-background focus:outline-none"
+    <button
+      type="button"
+      class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-secondary p-0 text-accent transition-all hover:cursor-pointer hover:ring-2 hover:ring-link hover:ring-offset-2 hover:ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       :aria-expanded="isOpen"
       aria-haspopup="true"
       @click="isOpen = !isOpen"
@@ -82,7 +83,7 @@ onUnmounted(() => {
         stroke="2"
         class="h-6 w-6 text-accent"
       />
-    </div>
+    </button>
 
     <transition
       enter-active-class="transition ease-out duration-100"
