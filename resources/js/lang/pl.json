@@ -917,6 +917,7 @@
             "label": "Nawigacja stronicowania"
         },
         "map": {
+            "loading": "Wczytywanie mapy...",
             "selectPinHint": "Wybierz punkt na mapie, aby zobaczyć dostępne oferty",
             "cityOffersTitle": "Oferty w {city}",
             "showAll": "Pokaż wszystkie oferty",
