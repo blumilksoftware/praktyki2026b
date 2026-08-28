@@ -22,6 +22,7 @@ use App\Policies\OrganizationInvitationPolicy;
 use App\Policies\ReviewPolicy;
 use App\Policies\StudyFieldPolicy;
 use App\Policies\UserPolicy;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -34,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Model::preventLazyLoading(!$this->app->isProduction());
+
         Gate::policy(Application::class, ApplicationPolicy::class);
         Gate::policy(Faculty::class, FacultyPolicy::class);
         Gate::policy(StudyField::class, StudyFieldPolicy::class);
