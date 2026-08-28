@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch, reactive } from 'vue'
+import { computed, defineAsyncComponent, onMounted, ref, watch, reactive } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import debounce from 'lodash/debounce'
@@ -7,10 +7,16 @@ import axios from 'axios'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
-import OfferMap from '@/Components/Offer/Map/OfferMap.vue'
+import OfferMapLoading from '@/Components/Offer/Map/OfferMapLoading.vue'
 import OffersFilters from '@/Components/Offer/OffersFilters.vue'
 import { isDateRangeInvalid } from '@/Composables/useOffersFilters'
 import { ROUTES } from '@/Helpers/routes'
+
+const OfferMap = defineAsyncComponent({
+  loader: () => import('@/Components/Offer/Map/OfferMap.vue'),
+  loadingComponent: OfferMapLoading,
+  delay: 0,
+})
 
 const props = defineProps({
   offers: { type: Object, required: true },
