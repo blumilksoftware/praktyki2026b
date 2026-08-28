@@ -85,4 +85,18 @@ class OfferFilterTest extends TestCase
                     ->where("offers.total", 1),
             );
     }
+
+    public function testArrayShapedSearchIsIgnoredInsteadOfFailing(): void
+    {
+        Offer::factory()->published()->create();
+
+        $this->get("/offers?search[]=x")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Offers")
+                    ->where("filters.search", null)
+                    ->where("offers.total", 1),
+            );
+    }
 }

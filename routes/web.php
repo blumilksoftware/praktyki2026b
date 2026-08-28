@@ -39,10 +39,12 @@ Route::post("/language/{locale}", function (string $locale) {
     return redirect()->back();
 })->name("language.switch");
 
-Route::get("/profile", [ProfileRedirectController::class, "show"])->name("profile");
-Route::get("/profile/edit", [ProfileRedirectController::class, "edit"])->name("profile.edit");
-Route::patch("/profile", [ProfileRedirectController::class, "update"])->name("profile.update");
-Route::get("/settings", [SettingsRedirectController::class, "show"])->name("settings");
+Route::middleware("auth")->group(function (): void {
+    Route::get("/profile", [ProfileRedirectController::class, "show"])->name("profile");
+    Route::get("/profile/edit", [ProfileRedirectController::class, "edit"])->name("profile.edit");
+    Route::patch("/profile", [ProfileRedirectController::class, "update"])->name("profile.update");
+    Route::get("/settings", [SettingsRedirectController::class, "show"])->name("settings");
+});
 
 Route::get("/geocoding/cities", [CityGeocodingController::class, "suggest"])
     ->name("geocoding.cities")
