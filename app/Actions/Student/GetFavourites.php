@@ -13,6 +13,7 @@ class GetFavourites
     {
         return $student->favourites()
             ->with("company")
+            ->withCount("acceptedApplications")
             ->orderByPivotDesc("created_at")
             ->get()
             ->map(fn(Offer $offer): array => [
@@ -20,6 +21,7 @@ class GetFavourites
                 "title" => $offer->title,
                 "company_name" => $offer->company->name,
                 "city" => $offer->city,
+                "remaining_spots" => $offer->remainingSpots(),
                 "work_mode" => $offer->work_mode->value,
                 "status" => $offer->status->value,
                 "deleted_at" => $offer->deleted_at?->toIso8601String(),

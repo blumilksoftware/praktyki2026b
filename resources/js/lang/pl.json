@@ -897,6 +897,8 @@
       "description": "Tu trafiają oferty oznaczone sercem. Możesz je potem odhaczyć albo wrócić do pełnej listy.",
       "backToOffers": "Wróć do ofert",
       "backToDashboard": "Wróć do panelu głównego",
+      "listAriaLabel": "Ulubione oferty",
+      "removedAnnouncement": "Oferta {title} została usunięta z ulubionych",
       "empty": {
         "title": "Nie masz jeszcze ulubionych ofert",
         "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj."
@@ -979,7 +981,8 @@
         "addToFavorites": "Dodaj do ulubionych",
         "removeFromFavorites": "Usuń z ulubionych",
         "mapComingSoon": "Mapa pojawi się w osobnej podstronie",
-        "loginToApply": "Zaloguj się, aby aplikować"
+        "loginToApply": "Zaloguj się, aby aplikować",
+        "openOfferAria": "Zobacz ofertę {title}"
       },
       "detail": {
         "backToOffers": "Wróć do ofert",

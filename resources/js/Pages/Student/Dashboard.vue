@@ -1,11 +1,12 @@
 <script setup>
+import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
 
-defineProps({
+const props = defineProps({
   offers: { type: Array, default: () => [] },
   offersCount: { type: Number, default: 0 },
   hasCv: { type: Boolean, default: true },
@@ -13,6 +14,8 @@ defineProps({
 })
 
 const { t } = useI18n()
+
+const offersPreview = computed(() => ({ data: props.offers }))
 </script>
 
 <template>
@@ -85,8 +88,9 @@ const { t } = useI18n()
 
         <div class="mt-6">
           <OffersList
-            :offers="offers"
+            :offers="offersPreview"
             :has-cv="hasCv"
+            can-apply
           />
         </div>
       </section>
