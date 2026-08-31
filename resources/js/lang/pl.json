@@ -271,6 +271,7 @@
     "nip": "NIP",
     "spots": "Miejsca",
     "uploadLogo": "Prześlij logo",
+    "logoAlt": "Logo",
     "searchTags": "Szukaj tagów...",
     "activeTags": "Aktywne tagi",
     "noActiveTags": "Nie wybrano żadnych tagów",
@@ -378,7 +379,8 @@
     "student": "Student",
     "company": "Firma",
     "status": "Status",
-    "noData": "Brak danych do wyświetlenia"
+    "noData": "Brak danych do wyświetlenia",
+    "defaultCaption": "Tabela danych"
   },
   "admin": {
     "applications": {

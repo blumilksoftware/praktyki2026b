@@ -79,7 +79,7 @@ function sortIcon(col) {
 
     <div v-if="props.items.length > 0" class="hidden xl:block overflow-x-auto">
       <table class="min-w-full text-sm">
-        <caption class="sr-only">{{ props.caption || 'Data table' }}</caption>
+        <caption class="sr-only">{{ props.caption || t('table.defaultCaption') }}</caption>
         <thead class="bg-gray-50 font-semibold text-additional text-xs uppercase tracking-wide">
           <tr>
             <th
