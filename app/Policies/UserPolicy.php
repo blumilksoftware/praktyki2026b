@@ -78,6 +78,38 @@ class UserPolicy
         return $admin->id !== $target->id;
     }
 
+    public function deleteUser(User $actor, User $target): bool
+    {
+        if ($actor->is($target)) {
+            return false;
+        }
+
+        if ($target->role === UserRole::SuperAdmin && $this->isLastOrganizationMember($target)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isLastOrganizationMember(User $user): bool
+    {
+        $organizationType = $user->role->organizationType();
+
+        if ($organizationType === null) {
+            return false;
+        }
+
+        return !User::query()
+            ->where("organization_id", $user->organization_id)
+            ->whereIn("role", [
+                $organizationType->adminRole(),
+                $organizationType->memberRole(),
+            ])
+            ->where("status", "!=", UserStatus::Deleted)
+            ->whereKeyNot($user->getKey())
+            ->exists();
+    }
+
     private function administers(User $user, User $member): ?OrganizationType
     {
         $organizationType = $user->role->organizationType();

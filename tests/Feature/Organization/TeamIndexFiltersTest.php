@@ -210,6 +210,38 @@ class TeamIndexFiltersTest extends TestCase
             );
     }
 
+    public function testInvitationSearchIgnoresCase(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $admin = User::factory()->companyAdmin()->create([
+            "organization_id" => $company->id,
+            "status" => UserStatus::Active,
+        ]);
+
+        OrganizationInvitation::factory()->create([
+            "organization_id" => $company->id,
+            "organization_type" => OrganizationType::Company,
+            "status" => InvitationStatus::Pending,
+            "email" => "Gwendolyn@example.com",
+        ]);
+
+        OrganizationInvitation::factory()->create([
+            "organization_id" => $company->id,
+            "organization_type" => OrganizationType::Company,
+            "status" => InvitationStatus::Pending,
+            "email" => "marlow@example.com",
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route("team.index", ["invitation_search" => "GWENDOLYN"]))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->has("invitations.data", 1)
+                    ->where("invitations.data.0.email", "Gwendolyn@example.com"),
+            );
+    }
+
     public function testGenericSearchParamFallsBackToMemberSearch(): void
     {
         $company = Company::factory()->approved()->create();

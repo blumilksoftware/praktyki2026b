@@ -2,7 +2,7 @@
 import { Link, router } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconCheck, IconHeart, IconHeartFilled } from '@tabler/icons-vue'
+import { IconCheck, IconHeart, IconHeartFilled, IconMapPin } from '@tabler/icons-vue'
 import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
@@ -37,6 +37,9 @@ const withdrawnLocally = ref(false)
 
 const isApplied = computed(() => !withdrawnLocally.value && (props.offer.has_applied || appliedLocally.value))
 const appliedDate = computed(() => props.offer.applied_at)
+
+const stretchActions = computed(() => props.canApply && isApplied.value)
+const actionWidthClass = computed(() => stretchActions.value ? 'w-full sm:flex-1' : 'w-full sm:w-fit')
 
 function applyToOffer() {
   isApplying.value = true
@@ -191,22 +194,24 @@ function showOnMap() {
         <span>{{ t('student.offers.card.remainingSpots') }}: {{ offer.remaining_spots }}</span>
       </div>
 
-      <div class="mt-5 flex flex-wrap items-center gap-3">
+      <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
         <button
           type="button"
-          class="inline-flex items-center justify-center rounded-xl border border-border cursor-pointer bg-white px-4 py-2.5 text-sm font-medium text-text hover:border-primary/40 hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-border cursor-pointer bg-white px-4 py-3 text-sm font-semibold text-text hover:border-primary/40 hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          :class="actionWidthClass"
           @click="showOnMap"
         >
+          <IconMapPin class="h-5 w-5" aria-hidden="true" />
           {{ t('student.offers.card.showOnMap') }}
         </button>
 
         <button
           v-if="canApply"
           type="button"
-          class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 cursor-pointer text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
-          :class="isFavorite
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border px-4 py-3 cursor-pointer text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
+          :class="[actionWidthClass, isFavorite
             ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
-            : 'border-border bg-white text-text hover:border-primary/40 hover:bg-background'"
+            : 'border-border bg-white text-text hover:border-primary/40 hover:bg-background']"
           :disabled="isTogglingFavorite"
           :aria-pressed="isFavorite"
           :aria-label="isFavorite
@@ -214,14 +219,14 @@ function showOnMap() {
             : t('student.offers.card.addToFavorites')"
           @click="toggleFavorite"
         >
-          <component :is="isFavorite ? IconHeartFilled : IconHeart" class="h-4 w-4" aria-hidden="true" />
+          <component :is="isFavorite ? IconHeartFilled : IconHeart" class="h-5 w-5" aria-hidden="true" />
           {{ isFavorite ? t('student.offers.card.removeFromFavorites') : t('student.offers.card.addToFavorites') }}
         </button>
 
         <Link
           v-if="guest"
           :href="ROUTES.LOGIN"
-          class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-medium text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          class="inline-flex w-full sm:w-fit items-center justify-center rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         >
           {{ t('student.offers.card.loginToApply') }}
         </Link>
@@ -229,17 +234,21 @@ function showOnMap() {
         <template v-else-if="canApply">
           <BaseApplyButton
             :id="`apply-offer-${offer.id}`"
+            class="whitespace-nowrap"
             :has-cv="hasCv"
             :is-applied="isApplied"
             :applied-date="appliedDate"
             :is-loading="isApplying"
+            :width-class="actionWidthClass"
             @apply="applyToOffer"
           />
 
           <BaseButton
             v-if="isApplied"
             type="button"
+            class="whitespace-nowrap"
             variant="secondary"
+            :width-class="actionWidthClass"
             :disabled="isWithdrawing"
             @click="openWithdrawModal"
           >

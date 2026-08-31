@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminOfferController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\DeletionImpactController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\CityGeocodingController;
 use App\Http\Controllers\Company\ApplicationController;
@@ -38,10 +39,12 @@ Route::post("/language/{locale}", function (string $locale) {
     return redirect()->back();
 })->name("language.switch");
 
-Route::get("/profile", [ProfileRedirectController::class, "show"])->name("profile");
-Route::get("/profile/edit", [ProfileRedirectController::class, "edit"])->name("profile.edit");
-Route::patch("/profile", [ProfileRedirectController::class, "update"])->name("profile.update");
-Route::get("/settings", [SettingsRedirectController::class, "show"])->name("settings");
+Route::middleware("auth")->group(function (): void {
+    Route::get("/profile", [ProfileRedirectController::class, "show"])->name("profile");
+    Route::get("/profile/edit", [ProfileRedirectController::class, "edit"])->name("profile.edit");
+    Route::patch("/profile", [ProfileRedirectController::class, "update"])->name("profile.update");
+    Route::get("/settings", [SettingsRedirectController::class, "show"])->name("settings");
+});
 
 Route::get("/geocoding/cities", [CityGeocodingController::class, "suggest"])
     ->name("geocoding.cities")
@@ -69,9 +72,11 @@ Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
         Route::post("/offers", [OfferController::class, "store"])
+            ->middleware("throttle:30,1")
             ->name("company.offers.store");
 
         Route::patch("/offers/{offer}", [OfferController::class, "update"])
+            ->middleware("throttle:30,1")
             ->name("company.offers.update");
 
         Route::patch("/offers/{offer}/publish", [OfferController::class, "publish"])
@@ -126,7 +131,7 @@ Route::middleware(["auth", "can:access-student-panel"])
         Route::post("/companies/{company}/reviews", [StudentController::class, "reviewCompany"])->name("student.companies.reviews.store");
         Route::delete("/offers/{offer}/favourite", [StudentController::class, "unsaveOffer"])->name("student.offers.favourite.delete")->withTrashed();
         Route::get("/favourites", [StudentController::class, "favourites"])->name("student.favourites");
-        Route::patch("/profile", [StudentController::class, "updateProfile"])->name("student.profile.update");
+        Route::patch("/profile", [StudentController::class, "updateProfile"])->middleware("throttle:20,1")->name("student.profile.update");
         Route::get("/universities/search", [StudentController::class, "searchUniversities"])->name("student.universities.search");
         Route::get("/universities/{university}/faculties", [StudentController::class, "universityFaculties"])->name("student.universities.faculties");
         Route::patch("/university", [StudentController::class, "linkUniversity"])->name("student.university.update");
@@ -160,6 +165,8 @@ Route::middleware(["role:superAdmin"])
         Route::post("/verify/university/{university}/reject", [AdminController::class, "rejectUniversityVerification"])->name("admin.university.verify.reject");
         Route::patch("/users/{user}/role", [AdminUserController::class, "updateRole"])->name("admin.users.update-role");
         Route::patch("/users/{user}/status", [AdminUserController::class, "updateStatus"])->name("admin.users.update-status");
+        Route::get("/users/{user}/deletion-impact", DeletionImpactController::class)->name("admin.users.deletion-impact");
+        Route::delete("/users/{user}", [AdminUserController::class, "deleteUser"])->name("admin.users.destroy");
         Route::delete("/companies/{company}", [AdminController::class, "deleteCompany"])->name("admin.companies.destroy");
         Route::delete("/universities/{university}", [AdminController::class, "deleteUniversity"])->name("admin.universities.destroy");
         Route::patch("/offers/{offer}/take-down", [AdminOfferController::class, "takeDown"])->name("admin.offers.take-down");

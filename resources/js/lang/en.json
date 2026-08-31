@@ -153,6 +153,26 @@
         "backToLogin": "Back to sign in"
       }
     },
+    "forgotPassword": {
+      "title": "Reset password",
+      "heading": "Forgot your password?",
+      "description": "Enter the email address linked to your account and we will send you a link to set a new password.",
+      "email": "Email",
+      "submit": "Send reset link"
+    },
+    "resetPassword": {
+      "title": "New password",
+      "heading": "Set a new password",
+      "email": "Email",
+      "password": "New password",
+      "passwordConfirmation": "Confirm new password",
+      "submit": "Save new password",
+      "expired": {
+        "heading": "This link is no longer active",
+        "message": "The password reset link has expired or has already been used. Request a new one to set a password.",
+        "requestNew": "Request a new link"
+      }
+    },
     "fields": {
       "showPassword": "Show password",
       "hidePassword": "Hide password"
@@ -346,7 +366,6 @@
   },
 
   "table": {
-    "id": "ID",
     "student": "Student",
     "company": "Company",
     "status": "Status",
@@ -422,6 +441,7 @@
       "filterByRoleAriaLabel": "Filter users by role",
       "all": "All",
       "name": "Name",
+      "deletedAccount": "Deleted account",
       "email": "Email",
       "role": "Role",
       "actions": "Actions",
@@ -448,6 +468,15 @@
         "confirmBlock": "Block",
         "confirmUnblock": "Unblock"
       },
+        "deleteModal": {
+            "deleteTitle": "Delete user",
+            "deleteDescription": "Are you sure you want to delete {name}? This action cannot be undone.",
+            "confirmDelete": "Delete",
+            "cancel": "Cancel",
+            "deleteDescriptionLastMember": "{name} is the last active member of their organization. Deleting this account will permanently delete the entire organization and its data.",
+            "lastMemberWarning": "Warning: this action is irreversible and will delete not only the user account but the whole organization.",
+            "confirmDeleteWithOrganization": "Delete user and organization"
+        },
       "roles": {
         "student": "Student",
         "superAdmin": "Super admin",
@@ -715,6 +744,8 @@
       "description": "This is where heart-marked offers live. Remove them here or return to the full list.",
       "backToOffers": "Back to offers",
       "backToDashboard": "Back to dashboard",
+      "listAriaLabel": "Favorite offers",
+      "removedAnnouncement": "Offer {title} has been removed from favorites",
       "empty": {
         "title": "You do not have any favorite offers yet",
         "description": "Add an offer to favorites from a card and it will appear here."
@@ -734,6 +765,7 @@
             "label": "Pagination navigation"
         },
     "map": {
+        "loading": "Loading map...",
         "selectPinHint": "Select a pin on the map to view available offers",
         "cityOffersTitle": "Offers in {city}",
         "showAll": "Show all offers",
@@ -797,7 +829,8 @@
         "addToFavorites": "Add to favorites",
         "removeFromFavorites": "Remove from favorites",
         "mapComingSoon": "The map will appear on a separate page",
-        "loginToApply": "Log in to apply"
+        "loginToApply": "Log in to apply",
+        "openOfferAria": "View offer {title}"
       },
       "detail": {
         "backToOffers": "Back to offers",
@@ -1314,6 +1347,9 @@
     },
     "empty": "You have no notifications yet.",
     "markAllAsRead": "Mark all as read",
+    "toast": {
+      "new": "You have {count} new notification. | You have {count} new notifications."
+    },
     "types": {
       "verificationRequest": "New verification request from {name}",
       "newApplication": "{student} applied to {offer}",

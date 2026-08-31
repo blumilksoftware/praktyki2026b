@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Actions\Admin\ChangeUserRoleAction;
 use App\Actions\Admin\ChangeUserStatusAction;
+use App\Actions\Admin\DeleteUserAction;
 use App\Actions\Admin\SearchUsers;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
@@ -26,6 +27,7 @@ class AdminUserController extends Controller
         private readonly ChangeUserRoleAction $changeRoleAction,
         private readonly ChangeUserStatusAction $changeStatusAction,
         private readonly SearchUsers $searchUsers,
+        private readonly DeleteUserAction $deleteUserAction,
     ) {}
 
     public function index(SearchUsersRequest $request): Response
@@ -33,7 +35,7 @@ class AdminUserController extends Controller
         $filters = $request->getData();
 
         return inertia("Admin/Users", [
-            "users" => $this->searchUsers->execute($filters["role"], $filters["search"]),
+            "users" => $this->searchUsers->execute($filters),
             "filters" => $filters,
             "roles" => array_map(fn(UserRole $role): string => $role->value, UserRole::cases()),
             "companies" => Company::query()->orderBy("name")->get(["id", "name"]),
@@ -58,6 +60,15 @@ class AdminUserController extends Controller
         Gate::authorize("updateStatus", $user);
 
         $this->changeStatusAction->execute(Auth::user(), $user, $request->getStatus());
+
+        return back();
+    }
+
+    public function deleteUser(User $user): RedirectResponse
+    {
+        Gate::authorize("deleteUser", $user);
+
+        $this->deleteUserAction->execute($user);
 
         return back();
     }

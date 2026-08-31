@@ -8,6 +8,7 @@ import UniversityCard from '@/Components/Company/UniversityCard.vue'
 import FilterSuggestField from '@/Components/Partnership/FilterSuggestField.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
+import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
 import { ROUTES } from '@/Helpers/routes'
 
 const { t } = useI18n()
@@ -35,6 +36,7 @@ const statusFilterValues = {
 }
 
 const companyMenu = useCompanyPanelMenu('universities')
+
 const nameFilter = ref(props.filters.name || '')
 const cityFilter = ref(props.filters.city || '')
 const statusFilter = ref(
@@ -61,7 +63,7 @@ function selectStatusTab(tab) {
   search()
 }
 
-watch([nameFilter, cityFilter], search, { debounce: 300 })
+watch([nameFilter, cityFilter], useDebouncedSearch(search))
 </script>
 
 <template>

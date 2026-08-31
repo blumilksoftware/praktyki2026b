@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 use App\Enums\UserRole;
 use App\Http\Middleware\EnsureUserHasRole;
-use App\Http\Middleware\EnsureUserIsNotBlocked;
+use App\Http\Middleware\EnsureUserIsAllowed;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\ScrubInvalidUtf8;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -21,10 +22,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: "/up",
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->append(ScrubInvalidUtf8::class);
         $middleware->web(append: [
             SetLocale::class,
             HandleInertiaRequests::class,
-            EnsureUserIsNotBlocked::class,
+            EnsureUserIsAllowed::class,
         ]);
         $middleware->trustProxies(at: "*");
         $middleware->alias([
@@ -44,6 +46,16 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->respond(function (Response $response, Throwable $_, Request $request): Response {
             $status = $response->getStatusCode();
+
+            if ($status === 429 && !$request->expectsJson()) {
+                $seconds = $response->headers->get("Retry-After");
+                $message = __("auth.throttle", ["seconds" => $seconds]);
+
+                return ($request->has("email")
+                    ? back()->withErrors(["email" => $message])
+                    : back()->with("error", $message))
+                    ->withHeaders(["Retry-After" => $seconds]);
+            }
 
             if (!in_array($status, [401, 403, 404, 413, 500], true)) {
                 return $response;

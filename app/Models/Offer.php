@@ -75,7 +75,7 @@ class Offer extends Model
      */
     public function company(): BelongsTo
     {
-        return $this->belongsTo(Company::class)->withTrashed();
+        return $this->belongsTo(Company::class);
     }
 
     /**

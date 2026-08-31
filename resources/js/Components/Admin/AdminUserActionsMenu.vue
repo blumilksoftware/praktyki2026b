@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { IconUserCog, IconLock, IconLockOpen } from '@tabler/icons-vue'
+import { IconUserCog, IconLock, IconLockOpen, IconX } from '@tabler/icons-vue'
 
 const { t } = useI18n()
 
@@ -11,7 +11,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['change-role', 'toggle-block'])
+const emit = defineEmits(['change-role', 'toggle-block', 'delete-user'])
 </script>
 
 <template>
@@ -37,6 +37,15 @@ const emit = defineEmits(['change-role', 'toggle-block'])
     >
       <IconLockOpen v-if="props.user.status === 'blocked'" class="w-4 h-4" aria-hidden="true" />
       <IconLock v-else class="w-4 h-4" aria-hidden="true" />
+    </button>
+    <button
+      type="button"
+      class="p-1.5 rounded-md text-red-600 hover:bg-red-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+      :title="t('admin.users.deleteModal.confirmDelete')"
+      :aria-label="t('admin.users.deleteModal.confirmDelete', { name: props.user.email })"
+      @click="emit('delete-user', props.user)"
+    >
+      <IconX class="w-4 h-4" aria-hidden="true" />
     </button>
   </div>
 </template>

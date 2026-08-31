@@ -37,8 +37,6 @@ class TeamFiltersRequest extends FormRequest
         return [
             "member_search" => $memberSearch,
             "invitation_search" => $invitationSearch,
-            "member_search_lower" => mb_strtolower($memberSearch),
-            "invitation_search_lower" => mb_strtolower($invitationSearch),
             "member_page" => $memberPage,
             "invitation_page" => $invitationPage,
             "per_page" => $perPage,

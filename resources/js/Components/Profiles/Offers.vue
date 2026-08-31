@@ -41,15 +41,17 @@ const viewOffer = (offerId) => {
         :key="offer.id"
         class="rounded-2xl border border-border bg-white p-4 shadow-sm transition-colors hover:border-primary/40 sm:p-5"
       >
-        <div class="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+        <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
           <div class="min-w-0 flex-1">
             <div class="flex flex-wrap items-center gap-2">
               <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-green-700">
                 {{ t('company.offers.index.status.published') }}
               </span>
-              <h3 class="min-w-0 truncate font-semibold text-text text-base">
-                {{ offer.title }}
-              </h3>
+              <div class="min-w-0 flex-1">
+                <h3 class="line-clamp-2 font-semibold text-text text-base">
+                  {{ offer.title }}
+                </h3>
+              </div>
             </div>
             <div class="mt-2 flex flex-wrap items-center gap-3 text-additional text-sm">
               <span class="inline-flex items-center gap-1">
