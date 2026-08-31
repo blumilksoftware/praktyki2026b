@@ -1038,7 +1038,13 @@
         "name": "Nazwa uczelni",
         "namePlaceholder": "Szukaj po nazwie",
         "city": "Miasto",
-        "cityPlaceholder": "Filtruj po mieście"
+        "cityPlaceholder": "Filtruj po mieście",
+          "status": {
+              "all": "Wszystkie",
+              "pendingIncoming": "Oczekujące propozycje",
+              "pendingOutgoing": "Wysłane propozycje",
+              "active": "Partnerzy"
+          }
       },
       "card": {
         "logoAlt": "Logo uczelni {university}",
@@ -1086,11 +1092,29 @@
         "description": "Opublikuj ofertę albo zapisz ją jako szkic, żeby dokończyć później.",
         "action": "Utwórz ofertę"
       },
+        "greeting": "Witaj ponownie, {company}",
       "stats": {
+          "capacity": {
+              "title": "Wykorzystanie miejsc",
+              "summary": "{filled} z {total} miejsc zajętych",
+              "remaining": "Pozostało miejsc: {count}"
+          },
         "totalOffers": "Wszystkie oferty",
         "publishedOffers": "Opublikowane",
         "draftOffers": "Szkice",
-        "applications": "Zgłoszenia"
+        "applications": "Zgłoszenia",
+          "closingSoon": "Kończące się wkrótce",
+          "pendingApplications": "Oczekujące zgłoszenia",
+          "teamSize": "Wielkość zespołu",
+          "pendingInvitations": "Oczekujące zaproszenia",
+          "universityPartnerships": "Partnerstwa z uczelniami",
+          "openPartnershipRequests": "Otwarte prośby o partnerstwo",
+          "sections": {
+              "offers": "Oferty",
+              "applications": "Zgłoszenia",
+              "team": "Zespół",
+              "partnerships": "Partnerstwa"
+          }
       },
       "shortcuts": {
         "unreadApplications": "Masz {count} nieprzeczytanych aktualizacji.",
@@ -1195,7 +1219,8 @@
           "draft": "Szkic",
           "published": "Opublikowana",
           "closed": "Zamknięta",
-          "expired": "Wygasła"
+          "expired": "Wygasła",
+          "closingSoon": "Kończy się wkrótce"
         }
       },
       "create": {

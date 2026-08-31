@@ -114,6 +114,8 @@ export const ROUTES = {
   // General
   APPLICATIONS: "/applications",
   TEAM: "/team",
+  TEAM_MEMBERS: "/team?show=members",
+  TEAM_INVITATIONS: "/team?show=invitations",
   LANGUAGE_SWITCH: "/language/{locale}",
   SETTINGS: "/settings",
 

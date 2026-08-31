@@ -1,7 +1,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconUsers, IconClipboardText } from '@tabler/icons-vue'
+import { IconUsers, IconClipboardText, IconClock } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 import OfferActionsMenu from './OfferActionsMenu.vue'
 
@@ -66,7 +66,7 @@ const titleHref = (offerId) => ROUTES.OFFER_PREVIEW.replace('{offer}', offerId)
     <li
       v-for="offer in props.offers"
       :key="offer.id"
-      class="relative rounded-2xl border border-border bg-white p-4 pr-12 shadow-sm sm:p-5 sm:pr-14"
+      class="relative rounded-2xl border-border bg-white p-4 pr-12 shadow-sm sm:p-5 sm:pr-14"
     >
       <div class="flex items-start gap-3">
         <div class="min-w-0">
@@ -77,6 +77,15 @@ const titleHref = (offerId) => ROUTES.OFFER_PREVIEW.replace('{offer}', offerId)
             >
               {{ t(`${props.statusKeyPrefix}.${offer.status}`) }}
             </span>
+
+            <span
+              v-if="offer.closing_soon"
+              class="inline-flex items-center gap-1 rounded-full bg-orange-50 px-2.5 py-1 text-xs font-semibold text-orange-700"
+            >
+              <IconClock class="h-3.5 w-3.5" aria-hidden="true" />
+              {{ t('company.offers.index.status.closingSoon') }}
+            </span>
+
             <h2 class="min-w-0 truncate font-semibold text-text text-base">
               <Link
                 :href="titleHref(offer.id)"

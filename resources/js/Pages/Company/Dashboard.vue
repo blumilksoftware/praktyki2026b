@@ -1,62 +1,62 @@
 <script setup>
 import { computed } from 'vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, Link, usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconPlus, IconBriefcase, IconFileText, IconBell, IconArrowUpRight } from '@tabler/icons-vue'
+import {
+  IconPlus,
+  IconBriefcase,
+  IconFileText,
+  IconBell,
+  IconArrowDownLeftCircle,
+  IconClock,
+  IconUsers,
+  IconMailForward,
+  IconBuildingBank,
+} from '@tabler/icons-vue'
 import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
 import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { ROUTES } from '@/Helpers/routes'
 import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import DashboardStatSection from '@/Components/Company/Dashboard/DashboardStatSection.vue'
+import DashboardStatTile from '@/Components/Company/Dashboard/DashboardStatTile.vue'
+import DashboardCapacityCard from '@/Components/Company/Dashboard/DashboardCapacityCard.vue'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const page = usePage()
 
 const props = defineProps({
   stats: {
     type: Object,
     default: () => ({
-      total_offers: 0,
-      published_offers: 0,
-      draft_offers: 0,
-      applications_count: 0,
-      unread_notifications_count: 0,
+      totalOffers: 0,
+      publishedOffers: 0,
+      draftOffers: 0,
+      offersClosingSoon: 0,
+      totalSpots: 0,
+      remainingSpots: 0,
+      applicationsCount: 0,
+      pendingApplicationsCount: 0,
+      acceptedApplicationsCount: 0,
+      teamSize: 0,
+      pendingInvitationsCount: 0,
+      acceptedInvitationsCount: 0,
+      universityPartnershipsCount: 0,
+      openPartnershipRequestsCount: 0,
+      unreadNotificationsCount: 0,
     }),
   },
 })
 
-const statsCards = computed(() => [
-  {
-    label: t('company.dashboard.stats.totalOffers'),
-    value: props.stats.total_offers,
-    accent: 'text-primary',
-    icon: IconBriefcase,
-    href: ROUTES.COMPANY_OFFERS_INDEX,
-  },
-  {
-    label: t('company.dashboard.stats.publishedOffers'),
-    value: props.stats.published_offers,
-    accent: 'text-emerald-600',
-    icon: IconFileText,
-    href: `${ROUTES.COMPANY_OFFERS_INDEX}?status=published`,
-  },
-  {
-    label: t('company.dashboard.stats.draftOffers'),
-    value: props.stats.draft_offers,
-    accent: 'text-amber-600',
-    icon: IconFileText,
-    href: `${ROUTES.COMPANY_OFFERS_INDEX}?status=draft`,
-  },
-  {
-    label: t('company.dashboard.stats.applications'),
-    value: props.stats.applications_count,
-    accent: 'text-sky-600',
-    icon: IconArrowUpRight,
-    href: ROUTES.COMPANY_APPLICATIONS,
-  },
-])
-
-const unreadAlertCount = computed(() => props.stats.unread_notifications_count)
+const unreadAlertCount = computed(() => props.stats.unreadNotificationsCount)
 const unreadAlert = computed(() => unreadAlertCount.value > 0)
 const companyMenu = useCompanyPanelMenu('dashboard')
+
+const companyName = computed(() => page.props.auth?.user?.company?.name ?? '')
+const todayLabel = computed(() => new Intl.DateTimeFormat(locale.value, {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+}).format(new Date()))
 </script>
 
 <template>
@@ -68,6 +68,15 @@ const companyMenu = useCompanyPanelMenu('dashboard')
     navigation-variant="default"
   >
     <div class="flex flex-col gap-6">
+      <div>
+        <h1 class="font-semibold text-text text-2xl">
+          {{ t('company.dashboard.greeting', { company: companyName }) }}
+        </h1>
+        <p class="mt-1 text-sm text-additional">
+          {{ todayLabel }}
+        </p>
+      </div>
+
       <OnboardingBanner />
 
       <div
@@ -104,30 +113,88 @@ const companyMenu = useCompanyPanelMenu('dashboard')
         </Link>
       </div>
 
+      <DashboardCapacityCard
+        v-if="stats.totalSpots > 0"
+        :total-spots="stats.totalSpots"
+        :remaining-spots="stats.remainingSpots"
+      />
+
       <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        <Link
-          v-for="card in statsCards"
-          :key="card.label"
-          :href="card.href"
-          class="group flex items-center justify-between rounded-2xl border border-border bg-white p-5 shadow-sm transition hover:border-primary/40 hover:shadow-md"
+        <DashboardStatSection
+          :title="t('company.dashboard.stats.sections.offers')"
+          :primary-label="t('company.dashboard.stats.totalOffers')"
+          :primary-value="stats.totalOffers"
+          :primary-href="ROUTES.COMPANY_OFFERS_INDEX"
+          :icon="IconBriefcase"
         >
-          <div class="flex items-center gap-4">
-            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-background">
-              <component :is="card.icon" class="h-6 w-6" :class="card.accent" aria-hidden="true" />
-            </div>
-            <div>
-              <p class="text-[11px] font-medium uppercase tracking-[0.08em] text-additional">
-                {{ card.label }}
-              </p>
-              <p class="mt-1 text-3xl font-semibold text-text leading-none">
-                {{ card.value }}
-              </p>
-            </div>
-          </div>
-          <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-background text-additional transition group-hover:bg-primary/10 group-hover:text-primary">
-            <IconArrowUpRight class="h-4 w-4" aria-hidden="true" />
-          </span>
-        </Link>
+          <DashboardStatTile
+            :label="t('company.dashboard.stats.publishedOffers')"
+            :value="stats.publishedOffers"
+            :href="`${ROUTES.COMPANY_OFFERS_INDEX}?status=published`"
+            :icon="IconFileText"
+          />
+          <DashboardStatTile
+            :label="t('company.dashboard.stats.draftOffers')"
+            :value="stats.draftOffers"
+            :href="`${ROUTES.COMPANY_OFFERS_INDEX}?status=draft`"
+            :icon="IconFileText"
+          />
+          <DashboardStatTile
+            :label="t('company.dashboard.stats.closingSoon')"
+            :value="stats.offersClosingSoon"
+            :href="`${ROUTES.COMPANY_OFFERS_INDEX}?closing_soon=true`"
+            :icon="IconClock"
+          />
+        </DashboardStatSection>
+
+        <DashboardStatSection
+          :title="t('company.dashboard.stats.sections.applications')"
+          :primary-label="t('company.dashboard.stats.applications')"
+          :primary-value="stats.applicationsCount"
+          :primary-href="ROUTES.COMPANY_APPLICATIONS"
+          :icon="IconArrowDownLeftCircle"
+          accent="text-sky-600"
+          accent-bg="bg-sky-50"
+        >
+          <DashboardStatTile
+            :label="t('company.dashboard.stats.pendingApplications')"
+            :value="stats.pendingApplicationsCount"
+            :href="`${ROUTES.COMPANY_APPLICATIONS}?status=pending`"
+            :icon="IconArrowDownLeftCircle"
+          />
+        </DashboardStatSection>
+
+        <DashboardStatSection
+          :title="t('company.dashboard.stats.sections.team')"
+          :primary-label="t('company.dashboard.stats.teamSize')"
+          :primary-value="stats.teamSize"
+          :primary-href="ROUTES.TEAM_MEMBERS"
+          :icon="IconUsers"
+          accent="text-indigo-600"
+          accent-bg="bg-indigo-50"
+        >
+          <DashboardStatTile
+            :label="t('company.dashboard.stats.pendingInvitations')"
+            :value="stats.pendingInvitationsCount"
+            :href="ROUTES.TEAM_INVITATIONS"
+            :icon="IconMailForward"
+          />
+        </DashboardStatSection>
+
+        <DashboardStatSection
+          :title="t('company.dashboard.stats.sections.partnerships')"
+          :primary-label="t('company.dashboard.stats.universityPartnerships')"
+          :primary-value="stats.universityPartnershipsCount"
+          :primary-href="`${ROUTES.COMPANY_UNIVERSITIES}?status=active `"
+          :icon="IconBuildingBank"
+        >
+          <DashboardStatTile
+            :label="t('company.dashboard.stats.openPartnershipRequests')"
+            :value="stats.openPartnershipRequestsCount"
+            :href="`${ROUTES.COMPANY_UNIVERSITIES}?status=pending_incoming`"
+            :icon="IconBuildingBank"
+          />
+        </DashboardStatSection>
       </div>
     </div>
   </BaseLayout>
