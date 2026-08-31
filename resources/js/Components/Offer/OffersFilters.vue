@@ -164,7 +164,7 @@ defineExpose({ studyFieldLabelToValue })
           id="offers-filter-search"
           v-model="filters.search"
           type="search"
-          :placeholder="t('student.offers.filters.city')"
+          :placeholder="t('student.offers.filters.searchPlaceholder')"
           class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text placeholder:text-additional text-sm transition"
         >
       </label>

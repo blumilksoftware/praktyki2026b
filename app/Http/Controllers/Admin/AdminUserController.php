@@ -35,7 +35,7 @@ class AdminUserController extends Controller
         $filters = $request->getData();
 
         return inertia("Admin/Users", [
-            "users" => $this->searchUsers->execute($filters["role"], $filters["search"]),
+            "users" => $this->searchUsers->execute($filters),
             "filters" => $filters,
             "roles" => array_map(fn(UserRole $role): string => $role->value, UserRole::cases()),
             "companies" => Company::query()->orderBy("name")->get(["id", "name"]),

@@ -4,31 +4,36 @@ declare(strict_types=1);
 
 namespace App\Actions\Admin;
 
+use App\Models\Company;
 use App\Models\Offer;
+use App\Traits\SearchesCaseInsensitively;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class SearchOffers
 {
-    public function execute(string $status, string $search): LengthAwarePaginator
+    use SearchesCaseInsensitively;
+
+    public function execute(array $filters): LengthAwarePaginator
     {
         $query = Offer::query()->with("company:id,name");
 
-        if ($status !== "all") {
-            $query->where("status", $status);
+        if ($filters["status"] !== "all") {
+            $query->where("status", $filters["status"]);
         }
 
-        if ($search !== "") {
-            $query->where(function ($builder) use ($search): void {
-                $builder->where("title", "like", "%{$search}%")
-                    ->orWhereHas("company", function ($company) use ($search): void {
-                        $company->where("name", "like", "%{$search}%");
-                    });
-            });
+        if ($filters["search"] !== "") {
+            $this->applyCaseInsensitiveSearch($query, $filters["search"], ["title", "company.name"]);
         }
 
-        return $query->orderBy("created_at", "desc")->paginate(20)->appends([
-            "status" => $status,
-            "search" => $search,
-        ]);
+        if ($filters["sort_key"] === "company") {
+            $query->orderBy(
+                Company::query()->select("name")->whereColumn("companies.id", "offers.company_id"),
+                $filters["sort_dir"],
+            );
+        } else {
+            $query->orderBy($filters["sort_key"], $filters["sort_dir"]);
+        }
+
+        return $query->orderByDesc("id")->paginate(20)->appends($filters);
     }
 }

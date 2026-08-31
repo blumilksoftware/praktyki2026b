@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait FiltersStudentOffers
 {
+    use SearchesCaseInsensitively;
+
     protected function buildFilteredOffersQuery(array $filters): Builder
     {
         $lat = isset($filters["latitude"]) ? (float)$filters["latitude"] : null;
@@ -26,16 +28,7 @@ trait FiltersStudentOffers
                 );
             })
             ->when($filters["search"] ?? null, function (Builder $query, string $search): void {
-                $term = "%" . addcslashes(mb_strtolower($search), "%_\\") . "%";
-
-                $query->where(function (Builder $q) use ($term): void {
-                    $q->whereRaw("LOWER(title) LIKE ? ESCAPE '\\'", [$term])
-                        ->orWhereRaw("LOWER(city) LIKE ? ESCAPE '\\'", [$term])
-                        ->orWhereHas(
-                            "company",
-                            fn(Builder $q) => $q->whereRaw("LOWER(name) LIKE ? ESCAPE '\\'", [$term]),
-                        );
-                });
+                $this->applyCaseInsensitiveSearch($query, $search, ["title", "city", "company.name"]);
             })
             ->when(!$hasRadiusFilter && !empty($filters["cities"]), function (Builder $query) use ($filters): void {
                 $query->whereIn("city", (array)$filters["cities"]);

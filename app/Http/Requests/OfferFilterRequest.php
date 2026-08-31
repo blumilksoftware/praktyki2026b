@@ -36,6 +36,9 @@ class OfferFilterRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        $search = $this->input("search");
+        $search = is_string($search) ? trim($search) : "";
+
         $dateFrom = $this->sanitizeDate($this->input("date_from"));
         $dateTo = $this->sanitizeDate($this->input("date_to"));
 
@@ -45,7 +48,7 @@ class OfferFilterRequest extends FormRequest
         }
 
         $this->merge([
-            "search" => $this->filled("search") ? trim((string)$this->input("search")) : null,
+            "search" => $search !== "" ? $search : null,
             "radius_km" => $this->filled("radius_km") ? (int)$this->input("radius_km") : null,
             "date_from" => $dateFrom,
             "date_to" => $dateTo,
