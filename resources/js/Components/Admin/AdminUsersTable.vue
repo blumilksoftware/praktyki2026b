@@ -90,6 +90,7 @@ function isCurrentAdmin(user) {
 }
 
 function userLabel(user) {
+  if (user.status === 'deleted') return t('admin.users.deletedAccount')
   return [user.first_name, user.last_name].filter(Boolean).join(' ') || user.email
 }
 
@@ -135,13 +136,13 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
       :caption="t('admin.users.title')"
     >
       <template #cell-name="{ item }">
-        {{ [item.first_name, item.last_name].filter(Boolean).join(' ') || '-' }}
+        {{ userLabel(item) }}
       </template>
       <template #cell-email="{ item }">
         <a :href="`mailto:${item.email}`" class="text-primary hover:underline">{{ item.email }}</a>
       </template>
       <template #cell-role="{ item }">
-        <span :class="['inline-flex px-2.5 py-1 rounded-full font-medium text-xs', roleClass(item.role)]">
+        <span :class="['inline-flex px-2.5 py-1 rounded-full font-medium text-xs whitespace-nowrap', roleClass(item.role)]">
           {{ t(`admin.users.roles.${item.role}`) }}
         </span>
       </template>

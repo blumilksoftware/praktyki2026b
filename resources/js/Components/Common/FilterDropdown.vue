@@ -63,7 +63,7 @@ onUnmounted(() => document.removeEventListener('click', closeDropdown))
             v-for="option in options"
             :key="option.value"
             type="button"
-            class="flex items-center hover:bg-slate-50 px-4 py-2 w-full text-sm text-left hover:cursor-pointer transition-colors"
+            class="flex items-center hover:bg-slate-50 px-4 py-2 w-full text-sm text-left whitespace-nowrap hover:cursor-pointer transition-colors"
             :class="option.value === modelValue ? 'text-primary font-bold bg-slate-50/50' : 'text-slate-600'"
             @click="select(option.value)"
           >

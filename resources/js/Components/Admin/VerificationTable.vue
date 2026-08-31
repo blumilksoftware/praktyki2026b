@@ -349,6 +349,7 @@ onUnmounted(() => {
       :items="currentItems"
       :columns="columns"
       row-key="id"
+      card-badge-key="verification_status"
       :caption="entityType === 'company' ? t('admin.verification.companies') : t('admin.verification.universities')"
       :sort-key="sortKey"
       :sort-dir="sortDir"

@@ -366,7 +366,6 @@
   },
 
   "table": {
-    "id": "ID",
     "student": "Student",
     "company": "Company",
     "status": "Status",
@@ -442,6 +441,7 @@
       "filterByRoleAriaLabel": "Filter users by role",
       "all": "All",
       "name": "Name",
+      "deletedAccount": "Deleted account",
       "email": "Email",
       "role": "Role",
       "actions": "Actions",

@@ -93,12 +93,10 @@ watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
       :items="offers.data"
       :columns="columns"
       row-key="id"
+      card-title-key="title"
       :caption="t('admin.offers.title')"
       :row-href="(item) => offerShow(item.id)"
     >
-      <template #cell-title="{ item }">
-        {{ item.title }}
-      </template>
       <template #cell-company="{ item }">
         {{ item.company?.name || '-' }}
       </template>

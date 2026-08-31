@@ -374,7 +374,6 @@
   },
 
   "table": {
-    "id": "ID",
     "student": "Student",
     "company": "Firma",
     "status": "Status",
@@ -451,6 +450,7 @@
       "filterByRoleAriaLabel": "Filtruj użytkowników po roli",
       "all": "Wszystkie",
       "name": "Imię i nazwisko",
+      "deletedAccount": "Usunięte konto",
       "email": "E-mail",
       "role": "Rola",
       "actions": "Akcje",
