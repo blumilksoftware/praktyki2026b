@@ -96,6 +96,28 @@ class CompanyAndUniversityVerificationTest extends TestCase
             );
     }
 
+    public function testApplicationsSearchIgnoresCaseForCompaniesAndUniversities(): void
+    {
+        $user = User::factory()->create(["role" => UserRole::SuperAdmin]);
+
+        Company::factory()->pending()->create(["name" => "Northwind Labs"]);
+        Company::factory()->pending()->create(["name" => "Sunward Systems"]);
+        University::factory()->pending()->create(["name" => "Northwind Institute"]);
+        University::factory()->pending()->create(["name" => "Ashgrove Academy"]);
+
+        $this->actingAs($user)
+            ->get("/admin/applications?search=NORTHWIND")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Admin/Applications")
+                    ->has("companies.data", 1)
+                    ->where("companies.data.0.name", "Northwind Labs")
+                    ->has("universities.data", 1)
+                    ->where("universities.data.0.name", "Northwind Institute"),
+            );
+    }
+
     public function testAdminCanAcceptCompanyVerification(): void
     {
         $admin = User::factory()->create([

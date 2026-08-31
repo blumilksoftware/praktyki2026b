@@ -72,7 +72,7 @@ const onStatusChange = (event) => {
       <span class="font-bold text-text">{{ application.offer_title }}</span>
     </div>
 
-    <div class="flex items-center gap-4 lg:w-1/3 lg:justify-end">
+    <div class="flex flex-wrap items-center justify-end gap-4 lg:w-1/3">
       <select
         :aria-label="t('profiles.company.applications.filters.status')"
         :value="application.status"
@@ -97,18 +97,24 @@ const onStatusChange = (event) => {
         </option>
       </select>
 
-      <a
-        v-if="application.cv_url"
-        :href="application.cv_url"
-        target="_blank"
-        class="inline-flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-4 py-2 font-semibold text-text text-sm transition-colors"
-      >
-        <IconDownload class="h-4 w-4 text-secondary" stroke="2.5" />
-        {{ t('profiles.company.applications.actions.download_cv') }}
-      </a>
-      <span v-else class="italic text-additional text-sm px-4 py-2">
-        {{ t('profiles.company.applications.no_cv') }}
-      </span>
+      <div class="flex w-full shrink-0 justify-end sm:w-44">
+        <a
+          v-if="application.cv_url"
+          :href="application.cv_url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex w-full items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-4 py-2 font-semibold text-text text-sm transition-colors"
+        >
+          <IconDownload class="h-4 w-4 text-secondary" stroke="2.5" />
+          {{ t('profiles.company.applications.actions.download_cv') }}
+        </a>
+        <span
+          v-else
+          class="inline-flex w-full items-center justify-center rounded-lg border border-dashed border-border px-4 py-2 italic text-additional text-sm"
+        >
+          {{ t('profiles.company.applications.no_cv') }}
+        </span>
+      </div>
     </div>
   </div>
 </template>

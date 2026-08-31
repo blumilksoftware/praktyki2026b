@@ -375,7 +375,6 @@
   },
 
   "table": {
-    "id": "ID",
     "student": "Student",
     "company": "Firma",
     "status": "Status",
@@ -453,6 +452,7 @@
       "filterByRoleAriaLabel": "Filtruj użytkowników po roli",
       "all": "Wszystkie",
       "name": "Imię i nazwisko",
+      "deletedAccount": "Usunięte konto",
       "email": "E-mail",
       "role": "Rola",
       "actions": "Akcje",
@@ -899,6 +899,8 @@
       "description": "Tu trafiają oferty oznaczone sercem. Możesz je potem odhaczyć albo wrócić do pełnej listy.",
       "backToOffers": "Wróć do ofert",
       "backToDashboard": "Wróć do panelu głównego",
+      "listAriaLabel": "Ulubione oferty",
+      "removedAnnouncement": "Oferta {title} została usunięta z ulubionych",
       "empty": {
         "title": "Nie masz jeszcze ulubionych ofert",
         "description": "Dodaj ofertę do ulubionych z kafelka, a pojawi się tutaj."
@@ -919,6 +921,7 @@
             "label": "Nawigacja stronicowania"
         },
         "map": {
+            "loading": "Wczytywanie mapy...",
             "selectPinHint": "Wybierz punkt na mapie, aby zobaczyć dostępne oferty",
             "cityOffersTitle": "Oferty w {city}",
             "showAll": "Pokaż wszystkie oferty",
@@ -981,7 +984,8 @@
         "addToFavorites": "Dodaj do ulubionych",
         "removeFromFavorites": "Usuń z ulubionych",
         "mapComingSoon": "Mapa pojawi się w osobnej podstronie",
-        "loginToApply": "Zaloguj się, aby aplikować"
+        "loginToApply": "Zaloguj się, aby aplikować",
+        "openOfferAria": "Zobacz ofertę {title}"
       },
       "detail": {
         "backToOffers": "Wróć do ofert",
@@ -1036,7 +1040,13 @@
         "name": "Nazwa uczelni",
         "namePlaceholder": "Szukaj po nazwie",
         "city": "Miasto",
-        "cityPlaceholder": "Filtruj po mieście"
+        "cityPlaceholder": "Filtruj po mieście",
+          "status": {
+              "all": "Wszystkie",
+              "pendingIncoming": "Oczekujące propozycje",
+              "pendingOutgoing": "Wysłane propozycje",
+              "active": "Partnerzy"
+          }
       },
       "card": {
         "logoAlt": "Logo uczelni {university}",
@@ -1084,11 +1094,29 @@
         "description": "Opublikuj ofertę albo zapisz ją jako szkic, żeby dokończyć później.",
         "action": "Utwórz ofertę"
       },
+        "greeting": "Witaj ponownie, {company}",
       "stats": {
+          "capacity": {
+              "title": "Wykorzystanie miejsc",
+              "summary": "{filled} z {total} miejsc zajętych",
+              "remaining": "Pozostało miejsc: {count}"
+          },
         "totalOffers": "Wszystkie oferty",
         "publishedOffers": "Opublikowane",
         "draftOffers": "Szkice",
-        "applications": "Zgłoszenia"
+        "applications": "Zgłoszenia",
+          "closingSoon": "Kończące się wkrótce",
+          "pendingApplications": "Oczekujące zgłoszenia",
+          "teamSize": "Wielkość zespołu",
+          "pendingInvitations": "Oczekujące zaproszenia",
+          "universityPartnerships": "Partnerstwa z uczelniami",
+          "openPartnershipRequests": "Otwarte prośby o partnerstwo",
+          "sections": {
+              "offers": "Oferty",
+              "applications": "Zgłoszenia",
+              "team": "Zespół",
+              "partnerships": "Partnerstwa"
+          }
       },
       "shortcuts": {
         "unreadApplications": "Masz {count} nieprzeczytanych aktualizacji.",
@@ -1193,7 +1221,8 @@
           "draft": "Szkic",
           "published": "Opublikowana",
           "closed": "Zamknięta",
-          "expired": "Wygasła"
+          "expired": "Wygasła",
+          "closingSoon": "Kończy się wkrótce"
         }
       },
       "create": {

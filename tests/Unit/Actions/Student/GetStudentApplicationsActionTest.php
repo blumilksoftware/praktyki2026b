@@ -64,11 +64,13 @@ class GetStudentApplicationsActionTest extends TestCase
         $this->assertEquals("TechCorp", $firstItem["company_name"]);
         $this->assertEquals("pending", $firstItem["status"]);
         $this->assertEquals($app1->created_at->toIso8601String(), $firstItem["date_applied"]);
+        $this->assertFalse($firstItem["offer_deleted"]);
 
         $secondItem = $history->firstWhere("id", $app2->id);
         $this->assertNotNull($secondItem);
         $this->assertEquals("Frontend Developer", $secondItem["offer_title"]);
         $this->assertEquals("TechCorp", $secondItem["company_name"]);
         $this->assertEquals("accepted", $secondItem["status"]);
+        $this->assertTrue($secondItem["offer_deleted"]);
     }
 }

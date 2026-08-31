@@ -9,8 +9,6 @@ readonly class TeamFiltersData
     public function __construct(
         public string $memberSearch,
         public string $invitationSearch,
-        public string $memberSearchLower,
-        public string $invitationSearchLower,
         public int $memberPage,
         public int $invitationPage,
         public int $perPage,
@@ -21,8 +19,6 @@ readonly class TeamFiltersData
         return new self(
             memberSearch: $data["member_search"],
             invitationSearch: $data["invitation_search"],
-            memberSearchLower: $data["member_search_lower"] ?? mb_strtolower($data["member_search"]),
-            invitationSearchLower: $data["invitation_search_lower"] ?? mb_strtolower($data["invitation_search"]),
             memberPage: $data["member_page"],
             invitationPage: $data["invitation_page"],
             perPage: $data["per_page"] ?? 10,

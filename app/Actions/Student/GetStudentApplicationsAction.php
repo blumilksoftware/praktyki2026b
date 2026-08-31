@@ -15,15 +15,17 @@ class GetStudentApplicationsAction
     {
         return $student->applications()
             ->with([
-                "offer" => fn(BelongsTo $query): BelongsTo => $query->withTrashed()->with("company"),
+                "offer" => fn(BelongsTo $query): BelongsTo => $query->withTrashed()->with("company")->withCount("acceptedApplications"),
             ])
             ->orderBy("created_at", "desc")
             ->get()
             ->map(fn(Application $app): array => [
                 "id" => $app->id,
                 "offer_id" => $app->offer_id,
+                "offer_deleted" => $app->offer?->trashed() ?? true,
                 "offer_title" => $app->offer?->title ?? "",
                 "company_name" => $app->offer?->company?->name ?? "",
+                "remaining_spots" => $app->offer?->remainingSpots(),
                 "date_applied" => $app->created_at->toIso8601String(),
                 "status" => $app->status->value,
             ]);

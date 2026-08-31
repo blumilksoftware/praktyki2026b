@@ -1,0 +1,39 @@
+<script setup>
+import { Link } from '@inertiajs/vue3'
+
+defineProps({
+  title: { type: String, required: true },
+  primaryLabel: { type: String, required: true },
+  primaryValue: { type: [Number, String], required: true },
+  primaryHref: { type: String, required: true },
+  icon: { type: [Object, Function], required: true },
+})
+</script>
+
+<template>
+  <section class="rounded-2xl border border-border p-5 shadow-sm bg-white">
+    <p class="text-[11px] font-medium uppercase tracking-[0.08em] text-additional">
+      {{ title }}
+    </p>
+
+    <Link
+      :href="primaryHref"
+      class="group mt-3 flex items-center gap-3 rounded-xl transition hover:opacity-90"
+    >
+      <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white">
+        <component :is="icon" class="h-5 w-5 bg-white" aria-hidden="true" />
+      </div>
+      <div class="min-w-0">
+        <p class="text-2xl font-semibold leading-none text-text">
+          {{ primaryValue }}
+        </p>
+        <p class="mt-1 truncate text-xs text-additional group-hover:text-primary">
+          {{ primaryLabel }}
+        </p>
+      </div>
+    </Link>
+    <div class="mt-3 flex flex-col border-t border-border pt-3 gap-2">
+      <slot />
+    </div>
+  </section>
+</template>

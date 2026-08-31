@@ -11,6 +11,7 @@ import AdminDeleteOrganizationModal from '@/Components/Admin/AdminDeleteOrganiza
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import { Teleport } from 'vue'
 import { useVerificationStatus } from '@/Composables/useVerificationStatus'
+import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
 import { companyShow, universityShow } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -91,18 +92,22 @@ function rowHref(item) {
   return entityType.value === 'company' ? companyShow(item.id) : universityShow(item.id)
 }
 
-function handleSort({ key, dir }) {
-  sortKey.value = key
-  sortDir.value = dir
+function applyQuery() {
   router.get('/admin/applications', {
     status: statusFilter.value,
     search: searchQuery.value,
-    sort_key: key,
-    sort_dir: dir,
+    sort_key: sortKey.value,
+    sort_dir: sortDir.value,
   }, {
     preserveState: true,
     replace: true,
   })
+}
+
+function handleSort({ key, dir }) {
+  sortKey.value = key
+  sortDir.value = dir
+  applyQuery()
 }
 
 watch(entityType, () => {
@@ -110,17 +115,7 @@ watch(entityType, () => {
   sortDir.value = 'asc'
 })
 
-watch([statusFilter, searchQuery], ([newStatus, newSearch]) => {
-  router.get('/admin/applications', {
-    status: newStatus,
-    search: newSearch,
-    sort_key: sortKey.value,
-    sort_dir: sortDir.value,
-  }, {
-    preserveState: true,
-    replace: true,
-  })
-}, { debounce: 300 })
+watch([statusFilter, searchQuery], useDebouncedSearch(applyQuery))
 
 const columns = [
   { key: 'name', label: t('admin.verification.name'), sortable: true },
@@ -349,6 +344,7 @@ onUnmounted(() => {
       :items="currentItems"
       :columns="columns"
       row-key="id"
+      card-badge-key="verification_status"
       :caption="entityType === 'company' ? t('admin.verification.companies') : t('admin.verification.universities')"
       :sort-key="sortKey"
       :sort-dir="sortDir"
