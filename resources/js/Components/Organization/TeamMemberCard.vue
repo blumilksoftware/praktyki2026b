@@ -90,7 +90,7 @@ function handlePreview(event) {
     @keydown.space.prevent="emit('preview')"
   >
     <div class="p-5">
-      <div class="flex items-start justify-between gap-3">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div class="min-w-0 flex flex-1 items-center gap-3">
           <div class="min-w-0 flex flex-wrap items-center gap-2">
             <span
@@ -107,16 +107,16 @@ function handlePreview(event) {
         <button
           v-if="showTransfer"
           type="button"
-          class="inline-flex items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/10 px-2 py-1.5 text-sm font-medium text-primary transition hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          class="inline-flex w-fit shrink-0 items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/10 px-2 py-1.5 text-sm font-medium text-primary transition hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
           :aria-label="transferLabel"
           @click="handleTransfer"
         >
-          <IconArrowsExchange class="h-4 w-4" aria-hidden="true" />
+          <IconArrowsExchange class="h-4 w-4 shrink-0" aria-hidden="true" />
           <span>{{ transferLabel }}</span>
         </button>
         <span
           v-else-if="showSelfLabel"
-          class="inline-flex items-center whitespace-nowrap px-2 py-1.5 text-xs font-medium text-additional underline sm:text-sm"
+          class="inline-flex w-fit shrink-0 items-center whitespace-nowrap px-2 py-1.5 text-xs font-medium text-additional underline sm:text-sm"
         >
           {{ props.selfLabel }}
         </span>
@@ -124,7 +124,7 @@ function handlePreview(event) {
           v-else-if="canRenderRemoveAction"
           type="button"
           :disabled="props.disableRemove"
-          class="inline-flex items-center gap-1.5 rounded-lg border px-2 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          class="inline-flex w-fit shrink-0 items-center gap-1.5 rounded-lg border px-2 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
           :class="props.disableRemove
             ? 'cursor-not-allowed border-transparent bg-transparent text-additional opacity-55'
             : 'cursor-pointer border-red-200 bg-red-50 text-red-600 hover:bg-red-100'"
@@ -132,15 +132,15 @@ function handlePreview(event) {
           :aria-disabled="props.disableRemove ? true : undefined"
           @click="handleRemove"
         >
-          <IconTrash class="h-4 w-4" aria-hidden="true" />
+          <IconTrash class="h-4 w-4 shrink-0" aria-hidden="true" />
           <span>{{ props.removeLabel }}</span>
         </button>
       </div>
-      <div class="mt-2 flex flex-wrap items-center justify-between gap-2">
-        <p class="min-w-0 break-all text-sm font-semibold text-additional">
+      <div class="mt-3 flex flex-col gap-1 sm:mt-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-2">
+        <p class="min-w-0 break-words text-sm font-semibold text-additional">
           {{ props.member.email }}
         </p>
-        <span class="shrink-0 text-right text-sm text-additional">
+        <span class="shrink-0 text-sm text-additional sm:text-right">
           {{ props.joinDateLabel }}
         </span>
       </div>
