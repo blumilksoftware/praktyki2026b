@@ -15,7 +15,6 @@ use App\Enums\OfferStatus;
 use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOfferRequest;
-use App\Models\City;
 use App\Models\Offer;
 use App\Models\StudyField;
 use App\Models\University;
@@ -157,7 +156,6 @@ class OfferController extends Controller
             "studyFields" => StudyField::query()->orderBy("name")->get(["id", "name"]),
             "universities" => University::query()->verified()->orderBy("name")->get(["id", "name"]),
             "isCompanyVerified" => Auth::user()->company?->verification_status === VerificationStatus::Verified,
-            "cities" => City::query()->orderBy("name")->pluck("name"),
         ];
     }
 }

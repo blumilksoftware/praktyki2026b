@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Admin\AdminCityController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminIndustryTagController;
 use App\Http\Controllers\Admin\AdminOfferController;
@@ -171,9 +170,6 @@ Route::middleware(["role:superAdmin"])
         Route::delete("/universities/{university}", [AdminController::class, "deleteUniversity"])->name("admin.universities.destroy");
         Route::patch("/offers/{offer}/take-down", [AdminOfferController::class, "takeDown"])->name("admin.offers.take-down");
         Route::delete("/reviews/{review}", [AdminReviewController::class, "destroy"])->name("admin.reviews.destroy");
-        Route::post("/cities", [AdminCityController::class, "store"])->name("admin.cities.store");
-        Route::patch("/cities/{city}", [AdminCityController::class, "update"])->name("admin.cities.update");
-        Route::delete("/cities/{city}", [AdminCityController::class, "destroy"])->name("admin.cities.destroy");
         Route::post("/industry-tags", [AdminIndustryTagController::class, "store"])->name("admin.industry-tags.store");
         Route::patch("/industry-tags/{industryTag}", [AdminIndustryTagController::class, "update"])->name("admin.industry-tags.update");
         Route::delete("/industry-tags/{industryTag}", [AdminIndustryTagController::class, "destroy"])->name("admin.industry-tags.destroy");

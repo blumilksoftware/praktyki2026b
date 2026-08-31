@@ -1,6 +1,6 @@
 import { computed, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconClipboard, IconHome, IconUsers, IconBriefcase, IconMapPin, IconTags } from '@tabler/icons-vue'
+import { IconClipboard, IconHome, IconUsers, IconBriefcase, IconTags } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 
 export function useAdminPanelMenu(activePage) {
@@ -37,13 +37,6 @@ export function useAdminPanelMenu(activePage) {
         href: ROUTES.ADMIN_OFFERS,
         icon: IconBriefcase,
         isActive: current === 'offers',
-      },
-      {
-        key: 'cities',
-        label: t('admin.layout.nav.cities'),
-        href: ROUTES.ADMIN_CITIES,
-        icon: IconMapPin,
-        isActive: current === 'cities',
       },
       {
         key: 'industryTags',

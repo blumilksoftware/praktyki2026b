@@ -9,7 +9,6 @@ import { isDateRangeInvalid } from '@/Composables/useOffersFilters.js'
 const props = defineProps({
   studyFields: { type: Array, default: () => [] },
   radiusOptions: { type: Array, default: () => [10, 25, 50, 100] },
-  cities: { type: Array, default: () => [] },
 })
 
 const emit = defineEmits(['reset'])
@@ -77,12 +76,6 @@ const handleCitySelection = (selectedLabels) => {
   } else {
     clearRadiusFilter()
   }
-}
-
-const quickPickCities = computed(() => props.cities.filter((city) => !filters.value.cities.includes(city)))
-
-function addQuickPickCity(city) {
-  handleCitySelection([...filters.value.cities, city])
 }
 
 const isRadiusOpen = ref(false)
@@ -201,18 +194,6 @@ defineExpose({ studyFieldLabelToValue })
         <p v-if="filters.radiusKm" class="mt-1 text-xs text-additional">
           {{ t('student.offers.filters.radius.lockedHint') }}
         </p>
-
-        <div v-if="quickPickCities.length > 0" class="flex flex-wrap gap-2 mt-2">
-          <button
-            v-for="city in quickPickCities"
-            :key="city"
-            type="button"
-            class="rounded-full border border-border px-2.5 py-1 text-xs text-additional transition hover:border-primary/40 hover:text-text"
-            @click="addQuickPickCity(city)"
-          >
-            {{ city }}
-          </button>
-        </div>
 
         <div v-if="filters.latitude && filters.longitude" ref="radiusDropdownRef" class="relative mt-3">
           <span class="mb-2 block font-medium text-text text-xs text-additional">

@@ -21,7 +21,6 @@ const props = defineProps({
   canApply: { type: Boolean, default: false },
   mapboxToken: { type: String, default: '' },
   radiusOptions: { type: Array, default: () => [10, 25, 50, 100] },
-  cities: { type: Array, default: () => [] },
 })
 
 const { t } = useI18n()
@@ -211,7 +210,6 @@ onMounted(() => {
           v-model="filters"
           :study-fields="studyFields"
           :radius-options="radiusOptions"
-          :cities="cities"
           @reset="resetFilters"
         />
 

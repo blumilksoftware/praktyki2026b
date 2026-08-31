@@ -93,7 +93,7 @@ function confirmDelete() {
                 <BaseInput
                   :id="`edit-industry-tag-${tag.id}`"
                   v-model="editForm.name"
-                  :label="t('admin.industryTags.addLabel')"
+                  :label="t('admin.industryTags.editLabel')"
                   :error="editForm.errors.name"
                 />
               </div>

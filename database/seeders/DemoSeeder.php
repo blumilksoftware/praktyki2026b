@@ -9,7 +9,6 @@ use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Enums\WorkMode;
 use App\Models\Application;
-use App\Models\City;
 use App\Models\Company;
 use App\Models\Faculty;
 use App\Models\IndustryTag;
@@ -195,10 +194,6 @@ class DemoSeeder extends Seeder
 
         foreach ($testApplications as $testApplication) {
             Notification::send($companyAdmin, new NewApplicationNotification($testApplication));
-        }
-
-        foreach (array_keys($this->citiesWithCoordinates) as $cityName) {
-            City::query()->firstOrCreate(["name" => $cityName]);
         }
 
         foreach (["IT", "Software house", "Programowanie", "Praca zdalna", "Vue.js", "Python"] as $tagName) {

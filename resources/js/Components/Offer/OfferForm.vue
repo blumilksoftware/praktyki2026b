@@ -18,7 +18,6 @@ const props = defineProps({
   universities: { type: Array, required: true },
   offer: { type: Object, default: null },
   isCompanyVerified: { type: Boolean, default: false },
-  cities: { type: Array, default: () => [] },
 })
 
 const uniqueStudyFields = computed(() => {
@@ -263,23 +262,10 @@ const previewOffer = () => {
         </div>
 
         <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
-          <div>
-            <CityAutocomplete id="city" v-model="form.city" :label="t('company.offers.form.city')"
-                              :placeholder="t('company.offers.form.cityPlaceholder')" required
-                              :error="fieldError('city')" stacked
-            />
-            <div v-if="cities.length > 0" class="flex flex-wrap gap-2 mt-2">
-              <button
-                v-for="city in cities"
-                :key="city"
-                type="button"
-                class="inline-flex items-center rounded-full border border-border bg-white px-2.5 py-1 text-xs text-text transition-colors hover:border-primary hover:text-primary"
-                @click="form.city = city"
-              >
-                {{ city }}
-              </button>
-            </div>
-          </div>
+          <CityAutocomplete id="city" v-model="form.city" :label="t('company.offers.form.city')"
+                            :placeholder="t('company.offers.form.cityPlaceholder')" required
+                            :error="fieldError('city')" stacked
+          />
         </div>
       </div>
     </section>

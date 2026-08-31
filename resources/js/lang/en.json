@@ -520,25 +520,12 @@
         "expired": "Expired"
       }
     },
-    "cities": {
-      "title": "Cities",
-      "description": "Manage the list of cities suggested in offer forms and search filters.",
-      "addLabel": "City name",
-      "addButton": "Add city",
-      "edit": "Edit",
-      "save": "Save",
-      "cancel": "Cancel",
-      "delete": "Delete",
-      "empty": "No cities have been added yet.",
-      "deleteTitle": "Delete city",
-      "deleteConfirmation": "Are you sure you want to delete \"{name}\"?",
-      "confirmDelete": "Delete"
-    },
     "industryTags": {
       "title": "Industry tags",
       "description": "Manage the list of industry tags suggested in company profiles and search filters.",
       "addLabel": "Tag name",
       "addButton": "Add tag",
+      "editLabel": "New name",
       "edit": "Edit",
       "save": "Save",
       "cancel": "Cancel",
@@ -562,7 +549,6 @@
         "applications": "Applications",
         "users": "Users",
         "offers": "Offers",
-        "cities": "Cities",
         "industryTags": "Industry tags",
         "settings": "Settings",
         "mobileAriaLabel": "Mobile navigation"
