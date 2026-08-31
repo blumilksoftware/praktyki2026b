@@ -14,12 +14,12 @@ use App\DTO\Offer\UpdateOfferData;
 use App\Enums\OfferStatus;
 use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CompanyOfferSummaryRequest;
 use App\Http\Requests\StoreOfferRequest;
 use App\Models\Offer;
 use App\Models\StudyField;
 use App\Models\University;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Response;
@@ -34,23 +34,25 @@ class OfferController extends Controller
         private readonly GetOfferStatusCounts $getOfferStatusCounts,
     ) {}
 
-    public function index(Request $request): Response
+    public function index(CompanyOfferSummaryRequest $request): Response
     {
         $company = Auth::user()->company;
+        $data = $request->getData();
 
         $offers = $this->getOffersSummary->execute(
             $company,
-            $request->string("sort", "created_at")->toString(),
-            $request->string("direction", "desc")->toString(),
-            OfferStatus::tryFrom($request->string("status")->toString()),
-            $request->string("search")->toString() ?: null,
+            $data["sort"],
+            $data["direction"],
+            $data["status"],
+            $data["search"],
+            $data["closing_soon"],
         );
 
         return inertia("Company/Offers", [
             "offers" => $offers,
             "isCompanyVerified" => $company->verification_status === VerificationStatus::Verified,
-            "search" => $request->string("search")->toString(),
-            "status" => $request->string("status")->toString(),
+            "search" => $data["search"],
+            "status" => $data["status"],
             "statusCounts" => $this->getOfferStatusCounts->execute($company),
         ]);
     }

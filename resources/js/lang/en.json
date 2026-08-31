@@ -1053,7 +1053,13 @@
         "name": "University name",
         "namePlaceholder": "Search by name",
         "city": "City",
-        "cityPlaceholder": "Filter by city"
+        "cityPlaceholder": "Filter by city",
+          "status": {
+              "all": "All",
+              "pendingIncoming": "Pending proposals",
+              "pendingOutgoing": "Sent proposals",
+              "active": "Partners"
+          }
       },
       "card": {
         "logoAlt": "{university} logo",
@@ -1101,11 +1107,29 @@
         "description": "Publish an offer or save it as a draft to finish later.",
         "action": "Create offer"
       },
+        "greeting": "Welcome back, {company}",
       "stats": {
+          "capacity": {
+              "title": "Internship capacity",
+              "summary": "{filled} of {total} spots filled",
+              "remaining": "{count} spots remaining"
+          },
         "totalOffers": "Total offers",
         "publishedOffers": "Published",
         "draftOffers": "Drafts",
-        "applications": "Applications"
+        "applications": "Applications",
+          "closingSoon": "Closing soon",
+          "pendingApplications": "Pending applications",
+          "teamSize": "Team size",
+          "pendingInvitations": "Pending invitations",
+          "universityPartnerships": "University partnerships",
+          "openPartnershipRequests": "Open partnership requests",
+          "sections": {
+              "offers": "Offers",
+              "applications": "Applications",
+              "team": "Team",
+              "partnerships": "Partnerships"
+          }
       },
       "shortcuts": {
         "unreadApplications": "You have {count} unread update(s).",
@@ -1210,7 +1234,8 @@
           "draft": "Draft",
           "published": "Published",
           "closed": "Closed",
-          "expired": "Expired"
+          "expired": "Expired",
+          "closingSoon": "Closing soon"
         }
       },
       "create": {
