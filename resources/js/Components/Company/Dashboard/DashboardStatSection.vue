@@ -32,7 +32,7 @@ defineProps({
         </p>
       </div>
     </Link>
-    <div class="mt-3 flex flex-col border-t border-border">
+    <div class="mt-3 flex flex-col border-t border-border pt-3 gap-2">
       <slot />
     </div>
   </section>

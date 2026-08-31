@@ -44,13 +44,14 @@ class GetCompanyDashboardStats
                 "sum(case when status = ? then 1 else 0 end) as published, " .
                 "sum(case when status = ? then 1 else 0 end) as draft, " .
                 "sum(case when status = ? and end_date >= ? and end_date <= ? then 1 else 0 end) as closing_soon, " .
-                "sum(spots) as total_spots",
+                "sum(case when status = ? then spots else 0 end) as total_spots",
                 [
                     OfferStatus::Published->value,
                     OfferStatus::Draft->value,
                     OfferStatus::Published->value,
                     Carbon::today(),
                     Offer::closingSoonThreshold(),
+                    OfferStatus::Published->value,
                 ],
             )
             ->first();

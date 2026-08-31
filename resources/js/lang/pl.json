@@ -1008,7 +1008,7 @@
         "cityPlaceholder": "Filtruj po mieście",
           "status": {
               "all": "Wszystkie",
-              "pendingIncoming": "Oczekujace propozycje",
+              "pendingIncoming": "Oczekujące propozycje",
               "pendingOutgoing": "Wysłane propozycje",
               "active": "Partnerzy"
           }

@@ -47,7 +47,7 @@ const props = defineProps({
   },
 })
 
-const unreadAlertCount = computed(() => props.stats.unread_notifications_count)
+const unreadAlertCount = computed(() => props.stats.unreadNotificationsCount)
 const unreadAlert = computed(() => unreadAlertCount.value > 0)
 const companyMenu = useCompanyPanelMenu('dashboard')
 
