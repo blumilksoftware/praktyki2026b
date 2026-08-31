@@ -6,7 +6,6 @@ namespace App\Http\Requests;
 
 use App\Rules\MimeTypeByContentRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateCompanyProfileRequest extends FormRequest
 {
@@ -26,7 +25,7 @@ class UpdateCompanyProfileRequest extends FormRequest
             ],
             "description" => ["nullable", "string", "max:2500"],
             "tags" => ["nullable", "array", "max:20"],
-            "tags.*" => ["string", "max:50", Rule::exists("industry_tags", "name")],
+            "tags.*" => ["string", "max:50"],
             "website" => ["nullable", "string", "max:255"],
 
             "phone" => ["required", "string", "max:50"],

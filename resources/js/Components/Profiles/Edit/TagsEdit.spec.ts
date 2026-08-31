@@ -87,6 +87,20 @@ describe('TagsEdit.vue', () => {
     expect(wrapper.emitted('update:modelValue')![0]).toEqual([['IT']])
   })
 
+  it('emits update:modelValue with a custom tag typed and confirmed with Enter', async () => {
+    const wrapper = mount(TagsEdit, {
+      props: { modelValue: ['IT'], availableTags },
+      global: { stubs: globalStubs }
+    })
+
+    const searchInput = wrapper.find('input[type="text"]')
+    await searchInput.setValue('Custom Tag')
+    await searchInput.trigger('keydown.enter')
+
+    expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+    expect(wrapper.emitted('update:modelValue')![0]).toEqual([['IT', 'Custom Tag']])
+  })
+
   it('does not exceed the maxTags limit', async () => {
     const wrapper = mount(TagsEdit, {
       props: {

@@ -42,6 +42,13 @@ function removeTag(tag) {
 function clearSearch() {
   searchQuery.value = ''
 }
+
+function addCustomTag() {
+  const tag = searchQuery.value.trim()
+  if (!tag) return
+  addTag(tag)
+  searchQuery.value = ''
+}
 </script>
 
 <template>
@@ -75,6 +82,7 @@ function clearSearch() {
         type="text"
         :placeholder="t('profiles.searchTags')"
         class="w-full rounded-lg border border-border bg-white py-2 pl-9 pr-9 text-sm text-text outline-none focus:border-primary"
+        @keydown.enter.prevent="addCustomTag"
       >
       <button
         v-if="searchQuery"

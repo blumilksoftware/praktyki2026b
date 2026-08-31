@@ -95,7 +95,7 @@ class IndustryTagManagementTest extends TestCase
         ]);
     }
 
-    public function testCompanyTagsMustComeFromTheCanonicalList(): void
+    public function testCompanyCanSaveTagsThatAreNotInTheCanonicalList(): void
     {
         IndustryTag::factory()->create(["name" => "IT"]);
         $company = Company::factory()->approved()->create();
@@ -114,6 +114,9 @@ class IndustryTagManagementTest extends TestCase
                 "city" => "Warszawa",
                 "nip" => "1234567890",
             ])
-            ->assertInvalid("tags.0");
+            ->assertValid()
+            ->assertRedirect("/company/profile");
+
+        $this->assertSame(["Not A Real Tag"], $company->fresh()->tags);
     }
 }
