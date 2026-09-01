@@ -155,10 +155,10 @@ function showOnMap() {
           </Link>
 
           <div class="min-w-0">
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
               <Link
                 :href="ROUTES.COMPANY_SHOW.replace('{company}', offer.company.id)"
-                class="min-w-0 truncate text-sm font-medium text-additional transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+                class="text-sm font-medium text-additional transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
               >
                 {{ offer.company.name }}
               </Link>
