@@ -5,7 +5,7 @@ import { IconArrowLeft } from '@tabler/icons-vue'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
-import TagsEdit from '@/Components/Profiles/Edit/TagsEdit.vue'
+import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import AboutEdit from '@/Components/Profiles/Edit/AboutEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
 import Menu from '@/Components/Profiles/Menu.vue'
@@ -87,8 +87,16 @@ const submit = () => {
             @update:logo="form.logo = $event"
           />
 
-          <div class="text-sm text-additional mt-2 flex items-center gap-2 w-full justify-center">
-            <TagsEdit v-model="form.tags" :available-tags="availableTags" :max-tags="10" />
+          <div class="mt-4 w-full max-w-md">
+            <DynamicMultiSelect
+              id="company-tags"
+              v-model="form.tags"
+              :label="t('profiles.activeTags')"
+              :options="availableTags"
+              :max="10"
+              :error="form.errors.tags"
+              allow-custom
+            />
           </div>
         </div>
 
