@@ -73,7 +73,7 @@ function confirmDelete() {
       </div>
 
       <ProfilePageCard>
-        <form class="flex flex-col gap-3 sm:flex-row sm:items-end" @submit.prevent="createTag">
+        <form class="flex flex-col gap-3 sm:flex-row sm:items-start" @submit.prevent="createTag">
           <div class="flex-1">
             <BaseInput
               id="new-industry-tag-name"
@@ -82,9 +82,12 @@ function confirmDelete() {
               :error="createForm.errors.name"
             />
           </div>
-          <BaseButton type="submit" class="min-w-full sm:min-w-44" :disabled="createForm.processing">
-            {{ t('admin.industryTags.addButton') }}
-          </BaseButton>
+          <div class="flex flex-col gap-1.5">
+            <span aria-hidden="true" class="mb-1 hidden text-sm font-medium sm:block">&nbsp;</span>
+            <BaseButton type="submit" class="min-w-full sm:min-w-44" :disabled="createForm.processing">
+              {{ t('admin.industryTags.addButton') }}
+            </BaseButton>
+          </div>
         </form>
 
         <div v-if="industryTags.length > 0" class="mt-6 flex flex-col divide-y divide-border">
