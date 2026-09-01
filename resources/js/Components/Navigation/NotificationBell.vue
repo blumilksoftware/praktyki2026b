@@ -166,10 +166,10 @@ onUnmounted(() => {
       :aria-expanded="isOpen"
       @click="toggle"
     >
-      <IconBell stroke="2" class="h-6 w-6" />
+      <IconBell stroke="2" class="h-6 w-6" aria-hidden="true" />
       <span
         v-if="hasUnread"
-        class="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-semibold text-white"
+        class="absolute top-1 right-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-secondary px-1 text-[11px] font-semibold text-white"
       >
         {{ unreadBadge }}
       </span>

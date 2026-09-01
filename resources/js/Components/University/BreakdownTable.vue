@@ -110,6 +110,7 @@ const changePage = (page) => {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+          aria-hidden="true"
         >
           <path
             stroke-linecap="round"
@@ -122,6 +123,7 @@ const changePage = (page) => {
           v-model="searchQuery"
           type="text"
           :placeholder="searchPlaceholder"
+          :aria-label="searchPlaceholder"
           class="w-full text-sm border border-border rounded-md px-3 py-1.5 pl-8 bg-background text-text placeholder:text-additional focus:outline-none focus:ring-1 focus:ring-primary"
         >
       </div>
@@ -148,7 +150,7 @@ const changePage = (page) => {
                   :class="column.align === 'right' ? 'justify-end' : ''"
                 >
                   {{ column.label }}
-                  <span v-if="currentSort === column.key" class="text-primary text-[10px]">
+                  <span v-if="currentSort === column.key" class="text-primary text-xs">
                     {{ currentDirection === 'asc' ? '▲' : '▼' }}
                   </span>
                 </span>
