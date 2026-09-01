@@ -85,6 +85,7 @@ function handlePreview(event) {
     :class="cardClass"
     tabindex="0"
     role="region"
+    :aria-label="props.member.name"
     @click="handlePreview"
     @keydown.enter.prevent="emit('preview')"
     @keydown.space.prevent="emit('preview')"
@@ -95,7 +96,6 @@ function handlePreview(event) {
           <div class="min-w-0 flex flex-wrap items-center gap-2">
             <span
               class="inline-flex w-fit shrink-0 items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary sm:text-sm"
-              :title="props.roleLabel"
             >
               {{ props.roleLabel }}
             </span>
@@ -127,7 +127,7 @@ function handlePreview(event) {
           class="inline-flex w-fit shrink-0 items-center gap-1.5 rounded-lg border px-2 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
           :class="props.disableRemove
             ? 'cursor-not-allowed border-transparent bg-transparent text-additional opacity-55'
-            : 'cursor-pointer border-red-200 bg-red-50 text-red-600 hover:bg-red-100'"
+            : 'cursor-pointer border-red-200 bg-red-50 text-error-dark hover:bg-red-100'"
           :aria-label="props.removeLabel"
           :aria-disabled="props.disableRemove ? true : undefined"
           @click="handleRemove"

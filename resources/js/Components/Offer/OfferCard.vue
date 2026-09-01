@@ -165,7 +165,8 @@ function showOnMap() {
 
               <span
                 v-if="offer.company.is_verified"
-                class="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-success"
+                class="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700"
+                role="img"
                 :aria-label="t('student.offers.card.verifiedAriaLabel')"
               >
                 <IconCheck class="h-3.5 w-3.5" stroke-width="2" aria-hidden="true" />
