@@ -21,23 +21,18 @@
         <slot />
       </div>
     </main>
-
-    <BaseToast ref="toastRef" />
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted, watch } from 'vue'
+import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import BaseNavbar from '@/Components/Navigation/BaseNavbar.vue'
-import BaseToast from '@/Components/Base/BaseToast.vue'
 import { useCurrentPanelMenu } from '@/Composables/useCurrentPanelMenu'
-import { useToast } from '@/Composables/useToast'
 
 const page = usePage()
 const { t } = useI18n()
-const { toastRef, toastSuccess, toastError } = useToast()
 
 const props = defineProps({
   activePage: {
@@ -82,27 +77,4 @@ const menuItems = computed(() => {
 const handleNavigationClick = (item) => {
   emit('navigationClick', item)
 }
-
-const showFlashToast = () => {
-  const status = page.props.flash?.status
-
-  if (status) {
-    toastSuccess(status)
-  }
-}
-
-const showFlashErrorToast = () => {
-  const error = page.props.flash?.error
-
-  if (error) {
-    toastError(error)
-  }
-}
-
-onMounted(() => {
-  showFlashToast()
-  showFlashErrorToast()
-})
-watch(() => page.props.flash?.status, showFlashToast)
-watch(() => page.props.flash?.error, showFlashErrorToast)
 </script>

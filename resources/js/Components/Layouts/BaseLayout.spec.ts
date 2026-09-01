@@ -8,7 +8,6 @@ import en from "@/lang/en.json"
 const { pageProps } = vi.hoisted(() => ({
   pageProps: {
     auth: { user: null as { role: string } | null },
-    flash: { status: null as string | null, error: null as string | null },
   },
 }))
 
@@ -23,18 +22,11 @@ const NavbarStub = {
   template: "<nav />",
 }
 
-const toastShow = vi.fn()
-
-const ToastStub = {
-  template: "<div />",
-  methods: { show: toastShow },
-}
-
 const mountLayout = (props = {}) => mount(BaseLayout, {
   props,
   global: {
     plugins: [i18n],
-    stubs: { BaseNavbar: NavbarStub, BaseToast: ToastStub },
+    stubs: { BaseNavbar: NavbarStub },
   },
 })
 
@@ -44,34 +36,6 @@ const hrefsOf = (wrapper: ReturnType<typeof mountLayout>, prop: "menuItems" | "n
 describe("BaseLayout", () => {
   beforeEach(() => {
     pageProps.auth.user = null
-    pageProps.flash.status = null
-    pageProps.flash.error = null
-    toastShow.mockClear()
-  })
-
-  it("raises a toast for the flash status of the page it wraps", async () => {
-    pageProps.flash.status = "Your offer changes were saved successfully."
-
-    const wrapper = mountLayout()
-    await wrapper.vm.$nextTick()
-
-    expect(toastShow).toHaveBeenCalledWith("Your offer changes were saved successfully.", 3000, "success")
-  })
-
-  it("raises a failing toast for the flash error of the page it wraps", async () => {
-    pageProps.flash.error = "Only a published offer can be taken down."
-
-    const wrapper = mountLayout()
-    await wrapper.vm.$nextTick()
-
-    expect(toastShow).toHaveBeenCalledWith("Only a published offer can be taken down.", 5000, "fail")
-  })
-
-  it("stays quiet when the page carries no flash status", async () => {
-    const wrapper = mountLayout()
-    await wrapper.vm.$nextTick()
-
-    expect(toastShow).not.toHaveBeenCalled()
   })
 
   it("leaves the menu empty for guests", () => {

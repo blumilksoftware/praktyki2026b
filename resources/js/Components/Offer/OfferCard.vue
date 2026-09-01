@@ -114,7 +114,7 @@ function confirmWithdraw() {
       withdrawnLocally.value = true
       appliedLocally.value = false
       isWithdrawModalOpen.value = false
-      toastError(t('student.applications.withdrawSuccess'))
+      toastSuccess(t('student.applications.withdrawSuccess'))
     },
     onFinish: () => {
       isWithdrawing.value = false

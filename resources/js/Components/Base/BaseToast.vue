@@ -59,7 +59,7 @@ defineExpose({ show, hide })
     v-if="visible"
     role="status"
     aria-live="polite"
-    :class="[`m-4 right-4 top-4 z-50 fixed shadow-sm px-4 py-3 rounded-xl`, toastClasses]"
+    :class="[`m-4 right-4 bottom-4 z-50 fixed shadow-sm px-4 py-3 rounded-xl`, toastClasses]"
   >
     <button
       type="button"
