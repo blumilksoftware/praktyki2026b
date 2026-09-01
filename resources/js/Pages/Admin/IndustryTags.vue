@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { Head, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
+import { IconPencil, IconTrash } from '@tabler/icons-vue'
 import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
@@ -72,7 +73,7 @@ function confirmDelete() {
       </div>
 
       <ProfilePageCard>
-        <form class="flex flex-col gap-3 sm:flex-row sm:items-start" @submit.prevent="createTag">
+        <form class="flex flex-col gap-3 sm:flex-row sm:items-end" @submit.prevent="createTag">
           <div class="flex-1">
             <BaseInput
               id="new-industry-tag-name"
@@ -81,7 +82,7 @@ function confirmDelete() {
               :error="createForm.errors.name"
             />
           </div>
-          <BaseButton type="submit" class="min-w-full sm:min-w-44 sm:mt-6" :disabled="createForm.processing">
+          <BaseButton type="submit" class="min-w-full sm:min-w-44" :disabled="createForm.processing">
             {{ t('admin.industryTags.addButton') }}
           </BaseButton>
         </form>
@@ -108,13 +109,23 @@ function confirmDelete() {
             </template>
             <template v-else>
               <span class="text-text">{{ tag.name }}</span>
-              <div class="flex gap-2">
-                <BaseButton type="button" variant="secondary" @click="startEdit(tag)">
-                  {{ t('admin.industryTags.edit') }}
-                </BaseButton>
-                <BaseButton type="button" variant="secondary" @click="openDelete(tag)">
-                  {{ t('admin.industryTags.delete') }}
-                </BaseButton>
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  class="cursor-pointer rounded-lg p-2 text-additional transition hover:bg-background hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                  :aria-label="t('admin.industryTags.editAriaLabel', { name: tag.name })"
+                  @click="startEdit(tag)"
+                >
+                  <IconPencil class="h-5 w-5" aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  class="cursor-pointer rounded-lg p-2 text-error transition hover:bg-error/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/40"
+                  :aria-label="t('admin.industryTags.deleteAriaLabel', { name: tag.name })"
+                  @click="openDelete(tag)"
+                >
+                  <IconTrash class="h-5 w-5" aria-hidden="true" />
+                </button>
               </div>
             </template>
           </div>

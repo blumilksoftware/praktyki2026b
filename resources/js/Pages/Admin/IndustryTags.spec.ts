@@ -60,7 +60,7 @@ describe('Admin/IndustryTags', () => {
     submits.patch = []
     const wrapper = mountPage([{ id: 'tag-1', name: 'IT' }])
 
-    await wrapper.findAll('button').find((btn) => btn.text() === en.admin.industryTags.edit)!.trigger('click')
+    await wrapper.find(`[aria-label="${en.admin.industryTags.editAriaLabel.replace('{name}', 'IT')}"]`).trigger('click')
     await wrapper.find('#edit-industry-tag-tag-1').setValue('Marketing')
     await wrapper.findAll('button').find((btn) => btn.text() === en.admin.industryTags.save)!.trigger('click')
 
@@ -71,7 +71,7 @@ describe('Admin/IndustryTags', () => {
     submits.delete = []
     const wrapper = mountPage([{ id: 'tag-1', name: 'IT' }])
 
-    await wrapper.findAll('button').find((btn) => btn.text() === en.admin.industryTags.delete)!.trigger('click')
+    await wrapper.find(`[aria-label="${en.admin.industryTags.deleteAriaLabel.replace('{name}', 'IT')}"]`).trigger('click')
 
     const modal = wrapper.findComponent(BaseModal)
     expect(modal.text()).toContain('IT')
