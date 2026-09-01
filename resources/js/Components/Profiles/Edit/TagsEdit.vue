@@ -77,6 +77,7 @@ function clearSearch() {
         v-model="searchQuery"
         type="text"
         :placeholder="t('profiles.searchTags')"
+        :aria-label="t('profiles.searchTags')"
         class="w-full rounded-lg border border-border bg-white py-2 pl-9 pr-9 text-sm text-text outline-none focus:border-primary"
       >
       <button

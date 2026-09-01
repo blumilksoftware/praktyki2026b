@@ -99,6 +99,7 @@ onBeforeUnmount(revokePreview)
       :class="isDragging ? 'border-primary border-dashed bg-primary/5' : 'border-border bg-white'"
       role="button"
       tabindex="0"
+      :aria-label="t('profiles.uploadLogo')"
       @click="openFileDialog"
       @keydown.enter="openFileDialog"
       @keydown.space.prevent="openFileDialog"

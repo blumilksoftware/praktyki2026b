@@ -40,6 +40,7 @@ function toggleExpanded() {
         class="flex-1 bg-slate-200 rounded-full h-1.5 overflow-hidden"
         role="progressbar"
         :aria-valuenow="percentage"
+        :aria-label="t('onboarding.progress.title')"
         aria-valuemin="0"
         aria-valuemax="100"
       >
