@@ -174,6 +174,7 @@ onMounted(() => {
   <component :is="layoutComponent" v-bind="layoutProps">
     <div class="bg-background py-6 min-h-screen">
       <div v-if="canApply" class="flex flex-wrap justify-between items-center gap-3 mx-auto mb-4 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h1 class="sr-only">{{ t('student.nav.offers') }}</h1>
         <Link
           :href="ROUTES.STUDENT_DASHBOARD"
           class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"

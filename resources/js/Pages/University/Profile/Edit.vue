@@ -62,6 +62,7 @@ const submit = () => {
   <Head :title="university.name" />
   
   <UniversityLayout active-page="profile">
+    <h1 class="sr-only">{{ t('buttons.editProfile') }}</h1>
     <div class="flex flex-row justify-between items-center w-full mb-6">
       <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
          @click="goBack"

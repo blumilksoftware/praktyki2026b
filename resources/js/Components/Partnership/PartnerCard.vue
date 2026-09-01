@@ -114,7 +114,7 @@ function confirmAction() {
       </div>
 
       <div class="min-w-0 flex-1">
-        <h3 class="line-clamp-2 text-lg font-semibold text-text">{{ partner.name }}</h3>
+        <h2 class="line-clamp-2 text-lg font-semibold text-text">{{ partner.name }}</h2>
         <p class="text-sm text-additional">{{ partner.city }}</p>
         <span
           class="mt-1 inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold"

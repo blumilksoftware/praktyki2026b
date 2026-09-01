@@ -63,8 +63,9 @@ const submit = () => {
   
   <div class="min-h-screen flex flex-col bg-background">
     <BaseNavbar show-hamburger :menu-items="companyMenu" />
-  
-    <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h1 class="sr-only">{{ t('buttons.editProfile') }}</h1>
       <div class="flex flex-row justify-between items-center w-full mb-6">
         <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
            @click="goBack"
@@ -147,6 +148,6 @@ const submit = () => {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>

@@ -16,6 +16,15 @@ const { t } = useI18n()
 <template>
   <Head :title="t('student.profile.account.title')" />
   <StudentPanelLayout>
+    <header class="mb-6">
+      <h1 class="font-semibold text-text text-2xl">
+        {{ t('student.profile.account.title') }}
+      </h1>
+      <p class="mt-1 text-additional text-sm">
+        {{ t('student.profile.account.description') }}
+      </p>
+    </header>
+
     <StudentAccountSettingsSection
       :email="email"
       :email-verified-at="emailVerifiedAt"
