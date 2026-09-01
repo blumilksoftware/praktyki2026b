@@ -1,15 +1,21 @@
 <script setup>
-import { computed, onMounted, ref, watch, reactive } from 'vue'
+import { computed, defineAsyncComponent, onMounted, ref, watch, reactive } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import debounce from 'lodash/debounce'
 import axios from 'axios'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
-import OfferMap from '@/Components/Offer/Map/OfferMap.vue'
+import OfferMapLoading from '@/Components/Offer/Map/OfferMapLoading.vue'
 import OffersFilters from '@/Components/Offer/OffersFilters.vue'
 import { isDateRangeInvalid } from '@/Composables/useOffersFilters'
 import { ROUTES } from '@/Helpers/routes'
+
+const OfferMap = defineAsyncComponent({
+  loader: () => import('@/Components/Offer/Map/OfferMap.vue'),
+  loadingComponent: OfferMapLoading,
+  delay: 0,
+})
 
 const props = defineProps({
   offers: { type: Object, required: true },
@@ -195,7 +201,7 @@ onMounted(() => {
         />
 
         <section aria-labelledby="offers-list-heading" class="-mx-4 sm:mx-0 sm:rounded-3xl sm:border sm:border-border/80 sm:bg-white/90 sm:p-6 sm:shadow-[0_14px_40px_rgba(11,26,48,0.08)] sm:backdrop-blur-sm">
-          <div class="flex justify-between items-end gap-4 mb-5 px-4 pt-5 sm:px-0 sm:pt-0">
+          <div class="flex flex-col items-start gap-4 mb-5 px-4 pt-5 sm:flex-row sm:items-end sm:justify-between sm:px-0 sm:pt-0">
             <div>
               <p class="font-medium text-additional text-sm">{{ t('student.offers.results.caption') }}</p>
               <h2 id="offers-list-heading" class="mt-1 font-semibold text-text text-3xl tracking-tight" aria-live="polite">
@@ -203,10 +209,10 @@ onMounted(() => {
               </h2>
             </div>
 
-            <div class="flex bg-background p-1 border border-border rounded-2xl" role="group">
+            <div class="flex w-full sm:w-auto bg-background p-1 border border-border rounded-2xl" role="group">
               <button
                 type="button"
-                class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer"
+                class="flex flex-1 sm:flex-none items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer"
                 :class="displayMode === 'list' ? 'bg-white text-primary shadow-sm' : 'text-additional hover:text-text'"
                 @click="displayMode = 'list'"
               >
@@ -217,7 +223,7 @@ onMounted(() => {
               </button>
               <button
                 type="button"
-                class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer"
+                class="flex flex-1 sm:flex-none items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer"
                 :class="displayMode === 'map' ? 'bg-white text-primary shadow-sm' : 'text-additional hover:text-text'"
                 @click="displayMode = 'map'"
               >

@@ -92,12 +92,13 @@ const goBack = () => {
             v-if="cvUrl"
             :href="cvUrl"
             target="_blank"
+            rel="noopener noreferrer"
             class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
             <IconDownload class="h-4 w-4" stroke="2.5" aria-hidden="true" />
             {{ t('profiles.company.applications.actions.download_cv') }}
           </a>
-          <p v-else class="mt-4 text-additional text-sm">
+          <p v-else class="mt-4 inline-flex w-full items-center justify-center rounded-lg border border-dashed border-border px-4 py-3 italic text-additional text-sm">
             {{ t('profiles.company.applications.no_cv') }}
           </p>
         </ProfilePageCard>

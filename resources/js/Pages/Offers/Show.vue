@@ -355,6 +355,7 @@ function confirmWithdraw() {
 
                 <template v-else-if="acceptsApplications">
                   <BaseApplyButton
+                    :id="`apply-offer-${offer.id}`"
                     :has-cv="hasCv"
                     :is-applied="isApplied"
                     :applied-date="appliedDate"

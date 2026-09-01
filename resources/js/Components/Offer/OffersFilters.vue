@@ -164,7 +164,7 @@ defineExpose({ studyFieldLabelToValue })
           id="offers-filter-search"
           v-model="filters.search"
           type="search"
-          :placeholder="t('student.offers.filters.city')"
+          :placeholder="t('student.offers.filters.searchPlaceholder')"
           class="bg-background focus:bg-white px-4 py-3 border border-border focus:border-primary/50 rounded-2xl outline-none focus:ring-2 focus:ring-primary/20 w-full text-text placeholder:text-additional text-sm transition"
         >
       </label>
@@ -254,12 +254,12 @@ defineExpose({ studyFieldLabelToValue })
 
       <div>
         <span class="mb-2 block font-medium text-text text-sm">{{ t('student.offers.filters.workMode') }}</span>
-        <div class="flex flex-wrap gap-2">
+        <div class="grid grid-cols-3 gap-1">
           <button
             v-for="mode in workModes"
             :key="mode"
             type="button"
-            class="rounded-full border px-3 py-1.5 text-sm font-medium transition cursor-pointer"
+            class="rounded-full border px-1.5 py-1.5 text-xs font-medium transition cursor-pointer"
             :class="filters.workModes.includes(mode)
               ? 'border-primary bg-primary/10 text-primary'
               : 'border-border text-additional hover:border-primary/40 hover:text-text'"

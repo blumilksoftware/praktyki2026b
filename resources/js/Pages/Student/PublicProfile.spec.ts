@@ -89,8 +89,9 @@ describe("Student/PublicProfile", () => {
     expect(mountProfile().text()).toContain("No CV available")
 
     const wrapper = mountProfile({ cvUrl: "/company/applications/1/cv" })
+    const link = wrapper.get("a[href=\"/company/applications/1/cv\"]")
 
-    expect(wrapper.find("a[href=\"/company/applications/1/cv\"]").exists()).toBe(true)
+    expect(link.attributes("rel")).toBe("noopener noreferrer")
     expect(wrapper.text()).toContain("Download CV")
   })
 })

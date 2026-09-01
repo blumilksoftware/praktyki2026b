@@ -8,13 +8,14 @@ import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
   offers: { type: Array, default: () => [] },
+  offersCount: { type: Number, default: 0 },
   hasCv: { type: Boolean, default: true },
   favoritesCount: { type: Number, default: 0 },
 })
 
 const { t } = useI18n()
 
-const offersCount = computed(() => props.offers.length)
+const offersPreview = computed(() => ({ data: props.offers }))
 </script>
 
 <template>
@@ -32,16 +33,16 @@ const offersCount = computed(() => props.offers.length)
               {{ t('student.dashboard.description') }}
             </p>
 
-            <div class="flex flex-wrap gap-3 mt-6">
+            <div class="flex flex-col gap-3 mt-6 sm:flex-row sm:flex-wrap">
               <Link
                 :href="ROUTES.OFFERS"
-                class="inline-flex justify-center items-center bg-primary hover:bg-primary/90 px-5 py-3 border border-primary rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 font-semibold text-white text-sm transition"
+                class="inline-flex w-full sm:w-fit justify-center items-center bg-primary hover:bg-primary/90 px-5 py-3 border border-primary rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 font-semibold text-white text-sm transition"
               >
                 {{ t('student.dashboard.primaryAction') }}
               </Link>
               <Link
                 :href="ROUTES.STUDENT_FAVORITES"
-                class="inline-flex justify-center items-center bg-white hover:bg-slate-50 px-5 py-3 border border-slate-200 hover:border-primary/40 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
+                class="inline-flex w-full sm:w-fit justify-center items-center bg-white hover:bg-slate-50 px-5 py-3 border border-slate-200 hover:border-primary/40 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
               >
                 {{ t('student.dashboard.secondaryAction') }}
               </Link>
@@ -87,8 +88,9 @@ const offersCount = computed(() => props.offers.length)
 
         <div class="mt-6">
           <OffersList
-            :offers="offers"
+            :offers="offersPreview"
             :has-cv="hasCv"
+            can-apply
           />
         </div>
       </section>

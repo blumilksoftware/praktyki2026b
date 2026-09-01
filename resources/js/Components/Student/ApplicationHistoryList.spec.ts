@@ -1,8 +1,15 @@
 import { mount } from "@vue/test-utils"
 import { createI18n } from "vue-i18n"
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import ApplicationHistoryList from "@/Components/Student/ApplicationHistoryList.vue"
 import en from "@/lang/en.json"
+
+vi.mock("@inertiajs/vue3", () => ({
+  Link: {
+    props: ["href"],
+    template: `<a :href="href"><slot /></a>`,
+  },
+}))
 
 const i18n = createI18n({ legacy: false, locale: "en", messages: { en } })
 
@@ -14,6 +21,7 @@ const applications = [
     company_name: "Example Corp",
     date_applied: "2026-07-01T10:00:00.000000Z",
     status: "pending",
+    offer_deleted: false,
   },
   {
     id: "a2",
@@ -22,6 +30,7 @@ const applications = [
     company_name: "Other Corp",
     date_applied: "2026-06-15T10:00:00.000000Z",
     status: "accepted",
+    offer_deleted: false,
   },
 ]
 
@@ -65,6 +74,19 @@ describe("ApplicationHistoryList", () => {
     expect(wrapper.text()).toContain("Pending")
     expect(wrapper.text()).toContain("Backend Intern")
     expect(wrapper.text()).toContain("Accepted")
+  })
+
+  it("makes the whole card open the offer", () => {
+    const wrapper = mountList({ applications })
+
+    expect(wrapper.find(`a[href="/offers/o1"]`).exists()).toBe(true)
+    expect(wrapper.find(`a[href="/offers/o2"]`).exists()).toBe(true)
+  })
+
+  it("does not link to a deleted offer", () => {
+    const wrapper = mountList({ applications: [{ ...applications[0], offer_deleted: true }] })
+
+    expect(wrapper.find("a").exists()).toBe(false)
   })
 
   it("shows withdraw only for pending applications", () => {

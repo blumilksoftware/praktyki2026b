@@ -11,6 +11,7 @@ import AdminBlockUserModal from '@/Components/Admin/AdminBlockUserModal.vue'
 import AdminUserActionsMenu from '@/Components/Admin/AdminUserActionsMenu.vue'
 import { useUserRole } from '@/Composables/useUserRole'
 import { useUserStatus } from '@/Composables/useUserStatus'
+import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
 import AdminDeleteUserModal from '@/Components/Admin/AdminDeleteUserModal.vue'
 
 const props = defineProps({
@@ -49,11 +50,14 @@ const roleFilterOptions = computed(() => [
   ...props.roles.map(role => ({ value: role, label: t(`admin.users.roles.${role}`) })),
 ])
 
+const sortKey = ref(props.filters.sort_key || 'created_at')
+const sortDir = ref(props.filters.sort_dir || 'desc')
+
 const columns = [
-  { key: 'name', label: t('admin.users.name') },
-  { key: 'email', label: t('admin.users.email') },
-  { key: 'role', label: t('admin.users.role') },
-  { key: 'status', label: t('admin.users.status') },
+  { key: 'name', label: t('admin.users.name'), sortable: true },
+  { key: 'email', label: t('admin.users.email'), sortable: true },
+  { key: 'role', label: t('admin.users.role'), sortable: true },
+  { key: 'status', label: t('admin.users.status'), sortable: true },
   { key: 'actions', label: '', srLabel: t('admin.users.actions'), align: 'right' },
 ]
 
@@ -90,18 +94,29 @@ function isCurrentAdmin(user) {
 }
 
 function userLabel(user) {
+  if (user.status === 'deleted') return t('admin.users.deletedAccount')
   return [user.first_name, user.last_name].filter(Boolean).join(' ') || user.email
 }
 
-watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
+function applyQuery() {
   router.get('/admin/users', {
-    role: newRole,
-    search: newSearch,
+    role: roleFilter.value,
+    search: searchQuery.value,
+    sort_key: sortKey.value,
+    sort_dir: sortDir.value,
   }, {
     preserveState: true,
     replace: true,
   })
-}, { debounce: 300 })
+}
+
+function handleSort({ key, dir }) {
+  sortKey.value = key
+  sortDir.value = dir
+  applyQuery()
+}
+
+watch([roleFilter, searchQuery], useDebouncedSearch(applyQuery))
 </script>
 
 <template>
@@ -133,15 +148,18 @@ watch([roleFilter, searchQuery], ([newRole, newSearch]) => {
       :columns="columns"
       row-key="id"
       :caption="t('admin.users.title')"
+      :sort-key="sortKey"
+      :sort-dir="sortDir"
+      @sort="handleSort"
     >
       <template #cell-name="{ item }">
-        {{ [item.first_name, item.last_name].filter(Boolean).join(' ') || '-' }}
+        {{ userLabel(item) }}
       </template>
       <template #cell-email="{ item }">
         <a :href="`mailto:${item.email}`" class="text-primary hover:underline">{{ item.email }}</a>
       </template>
       <template #cell-role="{ item }">
-        <span :class="['inline-flex px-2.5 py-1 rounded-full font-medium text-xs', roleClass(item.role)]">
+        <span :class="['inline-flex px-2.5 py-1 rounded-full font-medium text-xs whitespace-nowrap', roleClass(item.role)]">
           {{ t(`admin.users.roles.${item.role}`) }}
         </span>
       </template>

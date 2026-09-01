@@ -21,3 +21,13 @@
   --color-tag: #EFF6FF;
   --color-tag-text: #1D4ED8;
 }
+
+@layer base {
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    min-width: 320px;
+  }
+}

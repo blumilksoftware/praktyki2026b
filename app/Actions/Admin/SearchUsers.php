@@ -5,31 +5,31 @@ declare(strict_types=1);
 namespace App\Actions\Admin;
 
 use App\Models\User;
+use App\Traits\SearchesCaseInsensitively;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class SearchUsers
 {
-    public function execute(string $role, string $search): LengthAwarePaginator
+    use SearchesCaseInsensitively;
+
+    public function execute(array $filters): LengthAwarePaginator
     {
         $query = User::query()->where("status", "!=", "deleted");
 
-        if ($role !== "all") {
-            $query->where("role", $role);
+        if ($filters["role"] !== "all") {
+            $query->where("role", $filters["role"]);
         }
 
-        if ($search !== "") {
-            $query->where(function ($builder) use ($search): void {
-                $builder->where("first_name", "like", "%{$search}%")
-                    ->orWhere("last_name", "like", "%{$search}%")
-                    ->orWhere("email", "like", "%{$search}%");
-            });
+        if ($filters["search"] !== "") {
+            $this->applyCaseInsensitiveSearch($query, $filters["search"], ["first_name", "last_name", "email"]);
         }
 
-        return $query->orderBy("created_at", "desc")
-            ->orderByDesc("id")
-            ->paginate(20)->appends([
-                "role" => $role,
-                "search" => $search,
-            ]);
+        if ($filters["sort_key"] === "name") {
+            $query->orderBy("first_name", $filters["sort_dir"])->orderBy("last_name", $filters["sort_dir"]);
+        } else {
+            $query->orderBy($filters["sort_key"], $filters["sort_dir"]);
+        }
+
+        return $query->orderByDesc("id")->paginate(20)->appends($filters);
     }
 }

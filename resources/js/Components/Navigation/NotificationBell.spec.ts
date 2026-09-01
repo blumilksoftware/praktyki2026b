@@ -1,6 +1,7 @@
 import { mount } from "@vue/test-utils"
-import { describe, expect, it, vi, beforeEach } from "vitest"
+import { describe, expect, it, vi, beforeEach, afterEach } from "vitest"
 import NotificationBell from "@/Components/Navigation/NotificationBell.vue"
+import { useToast } from "@/Composables/useToast"
 
 interface NotificationItem {
   id: string
@@ -10,14 +11,18 @@ interface NotificationItem {
   created_at: string
 }
 
-const { mockReload, mockPatch, pageProps } = vi.hoisted(() => ({
-  mockReload: vi.fn(),
-  mockPatch: vi.fn(),
-  pageProps: {
-    notificationsUnreadCount: 0,
-    notifications: [] as NotificationItem[],
-  },
-}))
+const { mockReload, mockPatch, pageProps } = vi.hoisted(() => {
+  const { reactive } = require("vue")
+
+  return {
+    mockReload: vi.fn(),
+    mockPatch: vi.fn(),
+    pageProps: reactive({
+      notificationsUnreadCount: 0,
+      notifications: [] as NotificationItem[],
+    }),
+  }
+})
 
 vi.mock("@inertiajs/vue3", () => ({
   usePage: () => ({ props: pageProps }),
@@ -30,16 +35,29 @@ vi.mock("@inertiajs/vue3", () => ({
 
 const globalStubs = { IconBell: true }
 
+let activeWrapper: ReturnType<typeof mount> | null = null
+
 function mountBell() {
-  return mount(NotificationBell, { global: { stubs: globalStubs } })
+  activeWrapper = mount(NotificationBell, { global: { stubs: globalStubs } })
+  return activeWrapper
 }
 
 describe("NotificationBell", () => {
+  const { toastRef } = useToast()
+  const toastShow = vi.fn()
+
   beforeEach(() => {
     mockReload.mockClear()
     mockPatch.mockClear()
+    toastShow.mockClear()
     pageProps.notificationsUnreadCount = 0
     pageProps.notifications = []
+    toastRef.value = { show: toastShow }
+  })
+
+  afterEach(() => {
+    activeWrapper?.unmount()
+    activeWrapper = null
   })
 
   it("does not show a badge when there are no unread notifications", () => {
@@ -180,5 +198,67 @@ describe("NotificationBell", () => {
 
     const notificationLink = wrapper.findAll("button").find((button) => button.attributes("href") === "/notifications/n1/read")
     expect(notificationLink).toBeTruthy()
+  })
+
+  describe("polling for updates", () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    it("polls the unread count on an interval without navigating", () => {
+      mountBell()
+
+      vi.advanceTimersByTime(30000)
+
+      expect(mockReload).toHaveBeenCalledTimes(1)
+      expect(mockReload.mock.calls[0][0]).toMatchObject({ only: ["notificationsUnreadCount"] })
+    })
+
+    it("stops polling while the tab is hidden and resumes when visible again", () => {
+      mountBell()
+
+      Object.defineProperty(document, "hidden", { value: true, configurable: true })
+      document.dispatchEvent(new Event("visibilitychange"))
+      vi.advanceTimersByTime(60000)
+
+      expect(mockReload).not.toHaveBeenCalled()
+
+      Object.defineProperty(document, "hidden", { value: false, configurable: true })
+      document.dispatchEvent(new Event("visibilitychange"))
+
+      expect(mockReload).toHaveBeenCalledTimes(1)
+    })
+
+    it("shows a toast when the unread count increases", async () => {
+      const wrapper = mountBell()
+
+      pageProps.notificationsUnreadCount = 2
+      await wrapper.vm.$nextTick()
+
+      expect(toastShow).toHaveBeenCalledWith("You have 2 new notifications.", 4000, "info")
+    })
+
+    it("uses the singular form for a single new notification", async () => {
+      const wrapper = mountBell()
+
+      pageProps.notificationsUnreadCount = 1
+      await wrapper.vm.$nextTick()
+
+      expect(toastShow).toHaveBeenCalledWith("You have 1 new notification.", 4000, "info")
+    })
+
+    it("does not show a toast when the unread count drops", async () => {
+      pageProps.notificationsUnreadCount = 3
+      const wrapper = mountBell()
+
+      pageProps.notificationsUnreadCount = 1
+      await wrapper.vm.$nextTick()
+
+      expect(toastShow).not.toHaveBeenCalled()
+    })
   })
 })

@@ -25,7 +25,7 @@ class AdminOfferController extends Controller
         $filters = $request->getData();
 
         return inertia("Admin/Offers", [
-            "offers" => $this->searchOffers->execute($filters["status"], $filters["search"]),
+            "offers" => $this->searchOffers->execute($filters),
             "filters" => $filters,
             "statuses" => array_map(fn(OfferStatus $status): string => $status->value, OfferStatus::cases()),
             "meta" => [

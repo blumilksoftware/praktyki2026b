@@ -20,6 +20,8 @@ class SearchOffersRequest extends FormRequest
         return [
             "status" => ["nullable", "string", Rule::in([...array_column(OfferStatus::cases(), "value"), "all"])],
             "search" => ["nullable", "string", "max:255"],
+            "sort_key" => ["nullable", "string", Rule::in(["title", "company", "city", "status", "created_at"])],
+            "sort_dir" => ["nullable", "string", Rule::in(["asc", "desc"])],
         ];
     }
 
@@ -27,10 +29,14 @@ class SearchOffersRequest extends FormRequest
     {
         $status = $this->validated("status");
         $search = $this->validated("search");
+        $sortKey = $this->validated("sort_key");
+        $sortDir = $this->validated("sort_dir");
 
         return [
             "status" => filled($status) ? $status : "all",
             "search" => filled($search) ? $search : "",
+            "sort_key" => filled($sortKey) ? $sortKey : "created_at",
+            "sort_dir" => filled($sortDir) ? $sortDir : "desc",
         ];
     }
 }

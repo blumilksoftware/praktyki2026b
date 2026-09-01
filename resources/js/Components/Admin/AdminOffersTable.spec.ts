@@ -59,4 +59,17 @@ describe('AdminOffersTable', () => {
 
     expect(wrapper.find('tbody').text()).toContain('Acme')
   })
+
+  it('titles the mobile card with the offer title instead of its id', () => {
+    const card = mountTable().find('article')
+
+    expect(card.find('p').text()).toBe('Published Offer')
+  })
+
+  it('does not repeat the offer title and status in the mobile card details', () => {
+    const card = mountTable().find('article')
+
+    expect(card.findAll('dt').map((dt) => dt.text()))
+      .toEqual([en.admin.offers.company, en.admin.offers.city, ''])
+  })
 })

@@ -28,7 +28,7 @@ const generateOffers = (count: number) => Array.from({ length: count }, (_, i) =
 describe('OffersList.vue', () => {
   it('renders a card for every offer', () => {
     const offers = generateOffers(3)
-    const wrapper = mount(OffersList, { props: { offers } })
+    const wrapper = mount(OffersList, { props: { offers: { data: offers } } })
 
     expect(wrapper.findAll('article').length).toBe(3)
     expect(wrapper.text()).toContain('Offer 1')
@@ -36,7 +36,7 @@ describe('OffersList.vue', () => {
   })
 
   it('shows the empty state when there are no offers', () => {
-    const wrapper = mount(OffersList, { props: { offers: [] } })
+    const wrapper = mount(OffersList, { props: { offers: { data: [] } } })
 
     expect(wrapper.findAll('article').length).toBe(0)
     expect(wrapper.text()).toContain('student.offers.empty.title')
@@ -46,7 +46,7 @@ describe('OffersList.vue', () => {
   it('allows overriding the empty state copy', () => {
     const wrapper = mount(OffersList, {
       props: {
-        offers: [],
+        offers: { data: [] },
         emptyTitle: 'No favourites yet',
         emptyDescription: 'Save an offer to see it here.',
       },
@@ -59,7 +59,7 @@ describe('OffersList.vue', () => {
   it('marks offers as favorite based on their is_favorite field', () => {
     const offers = generateOffers(2).map((offer, index) => ({ ...offer, is_favorite: index === 1 }))
     const wrapper = mount(OffersList, {
-      props: { offers, canApply: true },
+      props: { offers: { data: offers }, canApply: true },
     })
 
     const favoriteButtons = wrapper.findAll('button').filter((btn) => btn.attributes('aria-pressed') !== undefined)
