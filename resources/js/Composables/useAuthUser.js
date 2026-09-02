@@ -7,6 +7,18 @@ export function useAuthUser() {
 
   const user = computed(() => page.props?.auth?.user ?? null)
 
+  const fullName = computed(() => (
+    [user.value?.first_name, user.value?.last_name].filter(Boolean).join(' ')
+  ))
+
+  const emailName = computed(() => user.value?.email?.split('@')[0] ?? '')
+
+  const organizationName = computed(() => (
+    user.value?.company?.name ?? user.value?.university_organization?.name ?? ''
+  ))
+
+  const displayName = computed(() => fullName.value || organizationName.value || emailName.value)
+
   const avatarUrl = computed(() => {
     if (!user.value) {
       return null
@@ -19,5 +31,5 @@ export function useAuthUser() {
     return user.value.company?.logo_path ?? user.value.university_organization?.logo_path ?? null
   })
 
-  return { user, avatarUrl }
+  return { user, fullName, displayName, emailName, avatarUrl }
 }

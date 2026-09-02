@@ -13,18 +13,25 @@ const props = defineProps({
 const { t, locale } = useI18n()
 const isOpen = ref(false)
 const dropdownRef = ref(null)
+const triggerRef = ref(null)
 
 const availableLocales = [
-  { code: 'pl', label: 'PL', aria: 'admin.layout.languageSwitch.toPolish' },
-  { code: 'en', label: 'EN', aria: 'admin.layout.languageSwitch.toEnglish' },
+  { code: 'pl', label: 'PL' },
+  { code: 'en', label: 'EN' },
 ]
 
-const currentLanguage = computed(() => (locale.value || 'pl').toUpperCase())
+const currentLocale = computed(() => locale.value || 'pl')
+const currentLabel = computed(() => currentLocale.value.toUpperCase())
+const triggerAriaLabel = computed(() => `${t('admin.layout.language')}: ${currentLabel.value}`)
 
 function setLanguage(lang) {
-  const url = ROUTES.LANGUAGE_SWITCH.replace('{locale}', lang)
+  if (lang === currentLocale.value) {
+    isOpen.value = false
 
-  router.post(url, {}, {
+    return
+  }
+
+  router.post(ROUTES.LANGUAGE_SWITCH.replace('{locale}', lang), {}, {
     preserveState: false,
     preserveScroll: true,
     onSuccess: () => {
@@ -34,36 +41,44 @@ function setLanguage(lang) {
   })
 }
 
-const closeDropdown = (e) => {
-  if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
+function closeAndRestoreFocus() {
+  isOpen.value = false
+  triggerRef.value?.focus()
+}
+
+function handleClickOutside(event) {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
     isOpen.value = false
   }
 }
 
-onMounted(() => document.addEventListener('click', closeDropdown))
-onUnmounted(() => document.removeEventListener('click', closeDropdown))
+onMounted(() => document.addEventListener('mousedown', handleClickOutside))
+onUnmounted(() => document.removeEventListener('mousedown', handleClickOutside))
 </script>
 
 <template>
-  <div ref="dropdownRef" class="relative">
+  <div ref="dropdownRef" class="relative inline-block" @keydown.escape="closeAndRestoreFocus">
     <button
+      ref="triggerRef"
+      type="button"
+      class="inline-flex items-center gap-1.5 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 hover:cursor-pointer"
       :class="[
-        'flex items-center gap-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 transition-colors hover:cursor-pointer',
-        props.mobile ? 'px-3 py-2 font-medium text-sm' : 'px-2 py-1.5',
+        props.mobile ? 'px-3 py-2 text-sm font-medium' : 'px-2 py-1.5',
         props.variant === 'light'
-          ? 'bg-white border border-border hover:bg-background text-text hover:text-primary focus-visible:ring-primary/30 shadow-sm'
-          : props.mobile
-            ? 'bg-white/10 hover:bg-white/20 text-white/70 hover:text-white focus-visible:ring-white/30'
-            : 'hover:bg-white/10 text-slate-300 hover:text-white focus-visible:ring-white/30'
+          ? 'border border-border bg-white text-text shadow-sm hover:bg-background hover:text-primary focus-visible:ring-primary/30'
+          : 'text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary'
       ]"
+      :aria-label="triggerAriaLabel"
+      aria-haspopup="true"
+      :aria-expanded="isOpen"
       @click="isOpen = !isOpen"
     >
-      <IconWorld class="w-5 h-5 opacity-90" aria-hidden="true" />
-      <span class="font-bold text-sm tracking-wide">{{ currentLanguage }}</span>
-      <IconChevronDown 
-        class="w-4 h-4 opacity-80 transition-transform duration-200" 
+      <IconWorld class="h-5 w-5" aria-hidden="true" />
+      <span class="text-sm font-bold tracking-wide">{{ currentLabel }}</span>
+      <IconChevronDown
+        class="h-4 w-4 transition-transform duration-200"
         :class="{ 'rotate-180': isOpen }"
-        aria-hidden="true" 
+        aria-hidden="true"
       />
     </button>
 
@@ -76,16 +91,17 @@ onUnmounted(() => document.removeEventListener('click', closeDropdown))
       leave-to-class="transform opacity-0 scale-95"
     >
       <div
-        v-show="isOpen"
-        class="absolute right-0 top-full z-50 mt-2 min-w-20 overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5"
+        v-if="isOpen"
+        class="absolute right-0 top-full z-50 mt-2 min-w-20 overflow-hidden rounded-lg border border-border bg-white shadow-md"
       >
         <div class="py-1">
           <button
             v-for="lang in availableLocales"
             :key="lang.code"
-            class="flex w-full items-center px-4 py-2 text-sm transition-colors focus-visible:bg-slate-50 focus-visible:outline-none hover:bg-slate-50 hover:cursor-pointer"
-            :class="locale === lang.code ? 'text-primary font-bold bg-slate-50/50' : 'text-additional'"
-            :aria-label="t(lang.aria)"
+            type="button"
+            class="flex w-full items-center px-4 py-2 text-sm transition-colors focus-visible:bg-background focus-visible:outline-none hover:bg-background hover:cursor-pointer"
+            :class="currentLocale === lang.code ? 'bg-primary/5 font-bold text-primary' : 'text-additional'"
+            :aria-current="currentLocale === lang.code ? 'true' : undefined"
             @click="setLanguage(lang.code)"
           >
             {{ lang.label }}

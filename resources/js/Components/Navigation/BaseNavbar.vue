@@ -44,7 +44,7 @@ const props = defineProps({
 
 const emit = defineEmits(['navigationClick'])
 
-const { user, avatarUrl } = useAuthUser()
+const { user, fullName, displayName, emailName, avatarUrl } = useAuthUser()
 const isAuthenticated = computed(() => !!user.value)
 const isAuthPage = computed(() => {
   const currentComponent = page.component
@@ -114,7 +114,7 @@ const hasProfileInMenu = computed(() => (
           <button
             v-if="showHamburger"
             type="button"
-            class="lg:hidden flex items-center justify-center text-white hover:text-white/80 transition-colors focus:outline-none"
+            class="lg:hidden flex items-center justify-center rounded-full p-1 text-white hover:text-white/80 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
             :aria-label="t('profiles.navMenu')"
             :aria-expanded="isMobileMenuOpen"
             @click="toggle"
@@ -134,13 +134,7 @@ const hasProfileInMenu = computed(() => (
         </div>
 
         <LanguageSwitcher />
-        <span
-          v-if="showProfileIcon"
-          class="hidden max-w-40 truncate text-sm font-medium text-white lg:inline"
-        >
-          {{ t('profiles.greeting', { name: user.first_name }) }}
-        </span>
-        <ProfileIcon v-if="showProfileIcon" class="hidden lg:inline-block" />
+        <ProfileIcon v-if="showProfileIcon" />
         <NotificationBell v-if="showProfileIcon" />
       </div>
     </div>
@@ -173,12 +167,10 @@ const hasProfileInMenu = computed(() => (
       v-if="isMobileMenuOpen && showHamburger"
       class="fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl lg:hidden flex flex-col"
     >
-      <div class="h-14 md:h-16 flex items-center justify-between px-6 border-b border-white/10 bg-primary shrink-0">
-        <span class="font-bold text-white text-sm uppercase tracking-wider">
-          {{ t('profiles.navMenu') }}
-        </span>
+      <div class="h-14 md:h-16 flex items-center justify-end px-6 border-b border-white/10 bg-primary shrink-0">
         <button
-          class="text-white hover:text-white/80 transition-colors focus:outline-none flex items-center justify-center p-1"
+          class="flex items-center justify-center rounded-full p-1 text-white hover:text-white/80 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+          :aria-label="t('buttons.close')"
           @click="close"
         >
           <IconX stroke="2.5" class="w-6 h-6" />
@@ -189,13 +181,18 @@ const hasProfileInMenu = computed(() => (
         <div v-if="showProfileIcon" class="mb-4 flex items-center gap-3 border-b border-border pb-4">
           <ProfileAvatar
             :photo-url="avatarUrl"
-            :first-name="user.first_name"
+            :first-name="displayName"
             :last-name="user.last_name"
             size-class="h-10 w-10 text-sm"
           />
-          <span class="min-w-0 truncate text-base font-semibold text-text">
-            {{ t('profiles.greeting', { name: user.first_name }) }}
-          </span>
+          <div class="min-w-0">
+            <p v-if="fullName" class="truncate text-sm font-semibold text-text">
+              {{ fullName }}
+            </p>
+            <p class="truncate text-xs text-additional">
+              {{ emailName }}
+            </p>
+          </div>
         </div>
 
         <ul class="flex flex-col gap-2">
