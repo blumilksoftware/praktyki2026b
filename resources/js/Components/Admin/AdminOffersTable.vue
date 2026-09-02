@@ -9,7 +9,7 @@ import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import AdminTakeDownOfferModal from '@/Components/Admin/AdminTakeDownOfferModal.vue'
 import { useOfferStatus } from '@/Composables/useOfferStatus'
 import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
-import { offerShow } from '@/Helpers/routes'
+import { offerPreview } from '@/Helpers/routes'
 
 const props = defineProps({
   offers: {
@@ -109,7 +109,7 @@ watch([statusFilter, searchQuery], useDebouncedSearch(applyQuery))
       row-key="id"
       card-title-key="title"
       :caption="t('admin.offers.title')"
-      :row-href="(item) => offerShow(item.id)"
+      :row-href="(item) => offerPreview(item.id)"
       :sort-key="sortKey"
       :sort-dir="sortDir"
       @sort="handleSort"

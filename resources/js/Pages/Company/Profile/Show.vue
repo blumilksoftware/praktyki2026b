@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/vue3'
+import { Head, router } from '@inertiajs/vue3'
 import Header from '@/Components/Profiles/Header.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import Tags from '@/Components/Profiles/Tags.vue'
@@ -12,10 +12,11 @@ import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
 
+
 const { t } = useI18n()
 
 const goToEdit = () => {
-  window.location.href = ROUTES.PROFILE_EDIT
+  router.visit(ROUTES.PROFILE_EDIT)
 }
 
 defineProps({
