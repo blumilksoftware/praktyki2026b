@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { IconSelector, IconChevronUp, IconChevronDown } from '@tabler/icons-vue'
+import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
   items: { type: Array, default: () => [] },
@@ -35,7 +36,7 @@ function handleRowClick(event, item) {
 
   const href = props.rowHref(item)
 
-  if (href) window.open(href, '_blank')
+  if (href) router.visit(href)
 }
 
 function sortIcon(col) {
