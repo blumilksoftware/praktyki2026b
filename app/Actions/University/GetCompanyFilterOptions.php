@@ -6,6 +6,7 @@ namespace App\Actions\University;
 
 use App\Enums\VerificationStatus;
 use App\Models\Company;
+use App\Models\IndustryTag;
 use Illuminate\Support\Str;
 
 class GetCompanyFilterOptions
@@ -14,11 +15,11 @@ class GetCompanyFilterOptions
     {
         $companies = Company::query()
             ->where("verification_status", VerificationStatus::Verified)
-            ->get(["city", "tags"]);
+            ->get(["city"]);
 
         return [
             "cities" => $companies->pluck("city")->filter()->unique()->sortBy(fn(string $city): string => Str::ascii($city))->values()->all(),
-            "tags" => $companies->pluck("tags")->flatten()->filter()->unique()->sortBy(fn(string $tag): string => Str::ascii($tag))->values()->all(),
+            "tags" => IndustryTag::query()->pluck("name")->sortBy(fn(string $tag): string => Str::ascii($tag))->values()->all(),
         ];
     }
 }

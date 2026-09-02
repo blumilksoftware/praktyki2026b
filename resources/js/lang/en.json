@@ -520,6 +520,23 @@
         "expired": "Expired"
       }
     },
+    "industryTags": {
+      "title": "Industry tags",
+      "description": "Manage the list of industry tags suggested in company profiles and search filters.",
+      "addLabel": "Tag name",
+      "addButton": "Add tag",
+      "editLabel": "New name",
+      "edit": "Edit",
+      "editAriaLabel": "Edit tag: {name}",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleteAriaLabel": "Delete tag: {name}",
+      "empty": "No industry tags have been added yet.",
+      "deleteTitle": "Delete industry tag",
+      "deleteConfirmation": "Are you sure you want to delete \"{name}\"?",
+      "confirmDelete": "Delete"
+    },
     "layout": {
       "language": "Language",
       "skipToContent": "Skip to content",
@@ -534,6 +551,7 @@
         "applications": "Applications",
         "users": "Users",
         "offers": "Offers",
+        "industryTags": "Industry tags",
         "settings": "Settings",
         "mobileAriaLabel": "Mobile navigation"
       },

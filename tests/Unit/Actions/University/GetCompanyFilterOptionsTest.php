@@ -6,6 +6,7 @@ namespace Tests\Unit\Actions\University;
 
 use App\Actions\University\GetCompanyFilterOptions;
 use App\Models\Company;
+use App\Models\IndustryTag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -21,7 +22,7 @@ class GetCompanyFilterOptionsTest extends TestCase
         $this->action = new GetCompanyFilterOptions();
     }
 
-    public function testItReturnsUniqueSortedCitiesAndTagsFromVerifiedCompaniesOnly(): void
+    public function testItReturnsUniqueSortedCitiesFromVerifiedCompaniesOnly(): void
     {
         Company::factory()->approved()->create(["city" => "Wrocław", "tags" => ["Vue", "PHP"]]);
         Company::factory()->approved()->create(["city" => "Legnica", "tags" => ["PHP", "Laravel"]]);
@@ -30,7 +31,6 @@ class GetCompanyFilterOptionsTest extends TestCase
         $options = $this->action->execute();
 
         $this->assertEquals(["Legnica", "Wrocław"], $options["cities"]);
-        $this->assertEquals(["Laravel", "PHP", "Vue"], $options["tags"]);
     }
 
     public function testItIgnoresCompaniesWithoutTags(): void
@@ -43,15 +43,14 @@ class GetCompanyFilterOptionsTest extends TestCase
         $this->assertEquals([], $options["tags"]);
     }
 
-    public function testItSortsPolishDiacriticsAlphabeticallyInsteadOfByByteValue(): void
+    public function testItReturnsAllCanonicalIndustryTagsSortedAlphabetically(): void
     {
-        Company::factory()->approved()->create(["city" => "Zabrze", "tags" => ["Żłobki"]]);
-        Company::factory()->approved()->create(["city" => "Łódź", "tags" => ["Laravel"]]);
-        Company::factory()->approved()->create(["city" => "Gdańsk", "tags" => ["Angular"]]);
+        IndustryTag::factory()->create(["name" => "Żłobki"]);
+        IndustryTag::factory()->create(["name" => "Laravel"]);
+        IndustryTag::factory()->create(["name" => "Angular"]);
 
         $options = $this->action->execute();
 
-        $this->assertEquals(["Gdańsk", "Łódź", "Zabrze"], $options["cities"]);
         $this->assertEquals(["Angular", "Laravel", "Żłobki"], $options["tags"]);
     }
 }

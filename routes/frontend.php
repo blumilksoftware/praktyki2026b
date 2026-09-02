@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminIndustryTagController;
 use App\Http\Controllers\Admin\AdminOfferController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Company\ApplicationController;
@@ -111,4 +112,5 @@ Route::middleware(["role:superAdmin"])
         Route::get("/applications", [AdminController::class, "applications"])->name("admin.applications");
         Route::get("/users", [AdminUserController::class, "index"])->name("admin.users");
         Route::get("/offers", [AdminOfferController::class, "index"])->name("admin.offers");
+        Route::get("/industry-tags", [AdminIndustryTagController::class, "index"])->name("admin.industry-tags");
     });

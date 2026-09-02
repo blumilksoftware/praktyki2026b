@@ -46,6 +46,8 @@ export const ROUTES = {
   ADMIN_UNIVERSITY_DELETE: (id: string) => `/admin/universities/${id}`,
   ADMIN_DELETE_USER: (id: string) => `/admin/users/${id}`,
   ADMIN_USER_DELETION_IMPACT: (id: string) => `/admin/users/${id}/deletion-impact`,
+  ADMIN_INDUSTRY_TAGS: "/admin/industry-tags",
+  ADMIN_INDUSTRY_TAG: (id: string) => `/admin/industry-tags/${id}`,
 
   // Student Profile & Settings
   STUDENT_DASHBOARD: "/student/dashboard",
