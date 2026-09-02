@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { Head, useForm } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconPencil, IconTrash } from '@tabler/icons-vue'
-import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
@@ -65,7 +65,7 @@ function confirmDelete() {
 
 <template>
   <Head :title="t('admin.industryTags.title')" />
-  <AdminLayout active-page="industryTags">
+  <AppLayout active-page="industryTags">
     <div class="space-y-6">
       <div>
         <h1 class="font-semibold text-text text-2xl">{{ t('admin.industryTags.title') }}</h1>
@@ -160,5 +160,5 @@ function confirmDelete() {
         </div>
       </div>
     </BaseModal>
-  </AdminLayout>
+  </AppLayout>
 </template>

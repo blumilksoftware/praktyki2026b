@@ -107,5 +107,5 @@ function removeFavourite(offerId) {
         <p role="status" aria-live="polite" class="sr-only">{{ statusMessage }}</p>
       </section>
     </div>
-    </AppLayout>
+  </AppLayout>
 </template>
