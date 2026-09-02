@@ -17,12 +17,6 @@ export function useStudentPanelMenu(activePage) {
         isActive: current === 'dashboard',
       },
       {
-        label: t('student.layout.nav.profile'),
-        href: ROUTES.STUDENT_PROFILE,
-        icon: IconUserCircle,
-        isActive: current === 'profile',
-      },
-      {
         label: t('student.layout.nav.offers'),
         href: ROUTES.OFFERS,
         icon: IconBriefcase,

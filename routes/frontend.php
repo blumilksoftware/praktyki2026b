@@ -92,6 +92,8 @@ Route::middleware(["auth", EnsureUniversityIsVerified::class])
         Route::get("/dashboard", [UniversityController::class, "index"])->name("university.dashboard");
         Route::get("/profile", [UniversityController::class, "profile"])->name("university.profile");
         Route::get("/companies", [UniversityCompanyController::class, "index"])->name("university.companies.index");
+        Route::get("/department", [UniversityController::class, "department"])->name("university.department");
+        Route::get("/partnership", [UniversityController::class, "partnership"])->name("university.partnership");
     });
 
 Route::middleware(["auth", "can:access-student-panel"])
@@ -110,6 +112,8 @@ Route::middleware(["role:superAdmin"])
     ->group(function (): void {
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.dashboard");
         Route::get("/applications", [AdminController::class, "applications"])->name("admin.applications");
+        Route::get("/profile", [AdminController::class, "profile"])->name("admin.profile");
+        Route::get("/profile/edit", [AdminController::class, "editProfile"])->name("admin.profile.edit");
         Route::get("/users", [AdminUserController::class, "index"])->name("admin.users");
         Route::get("/offers", [AdminOfferController::class, "index"])->name("admin.offers");
         Route::get("/industry-tags", [AdminIndustryTagController::class, "index"])->name("admin.industry-tags");

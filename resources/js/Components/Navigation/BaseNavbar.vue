@@ -7,7 +7,7 @@ import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
 import NotificationBell from '@/Components/Navigation/NotificationBell.vue'
 import ProfileIcon from '@/Components/Navigation/ProfileIcon.vue'
 import BaseNavigationButtons from '@/Components/Navigation/BaseNavigationButtons.vue'
-import { IconMenu2, IconX, IconUserCircle, IconSettings, IconLogout, IconSearch } from '@tabler/icons-vue'
+import { IconMenu2, IconX, IconUserCircle, IconSettings, IconLogout, IconSearch, IconArrowLeft } from '@tabler/icons-vue'
 import { useMobileMenu } from '@/Composables/useMobileMenu'
 import { ROUTES } from '@/Helpers/routes'
 

@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseModal from '@/Components/Base/BaseModal.vue'
 import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
@@ -123,7 +123,7 @@ function saveWorkModes() {
 
 <template>
   <Head :title="t('student.profile.title')" />
-  <StudentPanelLayout active-page="profile">
+  <AppLayout active-page="profile">
     <div class="space-y-6">
       <OnboardingBanner />
 
@@ -199,5 +199,5 @@ function saveWorkModes() {
         </BaseButton>
       </div>
     </BaseModal>
-  </StudentPanelLayout>
+  </AppLayout>
 </template>

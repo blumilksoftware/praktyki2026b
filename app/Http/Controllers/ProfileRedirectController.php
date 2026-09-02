@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\UserRole;
+use App\Enums\userRole;
 use Illuminate\Http\Request;
 
 class ProfileRedirectController extends Controller
@@ -13,15 +13,19 @@ class ProfileRedirectController extends Controller
     {
         $user = $request->user();
 
-        if (in_array($user->role, [UserRole::CompanyAdmin, UserRole::CompanyMember], true)) {
+        if ($user->role === userRole::SuperAdmin) {
+            return redirect()->route("admin.profile");
+        }
+
+        if (in_array($user->role, [userRole::CompanyAdmin, userRole::CompanyMember], true)) {
             return redirect()->route("company.profile");
         }
 
-        if ($user->role === UserRole::Student) {
+        if ($user->role === userRole::Student) {
             return redirect()->route("student.profile");
         }
 
-        if (in_array($user->role, [UserRole::UniversityAdmin, UserRole::UniversityMember], true)) {
+        if ($user->role === userRole::UniversityAdmin) {
             return redirect()->route("university.profile");
         }
 
@@ -32,15 +36,15 @@ class ProfileRedirectController extends Controller
     {
         $user = $request->user();
 
-        if (in_array($user->role, [UserRole::CompanyAdmin, UserRole::CompanyMember], true)) {
+        if (in_array($user->role, [userRole::CompanyAdmin, userRole::CompanyMember], true)) {
             return redirect()->route("company.profile.edit");
         }
 
-        if ($user->role === UserRole::Student) {
+        if ($user->role === userRole::Student) {
             return redirect()->route("student.profile.edit");
         }
 
-        if (in_array($user->role, [UserRole::UniversityAdmin, UserRole::UniversityMember], true)) {
+        if ($user->role === userRole::UniversityAdmin) {
             return redirect()->route("university.profile.edit");
         }
 
@@ -51,15 +55,15 @@ class ProfileRedirectController extends Controller
     {
         $user = $request->user();
 
-        if (in_array($user->role, [UserRole::CompanyAdmin, UserRole::CompanyMember], true)) {
+        if (in_array($user->role, [userRole::CompanyAdmin, userRole::CompanyMember], true)) {
             return redirect()->route("company.profile.update", [], 307);
         }
 
-        if ($user->role === UserRole::Student) {
+        if ($user->role === userRole::Student) {
             return redirect()->route("student.profile.update", [], 307);
         }
 
-        if (in_array($user->role, [UserRole::UniversityAdmin, UserRole::UniversityMember], true)) {
+        if ($user->role === userRole::UniversityAdmin) {
             return redirect()->route("university.profile.update", [], 307);
         }
 

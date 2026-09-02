@@ -2,12 +2,12 @@
 import { Head } from '@inertiajs/vue3'
 import { IconArrowLeft } from '@tabler/icons-vue'
 import Header from '@/Components/Profiles/Header.vue'
-import UniversityLayout from '@/Components/Layouts/UniversityLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import Faculties from '@/Components/Profiles/Faculties.vue'
 import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Info from '@/Components/Profiles/Info.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useI18n } from 'vue-i18n'
 
@@ -29,16 +29,7 @@ defineProps({
 <template>
   <Head :title="university.name" />
 
-  <UniversityLayout active-page="profile">
-    <div class="flex flex-row justify-between items-center w-full mb-6">
-      <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
-         @click="goBack"
-      >
-        <IconArrowLeft stroke="2.5" class="w-4 h-4" />
-        {{ t('buttons.back') }}
-      </a>
-    </div>
-
+  <AppLayout active-page="profile">
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
       <div class="flex flex-col gap-6">
         <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 flex flex-col items-center text-center">
@@ -96,5 +87,5 @@ defineProps({
         </div>
       </div>
     </div>
-  </UniversityLayout>
+  </AppLayout>
 </template>

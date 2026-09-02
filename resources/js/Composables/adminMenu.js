@@ -1,6 +1,6 @@
 import { computed, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconClipboard, IconHome, IconUsers, IconBriefcase, IconTags } from '@tabler/icons-vue'
+import { IconClipboard, IconHome, IconUsers, IconUsersGroup, IconBriefcase, IconTags } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 
 export function useAdminPanelMenu(activePage) {

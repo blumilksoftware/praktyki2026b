@@ -41,7 +41,7 @@ const hasTermsError = computed(() => Boolean(fieldError('terms')))
 
 <template>
   <div class="min-h-screen flex flex-col bg-background">
-    <BaseNavbar class="shrink-0" />
+    <BaseNavbar />
     <AuthLayout class="flex-1 min-h-0">
       <Head :title="t('auth.register.university.title')" />
 

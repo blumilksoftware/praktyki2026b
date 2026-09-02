@@ -73,6 +73,11 @@ class CompanyController extends Controller
         return redirect()->route("company.profile");
     }
 
+    public function partnership(): never
+    {
+        abort(404);
+    }
+
     private function getCompanyProfileData(): array
     {
         return $this->buildCompanyProfileData->execute(Auth::user()->company, Auth::user());
