@@ -9,10 +9,12 @@ import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import AdminChangeRoleModal from '@/Components/Admin/AdminChangeRoleModal.vue'
 import AdminBlockUserModal from '@/Components/Admin/AdminBlockUserModal.vue'
 import AdminUserActionsMenu from '@/Components/Admin/AdminUserActionsMenu.vue'
+import AdminPreviewUserModal from '@/Components/Admin/AdminPreviewUserModal.vue'
 import { useUserRole } from '@/Composables/useUserRole'
 import { useUserStatus } from '@/Composables/useUserStatus'
 import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
 import AdminDeleteUserModal from '@/Components/Admin/AdminDeleteUserModal.vue'
+import {ROUTES} from "@/Helpers/routes.ts";
 
 const props = defineProps({
   users: {
@@ -64,6 +66,7 @@ const columns = [
 const userToChangeRole = ref(null)
 const userToBlock = ref(null)
 const userToDelete = ref(null)
+const userToPreview = ref(null)
 
 function openChangeRoleModal(user) {
   userToChangeRole.value = user
@@ -87,6 +90,19 @@ function openDeleteModal(user) {
 
 function closeDeleteModal() {
   userToDelete.value = null
+}
+
+function openUserPreview(user) {
+  if (user.role === 'student') {
+    router.visit(ROUTES.STUDENT_SHOW(user.id))
+    return
+  }
+
+  userToPreview.value = user
+}
+
+function closeUserPreview() {
+  userToPreview.value = null
 }
 
 function isCurrentAdmin(user) {
@@ -153,7 +169,9 @@ watch([roleFilter, searchQuery], useDebouncedSearch(applyQuery))
       @sort="handleSort"
     >
       <template #cell-name="{ item }">
-        {{ userLabel(item) }}
+        <button type="button" class="text-primary hover:underline" @click="openUserPreview(item)">
+          {{ userLabel(item) }}
+        </button>
       </template>
       <template #cell-email="{ item }">
         <a :href="`mailto:${item.email}`" class="text-primary hover:underline">{{ item.email }}</a>
@@ -205,6 +223,13 @@ watch([roleFilter, searchQuery], useDebouncedSearch(applyQuery))
       :user-name="userToBlock ? userLabel(userToBlock) : ''"
       :current-status="userToBlock?.status"
       @close="closeBlockModal"
+    />
+
+    <AdminPreviewUserModal
+      :key="`preview-${userToPreview?.id}`"
+      :open="!!userToPreview"
+      :user="userToPreview"
+      @close="closeUserPreview"
     />
 
     <AdminDeleteUserModal
