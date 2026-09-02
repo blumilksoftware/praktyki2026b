@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import { ROUTES, studentOfferFavourite, offerShow } from '@/Helpers/routes'
 
 const props = defineProps({ favourites: { type: Array, default: () => [] } })
@@ -37,8 +37,7 @@ function removeFavourite(offerId) {
 
 <template>
   <Head :title="t('student.nav.favorites')" />
-
-  <StudentPanelLayout active-page="favorites">
+  <AppLayout active-page="favorites">
     <div class="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <section class="mx-auto max-w-7xl rounded-3xl border border-slate-200/80 bg-white/90 p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:p-8">
         <p class="text-sm font-medium text-additional">{{ t('student.nav.favorites') }}</p>
@@ -108,5 +107,5 @@ function removeFavourite(offerId) {
         <p role="status" aria-live="polite" class="sr-only">{{ statusMessage }}</p>
       </section>
     </div>
-  </StudentPanelLayout>
+  </AppLayout>
 </template>

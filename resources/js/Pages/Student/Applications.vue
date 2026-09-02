@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import ApplicationHistoryList from '@/Components/Student/ApplicationHistoryList.vue'
 import { studentOfferWithdraw } from '@/Helpers/routes'
 
@@ -30,7 +30,7 @@ function onWithdraw(application) {
 
 <template>
   <Head :title="t('student.applications.title')" />
-  <StudentPanelLayout active-page="applications">
+  <AppLayout active-page="applications">
     <header class="mb-6">
       <h1 class="font-semibold text-text text-2xl">
         {{ t('student.applications.title') }}
@@ -45,5 +45,5 @@ function onWithdraw(application) {
       :processing="isWithdrawing"
       @withdraw="onWithdraw"
     />
-  </StudentPanelLayout>
+  </AppLayout>
 </template>

@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 const { t } = useI18n()
 
@@ -47,7 +47,7 @@ const verificationProgressPercent = computed(() => {
 
 <template>
   <Head :title="t('admin.layout.title')" />
-  <AdminLayout active-page="dashboard">
+  <AppLayout active-page="dashboard">
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -100,5 +100,5 @@ const verificationProgressPercent = computed(() => {
         </div>
       </ProfilePageCard>
     </div>
-  </AdminLayout>
+  </AppLayout>
 </template>

@@ -24,8 +24,8 @@ class UpdateCompanyProfileRequest extends FormRequest
                 new MimeTypeByContentRule(["image/jpeg", "image/png", "image/webp"]),
             ],
             "description" => ["nullable", "string", "max:2500"],
-            "tags" => ["nullable", "array", "max:20"], 
-            "tags.*" => ["string", "max:50"], 
+            "tags" => ["nullable", "array", "max:20"],
+            "tags.*" => ["string", "max:50"],
             "website" => ["nullable", "string", "max:255"],
 
             "phone" => ["required", "string", "max:50"],

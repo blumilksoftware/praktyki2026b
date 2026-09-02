@@ -215,4 +215,49 @@ class OfferShowPageTest extends TestCase
                     ),
             );
     }
+
+    public function testAdminCanPreviewDraftOffer(): void
+    {
+        $admin = User::factory()->create([
+            "role" => UserRole::SuperAdmin,
+            "status" => UserStatus::Active,
+        ]);
+        $offer = Offer::factory()->draft()->create([
+            "description" => "Draft preview description.",
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route("offers.preview", $offer))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Offers/Show")
+                    ->where("isGuest", false)
+                    ->where("canApply", false)
+                    ->where("offer.id", $offer->id)
+                    ->where("offer.description", "Draft preview description.")
+                    ->where("offer.status", OfferStatus::Draft->value),
+            );
+    }
+
+    public function testAdminCanPreviewClosedOffer(): void
+    {
+        $admin = User::factory()->create([
+            "role" => UserRole::SuperAdmin,
+            "status" => UserStatus::Active,
+        ]);
+        $offer = Offer::factory()->closed()->create();
+
+        $this->actingAs($admin)
+            ->get(route("offers.preview", $offer))
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Offers/Show")
+                    ->where("isGuest", false)
+                    ->where("canApply", false)
+                    ->where("offer.id", $offer->id)
+                    ->where("offer.status", OfferStatus::Closed->value),
+            );
+    }
 }

@@ -8,13 +8,15 @@ import NotificationBell from '@/Components/Navigation/NotificationBell.vue'
 import ProfileIcon from '@/Components/Navigation/ProfileIcon.vue'
 import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
 import BaseNavigationButtons from '@/Components/Navigation/BaseNavigationButtons.vue'
-import { IconMenu2, IconX, IconUserCircle, IconSettings, IconLogout, IconSearch } from '@tabler/icons-vue'
+import { IconMenu2, IconX, IconUserCircle, IconSettings, IconLogout, IconSearch, IconArrowLeft } from '@tabler/icons-vue'
 import { useMobileMenu } from '@/Composables/useMobileMenu'
 import { useAuthUser } from '@/Composables/useAuthUser'
 import { ROUTES } from '@/Helpers/routes'
 
 const { t } = useI18n()
 const page = usePage()
+
+defineOptions({ inheritAttrs: false })
 
 const props = defineProps({
   showHamburger: {
@@ -82,7 +84,7 @@ const hasProfileInMenu = computed(() => (
 </script>
 
 <template>
-  <nav class="w-full h-14 md:h-16 lg:h-20 bg-primary border-b border-border shrink-0 relative z-30">
+  <nav v-bind="$attrs" class="w-full h-14 md:h-16 lg:h-20 bg-primary border-b border-border shrink-0 relative z-30">
     <div class="h-full flex items-center justify-between px-4 sm:px-6">
       <BaseLogo />
 

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminIndustryTagController;
 use App\Http\Controllers\Admin\AdminOfferController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\DeletionImpactController;
@@ -171,6 +172,9 @@ Route::middleware(["role:superAdmin"])
         Route::delete("/universities/{university}", [AdminController::class, "deleteUniversity"])->name("admin.universities.destroy");
         Route::patch("/offers/{offer}/take-down", [AdminOfferController::class, "takeDown"])->name("admin.offers.take-down");
         Route::delete("/reviews/{review}", [AdminReviewController::class, "destroy"])->name("admin.reviews.destroy");
+        Route::post("/industry-tags", [AdminIndustryTagController::class, "store"])->name("admin.industry-tags.store");
+        Route::patch("/industry-tags/{industryTag}", [AdminIndustryTagController::class, "update"])->name("admin.industry-tags.update");
+        Route::delete("/industry-tags/{industryTag}", [AdminIndustryTagController::class, "destroy"])->name("admin.industry-tags.destroy");
     });
 
 require __DIR__ . "/auth.php";

@@ -1,9 +1,8 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import OfferForm from '@/Components/Offer/OfferForm.vue'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 defineProps({
   studyFields: { type: Array, required: true },
@@ -13,17 +12,12 @@ defineProps({
 })
 
 const { t } = useI18n()
-const companyMenu = useCompanyPanelMenu('offers')
+
 </script>
 
 <template>
   <Head :title="t('company.offers.edit.title')" />
-  <BaseLayout
-    active-page="offers"
-    :nav-items="companyMenu"
-    :navigation-buttons="companyMenu"
-    navigation-variant="default"
-  >
+  <AppLayout active-page="editOffer">
     <div class="mx-auto w-full max-w-6xl">
       <div class="bg-white shadow-sm mx-auto border border-border rounded-3xl w-full overflow-visible">
         <div class="px-6 sm:px-8 py-6 border-border border-b">
@@ -37,5 +31,5 @@ const companyMenu = useCompanyPanelMenu('offers')
         </div>
       </div>
     </div>
-  </BaseLayout>
+  </AppLayout>
 </template>

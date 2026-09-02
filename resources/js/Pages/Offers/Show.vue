@@ -1,10 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { Head, Link, router } from '@inertiajs/vue3'
+import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconHeart, IconHeartFilled } from '@tabler/icons-vue'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
@@ -25,14 +24,10 @@ const props = defineProps({
   similarOffers: { type: Array, default: () => [] },
   hasCv: { type: Boolean, default: false },
   isGuest: { type: Boolean, default: true },
-  canApply: { type: Boolean, default: false },
 })
 
 const { t } = useI18n()
 const { toastSuccess, toastError } = useToast()
-
-const layoutComponent = computed(() => (props.canApply ? StudentPanelLayout : BaseLayout))
-const layoutProps = computed(() => (props.canApply ? { activePage: 'offers' } : {}))
 
 const workModeLabel = computed(() => t(`student.workModes.${props.offer.work_mode}`))
 const isClosed = computed(() => props.offer.status === 'closed' || props.offer.status === 'expired')
@@ -86,9 +81,17 @@ const companyHref = computed(() => (
 ))
 
 const backHref = computed(() => {
-  const pathname = window.location.pathname
+  const role = usePage().props.auth?.user?.role
 
-  return pathname.endsWith('/preview') ? ROUTES.COMPANY_OFFERS_INDEX : ROUTES.OFFERS
+  if (role === 'superAdmin') {
+    return ROUTES.ADMIN_OFFERS
+  }
+
+  if (role === 'companyAdmin' || role === 'companyMember') {
+    return ROUTES.COMPANY_OFFERS_INDEX
+  }
+
+  return ROUTES.OFFERS
 })
 
 const isApplying = ref(false)
@@ -119,6 +122,10 @@ function applyToOffer() {
       isApplying.value = false
     },
   })
+}
+
+function goToUploadCv() {
+  router.visit(ROUTES.STUDENT_PROFILE_EDIT)
 }
 
 const isTogglingFavorite = ref(false)
@@ -182,7 +189,7 @@ function confirmWithdraw() {
 <template>
   <Head :title="offer.title" />
 
-  <component :is="layoutComponent" v-bind="layoutProps">
+  <AppLayout active-page="offers">
     <div class="bg-background min-h-screen py-6">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <Link
@@ -329,7 +336,7 @@ function confirmWithdraw() {
 
               <template v-else>
                 <button
-                  v-if="canApply"
+                  v-if="!isGuest"
                   type="button"
                   class="inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
                   :class="isFavorite
@@ -354,7 +361,7 @@ function confirmWithdraw() {
                   {{ t('student.offers.card.loginToApply') }}
                 </Link>
 
-                <template v-else-if="canApply && acceptsApplications">
+                <template v-else-if="acceptsApplications">
                   <BaseApplyButton
                     :id="`apply-offer-${offer.id}`"
                     :has-cv="hasCv"
@@ -362,6 +369,7 @@ function confirmWithdraw() {
                     :applied-date="appliedDate"
                     :is-loading="isApplying"
                     @apply="applyToOffer"
+                    @upload-cv="goToUploadCv"
                   />
 
                   <BaseButton
@@ -403,12 +411,12 @@ function confirmWithdraw() {
     </div>
 
     <WithdrawApplicationModal
-      v-if="canApply"
+      v-if="!isGuest"
       :open="isWithdrawModalOpen"
       :offer-title="offer.title"
       :processing="isWithdrawing"
       @close="closeWithdrawModal"
       @confirm="confirmWithdraw"
     />
-  </component>
+  </AppLayout>
 </template>
