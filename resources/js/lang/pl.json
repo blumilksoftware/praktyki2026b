@@ -238,6 +238,8 @@
   },
   "profiles": {
     "navMenu": "Menu nawigacji",
+    "accountMenu": "Menu konta",
+    "greeting": "Cześć, {name}",
     "profile": "Profil",
     "aboutUs": "O nas",
     "contact": "Kontakt",

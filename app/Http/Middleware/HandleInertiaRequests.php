@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Actions\Onboarding\GetProfileStepsAction;
+use App\Enums\OrganizationType;
 use App\Enums\UserRole;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Middleware;
@@ -29,7 +31,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             "locale" => app()->getLocale(),
             "auth" => fn() => $request->user() ? [
-                "user" => $request->user(),
+                "user" => $this->userWithOrganization($request->user()),
             ] : null,
             "favoriteOfferIds" => fn() => $request->user()?->role === UserRole::Student ? $request->user()->favourites()->pluck("offers.id")->all() : [],
             "onboarding" => fn() => $request->user() ? $this->onboardingData($request) : null,
@@ -51,6 +53,15 @@ class HandleInertiaRequests extends Middleware
             ],
             "support_email" => config("mail.support_email"),
         ];
+    }
+
+    private function userWithOrganization(User $user): User
+    {
+        return match ($user->role->organizationType()) {
+            OrganizationType::Company => $user->loadMissing("company"),
+            OrganizationType::University => $user->loadMissing("universityOrganization"),
+            default => $user,
+        };
     }
 
     private function onboardingData(Request $request): array

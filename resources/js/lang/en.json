@@ -230,6 +230,8 @@
   },
   "profiles": {
     "navMenu": "Navigation menu",
+    "accountMenu": "Account menu",
+    "greeting": "Hi, {name}",
     "profile": "Profile",
     "aboutUs": "About us",
     "contact": "Contact",

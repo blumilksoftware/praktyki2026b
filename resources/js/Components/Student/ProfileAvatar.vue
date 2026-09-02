@@ -6,6 +6,7 @@ const props = defineProps({
   firstName: { type: String, default: '' },
   lastName: { type: String, default: '' },
   sizeClass: { type: String, default: 'w-24 h-24 text-2xl' },
+  colorClass: { type: String, default: 'bg-primary/10 text-primary' },
 })
 
 const initials = computed(() => {
@@ -17,8 +18,8 @@ const initials = computed(() => {
 
 <template>
   <div
-    class="flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10 font-semibold text-primary"
-    :class="sizeClass"
+    class="flex shrink-0 items-center justify-center overflow-hidden rounded-full font-semibold"
+    :class="[sizeClass, colorClass]"
   >
     <img
       v-if="photoUrl"

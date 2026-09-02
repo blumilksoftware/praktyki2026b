@@ -6,9 +6,11 @@ import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
 import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
 import NotificationBell from '@/Components/Navigation/NotificationBell.vue'
 import ProfileIcon from '@/Components/Navigation/ProfileIcon.vue'
+import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
 import BaseNavigationButtons from '@/Components/Navigation/BaseNavigationButtons.vue'
 import { IconMenu2, IconX, IconUserCircle, IconSettings, IconLogout, IconSearch } from '@tabler/icons-vue'
 import { useMobileMenu } from '@/Composables/useMobileMenu'
+import { useAuthUser } from '@/Composables/useAuthUser'
 import { ROUTES } from '@/Helpers/routes'
 
 const { t } = useI18n()
@@ -40,7 +42,7 @@ const props = defineProps({
 
 const emit = defineEmits(['navigationClick'])
 
-const user = computed(() => page.props?.auth?.user)
+const { user, avatarUrl } = useAuthUser()
 const isAuthenticated = computed(() => !!user.value)
 const isAuthPage = computed(() => {
   const currentComponent = page.component
@@ -130,6 +132,12 @@ const hasProfileInMenu = computed(() => (
         </div>
 
         <LanguageSwitcher />
+        <span
+          v-if="showProfileIcon"
+          class="hidden max-w-40 truncate text-sm font-medium text-white lg:inline"
+        >
+          {{ t('profiles.greeting', { name: user.first_name }) }}
+        </span>
         <ProfileIcon v-if="showProfileIcon" class="hidden lg:inline-block" />
         <NotificationBell v-if="showProfileIcon" />
       </div>
@@ -176,6 +184,18 @@ const hasProfileInMenu = computed(() => (
       </div>
 
       <div class="p-5 overflow-y-auto h-full bg-white">
+        <div v-if="showProfileIcon" class="mb-4 flex items-center gap-3 border-b border-border pb-4">
+          <ProfileAvatar
+            :photo-url="avatarUrl"
+            :first-name="user.first_name"
+            :last-name="user.last_name"
+            size-class="h-10 w-10 text-sm"
+          />
+          <span class="min-w-0 truncate text-base font-semibold text-text">
+            {{ t('profiles.greeting', { name: user.first_name }) }}
+          </span>
+        </div>
+
         <ul class="flex flex-col gap-2">
           <li v-if="!isAuthenticated && !isAdminAuthPage">
             <Link
