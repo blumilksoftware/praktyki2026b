@@ -3,11 +3,10 @@ import { ref, watch } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconSearch, IconMapPin } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import UniversityCard from '@/Components/Company/UniversityCard.vue'
 import FilterSuggestField from '@/Components/Partnership/FilterSuggestField.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
 import { ROUTES } from '@/Helpers/routes'
 
@@ -34,8 +33,6 @@ const statusFilterValues = {
   pendingOutgoing: 'pending_outgoing',
   active: 'active',
 }
-
-const companyMenu = useCompanyPanelMenu('universities')
 
 const nameFilter = ref(props.filters.name || '')
 const cityFilter = ref(props.filters.city || '')
@@ -68,12 +65,8 @@ watch([nameFilter, cityFilter], useDebouncedSearch(search))
 
 <template>
   <Head :title="t('company.universities.title')" />
-  <BaseLayout
-    active-page="universities"
-    :nav-items="companyMenu"
-    :navigation-buttons="companyMenu"
-  >
-    <h1 class="text-2xl font-semibold text-text mb-6">{{ t('company.universities.title') }}</h1>
+  <AppLayout active-page="universities">
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('company.universities.title') }}</h1>
 
     <div class="mb-6 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
       <div>
@@ -130,5 +123,5 @@ watch([nameFilter, cityFilter], useDebouncedSearch(search))
     </div>
 
     <Pagination :meta="universities" />
-  </BaseLayout>
+  </AppLayout>
 </template>

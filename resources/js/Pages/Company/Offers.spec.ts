@@ -56,7 +56,7 @@ const mountOffers = (props = {}) => mount(Offers, {
   global: {
     plugins: [i18n],
     stubs: {
-      BaseLayout: { template: '<div><slot /></div>' },
+      AppLayout: { template: '<div><slot /></div>' },
       CompanyOfferDeleteModal: {
         props: ['open', 'offerId', 'offerTitle'],
         template: '<div v-if="open" class="stub-delete-modal">{{ offerId }}:{{ offerTitle }}</div>',

@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
+import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
 
 const props = defineProps({
   status: { type: Number, required: true },
@@ -21,13 +22,9 @@ const homeUrl = computed(() => {
 <template>
   <Head :title="t(`errors.${status}.title`)" />
   <div class="flex flex-col min-h-screen bg-white text-text">
-    <header class="bg-text shadow-md ring-1 ring-primary/10 ring-inset">
+    <header class="bg-primary shadow-md">
       <div class="flex items-center px-4 md:px-6 py-4">
-        <img
-          src="/logo.svg"
-          alt="Applikuj logo"
-          class="brightness-0 invert rounded-lg w-auto h-10"
-        >
+        <BaseLogo />
       </div>
     </header>
 

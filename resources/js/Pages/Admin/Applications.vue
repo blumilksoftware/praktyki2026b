@@ -1,13 +1,14 @@
 <script setup>
+import { computed } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import VerificationTable from '@/Components/Admin/VerificationTable.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 const { t } = useI18n()
 
-defineProps({
+const props = defineProps({
   companies: {
     type: Object,
     default: () => ({ data: [], links: {}, meta: {} }),
@@ -33,7 +34,7 @@ defineProps({
 
 <template>
   <Head :title="t('admin.applications.title')" />
-  <AdminLayout active-page="applications">
+  <AppLayout active-page="applications">
     <div class="space-y-6">
       <div>
         <h1 class="font-semibold text-text text-2xl">{{ t('admin.applications.title') }}</h1>
@@ -50,5 +51,5 @@ defineProps({
         />
       </ProfilePageCard>
     </div>
-  </AdminLayout>
+  </AppLayout>
 </template>

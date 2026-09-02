@@ -6,9 +6,9 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
 import BaseModal from '@/Components/Base/BaseModal.vue'
-import UniversityLayout from '@/Components/Layouts/UniversityLayout.vue'
 import FacultyCard from '@/Components/University/FacultyCard.vue'
 import { ROUTES } from '@/Helpers/routes'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 const props = defineProps({
   faculties: { type: Array, default: () => [] },
@@ -93,7 +93,7 @@ function confirmDelete() {
 <template>
   <Head :title="t('university.faculties.title')" />
 
-  <UniversityLayout active-page="faculties">
+  <AppLayout active-page="faculties">
     <h1 class="font-semibold text-2xl text-text">{{ t('university.faculties.title') }}</h1>
     <p class="mt-2 text-additional">{{ t('university.faculties.subtitle') }}</p>
 
@@ -176,5 +176,5 @@ function confirmDelete() {
         </div>
       </form>
     </BaseModal>
-  </UniversityLayout>
+  </AppLayout>
 </template>

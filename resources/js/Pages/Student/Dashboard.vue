@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
 
@@ -20,7 +20,7 @@ const offersPreview = computed(() => ({ data: props.offers }))
 
 <template>
   <Head :title="t('student.dashboard.title')" />
-  <StudentPanelLayout active-page="dashboard">
+  <AppLayout active-page="dashboard">
     <div class="bg-slate-50 px-4 sm:px-6 lg:px-8 py-6 min-h-screen">
       <section class="bg-white shadow-[0_14px_40px_rgba(11,26,48,0.08)] mx-auto p-6 sm:p-8 border border-slate-200 rounded-3xl max-w-7xl">
         <div class="lg:items-center gap-6 grid lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.95fr)]">
@@ -95,5 +95,5 @@ const offersPreview = computed(() => ({ data: props.offers }))
         </div>
       </section>
     </div>
-  </StudentPanelLayout>
+  </AppLayout>
 </template>

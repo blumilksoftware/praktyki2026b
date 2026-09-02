@@ -40,8 +40,7 @@ const offers = [
 ]
 
 const stubs = {
-  StudentPanelLayout: { template: '<div><slot /></div>' },
-  BaseLayout: { template: '<div><slot /></div>' },
+  AppLayout: { template: '<div><slot /></div>' },
   OffersList: {
     props: ['offers', 'guest'],
     template: '<div class="stub-offers-list" :data-guest="guest"><div v-for="o in offers" :key="o.id" class="stub-offer">{{ o.title }}</div></div>',
