@@ -191,7 +191,7 @@ const todayLabel = computed(() => new Intl.DateTimeFormat(locale.value, {
           <DashboardStatTile
             :label="t('company.dashboard.stats.openPartnershipRequests')"
             :value="stats.openPartnershipRequestsCount"
-            :href="`${ROUTES.COMPANY_UNIVERSITIES}?status=pending_incoming`"
+            :href="`${ROUTES.COMPANY_UNIVERSITIES}?status= pending_incoming`"
             :icon="IconBuildingBank"
           />
         </DashboardStatSection>

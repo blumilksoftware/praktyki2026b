@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { Head, Link, router } from '@inertiajs/vue3'
+import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconHeart, IconHeartFilled } from '@tabler/icons-vue'
 import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
@@ -86,9 +86,17 @@ const companyHref = computed(() => (
 ))
 
 const backHref = computed(() => {
-  const pathname = window.location.pathname
+  const role = usePage().props.auth?.user?.role
 
-  return pathname.endsWith('/preview') ? ROUTES.COMPANY_OFFERS_INDEX : ROUTES.OFFERS
+  if (role === 'superAdmin') {
+    return ROUTES.ADMIN_OFFERS
+  }
+
+  if (role === 'companyAdmin' || role === 'companyMember') {
+    return ROUTES.COMPANY_OFFERS_INDEX
+  }
+
+  return ROUTES.OFFERS
 })
 
 const isApplying = ref(false)
