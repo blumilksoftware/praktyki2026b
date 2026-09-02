@@ -1,11 +1,11 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconCheck, IconX, IconBan, IconLink } from '@tabler/icons-vue'
 import PartnerConfirmModal from '@/Components/Partnership/PartnerConfirmModal.vue'
 import { usePartnershipStatus } from '@/Composables/usePartnershipStatus'
-
+import { companyShow, universityShow } from '@/Helpers/routes'
 const ACTION_ICONS = {
   propose: IconLink,
   cancel: IconX,
@@ -24,6 +24,9 @@ const { statusClass, statusLabel } = usePartnershipStatus(props.namespace)
 
 const partnerInitial = computed(() => props.partner.name?.charAt(0) || '?')
 const hasOffersCount = computed(() => props.partner.active_offers_count !== undefined)
+const partnerHref = computed(() => (props.namespace === 'company.universities'
+  ? universityShow(props.partner.id)
+  : companyShow(props.partner.id)))
 
 const isProcessing = ref(false)
 const isConfirmModalOpen = ref(false)
@@ -99,10 +102,10 @@ function confirmAction() {
 
 <template>
   <article
-    class="flex flex-col gap-4 rounded-2xl border p-5 transition"
+    class="group flex flex-col gap-4 rounded-2xl border p-5 transition duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-sm"
     :class="status === 'active' ? 'border-primary/30 bg-primary/5' : 'border-border bg-white'"
   >
-    <div class="flex items-start gap-3">
+    <Link :href="partnerHref" class="group -m-2 flex items-start gap-3 rounded-xl p-2 transition hover:bg-background">
       <img
         v-if="partner.logo_path"
         :src="partner.logo_path"
@@ -114,7 +117,7 @@ function confirmAction() {
       </div>
 
       <div class="min-w-0 flex-1">
-        <h2 class="line-clamp-2 text-lg font-semibold text-text">{{ partner.name }}</h2>
+        <h2 class="line-clamp-2 text-lg font-semibold text-text transition group-hover:text-primary">{{ partner.name }}</h2>
         <p class="text-sm text-additional">{{ partner.city }}</p>
         <span
           class="mt-1 inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold"
@@ -123,7 +126,7 @@ function confirmAction() {
           {{ statusLabel(status) }}
         </span>
       </div>
-    </div>
+    </Link>
 
     <p v-if="partner.description" class="line-clamp-2 text-sm text-additional">
       {{ partner.description }}

@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
-import { useStudentPanelMenu } from '@/Composables/useStudentPanelMenu'
+import { useI18n } from 'vue-i18n'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 const props = defineProps({
   activePage: {
@@ -10,11 +10,12 @@ const props = defineProps({
   },
 })
 
+const { t } = useI18n()
 const panelMenu = useStudentPanelMenu(computed(() => props.activePage))
 </script>
 
 <template>
-  <BaseLayout :active-page="activePage" :nav-items="panelMenu" :navigation-buttons="panelMenu">
+  <AppLayout :active-page="activePage" :nav-items="panelMenu" :navigation-buttons="panelMenu">
     <slot />
-  </BaseLayout>
+  </AppLayout>
 </template>

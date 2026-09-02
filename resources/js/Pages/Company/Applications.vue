@@ -3,14 +3,13 @@ import { ref, watch, computed } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import axios from 'axios'
-import { IconArrowLeft } from '@tabler/icons-vue'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
 import ApplicationsCard from '@/Components/Profiles/ApplicationsCard.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
 import { useToast } from '@/Composables/useToast'
+import { IconArrowLeft } from '@tabler/icons-vue'
 
 const props = defineProps({
   applications: {
@@ -30,8 +29,6 @@ const props = defineProps({
 const { t } = useI18n()
 const { toastError } = useToast()
 
-const companyMenu = useCompanyPanelMenu('applications')
-
 const goBack = () => {
   window.history.back()
 }
@@ -47,7 +44,7 @@ const isLoadingMore = ref(false)
 
 watch(currentFilters, (value) => {
   router.get(
-    ROUTES.COMPANY_APPLICATIONS, 
+    ROUTES.COMPANY_APPLICATIONS,
     { offer: value.offer, status: value.status },
     { preserveState: true, preserveScroll: true, replace: true },
   )
@@ -71,7 +68,7 @@ const loadMore = async () => {
     })
 
     displayedApplications.value.push(...response.data.data)
-    
+
     nextPageUrl.value = response.data.next_page_url
 
   } catch (error) {
@@ -124,12 +121,7 @@ const statusFilterOptions = computed(() => [
 
 <template>
   <Head :title="t('profiles.company.applications.title')" />
-
-  <BaseLayout
-    active-page="applications"
-    :nav-items="companyMenu"
-    :navigation-buttons="companyMenu"
-  >
+  <AppLayout active-page="applications">
     <div class="mb-6 flex w-full flex-row items-center">
       <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
          @click="goBack"
@@ -167,7 +159,7 @@ const statusFilterOptions = computed(() => [
       </div>
 
       <div class="flex flex-col gap-4 mt-2">
-        <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-additional shadow-sm">
+        <div v-if="!displayedApplications.length" class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500 shadow-sm">
           {{ t('profiles.company.applications.empty') }}
         </div>
 
@@ -189,5 +181,5 @@ const statusFilterOptions = computed(() => [
         </BaseButton>
       </div>
     </div>
-  </BaseLayout>
+  </AppLayout>
 </template>

@@ -14,9 +14,8 @@ import {
   IconBuildingBank,
 } from '@tabler/icons-vue'
 import OnboardingBanner from '@/Components/Onboarding/OnboardingBanner.vue'
-import { useCompanyPanelMenu } from '@/Composables/useCompanyPanelMenu'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
-import BaseLayout from '@/Components/Layouts/BaseLayout.vue'
 import DashboardStatSection from '@/Components/Company/Dashboard/DashboardStatSection.vue'
 import DashboardStatTile from '@/Components/Company/Dashboard/DashboardStatTile.vue'
 import DashboardCapacityCard from '@/Components/Company/Dashboard/DashboardCapacityCard.vue'
@@ -49,7 +48,6 @@ const props = defineProps({
 
 const unreadAlertCount = computed(() => props.stats.unreadNotificationsCount)
 const unreadAlert = computed(() => unreadAlertCount.value > 0)
-const companyMenu = useCompanyPanelMenu('dashboard')
 
 const companyName = computed(() => page.props.auth?.user?.company?.name ?? '')
 const todayLabel = computed(() => new Intl.DateTimeFormat(locale.value, {
@@ -61,12 +59,7 @@ const todayLabel = computed(() => new Intl.DateTimeFormat(locale.value, {
 
 <template>
   <Head :title="t('company.layout.title')" />
-  <BaseLayout
-    active-page="dashboard"
-    :nav-items="companyMenu"
-    :navigation-buttons="companyMenu"
-    navigation-variant="default"
-  >
+  <AppLayout active-page="dashboard">
     <div class="flex flex-col gap-6">
       <div>
         <h1 class="font-semibold text-text text-2xl">
@@ -197,5 +190,5 @@ const todayLabel = computed(() => new Intl.DateTimeFormat(locale.value, {
         </DashboardStatSection>
       </div>
     </div>
-  </BaseLayout>
+  </AppLayout>
 </template>

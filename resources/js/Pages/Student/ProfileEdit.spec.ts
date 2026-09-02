@@ -60,7 +60,7 @@ const mountEdit = (props = {}) => mount(ProfileEdit, {
   global: {
     plugins: [i18n],
     stubs: {
-      StudentPanelLayout: { template: '<div><slot /></div>' },
+      AppLayout: { template: '<div><slot /></div>' },
       ProfilePhotoUpload: true,
     },
   },

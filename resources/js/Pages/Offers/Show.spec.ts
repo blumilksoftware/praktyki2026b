@@ -62,8 +62,7 @@ function mountShow(props = {}) {
     global: {
       plugins: [i18n],
       stubs: {
-        StudentPanelLayout: { template: '<div><slot /></div>' },
-        BaseLayout: { template: '<div><slot /></div>' },
+        AppLayout: { template: '<div><slot /></div>' },
         VerifiedBadge: {
           props: ['verified'],
           template: '<span v-if="verified" data-testid="verified-badge" />',

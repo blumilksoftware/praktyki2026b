@@ -40,6 +40,7 @@ return [
     "faculty_reassign_required" => "Choose the faculty to move the fields of study to.",
     "study_field_name_unique" => "This faculty already has a field of study with this name.",
     "study_field_reassign_required" => "Choose the field of study to move students and offers to.",
+    "industry_tag_name_unique" => "An industry tag with this name already exists.",
     "review_requires_accepted_application" => "You can only review a company after your application has been accepted.",
     "already_reviewed_company" => "You have already reviewed this company.",
 
@@ -89,6 +90,7 @@ return [
         "study_field_id" => "field of study",
         "faculty_name" => "faculty name",
         "study_field_name" => "field of study name",
+        "industry_tag_name" => "industry tag name",
         "faculty_reassign_to" => "faculty to move the fields of study to",
         "study_field_reassign_to" => "field of study to merge into",
         "study_year" => "year of study",

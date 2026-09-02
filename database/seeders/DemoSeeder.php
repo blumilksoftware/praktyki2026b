@@ -16,6 +16,7 @@ use App\Enums\WorkMode;
 use App\Models\Application;
 use App\Models\Company;
 use App\Models\Faculty;
+use App\Models\IndustryTag;
 use App\Models\Offer;
 use App\Models\OrganizationInvitation;
 use App\Models\Partnership;
@@ -200,6 +201,10 @@ class DemoSeeder extends Seeder
 
         foreach ($testApplications as $testApplication) {
             Notification::send($companyAdmin, new NewApplicationNotification($testApplication));
+        }
+
+        foreach (["IT", "Software house", "Programowanie", "Praca zdalna", "Vue.js", "Python"] as $tagName) {
+            IndustryTag::query()->firstOrCreate(["name" => $tagName]);
         }
 
         $faculty = Faculty::factory()->for($approvedUniversity)->create([

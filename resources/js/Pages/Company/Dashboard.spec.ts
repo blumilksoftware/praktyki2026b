@@ -45,8 +45,7 @@ function mountDashboard(props = {}, options = {}) {
     global: {
       plugins: [i18n],
       stubs: {
-        BaseLayout: { template: '<div><slot /></div>' },
-        OnboardingBanner: true,
+        AppLayout: { template: '<div><slot /></div>' },
       },
     },
     ...options,

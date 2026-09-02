@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useStudentFavorites } from '@/Composables/useStudentFavorites'
@@ -18,7 +18,7 @@ const favoriteOffers = computed(() => props.offers)
 <template>
   <Head :title="t('student.nav.favorites')" />
 
-  <StudentPanelLayout active-page="favorites">
+  <AppLayout active-page="favorites">
     <div class="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div class="mx-auto mb-4 flex max-w-7xl items-center justify-between gap-3">
         <Link
@@ -80,5 +80,5 @@ const favoriteOffers = computed(() => props.offers)
         </div>
       </section>
     </div>
-  </StudentPanelLayout>
+  </AppLayout>
 </template>

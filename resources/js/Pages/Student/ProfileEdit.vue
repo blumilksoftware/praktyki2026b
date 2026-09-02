@@ -8,7 +8,6 @@ import { IconArrowLeft } from '@tabler/icons-vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
-import StudentPanelLayout from '@/Components/Student/StudentPanelLayout.vue'
 import CityAutocomplete from '@/Components/Common/CityAutocomplete.vue'
 import DynamicMultiSelect from '@/Components/Common/DynamicMultiSelect.vue'
 import ProfilePhotoUpload from '@/Components/Student/ProfilePhotoUpload.vue'
@@ -16,6 +15,7 @@ import BaseMaskedInput from '@/Components/Base/BaseMaskedInput.vue'
 import CvUploadSection from '@/Components/Student/CvUploadSection.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import UniversityAutocomplete from '@/Components/Profile/UniversityAutocomplete.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import { ROUTES } from '@/Helpers/routes'
 
 const props = defineProps({
@@ -174,16 +174,8 @@ function saveAll() {
 
 <template>
   <Head :title="t('student.profile.edit.title')" />
-  <StudentPanelLayout active-page="profile">
+  <AppLayout active-page="profile">
     <div class="mx-auto w-full max-w-3xl">
-      <Link
-        :href="ROUTES.STUDENT_PROFILE"
-        class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text"
-      >
-        <IconArrowLeft class="h-4 w-4" aria-hidden="true" />
-        {{ t('student.profile.edit.backToProfile') }}
-      </Link>
-
       <h1 class="mt-4 font-semibold text-text text-2xl">
         {{ t('student.profile.edit.title') }}
       </h1>
@@ -388,5 +380,5 @@ function saveAll() {
         </div>
       </div>
     </div>
-  </StudentPanelLayout>
+  </AppLayout>
 </template>
