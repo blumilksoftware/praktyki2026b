@@ -14,7 +14,6 @@ import { useUserRole } from '@/Composables/useUserRole'
 import { useUserStatus } from '@/Composables/useUserStatus'
 import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
 import AdminDeleteUserModal from '@/Components/Admin/AdminDeleteUserModal.vue'
-import {ROUTES} from "@/Helpers/routes.ts";
 
 const props = defineProps({
   users: {
@@ -93,11 +92,6 @@ function closeDeleteModal() {
 }
 
 function openUserPreview(user) {
-  if (user.role === 'student') {
-    router.visit(ROUTES.STUDENT_SHOW(user.id))
-    return
-  }
-
   userToPreview.value = user
 }
 
@@ -169,7 +163,7 @@ watch([roleFilter, searchQuery], useDebouncedSearch(applyQuery))
       @sort="handleSort"
     >
       <template #cell-name="{ item }">
-        <button type="button" class="text-primary hover:underline" @click="openUserPreview(item)">
+        <button type="button" class="text-primary hover:underline cursor-pointer" @click="openUserPreview(item)">
           {{ userLabel(item) }}
         </button>
       </template>
@@ -229,6 +223,8 @@ watch([roleFilter, searchQuery], useDebouncedSearch(applyQuery))
       :key="`preview-${userToPreview?.id}`"
       :open="!!userToPreview"
       :user="userToPreview"
+      :companies="companies"
+      :universities="universities"
       @close="closeUserPreview"
     />
 

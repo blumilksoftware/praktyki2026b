@@ -464,6 +464,9 @@
       "unblock": "Odblokuj",
       "blockAriaLabel": "Zablokuj użytkownika: {name}",
       "unblockAriaLabel": "Odblokuj użytkownika: {name}",
+      "createdAt": "Data rejestracji",
+      "close": "Zamknij",
+      "organization": "Organizacja",
       "statuses": {
         "active": "Aktywny",
         "blocked": "Zablokowany",

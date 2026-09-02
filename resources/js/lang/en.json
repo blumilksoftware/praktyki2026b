@@ -1,4 +1,7 @@
 {
+    "layout": {
+        "skipToContent": "Skip to content"
+    },
   "onboarding": {
     "banner": {
       "title": "Complete your profile",
@@ -453,6 +456,9 @@
       "unblock": "Unblock",
       "blockAriaLabel": "Block user: {name}",
       "unblockAriaLabel": "Unblock user: {name}",
+        "createdAt": "Registration date",
+        "close": "Close",
+        "organization": "Organization",
       "statuses": {
         "active": "Active",
         "blocked": "Blocked",

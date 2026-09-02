@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseModal from '@/Components/Base/BaseModal.vue'
 
@@ -11,9 +12,37 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  companies: {
+    type: Array,
+    default: () => [],
+  },
+  universities: {
+    type: Array,
+    default: () => [],
+  },
 })
 
 const emit = defineEmits(['close'])
+
+const companyMap = computed(() =>
+  new Map(props.companies.map(company => [company.id, company.name])),
+)
+const universityMap = computed(() =>
+  new Map(props.universities.map(university => [university.id, university.name])),
+)
+
+function organizationName(user) {
+  if (['companyAdmin', 'companyMember'].includes(user.role)) {
+    return companyMap.value.get(user.organization_id) ?? null
+  }
+  if (['universityAdmin', 'universityMember'].includes(user.role)) {
+    return universityMap.value.get(user.organization_id) ?? null
+  }
+  if (user.role === 'student') {
+    return user.university ?? null
+  }
+  return null
+}
 
 function fullName(user) {
   return [user.first_name, user.last_name].filter(Boolean).join(' ') || user.email
@@ -54,6 +83,14 @@ function formattedDate(date) {
             {{ user.email }}
           </dd>
         </div>
+        <div v-if="organizationName(user)">
+          <dt class="text-xs font-medium uppercase tracking-wide text-additional">
+            {{ $t('admin.users.organization') }}
+          </dt>
+          <dd class="mt-1 text-sm text-text">
+            {{ organizationName(user) }}
+          </dd>
+        </div>
         <div>
           <dt class="text-xs font-medium uppercase tracking-wide text-additional">
             {{ $t('admin.users.status') }}
@@ -64,7 +101,7 @@ function formattedDate(date) {
         </div>
         <div>
           <dt class="text-xs font-medium uppercase tracking-wide text-additional">
-            {{ $t('admin.users.joined') }}
+            {{ $t('admin.users.createdAt') }}
           </dt>
           <dd class="mt-1 text-sm text-text">
             {{ formattedDate(user.created_at) }}
