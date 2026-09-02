@@ -319,7 +319,7 @@ onUnmounted(() => {
         />
         <div class="relative">
           <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
-            <IconSearch class="w-4 h-4 text-additional" />
+            <IconSearch class="w-4 h-4 text-additional" aria-hidden="true" />
           </div>
           <input
             v-model="searchQuery"

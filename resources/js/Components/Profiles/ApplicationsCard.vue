@@ -105,7 +105,7 @@ const onStatusChange = (event) => {
           rel="noopener noreferrer"
           class="inline-flex w-full items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-4 py-2 font-semibold text-text text-sm transition-colors"
         >
-          <IconDownload class="h-4 w-4 text-secondary" stroke="2.5" />
+          <IconDownload class="h-4 w-4 text-secondary" stroke="2.5" aria-hidden="true" />
           {{ t('profiles.company.applications.actions.download_cv') }}
         </a>
         <span

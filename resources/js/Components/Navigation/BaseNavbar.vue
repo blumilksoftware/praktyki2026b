@@ -115,7 +115,7 @@ const hasProfileInMenu = computed(() => (
             :aria-expanded="isMobileMenuOpen"
             @click="toggle"
           >
-            <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" />
+            <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
           </button>
         </div>
 
@@ -168,10 +168,12 @@ const hasProfileInMenu = computed(() => (
           {{ t('profiles.navMenu') }}
         </span>
         <button
+          type="button"
           class="text-white hover:text-white/80 transition-colors focus:outline-none flex items-center justify-center p-1"
+          :aria-label="t('buttons.close')"
           @click="close"
         >
-          <IconX stroke="2.5" class="w-6 h-6" />
+          <IconX stroke="2.5" class="w-6 h-6" aria-hidden="true" />
         </button>
       </div>
 
@@ -183,7 +185,7 @@ const hasProfileInMenu = computed(() => (
               class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
               @click="close"
             >
-              <IconSearch stroke="2" class="w-6 h-6 shrink-0" />
+              <IconSearch stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
               {{ t('offers.browseCta') }}
             </Link>
           </li>
@@ -194,7 +196,7 @@ const hasProfileInMenu = computed(() => (
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
                 @click="close"
               >
-                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
+                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
                 {{ t('auth.login.submit') }}
               </Link>
             </li>
@@ -204,7 +206,7 @@ const hasProfileInMenu = computed(() => (
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-primary transition-colors hover:bg-primary/5"
                 @click="close"
               >
-                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
+                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
                 {{ t('auth.register.submit') }}
               </Link>
             </li>
@@ -219,7 +221,7 @@ const hasProfileInMenu = computed(() => (
               :aria-current="item.isActive ? 'page' : undefined"
               @click="close"
             >
-              <component :is="item.icon" v-if="item.icon" stroke="2" class="w-6 h-6 shrink-0" />
+              <component :is="item.icon" v-if="item.icon" stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
               {{ item.label }}
             </Link>
           </li>
@@ -234,7 +236,7 @@ const hasProfileInMenu = computed(() => (
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
                 @click="close"
               >
-                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
+                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
                 {{ t('buttons.myProfile') }}
               </Link>
             </li>
@@ -244,7 +246,7 @@ const hasProfileInMenu = computed(() => (
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
                 @click="close"
               >
-                <IconSettings stroke="2" class="w-6 h-6 shrink-0" />
+                <IconSettings stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
                 {{ settingsLabel }}
               </Link>
             </li>
@@ -256,7 +258,7 @@ const hasProfileInMenu = computed(() => (
                 class="flex w-full items-center gap-3 rounded-lg p-3 text-left text-base font-semibold text-error transition-colors hover:bg-red-50"
                 @click="close"
               >
-                <IconLogout stroke="2" class="w-6 h-6 shrink-0" />
+                <IconLogout stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
                 {{ t('buttons.logout') }}
               </Link>
             </li>

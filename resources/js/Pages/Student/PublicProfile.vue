@@ -42,7 +42,7 @@ const goBack = () => {
         class="inline-flex items-center gap-2 rounded text-additional text-sm transition hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         @click="goBack"
       >
-        <IconArrowLeft stroke="2.5" class="w-4 h-4" />
+        <IconArrowLeft stroke="2.5" class="w-4 h-4" aria-hidden="true" />
         {{ t('buttons.back') }}
       </button>
     </div>

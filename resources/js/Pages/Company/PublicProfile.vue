@@ -39,7 +39,7 @@ const isStudent = computed(() => page.props.auth?.user?.role === 'student')
         <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
            @click="goBack"
         >
-          <IconArrowLeft stroke="2.5" class="w-4 h-4" />
+          <IconArrowLeft stroke="2.5" class="w-4 h-4" aria-hidden="true" />
           {{ t('buttons.back') }}
         </a>
       </div>

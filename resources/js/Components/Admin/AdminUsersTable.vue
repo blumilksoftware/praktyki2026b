@@ -130,7 +130,7 @@ watch([roleFilter, searchQuery], useDebouncedSearch(applyQuery))
 
       <div class="relative">
         <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
-          <IconSearch class="w-4 h-4 text-slate-400" />
+          <IconSearch class="w-4 h-4 text-slate-400" aria-hidden="true" />
         </div>
         <input
           v-model="searchQuery"

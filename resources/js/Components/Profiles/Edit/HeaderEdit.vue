@@ -114,7 +114,7 @@ onBeforeUnmount(revokePreview)
         :alt="t('profiles.logoAlt')"
         class="w-full h-full object-cover"
       >
-      <IconPlus v-else stroke="1.5" class="w-8 h-8 text-secondary" />
+      <IconPlus v-else stroke="1.5" class="w-8 h-8 text-secondary" aria-hidden="true" />
     </div>
 
     <button

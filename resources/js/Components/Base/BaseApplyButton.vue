@@ -68,12 +68,12 @@ function apply() {
       @click="apply"
     >
       <template v-if="isLoading">
-        <IconLoader2 class="w-5 h-5 animate-spin" />
+        <IconLoader2 class="w-5 h-5 animate-spin" aria-hidden="true" />
         {{ t('buttons.apply.loading') }}
       </template>
 
       <template v-else-if="isApplied">
-        <IconCheck class="w-5 h-5" />
+        <IconCheck class="w-5 h-5" aria-hidden="true" />
         {{ t('buttons.apply.appliedOn', { date: formattedAppliedDate }) }}
       </template>
 

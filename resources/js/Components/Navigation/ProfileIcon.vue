@@ -83,6 +83,7 @@ onUnmounted(() => {
         v-else
         stroke="2"
         class="h-6 w-6 text-accent"
+        aria-hidden="true"
       />
     </button>
 

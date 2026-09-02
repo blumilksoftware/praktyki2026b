@@ -15,7 +15,7 @@ const emit = defineEmits(['status-change'])
 <template>
   <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
     <div class="relative">
-      <IconSearch class="w-4 h-4 text-additional absolute left-2.5 top-1/2 -translate-y-1/2" />
+      <IconSearch class="w-4 h-4 text-additional absolute left-2.5 top-1/2 -translate-y-1/2" aria-hidden="true" />
       <input
         v-model="searchQuery"
         type="text"
@@ -29,7 +29,7 @@ const emit = defineEmits(['status-change'])
         :aria-label="t('company.dashboard.offers.search.clear')"
         @click="searchQuery = ''"
       >
-        <IconX class="w-3.5 h-3.5" />
+        <IconX class="w-3.5 h-3.5" aria-hidden="true" />
       </button>
     </div>
 
