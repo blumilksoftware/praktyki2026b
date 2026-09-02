@@ -614,6 +614,7 @@
       "save": "Zapisz",
       "cancel": "Anuluj",
       "confirmDelete": "Usuń",
+      "edit": "Edytuj",
       "deleteFacultyTitle": "Usuwanie wydziału",
       "deleteFieldTitle": "Usuwanie kierunku",
       "deleteConfirmation": "Czy na pewno chcesz usunąć „{name}”?",
