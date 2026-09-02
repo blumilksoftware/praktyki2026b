@@ -86,7 +86,7 @@ const titleHref = (offerId) => ROUTES.OFFER_PREVIEW.replace('{offer}', offerId)
               {{ t('company.offers.index.status.closingSoon') }}
             </span>
 
-            <h2 class="min-w-0 truncate font-semibold text-text text-base">
+            <h2 class="min-w-0 font-semibold text-text text-base">
               <Link
                 :href="titleHref(offer.id)"
                 class="block truncate transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"

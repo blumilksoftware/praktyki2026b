@@ -18,7 +18,7 @@ defineProps({
             : 'border border-transparent text-additional hover:bg-white hover:text-secondary'"
           :aria-current="item.isActive ? 'page' : undefined"
         >
-          <component :is="item.icon" stroke="2" class="w-4 h-4 shrink-0" />
+          <component :is="item.icon" stroke="2" class="w-4 h-4 shrink-0" aria-hidden="true" />
           {{ item.label }}
         </Link>
       </li>

@@ -45,7 +45,7 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
               @click="emit('sort', 'title')"
             >
               {{ t('company.dashboard.offers.table.offer') }}
-              <component :is="sortIcon('title')" class="w-3.5 h-3.5" />
+              <component :is="sortIcon('title')" class="w-3.5 h-3.5" aria-hidden="true" />
             </button>
           </th>
 
@@ -60,7 +60,7 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
               @click="emit('sort', 'spots')"
             >
               {{ t('company.dashboard.offers.table.spots') }}
-              <component :is="sortIcon('spots')" class="w-3.5 h-3.5" />
+              <component :is="sortIcon('spots')" class="w-3.5 h-3.5" aria-hidden="true" />
             </button>
           </th>
 
@@ -71,7 +71,7 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
               @click="emit('sort', 'applications_count')"
             >
               {{ t('company.dashboard.offers.table.applications') }}
-              <component :is="sortIcon('applications_count')" class="w-3.5 h-3.5" />
+              <component :is="sortIcon('applications_count')" class="w-3.5 h-3.5" aria-hidden="true" />
             </button>
           </th>
 
