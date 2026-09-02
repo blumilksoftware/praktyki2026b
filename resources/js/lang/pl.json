@@ -531,6 +531,23 @@
         "expired": "Wygasła"
       }
     },
+    "industryTags": {
+      "title": "Tagi branżowe",
+      "description": "Zarządzaj listą tagów branżowych podpowiadanych w profilach firm i filtrach wyszukiwania.",
+      "addLabel": "Nazwa tagu",
+      "addButton": "Dodaj tag",
+      "editLabel": "Nowa nazwa",
+      "edit": "Edytuj",
+      "editAriaLabel": "Edytuj tag: {name}",
+      "save": "Zapisz",
+      "cancel": "Anuluj",
+      "delete": "Usuń",
+      "deleteAriaLabel": "Usuń tag: {name}",
+      "empty": "Nie dodano jeszcze żadnego tagu.",
+      "deleteTitle": "Usuń tag branżowy",
+      "deleteConfirmation": "Czy na pewno chcesz usunąć „{name}”?",
+      "confirmDelete": "Usuń"
+    },
     "layout": {
       "language": "Język",
       "skipToContent": "Przejdź do treści",
@@ -545,6 +562,7 @@
         "applications": "Zgłoszenia",
         "users": "Użytkownicy",
         "offers": "Oferty",
+        "industryTags": "Tagi branżowe",
         "settings": "Ustawienia",
         "mobileAriaLabel": "Nawigacja mobilna"
       },

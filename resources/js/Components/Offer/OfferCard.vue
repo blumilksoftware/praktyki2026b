@@ -135,7 +135,7 @@ function showOnMap() {
 </script>
 
 <template>
-  <article class="group overflow-hidden bg-white transition sm:rounded-3xl sm:border sm:border-border sm:shadow-[0_8px_30px_rgba(11,26,48,0.08)] sm:hover:-translate-y-0.5 sm:hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
+  <article class="group overflow-hidden rounded-2xl border border-border bg-white shadow-[0_4px_16px_rgba(11,26,48,0.06)] transition sm:rounded-3xl sm:shadow-[0_8px_30px_rgba(11,26,48,0.08)] sm:hover:-translate-y-0.5 sm:hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
     <div class="p-5 sm:p-6">
       <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div class="min-w-0 flex gap-3">
@@ -155,10 +155,10 @@ function showOnMap() {
           </Link>
 
           <div class="min-w-0">
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
               <Link
                 :href="ROUTES.COMPANY_SHOW.replace('{company}', offer.company.id)"
-                class="min-w-0 truncate text-sm font-medium text-additional transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+                class="text-sm font-medium text-additional transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
               >
                 {{ offer.company.name }}
               </Link>

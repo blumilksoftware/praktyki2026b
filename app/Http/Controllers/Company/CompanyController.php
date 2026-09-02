@@ -12,6 +12,7 @@ use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCompanyProfileRequest;
+use App\Models\IndustryTag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,6 +58,7 @@ class CompanyController extends Controller
     {
         return inertia("Company/Profile/Edit", [
             "company" => $this->getCompanyProfileData(),
+            "availableTags" => IndustryTag::query()->orderBy("name")->pluck("name"),
         ]);
     }
 

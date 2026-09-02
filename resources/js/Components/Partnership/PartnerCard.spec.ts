@@ -16,6 +16,10 @@ const { routerPost, routerDelete, routerPatch } = vi.hoisted(() => ({
 
 vi.mock('@inertiajs/vue3', () => ({
   router: { post: routerPost, delete: routerDelete, patch: routerPatch },
+  Link: {
+    props: ['href'],
+    template: '<a :href="href"><slot /></a>',
+  },
 }))
 
 const basePartner = {

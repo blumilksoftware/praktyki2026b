@@ -8,6 +8,7 @@ use App\Enums\PartnershipStatus;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\Company;
+use App\Models\IndustryTag;
 use App\Models\Partnership;
 use App\Models\University;
 use App\Models\User;
@@ -67,6 +68,10 @@ class SearchCompaniesTest extends TestCase
             "city" => "Warszawa",
             "tags" => ["Marketing"],
         ]);
+
+        IndustryTag::factory()->create(["name" => "IT"]);
+        IndustryTag::factory()->create(["name" => "Laravel"]);
+        IndustryTag::factory()->create(["name" => "Marketing"]);
 
         Partnership::factory()->create([
             "company_id" => $company1->id,
