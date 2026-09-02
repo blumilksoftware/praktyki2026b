@@ -52,12 +52,14 @@ Route::middleware(["auth"])
     ->prefix("company")
     ->group(function (): void {
         Route::get("/verification/pending", [CompanyController::class, "verificationPending"])->name("company.verification.pending");
+        Route::get("/settings", [CompanyController::class, "settings"])->name("company.settings");
     });
 
 Route::middleware(["auth"])
     ->prefix("university")
     ->group(function (): void {
         Route::get("/verification/pending", [UniversityController::class, "verificationPending"])->name("university.verification.pending");
+        Route::get("/settings", [UniversityController::class, "settings"])->name("university.settings");
     });
 
 Route::middleware(["auth", EnsureCompanyIsVerified::class])
@@ -117,4 +119,5 @@ Route::middleware(["role:superAdmin"])
         Route::get("/users", [AdminUserController::class, "index"])->name("admin.users");
         Route::get("/offers", [AdminOfferController::class, "index"])->name("admin.offers");
         Route::get("/industry-tags", [AdminIndustryTagController::class, "index"])->name("admin.industry-tags");
+        Route::get("/settings", [AdminController::class, "settings"])->name("admin.settings");
     });

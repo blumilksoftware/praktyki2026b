@@ -175,6 +175,24 @@ Route::middleware(["role:superAdmin"])
         Route::post("/industry-tags", [AdminIndustryTagController::class, "store"])->name("admin.industry-tags.store");
         Route::patch("/industry-tags/{industryTag}", [AdminIndustryTagController::class, "update"])->name("admin.industry-tags.update");
         Route::delete("/industry-tags/{industryTag}", [AdminIndustryTagController::class, "destroy"])->name("admin.industry-tags.destroy");
+        Route::put("/password", [AdminController::class, "changePassword"])->name("admin.password.update");
+        Route::patch("/email", [AdminController::class, "changeEmail"])->name("admin.email.update");
+    });
+
+Route::middleware(["auth"])
+    ->prefix("company")
+    ->group(function (): void {
+        Route::put("/password", [CompanyController::class, "changePassword"])->name("company.password.update");
+        Route::patch("/email", [CompanyController::class, "changeEmail"])->name("company.email.update");
+        Route::delete("/account", [CompanyController::class, "deleteAccount"])->name("company.account.delete");
+    });
+
+Route::middleware(["auth"])
+    ->prefix("university")
+    ->group(function (): void {
+        Route::put("/password", [UniversityController::class, "changePassword"])->name("university.password.update");
+        Route::patch("/email", [UniversityController::class, "changeEmail"])->name("university.email.update");
+        Route::delete("/account", [UniversityController::class, "deleteAccount"])->name("university.account.delete");
     });
 
 require __DIR__ . "/auth.php";

@@ -7,6 +7,7 @@ import BaseButton from '@/Components/Base/BaseButton.vue'
 import ProfileSectionCard from '@/Components/Profile/ProfileSectionCard.vue'
 import StudentDeleteAccountModal from '@/Components/Student/StudentDeleteAccountModal.vue'
 import { ROUTES } from '@/Helpers/routes'
+import { IconTrash } from '@tabler/icons-vue'
 
 const props = defineProps({
   email: { type: String, required: true },
@@ -79,37 +80,39 @@ function resendVerification() {
       </p>
     </header>
 
-    <form class="flex flex-col gap-1 border-b border-border pb-6" novalidate @submit.prevent="submitPassword">
-      <h3 class="font-medium text-text text-sm">
+    <form class="flex flex-col gap-1 pb-6" novalidate @submit.prevent="submitPassword">
+      <h3 class="font-semibold text-text text-base">
         {{ t('student.profile.password.title') }}
       </h3>
-      <BaseInput
-        id="current_password"
-        v-model="passwordForm.current_password"
-        type="password"
-        compact
-        :label="t('student.profile.password.current')"
-        autocomplete="current-password"
-        :error="passwordError('current_password')"
-      />
-      <BaseInput
-        id="new_password"
-        v-model="passwordForm.password"
-        type="password"
-        compact
-        :label="t('student.profile.password.new')"
-        autocomplete="new-password"
-        :error="passwordError('password')"
-      />
-      <BaseInput
-        id="password_confirmation"
-        v-model="passwordForm.password_confirmation"
-        type="password"
-        compact
-        :label="t('student.profile.password.confirmation')"
-        autocomplete="new-password"
-        :error="passwordError('password_confirmation')"
-      />
+      <div class="flex flex-col gap-1 mt-4">
+        <BaseInput
+          id="current_password"
+          v-model="passwordForm.current_password"
+          type="password"
+          compact
+          :label="t('student.profile.password.current')"
+          autocomplete="current-password"
+          :error="passwordError('current_password')"
+        />
+        <BaseInput
+          id="new_password"
+          v-model="passwordForm.password"
+          type="password"
+          compact
+          :label="t('student.profile.password.new')"
+          autocomplete="new-password"
+          :error="passwordError('password')"
+        />
+        <BaseInput
+          id="password_confirmation"
+          v-model="passwordForm.password_confirmation"
+          type="password"
+          compact
+          :label="t('student.profile.password.confirmation')"
+          autocomplete="new-password"
+          :error="passwordError('password_confirmation')"
+        />
+    </div>
       <div class="flex justify-end pt-2">
         <BaseButton type="submit" :disabled="passwordForm.processing || !passwordForm.isDirty">
           {{ t('student.profile.actions.save') }}
@@ -117,10 +120,11 @@ function resendVerification() {
       </div>
     </form>
 
-    <form class="mt-6 flex flex-col gap-1 border-b border-border pb-6" novalidate @submit.prevent="submitEmail">
-      <h3 class="font-medium text-text text-sm">
+    <form class="mt-6 flex flex-col gap-1 pb-6" novalidate @submit.prevent="submitEmail">
+      <h3 class="font-semibold text-text text-base">
         {{ t('student.profile.email.title') }}
       </h3>
+      <div class="flex flex-col gap-1 mt-4">
       <p
         v-if="hasPendingEmail"
         class="rounded-lg bg-amber-50 px-4 py-3 text-amber-900 text-sm ring-1 ring-amber-200"
@@ -167,6 +171,7 @@ function resendVerification() {
           {{ t('student.profile.email.resend') }}
         </BaseButton>
       </div>
+      </div>
     </form>
 
     <div class="mt-6">
@@ -176,14 +181,13 @@ function resendVerification() {
       <p class="mt-2 text-additional text-sm">
         {{ t('student.profile.delete.warning') }}
       </p>
-      <BaseButton
+      <button
         type="button"
-        variant="secondary"
-        class="mt-3 border-error text-error"
+        class="mt-3 rounded-lg bg-error px-4 py-3 text-sm font-semibold text-white transition hover:bg-error/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/40"
         @click="showDeleteModal = true"
       >
         {{ t('student.profile.delete.openModal') }}
-      </BaseButton>
+      </button>
     </div>
   </component>
 

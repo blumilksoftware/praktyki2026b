@@ -19,6 +19,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
+use App\Actions\Student\ChangePassword;
+use App\Actions\Student\RequestEmailChange;
+use App\Http\Requests\ChangeEmailRequest;
+use App\Http\Requests\ChangePasswordRequest;
 
 class AdminController extends Controller
 {

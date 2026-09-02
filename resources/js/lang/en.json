@@ -943,7 +943,7 @@
         "specialization": "Specialization",
         "saveChanges": "Save changes",
         "backToProfile": "Back to profile",
-        "emailReadonlyHint": "To change your email, open Account and security from the profile icon in the navigation bar."
+        "emailReadonlyHint": "To change your email, open Settings from the profile icon in the navigation bar."
       },
       "photo": {
         "label": "Profile photo",
@@ -998,7 +998,7 @@
         "comingSoon": "This section will be available soon."
       },
       "account": {
-        "title": "Account and security",
+        "title": "Settings",
         "description": "Password, email and account deletion."
       },
       "password": {

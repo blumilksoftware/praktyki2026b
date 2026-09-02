@@ -818,7 +818,7 @@
         "specialization": "Specjalność",
         "saveChanges": "Zapisz zmiany",
         "backToProfile": "Wróć do profilu",
-        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” (ikona profilu w pasku nawigacji)."
+        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Ustawienia” (ikona profilu w pasku nawigacji)."
       },
       "photo": {
         "label": "Zdjęcie profilowe",
@@ -873,7 +873,7 @@
         "comingSoon": "Ta sekcja będzie dostępna wkrótce."
       },
       "account": {
-        "title": "Konto i bezpieczeństwo",
+        "title": "Ustawienia",
         "description": "Hasło, adres e-mail i usuwanie konta."
       },
       "password": {
