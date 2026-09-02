@@ -2,7 +2,7 @@
 import { Link, router } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IconCheck, IconHeart, IconHeartFilled, IconMapPin } from '@tabler/icons-vue'
+import { IconBuilding, IconCheck, IconClock, IconHeart, IconHeartFilled, IconLoader2, IconMapPin, IconSend } from '@tabler/icons-vue'
 import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
@@ -64,6 +64,11 @@ function applyToOffer() {
   })
 }
 
+function applyFromMobileIcon() {
+  if (!props.hasCv || isApplying.value) return
+
+  applyToOffer()
+}
 
 const isTogglingFavorite = ref(false)
 const favoritedLocally = ref(false)
@@ -135,9 +140,27 @@ function showOnMap() {
 </script>
 
 <template>
-  <article class="group overflow-hidden rounded-2xl border border-border bg-white shadow-[0_4px_16px_rgba(11,26,48,0.06)] transition sm:rounded-3xl sm:shadow-[0_8px_30px_rgba(11,26,48,0.08)] sm:hover:-translate-y-0.5 sm:hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
-    <div class="p-5 sm:p-6">
-      <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+  <article class="group relative overflow-hidden rounded-2xl border border-border bg-white shadow-[0_4px_16px_rgba(11,26,48,0.06)] transition sm:rounded-3xl sm:shadow-[0_8px_30px_rgba(11,26,48,0.08)] sm:hover:-translate-y-0.5 sm:hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
+    <div class="p-5 pr-14 sm:p-6">
+      <div class="flex items-center gap-x-3 gap-y-1 text-xs font-medium text-additional sm:hidden">
+        <span class="inline-flex items-center gap-1">
+          <IconMapPin class="h-3.5 w-3.5" aria-hidden="true" />
+          {{ offer.city }}
+        </span>
+        <span class="inline-flex items-center gap-1">
+          <IconBuilding class="h-3.5 w-3.5" aria-hidden="true" />
+          {{ workModeLabel }}
+        </span>
+        <span
+          v-if="offer.closing_soon"
+          class="inline-flex items-center gap-1 rounded-full bg-orange-50 px-2 py-0.5 text-xs font-semibold text-orange-700"
+        >
+          <IconClock class="h-3.5 w-3.5" aria-hidden="true" />
+          {{ t('student.offers.card.closingSoon') }}
+        </span>
+      </div>
+
+      <div class="mt-3 flex flex-col gap-5 sm:mt-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div class="min-w-0 flex gap-3">
           <Link
             :href="ROUTES.COMPANY_SHOW.replace('{company}', offer.company.id)"
@@ -182,19 +205,88 @@ function showOnMap() {
             </h3>
           </div>
         </div>
-        <div class="flex flex-wrap gap-2 sm:justify-end">
+        <div class="hidden sm:flex flex-wrap gap-2 sm:justify-end">
           <span class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary">{{ offer.city }}</span>
           <span class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary">{{ workModeLabel }}</span>
+          <span
+            v-if="offer.closing_soon"
+            class="inline-flex items-center gap-1 rounded-full bg-orange-50 px-2.5 py-1 text-sm font-medium text-orange-700"
+          >
+            <IconClock class="h-3.5 w-3.5" aria-hidden="true" />
+            {{ t('student.offers.card.closingSoon') }}
+          </span>
         </div>
       </div>
 
-      <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-additional">
-        <span>{{ t('student.offers.card.dateRange') }}: {{ formattedDateRange }}</span>
-        <span aria-hidden="true">&middot;</span>
-        <span>{{ t('student.offers.card.remainingSpots') }}: {{ offer.remaining_spots }}</span>
+      <div v-if="offer.study_fields?.length" class="mt-4 flex flex-wrap gap-2">
+        <span
+          v-for="field in offer.study_fields"
+          :key="field.id"
+          class="inline-flex items-center rounded-full bg-background px-2.5 py-1 text-xs font-medium text-additional"
+        >
+          {{ field.name }}
+        </span>
       </div>
 
-      <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
+      <div class="mt-4 border-t border-border pt-3 text-sm text-additional sm:mt-5 sm:border-0 sm:pt-0">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span>{{ t('student.offers.card.dateRange') }}: {{ formattedDateRange }}</span>
+          <span aria-hidden="true">&middot;</span>
+          <span>{{ t('student.offers.card.remainingSpots') }}: {{ offer.remaining_spots }}</span>
+        </div>
+      </div>
+
+      <div class="absolute right-5 top-5 flex flex-col items-center gap-2 sm:hidden">
+        <button
+          v-if="canApply"
+          type="button"
+          class="flex h-8 w-8 items-center justify-center rounded-full cursor-pointer transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
+          :class="isFavorite ? 'text-red-600' : 'text-additional hover:text-text'"
+          :disabled="isTogglingFavorite"
+          :aria-pressed="isFavorite"
+          :aria-label="isFavorite
+            ? t('student.offers.card.removeFromFavorites')
+            : t('student.offers.card.addToFavorites')"
+          @click="toggleFavorite"
+        >
+          <component :is="isFavorite ? IconHeartFilled : IconHeart" class="h-5 w-5" aria-hidden="true" />
+        </button>
+
+        <button
+          type="button"
+          class="flex h-8 w-8 items-center justify-center rounded-full cursor-pointer text-additional transition hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          :aria-label="t('student.offers.card.showOnMap')"
+          @click="showOnMap"
+        >
+          <IconMapPin class="h-5 w-5" aria-hidden="true" />
+        </button>
+
+        <button
+          v-if="canApply && !guest && isApplied"
+          type="button"
+          class="flex h-8 w-8 items-center justify-center rounded-full cursor-pointer text-success transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
+          :disabled="isWithdrawing"
+          :aria-label="t('student.applications.withdraw.action')"
+          @click="openWithdrawModal"
+        >
+          <IconCheck class="h-5 w-5" aria-hidden="true" />
+        </button>
+
+        <button
+          v-else-if="canApply && !guest"
+          type="button"
+          class="flex h-8 w-8 items-center justify-center rounded-full cursor-pointer text-primary transition hover:text-primary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
+          :aria-disabled="!hasCv || undefined"
+          :title="hasCv ? undefined : t('buttons.apply.noCvMessage')"
+          :aria-label="t('buttons.apply.applyNow')"
+          @click="applyFromMobileIcon"
+        >
+          <IconLoader2 v-if="isApplying" class="h-5 w-5 animate-spin" aria-hidden="true" />
+          <IconSend v-else class="h-5 w-5" aria-hidden="true" />
+        </button>
+      </div>
+
+      <div class="mt-5 hidden sm:flex sm:flex-wrap sm:items-center sm:gap-2">
         <button
           type="button"
           class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-border cursor-pointer bg-white px-4 py-3 text-sm font-semibold text-text hover:border-primary/40 hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
@@ -208,8 +300,8 @@ function showOnMap() {
         <button
           v-if="canApply"
           type="button"
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border px-4 py-3 cursor-pointer text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
-          :class="[actionWidthClass, isFavorite
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border cursor-pointer px-4 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60"
+          :class="[stretchActions ? 'sm:flex-1' : 'sm:w-fit', isFavorite
             ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
             : 'border-border bg-white text-text hover:border-primary/40 hover:bg-background']"
           :disabled="isTogglingFavorite"
@@ -226,7 +318,7 @@ function showOnMap() {
         <Link
           v-if="guest"
           :href="ROUTES.LOGIN"
-          class="inline-flex w-full sm:w-fit items-center justify-center rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          class="inline-flex sm:w-fit items-center justify-center rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         >
           {{ t('student.offers.card.loginToApply') }}
         </Link>

@@ -267,4 +267,29 @@ describe('OfferCard.vue', () => {
     expect(titleLink.exists()).toBe(true)
     expect(titleLink.text()).toContain('Frontend Developer Intern')
   })
+
+  it('shows the study field tags when the offer has any', () => {
+    const wrapper = createWrapper({
+      offer: { ...baseOffer, study_fields: [{ id: 'sf-1', name: 'Informatyka' }, { id: 'sf-2', name: 'Matematyka' }] },
+    })
+
+    expect(wrapper.text()).toContain('Informatyka')
+    expect(wrapper.text()).toContain('Matematyka')
+  })
+
+  it('shows the closing soon badge when the offer is closing soon', () => {
+    const wrapper = createWrapper({
+      offer: { ...baseOffer, closing_soon: true },
+    })
+
+    expect(wrapper.text()).toContain('student.offers.card.closingSoon')
+  })
+
+  it('hides the closing soon badge when the offer is not closing soon', () => {
+    const wrapper = createWrapper({
+      offer: { ...baseOffer, closing_soon: false },
+    })
+
+    expect(wrapper.text()).not.toContain('student.offers.card.closingSoon')
+  })
 })
