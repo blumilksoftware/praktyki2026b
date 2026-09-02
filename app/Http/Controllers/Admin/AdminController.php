@@ -19,8 +19,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
-use App\Actions\Student\ChangePassword;
-use App\Actions\Student\RequestEmailChange;
+use App\Actions\Account\ChangePassword;
+use App\Actions\Account\RequestEmailChange;
 use App\Http\Requests\ChangeEmailRequest;
 use App\Http\Requests\ChangePasswordRequest;
 
@@ -31,6 +31,8 @@ class AdminController extends Controller
     public function __construct(
         private readonly VerifyEntityAction $verifyAction,
         private readonly DeleteOrganizationAction $deleteOrganizationAction,
+        private readonly ChangePassword $changePassword,
+        private readonly RequestEmailChange $requestEmailChange,
     ) {}
 
     public function index(): Response
@@ -254,6 +256,30 @@ class AdminController extends Controller
         ]);
     }
 
+    public function settings(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Admin/Settings", [
+            "email" => $user->email,
+            "emailVerifiedAt" => $user->email_verified_at?->toIso8601String(),
+            "pendingEmail" => $user->pending_email,
+        ]);
+    }
+
+    public function changePassword(ChangePasswordRequest $request): RedirectResponse
+    {
+        $this->changePassword->execute(Auth::user(), $request->string("password")->toString());
+
+        return back();
+    }
+
+    public function changeEmail(ChangeEmailRequest $request): RedirectResponse
+    {
+        $this->requestEmailChange->execute(Auth::user(), $request->string("email")->toString());
+
+        return back();
+    }
     private function checkIfVerifiedWithRedirect(University|Company $entity, string $message, string $route): ?RedirectResponse
     {
         if ($entity->verification_status === VerificationStatus::Verified ||

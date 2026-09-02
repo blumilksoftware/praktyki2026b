@@ -9,22 +9,26 @@ use Illuminate\Http\Request;
 
 class SettingsRedirectController extends Controller
 {
-    public function show(Request $request)
-    {
-        $user = $request->user();
+public function show(Request $request)
+{
+$user = $request->user();
 
-        if ($user->role === UserRole::Student) {
-            return redirect()->route("student.settings");
-        }
+if ($user->role === UserRole::SuperAdmin) {
+return redirect()->route("admin.settings");
+}
 
-        if (in_array($user->role, [UserRole::CompanyAdmin, UserRole::CompanyMember], true)) {
-            return redirect()->route("company.profile");
-        }
+if ($user->role === UserRole::Student) {
+return redirect()->route("student.settings");
+}
 
-        if (in_array($user->role, [UserRole::UniversityAdmin, UserRole::UniversityMember], true)) {
-            return redirect()->route("university.profile");
-        }
+if (in_array($user->role, [UserRole::CompanyAdmin, UserRole::CompanyMember], true)) {
+return redirect()->route("company.settings");
+}
 
-        return redirect("/");
-    }
+if (in_array($user->role, [UserRole::UniversityAdmin, UserRole::UniversityMember], true)) {
+return redirect()->route("university.settings");
+}
+
+return redirect("/");
+}
 }

@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\University;
 
+use App\Actions\Organization\RemoveTeamMember;
+use App\Actions\Account\ChangePassword;
+use App\Actions\Account\RequestEmailChange;
 use App\Actions\University\BuildUniversityProfileData;
 use App\Actions\University\GetStudentsStatistics;
 use App\Actions\University\UpdateUniversityProfile;
 use App\DTO\University\UpdateUniversityProfileData;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangeEmailRequest;
+use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\DeleteAccountRequest;
 use App\Http\Requests\UpdateUniversityProfileRequest;
 use App\Models\University;
 use Illuminate\Http\RedirectResponse;
@@ -24,6 +30,9 @@ class UniversityController extends Controller
         private readonly UpdateUniversityProfile $updateUniversityProfile,
         private readonly GetStudentsStatistics $getStudentsStatistics,
         private readonly BuildUniversityProfileData $buildUniversityProfileData,
+        private readonly ChangePassword $changePassword,
+        private readonly RequestEmailChange $requestEmailChange,
+        private readonly RemoveTeamMember $removeTeamMember,
     ) {}
 
     public function index(Request $request): Response
@@ -103,16 +112,6 @@ class UniversityController extends Controller
         return redirect()->route("university.profile");
     }
 
-    public function department(): never
-    {
-        abort(404);
-    }
-
-    public function partnership(): never
-    {
-        abort(404);
-    }
-
     private function currentUniversity(): University
     {
         $university = Auth::user()->universityOrganization;
@@ -122,5 +121,40 @@ class UniversityController extends Controller
         }
 
         return $university;
+    }
+
+    public function settings(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("University/Settings", [
+            "email" => $user->email,
+            "emailVerifiedAt" => $user->email_verified_at?->toIso8601String(),
+            "pendingEmail" => $user->pending_email,
+        ]);
+    }
+    public function changePassword(ChangePasswordRequest $request): RedirectResponse
+    {
+        $this->changePassword->execute(Auth::user(), $request->string("password")->toString());
+
+        return back();
+    }
+
+    public function changeEmail(ChangeEmailRequest $request): RedirectResponse
+    {
+        $this->requestEmailChange->execute(Auth::user(), $request->string("email")->toString());
+
+        return back();
+    }
+
+    public function deleteAccount(DeleteAccountRequest $request): RedirectResponse
+    {
+        $this->removeTeamMember->execute(Auth::user());
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect("/");
     }
 }
