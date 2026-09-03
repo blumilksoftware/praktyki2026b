@@ -112,7 +112,7 @@ const hasProfileInMenu = computed(() => (
           <button
             v-if="showHamburger"
             type="button"
-            class="lg:hidden flex items-center justify-center text-white hover:text-white/80 transition-colors focus:outline-none"
+            class="lg:hidden flex items-center justify-center rounded text-white hover:text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
             :aria-label="t('profiles.navMenu')"
             :aria-expanded="isMobileMenuOpen"
             @click="toggle"
@@ -171,7 +171,7 @@ const hasProfileInMenu = computed(() => (
         </span>
         <button
           type="button"
-          class="text-white hover:text-white/80 transition-colors focus:outline-none flex items-center justify-center p-1"
+          class="rounded text-white hover:text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-primary flex items-center justify-center p-1"
           :aria-label="t('buttons.close')"
           @click="close"
         >

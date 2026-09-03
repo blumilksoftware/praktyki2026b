@@ -53,7 +53,7 @@ const emit = defineEmits(['toggle-menu', 'applications', 'edit', 'toggle-status'
 
 const statusClasses = {
   draft: 'bg-slate-100 text-slate-600',
-  published: 'bg-green-100 text-green-700',
+  published: 'bg-green-100 text-green-800',
   closed: 'bg-slate-200 text-slate-500',
   expired: 'bg-slate-200 text-slate-500',
 }

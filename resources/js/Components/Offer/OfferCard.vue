@@ -139,10 +139,7 @@ function showOnMap() {
     <div class="p-5 sm:p-6">
       <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div class="min-w-0 flex gap-3">
-          <Link
-            :href="ROUTES.COMPANY_SHOW.replace('{company}', offer.company.id)"
-            class="shrink-0 transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-xl"
-          >
+          <div aria-hidden="true" class="shrink-0">
             <img
               v-if="offer.company.logo_path"
               :src="offer.company.logo_path"
@@ -152,7 +149,7 @@ function showOnMap() {
             <div v-else class="flex h-10 w-10 items-center justify-center rounded-xl bg-background text-sm font-medium text-additional">
               {{ companyInitial }}
             </div>
-          </Link>
+          </div>
 
           <div class="min-w-0">
             <div class="flex flex-wrap items-center gap-2">

@@ -55,6 +55,7 @@ const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'de
       <button
         type="button"
         class="flex items-center gap-2 w-full px-3 py-2 text-left text-text hover:bg-gray-50 cursor-pointer"
+        role="menuitem"
         @click="emit('applications', props.offer)"
       >
         <IconClipboardText class="w-4 h-4" aria-hidden="true" />
@@ -67,6 +68,7 @@ const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'de
           ? 'text-additional cursor-not-allowed'
           : 'text-text hover:bg-gray-50 cursor-pointer'"
         :disabled="offer.status === 'closed' || offer.status === 'expired'"
+        role="menuitem"
         @click="emit('edit', props.offer)"
       >
         <IconPencil class="w-4 h-4" aria-hidden="true" />
@@ -80,6 +82,7 @@ const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'de
           ? 'text-additional cursor-not-allowed'
           : 'text-text hover:bg-gray-50 cursor-pointer'"
         :disabled="offer.status === 'closed'"
+        role="menuitem"
         @click="emit('toggle-status', props.offer)"
       >
         <IconPlayerPause v-if="offer.status === 'published'" class="w-4 h-4" aria-hidden="true" />
@@ -93,6 +96,7 @@ const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'de
       <button
         type="button"
         class="flex items-center gap-2 w-full px-3 py-2 text-left text-red-600 hover:bg-red-50 cursor-pointer"
+        role="menuitem"
         @click="emit('delete', props.offer)"
       >
         <IconTrash class="w-4 h-4" aria-hidden="true" />

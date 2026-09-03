@@ -160,7 +160,7 @@ onUnmounted(() => {
   <div ref="dropdownRef" class="relative inline-block text-left">
     <button
       type="button"
-      class="relative flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition-colors hover:bg-white/10 hover:text-white focus:outline-none"
+      class="relative flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       :aria-label="bellAriaLabel"
       aria-haspopup="true"
       :aria-expanded="isOpen"

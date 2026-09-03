@@ -92,8 +92,8 @@ function toggleExpanded() {
             :key="step.key"
             class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ring-1"
             :class="step.completed
-              ? 'bg-green-50 text-green-600 ring-green-200'
-              : 'bg-slate-100 text-slate-500 ring-slate-200'"
+              ? 'bg-green-50 text-green-700 ring-green-200'
+              : 'bg-slate-100 text-slate-600 ring-slate-200'"
           >
             <IconCircleCheckFilled v-if="step.completed" class="w-3 h-3 shrink-0" aria-hidden="true" />
             <IconCircle v-else class="w-3 h-3 shrink-0" aria-hidden="true" />

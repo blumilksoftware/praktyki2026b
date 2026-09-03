@@ -372,7 +372,7 @@ onUnmounted(() => {
             v-if="item.verification_status === 'rejected' && item.rejection_reason"
             class="group relative cursor-help"
           >
-            <span class="inline-flex justify-center items-center bg-red-100 rounded-full w-4 h-4 font-bold text-red-500 text-xs">?</span>
+            <span class="inline-flex justify-center items-center bg-red-100 rounded-full w-4 h-4 font-bold text-error-dark text-xs">?</span>
             <div class="bottom-full left-1/2 z-10 absolute bg-slate-800 opacity-0 group-hover:opacity-100 shadow-lg mb-2 px-3 py-2 rounded-lg w-56 text-white text-xs transition-opacity -translate-x-1/2 pointer-events-none">
               <p class="mb-1 font-medium">{{ t('admin.verification.rejectReason') }}</p>
               <p class="text-slate-300">{{ item.rejection_reason }}</p>
@@ -443,7 +443,7 @@ onUnmounted(() => {
               :aria-invalid="!!rejectError"
               :aria-describedby="rejectError ? 'rejectErrorMsg' : undefined"
             />
-            <p v-if="rejectError" id="rejectErrorMsg" class="text-red-500 text-sm">{{ rejectError }}</p>
+            <p v-if="rejectError" id="rejectErrorMsg" class="text-error-dark text-sm">{{ rejectError }}</p>
           </div>
 
           <div class="flex sm:flex-row flex-col gap-3 mt-6">
@@ -454,7 +454,7 @@ onUnmounted(() => {
               {{ t('admin.verification.cancel') }}
             </button>
             <button
-              class="flex-1 bg-red-500 hover:bg-red-600 disabled:opacity-50 px-5 py-2.5 rounded-xl font-medium text-white transition cursor-pointer disabled:cursor-not-allowed"
+              class="flex-1 bg-error hover:bg-error-dark disabled:opacity-50 px-5 py-2.5 rounded-xl font-medium text-white transition cursor-pointer disabled:cursor-not-allowed"
               :disabled="entityType === 'company' ? rejectCompanyForm.processing : rejectUniversityForm.processing"
               @click="submitReject"
             >

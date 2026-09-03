@@ -272,7 +272,7 @@ onUnmounted(() => {
             ? 'bg-primary text-white'
             : link.url
               ? 'cursor-pointer text-text hover:bg-background'
-              : 'cursor-not-allowed text-additional/50'"
+              : 'cursor-not-allowed text-additional'"
           @click="goToPage(link.url)"
         >
           {{ paginationLabel(link.label) }}

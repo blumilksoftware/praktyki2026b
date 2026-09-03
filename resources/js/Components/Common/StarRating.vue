@@ -12,12 +12,17 @@ const stars = [1, 2, 3, 4, 5]
 </script>
 
 <template>
-  <div class="flex items-center gap-0.5" role="img" :aria-label="`${rating} / 5`">
+  <div
+    class="flex items-center gap-0.5"
+    v-bind="interactive ? {} : { role: 'img', 'aria-label': `${rating} / 5` }"
+  >
     <component
       :is="interactive ? 'button' : 'span'"
       v-for="star in stars"
       :key="star"
       :type="interactive ? 'button' : undefined"
+      :aria-label="interactive ? `${star} / 5` : undefined"
+      :aria-pressed="interactive ? star <= rating : undefined"
       class="text-amber-400"
       :class="interactive ? 'cursor-pointer hover:scale-110 transition-transform' : ''"
       @click="interactive && emit('update:rating', star)"
