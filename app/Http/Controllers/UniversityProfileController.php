@@ -16,7 +16,7 @@ class UniversityProfileController extends Controller
 {
     public function __construct(
         private readonly BuildUniversityPublicProfileData $buildUniversityPublicProfileData,
-        private readonly ResolveProfileBackUrlAction $resolveProfileBackUrl
+        private readonly ResolveProfileBackUrlAction $resolveProfileBackUrl,
     ) {}
 
     public function show(Request $request, string $university): Response

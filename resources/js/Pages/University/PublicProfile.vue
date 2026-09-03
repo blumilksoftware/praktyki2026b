@@ -9,7 +9,7 @@ import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Faculties from '@/Components/Profiles/Faculties.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
-import {useProfileBack} from "@/Composables/useProfileBack.js";
+import { useProfileBack } from '@/Composables/useProfileBack.js'
 
 const props = defineProps({
   university: { type: Object, required: true },

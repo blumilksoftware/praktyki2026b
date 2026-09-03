@@ -13,7 +13,7 @@ import ReviewForm from '@/Components/Profiles/ReviewForm.vue'
 import ReviewList from '@/Components/Profiles/ReviewList.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
-import {useProfileBack} from "@/Composables/useProfileBack.js";
+import { useProfileBack } from '@/Composables/useProfileBack.js'
 
 const props = defineProps({
   company: { type: Object, required: true },

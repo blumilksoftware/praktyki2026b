@@ -1,7 +1,6 @@
 <script setup>
-import {Head, router, useForm} from '@inertiajs/vue3'
+import { Head, router, useForm } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
-import { IconArrowLeft, IconUserCircle } from '@tabler/icons-vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'

@@ -12,7 +12,7 @@ import {
   studentOfferFavourite,
   studentOfferWithdraw,
   offerShow,
-  companyShow
+  companyShow,
 } from '@/Helpers/routes'
 import { useToast } from '@/Composables/useToast'
 

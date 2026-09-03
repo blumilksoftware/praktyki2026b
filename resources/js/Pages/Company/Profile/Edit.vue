@@ -1,7 +1,6 @@
 <script setup>
 import { Head, useForm, router } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import { IconArrowLeft } from '@tabler/icons-vue'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'

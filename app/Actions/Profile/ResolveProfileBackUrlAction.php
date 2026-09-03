@@ -11,7 +11,7 @@ class ResolveProfileBackUrlAction
 {
     public function execute(Request $request): ?string
     {
-        $origin = ProfileBackOrigin::tryFrom((string) $request->query("from"));
+        $origin = ProfileBackOrigin::tryFrom((string)$request->query("from"));
 
         return $origin ? route($origin->routeName()) : null;
     }
