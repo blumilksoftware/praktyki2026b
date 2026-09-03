@@ -50,6 +50,7 @@ class ApplicationController extends Controller
             ->through(fn(Application $app): array => [
                 "id" => $app->id,
                 "student_name" => $app->student->fullName(),
+                "student_photo_url" => $app->student->photo_path ? route("students.photo", ["student" => $app->student]) : null,
                 "university" => $app->student->university,
                 "application_date" => $app->created_at->toIso8601String(),
                 "status" => $app->status->value,

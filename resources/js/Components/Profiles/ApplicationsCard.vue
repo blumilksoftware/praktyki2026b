@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconDownload } from '@tabler/icons-vue'
+import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
 
 const props = defineProps({
   application: {
@@ -14,26 +15,21 @@ const emit = defineEmits(['update-status'])
 
 const { t, locale } = useI18n()
 
-const getInitials = (name) => {
-  if (!name) return ''
-  return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2)
-}
-
 const formatDate = (isoString) => {
   if (!isoString) return ''
-  
+
   const date = new Date(isoString)
   const today = new Date()
-  
-  const isToday = date.getDate() === today.getDate() && 
-                  date.getMonth() === today.getMonth() && 
+
+  const isToday = date.getDate() === today.getDate() &&
+                  date.getMonth() === today.getMonth() &&
                   date.getFullYear() === today.getFullYear()
 
   if (isToday) {
     const time = date.toLocaleTimeString(locale.value, { hour: '2-digit', minute: '2-digit' })
     return t('profiles.company.applications.date.today', { time })
   }
-  
+
   const dateString = date.toLocaleDateString(locale.value, { day: '2-digit', month: '2-digit', year: 'numeric' })
   return t('profiles.company.applications.date.exact', { date: dateString })
 }
@@ -46,9 +42,12 @@ const onStatusChange = (event) => {
 <template>
   <div class="flex flex-col lg:flex-row lg:items-center justify-between p-4 lg:p-5 bg-white rounded-xl border border-[#1e3a8a]/40 shadow-sm gap-6">
     <div class="flex items-center gap-4 lg:w-1/3">
-      <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-text font-bold text-lg shrink-0">
-        {{ getInitials(application.student_name) }}
-      </div>
+      <ProfileAvatar
+        :photo-url="application.student_photo_url"
+        :first-name="application.student_name?.split(' ')[0] || ''"
+        :last-name="application.student_name?.split(' ').slice(1).join(' ') || ''"
+        size-class="h-12 w-12 text-lg"
+      />
       <div class="flex flex-col">
         <Link
           v-if="application.profile_url"
@@ -86,8 +85,8 @@ const onStatusChange = (event) => {
         }"
         @change="onStatusChange"
       >
-        <option 
-          v-for="status in ['pending', 'reviewed', 'accepted', 'rejected']" 
+        <option
+          v-for="status in ['pending', 'reviewed', 'accepted', 'rejected']"
           :key="status"
           :value="status"
           :disabled="status === 'pending' && application.status !== 'pending'"
