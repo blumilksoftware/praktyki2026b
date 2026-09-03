@@ -237,7 +237,7 @@ class StudentPublicProfileTest extends TestCase
             ->get(route("company.students.show", $student))
             ->assertInertia(
                 fn(Assert $page) => $page
-                    ->where("student.photo_url", route("company.students.photo", $student))
+                    ->where("student.photo_url", route("students.photo", $student))
                     ->etc(),
             );
     }
