@@ -573,8 +573,7 @@
       "title": "Uczelnia",
         "nav": {
             "dashboard": "Panel",
-            "faculties": "Kierunki/Wydziały",
-            "department": "Wydziały",
+            "faculties": "Wydziały",
             "team": "Zespół",
             "partnership": "Partnerstwo"
         }
@@ -602,6 +601,7 @@
       "save": "Zapisz",
       "cancel": "Anuluj",
       "confirmDelete": "Usuń",
+      "edit": "Edytuj",
       "deleteFacultyTitle": "Usuwanie wydziału",
       "deleteFieldTitle": "Usuwanie kierunku",
       "deleteConfirmation": "Czy na pewno chcesz usunąć „{name}”?",

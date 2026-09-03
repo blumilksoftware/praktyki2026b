@@ -574,7 +574,6 @@
             "nav": {
                 "dashboard": "Dashboard",
                 "faculties": "Faculties",
-                "department": "Departments",
                 "team": "Team",
                 "partnership": "Partnership"
             }
@@ -601,6 +600,7 @@
       "empty": "No faculty has been added yet.",
       "save": "Save",
       "cancel": "Cancel",
+      "edit": "Edit",
       "confirmDelete": "Delete",
       "deleteFacultyTitle": "Delete faculty",
       "deleteFieldTitle": "Delete field of study",
