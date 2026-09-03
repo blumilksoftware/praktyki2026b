@@ -844,7 +844,6 @@
       },
       "card": {
         "logoAlt": "Company logo for {company}",
-        "verified": "Verified",
         "verifiedAriaLabel": "Verified company",
         "closingSoon": "Closing soon",
         "dateRange": "Date range",

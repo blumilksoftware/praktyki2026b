@@ -79,7 +79,7 @@ describe('OfferCard.vue', () => {
   it('shows the verified badge when the company is verified', () => {
     const wrapper = createWrapper()
 
-    expect(wrapper.text()).toContain('student.offers.card.verified')
+    expect(wrapper.find('[title="student.offers.card.verifiedAriaLabel"]').exists()).toBe(true)
   })
 
   it('hides the verified badge when the company is not verified', () => {
@@ -87,7 +87,7 @@ describe('OfferCard.vue', () => {
       offer: { ...baseOffer, company: { ...baseOffer.company, is_verified: false } },
     })
 
-    expect(wrapper.text()).not.toContain('student.offers.card.verified')
+    expect(wrapper.find('[title="student.offers.card.verifiedAriaLabel"]').exists()).toBe(false)
   })
 
   it('shows the company logo image when a logo path is present', () => {

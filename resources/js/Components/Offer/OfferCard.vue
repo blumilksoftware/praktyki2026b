@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { IconBuilding, IconCheck, IconClock, IconHeart, IconHeartFilled, IconLoader2, IconMapPin, IconSend } from '@tabler/icons-vue'
 import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
+import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
 import { ROUTES, studentOfferApply, studentOfferFavourite, studentOfferWithdraw, offerShow } from '@/Helpers/routes'
 import { useToast } from '@/Composables/useToast'
@@ -186,14 +187,10 @@ function showOnMap() {
                 {{ offer.company.name }}
               </Link>
 
-              <span
-                v-if="offer.company.is_verified"
-                class="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-success"
-                :aria-label="t('student.offers.card.verifiedAriaLabel')"
-              >
-                <IconCheck class="h-3.5 w-3.5" stroke-width="2" aria-hidden="true" />
-                <span aria-hidden="true">{{ t('student.offers.card.verified') }}</span>
-              </span>
+              <VerifiedBadge
+                :verified="Boolean(offer.company.is_verified)"
+                :label="t('student.offers.card.verifiedAriaLabel')"
+              />
             </div>
             <h3 class="mt-1 text-xl font-semibold tracking-tight text-text sm:text-2xl">
               <Link
