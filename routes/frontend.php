@@ -72,7 +72,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
         Route::get("/universities", [CompanyUniversityController::class, "index"])->name("company.universities.index");
         Route::get("/students/{student}", [StudentProfileController::class, "show"])->name("company.students.show")->whereUuid("student");
-        Route::get("/students/{student}/photo", [StudentProfileController::class, "showPhoto"])->name("company.students.photo")->whereUuid("student");
+        Route::get("/students/{student}/photo", [StudentProfileController::class, "showPhoto"])->name("students.photo")->whereUuid("student");
     });
 
 Route::middleware(["auth", "can:create," . Offer::class])
