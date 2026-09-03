@@ -139,7 +139,7 @@ function submitFieldRename(field) {
           <button
             type="button"
             class="inline-flex w-fit shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-lg border border-red-200 bg-red-50 px-2 py-1.5 text-sm font-medium text-red-600 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-            :aria-label="t('university.faculties.confirmDelete', { name: faculty.name })"
+            :aria-label="t('university.faculties.deleteFaculty', { name: faculty.name })"
             @click="emit('deleteFaculty', faculty)"
           >
             <IconTrash class="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -216,7 +216,7 @@ function submitFieldRename(field) {
                   :ref="(element) => setFieldTrigger(field.id, element)"
                   type="button"
                   class="inline-flex w-fit shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-border bg-white/60 px-2 py-1.5 text-sm font-medium text-text transition hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 cursor-pointer"
-                  :aria-label="t('university.faculties.edit', { name: field.name })"
+                  :aria-label="t('university.faculties.renameField', { name: field.name })"
                   @click="startFieldRename(field)"
                 >
                   <IconPencil class="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -225,7 +225,7 @@ function submitFieldRename(field) {
                 <button
                   type="button"
                   class="inline-flex w-fit shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-lg border border-red-200 bg-red-50 px-2 py-1.5 text-sm font-medium text-red-600 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-                  :aria-label="t('university.faculties.confirmDelete', { name: field.name })"
+                  :aria-label="t('university.faculties.deleteField', { name: field.name })"
                   @click="emit('deleteField', { field, faculty })"
                 >
                   <IconTrash class="h-4 w-4 shrink-0" aria-hidden="true" />
