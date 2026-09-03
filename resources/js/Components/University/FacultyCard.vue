@@ -84,7 +84,7 @@ function submitFieldRename(field) {
 
 <template>
   <div class="rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-5">
-    <div class="flex flex-wrap items-center justify-between gap-3">
+    <div class="flex flex-row flex-wrap items-center justify-between gap-3">
       <form v-if="isRenaming" class="flex w-full flex-col gap-3" novalidate @submit.prevent="submitRename">
         <BaseInput
           :id="`faculty-name-${faculty.id}`"
@@ -105,41 +105,45 @@ function submitFieldRename(field) {
       </form>
 
       <template v-else>
-        <button
-          type="button"
-          class="flex flex-1 cursor-pointer items-center gap-2 rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-          :aria-expanded="isExpanded"
-          :aria-controls="`faculty-panel-${faculty.id}`"
-          @click="isExpanded = !isExpanded"
-        >
-          <IconChevronDown
-            class="h-5 w-5 shrink-0 text-additional transition-transform"
-            :class="{ 'rotate-180': isExpanded }"
-            aria-hidden="true"
-          />
-          <h2 class="font-semibold text-text text-lg">{{ faculty.name }}</h2>
-          <span class="text-additional text-sm">
-            {{ t('university.faculties.fieldsCount', { count: faculty.study_fields.length }) }}
-          </span>
-        </button>
+        <h2 class="min-w-0 flex-1">
+          <button
+            type="button"
+            class="flex w-full min-w-0 items-center gap-2 rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            :aria-expanded="isExpanded"
+            :aria-controls="`faculty-panel-${faculty.id}`"
+            @click="isExpanded = !isExpanded"
+          >
+            <IconChevronDown
+              class="h-5 w-5 shrink-0 text-additional transition-transform"
+              :class="{ 'rotate-180': isExpanded }"
+              aria-hidden="true"
+            />
+            <span class="min-w-0 truncate font-semibold text-text text-lg">{{ faculty.name }}</span>
+            <span class="shrink-0 text-additional text-sm">
+              {{ t('university.faculties.fieldsCount', { count: faculty.study_fields.length }) }}
+            </span>
+          </button>
+        </h2>
 
-        <div class="mr-1.5 flex items-center gap-2">
+        <div class="flex items-center gap-2 shrink-0 sm:mr-1.5">
           <button
             ref="renameTrigger"
             type="button"
-            class="cursor-pointer rounded-lg p-2 text-additional transition hover:bg-background hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            class="inline-flex w-fit shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-border bg-white/60 px-2 py-1.5 text-sm font-medium text-text transition hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 cursor-pointer"
             :aria-label="t('university.faculties.renameFaculty', { name: faculty.name })"
             @click="startRename"
           >
-            <IconPencil class="h-5 w-5" aria-hidden="true" />
+            <IconPencil class="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span class="hidden sm:inline">{{ t('university.faculties.edit') }}</span>
           </button>
           <button
             type="button"
-            class="cursor-pointer rounded-lg p-2 text-error transition hover:bg-error/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/40"
+            class="inline-flex w-fit shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-lg border border-red-200 bg-red-50 px-2 py-1.5 text-sm font-medium text-red-600 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
             :aria-label="t('university.faculties.deleteFaculty', { name: faculty.name })"
             @click="emit('deleteFaculty', faculty)"
           >
-            <IconTrash class="h-5 w-5" aria-hidden="true" />
+            <IconTrash class="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span class="hidden sm:inline">{{ t('university.faculties.confirmDelete') }}</span>
           </button>
         </div>
       </template>
@@ -173,7 +177,7 @@ function submitFieldRename(field) {
           <li
             v-for="field in faculty.study_fields"
             :key="field.id"
-            class="rounded-lg border border-border bg-white py-2 pl-3 pr-1.5"
+            class="rounded-lg border border-border bg-white py-2 pl-3 pr-3"
           >
             <form
               v-if="editingFieldId === field.id"
@@ -199,31 +203,33 @@ function submitFieldRename(field) {
               </div>
             </form>
 
-            <div v-else class="flex flex-wrap items-center justify-between gap-2">
-              <div>
-                <p class="font-medium text-text">{{ field.name }}</p>
+            <div v-else class="flex flex-row items-center justify-between gap-2">
+              <div class="min-w-0">
+                <p class="truncate font-medium text-text">{{ field.name }}</p>
                 <p class="text-additional text-sm">
                   {{ t('university.faculties.usage', { students: field.students_count, offers: field.offers_count }) }}
                 </p>
               </div>
 
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 shrink-0">
                 <button
                   :ref="(element) => setFieldTrigger(field.id, element)"
                   type="button"
-                  class="cursor-pointer rounded-lg p-2 text-additional transition hover:bg-background hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                  class="inline-flex w-fit shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-border bg-white/60 px-2 py-1.5 text-sm font-medium text-text transition hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 cursor-pointer"
                   :aria-label="t('university.faculties.renameField', { name: field.name })"
                   @click="startFieldRename(field)"
                 >
-                  <IconPencil class="h-5 w-5" aria-hidden="true" />
+                  <IconPencil class="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span class="hidden sm:inline">{{ t('university.faculties.edit') }}</span>
                 </button>
                 <button
                   type="button"
-                  class="cursor-pointer rounded-lg p-2 text-error transition hover:bg-error/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error/40"
+                  class="inline-flex w-fit shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-lg border border-red-200 bg-red-50 px-2 py-1.5 text-sm font-medium text-red-600 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                   :aria-label="t('university.faculties.deleteField', { name: field.name })"
                   @click="emit('deleteField', { field, faculty })"
                 >
-                  <IconTrash class="h-5 w-5" aria-hidden="true" />
+                  <IconTrash class="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span class="hidden sm:inline">{{ t('university.faculties.confirmDelete') }}</span>
                 </button>
               </div>
             </div>
