@@ -13,17 +13,17 @@ import ReviewForm from '@/Components/Profiles/ReviewForm.vue'
 import ReviewList from '@/Components/Profiles/ReviewList.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
+import {useProfileBack} from "@/Composables/useProfileBack.js";
 
 const props = defineProps({
   company: { type: Object, required: true },
+  backUrl: { type: String, default: null },
 })
 
 const { t } = useI18n()
 const page = usePage()
 
-const goBack = () => {
-  window.history.back()
-}
+const { goBack } = useProfileBack(props.backUrl)
 
 const isStudent = computed(() => page.props.auth?.user?.role === 'student')
 </script>

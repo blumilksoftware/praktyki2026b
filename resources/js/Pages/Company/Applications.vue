@@ -30,7 +30,7 @@ const { t } = useI18n()
 const { toastError } = useToast()
 
 const goBack = () => {
-  window.history.back()
+  router.visit(ROUTES.COMPANY_OFFERS_STORE)
 }
 
 const currentFilters = ref({

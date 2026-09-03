@@ -6,7 +6,14 @@ import { IconCheck, IconHeart, IconHeartFilled, IconMapPin } from '@tabler/icons
 import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
-import { ROUTES, studentOfferApply, studentOfferFavourite, studentOfferWithdraw, offerShow } from '@/Helpers/routes'
+import {
+  ROUTES,
+  studentOfferApply,
+  studentOfferFavourite,
+  studentOfferWithdraw,
+  offerShow,
+  companyShow
+} from '@/Helpers/routes'
 import { useToast } from '@/Composables/useToast'
 
 const props = defineProps({
@@ -140,7 +147,7 @@ function showOnMap() {
       <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div class="min-w-0 flex gap-3">
           <Link
-            :href="ROUTES.COMPANY_SHOW.replace('{company}', offer.company.id)"
+            :href="`${companyShow(offer.company.id)}?from=offers`"
             class="shrink-0 transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-xl"
           >
             <img
@@ -157,7 +164,7 @@ function showOnMap() {
           <div class="min-w-0">
             <div class="flex flex-wrap items-center gap-2">
               <Link
-                :href="ROUTES.COMPANY_SHOW.replace('{company}', offer.company.id)"
+                :href="`${companyShow(offer.company.id)}?from=offers`"
                 class="text-sm font-medium text-additional transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
               >
                 {{ offer.company.name }}

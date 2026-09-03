@@ -14,7 +14,7 @@ import { ROUTES } from '@/Helpers/routes'
 const { t } = useI18n()
 
 const goBack = () => {
-  window.history.back()
+  router.visit(ROUTES.COMPANY_PROFILE)
 }
 
 const props = defineProps({

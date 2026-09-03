@@ -9,16 +9,17 @@ import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Faculties from '@/Components/Profiles/Faculties.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
+import {useProfileBack} from "@/Composables/useProfileBack.js";
 
-defineProps({
+const props = defineProps({
   university: { type: Object, required: true },
+  backUrl: { type: String, default: null },
 })
 
 const { t } = useI18n()
 
-const goBack = () => {
-  window.history.back()
-}
+const { goBack } = useProfileBack(props.backUrl)
+
 </script>
 
 <template>

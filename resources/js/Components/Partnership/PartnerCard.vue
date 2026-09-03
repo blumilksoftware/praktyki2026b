@@ -24,9 +24,13 @@ const { statusClass, statusLabel } = usePartnershipStatus(props.namespace)
 
 const partnerInitial = computed(() => props.partner.name?.charAt(0) || '?')
 const hasOffersCount = computed(() => props.partner.active_offers_count !== undefined)
-const partnerHref = computed(() => (props.namespace === 'company.universities'
-  ? universityShow(props.partner.id)
-  : companyShow(props.partner.id)))
+const partnerHref = computed(() => {
+  const baseHref = props.namespace === 'company.universities'
+    ? universityShow(props.partner.id)
+    : companyShow(props.partner.id)
+
+  return `${baseHref}?from=${props.namespace}`
+})
 
 const isProcessing = ref(false)
 const isConfirmModalOpen = ref(false)

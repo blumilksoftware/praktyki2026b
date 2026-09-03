@@ -1,5 +1,5 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/vue3'
+import {Head, router, useForm} from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import { IconArrowLeft, IconUserCircle } from '@tabler/icons-vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
@@ -14,7 +14,7 @@ import AppLayout from '@/Components/Layouts/AppLayout.vue'
 const { t } = useI18n()
 
 const goBack = () => {
-  window.history.back()
+  router.visit(ROUTES.UNIVERSITY_PROFILE)
 }
 
 const props = defineProps({
