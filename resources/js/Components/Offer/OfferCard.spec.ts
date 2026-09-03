@@ -247,6 +247,8 @@ describe('OfferCard.vue', () => {
     options.onFinish()
     await wrapper.vm.$nextTick()
 
+    expect(toastSuccess).toHaveBeenCalledWith('student.applications.withdrawSuccess')
+    expect(toastError).not.toHaveBeenCalled()
     expect(wrapper.text()).toContain('buttons.apply.applyNow')
     expect(wrapper.findAll('button').some((btn) => btn.text() === 'student.applications.withdraw.action')).toBe(false)
   })
