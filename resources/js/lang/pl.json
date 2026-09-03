@@ -585,8 +585,7 @@
       "title": "Uczelnia",
         "nav": {
             "dashboard": "Panel",
-            "faculties": "Kierunki/Wydziały",
-            "department": "Wydziały",
+            "faculties": "Wydziały",
             "team": "Zespół",
             "partnership": "Partnerstwo"
         }
