@@ -17,7 +17,7 @@ const details = computed(() => props.member ? [
     label: t('organization.team.memberPreview.joined'),
     value: t('organization.team.joinDate', {
       date: props.member.joinedAt
-        ? new Intl.DateTimeFormat(undefined, { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(props.member.joinedAt))
+        ? new Intl.DateTimeFormat('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(props.member.joinedAt))
         : '',
     }),
   },
