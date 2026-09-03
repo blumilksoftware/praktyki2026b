@@ -577,8 +577,7 @@
             "dashboard": "Dashboard",
             "faculties": "Faculties",
             "team": "Team",
-            "partnership": "Partnership",
-            "department": "Departments"
+            "partnership": "Partnership"
         },
     "profile": {
       "title": "Profile"
