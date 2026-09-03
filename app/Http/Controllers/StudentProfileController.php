@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\Student\BuildStudentPublicProfileData;
+use App\Actions\Student\GetStudentPhotoAction;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class StudentProfileController extends Controller
 {
     public function __construct(
         private readonly BuildStudentPublicProfileData $buildStudentPublicProfileData,
+        private readonly GetStudentPhotoAction $getStudentPhotoAction,
     ) {}
 
     public function show(User $student): Response
@@ -30,5 +33,12 @@ class StudentProfileController extends Controller
             "student" => $this->buildStudentPublicProfileData->execute($student),
             "cvUrl" => $latestApplication ? route("company.applications.cv", $latestApplication) : null,
         ]);
+    }
+
+    public function showPhoto(User $student): StreamedResponse
+    {
+        Gate::authorize("viewProfile", $student);
+
+        return $this->getStudentPhotoAction->execute($student);
     }
 }

@@ -46,6 +46,9 @@ Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase")
 Route::middleware(["auth"])
     ->group(function (): void {
         Route::get("/team", [TeamMemberController::class, "index"])->name("team.index");
+        Route::get("/students/{student}/photo", [StudentProfileController::class, "showPhoto"])
+            ->name("students.photo")
+            ->whereUuid("student");
     });
 
 Route::middleware(["auth"])
