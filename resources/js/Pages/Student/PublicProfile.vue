@@ -44,6 +44,7 @@ const goBack = () => {
       <div class="flex flex-col gap-6 self-start">
         <ProfilePageCard centered>
           <ProfileAvatar
+            :photo-url="student.photo_url"
             :first-name="student.first_name"
             :last-name="student.last_name"
             size-class="w-28 h-28 text-3xl"
