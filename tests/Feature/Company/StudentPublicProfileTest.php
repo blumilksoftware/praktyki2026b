@@ -13,12 +13,22 @@ use App\Models\StudyField;
 use App\Models\University;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class StudentPublicProfileTest extends TestCase
 {
     use RefreshDatabase;
+
+    private string $disk;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->disk = config("filesystems.default", "local");
+        Storage::fake($this->disk);
+    }
 
     public function testGuestCannotViewStudentProfile(): void
     {
@@ -214,6 +224,79 @@ class StudentPublicProfileTest extends TestCase
             ->get(route("company.students.show", $student))
             ->assertOk()
             ->assertInertia(fn(Assert $page) => $page->where("cvUrl", route("company.applications.cv", $latest))->etc());
+    }
+
+    public function testStudentPhotoUrlIsIncludedInPublicProfileWhenPhotoIsSet(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = User::factory()->companyAdmin()->create(["organization_id" => $company->id]);
+        $student = $this->makeStudentWithApplicationTo($company);
+        $student->update(["photo_path" => "photos/john_doe.jpg"]);
+
+        $this->actingAs($user)
+            ->get(route("company.students.show", $student))
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->where("student.photo_url", route("company.students.photo", $student))
+                    ->etc(),
+            );
+    }
+
+    public function testStudentPhotoUrlIsNullWhenStudentHasNoPhoto(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = User::factory()->companyAdmin()->create(["organization_id" => $company->id]);
+        $student = $this->makeStudentWithApplicationTo($company);
+
+        $this->actingAs($user)
+            ->get(route("company.students.show", $student))
+            ->assertInertia(fn(Assert $page) => $page->where("student.photo_url", null)->etc());
+    }
+
+    public function testGuestCannotViewStudentPhoto(): void
+    {
+        $student = User::factory()->create();
+
+        $this->get(route("company.students.photo", $student))->assertRedirect(route("login"));
+    }
+
+    public function testCompanyCannotViewPhotoOfStudentWhoDidNotApplyToTheirOffer(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = User::factory()->companyAdmin()->create(["organization_id" => $company->id]);
+
+        $otherCompany = Company::factory()->approved()->create();
+        $student = $this->makeStudentWithApplicationTo($otherCompany);
+
+        $this->actingAs($user)
+            ->get(route("company.students.photo", $student))
+            ->assertStatus(403);
+    }
+
+    public function testCompanyAdminCanViewPhotoOfStudentWhoApplied(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = User::factory()->companyAdmin()->create(["organization_id" => $company->id]);
+        $student = $this->makeStudentWithApplicationTo($company);
+
+        $photoPath = "photos/john_doe.jpg";
+        Storage::disk($this->disk)->put($photoPath, "fake-image-content");
+        $student->update(["photo_path" => $photoPath]);
+
+        $this->actingAs($user)
+            ->get(route("company.students.photo", $student))
+            ->assertOk();
+    }
+
+    public function testViewPhotoReturns404WhenStudentHasNoPhoto(): void
+    {
+        $company = Company::factory()->approved()->create();
+        $user = User::factory()->companyAdmin()->create(["organization_id" => $company->id]);
+        $student = $this->makeStudentWithApplicationTo($company);
+
+        $this->actingAs($user)
+            ->get(route("company.students.photo", $student))
+            ->assertStatus(404);
     }
 
     public function testCompanyCanViewProfileWhenTheOfferHasBeenSoftDeleted(): void
