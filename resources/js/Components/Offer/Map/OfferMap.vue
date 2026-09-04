@@ -4,10 +4,12 @@ import { useI18n } from 'vue-i18n'
 import { useOffersMap } from '@/Composables/useOffersMap.js'
 import SelectedCityBadge from '@/Components/Offer/Map/SelectedCityBadge.vue'
 import CityOffersList from '@/Components/Offer/Map/CityOffersList.vue'
+import OffersList from '@/Components/Offer/OffersList.vue'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 const props = defineProps({
   offers: { type: Array, default: () => [] },
+  listOffers: { type: Object, required: true },
   hasCv: { type: Boolean, default: true },
   guest: { type: Boolean, default: false },
   canApply: { type: Boolean, default: false },
@@ -20,8 +22,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['city-selected', 'clear'])
-
 const { t } = useI18n()
+
 const offersRef = toRef(props, 'offers')
 const initialOfferIdRef = toRef(props, 'initialOfferId')
 const radiusKmRef = toRef(props, 'radiusKm')
@@ -37,6 +39,8 @@ const {
   selectedCity,
   selectedOfferId,
   selectedCityOffers,
+  selectedCityOffersCount,
+  isOffersMode,
   resetFilters,
 } = useOffersMap(
   offersRef,
@@ -63,10 +67,17 @@ defineExpose({ resetFilters })
       <SelectedCityBadge
         v-if="selectedCity"
         :city="selectedCity"
-        :count="selectedCityOffers.length"
+        :count="selectedCityOffersCount"
         @clear="resetFilters"
       />
     </div>
+
+    <div class="mt-6">
+      <h3 class="font-semibold text-text text-lg mb-4">
+        {{ selectedCity === null ? t('student.offers.map.cityOffersTitleFallback') : t('student.offers.map.cityOffersTitle', { city: selectedCity }) }}
+      </h3>
+    </div>
+
     <CityOffersList
       v-if="selectedCity"
       :city="selectedCity"
@@ -76,8 +87,13 @@ defineExpose({ resetFilters })
       :guest="guest"
       :can-apply="canApply"
     />
-    <div v-else class="text-center py-6 text-additional text-sm bg-background/50 rounded-2xl border border-dashed border-border">
-      {{ t('student.offers.map.selectPinHint') }}
-    </div>
+
+    <OffersList
+      v-else
+      :offers="listOffers"
+      :has-cv="hasCv"
+      :guest="guest"
+      :can-apply="canApply"
+    />
   </div>
 </template>

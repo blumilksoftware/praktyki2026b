@@ -250,6 +250,7 @@ onMounted(() => {
             <OfferMap
               ref="offerMap"
               :offers="mapOffers"
+              :list-offers="offers"
               :has-cv="hasCv"
               :guest="isGuest"
               :can-apply="canApply"

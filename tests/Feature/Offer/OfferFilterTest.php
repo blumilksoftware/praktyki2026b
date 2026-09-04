@@ -33,16 +33,34 @@ class OfferFilterTest extends TestCase
 
     public function testStudyFieldFilterReturnsMatchingOffersOnMapView(): void
     {
+        $city = "Wrocław";
         $studyField = StudyField::factory()->create();
-        $matchingOffer = Offer::factory()->published()->create();
-        $matchingOffer->studyFields()->attach($studyField);
-        Offer::factory()->published()->create();
 
-        $response = $this->getJson(route("offers.map", ["study_fields" => [$studyField->id]]))
-            ->assertOk();
+        $matchingOffer = Offer::factory()->published()->create(["city" => $city]);
+        $matchingOffer->studyFields()->attach($studyField);
+
+        Offer::factory()->published()->create(["city" => $city]);
+
+        $response = $this->getJson(route("offers.map", [
+            "cities" => [$city],
+            "study_fields" => [$studyField->id],
+        ]))->assertOk();
 
         $response->assertJsonCount(1);
         $response->assertJsonFragment(["id" => $matchingOffer->id]);
+    }
+
+    public function testMapViewReturnsCitiesAggregationWhenNotNarrowedDown(): void
+    {
+        $studyField = StudyField::factory()->create();
+        $offer = Offer::factory()->published()->create();
+        $offer->studyFields()->attach($studyField);
+
+        $response = $this->getJson(route("offers.map", [
+            "study_fields" => [$studyField->id],
+        ]))->assertOk();
+
+        $response->assertJsonMissing(["id" => $offer->id]);
     }
 
     public function testInvalidDateRangeIsIgnoredInsteadOfFailingOnListView(): void

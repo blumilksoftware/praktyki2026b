@@ -8,6 +8,7 @@ use App\Actions\Student\GetOfferDetailsAction;
 use App\Actions\Student\GetSimilarOffersAction;
 use App\Actions\Student\GetStudentOffersAction;
 use App\Actions\Student\GetStudentOffersForMapAction;
+use App\Actions\Student\GetStudentOffersMapCitiesAction;
 use App\Enums\UserRole;
 use App\Http\Requests\OfferFilterRequest;
 use App\Models\Offer;
@@ -26,6 +27,7 @@ class OfferController extends Controller
         private readonly GetOfferDetailsAction $getOfferDetailsAction,
         private readonly GetSimilarOffersAction $getSimilarOffersAction,
         private readonly GetStudentOffersForMapAction $getStudentOffersForMapAction,
+        private readonly GetStudentOffersMapCitiesAction $getStudentOffersMapCitiesAction,
     ) {}
 
     public function index(OfferFilterRequest $request): Response
@@ -58,13 +60,24 @@ class OfferController extends Controller
 
     public function map(OfferFilterRequest $request): JsonResponse
     {
+        $filters = $request->validated();
+
+        $isNarrowedDown = !empty($filters["cities"] ?? [])
+            || $this->getStudentOffersForMapAction->hasRadiusFilter($filters);
+
+        if (!$isNarrowedDown) {
+            return response()->json(
+                $this->getStudentOffersMapCitiesAction->execute($filters),
+            );
+        }
+
         $user = Auth::user();
         $isStudent = $user !== null && $user->role === UserRole::Student;
 
         return response()->json(
             $this->getStudentOffersForMapAction->execute(
                 $isStudent ? $user : null,
-                $request->validated(),
+                $filters,
             ),
         );
     }
