@@ -69,6 +69,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
   let map = null
   let markers = []
   let pendingInitialOfferId = null
+  let isUnmounted = false
 
   const groupedOffers = computed(() => (
     isOffersMode.value ? groupOffersByCity(offersRef.value) : {}
@@ -412,10 +413,19 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     }, 100)
   }
 
-  onMounted(() => {
-    if (!mapContainer.value) return
+  const waitForContainer = () => new Promise((resolve) => {
+    const check = () => {
+      if (isUnmounted || mapContainer.value) {
+        resolve()
+        return
+      }
+      requestAnimationFrame(check)
+    }
+    check()
+  })
 
-    const token = typeof mapboxToken === 'object' ? mapboxToken.value : mapboxToken
+  onMounted(() => {
+    const token = mapboxToken && typeof mapboxToken === 'object' ? mapboxToken.value : mapboxToken
 
     if (!token) {
       console.error('Mapbox API Token is missing!')
@@ -426,6 +436,14 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
 
     nextTick(async () => {
       const detectedView = await tryDetectUserLocation()
+
+
+      if (isUnmounted) return
+
+      await waitForContainer()
+
+      if (isUnmounted || !mapContainer.value) return
+
       const initialView = detectedView || DEFAULT_MAP_VIEW
 
       map = new mapboxgl.Map({
@@ -467,8 +485,12 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
   })
 
   onUnmounted(() => {
+    isUnmounted = true
     clearMarkers()
-    if (map) map.remove()
+    if (map) {
+      map.remove()
+      map = null
+    }
   })
 
   watch(offersRef, () => {
