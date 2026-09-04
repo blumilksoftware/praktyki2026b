@@ -11,7 +11,7 @@ defineProps({
   <button
     :type="type"
     :disabled="disabled"
-    class="rounded-lg px-4 py-3 text-sm font-semibold cursor-pointer tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-60"
+    class="rounded-lg px-4 py-3 text-sm font-semibold cursor-pointer tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-80"
     :class="[
       widthClass,
       variant === 'primary'

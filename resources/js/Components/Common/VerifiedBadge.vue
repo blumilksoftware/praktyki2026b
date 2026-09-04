@@ -19,6 +19,7 @@ const iconClass = computed(() => props.size === 'md' ? 'h-5 w-5' : 'h-4 w-4')
   <span
     v-if="verified"
     class="inline-flex shrink-0 items-center text-primary"
+    role="img"
     :aria-label="accessibleLabel"
     :title="accessibleLabel"
   >

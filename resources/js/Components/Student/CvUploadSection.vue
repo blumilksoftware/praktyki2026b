@@ -190,6 +190,7 @@ onBeforeUnmount(revokePreviewObjectUrl)
         class="mt-2 h-2 overflow-hidden rounded-full bg-slate-200"
         role="progressbar"
         :aria-valuenow="uploadProgress"
+        :aria-label="t('student.cv.uploading', { progress: uploadProgress })"
         aria-valuemin="0"
         aria-valuemax="100"
       >

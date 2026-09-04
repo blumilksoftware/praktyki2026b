@@ -12,9 +12,9 @@ defineProps({
 
 <template>
   <section class="rounded-2xl border border-border p-5 shadow-sm bg-white">
-    <p class="text-[11px] font-medium uppercase tracking-[0.08em] text-additional">
+    <h2 class="text-[11px] font-medium uppercase tracking-[0.08em] text-additional">
       {{ title }}
-    </p>
+    </h2>
 
     <Link
       :href="primaryHref"

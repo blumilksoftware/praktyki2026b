@@ -266,6 +266,7 @@
     "nip": "NIP",
     "spots": "Spots",
     "uploadLogo": "Upload logo",
+    "logoAlt": "Logo",
     "searchTags": "Search tags...",
     "activeTags": "Active tags",
     "noActiveTags": "No active tags",
@@ -355,6 +356,7 @@
     "showAll": "Show all",
     "collapseTags": "Collapse tags",
     "myProfile": "My profile",
+    "openProfileMenu": "Open profile menu",
     "settings": "Settings",
     "logout": "Logout",
     "load_more": "Load more",
@@ -372,7 +374,8 @@
     "student": "Student",
     "company": "Company",
     "status": "Status",
-    "noData": "No data to display"
+    "noData": "No data to display",
+    "defaultCaption": "Data table"
   },
   "admin": {
     "applications": {

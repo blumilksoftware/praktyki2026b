@@ -23,7 +23,7 @@ defineProps({
 const emit = defineEmits(['sort', 'toggle-menu', 'edit', 'toggle-status', 'delete', 'go-to-applications', 'go-to-offer'])
 
 const statusClasses = {
-  published: 'bg-green-100 text-green-700',
+  published: 'bg-green-100 text-green-800',
   draft: 'bg-gray-100 text-gray-700',
   closed: 'bg-red-100 text-red-700',
   expired: 'bg-orange-100 text-orange-700',
@@ -45,7 +45,7 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
               @click="emit('sort', 'title')"
             >
               {{ t('company.dashboard.offers.table.offer') }}
-              <component :is="sortIcon('title')" class="w-3.5 h-3.5" />
+              <component :is="sortIcon('title')" class="w-3.5 h-3.5" aria-hidden="true" />
             </button>
           </th>
 
@@ -60,7 +60,7 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
               @click="emit('sort', 'spots')"
             >
               {{ t('company.dashboard.offers.table.spots') }}
-              <component :is="sortIcon('spots')" class="w-3.5 h-3.5" />
+              <component :is="sortIcon('spots')" class="w-3.5 h-3.5" aria-hidden="true" />
             </button>
           </th>
 
@@ -71,7 +71,7 @@ const offerHref = (offerId) => ROUTES.OFFER_SHOW.replace('{offer}', offerId)
               @click="emit('sort', 'applications_count')"
             >
               {{ t('company.dashboard.offers.table.applications') }}
-              <component :is="sortIcon('applications_count')" class="w-3.5 h-3.5" />
+              <component :is="sortIcon('applications_count')" class="w-3.5 h-3.5" aria-hidden="true" />
             </button>
           </th>
 

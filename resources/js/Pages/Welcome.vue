@@ -8,7 +8,7 @@ import { Head } from '@inertiajs/vue3'
   <div
     class="bg-dots-darker dark:bg-dots-lighter relative min-h-screen bg-gray-100 bg-center selection:bg-red-500 selection:text-white dark:bg-gray-900 sm:flex sm:items-center sm:justify-center"
   >
-    <div class="mx-auto max-w-7xl p-6 lg:p-8">
+    <main class="mx-auto max-w-7xl p-6 lg:p-8">
       <div class="flex justify-center">
         <svg viewBox="0 0 62 65" fill="none" xmlns="http://www.w3.org/2000/svg"
              class="h-16 w-auto bg-gray-100 dark:bg-gray-900"
@@ -202,7 +202,7 @@ import { Head } from '@inertiajs/vue3'
           Laravel
         </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 

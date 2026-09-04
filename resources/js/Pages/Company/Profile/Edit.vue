@@ -1,7 +1,6 @@
 <script setup>
 import { Head, useForm, router } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import { IconArrowLeft } from '@tabler/icons-vue'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
@@ -59,6 +58,7 @@ const submit = () => {
   <Head :title="company.name" />
 
   <AppLayout active-page="profile">
+    <h1 class="sr-only">{{ t('buttons.editProfile') }}</h1>
     <div class="flex flex-col gap-6 w-full">
       <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 flex flex-col items-center text-center">
         <HeaderEdit

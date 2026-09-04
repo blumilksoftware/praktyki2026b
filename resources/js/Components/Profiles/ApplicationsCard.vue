@@ -77,7 +77,7 @@ const onStatusChange = (event) => {
         :aria-label="t('profiles.company.applications.filters.status')"
         :value="application.status"
         :disabled="['accepted', 'rejected'].includes(application.status)"
-        class="rounded-full py-1.5 pl-4 pr-8 text-sm font-semibold shadow-sm focus:ring-0 appearance-none disabled:cursor-not-allowed disabled:opacity-75 transition-all"
+        class="rounded-full py-1.5 pl-4 pr-8 text-sm font-semibold shadow-sm focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 appearance-none disabled:cursor-not-allowed disabled:opacity-75 transition-all"
         :class="{
           'bg-sky-50 text-sky-900 ring-1 ring-sky-200 border-sky-300 cursor-pointer hover:bg-sky-100': application.status === 'reviewed',
           'bg-amber-50 text-amber-900 ring-1 ring-amber-200 border-amber-300 cursor-pointer hover:bg-amber-100': application.status === 'pending',
@@ -105,7 +105,7 @@ const onStatusChange = (event) => {
           rel="noopener noreferrer"
           class="inline-flex w-full items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-4 py-2 font-semibold text-text text-sm transition-colors"
         >
-          <IconDownload class="h-4 w-4 text-secondary" stroke="2.5" />
+          <IconDownload class="h-4 w-4 text-secondary" stroke="2.5" aria-hidden="true" />
           {{ t('profiles.company.applications.actions.download_cv') }}
         </a>
         <span

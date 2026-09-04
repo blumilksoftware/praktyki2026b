@@ -266,6 +266,7 @@
     "nip": "NIP",
     "spots": "Miejsca",
     "uploadLogo": "Prześlij logo",
+    "logoAlt": "Logo",
     "searchTags": "Szukaj tagów...",
     "activeTags": "Aktywne tagi",
     "noActiveTags": "Nie wybrano żadnych tagów",
@@ -355,6 +356,7 @@
     "showAll": "Pokaż wszystkie",
     "collapseTags": "Zwiń tagi",
     "myProfile": "Mój profil",
+    "openProfileMenu": "Otwórz menu profilu",
     "settings": "Ustawienia",
     "logout": "Wyloguj się",
     "load_more": "Załaduj więcej",
@@ -372,7 +374,8 @@
     "student": "Student",
     "company": "Firma",
     "status": "Status",
-    "noData": "Brak danych do wyświetlenia"
+    "noData": "Brak danych do wyświetlenia",
+    "defaultCaption": "Tabela danych"
   },
   "admin": {
     "applications": {

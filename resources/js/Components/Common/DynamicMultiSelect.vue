@@ -291,7 +291,7 @@ const labelClasses = computed(() => {
 
         <button
           type="button"
-          class="shrink-0 px-1 text-additional transition-colors hover:text-text focus:outline-none"
+          class="shrink-0 rounded px-1 text-additional transition-colors hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           :aria-label="isOpen ? t('dynamicList.accessibility.closeMenu') : t('dynamicList.accessibility.openMenu')"
           @mousedown.prevent.stop="toggleDropdown"
         >
@@ -328,7 +328,7 @@ const labelClasses = computed(() => {
               @mousedown.prevent="selectOption(option)"
             >
               <span>{{ option.label }}</span>
-              <span v-if="index === activeIndex" aria-hidden="true" class="rounded border bg-background px-1.5 py-0.5 text-[10px] opacity-40">
+              <span v-if="index === activeIndex" aria-hidden="true" class="rounded border bg-background px-1.5 py-0.5 text-[10px] opacity-70">
                 Enter
               </span>
             </li>

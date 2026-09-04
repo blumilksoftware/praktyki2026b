@@ -1,7 +1,6 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
-import { IconArrowLeft, IconUserCircle } from '@tabler/icons-vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import HeaderEdit from '@/Components/Profiles/Edit/HeaderEdit.vue'
 import ContactCardEdit from '@/Components/Profiles/Edit/ContactCardEdit.vue'
@@ -60,9 +59,9 @@ const submit = () => {
 
 <template>
   <Head :title="university.name" />
-
   <div class="min-h-screen flex flex-col bg-background">
     <AppLayout active-page="profile">
+      <h1 class="sr-only">{{ t('buttons.editProfile') }}</h1>
       <div class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="flex flex-col gap-6 w-full">
           <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 flex flex-col items-center text-center">

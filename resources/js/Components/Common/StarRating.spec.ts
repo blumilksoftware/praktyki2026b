@@ -26,4 +26,14 @@ describe('StarRating', () => {
 
     expect(wrapper.emitted('update:rating')?.[0]).toEqual([4])
   })
+
+  it('gives each interactive star button an accessible name', () => {
+    const wrapper = mount(StarRating, { props: { rating: 2, interactive: true } })
+
+    const buttons = wrapper.findAll('button')
+    buttons.forEach((button, index) => {
+      expect(button.attributes('aria-label')).toBe(`${index + 1} / 5`)
+    })
+    expect(wrapper.attributes('role')).toBeUndefined()
+  })
 })

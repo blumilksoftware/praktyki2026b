@@ -207,7 +207,7 @@ onUnmounted(() => {
           >
         </div>
 
-        <div role="tablist" class="flex gap-2 overflow-x-auto border-b border-border" :aria-label="t('company.offers.index.title')">
+        <div role="tablist" class="flex gap-2 overflow-x-auto border-b border-border py-1" :aria-label="t('company.offers.index.title')">
           <button
             v-for="tab in statusTabs"
             :key="tab"
@@ -272,7 +272,7 @@ onUnmounted(() => {
             ? 'bg-primary text-white'
             : link.url
               ? 'cursor-pointer text-text hover:bg-background'
-              : 'cursor-not-allowed text-additional/50'"
+              : 'cursor-not-allowed text-additional'"
           @click="goToPage(link.url)"
         >
           {{ paginationLabel(link.label) }}

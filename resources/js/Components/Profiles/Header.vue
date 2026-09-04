@@ -23,10 +23,11 @@ const props = defineProps({
         class="w-full h-full object-cover"
       >
       
-      <IconUser 
-        v-else 
-        stroke="1.5" 
-        class="w-12 h-12 sm:w-16 sm:h-16 text-additional" 
+      <IconUser
+        v-else
+        stroke="1.5"
+        class="w-12 h-12 sm:w-16 sm:h-16 text-additional"
+        aria-hidden="true"
       />
     </div>
 

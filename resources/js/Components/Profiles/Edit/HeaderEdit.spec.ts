@@ -64,6 +64,22 @@ describe('HeaderEdit.vue', () => {
     expect(clickSpy).toHaveBeenCalledTimes(1)
   })
 
+  it('triggers the hidden file input on Enter and Space key presses', async () => {
+    const wrapper = mount(HeaderEdit, {
+      props: { name: 'Test' },
+      global: { stubs: ['IconPlus'] }
+    })
+
+    const fileInput = wrapper.find<HTMLInputElement>('input[type="file"]')
+    const clickSpy = vi.spyOn(fileInput.element, 'click')
+
+    const dropzone = wrapper.find('.cursor-pointer')
+    await dropzone.trigger('keydown.enter')
+    await dropzone.trigger('keydown.space')
+
+    expect(clickSpy).toHaveBeenCalledTimes(2)
+  })
+
   it('updates visual styling during drag and drop events', async () => {
     const wrapper = mount(HeaderEdit, {
       props: { name: 'Test' },

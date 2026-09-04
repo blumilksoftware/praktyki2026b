@@ -39,7 +39,7 @@ const googleMapsUrl = computed(() => {
 
     <div class=" p-6 sm:p-8 bg-white flex flex-col gap-6">
       <div v-if="website" class="flex items-center gap-4 sm:gap-6 min-w-0">
-        <IconWorld stroke="1.5" class="w-7 h-7 text-text shrink-0" />
+        <IconWorld stroke="1.5" class="w-7 h-7 text-text shrink-0" aria-hidden="true" />
         <a
           :href="website"
           target="_blank"
@@ -51,7 +51,7 @@ const googleMapsUrl = computed(() => {
       </div>
 
       <div v-if="fullAddress" class="flex items-center gap-4 sm:gap-6 min-w-0">
-        <IconMapPin class="w-7 h-7 text-primary shrink-0" />
+        <IconMapPin class="w-7 h-7 text-primary shrink-0" aria-hidden="true" />
         <a
           :href="googleMapsUrl"
           target="_blank"
@@ -61,8 +61,9 @@ const googleMapsUrl = computed(() => {
           <span>{{ fullAddress }}</span>
         </a>
       </div>
+
       <div v-if="email" class="flex items-center gap-4 sm:gap-6 min-w-0">
-        <IconMail class="w-7 h-7 text-text shrink-0" />
+        <IconMail class="w-7 h-7 text-text shrink-0" aria-hidden="true" />
         <a
           :href="`mailto:${email}`"
           class="text-link hover:text-link/80 font-medium transition-colors break-words min-w-0"
@@ -70,8 +71,9 @@ const googleMapsUrl = computed(() => {
           {{ email }}
         </a>
       </div>
+
       <div v-if="phone" class="flex items-center gap-4 sm:gap-6 min-w-0">
-        <IconPhone class="w-7 h-7 text-text shrink-0" />
+        <IconPhone class="w-7 h-7 text-text shrink-0" aria-hidden="true" />
         <a
           :href="`tel:${phone}`"
           class="text-link hover:text-link/80 font-medium transition-colors break-words min-w-0"
