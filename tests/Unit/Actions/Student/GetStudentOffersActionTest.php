@@ -137,6 +137,39 @@ class GetStudentOffersActionTest extends TestCase
         $this->assertSame([$matching->id], $ids);
     }
 
+    public function testOfferArrayIncludesStudyFields(): void
+    {
+        $company = Company::factory()->create();
+        $studyField = StudyField::factory()->create(["name" => "Computer Science"]);
+
+        $offer = Offer::factory()->published()->for($company)->create();
+        $offer->studyFields()->attach($studyField);
+
+        $result = $this->action->execute(null, [], 15);
+
+        $this->assertSame([["id" => $studyField->id, "name" => "Computer Science"]], $result->items()[0]["study_fields"]);
+    }
+
+    public function testOfferArrayMarksOffersEndingWithinAWeekAsClosingSoon(): void
+    {
+        $company = Company::factory()->create();
+
+        Offer::factory()->published()->for($company)->create([
+            "title" => "Closing Soon Offer",
+            "end_date" => now()->addDays(3),
+        ]);
+        Offer::factory()->published()->for($company)->create([
+            "title" => "Not Closing Soon Offer",
+            "end_date" => now()->addMonth(),
+        ]);
+
+        $result = $this->action->execute(null, [], 15);
+        $offersByTitle = collect($result->items())->keyBy("title");
+
+        $this->assertTrue($offersByTitle["Closing Soon Offer"]["closing_soon"]);
+        $this->assertFalse($offersByTitle["Not Closing Soon Offer"]["closing_soon"]);
+    }
+
     public function testRadiusFilterReturnsOnlyOffersWithinRadiusOrderedByDistance(): void
     {
         $company = Company::factory()->create();

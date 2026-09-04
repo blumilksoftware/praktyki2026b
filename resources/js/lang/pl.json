@@ -952,6 +952,8 @@
         "title": "Tablica ofert",
         "reset": "Resetuj",
         "resetAriaLabel": "Wyczyść wszystkie filtry",
+        "expand": "Pokaż filtry",
+        "collapse": "Ukryj filtry",
         "search": "Szukaj",
         "searchPlaceholder": "Firma, stanowisko lub miasto",
         "city": "Miasto",
@@ -992,8 +994,8 @@
       },
       "card": {
         "logoAlt": "Logo firmy {company}",
-        "verified": "Zweryfikowana",
         "verifiedAriaLabel": "Firma zweryfikowana",
+        "closingSoon": "Kończy się wkrótce",
         "dateRange": "Zakres dat",
         "remainingSpots": "Pozostałe miejsca",
         "location": "Lokalizacja",

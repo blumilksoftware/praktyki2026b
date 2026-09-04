@@ -59,6 +59,7 @@ defineExpose({ resetFilters })
   <div class="space-y-4 py-4 sm:px-4 sm:py-6">
     <div class="relative w-full h-[450px] rounded-3xl overflow-hidden border border-border shadow-sm">
       <div ref="mapContainer" class="w-full h-full" />
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/10 to-transparent" />
       <SelectedCityBadge
         v-if="selectedCity"
         :city="selectedCity"

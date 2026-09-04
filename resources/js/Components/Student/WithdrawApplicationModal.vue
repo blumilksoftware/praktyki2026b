@@ -23,7 +23,7 @@ const { t } = useI18n()
     <p class="text-additional text-sm">
       {{ t('student.applications.withdraw.confirmation', { title: offerTitle }) }}
     </p>
-    <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+    <div class="mt-6 flex flex-wrap justify-end gap-3">
       <BaseButton type="button" variant="secondary" :disabled="processing" @click="emit('close')">
         {{ t('student.applications.withdraw.cancel') }}
       </BaseButton>
