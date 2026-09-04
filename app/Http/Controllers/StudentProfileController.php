@@ -6,20 +6,20 @@ namespace App\Http\Controllers;
 
 use App\Actions\Profile\ResolveProfileBackUrlAction;
 use App\Actions\Student\BuildStudentPublicProfileData;
+use App\Actions\Student\GetStudentPhotoAction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StudentProfileController extends Controller
 {
     public function __construct(
         private readonly BuildStudentPublicProfileData $buildStudentPublicProfileData,
         private readonly ResolveProfileBackUrlAction $resolveProfileBackUrlAction,
+        private readonly GetStudentPhotoAction $getStudentPhotoAction,
     ) {}
 
     public function show(Request $request, User $student): Response
@@ -43,16 +43,6 @@ class StudentProfileController extends Controller
     {
         Gate::authorize("viewProfile", $student);
 
-        if ($student->photo_path === null) {
-            throw new NotFoundHttpException();
-        }
-
-        $disk = config("filesystems.default", "local");
-
-        if (!Storage::disk($disk)->exists($student->photo_path)) {
-            throw new NotFoundHttpException();
-        }
-
-        return Storage::disk($disk)->response($student->photo_path);
+        return $this->getStudentPhotoAction->execute($student);
     }
 }
