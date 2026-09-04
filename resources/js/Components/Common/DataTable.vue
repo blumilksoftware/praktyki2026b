@@ -55,8 +55,11 @@ function sortIcon(col) {
         v-for="item in props.items"
         :key="`mobile-${item[props.rowKey]}`"
         class="bg-white p-4 rounded-xl border border-border"
-        :class="{ 'cursor-pointer': rowHref }"
+        :class="{ 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60': rowHref }"
+        :tabindex="rowHref ? 0 : undefined"
+        :role="rowHref ? 'link' : undefined"
         @click="handleRowClick($event, item)"
+        @keydown.enter="handleRowClick($event, item)"
       >
         <div class="flex justify-between items-center gap-3">
           <p class="font-semibold text-text text-sm">
@@ -86,7 +89,7 @@ function sortIcon(col) {
 
     <div v-if="props.items.length > 0" class="hidden xl:block overflow-x-auto">
       <table class="min-w-full text-sm">
-        <caption class="sr-only">{{ props.caption || 'Data table' }}</caption>
+        <caption class="sr-only">{{ props.caption || t('table.defaultCaption') }}</caption>
         <thead class="bg-gray-50 font-semibold text-additional text-xs uppercase tracking-wide">
           <tr>
             <th
@@ -121,8 +124,11 @@ function sortIcon(col) {
             v-for="item in props.items"
             :key="item[props.rowKey]"
             class="hover:bg-gray-50"
-            :class="{ 'cursor-pointer': rowHref }"
+            :class="{ 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/60': rowHref }"
+            :tabindex="rowHref ? 0 : undefined"
+            :role="rowHref ? 'link' : undefined"
             @click="handleRowClick($event, item)"
+            @keydown.enter="handleRowClick($event, item)"
           >
             <td
               v-for="col in props.columns"

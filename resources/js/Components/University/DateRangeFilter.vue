@@ -78,6 +78,7 @@ const clearFilter = () => {
         type="date"
         class="px-3 py-1.5 text-sm bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
         :placeholder="t('university.dashboard.filter.from')"
+        :aria-label="t('university.dashboard.filter.from')"
       >
       <span class="text-additional text-sm">—</span>
       <input
@@ -86,6 +87,7 @@ const clearFilter = () => {
         :min="from"
         class="px-3 py-1.5 text-sm bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
         :placeholder="t('university.dashboard.filter.to')"
+        :aria-label="t('university.dashboard.filter.to')"
       >
     </div>
     <button

@@ -2,35 +2,17 @@
 import { useI18n } from 'vue-i18n'
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
+import { IconUserCircle, IconSettings, IconLogout } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
-import { IconUser } from '@tabler/icons-vue'
+import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
+import { useAuthUser } from '@/Composables/useAuthUser'
 
 const { t } = useI18n()
 const page = usePage()
 
-const user = computed(() => page.props.auth?.user)
-const logoPath = computed(() => {
-  return user.value?.company?.logo_path || user.value?.university_organization?.logo_path
-})
+const { user, displayName, avatarUrl } = useAuthUser()
+
 const isStudent = computed(() => user.value?.role === 'student')
-
-const avatarUrl = computed(() => {
-  const currentUser = user.value
-  if (!currentUser) {
-    return null
-  }
-
-  if (currentUser.photo_path) {
-    return ROUTES.STUDENT_PROFILE_PHOTO
-  }
-
-  const companyLogo = currentUser.company?.logo_path
-  if (companyLogo) {
-    return companyLogo.startsWith('/') ? companyLogo : `/${companyLogo}`
-  }
-
-  return null
-})
 
 const settingsLabel = computed(() => (
   isStudent.value
@@ -46,6 +28,12 @@ const isOnSettings = computed(() => page.component === 'Student/Settings')
 
 const isOpen = ref(false)
 const dropdownRef = ref(null)
+const triggerRef = ref(null)
+
+const closeAndRestoreFocus = () => {
+  isOpen.value = false
+  triggerRef.value?.focus()
+}
 
 const handleClickOutside = (event) => {
   if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
@@ -63,26 +51,24 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="dropdownRef" class="relative text-left">
-    <div
-      class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-secondary p-0 text-accent transition-all hover:cursor-pointer hover:ring-2 hover:ring-link hover:ring-offset-2 hover:ring-offset-background focus:outline-none"
+  <div ref="dropdownRef" class="relative text-left" @keydown.escape="closeAndRestoreFocus">
+    <button
+      ref="triggerRef"
+      type="button"
+      class="flex h-10 w-10 items-center justify-center rounded-full transition-all hover:ring-2 hover:ring-link hover:ring-offset-2 hover:ring-offset-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
       :aria-expanded="isOpen"
       aria-haspopup="true"
+      :aria-label="t('profiles.accountMenu')"
       @click="isOpen = !isOpen"
     >
-      <img
-        v-if="avatarUrl"
-        :src="avatarUrl"
-        alt=""
-        class="h-full w-full object-cover"
-      >
-
-      <IconUser
-        v-else
-        stroke="2"
-        class="h-6 w-6 text-accent"
+      <ProfileAvatar
+        :photo-url="avatarUrl"
+        :first-name="displayName"
+        :last-name="user?.last_name"
+        size-class="h-full w-full text-sm"
+        color-class="bg-secondary text-accent"
       />
-    </div>
+    </button>
 
     <transition
       enter-active-class="transition ease-out duration-100"
@@ -94,30 +80,41 @@ onUnmounted(() => {
     >
       <div
         v-if="isOpen"
-        class="absolute right-0 z-50 mt-3 w-56 origin-top-right overflow-hidden rounded-xl border border-border bg-white shadow-md focus:outline-none"
+        class="absolute right-0 z-50 mt-3 w-64 origin-top-right overflow-hidden rounded-xl border border-border bg-white shadow-md focus:outline-none"
       >
+        <div class="border-b border-border px-4 py-3">
+          <p class="text-[11px] font-medium uppercase tracking-wide text-additional">
+            {{ t('profiles.signedInAs') }}
+          </p>
+          <p class="truncate text-sm font-semibold text-text">
+            {{ displayName }}
+          </p>
+        </div>
+
         <div class="py-1">
           <Link
             :href="ROUTES.PROFILE"
-            class="block px-4 py-2.5 text-sm font-medium transition-colors"
+            class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors"
             :class="isOnMyProfile
               ? 'bg-primary/5 text-primary'
               : 'text-text hover:bg-background'"
             :aria-current="isOnMyProfile ? 'page' : undefined"
             @click="isOpen = false"
           >
+            <IconUserCircle stroke="2" class="h-5 w-5 shrink-0" aria-hidden="true" />
             {{ t('buttons.myProfile') }}
           </Link>
 
           <Link
             :href="ROUTES.SETTINGS"
-            class="block px-4 py-2.5 text-sm font-medium transition-colors"
+            class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors"
             :class="isOnSettings
               ? 'bg-primary/5 text-primary'
               : 'text-text hover:bg-background'"
             :aria-current="isOnSettings ? 'page' : undefined"
             @click="isOpen = false"
           >
+            <IconSettings stroke="2" class="h-5 w-5 shrink-0" aria-hidden="true" />
             {{ settingsLabel }}
           </Link>
 
@@ -127,9 +124,10 @@ onUnmounted(() => {
             :href="ROUTES.LOGOUT"
             method="post"
             as="button"
-            class="block w-full px-4 py-2.5 text-left text-sm font-medium text-error transition-colors hover:bg-red-50 hover:text-error-dark"
+            class="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-medium text-error transition-colors hover:bg-red-50 hover:text-error-dark"
             @click="isOpen = false"
           >
+            <IconLogout stroke="2" class="h-5 w-5 shrink-0" aria-hidden="true" />
             {{ t('buttons.logout') }}
           </Link>
         </div>

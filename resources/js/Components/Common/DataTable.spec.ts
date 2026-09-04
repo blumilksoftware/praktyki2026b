@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { createI18n } from 'vue-i18n'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi, afterEach } from 'vitest'
 import DataTable from '@/Components/Common/DataTable.vue'
 import en from '@/lang/en.json'
 
@@ -86,5 +86,43 @@ describe('DataTable desktop rows', () => {
     const statusCell = wrapper.findAll('tbody td')[2]
 
     expect(statusCell.findAll('.rounded-full')).toHaveLength(1)
+  })
+})
+
+describe('DataTable keyboard accessibility', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('makes rows focusable and links when rowHref is provided', () => {
+    const wrapper = mountTable({ rowHref: () => '/companies/1' })
+
+    const row = wrapper.find('tbody tr')
+    expect(row.attributes('tabindex')).toBe('0')
+    expect(row.attributes('role')).toBe('link')
+  })
+
+  it('does not make rows focusable when rowHref is not provided', () => {
+    const wrapper = mountTable()
+
+    const row = wrapper.find('tbody tr')
+    expect(row.attributes('tabindex')).toBeUndefined()
+    expect(row.attributes('role')).toBeUndefined()
+  })
+
+  it('opens the row href on Enter key press', async () => {
+    const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
+
+    const wrapper = mountTable({ rowHref: () => '/companies/1' })
+
+    await wrapper.find('tbody tr').trigger('keydown.enter')
+
+    expect(openSpy).toHaveBeenCalledWith('/companies/1', '_blank')
+  })
+
+  it('falls back to a translated caption when none is provided', () => {
+    const wrapper = mountTable()
+
+    expect(wrapper.find('caption').text()).toBe('Data table')
   })
 })

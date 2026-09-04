@@ -87,7 +87,7 @@ const verificationProgressPercent = computed(() => {
             :aria-valuenow="verificationProgressPercent"
             aria-valuemin="0"
             aria-valuemax="100"
-            aria-describedby="verification-progress-label"
+            aria-labelledby="verification-progress-label"
           >
             <div
               class="bg-primary rounded-full h-2.5 transition-all duration-500"

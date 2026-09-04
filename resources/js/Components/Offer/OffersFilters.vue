@@ -244,7 +244,7 @@ defineExpose({ studyFieldLabelToValue })
               @click="selectRadius(km)"
             >
               {{ t('student.offers.filters.radius.option', { km }) }}
-              <svg v-if="filters.radiusKm === km" class="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg v-if="filters.radiusKm === km" class="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
               </svg>
             </li>
