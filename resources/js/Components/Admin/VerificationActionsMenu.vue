@@ -1,6 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { IconCheck, IconX, IconTrash } from '@tabler/icons-vue'
+import AdminActionsMenu from '@/Components/Admin/AdminActionsMenu.vue'
 
 const { t } = useI18n()
 
@@ -19,39 +20,39 @@ const emit = defineEmits(['accept', 'reject', 'delete'])
 </script>
 
 <template>
-  <div class="flex items-center justify-end gap-1">
+  <AdminActionsMenu :label="t('admin.verification.actionsMenu', { name: props.item.name })">
     <button
       v-if="props.item.verification_status === 'pending'"
       type="button"
       :disabled="processing"
-      class="p-1.5 rounded-md text-green-700 hover:bg-green-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:opacity-50 disabled:cursor-not-allowed"
-      :title="t('admin.verification.accept')"
-      :aria-label="t('admin.verification.acceptAriaLabel', { name: props.item.name })"
+      class="flex items-center gap-2 w-full px-3 py-2 text-left text-green-700 hover:bg-green-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+      role="menuitem"
       @click="emit('accept')"
     >
       <IconCheck class="w-4 h-4" aria-hidden="true" />
+      {{ t('admin.verification.accept') }}
     </button>
 
     <button
       v-if="props.item.verification_status === 'pending'"
       type="button"
       :disabled="processing"
-      class="p-1.5 rounded-md text-red-600 hover:bg-red-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:opacity-50 disabled:cursor-not-allowed"
-      :title="t('admin.verification.reject')"
-      :aria-label="t('admin.verification.rejectAriaLabel', { name: props.item.name })"
+      class="flex items-center gap-2 w-full px-3 py-2 text-left text-red-600 hover:bg-red-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+      role="menuitem"
       @click="emit('reject', $event)"
     >
       <IconX class="w-4 h-4" aria-hidden="true" />
+      {{ t('admin.verification.reject') }}
     </button>
 
     <button
       type="button"
-      class="p-1.5 rounded-md text-red-600 hover:bg-red-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-      :title="t('admin.verification.delete')"
-      :aria-label="t('admin.verification.deleteAriaLabel', { name: props.item.name })"
+      class="flex items-center gap-2 w-full px-3 py-2 text-left text-red-600 hover:bg-red-50 cursor-pointer"
+      role="menuitem"
       @click="emit('delete', $event)"
     >
       <IconTrash class="w-4 h-4" aria-hidden="true" />
+      {{ t('admin.verification.delete') }}
     </button>
-  </div>
+  </AdminActionsMenu>
 </template>
