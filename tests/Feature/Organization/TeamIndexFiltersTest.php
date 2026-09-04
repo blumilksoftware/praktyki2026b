@@ -175,6 +175,9 @@ class TeamIndexFiltersTest extends TestCase
         $admin = User::factory()->companyAdmin()->create([
             "organization_id" => $company->id,
             "status" => UserStatus::Active,
+            "first_name" => "Carol",
+            "last_name" => "Owner",
+            "email" => "carol.owner@example.com",
         ]);
 
         $member = User::factory()->companyMember()->create([
