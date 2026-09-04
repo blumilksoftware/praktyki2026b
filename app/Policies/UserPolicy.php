@@ -48,6 +48,10 @@ class UserPolicy
 
     public function viewProfile(User $user, User $student): bool
     {
+        if ($user->role === UserRole::SuperAdmin) {
+            return true;
+        }
+
         $company = $user->company;
 
         if ($company === null || $student->role !== UserRole::Student) {

@@ -22,7 +22,7 @@ class BuildStudentPublicProfileData
             "last_name" => $student->last_name,
             "full_name" => $student->fullName(),
             "email" => $student->email,
-            "photo_url" => $student->photo_path ? route("company.students.photo", $student) : null,
+            "photo_url" => $student->photo_path ? route("students.photo", ["student" => $student]) : null,
             "city" => $student->city,
             "university" => $student->universityOrganization->name ?? $student->university,
             "university_id" => $isUniversityVerified ? $universityOrganization->id : null,

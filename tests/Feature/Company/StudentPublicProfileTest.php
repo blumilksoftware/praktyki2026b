@@ -237,7 +237,7 @@ class StudentPublicProfileTest extends TestCase
             ->get(route("company.students.show", $student))
             ->assertInertia(
                 fn(Assert $page) => $page
-                    ->where("student.photo_url", route("company.students.photo", $student))
+                    ->where("student.photo_url", route("students.photo", $student))
                     ->etc(),
             );
     }
@@ -257,7 +257,7 @@ class StudentPublicProfileTest extends TestCase
     {
         $student = User::factory()->create();
 
-        $this->get(route("company.students.photo", $student))->assertRedirect(route("login"));
+        $this->get(route("students.photo", $student))->assertRedirect(route("login"));
     }
 
     public function testCompanyCannotViewPhotoOfStudentWhoDidNotApplyToTheirOffer(): void
@@ -269,7 +269,7 @@ class StudentPublicProfileTest extends TestCase
         $student = $this->makeStudentWithApplicationTo($otherCompany);
 
         $this->actingAs($user)
-            ->get(route("company.students.photo", $student))
+            ->get(route("students.photo", $student))
             ->assertStatus(403);
     }
 
@@ -284,7 +284,7 @@ class StudentPublicProfileTest extends TestCase
         $student->update(["photo_path" => $photoPath]);
 
         $this->actingAs($user)
-            ->get(route("company.students.photo", $student))
+            ->get(route("students.photo", $student))
             ->assertOk();
     }
 
@@ -295,7 +295,7 @@ class StudentPublicProfileTest extends TestCase
         $student = $this->makeStudentWithApplicationTo($company);
 
         $this->actingAs($user)
-            ->get(route("company.students.photo", $student))
+            ->get(route("students.photo", $student))
             ->assertStatus(404);
     }
 

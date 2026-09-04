@@ -166,6 +166,7 @@ Route::middleware(["role:superAdmin"])
         Route::post("/verify/university/{university}/reject", [AdminController::class, "rejectUniversityVerification"])->name("admin.university.verify.reject");
         Route::patch("/users/{user}/role", [AdminUserController::class, "updateRole"])->name("admin.users.update-role");
         Route::patch("/users/{user}/status", [AdminUserController::class, "updateStatus"])->name("admin.users.update-status");
+        Route::get("/users/{user}/photo", [AdminUserController::class, "showPhoto"])->name("admin.users.photo");
         Route::get("/users/{user}/deletion-impact", DeletionImpactController::class)->name("admin.users.deletion-impact");
         Route::delete("/users/{user}", [AdminUserController::class, "deleteUser"])->name("admin.users.destroy");
         Route::delete("/companies/{company}", [AdminController::class, "deleteCompany"])->name("admin.companies.destroy");
