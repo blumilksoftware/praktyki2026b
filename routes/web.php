@@ -178,3 +178,7 @@ Route::middleware(["role:superAdmin"])
     });
 
 require __DIR__ . "/auth.php";
+
+Route::fallback(function (): never {
+    abort(404);
+});
