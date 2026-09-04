@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
+import BackButton from '@/Components/Common/BackButton.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
 import { ROUTES } from '@/Helpers/routes'
 import { useStudentFavorites } from '@/Composables/useStudentFavorites'
@@ -21,13 +22,7 @@ const favoriteOffers = computed(() => props.offers)
   <AppLayout active-page="favorites">
     <div class="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div class="mx-auto mb-4 flex max-w-7xl items-center justify-between gap-3">
-        <Link
-          :href="ROUTES.STUDENT_DASHBOARD"
-          class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:border-blue-600/40 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30"
-        >
-          <span aria-hidden="true">←</span>
-          {{ t('student.favorites.backToDashboard') }}
-        </Link>
+        <BackButton :as="Link" :href="ROUTES.STUDENT_DASHBOARD" />
 
         <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-900">
           {{ t('student.nav.favorites') }}
@@ -70,12 +65,7 @@ const favoriteOffers = computed(() => props.offers)
           <div v-else class="rounded-3xl border border-dashed border-slate-200/80 bg-white/75 p-8 text-center text-slate-500 backdrop-blur-sm">
             <p class="text-lg font-semibold text-slate-900">{{ t('student.favorites.empty.title') }}</p>
             <p class="mt-2 text-sm text-slate-500">{{ t('student.favorites.empty.description') }}</p>
-            <Link
-              :href="ROUTES.STUDENT_OFFERS"
-              class="mt-5 inline-flex items-center justify-center rounded-xl border border-blue-600 bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/40"
-            >
-              {{ t('student.favorites.backToOffers') }}
-            </Link>
+            <BackButton :as="Link" :href="ROUTES.STUDENT_OFFERS" />
           </div>
         </div>
       </section>

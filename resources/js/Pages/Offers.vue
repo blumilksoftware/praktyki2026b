@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineAsyncComponent, onMounted, ref, watch, reactive } from 'vue'
+import { defineAsyncComponent, onMounted, ref, watch, reactive } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import debounce from 'lodash/debounce'

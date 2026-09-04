@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
+import BackButton from '@/Components/Common/BackButton.vue'
 import { useI18n } from 'vue-i18n'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import OffersList from '@/Components/Offer/OffersList.vue'
@@ -51,13 +52,7 @@ const resetFilters = () => {
   <AppLayout active-page="offers">
     <div class="bg-background px-4 sm:px-6 lg:px-8 py-6 min-h-screen">
       <div class="flex justify-between items-center gap-3 mx-auto mb-4 max-w-7xl">
-        <Link
-          :href="ROUTES.STUDENT_DASHBOARD"
-          class="inline-flex items-center gap-2 bg-white hover:bg-background px-4 py-2 border border-border hover:border-primary/40 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 font-semibold text-text text-sm transition"
-        >
-          <span aria-hidden="true">←</span>
-          {{ t('student.favorites.backToDashboard') }}
-        </Link>
+        <BackButton :as="Link" :href="ROUTES.STUDENT_DASHBOARD" />
 
         <Link
           :href="ROUTES.STUDENT_FAVORITES"

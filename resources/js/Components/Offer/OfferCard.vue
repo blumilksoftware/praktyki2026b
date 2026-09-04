@@ -7,7 +7,14 @@ import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
 import WithdrawApplicationModal from '@/Components/Student/WithdrawApplicationModal.vue'
-import { ROUTES, studentOfferApply, studentOfferFavourite, studentOfferWithdraw, offerShow } from '@/Helpers/routes'
+import {
+  ROUTES,
+  studentOfferApply,
+  studentOfferFavourite,
+  studentOfferWithdraw,
+  offerShow,
+  companyShow,
+} from '@/Helpers/routes'
 import { useToast } from '@/Composables/useToast'
 
 const props = defineProps({
@@ -175,7 +182,7 @@ function showOnMap() {
           <div class="min-w-0">
             <div class="flex min-w-0 items-center gap-1 text-sm font-medium text-additional">
               <Link
-                :href="ROUTES.COMPANY_SHOW.replace('{company}', offer.company.id)"
+                :href="`${companyShow(offer.company.id)}?from=offers`"
                 :title="offer.company.name"
                 class="truncate transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
               >

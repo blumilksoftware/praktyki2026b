@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconPlus, IconUsers, IconClipboardText, IconDotsVertical } from '@tabler/icons-vue'
+import { IconPlus } from '@tabler/icons-vue'
 import { ROUTES } from '@/Helpers/routes'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import CompanyOfferDeleteModal from '@/Components/Company/CompanyOfferDeleteModal.vue'
