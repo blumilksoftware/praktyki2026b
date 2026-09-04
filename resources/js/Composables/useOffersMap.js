@@ -50,7 +50,7 @@ function buildRadiusCircleGeoJson(center, radiusKm) {
 const INDIVIDUAL_ZOOM_THRESHOLD = 11
 
 export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null), radiusKm = ref(null),
-  radiusCenter = ref(null), cityFilter = ref([]), options = {}) {
+                             radiusCenter = ref(null), cityFilter = ref([]), options = {}) {
   const { onCitySelect, onClear, selectedCityLabel = ref('') } = options
 
   const mapContainer = ref(null)
@@ -61,6 +61,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
   let map = null
   let markers = []
   let pendingInitialOfferId = null
+  let isUnmounted = false
 
   const groupedOffers = computed(() => groupOffersByCity(offersRef.value))
 
@@ -180,18 +181,18 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
 
     el.innerHTML = `
       <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full shadow-lg border text-xs font-bold transition-all duration-200 transform hover:scale-105 cursor-pointer ${
-  isSelected
-    ? 'bg-primary text-white border-primary ring-4 ring-primary/20 scale-110 z-10'
-    : 'bg-white text-text border-border hover:border-primary/50'
-}">
+      isSelected
+        ? 'bg-primary text-white border-primary ring-4 ring-primary/20 scale-110 z-10'
+        : 'bg-white text-text border-border hover:border-primary/50'
+    }">
         <svg class="w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-primary'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
         <span>${cityName}</span>
         <span class="ml-0.5 px-1.5 py-0.5 rounded-full text-[10px] ${
-  isSelected ? 'bg-white/20 text-white' : 'bg-background text-additional'
-}">${count}</span>
+      isSelected ? 'bg-white/20 text-white' : 'bg-background text-additional'
+    }">${count}</span>
       </div>
     `
     return el
@@ -205,10 +206,10 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
 
     el.innerHTML = `
       <div class="flex items-center justify-center rounded-full shadow-lg border-2 transition-all duration-200 transform hover:scale-110 cursor-pointer ${
-  isSelected
-    ? 'bg-primary border-white ring-4 ring-primary/25 scale-125 w-9 h-9 z-10'
-    : 'bg-white border-primary/30 hover:border-primary/60 w-8 h-8'
-}">
+      isSelected
+        ? 'bg-primary border-white ring-4 ring-primary/25 scale-125 w-9 h-9 z-10'
+        : 'bg-white border-primary/30 hover:border-primary/60 w-8 h-8'
+    }">
         <svg class="w-4 h-4 ${isSelected ? 'text-white' : 'text-primary'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -360,6 +361,12 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
 
     nextTick(async () => {
       const detectedView = await tryDetectUserLocation()
+
+      // Component may have been unmounted (or its ref torn down) while we were
+      // awaiting geolocation detection — bail out instead of initializing
+      // Mapbox against a stale/null container.
+      if (isUnmounted || !mapContainer.value) return
+
       const initialView = detectedView || DEFAULT_MAP_VIEW
 
       map = new mapboxgl.Map({
@@ -401,8 +408,12 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
   })
 
   onUnmounted(() => {
+    isUnmounted = true
     clearMarkers()
-    if (map) map.remove()
+    if (map) {
+      map.remove()
+      map = null
+    }
   })
 
   watch(offersRef, () => {
