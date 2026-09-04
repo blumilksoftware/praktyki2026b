@@ -79,7 +79,7 @@ describe('OfferCard.vue', () => {
   it('shows the verified badge when the company is verified', () => {
     const wrapper = createWrapper()
 
-    expect(wrapper.text()).toContain('student.offers.card.verified')
+    expect(wrapper.find('[title="student.offers.card.verifiedAriaLabel"]').exists()).toBe(true)
   })
 
   it('hides the verified badge when the company is not verified', () => {
@@ -87,7 +87,7 @@ describe('OfferCard.vue', () => {
       offer: { ...baseOffer, company: { ...baseOffer.company, is_verified: false } },
     })
 
-    expect(wrapper.text()).not.toContain('student.offers.card.verified')
+    expect(wrapper.find('[title="student.offers.card.verifiedAriaLabel"]').exists()).toBe(false)
   })
 
   it('shows the company logo image when a logo path is present', () => {
@@ -268,5 +268,30 @@ describe('OfferCard.vue', () => {
 
     expect(titleLink.exists()).toBe(true)
     expect(titleLink.text()).toContain('Frontend Developer Intern')
+  })
+
+  it('shows the study field tags when the offer has any', () => {
+    const wrapper = createWrapper({
+      offer: { ...baseOffer, study_fields: [{ id: 'sf-1', name: 'Informatyka' }, { id: 'sf-2', name: 'Matematyka' }] },
+    })
+
+    expect(wrapper.text()).toContain('Informatyka')
+    expect(wrapper.text()).toContain('Matematyka')
+  })
+
+  it('shows the closing soon badge when the offer is closing soon', () => {
+    const wrapper = createWrapper({
+      offer: { ...baseOffer, closing_soon: true },
+    })
+
+    expect(wrapper.text()).toContain('student.offers.card.closingSoon')
+  })
+
+  it('hides the closing soon badge when the offer is not closing soon', () => {
+    const wrapper = createWrapper({
+      offer: { ...baseOffer, closing_soon: false },
+    })
+
+    expect(wrapper.text()).not.toContain('student.offers.card.closingSoon')
   })
 })

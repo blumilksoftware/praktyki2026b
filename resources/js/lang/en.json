@@ -807,6 +807,8 @@
           "title": "Offer board",
           "reset": "Reset",
           "resetAriaLabel": "Clear all filters",
+          "expand": "Show filters",
+          "collapse": "Hide filters",
           "search": "Search",
           "searchPlaceholder": "Company, position or city",
           "city": "City",
@@ -847,8 +849,8 @@
       },
       "card": {
         "logoAlt": "Company logo for {company}",
-        "verified": "Verified",
         "verifiedAriaLabel": "Verified company",
+        "closingSoon": "Closing soon",
         "dateRange": "Date range",
         "remainingSpots": "Remaining spots",
         "location": "Location",
