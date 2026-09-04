@@ -11,43 +11,53 @@ const mountMenu = (status: string) => mount(VerificationActionsMenu, {
   global: { plugins: [i18n] },
 })
 
+const openMenuItems = async (wrapper: ReturnType<typeof mountMenu>) => {
+  await wrapper.find('button').trigger('click')
+  return wrapper.findAll('[role="menuitem"]')
+}
+
 describe('VerificationActionsMenu', () => {
-  it('shows all actions inline for a pending item', () => {
+  it('labels the trigger with the item name', () => {
     const wrapper = mountMenu('pending')
 
-    const titles = wrapper.findAll('button').map((b) => b.attributes('title'))
+    expect(wrapper.find('button').attributes('aria-label')).toContain('Test University')
+  })
 
-    expect(titles).toEqual([
+  it('shows all actions for a pending item', async () => {
+    const wrapper = mountMenu('pending')
+
+    const items = await openMenuItems(wrapper)
+
+    expect(items.map((item) => item.text())).toEqual([
       en.admin.verification.accept,
       en.admin.verification.reject,
       en.admin.verification.delete,
     ])
   })
 
-  it('hides accept and reject once the item is verified', () => {
+  it('hides accept and reject once the item is verified', async () => {
     const wrapper = mountMenu('verified')
 
-    const titles = wrapper.findAll('button').map((b) => b.attributes('title'))
+    const items = await openMenuItems(wrapper)
 
-    expect(titles).toEqual([en.admin.verification.delete])
+    expect(items.map((item) => item.text())).toEqual([en.admin.verification.delete])
   })
 
-  it('gives every action an aria-label with the item name', () => {
+  it('emits accept when the accept action is clicked', async () => {
     const wrapper = mountMenu('pending')
+    const items = await openMenuItems(wrapper)
 
-    wrapper.findAll('button').forEach((button) => {
-      expect(button.attributes('aria-label')).toContain('Test University')
-    })
-  })
-
-  it('emits the matching event when an action is clicked', async () => {
-    const wrapper = mountMenu('pending')
-    const buttons = wrapper.findAll('button')
-
-    await buttons[0].trigger('click')
-    await buttons[2].trigger('click')
+    await items[0].trigger('click')
 
     expect(wrapper.emitted('accept')).toHaveLength(1)
+  })
+
+  it('emits delete when the delete action is clicked', async () => {
+    const wrapper = mountMenu('pending')
+    const items = await openMenuItems(wrapper)
+
+    await items[2].trigger('click')
+
     expect(wrapper.emitted('delete')).toHaveLength(1)
   })
 })

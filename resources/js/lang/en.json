@@ -409,6 +409,7 @@
       "all": "All",
       "search": "Search...",
       "actions": "Actions",
+      "actionsMenu": "Actions for {name}",
       "filterByStatusAriaLabel": "Filter applications by status",
       "searchAriaLabel": "Search applications",
       "acceptAriaLabel": "Accept application: {name}",

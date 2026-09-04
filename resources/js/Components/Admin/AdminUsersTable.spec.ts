@@ -104,7 +104,7 @@ describe('AdminUsersTable', () => {
   it('labels the actions with the user email', () => {
     const wrapper = mountTable()
 
-    const trigger = rowFor(wrapper, 'john@example.com')!.find('button')
+    const trigger = rowFor(wrapper, 'john@example.com')!.find('[aria-haspopup="true"]')
 
     expect(trigger.attributes('aria-label')).toContain('john@example.com')
   })

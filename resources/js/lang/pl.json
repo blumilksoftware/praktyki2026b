@@ -409,6 +409,7 @@
       "all": "Wszystkie",
       "search": "Szukaj...",
       "actions": "Akcje",
+      "actionsMenu": "Akcje dla {name}",
       "filterByStatusAriaLabel": "Filtruj zgłoszenia po statusie",
       "searchAriaLabel": "Wyszukaj zgłoszenia",
       "acceptAriaLabel": "Akceptuj zgłoszenie: {name}",

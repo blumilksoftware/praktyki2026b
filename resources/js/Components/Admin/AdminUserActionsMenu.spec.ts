@@ -11,39 +11,62 @@ const mountMenu = (status: string) => mount(AdminUserActionsMenu, {
   global: { plugins: [i18n] },
 })
 
+const openMenuItems = async (wrapper: ReturnType<typeof mountMenu>) => {
+  await wrapper.find('button').trigger('click')
+  return wrapper.findAll('[role="menuitem"]')
+}
+
 describe('AdminUserActionsMenu', () => {
-  it('offers block for an active user', () => {
+  it('labels the trigger with the user email', () => {
     const wrapper = mountMenu('active')
 
-    const titles = wrapper.findAll('button').map((b) => b.attributes('title'))
-
-    expect(titles).toEqual([en.admin.users.changeRole, en.admin.users.block])
+    expect(wrapper.find('button').attributes('aria-label')).toContain('john@example.com')
   })
 
-  it('offers unblock for a blocked user', () => {
+  it('offers block for an active user', async () => {
+    const wrapper = mountMenu('active')
+
+    const items = await openMenuItems(wrapper)
+
+    expect(items.map((item) => item.text())).toEqual([
+      en.admin.users.changeRole,
+      en.admin.users.block,
+      en.admin.users.deleteModal.confirmDelete,
+    ])
+  })
+
+  it('offers unblock for a blocked user', async () => {
     const wrapper = mountMenu('blocked')
 
-    const titles = wrapper.findAll('button').map((b) => b.attributes('title'))
+    const items = await openMenuItems(wrapper)
 
-    expect(titles).toEqual([en.admin.users.changeRole, en.admin.users.unblock])
+    expect(items[1].text()).toBe(en.admin.users.unblock)
   })
 
-  it('gives every action an aria-label with the user email', () => {
+  it('emits change-role when the first action is clicked', async () => {
     const wrapper = mountMenu('active')
+    const items = await openMenuItems(wrapper)
 
-    wrapper.findAll('button').forEach((button) => {
-      expect(button.attributes('aria-label')).toContain('john@example.com')
-    })
-  })
-
-  it('emits the matching event when an action is clicked', async () => {
-    const wrapper = mountMenu('active')
-    const buttons = wrapper.findAll('button')
-
-    await buttons[0].trigger('click')
-    await buttons[1].trigger('click')
+    await items[0].trigger('click')
 
     expect(wrapper.emitted('change-role')).toHaveLength(1)
+  })
+
+  it('emits toggle-block when the block action is clicked', async () => {
+    const wrapper = mountMenu('active')
+    const items = await openMenuItems(wrapper)
+
+    await items[1].trigger('click')
+
     expect(wrapper.emitted('toggle-block')).toHaveLength(1)
+  })
+
+  it('emits delete-user when the delete action is clicked', async () => {
+    const wrapper = mountMenu('active')
+    const items = await openMenuItems(wrapper)
+
+    await items[2].trigger('click')
+
+    expect(wrapper.emitted('delete-user')).toHaveLength(1)
   })
 })
