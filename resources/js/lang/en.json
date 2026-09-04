@@ -808,6 +808,8 @@
           "title": "Offer board",
           "reset": "Reset",
           "resetAriaLabel": "Clear all filters",
+          "expand": "Show filters",
+          "collapse": "Hide filters",
           "search": "Search",
           "searchPlaceholder": "Company, position or city",
           "city": "City",
