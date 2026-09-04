@@ -2,7 +2,8 @@
 import { computed } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconArrowLeft, IconDownload, IconMapPin, IconSchool } from '@tabler/icons-vue'
+import { IconDownload, IconMapPin, IconSchool } from '@tabler/icons-vue'
+import BackButton from '@/Components/Common/BackButton.vue'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
@@ -30,14 +31,7 @@ const goBack = () => {
 
   <AppLayout active-page="applications">
     <div class="mb-6">
-      <button
-        type="button"
-        class="inline-flex items-center gap-2 rounded text-additional text-sm transition hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-        @click="goBack"
-      >
-        <IconArrowLeft stroke="2.5" class="w-4 h-4" aria-hidden="true" />
-        {{ t('buttons.back') }}
-      </button>
+      <BackButton @click="goBack" />
     </div>
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">

@@ -913,8 +913,6 @@
     "favorites": {
       "heading": "Twoje zapisane oferty",
       "description": "Tu trafiają oferty oznaczone sercem. Możesz je potem odhaczyć albo wrócić do pełnej listy.",
-      "backToOffers": "Wróć do ofert",
-      "backToDashboard": "Wróć do panelu głównego",
       "listAriaLabel": "Ulubione oferty",
       "removedAnnouncement": "Oferta {title} została usunięta z ulubionych",
       "empty": {
@@ -1005,7 +1003,6 @@
         "openOfferAria": "Zobacz ofertę {title}"
       },
       "detail": {
-        "backToOffers": "Wróć do ofert",
         "description": "Opis",
         "preferredUniversities": "Preferowane uczelnie",
         "preferredUniversitiesEmpty": "Brak wskazanych uczelni.",
