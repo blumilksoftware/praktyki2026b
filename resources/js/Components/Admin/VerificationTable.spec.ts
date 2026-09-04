@@ -116,7 +116,8 @@ describe('VerificationTable', () => {
     const wrapper = mountTable()
 
     const row = wrapper.findAll('tbody tr').find((r) => r.text().includes('AGH'))
-    await row!.find('button[title="Delete"]').trigger('click')
+    await row!.find('[aria-haspopup="true"]').trigger('click')
+    await row!.find('[role="menuitem"]').trigger('click')
 
     expect(openSpy).not.toHaveBeenCalled()
     openSpy.mockRestore()
