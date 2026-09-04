@@ -136,8 +136,11 @@ function showOnMap() {
 
 <template>
   <article class="group relative overflow-hidden rounded-2xl border border-border bg-white shadow-[0_4px_16px_rgba(11,26,48,0.06)] transition sm:rounded-3xl sm:shadow-[0_8px_30px_rgba(11,26,48,0.08)] sm:hover:-translate-y-0.5 sm:hover:shadow-[0_16px_45px_rgba(11,26,48,0.14)]">
-    <div class="p-5 pr-14 sm:p-6">
-      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-additional sm:hidden">
+    <div class="p-5 sm:p-6">
+      <div
+        class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-additional sm:hidden"
+        :class="{ 'pr-10 sm:pr-0': canApply }"
+      >
         <span class="inline-flex shrink-0 items-center gap-1 whitespace-nowrap">
           <IconMapPin class="h-3.5 w-3.5" aria-hidden="true" />
           {{ offer.city }}
@@ -170,14 +173,14 @@ function showOnMap() {
           </div>
 
           <div class="min-w-0">
-            <div class="flex flex-wrap items-center gap-2">
+            <div class="flex min-w-0 items-center gap-1 text-sm font-medium text-additional">
               <Link
                 :href="ROUTES.COMPANY_SHOW.replace('{company}', offer.company.id)"
-                class="text-sm font-medium text-additional transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+                :title="offer.company.name"
+                class="truncate transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
               >
                 {{ offer.company.name }}
               </Link>
-
               <VerifiedBadge
                 :verified="Boolean(offer.company.is_verified)"
                 :label="t('student.offers.card.verifiedAriaLabel')"
@@ -224,33 +227,33 @@ function showOnMap() {
         </div>
       </div>
 
-      <button
-        v-if="canApply"
-        type="button"
-        class="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full cursor-pointer transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60 sm:static sm:right-auto sm:top-auto sm:inline-flex sm:h-auto sm:w-auto sm:justify-center sm:gap-2 sm:whitespace-nowrap sm:rounded-lg sm:border sm:px-4 sm:py-3 sm:text-sm sm:font-semibold"
-        :class="[stretchActions ? 'sm:flex-1' : 'sm:w-fit', isFavorite
-          ? 'text-red-600 sm:border-red-200 sm:bg-red-50 sm:text-red-700 sm:hover:bg-red-100'
-          : 'text-additional hover:text-text sm:border-border sm:bg-white sm:text-text sm:hover:border-primary/40 sm:hover:bg-background']"
-        :disabled="isTogglingFavorite"
-        :aria-pressed="isFavorite"
-        :aria-label="isFavorite
-          ? t('student.offers.card.removeFromFavorites')
-          : t('student.offers.card.addToFavorites')"
-        @click="toggleFavorite"
-      >
-        <component :is="isFavorite ? IconHeartFilled : IconHeart" class="h-5 w-5" aria-hidden="true" />
-        <span class="hidden sm:inline">{{ isFavorite ? t('student.offers.card.removeFromFavorites') : t('student.offers.card.addToFavorites') }}</span>
-      </button>
-
       <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
         <button
           type="button"
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-border cursor-pointer bg-white px-4 py-3 text-sm font-semibold text-text hover:border-primary/40 hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          class="inline-flex items-center justify-center gap-2 rounded-lg border border-border cursor-pointer bg-white px-4 py-3 text-center text-sm font-semibold text-text hover:border-primary/40 hover:bg-background transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 sm:whitespace-nowrap"
           :class="actionWidthClass"
           @click="showOnMap"
         >
-          <IconMapPin class="h-5 w-5" aria-hidden="true" />
+          <IconMapPin class="h-5 w-5 shrink-0" aria-hidden="true" />
           {{ t('student.offers.card.showOnMap') }}
+        </button>
+
+        <button
+          v-if="canApply"
+          type="button"
+          class="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full cursor-pointer transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60 sm:static sm:right-auto sm:top-auto sm:inline-flex sm:h-auto sm:w-auto sm:justify-center sm:gap-2 sm:rounded-lg sm:border sm:px-4 sm:py-3 sm:text-sm sm:font-semibold sm:whitespace-nowrap"
+          :class="[stretchActions ? 'sm:flex-1' : 'sm:w-fit', isFavorite
+            ? 'text-red-600 sm:border-red-200 sm:bg-red-50 sm:text-red-700 sm:hover:bg-red-100'
+            : 'text-additional hover:text-text sm:border-border sm:bg-white sm:text-text sm:hover:border-primary/40 sm:hover:bg-background']"
+          :disabled="isTogglingFavorite"
+          :aria-pressed="isFavorite"
+          :aria-label="isFavorite
+            ? t('student.offers.card.removeFromFavorites')
+            : t('student.offers.card.addToFavorites')"
+          @click="toggleFavorite"
+        >
+          <component :is="isFavorite ? IconHeartFilled : IconHeart" class="h-5 w-5 shrink-0" aria-hidden="true" />
+          <span class="hidden sm:inline">{{ isFavorite ? t('student.offers.card.removeFromFavorites') : t('student.offers.card.addToFavorites') }}</span>
         </button>
 
         <Link
@@ -264,7 +267,7 @@ function showOnMap() {
         <template v-else-if="canApply">
           <BaseApplyButton
             :id="`apply-offer-${offer.id}`"
-            class="whitespace-nowrap"
+            class="sm:whitespace-nowrap"
             :has-cv="hasCv"
             :is-applied="isApplied"
             :applied-date="appliedDate"
@@ -276,7 +279,7 @@ function showOnMap() {
           <BaseButton
             v-if="isApplied"
             type="button"
-            class="whitespace-nowrap"
+            class="sm:whitespace-nowrap"
             variant="secondary"
             :width-class="actionWidthClass"
             :disabled="isWithdrawing"
