@@ -5,6 +5,9 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { createI18n } from 'vue-i18n'
 import pl from './lang/pl.json'
 import en from './lang/en.json'
+import BaseToast from './Components/Base/BaseToast.vue'
+import { useToast } from './Composables/useToast'
+import { useFlashToast } from './Composables/useFlashToast'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Applikuj'
 
@@ -22,7 +25,15 @@ createInertiaApp({
       messages: { pl, en },
     })
 
-    createApp({ render: () => h(App, props) })
+    createApp({
+      setup() {
+        const { toastRef } = useToast()
+
+        useFlashToast()
+
+        return () => [h(App, props), h(BaseToast, { ref: toastRef })]
+      },
+    })
       .use(plugin)
       .use(i18n)
       .mount(el)
