@@ -14,6 +14,11 @@ trait FiltersStudentOffers
 {
     use SearchesCaseInsensitively;
 
+    public function hasRadiusFilter(array $filters): bool
+    {
+        return isset($filters["latitude"], $filters["longitude"], $filters["radius_km"]);
+    }
+
     protected function buildFilteredOffersQuery(array $filters): Builder
     {
         $lat = isset($filters["latitude"]) ? (float)$filters["latitude"] : null;
@@ -61,11 +66,6 @@ trait FiltersStudentOffers
                 fn(Builder $query) => $query->orderBy("distance_km"),
                 fn(Builder $query) => $query->orderBy("start_date"),
             );
-    }
-
-    public function hasRadiusFilter(array $filters): bool
-    {
-        return isset($filters["latitude"], $filters["longitude"], $filters["radius_km"]);
     }
 
     protected function mapOfferToArray(

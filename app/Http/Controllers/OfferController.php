@@ -27,7 +27,7 @@ class OfferController extends Controller
         private readonly GetOfferDetailsAction $getOfferDetailsAction,
         private readonly GetSimilarOffersAction $getSimilarOffersAction,
         private readonly GetStudentOffersForMapAction $getStudentOffersForMapAction,
-        private readonly GetStudentOffersMapCitiesAction $getStudentOffersMapCitiesAction
+        private readonly GetStudentOffersMapCitiesAction $getStudentOffersMapCitiesAction,
     ) {}
 
     public function index(OfferFilterRequest $request): Response

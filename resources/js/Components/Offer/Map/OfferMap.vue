@@ -93,8 +93,7 @@ defineExpose({ resetFilters })
       :offers="listOffers"
       :has-cv="hasCv"
       :guest="guest"
-      :can-apply="canApply">
-
-    </OffersList>
+      :can-apply="canApply"
+    />
   </div>
 </template>
