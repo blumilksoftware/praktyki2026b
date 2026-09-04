@@ -150,7 +150,7 @@ defineExpose({ studyFieldLabelToValue })
     <div class="flex justify-between items-start gap-3">
       <div>
         <p class="font-medium text-additional text-sm">{{ t('student.offers.filters.kicker') }}</p>
-        <h2 id="offers-filters-heading" class="mt-2 font-semibold text-text text-2xl tracking-tight">
+        <h2 id="offers-filters-heading" class="mt-2 font-semibold text-text text-lg tracking-tight">
           {{ t('student.offers.filters.title') }}
         </h2>
       </div>

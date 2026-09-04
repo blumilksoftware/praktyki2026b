@@ -35,7 +35,7 @@ const emit = defineEmits(['revoke'])
             >
               {{ props.statusLabel }}
             </span>
-            <h3 class="min-w-0 break-all text-lg font-semibold tracking-tight text-text sm:text-2xl">
+            <h3 class="min-w-0 break-all text-lg font-semibold tracking-tight text-text">
               {{ props.invitation.email }}
             </h3>
           </div>
