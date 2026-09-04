@@ -771,8 +771,6 @@
     "favorites": {
       "heading": "Your saved offers",
       "description": "This is where heart-marked offers live. Remove them here or return to the full list.",
-      "backToOffers": "Back to offers",
-      "backToDashboard": "Back to dashboard",
       "listAriaLabel": "Favorite offers",
       "removedAnnouncement": "Offer {title} has been removed from favorites",
       "empty": {
@@ -862,7 +860,6 @@
         "openOfferAria": "View offer {title}"
       },
       "detail": {
-        "backToOffers": "Back to offers",
         "description": "Description",
         "preferredUniversities": "Preferred universities",
         "preferredUniversitiesEmpty": "No preferred universities listed.",

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\Profile\ResolveProfileBackUrlAction;
 use App\Actions\Student\BuildStudentPublicProfileData;
 use App\Actions\Student\GetStudentPhotoAction;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Response;
@@ -16,10 +18,11 @@ class StudentProfileController extends Controller
 {
     public function __construct(
         private readonly BuildStudentPublicProfileData $buildStudentPublicProfileData,
+        private readonly ResolveProfileBackUrlAction $resolveProfileBackUrlAction,
         private readonly GetStudentPhotoAction $getStudentPhotoAction,
     ) {}
 
-    public function show(User $student): Response
+    public function show(Request $request, User $student): Response
     {
         Gate::authorize("viewProfile", $student);
 
@@ -32,6 +35,7 @@ class StudentProfileController extends Controller
         return inertia("Student/PublicProfile", [
             "student" => $this->buildStudentPublicProfileData->execute($student),
             "cvUrl" => $latestApplication ? route("company.applications.cv", $latestApplication) : null,
+            "backUrl" => $this->resolveProfileBackUrlAction->execute($request),
         ]);
     }
 

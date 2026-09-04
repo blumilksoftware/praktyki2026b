@@ -4,6 +4,7 @@ import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconHeart, IconHeartFilled } from '@tabler/icons-vue'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
+import BackButton from '@/Components/Common/BackButton.vue'
 import BaseApplyButton from '@/Components/Base/BaseApplyButton.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
@@ -192,13 +193,7 @@ function confirmWithdraw() {
   <AppLayout active-page="offers">
     <div class="bg-background min-h-screen py-6">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <Link
-          :href="backHref"
-          class="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-text transition hover:border-primary/40 hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-        >
-          <span aria-hidden="true">←</span>
-          {{ t('student.offers.detail.backToOffers') }}
-        </Link>
+        <BackButton :as="Link" :href="backHref" />
 
         <div class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
           <article class="rounded-3xl border border-border bg-white p-5 shadow-sm sm:p-8">

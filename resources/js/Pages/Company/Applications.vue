@@ -9,7 +9,7 @@ import ApplicationsCard from '@/Components/Profiles/ApplicationsCard.vue'
 import BaseSelect from '@/Components/Base/BaseSelect.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import { useToast } from '@/Composables/useToast'
-import { IconArrowLeft } from '@tabler/icons-vue'
+import BackButton from '@/Components/Common/BackButton.vue'
 
 const props = defineProps({
   applications: {
@@ -30,7 +30,7 @@ const { t } = useI18n()
 const { toastError } = useToast()
 
 const goBack = () => {
-  window.history.back()
+  router.visit(ROUTES.COMPANY_OFFERS_STORE)
 }
 
 const currentFilters = ref({
@@ -123,12 +123,7 @@ const statusFilterOptions = computed(() => [
   <Head :title="t('profiles.company.applications.title')" />
   <AppLayout active-page="applications">
     <div class="mb-6 flex w-full flex-row items-center">
-      <a class="inline-flex items-center gap-2 text-additional text-sm transition hover:text-text cursor-pointer"
-         @click="goBack"
-      >
-        <IconArrowLeft stroke="2.5" class="w-4 h-4" aria-hidden="true" />
-        {{ t('buttons.back') }}
-      </a>
+      <BackButton as="a" @click="goBack" />
     </div>
 
     <div class="flex flex-col gap-6">
