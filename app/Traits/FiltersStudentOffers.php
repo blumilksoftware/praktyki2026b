@@ -62,7 +62,7 @@ trait FiltersStudentOffers
             );
     }
 
-    protected function hasRadiusFilter(array $filters): bool
+    public function hasRadiusFilter(array $filters): bool
     {
         return isset($filters["latitude"], $filters["longitude"], $filters["radius_km"]);
     }

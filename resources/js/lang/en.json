@@ -795,6 +795,7 @@
         "loading": "Loading map...",
         "selectPinHint": "Select a pin on the map to view available offers",
         "cityOffersTitle": "Offers in {city}",
+        "cityOffersTitleFallback": "All offers",
         "showAll": "Show all offers",
         "viewSwitcher":{
             "mapView": "Map view",

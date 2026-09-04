@@ -941,6 +941,7 @@
             "loading": "Wczytywanie mapy...",
             "selectPinHint": "Wybierz punkt na mapie, aby zobaczyć dostępne oferty",
             "cityOffersTitle": "Oferty w {city}",
+            "cityOffersTitleFallback": "Wszystkie oferty",
             "showAll": "Pokaż wszystkie oferty",
             "viewSwitcher": {
                 "mapView": "Widok mapy",
