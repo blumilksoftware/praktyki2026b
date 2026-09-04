@@ -96,8 +96,10 @@ function pageButtonClass(link) {
     'h-10 min-w-10 px-2 flex items-center justify-center rounded-lg text-sm font-medium transition whitespace-nowrap',
     link.active
       ? 'bg-primary text-white'
-      : 'bg-white/40 text-text hover:bg-white/60',
-    !link.url ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+      : !link.url
+        ? 'bg-white/40 text-additional'
+        : 'bg-white/40 text-text hover:bg-white/60',
+    !link.url ? 'cursor-not-allowed' : 'cursor-pointer',
   ]
 }
 </script>

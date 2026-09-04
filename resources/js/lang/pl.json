@@ -3,13 +3,6 @@
         "skipToContent": "Przejdź do treści"
     },
   "onboarding": {
-    "layout": {
-        "skipToContent": "Przejdź do treści"
-    },
-      "nav": {
-        "ariaLabel": "Nawigacja studenta",
-        "mobileAriaLabel": "Nawigacja mobilna studenta"
-      },
     "banner": {
       "title": "Uzupełnij swój profil",
       "description": "Wypełnij dane profilu, aby w pełni korzystać z Applikuj.",
@@ -150,8 +143,6 @@
       "or": "lub kontynuuj z",
       "google": "Google",
       "noAccount": "Nie masz jeszcze konta? Zarejestruj się",
-      "forgotPasswordLink": "kliknij tutaj",
-      "resendVerification": "Wyślij ponownie link weryfikacyjny",
       "waiting": {
         "title": "Potwierdź swój e-mail",
         "heading": "Sprawdź swoją skrzynkę odbiorczą",
@@ -240,6 +231,8 @@
   },
   "profiles": {
     "navMenu": "Menu nawigacji",
+    "accountMenu": "Menu konta",
+    "signedInAs": "Zalogowano jako",
     "profile": "Profil",
     "aboutUs": "O nas",
     "contact": "Kontakt",
@@ -273,6 +266,7 @@
     "nip": "NIP",
     "spots": "Miejsca",
     "uploadLogo": "Prześlij logo",
+    "logoAlt": "Logo",
     "searchTags": "Szukaj tagów...",
     "activeTags": "Aktywne tagi",
     "noActiveTags": "Nie wybrano żadnych tagów",
@@ -362,6 +356,7 @@
     "showAll": "Pokaż wszystkie",
     "collapseTags": "Zwiń tagi",
     "myProfile": "Mój profil",
+    "openProfileMenu": "Otwórz menu profilu",
     "settings": "Ustawienia",
     "logout": "Wyloguj się",
     "load_more": "Załaduj więcej",
@@ -379,7 +374,8 @@
     "student": "Student",
     "company": "Firma",
     "status": "Status",
-    "noData": "Brak danych do wyświetlenia"
+    "noData": "Brak danych do wyświetlenia",
+    "defaultCaption": "Tabela danych"
   },
   "admin": {
     "applications": {
@@ -427,8 +423,7 @@
       "cancel": "Anuluj",
       "confirmReject": "Odrzuć zgłoszenie",
       "closeModal": "Zamknij okno",
-      "rejectReasonRequired": "Powód odrzucenia jest wymagany.",
-      "rejectionReason": "Powód odrzucenia"
+      "rejectReasonRequired": "Powód odrzucenia jest wymagany."
     },
     "panel": {
       "greeting": "Witaj w panelu administratora!",
@@ -464,6 +459,9 @@
       "unblock": "Odblokuj",
       "blockAriaLabel": "Zablokuj użytkownika: {name}",
       "unblockAriaLabel": "Odblokuj użytkownika: {name}",
+      "createdAt": "Data rejestracji",
+      "close": "Zamknij",
+      "organization": "Organizacja",
       "statuses": {
         "active": "Aktywny",
         "blocked": "Zablokowany",
@@ -567,11 +565,7 @@
         "mobileAriaLabel": "Nawigacja mobilna"
       },
       "logout": "Wyloguj",
-      "userRole": "Administrator",
-      "languageSwitch": {
-        "toEnglish": "Przełącz na angielski",
-        "toPolish": "Przełącz na polski"
-      }
+      "userRole": "Administrator"
     },
       "profile": {
           "title": "Profil administratora",
@@ -585,8 +579,7 @@
       "title": "Uczelnia",
         "nav": {
             "dashboard": "Panel",
-            "faculties": "Kierunki/Wydziały",
-            "department": "Wydziały",
+            "faculties": "Wydziały",
             "team": "Zespół",
             "partnership": "Partnerstwo"
         }
@@ -614,6 +607,7 @@
       "save": "Zapisz",
       "cancel": "Anuluj",
       "confirmDelete": "Usuń",
+      "edit": "Edytuj",
       "deleteFacultyTitle": "Usuwanie wydziału",
       "deleteFieldTitle": "Usuwanie kierunku",
       "deleteConfirmation": "Czy na pewno chcesz usunąć „{name}”?",
@@ -987,7 +981,8 @@
       },
       "results": {
         "caption": "Liczba ofert",
-        "count": "{count} ofert"
+        "count": "{count} ofert",
+        "helper": "Przewijana lista kafelków, jedna oferta na kafelek"
       },
       "empty": {
         "title": "Brak ofert spełniających filtry",
@@ -1306,11 +1301,6 @@
         "publishDisabledTooltip": "Aby opublikować ofertę, musisz mieć zweryfikowane konto firmy.",
         "unsavedChangesConfirmation": "Masz niezapisane zmiany. Opuścić stronę bez zapisywania?",
           "noDescription": "Brak opisu"
-      },
-      "delete": {
-        "modalTitle": "Usuń ofertę",
-        "cancel": "Anuluj",
-        "confirm": "Usuń ofertę"
       }
     }
   },

@@ -13,6 +13,7 @@ use App\Actions\Student\DeleteStudentPhotoAction;
 use App\Actions\Student\GetFavourites;
 use App\Actions\Student\GetStudentApplicationsAction;
 use App\Actions\Student\GetStudentOffersAction;
+use App\Actions\Student\GetStudentPhotoAction;
 use App\Actions\Student\LinkStudentToUniversity;
 use App\Actions\Student\RequestEmailChange;
 use App\Actions\Student\SaveOfferAction;
@@ -69,6 +70,7 @@ class StudentController extends Controller
         private readonly SearchUniversities $searchUniversities,
         private readonly LinkStudentToUniversity $linkStudentToUniversity,
         private readonly BuildFacultiesData $buildFacultiesData,
+        private readonly GetStudentPhotoAction $getStudentPhotoAction,
     ) {}
 
     public function index(): Response
@@ -121,19 +123,7 @@ class StudentController extends Controller
 
     public function showPhoto(): StreamedResponse
     {
-        $user = Auth::user();
-
-        if ($user->photo_path === null) {
-            throw new NotFoundHttpException();
-        }
-
-        $disk = config("filesystems.default", "local");
-
-        if (!Storage::disk($disk)->exists($user->photo_path)) {
-            throw new NotFoundHttpException();
-        }
-
-        return Storage::disk($disk)->response($user->photo_path);
+        return $this->getStudentPhotoAction->execute(Auth::user());
     }
 
     public function updateProfile(UpdateStudentProfileRequest $request): RedirectResponse

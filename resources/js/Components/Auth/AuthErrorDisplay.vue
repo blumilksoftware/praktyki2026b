@@ -49,7 +49,7 @@ const resendEmail = () => {
 
     <template v-else>
       <div class="bg-error/10 border border-error w-fit rounded-lg px-4 py-3 flex flex-col items-center justify-center shadow-sm gap-1.5">
-        <span class="text-error text-xs sm:text-sm font-medium text-center">
+        <span class="text-error-dark text-xs sm:text-sm font-medium text-center">
           {{ error }}
         </span>
         

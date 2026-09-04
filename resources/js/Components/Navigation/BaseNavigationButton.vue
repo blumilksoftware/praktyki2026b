@@ -66,12 +66,13 @@ const iconClasses = computed(() => {
     :aria-current="isActive ? 'page' : undefined"
     @click="handleClick"
   >
-    <component 
-      :is="icon" 
-      v-if="icon" 
-      stroke="2" 
-      class="w-4 h-4 shrink-0" 
+    <component
+      :is="icon"
+      v-if="icon"
+      stroke="2"
+      class="w-4 h-4 shrink-0"
       :class="iconClasses"
+      aria-hidden="true"
     />
     <span>{{ label }}</span>
   </Link>
@@ -82,12 +83,13 @@ const iconClasses = computed(() => {
     :class="buttonClasses"
     @click="handleClick"
   >
-    <component 
-      :is="icon" 
-      v-if="icon" 
-      stroke="2" 
-      class="w-4 h-4 shrink-0" 
+    <component
+      :is="icon"
+      v-if="icon"
+      stroke="2"
+      class="w-4 h-4 shrink-0"
       :class="iconClasses"
+      aria-hidden="true"
     />
     <span>{{ label }}</span>
   </button>

@@ -62,18 +62,21 @@ function apply() {
       class="flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
       :class="[
         widthClass,
-        isApplied ? 'bg-success text-white' : 'bg-primary text-white',
-        isBlocked ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-primary/90',
+        isApplied
+          ? 'bg-success-dark text-white cursor-not-allowed'
+          : isBlocked
+            ? 'bg-primary text-white cursor-not-allowed opacity-80'
+            : 'bg-primary text-white cursor-pointer hover:bg-primary/90',
       ]"
       @click="apply"
     >
       <template v-if="isLoading">
-        <IconLoader2 class="w-5 h-5 animate-spin" />
+        <IconLoader2 class="w-5 h-5 animate-spin" aria-hidden="true" />
         {{ t('buttons.apply.loading') }}
       </template>
 
       <template v-else-if="isApplied">
-        <IconCheck class="w-5 h-5" />
+        <IconCheck class="w-5 h-5" aria-hidden="true" />
         {{ t('buttons.apply.appliedOn', { date: formattedAppliedDate }) }}
       </template>
 

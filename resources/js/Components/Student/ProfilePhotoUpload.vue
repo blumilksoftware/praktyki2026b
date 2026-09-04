@@ -117,15 +117,15 @@ defineExpose({ clearPending })
     >
 
     <div
-      class="mt-4 w-full rounded-xl border-2 border-dashed px-6 py-8 text-center transition"
+      class="mt-4 flex w-full items-center gap-3 rounded-xl border-2 border-dashed px-4 py-3 text-left transition"
       :class="isDragging ? 'border-primary bg-primary/5' : 'border-border bg-white'"
       @dragover.prevent
       @dragenter.prevent="isDragging = true"
       @dragleave="isDragging = false"
       @drop.prevent="onDrop"
     >
-      <IconPhoto class="mx-auto h-10 w-10 text-additional" aria-hidden="true" />
-      <p class="mt-3 text-sm text-text">
+      <IconPhoto class="h-6 w-6 shrink-0 text-additional" aria-hidden="true" />
+      <p class="text-sm text-text">
         <button
           type="button"
           class="font-semibold text-primary hover:text-primary/80"
@@ -134,9 +134,7 @@ defineExpose({ clearPending })
           {{ t('student.profile.photo.uploadAction') }}
         </button>
         {{ t('student.profile.photo.orDragDrop') }}
-      </p>
-      <p class="mt-1 text-additional text-xs">
-        {{ t('student.profile.photo.formatHint') }}
+        <span class="text-additional text-xs">{{ t('student.profile.photo.formatHint') }}</span>
       </p>
     </div>
 

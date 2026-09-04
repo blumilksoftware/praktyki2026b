@@ -70,7 +70,7 @@ const streetModel = computed({
     
     <div class="p-6 sm:p-8 bg-white flex flex-col gap-2">
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
-        <IconWorld stroke="1.5" class="hidden sm:block w-7 h-7 text-text shrink-0 mt-9" />
+        <IconWorld stroke="1.5" class="hidden sm:block w-7 h-7 text-text shrink-0 mt-9" aria-hidden="true" />
         <BaseInput
           id="website"
           v-model="websiteModel"
@@ -80,7 +80,7 @@ const streetModel = computed({
       </div>
       
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
-        <IconMapPin class="hidden sm:block w-7 h-7 text-text shrink-0 mt-9" />
+        <IconMapPin class="hidden sm:block w-7 h-7 text-text shrink-0 mt-9" aria-hidden="true" />
         <div class="w-full flex flex-col sm:flex-row gap-3">
           <div class="w-full sm:w-2/3">
             <CityAutocomplete
@@ -115,7 +115,7 @@ const streetModel = computed({
       </div>
 
       <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-6">
-        <IconPhone class="hidden sm:block w-7 h-7 text-text shrink-0 mt-9" />
+        <IconPhone class="hidden sm:block w-7 h-7 text-text shrink-0 mt-9" aria-hidden="true" />
         <BaseInput
           id="phone"
           v-model="phoneModel"
@@ -126,7 +126,7 @@ const streetModel = computed({
       </div>
 
       <div v-if="nip" class="flex items-center gap-4 sm:gap-6">
-        <IconId class="hidden sm:block w-7 h-7 text-text shrink-0" />
+        <IconId class="hidden sm:block w-7 h-7 text-text shrink-0" aria-hidden="true" />
         <span class="font-bold text-text text-sm">{{ t('profiles.nip') }}:</span>
         <span class="text-text font-medium wrap-break-word">{{ nip }}</span>
       </div>

@@ -9,6 +9,7 @@ import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import AdminChangeRoleModal from '@/Components/Admin/AdminChangeRoleModal.vue'
 import AdminBlockUserModal from '@/Components/Admin/AdminBlockUserModal.vue'
 import AdminUserActionsMenu from '@/Components/Admin/AdminUserActionsMenu.vue'
+import AdminPreviewUserModal from '@/Components/Admin/AdminPreviewUserModal.vue'
 import { useUserRole } from '@/Composables/useUserRole'
 import { useUserStatus } from '@/Composables/useUserStatus'
 import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
@@ -64,6 +65,7 @@ const columns = [
 const userToChangeRole = ref(null)
 const userToBlock = ref(null)
 const userToDelete = ref(null)
+const userToPreview = ref(null)
 
 function openChangeRoleModal(user) {
   userToChangeRole.value = user
@@ -87,6 +89,14 @@ function openDeleteModal(user) {
 
 function closeDeleteModal() {
   userToDelete.value = null
+}
+
+function openUserPreview(user) {
+  userToPreview.value = user
+}
+
+function closeUserPreview() {
+  userToPreview.value = null
 }
 
 function isCurrentAdmin(user) {
@@ -130,7 +140,7 @@ watch([roleFilter, searchQuery], useDebouncedSearch(applyQuery))
 
       <div class="relative">
         <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
-          <IconSearch class="w-4 h-4 text-slate-400" />
+          <IconSearch class="w-4 h-4 text-slate-400" aria-hidden="true" />
         </div>
         <input
           v-model="searchQuery"
@@ -153,7 +163,9 @@ watch([roleFilter, searchQuery], useDebouncedSearch(applyQuery))
       @sort="handleSort"
     >
       <template #cell-name="{ item }">
-        {{ userLabel(item) }}
+        <button type="button" class="text-primary hover:underline cursor-pointer" @click="openUserPreview(item)">
+          {{ userLabel(item) }}
+        </button>
       </template>
       <template #cell-email="{ item }">
         <a :href="`mailto:${item.email}`" class="text-primary hover:underline">{{ item.email }}</a>
@@ -205,6 +217,15 @@ watch([roleFilter, searchQuery], useDebouncedSearch(applyQuery))
       :user-name="userToBlock ? userLabel(userToBlock) : ''"
       :current-status="userToBlock?.status"
       @close="closeBlockModal"
+    />
+
+    <AdminPreviewUserModal
+      :key="`preview-${userToPreview?.id}`"
+      :open="!!userToPreview"
+      :user="userToPreview"
+      :companies="companies"
+      :universities="universities"
+      @close="closeUserPreview"
     />
 
     <AdminDeleteUserModal

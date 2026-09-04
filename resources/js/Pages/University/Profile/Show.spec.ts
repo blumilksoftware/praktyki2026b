@@ -6,14 +6,11 @@ import en from "@/lang/en.json"
 
 const i18n = createI18n({ legacy: false, locale: "en", messages: { en } })
 
-vi.mock("@inertiajs/vue3", async () => {
-  const actual = await vi.importActual("@inertiajs/vue3")
-
-  return {
-    ...actual,
-    Head: { template: "<div />" },
-  }
-})
+vi.mock("@inertiajs/vue3", () => ({
+  Head: { template: "<div />" },
+  Link: { template: "<a><slot /></a>" },
+  usePage: () => ({ props: { auth: { user: { role: "universityAdmin" } } } }),
+}))
 
 const university = {
   id: "1",

@@ -30,6 +30,11 @@ class SearchUsers
             $query->orderBy($filters["sort_key"], $filters["sort_dir"]);
         }
 
-        return $query->orderByDesc("id")->paginate(20)->appends($filters);
+        $paginator = $query->orderByDesc("id")->paginate(20)->appends($filters);
+
+        return $paginator->through(fn(User $user): array => [
+            ...$user->toArray(),
+            "photo_url" => $user->photo_path ? route("admin.users.photo", ["user" => $user]) : null,
+        ]);
     }
 }

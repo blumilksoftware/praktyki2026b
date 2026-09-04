@@ -2,7 +2,7 @@ export function useOfferStatus() {
   function statusClass(status) {
     switch (status) {
     case 'published':
-      return 'bg-green-100 text-green-700'
+      return 'bg-green-100 text-green-800'
     case 'closed':
       return 'bg-red-100 text-red-700'
     case 'draft':

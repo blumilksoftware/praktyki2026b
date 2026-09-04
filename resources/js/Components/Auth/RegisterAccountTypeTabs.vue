@@ -39,7 +39,7 @@ function tabClass(key, disabled = false) {
     'block flex-1 px-2 py-3 text-center text-sm sm:text-base border-b-2 -mb-px transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40'
 
   if (disabled) {
-    return [base, 'cursor-not-allowed border-transparent text-additional/50']
+    return [base, 'cursor-not-allowed border-transparent text-additional']
   }
 
   if (isActive) {

@@ -35,7 +35,7 @@ const goBack = () => {
         class="inline-flex items-center gap-2 rounded text-additional text-sm transition hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         @click="goBack"
       >
-        <IconArrowLeft stroke="2.5" class="w-4 h-4" />
+        <IconArrowLeft stroke="2.5" class="w-4 h-4" aria-hidden="true" />
         {{ t('buttons.back') }}
       </button>
     </div>
@@ -44,6 +44,7 @@ const goBack = () => {
       <div class="flex flex-col gap-6 self-start">
         <ProfilePageCard centered>
           <ProfileAvatar
+            :photo-url="student.photo_url"
             :first-name="student.first_name"
             :last-name="student.last_name"
             size-class="w-28 h-28 text-3xl"

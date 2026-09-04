@@ -44,7 +44,7 @@ const viewOffer = (offerId) => {
         <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
           <div class="min-w-0 flex-1">
             <div class="flex flex-wrap items-center gap-2">
-              <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-green-700">
+              <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-green-800">
                 {{ t('company.offers.index.status.published') }}
               </span>
               <div class="min-w-0 flex-1">

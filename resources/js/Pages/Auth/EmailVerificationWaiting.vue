@@ -97,7 +97,7 @@ onMounted(() => {
           </BaseButton>
         </div>
 
-        <p v-if="form.recentlySuccessful" class="text-green-600 text-base text-center">
+        <p v-if="form.recentlySuccessful" class="text-green-700 text-base text-center">
           {{ t('auth.login.waiting.resendSuccess') }}
         </p>
       </div>

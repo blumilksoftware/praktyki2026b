@@ -6,7 +6,7 @@ export function useVerificationStatus() {
   function statusClass(status) {
     switch ((status || '').toLowerCase()) {
     case 'verified':
-      return 'bg-green-100 text-green-700'
+      return 'bg-green-100 text-green-800'
     case 'rejected':
       return 'bg-red-100 text-red-700'
     case 'pending':

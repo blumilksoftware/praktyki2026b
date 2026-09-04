@@ -43,7 +43,7 @@ const emit = defineEmits(['revoke'])
         <button
           v-if="props.canRevoke"
           type="button"
-          class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-2 py-1.5 text-sm font-medium text-red-600 transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-2 py-1.5 text-sm font-medium text-error-dark transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
           :aria-label="props.revokeLabel"
           @click="emit('revoke')"
         >
