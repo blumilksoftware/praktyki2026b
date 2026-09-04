@@ -9,6 +9,7 @@ export default ({ mode }) => {
   return defineConfig({
     build: {
       outDir: './public/build/',
+      sourcemap: true, // debug
     },
     server: {
       host: true,

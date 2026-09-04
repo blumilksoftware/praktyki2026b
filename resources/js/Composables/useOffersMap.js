@@ -347,9 +347,18 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     }, 100)
   }
 
-  onMounted(() => {
-    if (!mapContainer.value) return
+  const waitForContainer = () => new Promise((resolve) => {
+    const check = () => {
+      if (isUnmounted || mapContainer.value) {
+        resolve()
+        return
+      }
+      requestAnimationFrame(check)
+    }
+    check()
+  })
 
+  onMounted(() => {
     const token = typeof mapboxToken === 'object' ? mapboxToken.value : mapboxToken
 
     if (!token) {
@@ -362,9 +371,11 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     nextTick(async () => {
       const detectedView = await tryDetectUserLocation()
 
-      // Component may have been unmounted (or its ref torn down) while we were
-      // awaiting geolocation detection — bail out instead of initializing
-      // Mapbox against a stale/null container.
+
+      if (isUnmounted) return
+
+      await waitForContainer()
+
       if (isUnmounted || !mapContainer.value) return
 
       const initialView = detectedView || DEFAULT_MAP_VIEW
