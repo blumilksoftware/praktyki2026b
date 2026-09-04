@@ -192,6 +192,10 @@ function saveAll() {
           />
         </ProfilePageCard>
 
+        <ProfilePageCard id="profile-section-cv">
+          <CvUploadSection :cv-path="user.cv_path" />
+        </ProfilePageCard>
+
         <ProfilePageCard>
           <h2 class="mb-3 font-medium text-text text-sm">
             {{ t('student.profile.edit.basicData') }}
@@ -345,10 +349,6 @@ function saveAll() {
               :error="fieldError('specialization')"
             />
           </div>
-        </ProfilePageCard>
-
-        <ProfilePageCard id="profile-section-cv">
-          <CvUploadSection :cv-path="user.cv_path" />
         </ProfilePageCard>
 
         <div class="flex flex-row flex-wrap justify-end gap-3 pb-4 pt-2">

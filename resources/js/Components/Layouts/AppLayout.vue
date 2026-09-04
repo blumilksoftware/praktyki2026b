@@ -31,7 +31,7 @@ const panelMenu = resolvePanelMenu(role.value, computed(() => props.activePage),
     <BaseNavbar show-hamburger :menu-items="panelMenu" show-navigation-buttons :navigation-buttons="panelMenu" />
 
     <div class="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 py-8 sm:px-6 lg:px-8">
-      <main id="main-content">
+      <main id="main-content" class="flex flex-1 flex-col">
         <slot />
       </main>
     </div>

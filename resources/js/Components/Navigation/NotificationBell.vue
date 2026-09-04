@@ -160,16 +160,16 @@ onUnmounted(() => {
   <div ref="dropdownRef" class="relative inline-block text-left">
     <button
       type="button"
-      class="relative flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      class="relative flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
       :aria-label="bellAriaLabel"
       aria-haspopup="true"
       :aria-expanded="isOpen"
       @click="toggle"
     >
-      <IconBell stroke="2" class="h-6 w-6" aria-hidden="true" />
+      <IconBell stroke="2" class="h-6 w-6" />
       <span
         v-if="hasUnread"
-        class="absolute top-1 right-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-secondary px-1 text-[11px] font-semibold text-white"
+        class="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-semibold text-white"
       >
         {{ unreadBadge }}
       </span>

@@ -8,7 +8,10 @@ use App\Actions\Student\BuildStudentPublicProfileData;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StudentProfileController extends Controller
 {
@@ -30,5 +33,22 @@ class StudentProfileController extends Controller
             "student" => $this->buildStudentPublicProfileData->execute($student),
             "cvUrl" => $latestApplication ? route("company.applications.cv", $latestApplication) : null,
         ]);
+    }
+
+    public function showPhoto(User $student): StreamedResponse
+    {
+        Gate::authorize("viewProfile", $student);
+
+        if ($student->photo_path === null) {
+            throw new NotFoundHttpException();
+        }
+
+        $disk = config("filesystems.default", "local");
+
+        if (!Storage::disk($disk)->exists($student->photo_path)) {
+            throw new NotFoundHttpException();
+        }
+
+        return Storage::disk($disk)->response($student->photo_path);
     }
 }

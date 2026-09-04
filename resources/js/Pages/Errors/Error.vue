@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
+import AppLayout from '@/Components/Layouts/AppLayout.vue'
 
 const props = defineProps({
   status: { type: Number, required: true },
@@ -21,14 +21,8 @@ const homeUrl = computed(() => {
 
 <template>
   <Head :title="t(`errors.${status}.title`)" />
-  <div class="flex flex-col min-h-screen bg-white text-text">
-    <header class="bg-primary shadow-md">
-      <div class="flex items-center px-4 md:px-6 py-4">
-        <BaseLogo />
-      </div>
-    </header>
-
-    <main class="flex flex-1 items-center justify-center px-4">
+  <AppLayout>
+    <div class="flex flex-1 items-center justify-center px-4 text-text">
       <div class="text-center">
         <p class="font-bold text-primary text-8xl" aria-hidden="true">
           {{ status }}
@@ -46,6 +40,6 @@ const homeUrl = computed(() => {
           {{ t('errors.backToHome') }}
         </a>
       </div>
-    </main>
-  </div>
+    </div>
+  </AppLayout>
 </template>

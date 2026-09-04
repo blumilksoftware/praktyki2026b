@@ -85,6 +85,16 @@ describe("Student/PublicProfile", () => {
     expect(link.text()).toBe("Test University")
   })
 
+  it("shows the candidate photo when one is set", () => {
+    expect(mountProfile().find("img").exists()).toBe(false)
+
+    const wrapper = mountProfile({
+      student: { ...student, photo_url: "/company/students/1/photo" },
+    })
+
+    expect(wrapper.find("img").attributes("src")).toBe("/company/students/1/photo")
+  })
+
   it("links to the CV only when the candidate attached one", () => {
     expect(mountProfile().text()).toContain("No CV available")
 

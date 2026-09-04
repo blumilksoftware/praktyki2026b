@@ -6,9 +6,11 @@ import BaseLogo from '@/Components/Navigation/BaseLogo.vue'
 import LanguageSwitcher from '@/Components/Navigation/LanguageSwitcher.vue'
 import NotificationBell from '@/Components/Navigation/NotificationBell.vue'
 import ProfileIcon from '@/Components/Navigation/ProfileIcon.vue'
+import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
 import BaseNavigationButtons from '@/Components/Navigation/BaseNavigationButtons.vue'
 import { IconMenu2, IconX, IconUserCircle, IconSettings, IconLogout, IconSearch, IconArrowLeft } from '@tabler/icons-vue'
 import { useMobileMenu } from '@/Composables/useMobileMenu'
+import { useAuthUser } from '@/Composables/useAuthUser'
 import { ROUTES } from '@/Helpers/routes'
 
 const { t } = useI18n()
@@ -42,7 +44,7 @@ const props = defineProps({
 
 const emit = defineEmits(['navigationClick'])
 
-const user = computed(() => page.props?.auth?.user)
+const { user, fullName, displayName, emailName, avatarUrl } = useAuthUser()
 const isAuthenticated = computed(() => !!user.value)
 const isAuthPage = computed(() => {
   const currentComponent = page.component
@@ -112,12 +114,12 @@ const hasProfileInMenu = computed(() => (
           <button
             v-if="showHamburger"
             type="button"
-            class="lg:hidden flex items-center justify-center rounded text-white hover:text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+            class="lg:hidden flex items-center justify-center rounded-full p-1 text-white hover:text-white/80 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
             :aria-label="t('profiles.navMenu')"
             :aria-expanded="isMobileMenuOpen"
             @click="toggle"
           >
-            <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
+            <IconMenu2 stroke="2" class="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
         </div>
 
@@ -132,7 +134,7 @@ const hasProfileInMenu = computed(() => (
         </div>
 
         <LanguageSwitcher />
-        <ProfileIcon v-if="showProfileIcon" class="hidden lg:inline-block" />
+        <ProfileIcon v-if="showProfileIcon" />
         <NotificationBell v-if="showProfileIcon" />
       </div>
     </div>
@@ -165,21 +167,34 @@ const hasProfileInMenu = computed(() => (
       v-if="isMobileMenuOpen && showHamburger"
       class="fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl lg:hidden flex flex-col"
     >
-      <div class="h-14 md:h-16 flex items-center justify-between px-6 border-b border-white/10 bg-primary shrink-0">
-        <span class="font-bold text-white text-sm uppercase tracking-wider">
-          {{ t('profiles.navMenu') }}
-        </span>
+      <div class="h-14 md:h-16 flex items-center justify-end px-6 border-b border-white/10 bg-primary shrink-0">
         <button
-          type="button"
-          class="rounded text-white hover:text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 focus-visible:ring-offset-primary flex items-center justify-center p-1"
+          class="flex items-center justify-center rounded-full p-1 text-white hover:text-white/80 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
           :aria-label="t('buttons.close')"
           @click="close"
         >
-          <IconX stroke="2.5" class="w-6 h-6" aria-hidden="true" />
+          <IconX stroke="2.5" class="w-6 h-6" />
         </button>
       </div>
 
       <div class="p-5 overflow-y-auto h-full bg-white">
+        <div v-if="showProfileIcon" class="mb-4 flex items-center gap-3 border-b border-border pb-4">
+          <ProfileAvatar
+            :photo-url="avatarUrl"
+            :first-name="displayName"
+            :last-name="user.last_name"
+            size-class="h-10 w-10 text-sm"
+          />
+          <div class="min-w-0">
+            <p v-if="fullName" class="truncate text-sm font-semibold text-text">
+              {{ fullName }}
+            </p>
+            <p class="truncate text-xs text-additional">
+              {{ emailName }}
+            </p>
+          </div>
+        </div>
+
         <ul class="flex flex-col gap-2">
           <li v-if="!isAuthenticated && !isAdminAuthPage">
             <Link
@@ -187,7 +202,7 @@ const hasProfileInMenu = computed(() => (
               class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
               @click="close"
             >
-              <IconSearch stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
+              <IconSearch stroke="2" class="w-6 h-6 shrink-0" />
               {{ t('offers.browseCta') }}
             </Link>
           </li>
@@ -198,7 +213,7 @@ const hasProfileInMenu = computed(() => (
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
                 @click="close"
               >
-                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
+                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
                 {{ t('auth.login.submit') }}
               </Link>
             </li>
@@ -208,7 +223,7 @@ const hasProfileInMenu = computed(() => (
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-primary transition-colors hover:bg-primary/5"
                 @click="close"
               >
-                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
+                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
                 {{ t('auth.register.submit') }}
               </Link>
             </li>
@@ -223,7 +238,7 @@ const hasProfileInMenu = computed(() => (
               :aria-current="item.isActive ? 'page' : undefined"
               @click="close"
             >
-              <component :is="item.icon" v-if="item.icon" stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
+              <component :is="item.icon" v-if="item.icon" stroke="2" class="w-6 h-6 shrink-0" />
               {{ item.label }}
             </Link>
           </li>
@@ -238,7 +253,7 @@ const hasProfileInMenu = computed(() => (
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
                 @click="close"
               >
-                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
+                <IconUserCircle stroke="2" class="w-6 h-6 shrink-0" />
                 {{ t('buttons.myProfile') }}
               </Link>
             </li>
@@ -248,7 +263,7 @@ const hasProfileInMenu = computed(() => (
                 class="flex items-center gap-3 rounded-lg p-3 text-base font-semibold text-additional transition-colors hover:bg-gray-50 hover:text-secondary"
                 @click="close"
               >
-                <IconSettings stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
+                <IconSettings stroke="2" class="w-6 h-6 shrink-0" />
                 {{ settingsLabel }}
               </Link>
             </li>
@@ -260,7 +275,7 @@ const hasProfileInMenu = computed(() => (
                 class="flex w-full items-center gap-3 rounded-lg p-3 text-left text-base font-semibold text-error transition-colors hover:bg-red-50"
                 @click="close"
               >
-                <IconLogout stroke="2" class="w-6 h-6 shrink-0" aria-hidden="true" />
+                <IconLogout stroke="2" class="w-6 h-6 shrink-0" />
                 {{ t('buttons.logout') }}
               </Link>
             </li>

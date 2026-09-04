@@ -8,6 +8,7 @@ use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class ErrorPagesTest extends TestCase
@@ -89,5 +90,20 @@ class ErrorPagesTest extends TestCase
     {
         $this->get("/completely/unknown/path")
             ->assertStatus(404);
+    }
+
+    public function testUnmatchedUrlErrorPageSharesAuthenticatedUser(): void
+    {
+        $user = User::factory()->create(["role" => UserRole::Student]);
+
+        $this->actingAs($user)
+            ->get("/completely/unknown/path")
+            ->assertStatus(404)
+            ->assertInertia(
+                fn(Assert $page): Assert => $page
+                    ->component("Errors/Error")
+                    ->where("role", "student")
+                    ->where("auth.user.role", "student"),
+            );
     }
 }
