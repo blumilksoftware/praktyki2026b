@@ -42,7 +42,7 @@ function removeFavourite(offerId) {
     <div class="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <section class="mx-auto max-w-7xl rounded-3xl border border-slate-200/80 bg-white/90 p-6 shadow-[0_14px_40px_rgba(11,26,48,0.08)] backdrop-blur-sm sm:p-8">
         <p class="text-sm font-medium text-additional">{{ t('student.nav.favorites') }}</p>
-        <h1 class="mt-2 text-3xl font-semibold tracking-tight text-text sm:text-4xl">
+        <h1 class="mt-2 font-semibold text-text text-2xl tracking-tight">
           {{ t('student.favorites.heading') }}
         </h1>
         <p class="mt-3 text-base leading-7 text-additional">
