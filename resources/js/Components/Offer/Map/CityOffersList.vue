@@ -15,7 +15,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-    <div class="space-y-3 sm:space-y-4">
+  <div class="space-y-1 py-2 sm:space-y-2 sm:px-2 sm:py-3">
       <div
         v-for="offer in offers"
         :key="offer.id"

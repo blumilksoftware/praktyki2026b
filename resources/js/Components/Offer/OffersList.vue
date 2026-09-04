@@ -48,7 +48,7 @@ function goToPage(url) {
         <p class="mt-1 text-sm text-additional">{{ emptyDescription ?? t('student.offers.empty.description') }}</p>
       </div>
     </div>
-    <div v-else class="space-y-3 py-4 sm:space-y-4 sm:px-4 sm:py-6">
+    <div class="space-y-1 py-2 sm:space-y-2 sm:px-2 sm:py-3">
       <OfferCard
         v-for="offer in items"
         :key="offer.id"
