@@ -359,7 +359,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
   })
 
   onMounted(() => {
-    const token = typeof mapboxToken === 'object' ? mapboxToken.value : mapboxToken
+    const token = mapboxToken && typeof mapboxToken === 'object' ? mapboxToken.value : mapboxToken
 
     if (!token) {
       console.error('Mapbox API Token is missing!')
