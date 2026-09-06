@@ -9,6 +9,7 @@ use App\Actions\Admin\TakeDownOfferAction;
 use App\Enums\OfferStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchOffersRequest;
+use App\Models\Company;
 use App\Models\Offer;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
@@ -27,6 +28,9 @@ class AdminOfferController extends Controller
         return inertia("Admin/Offers", [
             "offers" => $this->searchOffers->execute($filters),
             "filters" => $filters,
+            "filterCompany" => $filters["company"] !== ""
+                ? Company::query()->select(["id", "name"])->find($filters["company"])
+                : null,
             "statuses" => array_map(fn(OfferStatus $status): string => $status->value, OfferStatus::cases()),
             "meta" => [
                 "title" => "Admin Offers",
