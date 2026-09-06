@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Company;
 
+use App\Actions\Account\ChangePassword;
+use App\Actions\Account\RequestEmailChange;
 use App\Actions\Company\BuildCompanyProfileData;
 use App\Actions\Company\GetCompanyDashboardStats;
 use App\Actions\Company\UpdateCompanyProfile;
 use App\Actions\Organization\RemoveTeamMember;
-use App\Actions\Account\ChangePassword;
-use App\Actions\Account\RequestEmailChange;
 use App\DTO\Company\UpdateCompanyProfileData;
 use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
@@ -93,11 +93,6 @@ class CompanyController extends Controller
         ]);
     }
 
-    private function getCompanyProfileData(): array
-    {
-        return $this->buildCompanyProfileData->execute(Auth::user()->company, Auth::user());
-    }
-
     public function changePassword(ChangePasswordRequest $request): RedirectResponse
     {
         $this->changePassword->execute(Auth::user(), $request->string("password")->toString());
@@ -124,5 +119,10 @@ class CompanyController extends Controller
         $request->session()->regenerateToken();
 
         return redirect("/");
+    }
+
+    private function getCompanyProfileData(): array
+    {
+        return $this->buildCompanyProfileData->execute(Auth::user()->company, Auth::user());
     }
 }

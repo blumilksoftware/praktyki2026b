@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Student;
 
+use App\Actions\Account\ChangePassword;
+use App\Actions\Account\RequestEmailChange;
 use App\Actions\Student\ApplyToOfferAction;
 use App\Actions\Student\BuildStudentProfileData;
-use App\Actions\Account\ChangePassword;
 use App\Actions\Student\DeleteCvAction;
 use App\Actions\Student\DeleteStudentAccount;
 use App\Actions\Student\DeleteStudentPhotoAction;
@@ -15,7 +16,6 @@ use App\Actions\Student\GetStudentApplicationsAction;
 use App\Actions\Student\GetStudentOffersAction;
 use App\Actions\Student\GetStudentPhotoAction;
 use App\Actions\Student\LinkStudentToUniversity;
-use App\Actions\Account\RequestEmailChange;
 use App\Actions\Student\SaveOfferAction;
 use App\Actions\Student\SubmitCompanyReviewAction;
 use App\Actions\Student\UnsaveOfferAction;

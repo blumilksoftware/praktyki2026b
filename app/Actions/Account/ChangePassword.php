@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Hash;
 
 class ChangePassword
 {
-public function execute(User $user, string $password): void
-{
-$user->forceFill([
-"password" => Hash::make($password),
-])->save();
-}
+    public function execute(User $user, string $password): void
+    {
+        $user->forceFill([
+            "password" => Hash::make($password),
+        ])->save();
+    }
 }

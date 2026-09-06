@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\University;
 
-use App\Actions\Organization\RemoveTeamMember;
 use App\Actions\Account\ChangePassword;
 use App\Actions\Account\RequestEmailChange;
+use App\Actions\Organization\RemoveTeamMember;
 use App\Actions\University\BuildUniversityProfileData;
 use App\Actions\University\GetStudentsStatistics;
 use App\Actions\University\UpdateUniversityProfile;
@@ -112,17 +112,6 @@ class UniversityController extends Controller
         return redirect()->route("university.profile");
     }
 
-    private function currentUniversity(): University
-    {
-        $university = Auth::user()->universityOrganization;
-
-        if (!$university) {
-            abort(404, "University not found for this admin.");
-        }
-
-        return $university;
-    }
-
     public function settings(): Response
     {
         $user = Auth::user();
@@ -133,6 +122,7 @@ class UniversityController extends Controller
             "pendingEmail" => $user->pending_email,
         ]);
     }
+
     public function changePassword(ChangePasswordRequest $request): RedirectResponse
     {
         $this->changePassword->execute(Auth::user(), $request->string("password")->toString());
@@ -159,5 +149,16 @@ class UniversityController extends Controller
         $request->session()->regenerateToken();
 
         return redirect("/");
+    }
+
+    private function currentUniversity(): University
+    {
+        $university = Auth::user()->universityOrganization;
+
+        if (!$university) {
+            abort(404, "University not found for this admin.");
+        }
+
+        return $university;
     }
 }

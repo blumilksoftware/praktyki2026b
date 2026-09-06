@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Account\ChangePassword;
+use App\Actions\Account\RequestEmailChange;
 use App\Actions\Admin\DeleteOrganizationAction;
 use App\Actions\Admin\VerifyEntityAction;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangeEmailRequest;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Models\Company;
 use App\Models\Offer;
 use App\Models\University;
@@ -19,10 +23,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
-use App\Actions\Account\ChangePassword;
-use App\Actions\Account\RequestEmailChange;
-use App\Http\Requests\ChangeEmailRequest;
-use App\Http\Requests\ChangePasswordRequest;
 
 class AdminController extends Controller
 {
@@ -280,6 +280,7 @@ class AdminController extends Controller
 
         return back();
     }
+
     private function checkIfVerifiedWithRedirect(University|Company $entity, string $message, string $route): ?RedirectResponse
     {
         if ($entity->verification_status === VerificationStatus::Verified ||
