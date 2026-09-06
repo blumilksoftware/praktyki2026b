@@ -6,12 +6,18 @@ namespace App\Traits;
 
 use App\Enums\VerificationStatus;
 use App\Models\Offer;
+use App\Models\StudyField;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
 trait FiltersStudentOffers
 {
     use SearchesCaseInsensitively;
+
+    public function hasRadiusFilter(array $filters): bool
+    {
+        return isset($filters["latitude"], $filters["longitude"], $filters["radius_km"]);
+    }
 
     protected function buildFilteredOffersQuery(array $filters): Builder
     {
@@ -62,11 +68,6 @@ trait FiltersStudentOffers
             );
     }
 
-    protected function hasRadiusFilter(array $filters): bool
-    {
-        return isset($filters["latitude"], $filters["longitude"], $filters["radius_km"]);
-    }
-
     protected function mapOfferToArray(
         Offer $offer,
         ?User $user,
@@ -90,6 +91,14 @@ trait FiltersStudentOffers
             "applied_at" => $ownApplication?->created_at?->toDateString(),
             "is_favorite" => in_array($offer->id, $favoriteOfferIds, true),
             "study_field_ids" => $offer->studyFields->pluck("id")->all(),
+            "study_fields" => $offer->studyFields
+                ->map(fn(StudyField $field): array => [
+                    "id" => $field->id,
+                    "name" => $field->name,
+                ])
+                ->values()
+                ->all(),
+            "closing_soon" => $offer->end_date->between(now(), Offer::closingSoonThreshold()),
             "company" => [
                 "id" => $offer->company->id,
                 "name" => $offer->company->name,

@@ -1,4 +1,7 @@
 {
+    "layout": {
+        "skipToContent": "Skip to content"
+    },
   "onboarding": {
     "banner": {
       "title": "Complete your profile",
@@ -25,8 +28,7 @@
     }
   },
   "common": {
-    "verifiedBadge": "Account verified by an administrator",
-    "skipToContent": "Skip to content"
+    "verifiedBadge": "Account verified by an administrator"
   },
   "organization": {
     "team": {
@@ -137,7 +139,6 @@
       "password": "Password",
       "submit": "Sign in",
       "forgotPassword": "Forgot your password?",
-      "registerLink": "Register",
       "google": "Google",
       "or": "or continue with",
       "rememberMe": "Remember me",
@@ -230,6 +231,8 @@
   },
   "profiles": {
     "navMenu": "Navigation menu",
+    "accountMenu": "Account menu",
+    "signedInAs": "Signed in as",
     "profile": "Profile",
     "aboutUs": "About us",
     "contact": "Contact",
@@ -263,6 +266,7 @@
     "nip": "NIP",
     "spots": "Spots",
     "uploadLogo": "Upload logo",
+    "logoAlt": "Logo",
     "searchTags": "Search tags...",
     "activeTags": "Active tags",
     "noActiveTags": "No active tags",
@@ -352,6 +356,7 @@
     "showAll": "Show all",
     "collapseTags": "Collapse tags",
     "myProfile": "My profile",
+    "openProfileMenu": "Open profile menu",
     "settings": "Settings",
     "logout": "Logout",
     "load_more": "Load more",
@@ -369,7 +374,8 @@
     "student": "Student",
     "company": "Company",
     "status": "Status",
-    "noData": "No data to display"
+    "noData": "No data to display",
+    "defaultCaption": "Data table"
   },
   "admin": {
     "applications": {
@@ -403,6 +409,7 @@
       "all": "All",
       "search": "Search...",
       "actions": "Actions",
+      "actionsMenu": "Actions for {name}",
       "filterByStatusAriaLabel": "Filter applications by status",
       "searchAriaLabel": "Search applications",
       "acceptAriaLabel": "Accept application: {name}",
@@ -453,6 +460,9 @@
       "unblock": "Unblock",
       "blockAriaLabel": "Block user: {name}",
       "unblockAriaLabel": "Unblock user: {name}",
+        "createdAt": "Registration date",
+        "close": "Close",
+        "organization": "Organization",
       "statuses": {
         "active": "Active",
         "blocked": "Blocked",
@@ -556,11 +566,7 @@
         "mobileAriaLabel": "Mobile navigation"
       },
       "logout": "Logout",
-      "userRole": "Administrator",
-      "languageSwitch": {
-        "toEnglish": "Switch to english",
-        "toPolish": "Switch to polish"
-      }
+      "userRole": "Administrator"
     },
       "profile": {
           "title": "Administrator profile",
@@ -589,15 +595,14 @@
   },
     "university": {
         "layout": {
-            "skipToContent": "Skip to content"
-        },
-        "title": "Uczelnia",
-        "nav": {
-            "dashboard": "Dashboard",
-            "faculties": "Faculties",
-            "team": "Team",
-            "partnership": "Partnership",
-            "department": "Departments"
+            "skipToContent": "Skip to content",
+            "title": "University",
+            "nav": {
+                "dashboard": "Dashboard",
+                "faculties": "Faculties",
+                "team": "Team",
+                "partnership": "Partnership"
+            }
         },
     "profile": {
       "title": "Profile",
@@ -650,6 +655,7 @@
       "empty": "No faculty has been added yet.",
       "save": "Save",
       "cancel": "Cancel",
+      "edit": "Edit",
       "confirmDelete": "Delete",
       "deleteFacultyTitle": "Delete faculty",
       "deleteFieldTitle": "Delete field of study",
@@ -746,7 +752,6 @@
   "student": {
     "layout": {
         "skipToContent": "Skip to content",
-      "title": "Student panel",
       "nav": {
         "dashboard": "Dashboard",
         "profile": "Profile",
@@ -815,8 +820,6 @@
     "favorites": {
       "heading": "Your saved offers",
       "description": "This is where heart-marked offers live. Remove them here or return to the full list.",
-      "backToOffers": "Back to offers",
-      "backToDashboard": "Back to dashboard",
       "listAriaLabel": "Favorite offers",
       "removedAnnouncement": "Offer {title} has been removed from favorites",
       "empty": {
@@ -841,6 +844,7 @@
         "loading": "Loading map...",
         "selectPinHint": "Select a pin on the map to view available offers",
         "cityOffersTitle": "Offers in {city}",
+        "cityOffersTitleFallback": "All offers",
         "showAll": "Show all offers",
         "viewSwitcher":{
             "mapView": "Map view",
@@ -852,6 +856,8 @@
           "title": "Offer board",
           "reset": "Reset",
           "resetAriaLabel": "Clear all filters",
+          "expand": "Show filters",
+          "collapse": "Hide filters",
           "search": "Search",
           "searchPlaceholder": "Company, position or city",
           "city": "City",
@@ -892,8 +898,8 @@
       },
       "card": {
         "logoAlt": "Company logo for {company}",
-        "verified": "Verified",
         "verifiedAriaLabel": "Verified company",
+        "closingSoon": "Closing soon",
         "dateRange": "Date range",
         "remainingSpots": "Remaining spots",
         "location": "Location",
@@ -906,7 +912,6 @@
         "openOfferAria": "View offer {title}"
       },
       "detail": {
-        "backToOffers": "Back to offers",
         "description": "Description",
         "preferredUniversities": "Preferred universities",
         "preferredUniversitiesEmpty": "No preferred universities listed.",
@@ -927,7 +932,8 @@
         "companyProfileAria": "View company profile: {company}",
         "universityProfileAria": "View university profile: {university}",
         "similarOffers": "Similar offers",
-        "similarOfferAria": "View offer {title} at {company}"
+        "similarOfferAria": "View offer {title} at {company}",
+        "noDescription": "No description"
       }
     },
     "cv": {
@@ -1080,31 +1086,7 @@
     "browseCta": "Browse offers",
     "search": {
       "title": "Internships and offers",
-      "subtitle": "Browse offers and narrow results to match your preferences.",
-      "resultsTitle": "Results",
-      "empty": "No offers match the selected filters.",
-      "resultsCount": "Showing {count} offers on this page."
-    },
-    "filters": {
-      "title": "Filters",
-      "clearAll": "Clear filters",
-      "studyFields": {
-        "label": "Fields of study",
-        "placeholder": "Select fields from the list"
-      },
-      "workMode": {
-        "label": "Work mode",
-        "all": "All",
-        "onSite": "On-site",
-        "hybrid": "Hybrid",
-        "remote": "Remote"
-      },
-      "dateRange": {
-        "label": "Internship date range",
-        "from": "From",
-        "to": "To"
-      },
-      "dateRangeInvalid": "The end date must be on or after the start date."
+      "subtitle": "Browse offers and narrow results to match your preferences."
     }
   },
   "company": {
@@ -1116,9 +1098,7 @@
         "offers": "My offers",
         "team": "Team",
         "applications": "Applications",
-        "partnership": "Partnership",
-        "profile": "Profile",
-        "settings": "Settings"
+        "partnership": "Partnership"
       }
     },
     "universities": {
@@ -1346,8 +1326,7 @@
         "heading": "Create a new offer"
       },
       "edit": {
-        "title": "Edit offer",
-        "heading": "Edit \"{title}\""
+        "title": "Edit offer"
       },
       "form": {
         "title": "Title",

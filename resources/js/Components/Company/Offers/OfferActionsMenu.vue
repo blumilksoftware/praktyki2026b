@@ -45,7 +45,7 @@ const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'de
       :aria-label="t(props.labels.menu)"
       @click="emit('toggle', props.offer.id)"
     >
-      <IconDotsVertical class="w-5 h-5" />
+      <IconDotsVertical class="w-5 h-5" aria-hidden="true" />
     </button>
     <div
       v-if="isOpen"
@@ -55,9 +55,10 @@ const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'de
       <button
         type="button"
         class="flex items-center gap-2 w-full px-3 py-2 text-left text-text hover:bg-gray-50 cursor-pointer"
+        role="menuitem"
         @click="emit('applications', props.offer)"
       >
-        <IconClipboardText class="w-4 h-4" />
+        <IconClipboardText class="w-4 h-4" aria-hidden="true" />
         {{ t(props.labels.applications) }}
       </button>
       <button
@@ -67,9 +68,10 @@ const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'de
           ? 'text-additional cursor-not-allowed'
           : 'text-text hover:bg-gray-50 cursor-pointer'"
         :disabled="offer.status === 'closed' || offer.status === 'expired'"
+        role="menuitem"
         @click="emit('edit', props.offer)"
       >
-        <IconPencil class="w-4 h-4" />
+        <IconPencil class="w-4 h-4" aria-hidden="true" />
         {{ t(props.labels.edit) }}
       </button>
       <button
@@ -80,10 +82,11 @@ const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'de
           ? 'text-additional cursor-not-allowed'
           : 'text-text hover:bg-gray-50 cursor-pointer'"
         :disabled="offer.status === 'closed'"
+        role="menuitem"
         @click="emit('toggle-status', props.offer)"
       >
-        <IconPlayerPause v-if="offer.status === 'published'" class="w-4 h-4" />
-        <IconPlayerPlay v-else class="w-4 h-4" />
+        <IconPlayerPause v-if="offer.status === 'published'" class="w-4 h-4" aria-hidden="true" />
+        <IconPlayerPlay v-else class="w-4 h-4" aria-hidden="true" />
         {{
           offer.status === 'published'
             ? t(props.labels.deactivate)
@@ -93,9 +96,10 @@ const emit = defineEmits(['toggle', 'applications', 'edit', 'toggle-status', 'de
       <button
         type="button"
         class="flex items-center gap-2 w-full px-3 py-2 text-left text-red-600 hover:bg-red-50 cursor-pointer"
+        role="menuitem"
         @click="emit('delete', props.offer)"
       >
-        <IconTrash class="w-4 h-4" />
+        <IconTrash class="w-4 h-4" aria-hidden="true" />
         {{ t(props.labels.delete) }}
       </button>
     </div>

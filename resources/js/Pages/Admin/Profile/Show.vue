@@ -1,10 +1,9 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import Header from '@/Components/Profiles/Header.vue'
-import { ROUTES } from '@/Helpers/routes'
 
 defineProps({
   admin: { type: Object, required: true },
@@ -21,13 +20,6 @@ const { t } = useI18n()
         <ProfilePageCard centered>
           <Header :name="`${admin.firstName} ${admin.lastName}`" />
           <p class="mt-2 text-additional text-sm">{{ admin.email }}</p>
-
-          <Link
-            :href="ROUTES.PROFILE_EDIT"
-            class="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-primary/90"
-          >
-            {{ t('buttons.editProfile') }}
-          </Link>
         </ProfilePageCard>
       </div>
 

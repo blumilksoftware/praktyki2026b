@@ -28,4 +28,3 @@ const { t } = useI18n()
     />
   </AppLayout>
 </template>
-

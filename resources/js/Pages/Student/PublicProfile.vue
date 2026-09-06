@@ -1,14 +1,15 @@
 <script setup>
 import { computed } from 'vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconArrowLeft, IconDownload, IconMapPin, IconSchool } from '@tabler/icons-vue'
+import { IconDownload, IconMapPin, IconSchool } from '@tabler/icons-vue'
+import BackButton from '@/Components/Common/BackButton.vue'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import ProfileAvatar from '@/Components/Student/ProfileAvatar.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import ProfileSectionCard from '@/Components/Profile/ProfileSectionCard.vue'
 import ProfileTag from '@/Components/Profile/ProfileTag.vue'
-import { universityShow } from '@/Helpers/routes'
+import { ROUTES, universityShow } from '@/Helpers/routes'
 
 const props = defineProps({
   student: { type: Object, required: true },
@@ -21,7 +22,7 @@ const hasPreferences = computed(() => props.student.preferred_study_fields.lengt
 const universityHref = computed(() => (props.student.university_id ? universityShow(props.student.university_id) : null))
 
 const goBack = () => {
-  window.history.back()
+  router.visit(ROUTES.COMPANY_APPLICATIONS)
 }
 </script>
 
@@ -30,20 +31,14 @@ const goBack = () => {
 
   <AppLayout active-page="applications">
     <div class="mb-6">
-      <button
-        type="button"
-        class="inline-flex items-center gap-2 rounded text-additional text-sm transition hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-        @click="goBack"
-      >
-        <IconArrowLeft stroke="2.5" class="w-4 h-4" />
-        {{ t('buttons.back') }}
-      </button>
+      <BackButton @click="goBack" />
     </div>
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
       <div class="flex flex-col gap-6 self-start">
         <ProfilePageCard centered>
           <ProfileAvatar
+            :photo-url="student.photo_url"
             :first-name="student.first_name"
             :last-name="student.last_name"
             size-class="w-28 h-28 text-3xl"

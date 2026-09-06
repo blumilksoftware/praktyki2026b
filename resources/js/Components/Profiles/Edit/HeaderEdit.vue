@@ -99,8 +99,10 @@ onBeforeUnmount(revokePreview)
       :class="isDragging ? 'border-primary border-dashed bg-primary/5' : 'border-border bg-white'"
       role="button"
       tabindex="0"
+      :aria-label="t('profiles.uploadLogo')"
       @click="openFileDialog"
       @keydown.enter="openFileDialog"
+      @keydown.space.prevent="openFileDialog"
       @dragover.prevent="onDragOver"
       @dragenter.prevent="onDragOver"
       @dragleave="onDragLeave"
@@ -109,10 +111,10 @@ onBeforeUnmount(revokePreview)
       <img
         v-if="displayLogoUrl"
         :src="displayLogoUrl"
-        alt="Logo"
+        :alt="t('profiles.logoAlt')"
         class="w-full h-full object-cover"
       >
-      <IconPlus v-else stroke="1.5" class="w-8 h-8 text-secondary" />
+      <IconPlus v-else stroke="1.5" class="w-8 h-8 text-secondary" aria-hidden="true" />
     </div>
 
     <button

@@ -62,7 +62,7 @@ describe('BaseApplyButton.vue', () => {
 
     expect(button.text()).toContain(`buttons.apply.appliedOn ${testDate}`)
     expect(button.attributes('aria-disabled')).toBe('true')
-    expect(button.classes()).toContain('bg-success')
+    expect(button.classes()).toContain('bg-success-dark')
   })
 
   it('keeps the apply button focusable and explains why it is blocked when the user has no CV', () => {

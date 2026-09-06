@@ -1,6 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/vue3'
-import { IconArrowLeft } from '@tabler/icons-vue'
+import { Head, router } from '@inertiajs/vue3'
 import Header from '@/Components/Profiles/Header.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import Faculties from '@/Components/Profiles/Faculties.vue'
@@ -13,12 +12,8 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const goBack = () => {
-  window.history.back()
-}
-
 const goToEdit = () => {
-  window.location.href = ROUTES.PROFILE_EDIT
+  router.visit(ROUTES.PROFILE_EDIT)
 }
 
 defineProps({

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
+import BackButton from '@/Components/Common/BackButton.vue'
 import { useI18n } from 'vue-i18n'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import { ROUTES, studentOfferFavourite, offerShow } from '@/Helpers/routes'
@@ -96,12 +97,7 @@ function removeFavourite(offerId) {
         <div v-else class="mt-6 rounded-3xl border border-dashed border-slate-200/80 bg-white/75 p-8 text-center text-additional backdrop-blur-sm">
           <p class="text-lg font-semibold text-text">{{ t('student.favorites.empty.title') }}</p>
           <p class="mt-2 text-sm text-additional">{{ t('student.favorites.empty.description') }}</p>
-          <Link
-            :href="ROUTES.OFFERS"
-            class="mt-5 inline-flex items-center justify-center rounded-xl border border-primary bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-          >
-            {{ t('student.favorites.backToOffers') }}
-          </Link>
+          <BackButton :as="Link" :href="ROUTES.OFFERS" />
         </div>
 
         <p role="status" aria-live="polite" class="sr-only">{{ statusMessage }}</p>

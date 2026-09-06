@@ -7,7 +7,10 @@ vi.mock('@inertiajs/vue3', () => ({
 }))
 
 const mountError = (status: number, role: string | null = null) =>
-  mount(Error, { props: { status, role: role ?? undefined } })
+  mount(Error, {
+    props: { status, role: role ?? undefined },
+    global: { stubs: { AppLayout: { template: '<div><slot /></div>' } } },
+  })
 
 describe('Error.vue', () => {
   it('displays the status code', () => {

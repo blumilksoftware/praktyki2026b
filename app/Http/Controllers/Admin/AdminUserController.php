@@ -8,6 +8,7 @@ use App\Actions\Admin\ChangeUserRoleAction;
 use App\Actions\Admin\ChangeUserStatusAction;
 use App\Actions\Admin\DeleteUserAction;
 use App\Actions\Admin\SearchUsers;
+use App\Actions\Student\GetStudentPhotoAction;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchUsersRequest;
@@ -20,6 +21,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AdminUserController extends Controller
 {
@@ -28,6 +30,7 @@ class AdminUserController extends Controller
         private readonly ChangeUserStatusAction $changeStatusAction,
         private readonly SearchUsers $searchUsers,
         private readonly DeleteUserAction $deleteUserAction,
+        private readonly GetStudentPhotoAction $getStudentPhotoAction,
     ) {}
 
     public function index(SearchUsersRequest $request): Response
@@ -44,6 +47,13 @@ class AdminUserController extends Controller
                 "title" => "Admin Users",
             ],
         ]);
+    }
+
+    public function showPhoto(User $user): StreamedResponse
+    {
+        Gate::authorize("viewProfile", $user);
+
+        return $this->getStudentPhotoAction->execute($user);
     }
 
     public function updateRole(User $user, UpdateUserRoleRequest $request): RedirectResponse

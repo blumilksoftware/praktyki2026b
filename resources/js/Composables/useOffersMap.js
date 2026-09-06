@@ -58,15 +58,31 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
   const selectedOfferId = ref(null)
   const currentZoom = ref(5.5)
 
+  const isOffersMode = computed(() => {
+    const first = offersRef.value?.[0]
+    if (!first) return true
+    return !Object.prototype.hasOwnProperty.call(first, 'offers_count')
+  })
+
+  const selectedCityAggregateCount = ref(null)
+
   let map = null
   let markers = []
   let pendingInitialOfferId = null
+  let isUnmounted = false
 
-  const groupedOffers = computed(() => groupOffersByCity(offersRef.value))
+  const groupedOffers = computed(() => (
+    isOffersMode.value ? groupOffersByCity(offersRef.value) : {}
+  ))
 
   const selectedCityOffers = computed(() => {
     if (!selectedCity.value) return []
     return groupedOffers.value[selectedCity.value] || []
+  })
+
+  const selectedCityOffersCount = computed(() => {
+    if (isOffersMode.value) return selectedCityOffers.value.length
+    return selectedCityAggregateCount.value ?? 0
   })
 
   const viewMode = computed(() =>
@@ -92,6 +108,11 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     const radiusBounds = new mapboxgl.LngLatBounds()
     circleGeoJson.geometry.coordinates[0].forEach((coord) => radiusBounds.extend(coord))
     map.fitBounds(radiusBounds, { padding: 40, duration })
+  }
+
+  const flyToDefaultView = (duration = 800) => {
+    if (!map) return
+    map.flyTo({ center: DEFAULT_MAP_VIEW.center, zoom: DEFAULT_MAP_VIEW.zoom, duration })
   }
 
   const clearMarkers = () => {
@@ -143,6 +164,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
 
     selectedCity.value = cityName
     selectedOfferId.value = null
+    selectedCityAggregateCount.value = null
     flyToCity(cityName, cityOffers, fallbackCoords)
   }
 
@@ -269,9 +291,44 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     })
   }
 
+  const renderCityAggregateMarkers = (fitBounds) => {
+    const bounds = new mapboxgl.LngLatBounds()
+    let hasValidBounds = false
+
+    offersRef.value.forEach((row) => {
+      if (row.latitude == null || row.longitude == null) return
+
+      const coords = [row.longitude, row.latitude]
+      bounds.extend(coords)
+      hasValidBounds = true
+
+      const isSelected = selectedCity.value === row.city
+      const el = buildClusterPinElement(row.city, row.offers_count, isSelected)
+
+      el.addEventListener('click', () => {
+        selectedCity.value = row.city
+        selectedOfferId.value = null
+        selectedCityAggregateCount.value = row.offers_count
+        map.flyTo({ center: coords, zoom: 12, speed: 1.2 })
+        onCitySelect?.({ label: row.city, latitude: row.latitude, longitude: row.longitude })
+      })
+
+      markers.push(new mapboxgl.Marker({ element: el }).setLngLat(coords).addTo(map))
+    })
+
+    if (fitBounds && hasValidBounds && markers.length > 0) {
+      map.fitBounds(bounds, { padding: 80, maxZoom: 14 })
+    }
+  }
+
   const renderMarkersForZoom = (fitBounds = true) => {
     if (!map) return
     clearMarkers()
+
+    if (!isOffersMode.value) {
+      renderCityAggregateMarkers(fitBounds)
+      return
+    }
 
     if (viewMode.value === 'individual') {
       renderIndividualMarkers()
@@ -336,20 +393,39 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
   const clearSelection = () => {
     selectedCity.value = null
     selectedOfferId.value = null
+    selectedCityAggregateCount.value = null
+  }
+
+  const restoreViewAfterClear = () => {
+    if (hasActiveRadius()) {
+      fitToRadius(800)
+    } else {
+      flyToDefaultView()
+    }
   }
 
   const resetFilters = () => {
     clearSelection()
     setTimeout(() => {
       renderMarkersForZoom(false)
+      restoreViewAfterClear()
       onClear?.()
     }, 100)
   }
 
-  onMounted(() => {
-    if (!mapContainer.value) return
+  const waitForContainer = () => new Promise((resolve) => {
+    const check = () => {
+      if (isUnmounted || mapContainer.value) {
+        resolve()
+        return
+      }
+      requestAnimationFrame(check)
+    }
+    check()
+  })
 
-    const token = typeof mapboxToken === 'object' ? mapboxToken.value : mapboxToken
+  onMounted(() => {
+    const token = mapboxToken && typeof mapboxToken === 'object' ? mapboxToken.value : mapboxToken
 
     if (!token) {
       console.error('Mapbox API Token is missing!')
@@ -360,6 +436,14 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
 
     nextTick(async () => {
       const detectedView = await tryDetectUserLocation()
+
+
+      if (isUnmounted) return
+
+      await waitForContainer()
+
+      if (isUnmounted || !mapContainer.value) return
+
       const initialView = detectedView || DEFAULT_MAP_VIEW
 
       map = new mapboxgl.Map({
@@ -401,8 +485,12 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
   })
 
   onUnmounted(() => {
+    isUnmounted = true
     clearMarkers()
-    if (map) map.remove()
+    if (map) {
+      map.remove()
+      map = null
+    }
   })
 
   watch(offersRef, () => {
@@ -414,7 +502,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
       selectAndFocusOffer(idToFocus)
     }
 
-    if (selectedCity.value && !groupedOffers.value[selectedCity.value]) {
+    if (isOffersMode.value && selectedCity.value && !groupedOffers.value[selectedCity.value]) {
       clearSelection()
     }
   }, { deep: true })
@@ -448,6 +536,7 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
         if (selectedCity.value) {
           clearSelection()
           renderMarkersForZoom(false)
+          restoreViewAfterClear()
         }
         return
       }
@@ -463,6 +552,8 @@ export function useOffersMap(offersRef, mapboxToken, initialOfferId = ref(null),
     selectedCity,
     selectedOfferId,
     selectedCityOffers,
+    selectedCityOffersCount,
+    isOffersMode,
     selectAndFocusOffer,
     resetFilters,
   }

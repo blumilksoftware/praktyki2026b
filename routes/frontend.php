@@ -46,6 +46,9 @@ Route::get("/dev/components", fn(): Response => inertia("Dev/ComponentShowcase")
 Route::middleware(["auth"])
     ->group(function (): void {
         Route::get("/team", [TeamMemberController::class, "index"])->name("team.index");
+        Route::get("/students/{student}/photo", [StudentProfileController::class, "showPhoto"])
+            ->name("students.photo")
+            ->whereUuid("student");
     });
 
 Route::middleware(["auth", "role:companyAdmin,companyMember"])
@@ -71,6 +74,7 @@ Route::middleware(["auth", EnsureCompanyIsVerified::class])
         Route::get("/applications/{application}/cv", [ApplicationController::class, "downloadCv"])->name("company.applications.cv");
         Route::get("/universities", [CompanyUniversityController::class, "index"])->name("company.universities.index");
         Route::get("/students/{student}", [StudentProfileController::class, "show"])->name("company.students.show")->whereUuid("student");
+        Route::get("/students/{student}/photo", [StudentProfileController::class, "showPhoto"])->name("company.students.photo")->whereUuid("student");
     });
 
 Route::middleware(["auth", "can:create," . Offer::class])
@@ -115,7 +119,6 @@ Route::middleware(["role:superAdmin"])
         Route::get("/dashboard", [AdminController::class, "index"])->name("admin.dashboard");
         Route::get("/applications", [AdminController::class, "applications"])->name("admin.applications");
         Route::get("/profile", [AdminController::class, "profile"])->name("admin.profile");
-        Route::get("/profile/edit", [AdminController::class, "editProfile"])->name("admin.profile.edit");
         Route::get("/users", [AdminUserController::class, "index"])->name("admin.users");
         Route::get("/offers", [AdminOfferController::class, "index"])->name("admin.offers");
         Route::get("/industry-tags", [AdminIndustryTagController::class, "index"])->name("admin.industry-tags");

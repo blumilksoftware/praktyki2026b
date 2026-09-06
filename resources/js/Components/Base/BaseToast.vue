@@ -1,5 +1,8 @@
 <script setup>
 import { computed, ref, onBeforeUnmount } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const message = ref('')
 const visible = ref(false)
@@ -24,10 +27,10 @@ const toastClasses = computed(() => {
 
 const buttonClasses = computed(() => {
   return {
-    success: 'text-green-700/80 hover:text-green-900 focus:ring-green-300',
-    fail: 'text-red-700/80 hover:text-red-900 focus:ring-red-300',
-    warning: 'text-amber-700/80 hover:text-amber-900 focus:ring-amber-300',
-    info: 'text-slate-700/80 hover:text-slate-900 focus:ring-slate-300',
+    success: 'text-green-800 hover:text-green-900 focus:ring-green-300',
+    fail: 'text-red-800 hover:text-red-900 focus:ring-red-300',
+    warning: 'text-amber-800 hover:text-amber-900 focus:ring-amber-300',
+    info: 'text-slate-800 hover:text-slate-900 focus:ring-slate-300',
   }[variant.value]
 })
 
@@ -59,11 +62,11 @@ defineExpose({ show, hide })
     v-if="visible"
     role="status"
     aria-live="polite"
-    :class="[`m-4 right-4 top-4 z-50 fixed shadow-sm px-4 py-3 rounded-xl`, toastClasses]"
+    :class="[`m-4 right-4 bottom-4 z-50 fixed shadow-sm px-4 py-3 rounded-xl`, toastClasses]"
   >
     <button
       type="button"
-      aria-label="Close notification"
+      :aria-label="t('buttons.close')"
       :class="[`absolute right-2 top-2 cursor-pointer focus:outline-none focus:ring-2 rounded`, buttonClasses]"
       @click="hide"
     >

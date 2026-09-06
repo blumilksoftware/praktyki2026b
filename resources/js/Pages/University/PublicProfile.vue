@@ -1,7 +1,8 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconArrowLeft, IconExternalLink } from '@tabler/icons-vue'
+import { IconExternalLink } from '@tabler/icons-vue'
+import BackButton from '@/Components/Common/BackButton.vue'
 import AppLayout from '@/Components/Layouts/AppLayout.vue'
 import ProfilePageCard from '@/Components/Profile/ProfilePageCard.vue'
 import Header from '@/Components/Profiles/Header.vue'
@@ -9,16 +10,17 @@ import About from '@/Components/Profiles/About.vue'
 import ContactCard from '@/Components/Profiles/ContactCard.vue'
 import Faculties from '@/Components/Profiles/Faculties.vue'
 import VerifiedBadge from '@/Components/Common/VerifiedBadge.vue'
+import { useProfileBack } from '@/Composables/useProfileBack.js'
 
-defineProps({
+const props = defineProps({
   university: { type: Object, required: true },
+  backUrl: { type: String, default: null },
 })
 
 const { t } = useI18n()
 
-const goBack = () => {
-  window.history.back()
-}
+const { goBack } = useProfileBack(props.backUrl)
+
 </script>
 
 <template>
@@ -26,14 +28,7 @@ const goBack = () => {
 
   <AppLayout active-page="applications">
     <div class="mb-6">
-      <button
-        type="button"
-        class="inline-flex items-center gap-2 rounded text-additional text-sm transition hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-        @click="goBack"
-      >
-        <IconArrowLeft stroke="2.5" class="h-4 w-4" aria-hidden="true" />
-        {{ t('buttons.back') }}
-      </button>
+      <BackButton @click="goBack" />
     </div>
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
