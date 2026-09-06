@@ -151,6 +151,10 @@ export function offerPreview(offerId: string): string {
   return ROUTES.OFFER_PREVIEW.replace("{offer}", offerId)
 }
 
+export function adminOffersForCompany(companyId: string): string {
+  return `${ROUTES.ADMIN_OFFERS}?company=${encodeURIComponent(companyId)}`
+}
+
 export function companyShow(companyId: string): string {
   return ROUTES.COMPANY_SHOW.replace("{company}", companyId)
 }

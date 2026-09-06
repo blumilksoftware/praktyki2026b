@@ -1,15 +1,15 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconSearch, IconBan } from '@tabler/icons-vue'
+import { IconSearch, IconBan, IconX } from '@tabler/icons-vue'
 import DataTable from '@/Components/Common/DataTable.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
 import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import AdminTakeDownOfferModal from '@/Components/Admin/AdminTakeDownOfferModal.vue'
 import { useOfferStatus } from '@/Composables/useOfferStatus'
 import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
-import { offerPreview } from '@/Helpers/routes'
+import { adminOffersForCompany, offerPreview } from '@/Helpers/routes'
 
 const props = defineProps({
   offers: {
@@ -24,6 +24,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  filterCompany: {
+    type: Object,
+    default: null,
+  },
 })
 
 const { t } = useI18n()
@@ -31,6 +35,7 @@ const { statusClass } = useOfferStatus()
 
 const statusFilter = ref(props.filters.status || 'all')
 const searchQuery = ref(props.filters.search || '')
+const companyFilter = ref(props.filters.company || '')
 
 const statusFilterOptions = computed(() => [
   { value: 'all', label: t('admin.offers.all') },
@@ -62,12 +67,18 @@ function applyQuery() {
   router.get('/admin/offers', {
     status: statusFilter.value,
     search: searchQuery.value,
+    company: companyFilter.value,
     sort_key: sortKey.value,
     sort_dir: sortDir.value,
   }, {
     preserveState: true,
     replace: true,
   })
+}
+
+function clearCompanyFilter() {
+  companyFilter.value = ''
+  applyQuery()
 }
 
 function handleSort({ key, dir }) {
@@ -102,6 +113,20 @@ watch([statusFilter, searchQuery], useDebouncedSearch(applyQuery))
       </div>
     </div>
 
+    <div v-if="filterCompany" class="flex flex-wrap items-center gap-2">
+      <span class="inline-flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full font-medium text-primary text-sm">
+        {{ t('admin.offers.filteredByCompany', { company: filterCompany.name }) }}
+        <button
+          type="button"
+          class="hover:bg-primary/20 p-0.5 rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          :aria-label="t('admin.offers.clearCompanyFilter')"
+          @click="clearCompanyFilter"
+        >
+          <IconX class="w-3.5 h-3.5" aria-hidden="true" />
+        </button>
+      </span>
+    </div>
+
     <DataTable
       v-if="offers.data.length > 0"
       :items="offers.data"
@@ -115,7 +140,15 @@ watch([statusFilter, searchQuery], useDebouncedSearch(applyQuery))
       @sort="handleSort"
     >
       <template #cell-company="{ item }">
-        {{ item.company?.name || '-' }}
+        <Link
+          v-if="item.company"
+          :href="adminOffersForCompany(item.company.id)"
+          class="rounded text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          :aria-label="t('admin.offers.filterByCompanyAriaLabel', { company: item.company.name })"
+        >
+          {{ item.company.name }}
+        </Link>
+        <template v-else>-</template>
       </template>
       <template #cell-city="{ item }">
         {{ item.city || '-' }}

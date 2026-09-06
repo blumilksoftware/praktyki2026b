@@ -20,6 +20,10 @@ defineProps({
     type: Array,
     default: () => [],
   },
+  filterCompany: {
+    type: Object,
+    default: null,
+  },
 })
 </script>
 
@@ -37,6 +41,7 @@ defineProps({
           :offers="offers"
           :filters="filters"
           :statuses="statuses"
+          :filter-company="filterCompany"
         />
       </ProfilePageCard>
     </div>

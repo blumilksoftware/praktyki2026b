@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
@@ -169,5 +170,78 @@ class AdminOffersTest extends TestCase
             ->assertStatus(403);
 
         $this->assertEquals(OfferStatus::Published, $offer->fresh()->status);
+    }
+
+    public function testAdminOffersPageFiltersByCompany(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $company = Company::factory()->approved()->create(["name" => "Filtered Company"]);
+        $otherCompany = Company::factory()->approved()->create();
+        Offer::factory()->count(2)->create(["company_id" => $company->id]);
+        Offer::factory()->create(["company_id" => $otherCompany->id]);
+
+        $this->actingAs($admin)
+            ->get("/admin/offers?company={$company->id}")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Admin/Offers")
+                    ->has("offers.data", 2)
+                    ->where("filters.company", $company->id)
+                    ->where("filterCompany.name", "Filtered Company"),
+            );
+    }
+
+    public function testAdminOffersPageNamesNoCompanyWhenNotFiltered(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $company = Company::factory()->approved()->create();
+        Offer::factory()->create(["company_id" => $company->id]);
+
+        $this->actingAs($admin)
+            ->get("/admin/offers")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Admin/Offers")
+                    ->where("filters.company", "")
+                    ->where("filterCompany", null),
+            );
+    }
+
+    public function testAdminOffersPageCombinesCompanyAndStatusFilters(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $company = Company::factory()->approved()->create();
+        Offer::factory()->create(["company_id" => $company->id, "status" => OfferStatus::Published]);
+        Offer::factory()->create(["company_id" => $company->id, "status" => OfferStatus::Draft]);
+
+        $this->actingAs($admin)
+            ->get("/admin/offers?company={$company->id}&status=" . OfferStatus::Draft->value)
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Admin/Offers")
+                    ->has("offers.data", 1)
+                    ->where("offers.data.0.status", OfferStatus::Draft->value),
+            );
+    }
+
+    public function testAdminOffersPageRejectsUnknownCompanyFilter(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+
+        $this->actingAs($admin)
+            ->get("/admin/offers?company=" . Str::uuid()->toString())
+            ->assertSessionHasErrors("company");
+    }
+
+    public function testAdminOffersPageRejectsMalformedCompanyFilter(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+
+        $this->actingAs($admin)
+            ->get("/admin/offers?company=not-a-uuid")
+            ->assertSessionHasErrors("company");
     }
 }

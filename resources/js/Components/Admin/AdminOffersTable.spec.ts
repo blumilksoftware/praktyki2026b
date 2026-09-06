@@ -9,6 +9,7 @@ const { mockGet } = vi.hoisted(() => ({ mockGet: vi.fn() }))
 vi.mock('@inertiajs/vue3', () => ({
   router: { get: mockGet },
   useForm: () => ({ processing: false, errors: {}, patch: vi.fn() }),
+  Link: { props: ['href'], template: '<a :href="href"><slot /></a>' },
 }))
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en } })
@@ -21,11 +22,12 @@ const offers = {
   links: {},
 }
 
-const mountTable = () => mount(AdminOffersTable, {
+const mountTable = (props = {}) => mount(AdminOffersTable, {
   props: {
     offers,
-    filters: { status: 'all', search: '' },
+    filters: { status: 'all', search: '', company: '' },
     statuses: ['draft', 'published', 'closed', 'expired'],
+    ...props,
   },
   global: {
     plugins: [i18n],
@@ -71,5 +73,41 @@ describe('AdminOffersTable', () => {
 
     expect(card.findAll('dt').map((dt) => dt.text()))
       .toEqual([en.admin.offers.company, en.admin.offers.city, ''])
+  })
+
+  it('links the company cell to the offers of that company', () => {
+    const wrapper = mountTable()
+
+    const link = wrapper.find('tbody a')
+
+    expect(link.attributes('href')).toBe('/admin/offers?company=c1')
+    expect(link.text()).toBe('Acme')
+  })
+
+  it('names the company the list is narrowed to', () => {
+    const wrapper = mountTable({ filterCompany: { id: 'c1', name: 'Acme' } })
+
+    expect(wrapper.text()).toContain('Company: Acme')
+  })
+
+  it('does not name a company when the list is not narrowed', () => {
+    expect(mountTable().text()).not.toContain('Company: Acme')
+  })
+
+  it('drops the company from the query when the filter is cleared', async () => {
+    mockGet.mockClear()
+
+    const wrapper = mountTable({
+      filters: { status: 'all', search: '', company: 'c1' },
+      filterCompany: { id: 'c1', name: 'Acme' },
+    })
+
+    await wrapper.get(`button[aria-label="${en.admin.offers.clearCompanyFilter}"]`).trigger('click')
+
+    expect(mockGet).toHaveBeenCalledWith(
+      '/admin/offers',
+      expect.objectContaining({ company: '' }),
+      expect.anything(),
+    )
   })
 })
