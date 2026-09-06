@@ -20,9 +20,9 @@ use RefreshDatabase;
 
 public function testGuestCannotAccessSettingsOrMutateAccount(): void
 {
-$this->get(route("admin.settings"))->assertRedirect(route("login"));
-$this->put(route("admin.password.update"), $this->passwordPayload())->assertRedirect(route("login"));
-$this->patch(route("admin.email.update"), $this->emailPayload())->assertRedirect(route("login"));
+    $this->get(route("admin.settings"))->assertStatus(401);
+    $this->put(route("admin.password.update"), $this->passwordPayload())->assertStatus(401);
+    $this->patch(route("admin.email.update"), $this->emailPayload())->assertStatus(401);
 }
 
 public function testNonAdminRoleCannotAccessSettingsOrMutateAccount(): void
