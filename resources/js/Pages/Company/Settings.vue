@@ -15,16 +15,16 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <Head :title="t('student.profile.account.title')" />
+  <Head :title="t('company.profile.account.title')" />
   <AppLayout active-page="settings">
     <AccountSettingsSection
       :email="email"
       :email-verified-at="emailVerifiedAt"
       :pending-email="pendingEmail"
-      i18n-prefix="student.profile"
-      :password-update-route="ROUTES.STUDENT_PASSWORD_UPDATE"
-      :email-update-route="ROUTES.STUDENT_EMAIL_UPDATE"
-      :account-delete-route="ROUTES.STUDENT_ACCOUNT_DELETE"
+      i18n-prefix="company.profile"
+      :password-update-route="ROUTES.COMPANY_PASSWORD_UPDATE"
+      :email-update-route="ROUTES.COMPANY_EMAIL_UPDATE"
+      :account-delete-route="ROUTES.COMPANY_ACCOUNT_DELETE"
     />
   </AppLayout>
 </template>

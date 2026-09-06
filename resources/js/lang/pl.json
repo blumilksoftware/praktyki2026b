@@ -570,6 +570,25 @@
     },
       "profile": {
           "title": "Profil administratora",
+          "account": {
+              "title": "Ustawienia",
+              "description": "Hasło i adres e-mail."
+          },
+          "password": {
+              "title": "Zmiana hasła",
+              "current": "Obecne hasło",
+              "new": "Nowe hasło",
+              "confirmation": "Potwierdź nowe hasło"
+          },
+          "email": {
+              "title": "Zmiana adresu e-mail",
+              "label": "Adres e-mail",
+              "newAddress": "Nowy adres e-mail",
+              "unverifiedNotice": "Adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
+              "pendingNotice": "Nowy adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
+              "currentPassword": "Obecne hasło",
+              "resend": "Wyślij ponownie link weryfikacyjny"
+          },
           "administratorHeading": "Administrator",
           "administratorDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
       }
@@ -586,7 +605,36 @@
         }
     },
     "profile": {
-      "title": "Profil"
+      "title": "Profil",
+        "account": {
+            "title": "Ustawienia",
+            "description": "Hasło, adres e-mail i usuwanie konta."
+        },
+        "password": {
+            "title": "Zmiana hasła",
+            "current": "Obecne hasło",
+            "new": "Nowe hasło",
+            "confirmation": "Potwierdź nowe hasło"
+        },
+        "email": {
+            "title": "Zmiana adresu e-mail",
+            "label": "Adres e-mail",
+            "newAddress": "Nowy adres e-mail",
+            "unverifiedNotice": "Adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
+            "pendingNotice": "Nowy adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
+            "currentPassword": "Obecne hasło",
+            "resend": "Wyślij ponownie link weryfikacyjny"
+        },
+        "delete": {
+            "title": "Usuń konto",
+            "warning": "Tej operacji nie można cofnąć.",
+            "openModal": "Usuń konto",
+            "modalTitle": "Potwierdź usunięcie konta",
+            "confirmationLabel": "Rozumiem, że tej operacji nie można cofnąć",
+            "password": "Hasło",
+            "confirm": "Usuń konto na stałe",
+            "cancel": "Anuluj"
+        }
     },
     "faculties": {
       "title": "Wydziały i kierunki",
@@ -813,7 +861,7 @@
         "specialization": "Specjalność",
         "saveChanges": "Zapisz zmiany",
         "backToProfile": "Wróć do profilu",
-        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Konto i bezpieczeństwo” (ikona profilu w pasku nawigacji)."
+        "emailReadonlyHint": "Zmiana adresu e-mail — w sekcji „Ustawienia” (ikona profilu w pasku nawigacji)."
       },
       "photo": {
         "label": "Zdjęcie profilowe",
@@ -868,7 +916,7 @@
         "comingSoon": "Ta sekcja będzie dostępna wkrótce."
       },
       "account": {
-        "title": "Konto i bezpieczeństwo",
+        "title": "Ustawienia",
         "description": "Hasło, adres e-mail i usuwanie konta."
       },
       "password": {
@@ -1192,7 +1240,36 @@
       }
     },
     "profile": {
-      "title": "Profil"
+      "title": "Profil",
+        "account": {
+            "title": "Ustawienia",
+            "description": "Hasło, adres e-mail i usuwanie konta."
+        },
+        "password": {
+            "title": "Zmiana hasła",
+            "current": "Obecne hasło",
+            "new": "Nowe hasło",
+            "confirmation": "Potwierdź nowe hasło"
+        },
+        "email": {
+            "title": "Zmiana adresu e-mail",
+            "label": "Adres e-mail",
+            "newAddress": "Nowy adres e-mail",
+            "unverifiedNotice": "Adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
+            "pendingNotice": "Nowy adres {email} jest nieaktywny do momentu potwierdzenia linkiem z wiadomości e-mail.",
+            "currentPassword": "Obecne hasło",
+            "resend": "Wyślij ponownie link weryfikacyjny"
+        },
+        "delete": {
+            "title": "Usuń konto",
+            "warning": "Tej operacji nie można cofnąć.",
+            "openModal": "Usuń konto",
+            "modalTitle": "Potwierdź usunięcie konta",
+            "confirmationLabel": "Rozumiem, że tej operacji nie można cofnąć",
+            "password": "Hasło",
+            "confirm": "Usuń konto na stałe",
+            "cancel": "Anuluj"
+        }
     },
     "offer": {
       "delete": {
