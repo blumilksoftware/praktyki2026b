@@ -48,14 +48,14 @@ Route::middleware(["auth"])
         Route::get("/team", [TeamMemberController::class, "index"])->name("team.index");
     });
 
-Route::middleware(["auth"])
+Route::middleware(["auth", "role:companyAdmin,companyMember"])
     ->prefix("company")
     ->group(function (): void {
         Route::get("/verification/pending", [CompanyController::class, "verificationPending"])->name("company.verification.pending");
         Route::get("/settings", [CompanyController::class, "settings"])->name("company.settings");
     });
 
-Route::middleware(["auth"])
+Route::middleware(["auth", "role:universityAdmin,universityMember"])
     ->prefix("university")
     ->group(function (): void {
         Route::get("/verification/pending", [UniversityController::class, "verificationPending"])->name("university.verification.pending");

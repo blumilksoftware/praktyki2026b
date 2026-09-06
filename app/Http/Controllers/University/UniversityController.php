@@ -149,8 +149,11 @@ class UniversityController extends Controller
 
     public function deleteAccount(DeleteAccountRequest $request): RedirectResponse
     {
-        $this->removeTeamMember->execute(Auth::user());
+        $user = Auth::user();
 
+        $this->removeTeamMember->execute($user);
+
+        $user->setRememberToken(null);
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

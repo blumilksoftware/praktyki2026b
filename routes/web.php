@@ -179,7 +179,7 @@ Route::middleware(["role:superAdmin"])
         Route::patch("/email", [AdminController::class, "changeEmail"])->name("admin.email.update");
     });
 
-Route::middleware(["auth"])
+Route::middleware(["auth", "role:companyAdmin,companyMember"])
     ->prefix("company")
     ->group(function (): void {
         Route::put("/password", [CompanyController::class, "changePassword"])->name("company.password.update");
@@ -187,7 +187,7 @@ Route::middleware(["auth"])
         Route::delete("/account", [CompanyController::class, "deleteAccount"])->name("company.account.delete");
     });
 
-Route::middleware(["auth"])
+Route::middleware(["auth", "role:universityAdmin,universityMember"])
     ->prefix("university")
     ->group(function (): void {
         Route::put("/password", [UniversityController::class, "changePassword"])->name("university.password.update");
