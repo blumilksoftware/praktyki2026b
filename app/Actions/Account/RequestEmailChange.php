@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Student;
+namespace App\Actions\Account;
 
 use App\Models\User;
 use App\Services\EmailVerificationService;

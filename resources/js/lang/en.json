@@ -570,6 +570,25 @@
     },
       "profile": {
           "title": "Administrator profile",
+          "account": {
+              "title": "Settings",
+              "description": "Password and email address."
+          },
+          "password": {
+              "title": "Change password",
+              "current": "Current password",
+              "new": "New password",
+              "confirmation": "Confirm new password"
+          },
+          "email": {
+              "title": "Change email address",
+              "label": "Email address",
+              "newAddress": "New email address",
+              "unverifiedNotice": "The address {email} is inactive until you confirm it via the email link.",
+              "pendingNotice": "The new address {email} is inactive until you confirm it via the email link.",
+              "currentPassword": "Current password",
+              "resend": "Resend verification link"
+          },
           "administratorHeading": "Administrator",
           "administratorDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
       }
@@ -586,7 +605,36 @@
             }
         },
     "profile": {
-      "title": "Profile"
+      "title": "Profile",
+        "account": {
+            "title": "Settings",
+            "description": "Password, email and account deletion."
+        },
+        "password": {
+            "title": "Change password",
+            "current": "Current password",
+            "new": "New password",
+            "confirmation": "Confirm new password"
+        },
+        "email": {
+            "title": "Change email address",
+            "label": "Email address",
+            "newAddress": "New email address",
+            "unverifiedNotice": "The address {email} is inactive until you confirm it via the email link.",
+            "pendingNotice": "The new address {email} is inactive until you confirm it via the email link.",
+            "currentPassword": "Current password",
+            "resend": "Resend verification link"
+        },
+        "delete": {
+            "title": "Delete account",
+            "warning": "This cannot be undone.",
+            "openModal": "Delete account",
+            "modalTitle": "Confirm account deletion",
+            "confirmationLabel": "I understand this action cannot be undone",
+            "password": "Password",
+            "confirm": "Delete account permanently",
+            "cancel": "Cancel"
+        }
     },
     "faculties": {
       "title": "Faculties and fields of study",
@@ -949,7 +997,7 @@
         "specialization": "Specialization",
         "saveChanges": "Save changes",
         "backToProfile": "Back to profile",
-        "emailReadonlyHint": "To change your email, open Account and security from the profile icon in the navigation bar."
+        "emailReadonlyHint": "To change your email, open Settings from the profile icon in the navigation bar."
       },
       "photo": {
         "label": "Profile photo",
@@ -1004,7 +1052,7 @@
         "comingSoon": "This section will be available soon."
       },
       "account": {
-        "title": "Account and security",
+        "title": "Settings",
         "description": "Password, email and account deletion."
       },
       "password": {
@@ -1191,7 +1239,36 @@
       }
     },
     "profile": {
-      "title": "Profile"
+      "title": "Profile",
+        "account": {
+            "title": "Settings",
+            "description": "Password, email and account deletion."
+        },
+        "password": {
+            "title": "Change password",
+            "current": "Current password",
+            "new": "New password",
+            "confirmation": "Confirm new password"
+        },
+        "email": {
+            "title": "Change email address",
+            "label": "Email address",
+            "newAddress": "New email address",
+            "unverifiedNotice": "The address {email} is inactive until you confirm it via the email link.",
+            "pendingNotice": "The new address {email} is inactive until you confirm it via the email link.",
+            "currentPassword": "Current password",
+            "resend": "Resend verification link"
+        },
+        "delete": {
+            "title": "Delete account",
+            "warning": "This cannot be undone.",
+            "openModal": "Delete account",
+            "modalTitle": "Confirm account deletion",
+            "confirmationLabel": "I understand this action cannot be undone",
+            "password": "Password",
+            "confirm": "Delete account permanently",
+            "cancel": "Cancel"
+        }
     },
     "offer": {
       "delete": {

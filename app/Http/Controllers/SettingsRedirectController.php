@@ -13,16 +13,20 @@ class SettingsRedirectController extends Controller
     {
         $user = $request->user();
 
+        if ($user->role === UserRole::SuperAdmin) {
+            return redirect()->route("admin.settings");
+        }
+
         if ($user->role === UserRole::Student) {
             return redirect()->route("student.settings");
         }
 
         if (in_array($user->role, [UserRole::CompanyAdmin, UserRole::CompanyMember], true)) {
-            return redirect()->route("company.profile");
+            return redirect()->route("company.settings");
         }
 
         if (in_array($user->role, [UserRole::UniversityAdmin, UserRole::UniversityMember], true)) {
-            return redirect()->route("university.profile");
+            return redirect()->route("university.settings");
         }
 
         return redirect("/");
