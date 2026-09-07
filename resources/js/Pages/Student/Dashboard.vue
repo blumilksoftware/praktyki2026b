@@ -26,7 +26,7 @@ const offersPreview = computed(() => ({ data: props.offers }))
         <div class="lg:items-center gap-6 grid lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.95fr)]">
           <div class="max-w-2xl">
             <p class="font-medium text-additional text-sm">{{ t('student.dashboard.title') }}</p>
-            <h1 class="mt-2 font-semibold text-text text-4xl sm:text-5xl tracking-tight">
+            <h1 class="mt-2 font-semibold text-text text-2xl tracking-tight">
               {{ t('student.dashboard.heading') }}
             </h1>
             <p class="mt-4 text-additional text-base sm:text-lg leading-7">
@@ -75,7 +75,7 @@ const offersPreview = computed(() => ({ data: props.offers }))
         <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p class="font-medium text-additional text-sm">{{ t('student.dashboard.previewTitle') }}</p>
-            <h2 class="mt-1 font-semibold text-text text-2xl tracking-tight">{{ t('student.dashboard.previewDescription') }}</h2>
+            <h2 class="mt-1 font-semibold text-text text-lg tracking-tight">{{ t('student.dashboard.previewDescription') }}</h2>
           </div>
           <Link
             :href="ROUTES.OFFERS"

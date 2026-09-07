@@ -30,7 +30,7 @@ const externalFormUrlModel = computed({
 
 <template>
   <div class="bg-white rounded-xl border border-secondary/20 shadow-sm p-6 sm:p-8">
-    <h2 class="font-semibold text-text mb-4 text-lg">
+    <h2 class="mb-4 font-bold text-text text-xl">
       {{ t('profiles.university.systemInformation') }}
     </h2>
     

@@ -206,7 +206,7 @@ onMounted(() => {
           <div class="flex flex-col items-start gap-4 mb-5 px-4 pt-5 sm:flex-row sm:items-end sm:justify-between sm:px-0 sm:pt-0">
             <div>
               <p class="font-medium text-additional text-sm">{{ t('student.offers.results.caption') }}</p>
-              <h2 id="offers-list-heading" class="mt-1 font-semibold text-text text-3xl tracking-tight" aria-live="polite">
+              <h2 id="offers-list-heading" class="mt-1 font-semibold text-text text-lg tracking-tight" aria-live="polite">
                 {{ t('student.offers.results.count', { count: offers.total || offers.data.length }) }}
               </h2>
             </div>

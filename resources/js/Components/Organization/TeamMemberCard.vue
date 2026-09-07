@@ -99,7 +99,7 @@ function handlePreview(event) {
             >
               {{ props.roleLabel }}
             </span>
-            <h3 class="min-w-0 break-words text-lg font-semibold tracking-tight text-text sm:text-2xl">
+            <h3 class="min-w-0 break-words text-lg font-semibold tracking-tight text-text">
               {{ props.member.name }}
             </h3>
           </div>
@@ -137,7 +137,7 @@ function handlePreview(event) {
         </button>
       </div>
       <div class="mt-3 flex flex-col gap-1 sm:mt-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-2">
-        <p class="min-w-0 break-words text-sm font-semibold text-additional">
+        <p class="min-w-0 break-words text-sm text-additional">
           {{ props.member.email }}
         </p>
         <span class="shrink-0 text-sm text-additional sm:text-right">

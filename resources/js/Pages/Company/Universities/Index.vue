@@ -66,7 +66,7 @@ watch([nameFilter, cityFilter], useDebouncedSearch(search))
 <template>
   <Head :title="t('company.universities.title')" />
   <AppLayout active-page="universities">
-    <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ t('company.universities.title') }}</h1>
+    <h1 class="mb-6 font-semibold text-text text-2xl">{{ t('company.universities.title') }}</h1>
 
     <div class="mb-6 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
       <div>

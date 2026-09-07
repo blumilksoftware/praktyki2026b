@@ -197,7 +197,7 @@ function saveAll() {
         </ProfilePageCard>
 
         <ProfilePageCard>
-          <h2 class="mb-3 font-medium text-text text-sm">
+          <h2 class="mb-3 font-semibold text-text text-base">
             {{ t('student.profile.edit.basicData') }}
           </h2>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -254,7 +254,7 @@ function saveAll() {
         </ProfilePageCard>
 
         <ProfilePageCard>
-          <h2 class="mb-1 font-medium text-text text-sm">
+          <h2 class="mb-1 font-semibold text-text text-base">
             {{ t('student.profile.edit.searchPreferences') }}
           </h2>
           <p class="mb-3 text-additional text-xs">
@@ -286,7 +286,7 @@ function saveAll() {
         </ProfilePageCard>
 
         <ProfilePageCard id="profile-section-university">
-          <h2 class="mb-3 font-medium text-text text-sm">
+          <h2 class="mb-3 font-semibold text-text text-base">
             {{ t('student.profile.edit.education') }}
           </h2>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
