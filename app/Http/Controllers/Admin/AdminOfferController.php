@@ -31,6 +31,11 @@ class AdminOfferController extends Controller
             "filterCompany" => $filters["company"] !== ""
                 ? Company::query()->select(["id", "name"])->find($filters["company"])
                 : null,
+            "companies" => Company::query()
+                ->select(["id", "name"])
+                ->whereHas("offers")
+                ->orderBy("name")
+                ->get(),
             "statuses" => array_map(fn(OfferStatus $status): string => $status->value, OfferStatus::cases()),
             "meta" => [
                 "title" => "Admin Offers",

@@ -2,7 +2,7 @@
 import { ref, computed, watch } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
-import { IconSearch, IconBan, IconX } from '@tabler/icons-vue'
+import { IconSearch, IconBan } from '@tabler/icons-vue'
 import DataTable from '@/Components/Common/DataTable.vue'
 import Pagination from '@/Components/Common/Pagination.vue'
 import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
@@ -28,6 +28,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  companies: {
+    type: Array,
+    default: () => [],
+  },
 })
 
 const { t } = useI18n()
@@ -41,6 +45,17 @@ const statusFilterOptions = computed(() => [
   { value: 'all', label: t('admin.offers.all') },
   ...props.statuses.map(status => ({ value: status, label: t(`admin.offers.statuses.${status}`) })),
 ])
+
+const companyFilterOptions = computed(() => {
+  const listed = props.companies.map(company => ({ value: company.id, label: company.name }))
+  const isMissing = props.filterCompany && !listed.some(option => option.value === props.filterCompany.id)
+
+  return [
+    { value: '', label: t('admin.offers.allCompanies') },
+    ...(isMissing ? [{ value: props.filterCompany.id, label: props.filterCompany.name }] : []),
+    ...listed,
+  ]
+})
 
 const sortKey = ref(props.filters.sort_key || 'created_at')
 const sortDir = ref(props.filters.sort_dir || 'desc')
@@ -76,8 +91,8 @@ function applyQuery() {
   })
 }
 
-function clearCompanyFilter() {
-  companyFilter.value = ''
+function selectCompany(value) {
+  companyFilter.value = value
   applyQuery()
 }
 
@@ -93,11 +108,23 @@ watch([statusFilter, searchQuery], useDebouncedSearch(applyQuery))
 <template>
   <div class="space-y-6">
     <div class="flex lg:flex-row flex-col lg:justify-between lg:items-center gap-4">
-      <FilterDropdown
-        v-model="statusFilter"
-        :options="statusFilterOptions"
-        :aria-label="t('admin.offers.filterByStatusAriaLabel')"
-      />
+      <div class="flex sm:flex-row flex-col gap-3">
+        <FilterDropdown
+          v-model="statusFilter"
+          :options="statusFilterOptions"
+          :aria-label="t('admin.offers.filterByStatusAriaLabel')"
+        />
+
+        <FilterDropdown
+          :model-value="companyFilter"
+          :options="companyFilterOptions"
+          :aria-label="t('admin.offers.filterByCompanySelectAriaLabel')"
+          searchable
+          :search-placeholder="t('admin.offers.searchCompany')"
+          :empty-label="t('admin.offers.noCompaniesFound')"
+          @update:model-value="selectCompany"
+        />
+      </div>
 
       <div class="relative">
         <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
@@ -111,20 +138,6 @@ watch([statusFilter, searchQuery], useDebouncedSearch(applyQuery))
           class="bg-white px-4 py-2 pr-10 pl-9 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/60 w-full text-slate-700 text-sm"
         >
       </div>
-    </div>
-
-    <div v-if="filterCompany" class="flex flex-wrap items-center gap-2">
-      <span class="inline-flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full font-medium text-primary text-sm">
-        {{ t('admin.offers.filteredByCompany', { company: filterCompany.name }) }}
-        <button
-          type="button"
-          class="hover:bg-primary/20 p-0.5 rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-          :aria-label="t('admin.offers.clearCompanyFilter')"
-          @click="clearCompanyFilter"
-        >
-          <IconX class="w-3.5 h-3.5" aria-hidden="true" />
-        </button>
-      </span>
     </div>
 
     <DataTable
@@ -143,7 +156,7 @@ watch([statusFilter, searchQuery], useDebouncedSearch(applyQuery))
         <Link
           v-if="item.company"
           :href="adminOffersForCompany(item.company.id)"
-          class="rounded text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          class="rounded font-medium text-link hover:text-link/80 underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           :aria-label="t('admin.offers.filterByCompanyAriaLabel', { company: item.company.name })"
         >
           {{ item.company.name }}

@@ -244,4 +244,25 @@ class AdminOffersTest extends TestCase
             ->get("/admin/offers?company=not-a-uuid")
             ->assertSessionHasErrors("company");
     }
+
+    public function testAdminOffersPageOffersOnlyCompaniesThatHaveOffers(): void
+    {
+        $admin = User::factory()->create(["role" => UserRole::SuperAdmin]);
+        $first = Company::factory()->approved()->create(["name" => "Aaa Company"]);
+        $second = Company::factory()->approved()->create(["name" => "Zzz Company"]);
+        Company::factory()->approved()->create(["name" => "Company Without Offers"]);
+        Offer::factory()->create(["company_id" => $first->id]);
+        Offer::factory()->create(["company_id" => $second->id]);
+
+        $this->actingAs($admin)
+            ->get("/admin/offers")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Admin/Offers")
+                    ->has("companies", 2)
+                    ->where("companies.0.name", "Aaa Company")
+                    ->where("companies.1.name", "Zzz Company"),
+            );
+    }
 }
