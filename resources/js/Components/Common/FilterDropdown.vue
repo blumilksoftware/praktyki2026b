@@ -82,7 +82,7 @@ onUnmounted(() => document.removeEventListener('click', closeDropdown))
         v-show="isOpen"
         class="absolute left-0 top-full z-50 mt-2 min-w-full overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5"
       >
-        <div v-if="searchable" class="relative border-b border-border">
+        <div v-if="searchable" class="relative border-b border-border focus-within:border-primary/40 transition-colors">
           <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
             <IconSearch class="w-4 h-4 text-slate-400" aria-hidden="true" />
           </div>
@@ -92,7 +92,7 @@ onUnmounted(() => document.removeEventListener('click', closeDropdown))
             type="text"
             :placeholder="searchPlaceholder"
             :aria-label="searchPlaceholder"
-            class="bg-white px-4 py-2 pl-9 focus:outline-none w-full text-slate-700 text-sm"
+            class="bg-transparent px-4 py-2 pl-9 border-0 focus:border-0 focus:outline-none focus:ring-0 w-full text-slate-700 text-sm"
           >
         </div>
 
