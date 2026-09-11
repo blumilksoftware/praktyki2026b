@@ -9,6 +9,7 @@ const { mockGet } = vi.hoisted(() => ({ mockGet: vi.fn() }))
 vi.mock('@inertiajs/vue3', () => ({
   router: { get: mockGet },
   useForm: () => ({ processing: false, errors: {}, patch: vi.fn() }),
+  Link: { props: ['href'], template: '<a :href="href"><slot /></a>' },
 }))
 
 const i18n = createI18n({ legacy: false, locale: 'en', messages: { en } })
@@ -21,11 +22,12 @@ const offers = {
   links: {},
 }
 
-const mountTable = () => mount(AdminOffersTable, {
+const mountTable = (props = {}) => mount(AdminOffersTable, {
   props: {
     offers,
-    filters: { status: 'all', search: '' },
+    filters: { status: 'all', search: '', company: '' },
     statuses: ['draft', 'published', 'closed', 'expired'],
+    ...props,
   },
   global: {
     plugins: [i18n],
@@ -71,5 +73,74 @@ describe('AdminOffersTable', () => {
 
     expect(card.findAll('dt').map((dt) => dt.text()))
       .toEqual([en.admin.offers.company, en.admin.offers.city, ''])
+  })
+
+  it('links the company cell to the offers of that company', () => {
+    const wrapper = mountTable()
+
+    const link = wrapper.find('tbody a')
+
+    expect(link.attributes('href')).toBe('/admin/offers?company=c1')
+    expect(link.text()).toBe('Acme')
+  })
+
+  it('keeps the filtered company selectable when it has no offers left', () => {
+    const wrapper = mountTable({
+      filters: { status: 'all', search: '', company: 'c9' },
+      filterCompany: { id: 'c9', name: 'Gone Quiet' },
+      companies: [{ id: 'c1', name: 'Acme' }],
+    })
+
+    const companyDropdown = wrapper.findAllComponents({ name: 'FilterDropdown' })[1]
+
+    expect(companyDropdown.props('options')).toEqual([
+      { value: '', label: en.admin.offers.allCompanies },
+      { value: 'c9', label: 'Gone Quiet' },
+      { value: 'c1', label: 'Acme' },
+    ])
+  })
+
+  it('does not repeat the filtered company when it is already listed', () => {
+    const wrapper = mountTable({
+      filters: { status: 'all', search: '', company: 'c1' },
+      filterCompany: { id: 'c1', name: 'Acme' },
+      companies: [{ id: 'c1', name: 'Acme' }],
+    })
+
+    const companyDropdown = wrapper.findAllComponents({ name: 'FilterDropdown' })[1]
+
+    expect(companyDropdown.props('options')).toEqual([
+      { value: '', label: en.admin.offers.allCompanies },
+      { value: 'c1', label: 'Acme' },
+    ])
+  })
+  it('offers every company that has offers in the company filter', () => {
+    const wrapper = mountTable({
+      companies: [{ id: 'c1', name: 'Acme' }, { id: 'c2', name: 'Beta Soft' }],
+    })
+
+    const companyDropdown = wrapper.findAllComponents({ name: 'FilterDropdown' })[1]
+
+    expect(companyDropdown.props('options')).toEqual([
+      { value: '', label: en.admin.offers.allCompanies },
+      { value: 'c1', label: 'Acme' },
+      { value: 'c2', label: 'Beta Soft' },
+    ])
+    expect(companyDropdown.props('searchable')).toBe(true)
+  })
+
+  it('narrows the query to the company chosen in the filter', async () => {
+    mockGet.mockClear()
+
+    const wrapper = mountTable({ companies: [{ id: 'c2', name: 'Beta Soft' }] })
+
+    wrapper.findAllComponents({ name: 'FilterDropdown' })[1].vm.$emit('update:modelValue', 'c2')
+    await wrapper.vm.$nextTick()
+
+    expect(mockGet).toHaveBeenCalledWith(
+      '/admin/offers',
+      expect.objectContaining({ company: 'c2' }),
+      expect.anything(),
+    )
   })
 })

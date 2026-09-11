@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import { useI18n } from 'vue-i18n'
 import { IconSearch, IconBan } from '@tabler/icons-vue'
 import DataTable from '@/Components/Common/DataTable.vue'
@@ -9,7 +9,7 @@ import FilterDropdown from '@/Components/Common/FilterDropdown.vue'
 import AdminTakeDownOfferModal from '@/Components/Admin/AdminTakeDownOfferModal.vue'
 import { useOfferStatus } from '@/Composables/useOfferStatus'
 import { useDebouncedSearch } from '@/Composables/useDebouncedSearch'
-import { offerPreview } from '@/Helpers/routes'
+import { adminOffersForCompany, offerPreview } from '@/Helpers/routes'
 
 const props = defineProps({
   offers: {
@@ -24,6 +24,14 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  filterCompany: {
+    type: Object,
+    default: null,
+  },
+  companies: {
+    type: Array,
+    default: () => [],
+  },
 })
 
 const { t } = useI18n()
@@ -31,11 +39,23 @@ const { statusClass } = useOfferStatus()
 
 const statusFilter = ref(props.filters.status || 'all')
 const searchQuery = ref(props.filters.search || '')
+const companyFilter = ref(props.filters.company || '')
 
 const statusFilterOptions = computed(() => [
   { value: 'all', label: t('admin.offers.all') },
   ...props.statuses.map(status => ({ value: status, label: t(`admin.offers.statuses.${status}`) })),
 ])
+
+const companyFilterOptions = computed(() => {
+  const listed = props.companies.map(company => ({ value: company.id, label: company.name }))
+  const isMissing = props.filterCompany && !listed.some(option => option.value === props.filterCompany.id)
+
+  return [
+    { value: '', label: t('admin.offers.allCompanies') },
+    ...(isMissing ? [{ value: props.filterCompany.id, label: props.filterCompany.name }] : []),
+    ...listed,
+  ]
+})
 
 const sortKey = ref(props.filters.sort_key || 'created_at')
 const sortDir = ref(props.filters.sort_dir || 'desc')
@@ -62,12 +82,18 @@ function applyQuery() {
   router.get('/admin/offers', {
     status: statusFilter.value,
     search: searchQuery.value,
+    company: companyFilter.value,
     sort_key: sortKey.value,
     sort_dir: sortDir.value,
   }, {
     preserveState: true,
     replace: true,
   })
+}
+
+function selectCompany(value) {
+  companyFilter.value = value
+  applyQuery()
 }
 
 function handleSort({ key, dir }) {
@@ -82,11 +108,23 @@ watch([statusFilter, searchQuery], useDebouncedSearch(applyQuery))
 <template>
   <div class="space-y-6">
     <div class="flex lg:flex-row flex-col lg:justify-between lg:items-center gap-4">
-      <FilterDropdown
-        v-model="statusFilter"
-        :options="statusFilterOptions"
-        :aria-label="t('admin.offers.filterByStatusAriaLabel')"
-      />
+      <div class="flex sm:flex-row flex-col gap-3">
+        <FilterDropdown
+          v-model="statusFilter"
+          :options="statusFilterOptions"
+          :aria-label="t('admin.offers.filterByStatusAriaLabel')"
+        />
+
+        <FilterDropdown
+          :model-value="companyFilter"
+          :options="companyFilterOptions"
+          :aria-label="t('admin.offers.filterByCompanySelectAriaLabel')"
+          searchable
+          :search-placeholder="t('admin.offers.searchCompany')"
+          :empty-label="t('admin.offers.noCompaniesFound')"
+          @update:model-value="selectCompany"
+        />
+      </div>
 
       <div class="relative">
         <div class="left-3 absolute inset-y-0 flex items-center pointer-events-none">
@@ -115,7 +153,15 @@ watch([statusFilter, searchQuery], useDebouncedSearch(applyQuery))
       @sort="handleSort"
     >
       <template #cell-company="{ item }">
-        {{ item.company?.name || '-' }}
+        <Link
+          v-if="item.company"
+          :href="adminOffersForCompany(item.company.id)"
+          class="rounded font-medium text-link hover:text-link/80 underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          :aria-label="t('admin.offers.filterByCompanyAriaLabel', { company: item.company.name })"
+        >
+          {{ item.company.name }}
+        </Link>
+        <template v-else>-</template>
       </template>
       <template #cell-city="{ item }">
         {{ item.city || '-' }}

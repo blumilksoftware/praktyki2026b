@@ -25,6 +25,10 @@ class SearchOffers
             $this->applyCaseInsensitiveSearch($query, $filters["search"], ["title", "company.name"]);
         }
 
+        if ($filters["company"] !== "") {
+            $query->where("company_id", $filters["company"]);
+        }
+
         if ($filters["sort_key"] === "company") {
             $query->orderBy(
                 Company::query()->select("name")->whereColumn("companies.id", "offers.company_id"),
