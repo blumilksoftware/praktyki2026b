@@ -6,10 +6,11 @@ import BaseModal from '@/Components/Base/BaseModal.vue'
 import BaseInput from '@/Components/Base/BaseInput.vue'
 import BaseButton from '@/Components/Base/BaseButton.vue'
 import BaseCheckbox from '@/Components/Base/BaseCheckbox.vue'
-import { ROUTES } from '@/Helpers/routes'
 
-defineProps({
+const props = defineProps({
   open: { type: Boolean, required: true },
+  i18nPrefix: { type: String, required: true },
+  accountDeleteRoute: { type: String, required: true },
 })
 
 const emit = defineEmits(['close'])
@@ -24,7 +25,7 @@ const canDelete = computed(() => form.confirmation && form.password.length > 0)
 const fieldError = (field) => form.errors[field]
 
 function submit() {
-  form.delete(ROUTES.STUDENT_ACCOUNT_DELETE, {
+  form.delete(props.accountDeleteRoute, {
     onSuccess: () => emit('close'),
   })
 }
@@ -33,7 +34,7 @@ function submit() {
 <template>
   <BaseModal
     :open="open"
-    :title="t('student.profile.delete.modalTitle')"
+    :title="t(`${i18nPrefix}.delete.modalTitle`)"
     max-width-class="max-w-lg"
     @close="emit('close')"
   >
@@ -41,22 +42,22 @@ function submit() {
       <BaseCheckbox
         id="delete_confirmation"
         v-model="form.confirmation"
-        :label="t('student.profile.delete.confirmationLabel')"
+        :label="t(`${i18nPrefix}.delete.confirmationLabel`)"
       />
       <BaseInput
         id="delete_password"
         v-model="form.password"
         type="password"
-        :label="t('student.profile.delete.password')"
+        :label="t(`${i18nPrefix}.delete.password`)"
         autocomplete="current-password"
         :error="fieldError('password')"
       />
       <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <BaseButton type="button" variant="secondary" @click="emit('close')">
-          {{ t('student.profile.delete.cancel') }}
+          {{ t(`${i18nPrefix}.delete.cancel`) }}
         </BaseButton>
         <BaseButton type="submit" :disabled="!canDelete || form.processing">
-          {{ t('student.profile.delete.confirm') }}
+          {{ t(`${i18nPrefix}.delete.confirm`) }}
         </BaseButton>
       </div>
     </form>

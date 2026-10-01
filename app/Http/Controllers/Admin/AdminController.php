@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Account\ChangePassword;
+use App\Actions\Account\RequestEmailChange;
 use App\Actions\Admin\DeleteOrganizationAction;
 use App\Actions\Admin\VerifyEntityAction;
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangeEmailRequest;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Models\Company;
 use App\Models\Offer;
 use App\Models\University;
@@ -27,6 +31,8 @@ class AdminController extends Controller
     public function __construct(
         private readonly VerifyEntityAction $verifyAction,
         private readonly DeleteOrganizationAction $deleteOrganizationAction,
+        private readonly ChangePassword $changePassword,
+        private readonly RequestEmailChange $requestEmailChange,
     ) {}
 
     public function index(): Response
@@ -248,6 +254,31 @@ class AdminController extends Controller
                 "email" => $admin->email,
             ],
         ]);
+    }
+
+    public function settings(): Response
+    {
+        $user = Auth::user();
+
+        return inertia("Admin/Settings", [
+            "email" => $user->email,
+            "emailVerifiedAt" => $user->email_verified_at?->toIso8601String(),
+            "pendingEmail" => $user->pending_email,
+        ]);
+    }
+
+    public function changePassword(ChangePasswordRequest $request): RedirectResponse
+    {
+        $this->changePassword->execute(Auth::user(), $request->string("password")->toString());
+
+        return back();
+    }
+
+    public function changeEmail(ChangeEmailRequest $request): RedirectResponse
+    {
+        $this->requestEmailChange->execute(Auth::user(), $request->string("email")->toString());
+
+        return back();
     }
 
     private function checkIfVerifiedWithRedirect(University|Company $entity, string $message, string $route): ?RedirectResponse

@@ -22,6 +22,10 @@ export const ROUTES = {
   COMPANY_OFFERS_PUBLISH: (id: number | string) => `/company/offers/${id}/publish`,
   COMPANY_OFFERS_DEACTIVATE: (id: number | string) => `/company/offers/${id}/deactivate`,
   COMPANY_OFFERS_DELETE: (id: number | string) => `/company/offers/${id}`,
+  COMPANY_SETTINGS: "/company/settings",
+  COMPANY_PASSWORD_UPDATE: "/company/password",
+  COMPANY_EMAIL_UPDATE: "/company/email",
+  COMPANY_ACCOUNT_DELETE: "/company/account",
 
   // Authentication - Password & Email
   FORGOT_PASSWORD: "/forgot-password",
@@ -48,6 +52,9 @@ export const ROUTES = {
   ADMIN_USER_DELETION_IMPACT: (id: string) => `/admin/users/${id}/deletion-impact`,
   ADMIN_INDUSTRY_TAGS: "/admin/industry-tags",
   ADMIN_INDUSTRY_TAG: (id: string) => `/admin/industry-tags/${id}`,
+  ADMIN_SETTINGS: "/admin/settings",
+  ADMIN_PASSWORD_UPDATE: "/admin/password",
+  ADMIN_EMAIL_UPDATE: "/admin/email",
 
   // Student Profile & Settings
   STUDENT_DASHBOARD: "/student/dashboard",
@@ -108,6 +115,10 @@ export const ROUTES = {
   UNIVERSITY_COMPANIES: "/university/companies",
   UNIVERSITY_COMPANY_PARTNERSHIP: "/university/companies/{company}/partnership",
   UNIVERSITY_COMPANY_PARTNERSHIP_ACCEPT: "/university/companies/{company}/partnership/accept",
+  UNIVERSITY_SETTINGS: "/university/settings",
+  UNIVERSITY_PASSWORD_UPDATE: "/university/password",
+  UNIVERSITY_EMAIL_UPDATE: "/university/email",
+  UNIVERSITY_ACCOUNT_DELETE: "/university/account",
 
   COMPANY_UNIVERSITIES: "/company/universities",
   COMPANY_UNIVERSITY_PARTNERSHIP: "/company/universities/{university}/partnership",
