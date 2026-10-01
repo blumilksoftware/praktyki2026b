@@ -12,34 +12,34 @@
         "test:watch": "vitest"
     },
     "dependencies": {
-        "@inertiajs/vue3": "^2.3.27",
-        "@tabler/icons-vue": "^3.45.0",
+        "@inertiajs/vue3": "^2.3.28",
+        "@tabler/icons-vue": "^3.48.0",
         "@tailwindcss/forms": "^0.5.11",
         "@tailwindcss/postcss": "^4.3.3",
         "@tailwindcss/typography": "^0.5.20",
         "@tailwindcss/vite": "^4.3.3",
         "laravel-vite-plugin": "^2.1.0",
-        "lodash": "^4.17.23",
-        "mapbox-gl": "^3.27.0",
+        "lodash": "^4.18.1",
+        "mapbox-gl": "^3.31.0",
         "tailwindcss": "^4.3.3",
-        "vue": "^3.5.40",
+        "vue": "^3.5.43",
         "vue-3-mask": "^0.0.1-alpha",
-        "vue-i18n": "^11.4.8"
+        "vue-i18n": "^11.4.12"
     },
     "devDependencies": {
         "@blumilksoftware/eslint-config": "^3.0.2",
-        "@types/node": "^26.0.1",
-        "@typescript-eslint/eslint-plugin": "^8.65.0",
-        "@vitejs/plugin-vue": "^6.0.8",
-        "@vue/test-utils": "^2.4.11",
-        "autoprefixer": "^10.4.27",
+        "@types/node": "^26.6.3",
+        "@typescript-eslint/eslint-plugin": "^8.70.1",
+        "@vitejs/plugin-vue": "^6.0.9",
+        "@vue/test-utils": "^2.5.1",
+        "autoprefixer": "^10.6.1",
         "eslint": "^9.39.5",
         "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-vue": "^10.10.0",
+        "eslint-plugin-vue": "^10.11.1",
         "jsdom": "^29.1.1",
-        "postcss": "^8.5.23",
+        "postcss": "^8.5.28",
         "vite": "^7.3.6",
         "vitest": "^3.2.7",
-        "vue-tsc": "^3.0.11"
+        "vue-tsc": "^3.3.11"
     }
 }
